@@ -61,3 +61,43 @@ llm:
 		t.Fatalf("expected model from file, got %q", cfg.LLM.Ollama.Model)
 	}
 }
+
+func TestLoadClaudeConfigFromEnv(t *testing.T) {
+	t.Setenv("GM_LLM_PROVIDER", "claude")
+	t.Setenv("GM_LLM_CLAUDE_APIKEY", "sk-ant-test-key")
+	t.Setenv("GM_LLM_CLAUDE_MODEL", "claude-opus-4-6")
+
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if cfg.LLM.Provider != "claude" {
+		t.Fatalf("expected claude provider, got %q", cfg.LLM.Provider)
+	}
+	if cfg.LLM.Claude.APIKey != "sk-ant-test-key" {
+		t.Fatalf("expected claude api key, got %q", cfg.LLM.Claude.APIKey)
+	}
+	if cfg.LLM.Claude.Model != "claude-opus-4-6" {
+		t.Fatalf("expected claude model override, got %q", cfg.LLM.Claude.Model)
+	}
+}
+
+func TestLoadServerPortDefault(t *testing.T) {
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if cfg.Server.Port != 8080 {
+		t.Fatalf("expected default port 8080, got %d", cfg.Server.Port)
+	}
+}
+
+func TestLoadClaudeModelDefault(t *testing.T) {
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if cfg.LLM.Claude.Model != "claude-sonnet-4-6" {
+		t.Fatalf("expected default claude model, got %q", cfg.LLM.Claude.Model)
+	}
+}

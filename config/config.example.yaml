@@ -5,3 +5,8 @@ llm:
   ollama:
     endpoint: http://localhost:11434
     model: llama3.2
+  claude:
+    # apikey: sk-ant-...
+    model: claude-sonnet-4-6
+server:
+  port: 8080

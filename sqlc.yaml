@@ -8,3 +8,4 @@ sql:
         package: statedb
         out: ./internal/state/sqlc
         sql_package: pgx/v5
+        emit_interface: true
