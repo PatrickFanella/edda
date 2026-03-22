@@ -113,6 +113,12 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			cmd := a.router.Update(msg)
 			return a, cmd
 		}
+
+	default:
+		// Forward any other message types (e.g. commands produced by sub-views)
+		// to the active sub-model so they are never silently dropped.
+		cmd := a.router.Update(msg)
+		return a, cmd
 	}
 	return a, nil
 }
@@ -133,7 +139,7 @@ func (a App) chrome() (titleBar, tabBar, statusBar string) {
 		),
 	)
 	tabBar = a.renderTabs()
-	hints := styles.Muted.Render("tab/←/→ switch view  ·  1–4 jump to view  ·  q quit")
+	hints := styles.Muted.Render("tab/shift+tab, ←/h, →/l switch view  ·  1–4 jump to view  ·  q quit")
 	statusBar = styles.StatusBar.Width(a.width).Render(hints)
 	return
 }

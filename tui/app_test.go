@@ -198,3 +198,19 @@ func TestAppOtherKeyDelegatedToSubView(t *testing.T) {
 	_, _ = app.Update(tea.KeyMsg{Type: tea.KeyEnter})
 	// No panic = pass; the sub-view received the message.
 }
+
+func TestAppUnknownMsgForwardedToSubView(t *testing.T) {
+	// Non-key, non-window messages (e.g. custom command results) must be
+	// forwarded to the active sub-view rather than silently dropped.
+	type customMsg struct{ value string }
+	app := NewApp(testCfg)
+	// Sending an unrecognised message type must not panic and must return a
+	// well-formed model (not nil).
+	m, _ := app.Update(customMsg{"hello"})
+	if m == nil {
+		t.Fatal("Update should return a non-nil model for unknown message types")
+	}
+	if _, ok := m.(App); !ok {
+		t.Fatal("Update should return an App model for unknown message types")
+	}
+}
