@@ -139,18 +139,22 @@ func TestResizeUpdatesViewportDimensions(t *testing.T) {
 	m := New()
 	m.SetSize(80, 20)
 
-	if m.viewport.Width != 76 {
-		t.Fatalf("expected viewport width 76, got %d", m.viewport.Width)
+	wantWidth := 80 - narrativeViewportWidthOffset
+	wantHeight := 20 - narrativeViewportHeightOffset
+	if m.viewport.Width != wantWidth {
+		t.Fatalf("expected viewport width %d, got %d", wantWidth, m.viewport.Width)
 	}
-	if m.viewport.Height != 16 {
-		t.Fatalf("expected viewport height 16, got %d", m.viewport.Height)
+	if m.viewport.Height != wantHeight {
+		t.Fatalf("expected viewport height %d, got %d", wantHeight, m.viewport.Height)
 	}
 
 	m.SetSize(20, 6)
-	if m.viewport.Width != 16 {
-		t.Fatalf("expected viewport width 16 after resize, got %d", m.viewport.Width)
+	wantWidth = 20 - narrativeViewportWidthOffset
+	wantHeight = 6 - narrativeViewportHeightOffset
+	if m.viewport.Width != wantWidth {
+		t.Fatalf("expected viewport width %d after resize, got %d", wantWidth, m.viewport.Width)
 	}
-	if m.viewport.Height != 2 {
-		t.Fatalf("expected viewport height 2 after resize, got %d", m.viewport.Height)
+	if m.viewport.Height != wantHeight {
+		t.Fatalf("expected viewport height %d after resize, got %d", wantHeight, m.viewport.Height)
 	}
 }

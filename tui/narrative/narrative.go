@@ -22,6 +22,11 @@ const (
 	KindPlayer
 )
 
+const (
+	narrativeViewportWidthOffset  = 4 // border + horizontal padding
+	narrativeViewportHeightOffset = 4 // border + title line + spacer line
+)
+
 // Entry is a single line (or paragraph) in the narrative log.
 type Entry struct {
 	Kind    EntryKind
@@ -52,8 +57,6 @@ func (m *Model) SetSize(width, height int) {
 	m.refreshViewportContent()
 	if m.autoScroll {
 		m.viewport.GotoBottom()
-	} else if m.viewport.AtBottom() {
-		m.autoScroll = true
 	}
 }
 
@@ -110,14 +113,14 @@ func (m *Model) refreshViewportContent() {
 }
 
 func (m Model) viewportSize() (width, height int) {
-	width = m.width - 4 // border + horizontal padding
+	width = m.width - narrativeViewportWidthOffset
 	if m.width == 0 {
 		width = 40
 	} else if width < 1 {
 		width = 1
 	}
 
-	height = m.height - 4 // border + title + spacer line
+	height = m.height - narrativeViewportHeightOffset
 	if m.height == 0 {
 		height = 1
 	} else if height < 1 {
