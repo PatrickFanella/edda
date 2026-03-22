@@ -9,5 +9,7 @@ CREATE TABLE world_facts (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+CREATE INDEX idx_world_facts_campaign_id ON world_facts(campaign_id);
+
 -- +goose Down
 DROP TABLE IF EXISTS world_facts;
