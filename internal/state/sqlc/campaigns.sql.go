@@ -25,7 +25,7 @@ INSERT INTO campaigns (
   $2,
   $3,
   $4,
-  $5,
+  COALESCE($5::text[], '{}'::text[]),
   $6,
   $7
 )
@@ -143,33 +143,33 @@ func (q *Queries) ListCampaignsByUser(ctx context.Context, createdBy pgtype.UUID
 const updateCampaign = `-- name: UpdateCampaign :one
 UPDATE campaigns
 SET
-  name = $2,
-  description = $3,
-  genre = $4,
-  tone = $5,
-  themes = $6,
+  name = $1,
+  description = $2,
+  genre = $3,
+  tone = $4,
+  themes = COALESCE($5::text[], '{}'::text[]),
   updated_at = now()
-WHERE id = $1
+WHERE id = $6
 RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at
 `
 
 type UpdateCampaignParams struct {
-	ID          pgtype.UUID
 	Name        string
 	Description pgtype.Text
 	Genre       pgtype.Text
 	Tone        pgtype.Text
 	Themes      []string
+	ID          pgtype.UUID
 }
 
 func (q *Queries) UpdateCampaign(ctx context.Context, arg UpdateCampaignParams) (Campaign, error) {
 	row := q.db.QueryRow(ctx, updateCampaign,
-		arg.ID,
 		arg.Name,
 		arg.Description,
 		arg.Genre,
 		arg.Tone,
 		arg.Themes,
+		arg.ID,
 	)
 	var i Campaign
 	err := row.Scan(
@@ -190,19 +190,19 @@ func (q *Queries) UpdateCampaign(ctx context.Context, arg UpdateCampaignParams) 
 const updateCampaignStatus = `-- name: UpdateCampaignStatus :one
 UPDATE campaigns
 SET
-  status = $2,
+  status = $1,
   updated_at = now()
-WHERE id = $1
+WHERE id = $2
 RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at
 `
 
 type UpdateCampaignStatusParams struct {
-	ID     pgtype.UUID
 	Status string
+	ID     pgtype.UUID
 }
 
 func (q *Queries) UpdateCampaignStatus(ctx context.Context, arg UpdateCampaignStatusParams) (Campaign, error) {
-	row := q.db.QueryRow(ctx, updateCampaignStatus, arg.ID, arg.Status)
+	row := q.db.QueryRow(ctx, updateCampaignStatus, arg.Status, arg.ID)
 	var i Campaign
 	err := row.Scan(
 		&i.ID,
