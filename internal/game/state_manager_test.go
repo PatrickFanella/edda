@@ -2,6 +2,8 @@ package game
 
 import (
 	"context"
+	"errors"
+	"strings"
 	"testing"
 
 	"github.com/jackc/pgx/v5"
@@ -15,6 +17,10 @@ type mockQuerier struct {
 	users       map[string]statedb.User
 	nextUserID  pgtype.UUID
 	createCount int
+
+	// Injectable errors for testing error paths.
+	getByNameErr error
+	createErr    error
 }
 
 func newMockQuerier() *mockQuerier {
@@ -25,6 +31,9 @@ func newMockQuerier() *mockQuerier {
 }
 
 func (m *mockQuerier) GetUserByName(_ context.Context, name string) (statedb.User, error) {
+	if m.getByNameErr != nil {
+		return statedb.User{}, m.getByNameErr
+	}
 	u, ok := m.users[name]
 	if !ok {
 		return statedb.User{}, pgx.ErrNoRows
@@ -33,6 +42,9 @@ func (m *mockQuerier) GetUserByName(_ context.Context, name string) (statedb.Use
 }
 
 func (m *mockQuerier) CreateUser(_ context.Context, name string) (statedb.User, error) {
+	if m.createErr != nil {
+		return statedb.User{}, m.createErr
+	}
 	m.createCount++
 	u := statedb.User{ID: m.nextUserID, Name: name}
 	m.users[name] = u
@@ -101,6 +113,60 @@ func TestGetOrCreateDefaultUser_ReturnsExisting(t *testing.T) {
 	}
 	if mq.createCount != 0 {
 		t.Fatalf("should not create when user exists, got %d create calls", mq.createCount)
+	}
+}
+
+func TestGetOrCreateDefaultUser_LookupError(t *testing.T) {
+	dbErr := errors.New("connection refused")
+	mq := newMockQuerier()
+	mq.getByNameErr = dbErr
+	sm := newStateManagerWithQuerier(mq)
+
+	_, err := sm.GetOrCreateDefaultUser(context.Background())
+	if err == nil {
+		t.Fatal("expected error, got nil")
+	}
+	if !errors.Is(err, dbErr) {
+		t.Fatalf("expected wrapped db error, got: %v", err)
+	}
+	if !strings.Contains(err.Error(), "get default user") {
+		t.Fatalf("expected context in error, got: %v", err)
+	}
+	if mq.createCount != 0 {
+		t.Fatal("should not attempt create after lookup error")
+	}
+}
+
+func TestGetOrCreateDefaultUser_CreateError(t *testing.T) {
+	dbErr := errors.New("unique violation")
+	mq := newMockQuerier()
+	mq.createErr = dbErr
+	sm := newStateManagerWithQuerier(mq)
+
+	_, err := sm.GetOrCreateDefaultUser(context.Background())
+	if err == nil {
+		t.Fatal("expected error, got nil")
+	}
+	if !errors.Is(err, dbErr) {
+		t.Fatalf("expected wrapped db error, got: %v", err)
+	}
+	if !strings.Contains(err.Error(), "create default user") {
+		t.Fatalf("expected context in error, got: %v", err)
+	}
+}
+
+func TestGetOrCreateDefaultUser_ConvertsUUID(t *testing.T) {
+	expectedID := [16]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}
+	mq := newMockQuerier()
+	mq.nextUserID = pgtype.UUID{Bytes: expectedID, Valid: true}
+	sm := newStateManagerWithQuerier(mq)
+
+	u, err := sm.GetOrCreateDefaultUser(context.Background())
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if u.ID != expectedID {
+		t.Fatalf("expected UUID %v, got %v", expectedID, u.ID)
 	}
 }
 

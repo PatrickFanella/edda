@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -99,5 +100,44 @@ func TestLoadClaudeModelDefault(t *testing.T) {
 	}
 	if cfg.LLM.Claude.Model != "claude-sonnet-4-6" {
 		t.Fatalf("expected default claude model, got %q", cfg.LLM.Claude.Model)
+	}
+}
+
+func TestLoadRejectsInvalidProvider(t *testing.T) {
+	t.Setenv("GM_LLM_PROVIDER", "invalid")
+
+	_, err := Load("")
+	if err == nil {
+		t.Fatal("expected error for invalid provider, got nil")
+	}
+	if !strings.Contains(err.Error(), "provider") {
+		t.Fatalf("expected provider-related error, got: %v", err)
+	}
+}
+
+func TestLoadRejectsClaudeWithoutAPIKey(t *testing.T) {
+	t.Setenv("GM_LLM_PROVIDER", "claude")
+	// No GM_LLM_CLAUDE_APIKEY set
+
+	_, err := Load("")
+	if err == nil {
+		t.Fatal("expected error for claude without api key, got nil")
+	}
+	if !strings.Contains(err.Error(), "api key") {
+		t.Fatalf("expected api key error, got: %v", err)
+	}
+}
+
+func TestValidateAcceptsValidProviders(t *testing.T) {
+	for _, provider := range []string{"ollama", "claude"} {
+		t.Run(provider, func(t *testing.T) {
+			cfg := Config{LLM: LLMConfig{Provider: provider}}
+			if provider == "claude" {
+				cfg.LLM.Claude.APIKey = "sk-ant-test"
+			}
+			if err := cfg.Validate(); err != nil {
+				t.Fatalf("valid provider %q rejected: %v", provider, err)
+			}
+		})
 	}
 }
