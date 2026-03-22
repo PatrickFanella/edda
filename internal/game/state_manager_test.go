@@ -104,6 +104,42 @@ func (m *mockQuerier) DeleteCampaign(_ context.Context, _ pgtype.UUID) error {
 	return nil
 }
 
+func (m *mockQuerier) CreatePlayerCharacter(_ context.Context, _ statedb.CreatePlayerCharacterParams) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) GetPlayerCharacterByID(_ context.Context, _ pgtype.UUID) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) GetPlayerCharacterByCampaign(_ context.Context, _ pgtype.UUID) ([]statedb.PlayerCharacter, error) {
+	return nil, nil
+}
+
+func (m *mockQuerier) UpdatePlayerCharacter(_ context.Context, _ statedb.UpdatePlayerCharacterParams) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpdatePlayerStats(_ context.Context, _ statedb.UpdatePlayerStatsParams) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpdatePlayerHP(_ context.Context, _ statedb.UpdatePlayerHPParams) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpdatePlayerExperience(_ context.Context, _ statedb.UpdatePlayerExperienceParams) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpdatePlayerLocation(_ context.Context, _ statedb.UpdatePlayerLocationParams) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpdatePlayerStatus(_ context.Context, _ statedb.UpdatePlayerStatusParams) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
 func TestGetOrCreateDefaultUser_Creates(t *testing.T) {
 	mq := newMockQuerier()
 	sm := newStateManagerWithQuerier(mq)
