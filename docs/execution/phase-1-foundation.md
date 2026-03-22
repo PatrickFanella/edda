@@ -27,7 +27,7 @@ tags: [tracking, phase-1, execution, foundation]
 **Phase exit criteria:** All 54 issues closed. Postgres+pgvector running, sqlc generating code, LLM provider making calls, TUI shell booting with view switching, CI green.
 
 ---
-
+<!--
 ## Track A: Project Scaffold
 
 > Foundation for everything. All issues are independent and parallelizable.
@@ -45,7 +45,7 @@ tags: [tracking, phase-1, execution, foundation]
 | 8   | [#26](https://github.com/PatrickFanella/game-master/issues/26) | Create GitHub Actions CI workflow             |  M   | None    | READY  | gpt-5.4 mini  |                                         |
 | 9   | [#27](https://github.com/PatrickFanella/game-master/issues/27) | Create .gitignore and .env.example            |  XS  | None    | READY  | Claude Haiku 4.5 |                                      |
 | 10  | [#28](https://github.com/PatrickFanella/game-master/issues/28) | Create README with setup instructions         |  S   | None    | READY  | Claude Sonnet 4.6 |                                    |
-
+-->
 ```mermaid
 graph LR
     19[#19 Go module + dirs] --> B[Track B: DB Schema]
@@ -73,7 +73,7 @@ graph LR
     style 27 fill:#22c55e
     style 28 fill:#22c55e
 ```
-
+<!--
 **Parallelizable:** All 10 issues can run simultaneously. Prioritize #19 (everything depends on it).
 
 ---
@@ -99,7 +99,7 @@ graph LR
 | 12  | [#40](https://github.com/PatrickFanella/game-master/issues/40) | Migration: create session_logs table         |  S   | #31, #33 | BLOCKED | gpt-5.3-codex | FK → campaigns, locations |
 | 13  | [#41](https://github.com/PatrickFanella/game-master/issues/41) | Migration: create memories table (vector)    |  S   | #29, #31 | BLOCKED | gpt-5.3-codex | Needs pgvector extension  |
 | 14  | [#42](https://github.com/PatrickFanella/game-master/issues/42) | Migration: create entity_relationships table |  XS  | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
-
+-->
 ```mermaid
 graph TD
     A[Track A complete] --> 29[#29 pgvector ext]
