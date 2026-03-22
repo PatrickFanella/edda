@@ -14,15 +14,35 @@ tasks:
     cmds:
       - go run github.com/pressly/goose/v3/cmd/goose@v3.24.1 -dir ./migrations postgres '{{.DATABASE_URL}}' up
 
+  migrate:create:
+    desc: Create a new goose migration file
+    cmds:
+      - go run github.com/pressly/goose/v3/cmd/goose@v3.24.1 -dir ./migrations create {{.CLI_ARGS}} sql
+
   generate:
     desc: Generate type-safe database code with sqlc
     cmds:
       - go run github.com/sqlc-dev/sqlc/cmd/sqlc@v1.29.0 generate
 
   test:
-    desc: Run the Go test suite
+    desc: Run all tests
     cmds:
       - go test ./...
+
+  test:unit:
+    desc: Run unit tests only (exclude integration)
+    cmds:
+      - go test -short ./...
+
+  test:integration:
+    desc: Run integration tests only
+    cmds:
+      - go test -run Integration ./...
+
+  lint:
+    desc: Run golangci-lint
+    cmds:
+      - golangci-lint run ./...
 
   build:
     desc: Build the server and TUI binaries
