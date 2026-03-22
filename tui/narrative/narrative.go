@@ -59,8 +59,12 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) { return m, nil }
 // View implements tea.Model and renders the narrative log.
 func (m Model) View() string {
 	innerWidth := m.width - 4 // subtract border + padding
-	if innerWidth < 1 {
+	if m.width == 0 {
+		// Unknown width: use a reasonable default.
 		innerWidth = 40
+	} else if innerWidth < 1 {
+		// Known but very small width: clamp to a minimum of 1.
+		innerWidth = 1
 	}
 
 	var sb strings.Builder
@@ -93,7 +97,11 @@ func (m Model) renderEntry(e Entry, maxWidth int) string {
 		return styles.JoinVertical(speaker, dialogue)
 	case KindPlayer:
 		prefix := styles.PlayerInputPrefix.Render()
-		input := styles.PlayerInput.Width(maxWidth - 2).Render(e.Text)
+		inputWidth := maxWidth - 2
+		if inputWidth < 1 {
+			inputWidth = 1
+		}
+		input := styles.PlayerInput.Width(inputWidth).Render(e.Text)
 		return prefix + input
 	default:
 		return styles.SystemMessage.Inherit(wrapStyle).Render(e.Text)
