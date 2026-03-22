@@ -1,10 +1,21 @@
 -- +goose Up
 DO $$
 DECLARE
-  embedding_dimensions INTEGER := COALESCE(NULLIF(current_setting('app.embedding_dimensions', true), ''), '1536')::INTEGER;
+  embedding_dimension_setting TEXT := COALESCE(
+    NULLIF(current_setting('app.embedding_dimension', true), ''),
+    NULLIF(current_setting('app.embedding_dimensions', true), ''),
+    '1536'
+  );
+  embedding_dimension INTEGER;
 BEGIN
-  IF embedding_dimensions <= 0 THEN
-    RAISE EXCEPTION 'app.embedding_dimensions must be a positive integer';
+  IF embedding_dimension_setting !~ '^[0-9]+$' THEN
+    RAISE EXCEPTION 'app.embedding_dimension/app.embedding_dimensions must be a positive integer';
+  END IF;
+
+  embedding_dimension := embedding_dimension_setting::INTEGER;
+
+  IF embedding_dimension <= 0 THEN
+    RAISE EXCEPTION 'app.embedding_dimension/app.embedding_dimensions must be a positive integer';
   END IF;
 
   EXECUTE format($migration$
@@ -26,13 +37,13 @@ BEGIN
         FOREIGN KEY (location_id)
         REFERENCES locations(id) ON DELETE SET NULL
     );
-  $migration$, embedding_dimensions);
+  $migration$, embedding_dimension);
 END
 $$;
 
 CREATE INDEX idx_memories_campaign_id ON memories(campaign_id);
 CREATE INDEX idx_memories_location_id ON memories(location_id);
-CREATE INDEX idx_memories_embedding_hnsw ON memories USING hnsw (embedding vector_cosine_ops);
+CREATE INDEX idx_memories_embedding_hnsw ON memories USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
 
 -- +goose Down
 DROP INDEX IF EXISTS idx_memories_embedding_hnsw;
