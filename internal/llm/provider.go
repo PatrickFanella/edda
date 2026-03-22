@@ -74,12 +74,19 @@ type Response struct {
 }
 
 // StreamChunk is a single incremental piece of a streamed response.
+//
+// Provider implementations must send a final chunk with Done set to true and
+// then close the channel. Callers should range over the channel; the loop
+// will naturally end when the channel is closed. The Done flag on the last
+// chunk lets callers distinguish a clean finish from an unexpected close.
 type StreamChunk struct {
 	// ContentDelta is the new text fragment in this chunk.
 	ContentDelta string
 	// ToolCallDelta contains incremental tool-call data, if any.
 	ToolCallDelta *ToolCall
-	// Done is true when the stream is complete.
+	// Done indicates the stream is complete. Implementations must send
+	// exactly one chunk with Done set to true as the last item before
+	// closing the channel.
 	Done bool
 }
 
@@ -89,6 +96,8 @@ type Provider interface {
 	// response is available.
 	Complete(ctx context.Context, messages []Message, tools []Tool) (*Response, error)
 	// Stream sends a chat completion request and returns a channel that
-	// delivers incremental response chunks.
+	// delivers incremental response chunks. Implementations must send a
+	// final StreamChunk with Done set to true and then close the channel.
+	// Callers should range over the returned channel to consume all chunks.
 	Stream(ctx context.Context, messages []Message, tools []Tool) (<-chan StreamChunk, error)
 }
