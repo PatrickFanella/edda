@@ -12,8 +12,26 @@ CREATE TABLE world_facts (
 CREATE FUNCTION validate_world_facts_superseded_campaign()
 RETURNS TRIGGER AS $$
 BEGIN
+  IF TG_OP = 'UPDATE'
+    AND NEW.campaign_id <> OLD.campaign_id
+    AND EXISTS (
+      SELECT 1
+      FROM world_facts wf
+      WHERE wf.superseded_by = NEW.id
+    ) THEN
+    RAISE EXCEPTION 'cannot change campaign_id of a world_facts row that is referenced by superseded_by';
+  END IF;
+
   IF NEW.superseded_by IS NULL THEN
     RETURN NEW;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1
+    FROM world_facts wf
+    WHERE wf.id = NEW.superseded_by
+  ) THEN
+    RAISE EXCEPTION 'superseded_by must reference an existing world_facts row';
   END IF;
 
   IF NOT EXISTS (
