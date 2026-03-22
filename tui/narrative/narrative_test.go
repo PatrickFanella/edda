@@ -1,0 +1,156 @@
+package narrative
+
+import (
+	"strings"
+	"testing"
+
+	tea "github.com/charmbracelet/bubbletea"
+)
+
+// Compile-time check: Model must implement tea.Model.
+var _ tea.Model = Model{}
+
+func TestAddEntryAutoScrollsToBottom(t *testing.T) {
+	m := New()
+	m.SetSize(50, 8)
+
+	for i := 0; i < 8; i++ {
+		m.AddEntry(Entry{Kind: KindSystem, Text: strings.Repeat("line", 3)})
+	}
+
+	if !m.viewport.AtBottom() {
+		t.Fatal("expected viewport to auto-scroll to bottom after appending entries")
+	}
+	if !m.autoScroll {
+		t.Fatal("expected auto-scroll to remain enabled at bottom")
+	}
+}
+
+func TestManualScrollUpDisablesAutoScroll(t *testing.T) {
+	m := New()
+	m.SetSize(50, 8)
+
+	for i := 0; i < 10; i++ {
+		m.AddEntry(Entry{Kind: KindSystem, Text: "entry"})
+	}
+
+	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyUp})
+	m = updated.(Model)
+
+	if m.viewport.AtBottom() {
+		t.Fatal("expected viewport to move away from bottom after key up")
+	}
+	if m.autoScroll {
+		t.Fatal("expected auto-scroll to disable after manual upward scroll")
+	}
+}
+
+func TestManualScrollBackToBottomEnablesAutoScroll(t *testing.T) {
+	m := New()
+	m.SetSize(50, 8)
+
+	for i := 0; i < 10; i++ {
+		m.AddEntry(Entry{Kind: KindSystem, Text: "entry"})
+	}
+
+	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyUp})
+	m = updated.(Model)
+	if m.autoScroll {
+		t.Fatal("expected auto-scroll disabled after scrolling up")
+	}
+
+	updated, _ = m.Update(tea.KeyMsg{Type: tea.KeyPgDown})
+	m = updated.(Model)
+
+	if !m.viewport.AtBottom() {
+		t.Fatal("expected viewport at bottom after page down")
+	}
+	if !m.autoScroll {
+		t.Fatal("expected auto-scroll re-enabled at bottom")
+	}
+}
+
+func TestDoesNotAutoScrollWhenUserScrolledUp(t *testing.T) {
+	m := New()
+	m.SetSize(50, 8)
+
+	for i := 0; i < 10; i++ {
+		m.AddEntry(Entry{Kind: KindSystem, Text: "entry"})
+	}
+
+	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyUp})
+	m = updated.(Model)
+	offsetBefore := m.viewport.YOffset
+
+	m.AddEntry(Entry{Kind: KindSystem, Text: "new entry"})
+
+	if m.viewport.YOffset != offsetBefore {
+		t.Fatalf("expected y-offset to remain %d when auto-scroll is off, got %d", offsetBefore, m.viewport.YOffset)
+	}
+	if m.autoScroll {
+		t.Fatal("expected auto-scroll to remain disabled while user is not at bottom")
+	}
+}
+
+func TestPageAndArrowKeysScroll(t *testing.T) {
+	m := New()
+	m.SetSize(50, 8)
+
+	for i := 0; i < 12; i++ {
+		m.AddEntry(Entry{Kind: KindSystem, Text: "entry"})
+	}
+
+	start := m.viewport.YOffset
+	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyPgUp})
+	m = updated.(Model)
+	if m.viewport.YOffset >= start {
+		t.Fatal("expected page up to reduce y-offset")
+	}
+
+	afterPgUp := m.viewport.YOffset
+	updated, _ = m.Update(tea.KeyMsg{Type: tea.KeyDown})
+	m = updated.(Model)
+	if m.viewport.YOffset <= afterPgUp {
+		t.Fatal("expected down arrow to increase y-offset")
+	}
+}
+
+func TestMouseWheelScroll(t *testing.T) {
+	m := New()
+	m.SetSize(50, 8)
+
+	for i := 0; i < 12; i++ {
+		m.AddEntry(Entry{Kind: KindSystem, Text: "entry"})
+	}
+
+	start := m.viewport.YOffset
+	updated, _ := m.Update(tea.MouseMsg{
+		Action: tea.MouseActionPress,
+		Button: tea.MouseButtonWheelUp,
+	})
+	m = updated.(Model)
+
+	if m.viewport.YOffset >= start {
+		t.Fatal("expected mouse wheel up to scroll viewport up")
+	}
+}
+
+func TestResizeUpdatesViewportDimensions(t *testing.T) {
+	m := New()
+	m.SetSize(80, 20)
+
+	if m.viewport.Width != 76 {
+		t.Fatalf("expected viewport width 76, got %d", m.viewport.Width)
+	}
+	if m.viewport.Height != 16 {
+		t.Fatalf("expected viewport height 16, got %d", m.viewport.Height)
+	}
+
+	m.SetSize(20, 6)
+	if m.viewport.Width != 16 {
+		t.Fatalf("expected viewport width 16 after resize, got %d", m.viewport.Width)
+	}
+	if m.viewport.Height != 2 {
+		t.Fatalf("expected viewport height 2 after resize, got %d", m.viewport.Height)
+	}
+}
