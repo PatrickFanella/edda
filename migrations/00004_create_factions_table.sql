@@ -19,8 +19,11 @@ CREATE TABLE faction_relationships (
   description TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  CONSTRAINT faction_relationships_unique_pair UNIQUE (faction_id, related_faction_id)
+  CONSTRAINT faction_relationships_distinct_factions CHECK (faction_id <> related_faction_id)
 );
+
+CREATE UNIQUE INDEX faction_relationships_unique_pair
+  ON faction_relationships (LEAST(faction_id, related_faction_id), GREATEST(faction_id, related_faction_id));
 
 -- +goose Down
 DROP TABLE IF EXISTS faction_relationships;
