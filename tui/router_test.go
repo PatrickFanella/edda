@@ -9,12 +9,19 @@ import (
 type stubView struct {
 	width, height int
 	viewText      string
+	lastMsg       tea.Msg
+	updateCount   int
+	cmdToReturn   tea.Cmd
 }
 
-func (s *stubView) Init() tea.Cmd                           { return nil }
-func (s *stubView) Update(msg tea.Msg) (tea.Model, tea.Cmd) { return s, nil }
-func (s *stubView) View() string                            { return s.viewText }
-func (s *stubView) SetSize(w, h int)                        { s.width = w; s.height = h }
+func (s *stubView) Init() tea.Cmd { return nil }
+func (s *stubView) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	s.lastMsg = msg
+	s.updateCount++
+	return s, s.cmdToReturn
+}
+func (s *stubView) View() string    { return s.viewText }
+func (s *stubView) SetSize(w, h int) { s.width = w; s.height = h }
 
 func TestRouterRegisterAndCount(t *testing.T) {
 	r := NewRouter()
@@ -120,6 +127,50 @@ func TestRouterViewEmpty(t *testing.T) {
 	r := NewRouter()
 	if r.View() != "" {
 		t.Fatal("expected empty string for no tabs")
+	}
+}
+
+func TestRouterUpdateRoutesToActiveView(t *testing.T) {
+	active := &stubView{}
+	inactive := &stubView{}
+	r := NewRouter()
+	r.Register("A", active)
+	r.Register("B", inactive)
+
+	r.Update(tea.KeyMsg{Type: tea.KeyEnter})
+
+	if active.updateCount != 1 {
+		t.Fatalf("active view should receive 1 update, got %d", active.updateCount)
+	}
+	if inactive.updateCount != 0 {
+		t.Fatalf("inactive view should receive 0 updates, got %d", inactive.updateCount)
+	}
+	if active.lastMsg == nil {
+		t.Fatal("active view should have received a message")
+	}
+}
+
+func TestRouterUpdateReturnsCmd(t *testing.T) {
+	sentinel := func() tea.Msg { return "sentinel" }
+	v := &stubView{cmdToReturn: sentinel}
+	r := NewRouter()
+	r.Register("A", v)
+
+	cmd := r.Update(tea.KeyMsg{})
+	if cmd == nil {
+		t.Fatal("expected command from view, got nil")
+	}
+	result := cmd()
+	if result != "sentinel" {
+		t.Fatalf("expected sentinel msg, got %v", result)
+	}
+}
+
+func TestRouterUpdateEmptyReturnsNil(t *testing.T) {
+	r := NewRouter()
+	cmd := r.Update(tea.KeyMsg{})
+	if cmd != nil {
+		t.Fatal("expected nil for empty router")
 	}
 }
 

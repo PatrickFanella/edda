@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"strings"
 
@@ -48,6 +49,19 @@ type Config struct {
 	Server ServerConfig `koanf:"server"`
 }
 
+// Validate checks that the configuration is internally consistent.
+func (c *Config) Validate() error {
+	switch c.LLM.Provider {
+	case "ollama", "claude":
+	default:
+		return fmt.Errorf("unknown llm provider: %q", c.LLM.Provider)
+	}
+	if c.LLM.Provider == "claude" && c.LLM.Claude.APIKey == "" {
+		return errors.New("claude provider requires api key (set llm.claude.apikey or GM_LLM_CLAUDE_APIKEY)")
+	}
+	return nil
+}
+
 func Load(path string) (Config, error) {
 	k := koanf.New(".")
 
@@ -83,6 +97,10 @@ func Load(path string) (Config, error) {
 
 	var cfg Config
 	if err := k.Unmarshal("", &cfg); err != nil {
+		return Config{}, err
+	}
+
+	if err := cfg.Validate(); err != nil {
 		return Config{}, err
 	}
 
