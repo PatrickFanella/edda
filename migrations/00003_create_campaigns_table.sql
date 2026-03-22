@@ -7,7 +7,7 @@ CREATE TABLE campaigns (
   tone TEXT,
   themes TEXT[] NOT NULL DEFAULT '{}',
   status TEXT NOT NULL CHECK (status IN ('active', 'paused', 'completed')),
-  created_by UUID NOT NULL REFERENCES users(id),
+  created_by UUID NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
