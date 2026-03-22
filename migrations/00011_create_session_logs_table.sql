@@ -2,7 +2,7 @@
 CREATE TABLE session_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   campaign_id UUID NOT NULL REFERENCES campaigns(id) ON DELETE RESTRICT,
-  turn_number INTEGER NOT NULL,
+  turn_number INTEGER NOT NULL CHECK (turn_number > 0),
   player_input TEXT NOT NULL,
   input_type TEXT NOT NULL CHECK (input_type IN ('game_action', 'meta', 'narrative')),
   llm_response TEXT NOT NULL,
