@@ -8,47 +8,47 @@ INSERT INTO campaigns (
   status,
   created_by
 ) VALUES (
-  $1,
-  $2,
-  $3,
-  $4,
-  $5,
-  $6,
-  $7
+  sqlc.arg(name),
+  sqlc.arg(description),
+  sqlc.arg(genre),
+  sqlc.arg(tone),
+  COALESCE(sqlc.narg(themes)::text[], '{}'::text[]),
+  sqlc.arg(status),
+  sqlc.arg(created_by)
 )
 RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at;
 
 -- name: GetCampaignByID :one
 SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at
 FROM campaigns
-WHERE id = $1;
+WHERE id = sqlc.arg(id);
 
 -- name: ListCampaignsByUser :many
 SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at
 FROM campaigns
-WHERE created_by = $1
+WHERE created_by = sqlc.arg(created_by)
 ORDER BY created_at, id;
 
 -- name: UpdateCampaign :one
 UPDATE campaigns
 SET
-  name = $2,
-  description = $3,
-  genre = $4,
-  tone = $5,
-  themes = $6,
+  name = sqlc.arg(name),
+  description = sqlc.arg(description),
+  genre = sqlc.arg(genre),
+  tone = sqlc.arg(tone),
+  themes = COALESCE(sqlc.narg(themes)::text[], '{}'::text[]),
   updated_at = now()
-WHERE id = $1
+WHERE id = sqlc.arg(id)
 RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at;
 
 -- name: UpdateCampaignStatus :one
 UPDATE campaigns
 SET
-  status = $2,
+  status = sqlc.arg(status),
   updated_at = now()
-WHERE id = $1
+WHERE id = sqlc.arg(id)
 RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at;
 
 -- name: DeleteCampaign :exec
 DELETE FROM campaigns
-WHERE id = $1;
+WHERE id = sqlc.arg(id);
