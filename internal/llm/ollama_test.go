@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"reflect"
 	"strings"
 	"testing"
 )
@@ -164,8 +163,11 @@ func TestOllamaClientStreamSendsDoneOnExplicitDoneOnly(t *testing.T) {
 	if !chunks[1].Done {
 		t.Fatal("final chunk Done should be true")
 	}
-	if !reflect.DeepEqual([]string{chunks[0].ContentDelta, chunks[1].ContentDelta}, []string{"hello ", "world"}) {
-		t.Fatalf("content deltas = %q, %q; want %q, %q", chunks[0].ContentDelta, chunks[1].ContentDelta, "hello ", "world")
+	if chunks[0].ContentDelta != "hello " {
+		t.Fatalf("first chunk content delta = %q, want %q", chunks[0].ContentDelta, "hello ")
+	}
+	if chunks[1].ContentDelta != "world" {
+		t.Fatalf("second chunk content delta = %q, want %q", chunks[1].ContentDelta, "world")
 	}
 }
 
