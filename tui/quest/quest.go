@@ -10,6 +10,10 @@ import (
 	"github.com/PatrickFanella/game-master/tui/styles"
 )
 
+// NavigateBackMsg is emitted when the user presses Escape to return to the
+// narrative view.
+type NavigateBackMsg struct{}
+
 // ObjectiveStatus tracks whether an objective is pending, completed, or failed.
 type ObjectiveStatus int
 
@@ -60,10 +64,16 @@ func (m *Model) SetSize(width, height int) {
 }
 
 // Init implements tea.Model.
-func (m Model) Init() tea.Cmd { return nil }
+func (m *Model) Init() tea.Cmd { return nil }
 
-// Update implements tea.Model.
-func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) { return m, nil }
+// Update implements tea.Model. Pressing Escape emits NavigateBackMsg so the
+// parent App can return focus to the narrative view.
+func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	if key, ok := msg.(tea.KeyMsg); ok && key.Type == tea.KeyEsc {
+		return m, func() tea.Msg { return NavigateBackMsg{} }
+	}
+	return m, nil
+}
 
 // View implements tea.Model and renders the quest log.
 func (m Model) View() string {
