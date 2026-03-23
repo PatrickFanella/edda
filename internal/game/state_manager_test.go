@@ -136,8 +136,16 @@ func (m *mockQuerier) CreateLocation(_ context.Context, _ statedb.CreateLocation
 	return statedb.Location{}, pgx.ErrNoRows
 }
 
+func (m *mockQuerier) CreateItem(_ context.Context, _ statedb.CreateItemParams) (statedb.Item, error) {
+	return statedb.Item{}, pgx.ErrNoRows
+}
+
 func (m *mockQuerier) CreateNPC(_ context.Context, _ statedb.CreateNPCParams) (statedb.Npc, error) {
 	return statedb.Npc{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) GetItemByID(_ context.Context, _ pgtype.UUID) (statedb.Item, error) {
+	return statedb.Item{}, pgx.ErrNoRows
 }
 
 func (m *mockQuerier) GetLocationByID(_ context.Context, _ pgtype.UUID) (statedb.Location, error) {
@@ -149,6 +157,14 @@ func (m *mockQuerier) GetNPCByID(_ context.Context, _ pgtype.UUID) (statedb.Npc,
 }
 
 func (m *mockQuerier) ListLocationsByCampaign(_ context.Context, _ pgtype.UUID) ([]statedb.Location, error) {
+	return nil, nil
+}
+
+func (m *mockQuerier) ListItemsByPlayer(_ context.Context, _ statedb.ListItemsByPlayerParams) ([]statedb.Item, error) {
+	return nil, nil
+}
+
+func (m *mockQuerier) ListItemsByType(_ context.Context, _ statedb.ListItemsByTypeParams) ([]statedb.Item, error) {
 	return nil, nil
 }
 
@@ -174,6 +190,18 @@ func (m *mockQuerier) ListAliveNPCsByLocation(_ context.Context, _ statedb.ListA
 
 func (m *mockQuerier) UpdateLocation(_ context.Context, _ statedb.UpdateLocationParams) (statedb.Location, error) {
 	return statedb.Location{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpdateItem(_ context.Context, _ statedb.UpdateItemParams) (statedb.Item, error) {
+	return statedb.Item{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpdateItemEquipped(_ context.Context, _ statedb.UpdateItemEquippedParams) (statedb.Item, error) {
+	return statedb.Item{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpdateItemQuantity(_ context.Context, _ statedb.UpdateItemQuantityParams) (statedb.Item, error) {
+	return statedb.Item{}, pgx.ErrNoRows
 }
 
 func (m *mockQuerier) UpdateNPC(_ context.Context, _ statedb.UpdateNPCParams) (statedb.Npc, error) {
@@ -238,6 +266,14 @@ func (m *mockQuerier) UpdatePlayerLocation(_ context.Context, _ statedb.UpdatePl
 
 func (m *mockQuerier) UpdatePlayerStatus(_ context.Context, _ statedb.UpdatePlayerStatusParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) DeleteItem(_ context.Context, _ pgtype.UUID) error {
+	return nil
+}
+
+func (m *mockQuerier) TransferItem(_ context.Context, _ statedb.TransferItemParams) (statedb.Item, error) {
+	return statedb.Item{}, pgx.ErrNoRows
 }
 
 func TestGetOrCreateDefaultUser_Creates(t *testing.T) {
