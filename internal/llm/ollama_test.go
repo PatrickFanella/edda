@@ -1,0 +1,199 @@
+package llm
+
+import (
+	"context"
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+)
+
+func TestNewOllamaClientDefaults(t *testing.T) {
+	client := NewOllamaClient("", "")
+
+	if client.baseURL != defaultOllamaBaseURL {
+		t.Fatalf("baseURL = %q, want %q", client.baseURL, defaultOllamaBaseURL)
+	}
+	if client.model != defaultOllamaModel {
+		t.Fatalf("model = %q, want %q", client.model, defaultOllamaModel)
+	}
+	if client.client == nil {
+		t.Fatal("http client must be configured")
+	}
+}
+
+func TestOllamaClientCompleteRequestResponse(t *testing.T) {
+	var gotReq ollamaChatRequest
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != ollamaChatPath {
+			t.Fatalf("path = %q, want %q", r.URL.Path, ollamaChatPath)
+		}
+		if r.Method != http.MethodPost {
+			t.Fatalf("method = %q, want POST", r.Method)
+		}
+		if ct := r.Header.Get("Content-Type"); ct != "application/json" {
+			t.Fatalf("content-type = %q, want application/json", ct)
+		}
+
+		if err := json.NewDecoder(r.Body).Decode(&gotReq); err != nil {
+			t.Fatalf("decode request: %v", err)
+		}
+
+		_, _ = w.Write([]byte(`{
+"message": {
+"content": "assistant reply",
+"tool_calls": [{"function": {"name": "lookup", "arguments": "{\"city\":\"Paris\"}"}}]
+},
+"done": true,
+"done_reason": "stop",
+"prompt_eval_count": 8,
+"eval_count": 5
+}`))
+	}))
+	defer server.Close()
+
+	client := NewOllamaClient(server.URL+"/", "llama-test")
+	resp, err := client.Complete(context.Background(), []Message{
+		{Role: RoleSystem, Content: "be brief"},
+		// Prior assistant tool call in conversation history should marshal correctly.
+		{Role: RoleAssistant, ToolCalls: []ToolCall{{Name: "lookup", Arguments: map[string]any{"city": "Paris"}}}},
+	}, []Tool{{
+		Name:        "lookup",
+		Description: "lookup city",
+		Parameters:  map[string]any{"type": "object"},
+	}})
+	if err != nil {
+		t.Fatalf("Complete() error = %v", err)
+	}
+
+	if gotReq.Model != "llama-test" {
+		t.Fatalf("model = %q, want llama-test", gotReq.Model)
+	}
+	if gotReq.Stream {
+		t.Fatal("stream must be false for Complete")
+	}
+	if len(gotReq.Messages) != 2 {
+		t.Fatalf("messages length = %d, want 2", len(gotReq.Messages))
+	}
+	if len(gotReq.Tools) != 1 || gotReq.Tools[0].Function.Name != "lookup" {
+		t.Fatalf("tools not marshaled correctly: %#v", gotReq.Tools)
+	}
+
+	if resp.Content != "assistant reply" {
+		t.Fatalf("response content = %q, want assistant reply", resp.Content)
+	}
+	if resp.FinishReason != "stop" {
+		t.Fatalf("finish reason = %q, want stop", resp.FinishReason)
+	}
+	if resp.Usage.PromptTokens != 8 || resp.Usage.CompletionTokens != 5 || resp.Usage.TotalTokens != 13 {
+		t.Fatalf("usage = %#v, want prompt=8 completion=5 total=13", resp.Usage)
+	}
+	if len(resp.ToolCalls) != 1 {
+		t.Fatalf("tool calls length = %d, want 1", len(resp.ToolCalls))
+	}
+	if resp.ToolCalls[0].Name != "lookup" {
+		t.Fatalf("tool call name = %q, want lookup", resp.ToolCalls[0].Name)
+	}
+	if resp.ToolCalls[0].Arguments["city"] != "Paris" {
+		t.Fatalf("tool call args city = %#v, want Paris", resp.ToolCalls[0].Arguments["city"])
+	}
+}
+
+func TestOllamaClientCompleteConnectionError(t *testing.T) {
+	client := NewOllamaClient("http://127.0.0.1:1", "llama-test")
+
+	_, err := client.Complete(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil)
+	if err == nil {
+		t.Fatal("expected connection error")
+	}
+	if !strings.Contains(err.Error(), "failed to connect to ollama at http://127.0.0.1:1/api/chat") {
+		t.Fatalf("error = %q, want descriptive ollama connection message", err)
+	}
+}
+
+func TestOllamaClientCompleteEncodesEmptyMessagesArray(t *testing.T) {
+	var gotReq ollamaChatRequest
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if err := json.NewDecoder(r.Body).Decode(&gotReq); err != nil {
+			t.Fatalf("decode request: %v", err)
+		}
+		_, _ = w.Write([]byte(`{"message":{"content":"ok"},"done":true}`))
+	}))
+	defer server.Close()
+
+	client := NewOllamaClient(server.URL, "llama-test")
+	if _, err := client.Complete(context.Background(), nil, nil); err != nil {
+		t.Fatalf("Complete() error = %v", err)
+	}
+
+	if gotReq.Messages == nil {
+		t.Fatal("messages should encode as empty array, got null")
+	}
+	if len(gotReq.Messages) != 0 {
+		t.Fatalf("messages length = %d, want 0", len(gotReq.Messages))
+	}
+}
+
+func TestOllamaClientStreamSendsDoneOnExplicitDoneOnly(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte("{\"message\":{\"content\":\"hello \"},\"done\":false}\n"))
+		_, _ = w.Write([]byte("{\"message\":{\"content\":\"world\"},\"done\":true}\n"))
+	}))
+	defer server.Close()
+
+	client := NewOllamaClient(server.URL, "llama-test")
+	ch, err := client.Stream(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil)
+	if err != nil {
+		t.Fatalf("Stream() error = %v", err)
+	}
+
+	var chunks []StreamChunk
+	for c := range ch {
+		chunks = append(chunks, c)
+	}
+
+	if len(chunks) != 2 {
+		t.Fatalf("chunks len = %d, want 2", len(chunks))
+	}
+	if chunks[0].Done {
+		t.Fatal("first chunk Done should be false")
+	}
+	if !chunks[1].Done {
+		t.Fatal("final chunk Done should be true")
+	}
+	if chunks[0].ContentDelta != "hello " {
+		t.Fatalf("first chunk content delta = %q, want %q", chunks[0].ContentDelta, "hello ")
+	}
+	if chunks[1].ContentDelta != "world" {
+		t.Fatalf("second chunk content delta = %q, want %q", chunks[1].ContentDelta, "world")
+	}
+}
+
+func TestOllamaClientStreamMalformedChunkClosesWithoutDone(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte("{\"message\":{\"content\":\"start\"},\"done\":false}\n"))
+		_, _ = w.Write([]byte("{\"message\":invalid json}\n"))
+	}))
+	defer server.Close()
+
+	client := NewOllamaClient(server.URL, "llama-test")
+	ch, err := client.Stream(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil)
+	if err != nil {
+		t.Fatalf("Stream() error = %v", err)
+	}
+
+	var chunks []StreamChunk
+	for c := range ch {
+		chunks = append(chunks, c)
+	}
+
+	if len(chunks) != 1 {
+		t.Fatalf("chunks len = %d, want 1", len(chunks))
+	}
+	if chunks[0].Done {
+		t.Fatal("unexpected Done=true on malformed stream termination")
+	}
+}
