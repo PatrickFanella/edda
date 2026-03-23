@@ -78,9 +78,7 @@ func (q *Queries) DeleteConnection(ctx context.Context, arg DeleteConnectionPara
 }
 
 const getConnectionsFromLocation = `-- name: GetConnectionsFromLocation :many
-SELECT DISTINCT ON (connected_location_id)
-  id, from_location_id, to_location_id, description, bidirectional, travel_time, campaign_id, connected_location_id, connected_location_name, connected_location_description
-FROM (
+WITH connections AS (
   SELECT
     lc.id,
     lc.from_location_id,
@@ -116,8 +114,35 @@ FROM (
   WHERE lc.campaign_id = $1
     AND lc.to_location_id = $2
     AND lc.bidirectional = TRUE
-) AS connections
-ORDER BY connected_location_id, connected_location_name
+),
+deduped AS (
+  SELECT DISTINCT ON (connected_location_id)
+    id,
+    from_location_id,
+    to_location_id,
+    description,
+    bidirectional,
+    travel_time,
+    campaign_id,
+    connected_location_id,
+    connected_location_name,
+    connected_location_description
+  FROM connections
+  ORDER BY connected_location_id, connected_location_name
+)
+SELECT
+  id,
+  from_location_id,
+  to_location_id,
+  description,
+  bidirectional,
+  travel_time,
+  campaign_id,
+  connected_location_id,
+  connected_location_name,
+  connected_location_description
+FROM deduped
+ORDER BY connected_location_name, connected_location_id
 `
 
 type GetConnectionsFromLocationParams struct {

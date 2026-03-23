@@ -17,9 +17,7 @@ INSERT INTO location_connections (
 RETURNING id, from_location_id, to_location_id, description, bidirectional, travel_time, campaign_id;
 
 -- name: GetConnectionsFromLocation :many
-SELECT DISTINCT ON (connected_location_id)
-  *
-FROM (
+WITH connections AS (
   SELECT
     lc.id,
     lc.from_location_id,
@@ -55,8 +53,35 @@ FROM (
   WHERE lc.campaign_id = sqlc.arg(campaign_id)
     AND lc.to_location_id = sqlc.arg(location_id)
     AND lc.bidirectional = TRUE
-) AS connections
-ORDER BY connected_location_id, connected_location_name;
+),
+deduped AS (
+  SELECT DISTINCT ON (connected_location_id)
+    id,
+    from_location_id,
+    to_location_id,
+    description,
+    bidirectional,
+    travel_time,
+    campaign_id,
+    connected_location_id,
+    connected_location_name,
+    connected_location_description
+  FROM connections
+  ORDER BY connected_location_id, connected_location_name
+)
+SELECT
+  id,
+  from_location_id,
+  to_location_id,
+  description,
+  bidirectional,
+  travel_time,
+  campaign_id,
+  connected_location_id,
+  connected_location_name,
+  connected_location_description
+FROM deduped
+ORDER BY connected_location_name, connected_location_id;
 
 -- name: DeleteConnection :exec
 DELETE FROM location_connections
