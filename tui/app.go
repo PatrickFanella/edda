@@ -4,6 +4,7 @@ package tui
 
 import (
 	"fmt"
+	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -25,6 +26,10 @@ const (
 	ViewInventory                       // 2 – carried items and gold
 	ViewQuestLog                        // 3 – active and completed quests
 )
+
+const statusBarHints = "1-4: switch view | tab/shift+tab/right/left/h/l: cycle | q: quit"
+const statusBarSectionSeparator = "  ·  "
+const statusBarViewSeparator = " | "
 
 // App is the root Bubble Tea model for Game Master. It tracks the active
 // ViewState and delegates Init/Update/View to the appropriate sub-model via
@@ -138,30 +143,34 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 // View implements tea.Model and renders the full TUI chrome plus the active
 // sub-view.
 func (a App) View() string {
-	titleBar, tabBar, statusBar := a.chrome()
+	titleBar, statusBar := a.chrome()
 	activeView := lipgloss.NewStyle().Width(a.width).Render(a.router.View())
-	return styles.JoinVertical(titleBar, tabBar, activeView, statusBar)
+	return styles.JoinVertical(titleBar, activeView, statusBar)
 }
 
-// chrome renders the title bar, tab bar, and status bar at the current width.
-func (a App) chrome() (titleBar, tabBar, statusBar string) {
+// chrome renders the title bar and status bar at the current width.
+func (a App) chrome() (titleBar, statusBar string) {
 	titleBar = styles.TitleBar.Width(a.width).Render(
 		"⚔  Game Master" + styles.Muted.Render(
 			fmt.Sprintf("  ·  %s", a.cfg.LLM.Provider),
 		),
 	)
-	tabBar = a.renderTabs()
-	hints := styles.Muted.Render("tab/shift+tab, ←/h, →/l switch view  ·  1–4 jump to view  ·  q quit")
-	statusBar = styles.StatusBar.Width(a.width).Render(hints)
+	statusViews := a.renderStatusViews()
+	hints := styles.Muted.Render(statusBarHints)
+	statusBar = styles.StatusBar.Width(a.width).Render(styles.JoinHorizontal(
+		statusViews,
+		styles.Muted.Render(statusBarSectionSeparator),
+		hints,
+	))
 	return
 }
 
 // propagateSizes pushes the current terminal dimensions down to all sub-views,
 // accounting for the vertical space consumed by the chrome.
 func (a App) propagateSizes() {
-	titleBar, tabBar, statusBar := a.chrome()
+	titleBar, statusBar := a.chrome()
 
-	reserved := lipgloss.Height(titleBar) + lipgloss.Height(tabBar) + lipgloss.Height(statusBar)
+	reserved := lipgloss.Height(titleBar) + lipgloss.Height(statusBar)
 	viewHeight := a.height - reserved
 	if viewHeight < 1 {
 		viewHeight = 1
@@ -170,16 +179,20 @@ func (a App) propagateSizes() {
 	a.router.SetSize(a.width, viewHeight)
 }
 
-// renderTabs builds the tab-bar string for the current set of registered views.
-func (a App) renderTabs() string {
+// renderStatusViews builds the status-bar view list and highlights the active view.
+func (a App) renderStatusViews() string {
+	activeStyle := lipgloss.NewStyle().Bold(true).Foreground(styles.ColorAccent)
+	inactiveStyle := lipgloss.NewStyle().Foreground(styles.ColorMuted)
+
 	var tabs []string
 	for i, tab := range a.router.Tabs() {
-		label := fmt.Sprintf("%d %s", i+1, tab.Name)
+		label := tab.Name
 		if i == a.router.ActiveTab() {
-			tabs = append(tabs, styles.ActiveTab.Render(label))
+			tabs = append(tabs, activeStyle.Render("["+label+"]"))
 		} else {
-			tabs = append(tabs, styles.Tab.Render(label))
+			tabs = append(tabs, inactiveStyle.Render(label))
 		}
 	}
-	return styles.JoinHorizontal(tabs...)
+	sep := styles.Muted.Render(statusBarViewSeparator)
+	return styles.Muted.Render("Views: ") + strings.Join(tabs, sep)
 }
