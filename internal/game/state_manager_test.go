@@ -108,11 +108,31 @@ func (m *mockQuerier) CreateFaction(_ context.Context, _ statedb.CreateFactionPa
 	return statedb.Faction{}, pgx.ErrNoRows
 }
 
+func (m *mockQuerier) CreateFact(_ context.Context, _ statedb.CreateFactParams) (statedb.WorldFact, error) {
+	return statedb.WorldFact{}, pgx.ErrNoRows
+}
+
 func (m *mockQuerier) GetFactionByID(_ context.Context, _ pgtype.UUID) (statedb.Faction, error) {
 	return statedb.Faction{}, pgx.ErrNoRows
 }
 
+func (m *mockQuerier) GetFactByID(_ context.Context, _ pgtype.UUID) (statedb.WorldFact, error) {
+	return statedb.WorldFact{}, pgx.ErrNoRows
+}
+
 func (m *mockQuerier) ListFactionsByCampaign(_ context.Context, _ pgtype.UUID) ([]statedb.Faction, error) {
+	return nil, nil
+}
+
+func (m *mockQuerier) ListFactsByCampaign(_ context.Context, _ pgtype.UUID) ([]statedb.WorldFact, error) {
+	return nil, nil
+}
+
+func (m *mockQuerier) ListFactsByCategory(_ context.Context, _ statedb.ListFactsByCategoryParams) ([]statedb.WorldFact, error) {
+	return nil, nil
+}
+
+func (m *mockQuerier) ListActiveFactsByCampaign(_ context.Context, _ pgtype.UUID) ([]statedb.WorldFact, error) {
 	return nil, nil
 }
 
@@ -322,6 +342,10 @@ func (m *mockQuerier) DeleteItem(_ context.Context, _ pgtype.UUID) error {
 
 func (m *mockQuerier) TransferItem(_ context.Context, _ statedb.TransferItemParams) (statedb.Item, error) {
 	return statedb.Item{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) SupersedeFact(_ context.Context, _ statedb.SupersedeFactParams) (statedb.WorldFact, error) {
+	return statedb.WorldFact{}, pgx.ErrNoRows
 }
 
 func TestGetOrCreateDefaultUser_Creates(t *testing.T) {
