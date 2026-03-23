@@ -6,6 +6,7 @@ package narrative
 import (
 	"strings"
 
+	"github.com/charmbracelet/bubbles/textinput"
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -25,6 +26,7 @@ const (
 const (
 	narrativeViewportWidthOffset  = 4 // border + horizontal padding
 	narrativeViewportHeightOffset = 4 // border + title line + spacer line
+	narrativeInputHeightOffset    = 2 // spacer line + input line
 )
 
 // Entry is a single line (or paragraph) in the narrative log.
@@ -39,6 +41,7 @@ type Model struct {
 	width, height int
 	log           []Entry
 	viewport      viewport.Model
+	input         textinput.Model
 	autoScroll    bool
 }
 
@@ -46,6 +49,9 @@ type Model struct {
 func New() Model {
 	m := Model{autoScroll: true}
 	m.viewport = viewport.New(40, 1)
+	m.input = textinput.New()
+	m.input.Placeholder = "What do you do?"
+	m.input.Focus()
 	return m
 }
 
@@ -54,6 +60,7 @@ func (m *Model) SetSize(width, height int) {
 	m.width = width
 	m.height = height
 	m.viewport.Width, m.viewport.Height = m.viewportSize()
+	m.input.Width = m.viewport.Width
 	m.refreshViewportContent()
 	if m.autoScroll {
 		m.viewport.GotoBottom()
@@ -74,8 +81,28 @@ func (m Model) Init() tea.Cmd { return nil }
 
 // Update implements tea.Model.
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	switch msg.(type) {
-	case tea.KeyMsg, tea.MouseMsg:
+	switch msg := msg.(type) {
+	case tea.KeyMsg:
+		switch msg.Type {
+		case tea.KeyEnter:
+			text := strings.TrimSpace(m.input.Value())
+			if text == "" {
+				return m, nil
+			}
+			m.AddEntry(Entry{Kind: KindPlayer, Text: text})
+			m.input.Reset()
+			return m, nil
+		case tea.KeyUp, tea.KeyDown, tea.KeyPgUp, tea.KeyPgDown:
+			var cmd tea.Cmd
+			m.viewport, cmd = m.viewport.Update(msg)
+			m.autoScroll = m.viewport.AtBottom()
+			return m, cmd
+		default:
+			var cmd tea.Cmd
+			m.input, cmd = m.input.Update(msg)
+			return m, cmd
+		}
+	case tea.MouseMsg:
 		var cmd tea.Cmd
 		m.viewport, cmd = m.viewport.Update(msg)
 		m.autoScroll = m.viewport.AtBottom()
@@ -92,11 +119,12 @@ func (m Model) View() string {
 		content = styles.SystemMessage.Render("The adventure begins…")
 	}
 	title := styles.Header.Render("📖 Narrative")
+	input := m.input.View()
 
 	box := styles.Container.
 		Width(m.width).
 		Height(m.height).
-		Render(styles.JoinVertical(title, "", content))
+		Render(styles.JoinVertical(title, "", content, "", input))
 
 	return box
 }
@@ -120,7 +148,7 @@ func (m Model) viewportSize() (width, height int) {
 		width = 1
 	}
 
-	height = m.height - narrativeViewportHeightOffset
+	height = m.height - narrativeViewportHeightOffset - narrativeInputHeightOffset
 	if m.height == 0 {
 		height = 1
 	} else if height < 1 {
