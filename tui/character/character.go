@@ -1,51 +1,26 @@
 // Package character provides the character sheet view for the TUI.
-// It renders a player's name, class, level, and core statistics using the
-// shared styles package.
+// It renders a placeholder character sheet using the shared styles package.
+// Real character data will be populated in the player character management epic.
 package character
 
 import (
-	"fmt"
-	"strings"
-
 	tea "github.com/charmbracelet/bubbletea"
 
 	"github.com/PatrickFanella/game-master/tui/styles"
 )
 
-// Stat is a named numeric attribute on the character sheet.
-type Stat struct {
-	Name  string
-	Value int
-	Max   int // 0 means no cap
-}
+// NavigateBackMsg is emitted when the user presses Escape to return to the
+// narrative view.
+type NavigateBackMsg struct{}
 
-// Model is the Bubble Tea model for the character view.
+// Model is the Bubble Tea model for the character sheet view.
 type Model struct {
 	width, height int
-
-	Name  string
-	Class string
-	Level int
-	HP    Stat
-	Stats []Stat
 }
 
-// New returns a freshly initialised character Model with placeholder data.
+// New returns a freshly initialised character Model.
 func New() Model {
-	return Model{
-		Name:  "Adventurer",
-		Class: "Unknown",
-		Level: 1,
-		HP:    Stat{Name: "HP", Value: 10, Max: 10},
-		Stats: []Stat{
-			{Name: "STR", Value: 10},
-			{Name: "DEX", Value: 10},
-			{Name: "CON", Value: 10},
-			{Name: "INT", Value: 10},
-			{Name: "WIS", Value: 10},
-			{Name: "CHA", Value: 10},
-		},
-	}
+	return Model{}
 }
 
 // SetSize updates the viewport dimensions.
@@ -55,32 +30,27 @@ func (m *Model) SetSize(width, height int) {
 }
 
 // Init implements tea.Model.
-func (m Model) Init() tea.Cmd { return nil }
+func (m *Model) Init() tea.Cmd { return nil }
 
-// Update implements tea.Model.
-func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) { return m, nil }
-
-// View implements tea.Model and renders the character sheet.
-func (m Model) View() string {
-	title := styles.Header.Render("⚔️  Character")
-
-	nameLine := styles.SubHeader.Render(m.Name) +
-		styles.Muted.Render(fmt.Sprintf("  %s · Level %d", m.Class, m.Level))
-
-	hpLabel := styles.StatusSuccess.Render("HP")
-	hpValue := styles.Body.Render(fmt.Sprintf("%d / %d", m.HP.Value, m.HP.Max))
-	hpLine := hpLabel + styles.Muted.Render(" ") + hpValue
-
-	var statParts []string
-	for _, s := range m.Stats {
-		label := styles.Muted.Render(s.Name)
-		val := styles.Body.Render(fmt.Sprintf("%2d", s.Value))
-		statParts = append(statParts, label+" "+val)
+// Update implements tea.Model. Pressing Escape emits NavigateBackMsg so the
+// parent App can return focus to the narrative view.
+func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	if key, ok := msg.(tea.KeyMsg); ok && key.Type == tea.KeyEsc {
+		return m, func() tea.Msg { return NavigateBackMsg{} }
 	}
+	return m, nil
+}
 
-	statsLine := strings.Join(statParts, "  ")
+// View implements tea.Model and renders the character sheet placeholder.
+func (m Model) View() string {
+	title := styles.Header.Render("⚔️  Character Sheet")
 
-	content := styles.JoinVertical(nameLine, "", hpLine, "", statsLine)
+	placeholder := styles.SystemMessage.Render(
+		"Character data will be available in a future update.",
+	)
+	hint := styles.Muted.Render("Press Esc to return to the narrative view.")
+
+	content := styles.JoinVertical(placeholder, "", hint)
 	return styles.Container.Width(m.width).Render(
 		styles.JoinVertical(title, "", content),
 	)
