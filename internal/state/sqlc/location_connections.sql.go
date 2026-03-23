@@ -78,42 +78,45 @@ func (q *Queries) DeleteConnection(ctx context.Context, arg DeleteConnectionPara
 }
 
 const getConnectionsFromLocation = `-- name: GetConnectionsFromLocation :many
-SELECT
-  lc.id,
-  lc.from_location_id,
-  lc.to_location_id,
-  lc.description,
-  lc.bidirectional,
-  lc.travel_time,
-  lc.campaign_id,
-  cl.id AS connected_location_id,
-  cl.name AS connected_location_name,
-  cl.description AS connected_location_description
-FROM location_connections lc
-JOIN locations cl ON cl.id = lc.to_location_id
-WHERE lc.campaign_id = $1
-  AND lc.from_location_id = $2
+SELECT DISTINCT ON (connected_location_id)
+  id, from_location_id, to_location_id, description, bidirectional, travel_time, campaign_id, connected_location_id, connected_location_name, connected_location_description
+FROM (
+  SELECT
+    lc.id,
+    lc.from_location_id,
+    lc.to_location_id,
+    lc.description,
+    lc.bidirectional,
+    lc.travel_time,
+    lc.campaign_id,
+    cl.id AS connected_location_id,
+    cl.name AS connected_location_name,
+    cl.description AS connected_location_description
+  FROM location_connections lc
+  JOIN locations cl ON cl.id = lc.to_location_id
+  WHERE lc.campaign_id = $1
+    AND lc.from_location_id = $2
 
-UNION ALL
+  UNION ALL
 
-SELECT
-  lc.id,
-  lc.from_location_id,
-  lc.to_location_id,
-  lc.description,
-  lc.bidirectional,
-  lc.travel_time,
-  lc.campaign_id,
-  cl.id AS connected_location_id,
-  cl.name AS connected_location_name,
-  cl.description AS connected_location_description
-FROM location_connections lc
-JOIN locations cl ON cl.id = lc.from_location_id
-WHERE lc.campaign_id = $1
-  AND lc.to_location_id = $2
-  AND lc.bidirectional = TRUE
-
-ORDER BY connected_location_name, connected_location_id
+  SELECT
+    lc.id,
+    lc.to_location_id AS from_location_id,
+    lc.from_location_id AS to_location_id,
+    lc.description,
+    lc.bidirectional,
+    lc.travel_time,
+    lc.campaign_id,
+    cl.id AS connected_location_id,
+    cl.name AS connected_location_name,
+    cl.description AS connected_location_description
+  FROM location_connections lc
+  JOIN locations cl ON cl.id = lc.from_location_id
+  WHERE lc.campaign_id = $1
+    AND lc.to_location_id = $2
+    AND lc.bidirectional = TRUE
+) AS connections
+ORDER BY connected_location_id, connected_location_name, id
 `
 
 type GetConnectionsFromLocationParams struct {
