@@ -114,6 +114,10 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return a, cmd
 		}
 
+	case character.NavigateBackMsg:
+		a.router.GoToTab(int(ViewNarrative))
+		a.viewState = ViewNarrative
+
 	default:
 		// Forward any other message types (e.g. commands produced by sub-views)
 		// to the active sub-model so they are never silently dropped.
