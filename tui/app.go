@@ -27,8 +27,9 @@ const (
 	ViewQuestLog                        // 3 – active and completed quests
 )
 
-const statusBarHints = "1-4: switch view | tab: cycle | q: quit"
+const statusBarHints = "1-4: switch view | tab/shift+tab/right/left/h/l: cycle | q: quit"
 const statusBarSectionSeparator = "  ·  "
+const statusBarViewSeparator = " | "
 
 // App is the root Bubble Tea model for Game Master. It tracks the active
 // ViewState and delegates Init/Update/View to the appropriate sub-model via
@@ -192,6 +193,6 @@ func (a App) renderStatusViews() string {
 			tabs = append(tabs, inactiveStyle.Render(label))
 		}
 	}
-	sep := styles.Muted.Render(" | ")
+	sep := styles.Muted.Render(statusBarViewSeparator)
 	return styles.Muted.Render("Views: ") + strings.Join(tabs, sep)
 }
