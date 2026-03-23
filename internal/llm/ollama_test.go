@@ -141,18 +141,23 @@ func TestToOllamaToolsSerializesOpenAICompatibleFormat(t *testing.T) {
 	}
 
 	for i := range tools {
-		if got[i].Type != "function" {
-			t.Fatalf("tool[%d].Type = %q, want function", i, got[i].Type)
-		}
-		if got[i].Function.Name != tools[i].Name {
-			t.Fatalf("tool[%d].Function.Name = %q, want %q", i, got[i].Function.Name, tools[i].Name)
-		}
-		if got[i].Function.Description != tools[i].Description {
-			t.Fatalf("tool[%d].Function.Description = %q, want %q", i, got[i].Function.Description, tools[i].Description)
-		}
-		if !reflect.DeepEqual(got[i].Function.Parameters, tools[i].Parameters) {
-			t.Fatalf("tool[%d].Function.Parameters = %#v, want %#v", i, got[i].Function.Parameters, tools[i].Parameters)
-		}
+		idx := i
+		expected := tools[idx]
+		actual := got[idx]
+		t.Run(expected.Name, func(t *testing.T) {
+			if actual.Type != "function" {
+				t.Fatalf("tool[%d].Type = %q, want function", idx, actual.Type)
+			}
+			if actual.Function.Name != expected.Name {
+				t.Fatalf("tool[%d].Function.Name = %q, want %q", idx, actual.Function.Name, expected.Name)
+			}
+			if actual.Function.Description != expected.Description {
+				t.Fatalf("tool[%d].Function.Description = %q, want %q", idx, actual.Function.Description, expected.Description)
+			}
+			if !reflect.DeepEqual(actual.Function.Parameters, expected.Parameters) {
+				t.Fatalf("tool[%d].Function.Parameters = %#v, want %#v", idx, actual.Function.Parameters, expected.Parameters)
+			}
+		})
 	}
 
 	body, err := json.Marshal(struct {
@@ -173,35 +178,40 @@ func TestToOllamaToolsSerializesOpenAICompatibleFormat(t *testing.T) {
 	}
 
 	for i := range tools {
-		functionAny, ok := decoded.Tools[i]["function"]
-		if !ok {
-			t.Fatalf("serialized tool[%d] missing function field", i)
-		}
-		functionObj, ok := functionAny.(map[string]any)
-		if !ok {
-			t.Fatalf("serialized tool[%d].function has unexpected type %T", i, functionAny)
-		}
+		idx := i
+		expected := tools[idx]
+		decodedTool := decoded.Tools[idx]
+		t.Run(expected.Name+"_json", func(t *testing.T) {
+			functionAny, ok := decodedTool["function"]
+			if !ok {
+				t.Fatalf("serialized tool[%d] missing function field", idx)
+			}
+			functionObj, ok := functionAny.(map[string]any)
+			if !ok {
+				t.Fatalf("serialized tool[%d].function has unexpected type %T", idx, functionAny)
+			}
 
-		parametersAny, ok := functionObj["parameters"]
-		if !ok {
-			t.Fatalf("serialized tool[%d].function missing parameters field", i)
-		}
-		parametersObj, ok := parametersAny.(map[string]any)
-		if !ok {
-			t.Fatalf("serialized tool[%d].function.parameters has unexpected type %T", i, parametersAny)
-		}
+			parametersAny, ok := functionObj["parameters"]
+			if !ok {
+				t.Fatalf("serialized tool[%d].function missing parameters field", idx)
+			}
+			parametersObj, ok := parametersAny.(map[string]any)
+			if !ok {
+				t.Fatalf("serialized tool[%d].function.parameters has unexpected type %T", idx, parametersAny)
+			}
 
-		expectedParametersBytes, err := json.Marshal(tools[i].Parameters)
-		if err != nil {
-			t.Fatalf("json.Marshal(expected parameters for tool[%d]): %v", i, err)
-		}
-		var expectedParameters map[string]any
-		if err := json.Unmarshal(expectedParametersBytes, &expectedParameters); err != nil {
-			t.Fatalf("json.Unmarshal(expected parameters for tool[%d]): %v", i, err)
-		}
-		if !reflect.DeepEqual(parametersObj, expectedParameters) {
-			t.Fatalf("serialized tool[%d].function.parameters = %#v, want %#v", i, parametersObj, expectedParameters)
-		}
+			expectedParametersBytes, err := json.Marshal(expected.Parameters)
+			if err != nil {
+				t.Fatalf("json.Marshal(expected parameters for tool[%d]): %v", idx, err)
+			}
+			var expectedParameters map[string]any
+			if err := json.Unmarshal(expectedParametersBytes, &expectedParameters); err != nil {
+				t.Fatalf("json.Unmarshal(expected parameters for tool[%d]): %v", idx, err)
+			}
+			if !reflect.DeepEqual(parametersObj, expectedParameters) {
+				t.Fatalf("serialized tool[%d].function.parameters = %#v, want %#v", idx, parametersObj, expectedParameters)
+			}
+		})
 	}
 }
 
