@@ -145,21 +145,86 @@ func TestResizeUpdatesViewportDimensions(t *testing.T) {
 	m.SetSize(80, 20)
 
 	wantWidth := 80 - narrativeViewportWidthOffset
-	wantHeight := 20 - narrativeViewportHeightOffset
+	wantHeight := 20 - narrativeViewportHeightOffset - narrativeInputHeightOffset
 	if m.viewport.Width != wantWidth {
 		t.Fatalf("expected viewport width %d, got %d", wantWidth, m.viewport.Width)
 	}
 	if m.viewport.Height != wantHeight {
 		t.Fatalf("expected viewport height %d, got %d", wantHeight, m.viewport.Height)
 	}
+	if m.input.Width != wantWidth {
+		t.Fatalf("expected input width %d, got %d", wantWidth, m.input.Width)
+	}
 
 	m.SetSize(20, 6)
 	wantWidth = 20 - narrativeViewportWidthOffset
-	wantHeight = 6 - narrativeViewportHeightOffset
+	wantHeight = 6 - narrativeViewportHeightOffset - narrativeInputHeightOffset
+	if wantHeight < 1 {
+		wantHeight = 1
+	}
 	if m.viewport.Width != wantWidth {
 		t.Fatalf("expected viewport width %d after resize, got %d", wantWidth, m.viewport.Width)
 	}
 	if m.viewport.Height != wantHeight {
 		t.Fatalf("expected viewport height %d after resize, got %d", wantHeight, m.viewport.Height)
+	}
+	if m.input.Width != wantWidth {
+		t.Fatalf("expected input width %d after resize, got %d", wantWidth, m.input.Width)
+	}
+}
+
+func TestInputFocusedByDefault(t *testing.T) {
+	m := New()
+	if !m.input.Focused() {
+		t.Fatal("expected input to be focused by default")
+	}
+}
+
+func TestInputPlaceholder(t *testing.T) {
+	m := New()
+	if m.input.Placeholder != "What do you do?" {
+		t.Fatalf("expected placeholder %q, got %q", "What do you do?", m.input.Placeholder)
+	}
+}
+
+func TestEnterSubmitsInputAndClears(t *testing.T) {
+	model := New()
+	m := &model
+	m.SetSize(50, 8)
+	m.input.SetValue("look around")
+
+	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
+	m = updated.(*Model)
+
+	if m.input.Value() != "" {
+		t.Fatalf("expected input to clear after submit, got %q", m.input.Value())
+	}
+	if len(m.log) == 0 {
+		t.Fatal("expected submitted input to be added to narrative log")
+	}
+	last := m.log[len(m.log)-1]
+	if last.Kind != KindPlayer {
+		t.Fatalf("expected last entry kind %v, got %v", KindPlayer, last.Kind)
+	}
+	if last.Text != "look around" {
+		t.Fatalf("expected last entry text %q, got %q", "look around", last.Text)
+	}
+}
+
+func TestEnterIgnoresEmptySubmission(t *testing.T) {
+	model := New()
+	m := &model
+	m.SetSize(50, 8)
+	m.input.SetValue("   ")
+	before := len(m.log)
+
+	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
+	m = updated.(*Model)
+
+	if len(m.log) != before {
+		t.Fatalf("expected empty submission to be ignored; before=%d after=%d", before, len(m.log))
+	}
+	if m.input.Value() != "   " {
+		t.Fatalf("expected input to remain unchanged for empty submission, got %q", m.input.Value())
 	}
 }
