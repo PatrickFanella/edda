@@ -136,9 +136,14 @@ func (o *OllamaClient) callChat(ctx context.Context, messages []Message, tools [
 		return nil, err
 	}
 
+	ollamaMessages, err := toOllamaMessages(messages)
+	if err != nil {
+		return nil, err
+	}
+
 	body, err := json.Marshal(ollamaChatRequest{
 		Model:    o.model,
-		Messages: toOllamaMessages(messages),
+		Messages: ollamaMessages,
 		Tools:    toOllamaTools(tools),
 		Stream:   stream,
 	})
@@ -220,20 +225,24 @@ type ollamaChatResponse struct {
 	EvalCount       int    `json:"eval_count"`
 }
 
-func toOllamaMessages(messages []Message) []ollamaMessage {
+func toOllamaMessages(messages []Message) ([]ollamaMessage, error) {
 	if len(messages) == 0 {
-		return nil
+		return nil, nil
 	}
 	out := make([]ollamaMessage, 0, len(messages))
 	for _, msg := range messages {
+		toolCalls, err := toOllamaToolCalls(msg.ToolCalls)
+		if err != nil {
+			return nil, err
+		}
 		out = append(out, ollamaMessage{
 			Role:       msg.Role,
 			Content:    msg.Content,
-			ToolCalls:  toOllamaToolCalls(msg.ToolCalls),
+			ToolCalls:  toolCalls,
 			ToolCallID: msg.ToolCallID,
 		})
 	}
-	return out
+	return out, nil
 }
 
 func toOllamaTools(tools []Tool) []ollamaTool {
@@ -254,13 +263,16 @@ func toOllamaTools(tools []Tool) []ollamaTool {
 	return out
 }
 
-func toOllamaToolCalls(calls []ToolCall) []ollamaToolCall {
+func toOllamaToolCalls(calls []ToolCall) ([]ollamaToolCall, error) {
 	if len(calls) == 0 {
-		return nil
+		return nil, nil
 	}
 	out := make([]ollamaToolCall, 0, len(calls))
 	for _, c := range calls {
-		args, _ := json.Marshal(c.Arguments)
+		args, err := json.Marshal(c.Arguments)
+		if err != nil {
+			return nil, fmt.Errorf("failed to marshal tool arguments for %q: %w", c.Name, err)
+		}
 		out = append(out, ollamaToolCall{
 			Function: ollamaToolFunction{
 				Name:      c.Name,
@@ -268,7 +280,7 @@ func toOllamaToolCalls(calls []ToolCall) []ollamaToolCall {
 			},
 		})
 	}
-	return out
+	return out, nil
 }
 
 func fromOllamaToolCalls(calls []ollamaToolCall) ([]ToolCall, error) {

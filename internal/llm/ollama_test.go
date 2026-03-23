@@ -56,6 +56,7 @@ func TestOllamaClientCompleteRequestResponse(t *testing.T) {
 	client := NewOllamaClient(server.URL+"/", "llama-test")
 	resp, err := client.Complete(context.Background(), []Message{
 		{Role: RoleSystem, Content: "be brief"},
+		// Prior assistant tool call in conversation history should marshal correctly.
 		{Role: RoleAssistant, ToolCalls: []ToolCall{{Name: "lookup", Arguments: map[string]any{"city": "Paris"}}}},
 	}, []Tool{{
 		Name:        "lookup",
