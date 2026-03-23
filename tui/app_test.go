@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"strings"
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -188,6 +189,44 @@ func TestAppViewReturnsNonEmpty(t *testing.T) {
 	v := app.View()
 	if v == "" {
 		t.Fatal("View() should return non-empty string")
+	}
+}
+
+func TestStatusBarShowsViewsHintsAndActiveView(t *testing.T) {
+	app := NewApp(testCfg)
+	_, statusBar := app.chrome()
+
+	for _, label := range []string{"Narrative", "Character", "Inventory", "Quests"} {
+		if !strings.Contains(statusBar, label) {
+			t.Fatalf("expected status bar to include %q", label)
+		}
+	}
+	if !strings.Contains(statusBar, "[Narrative]") {
+		t.Fatal("expected status bar to highlight the active narrative view")
+	}
+	if !strings.Contains(statusBar, "1-4: switch view | tab: cycle | q: quit") {
+		t.Fatal("expected status bar to include view switching key hints")
+	}
+}
+
+func TestStatusBarUpdatesImmediatelyOnViewSwitch(t *testing.T) {
+	app := NewApp(testCfg)
+	m, _ := app.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune("3")})
+	updated := m.(App)
+	_, statusBar := updated.chrome()
+
+	if !strings.Contains(statusBar, "[Inventory]") {
+		t.Fatal("expected status bar to highlight inventory after pressing 3")
+	}
+	if strings.Contains(statusBar, "[Narrative]") {
+		t.Fatal("expected narrative to no longer be active after pressing 3")
+	}
+
+	m2, _ := updated.Update(tea.KeyMsg{Type: tea.KeyTab})
+	updated2 := m2.(App)
+	_, statusBar2 := updated2.chrome()
+	if !strings.Contains(statusBar2, "[Quests]") {
+		t.Fatal("expected status bar to highlight quests after tab cycling")
 	}
 }
 
