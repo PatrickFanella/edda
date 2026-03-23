@@ -16,7 +16,7 @@ INSERT INTO session_logs (
   sqlc.arg(llm_response),
   COALESCE(sqlc.narg(tool_calls)::jsonb, '[]'::jsonb),
   sqlc.narg(location_id),
-  COALESCE(sqlc.arg(npcs_involved)::uuid[], '{}'::uuid[])
+  COALESCE(sqlc.narg(npcs_involved)::uuid[], '{}'::uuid[])
 )
 RETURNING id, campaign_id, turn_number, player_input, input_type, llm_response, tool_calls, location_id, npcs_involved, created_at;
 
