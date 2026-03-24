@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -97,6 +98,124 @@ func TestOllamaClientCompleteRequestResponse(t *testing.T) {
 	}
 	if resp.ToolCalls[0].Arguments["city"] != "Paris" {
 		t.Fatalf("tool call args city = %#v, want Paris", resp.ToolCalls[0].Arguments["city"])
+	}
+}
+
+func TestToOllamaToolsSerializesOpenAICompatibleFormat(t *testing.T) {
+	tools := []Tool{
+		{
+			Name:        "lookup_weather",
+			Description: "Gets weather by city",
+			Parameters: map[string]any{
+				"type": "object",
+				"properties": map[string]any{
+					"city": map[string]any{
+						"type":        "string",
+						"description": "City name",
+					},
+					"units": map[string]any{
+						"type": "string",
+						"enum": []string{"metric", "imperial"},
+					},
+				},
+				"required": []string{"city"},
+			},
+		},
+		{
+			Name:        "set_reminder",
+			Description: "Creates a reminder",
+			Parameters: map[string]any{
+				"type": "object",
+				"properties": map[string]any{
+					"message": map[string]any{"type": "string"},
+					"at":      map[string]any{"type": "string", "format": "date-time"},
+				},
+				"required": []string{"message", "at"},
+			},
+		},
+	}
+
+	got := toOllamaTools(tools)
+	if len(got) != 2 {
+		t.Fatalf("len(toOllamaTools) = %d, want 2", len(got))
+	}
+
+	body, err := json.Marshal(struct {
+		Tools []ollamaTool `json:"tools"`
+	}{Tools: got})
+	if err != nil {
+		t.Fatalf("json.Marshal(tools): %v", err)
+	}
+
+	var decoded struct {
+		Tools []map[string]any `json:"tools"`
+	}
+	if err := json.Unmarshal(body, &decoded); err != nil {
+		t.Fatalf("json.Unmarshal(serialized tools): %v", err)
+	}
+	if len(decoded.Tools) != 2 {
+		t.Fatalf("serialized tools length = %d, want 2", len(decoded.Tools))
+	}
+
+	for i := range tools {
+		idx := i
+		expected := tools[idx]
+		decodedTool := decoded.Tools[idx]
+		t.Run(expected.Name+"_json", func(t *testing.T) {
+			toolType, ok := decodedTool["type"].(string)
+			if !ok {
+				t.Fatalf("serialized tool[%d].type has unexpected type %T", idx, decodedTool["type"])
+			}
+			if toolType != "function" {
+				t.Fatalf("serialized tool[%d].type = %q, want %q", idx, toolType, "function")
+			}
+
+			functionAny, ok := decodedTool["function"]
+			if !ok {
+				t.Fatalf("serialized tool[%d] missing function field", idx)
+			}
+			functionObj, ok := functionAny.(map[string]any)
+			if !ok {
+				t.Fatalf("serialized tool[%d].function has unexpected type %T", idx, functionAny)
+			}
+
+			name, ok := functionObj["name"].(string)
+			if !ok {
+				t.Fatalf("serialized tool[%d].function.name has unexpected type %T", idx, functionObj["name"])
+			}
+			if name != expected.Name {
+				t.Fatalf("serialized tool[%d].function.name = %q, want %q", idx, name, expected.Name)
+			}
+
+			description, ok := functionObj["description"].(string)
+			if !ok {
+				t.Fatalf("serialized tool[%d].function.description has unexpected type %T", idx, functionObj["description"])
+			}
+			if description != expected.Description {
+				t.Fatalf("serialized tool[%d].function.description = %q, want %q", idx, description, expected.Description)
+			}
+
+			parametersAny, ok := functionObj["parameters"]
+			if !ok {
+				t.Fatalf("serialized tool[%d].function missing parameters field", idx)
+			}
+			parametersObj, ok := parametersAny.(map[string]any)
+			if !ok {
+				t.Fatalf("serialized tool[%d].function.parameters has unexpected type %T", idx, parametersAny)
+			}
+
+			expectedParametersBytes, err := json.Marshal(expected.Parameters)
+			if err != nil {
+				t.Fatalf("json.Marshal(expected parameters for tool[%d]): %v", idx, err)
+			}
+			var expectedParameters map[string]any
+			if err := json.Unmarshal(expectedParametersBytes, &expectedParameters); err != nil {
+				t.Fatalf("json.Unmarshal(expected parameters for tool[%d]): %v", idx, err)
+			}
+			if !reflect.DeepEqual(parametersObj, expectedParameters) {
+				t.Fatalf("serialized tool[%d].function.parameters = %#v, want %#v", idx, parametersObj, expectedParameters)
+			}
+		})
 	}
 }
 
