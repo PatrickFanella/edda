@@ -2,8 +2,8 @@ version: '2'
 sql:
   - engine: postgresql
     schema:
-      - ./schema
       - ./migrations
+      - ./schema
     queries: ./queries
     gen:
       go:
