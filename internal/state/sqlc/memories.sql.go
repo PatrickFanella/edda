@@ -137,7 +137,7 @@ func (q *Queries) ListMemoriesByCampaign(ctx context.Context, campaignID pgtype.
 
 const searchMemoriesBySimilarity = `-- name: SearchMemoriesBySimilarity :many
 SELECT id, campaign_id, content, embedding, memory_type, location_id, npcs_involved, in_game_time, metadata, created_at,
-       (embedding <=> $1::vector) AS distance
+       (embedding <=> $1::vector)::float8 AS distance
 FROM memories
 WHERE campaign_id = $2
 ORDER BY embedding <=> $1::vector
@@ -161,7 +161,7 @@ type SearchMemoriesBySimilarityRow struct {
 	InGameTime   pgtype.Text
 	Metadata     []byte
 	CreatedAt    pgtype.Timestamptz
-	Distance     interface{}
+	Distance     float64
 }
 
 func (q *Queries) SearchMemoriesBySimilarity(ctx context.Context, arg SearchMemoriesBySimilarityParams) ([]SearchMemoriesBySimilarityRow, error) {
@@ -198,7 +198,7 @@ func (q *Queries) SearchMemoriesBySimilarity(ctx context.Context, arg SearchMemo
 
 const searchMemoriesWithFilters = `-- name: SearchMemoriesWithFilters :many
 SELECT id, campaign_id, content, embedding, memory_type, location_id, npcs_involved, in_game_time, metadata, created_at,
-       (embedding <=> $1::vector) AS distance
+       (embedding <=> $1::vector)::float8 AS distance
 FROM memories
 WHERE campaign_id = $2
   AND ($3::text IS NULL OR memory_type = $3)
@@ -232,7 +232,7 @@ type SearchMemoriesWithFiltersRow struct {
 	InGameTime   pgtype.Text
 	Metadata     []byte
 	CreatedAt    pgtype.Timestamptz
-	Distance     interface{}
+	Distance     float64
 }
 
 func (q *Queries) SearchMemoriesWithFilters(ctx context.Context, arg SearchMemoriesWithFiltersParams) ([]SearchMemoriesWithFiltersRow, error) {

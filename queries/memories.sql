@@ -33,7 +33,7 @@ ORDER BY created_at, id;
 
 -- name: SearchMemoriesBySimilarity :many
 SELECT id, campaign_id, content, embedding, memory_type, location_id, npcs_involved, in_game_time, metadata, created_at,
-       (embedding <=> sqlc.arg(query_embedding)::vector) AS distance
+       (embedding <=> sqlc.arg(query_embedding)::vector)::float8 AS distance
 FROM memories
 WHERE campaign_id = sqlc.arg(campaign_id)
 ORDER BY embedding <=> sqlc.arg(query_embedding)::vector
@@ -41,7 +41,7 @@ LIMIT sqlc.arg(limit_count);
 
 -- name: SearchMemoriesWithFilters :many
 SELECT id, campaign_id, content, embedding, memory_type, location_id, npcs_involved, in_game_time, metadata, created_at,
-       (embedding <=> sqlc.arg(query_embedding)::vector) AS distance
+       (embedding <=> sqlc.arg(query_embedding)::vector)::float8 AS distance
 FROM memories
 WHERE campaign_id = sqlc.arg(campaign_id)
   AND (sqlc.narg(memory_type)::text IS NULL OR memory_type = sqlc.narg(memory_type))
