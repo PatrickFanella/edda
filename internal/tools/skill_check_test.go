@@ -141,6 +141,7 @@ func TestSkillCheckCriticals(t *testing.T) {
 	id := uuid.New()
 
 	t.Run("critical success on natural 20", func(t *testing.T) {
+		// stubRoller returns Intn(20) values (0-19), and rollD20 adds +1.
 		h := NewSkillCheckHandler(stubModifierResolver{modifier: -5}, &stubRoller{rolls: []int{19}})
 		got, err := h.Handle(context.Background(), map[string]any{
 			"character_id": id.String(),
@@ -159,6 +160,7 @@ func TestSkillCheckCriticals(t *testing.T) {
 	})
 
 	t.Run("critical failure on natural 1", func(t *testing.T) {
+		// stubRoller returns Intn(20) values (0-19), and rollD20 adds +1.
 		h := NewSkillCheckHandler(stubModifierResolver{modifier: 20}, &stubRoller{rolls: []int{0}})
 		got, err := h.Handle(context.Background(), map[string]any{
 			"character_id": id.String(),
