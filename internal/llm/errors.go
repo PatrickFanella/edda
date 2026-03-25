@@ -38,14 +38,15 @@ func (e *ErrTimeout) Unwrap() error { return e.Err }
 
 // ErrRateLimit indicates provider throttling.
 type ErrRateLimit struct {
-	URL        string
-	StatusCode int
-	RetryAfter time.Duration
-	Err        error
+	URL           string
+	StatusCode    int
+	RetryAfter    time.Duration
+	HasRetryAfter bool
+	Err           error
 }
 
 func (e *ErrRateLimit) Error() string {
-	if e.RetryAfter > 0 {
+	if e.HasRetryAfter {
 		return fmt.Sprintf("provider rate limited request to %s (status %d, retry after %s): %v", e.URL, e.StatusCode, e.RetryAfter, e.Err)
 	}
 	return fmt.Sprintf("provider rate limited request to %s (status %d): %v", e.URL, e.StatusCode, e.Err)
