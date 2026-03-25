@@ -473,6 +473,28 @@ func TestClaudeClientStreamSetsStreamTrue(t *testing.T) {
 	}
 }
 
+func TestClaudeClientStreamRejectsNonSSEContentType(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"content":[]}`))
+	}))
+	defer server.Close()
+
+	client := NewClaudeClient(server.URL, "sk-ant-test", "claude-test")
+	_, err := client.Stream(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil)
+	if err == nil {
+		t.Fatal("expected error for non-SSE Content-Type")
+	}
+
+	var malformedErr *ErrMalformedResponse
+	if !errors.As(err, &malformedErr) {
+		t.Fatalf("error type = %T, want *ErrMalformedResponse (error=%v)", err, err)
+	}
+	if !strings.Contains(malformedErr.Error(), "text/event-stream") {
+		t.Fatalf("error = %q, want message referencing text/event-stream", malformedErr.Error())
+	}
+}
+
 func TestClaudeClientStreamContextCancellation(t *testing.T) {
 	started := make(chan struct{})
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -563,6 +585,47 @@ func TestClaudeClientStreamMalformedDataSkipsEvent(t *testing.T) {
 	}
 	if chunks[0].ContentDelta != "ok" {
 		t.Fatalf("chunk[0].ContentDelta = %q, want \"ok\"", chunks[0].ContentDelta)
+	}
+	if !chunks[1].Done {
+		t.Fatal("last chunk must have Done=true")
+	}
+}
+
+func TestClaudeClientStreamMalformedToolArgsSkipsToolCall(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/event-stream")
+		// tool_use block with invalid JSON argument fragment
+		_, _ = w.Write([]byte("event: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"tool_use\",\"id\":\"tool_bad\",\"name\":\"bad_tool\",\"input\":{}}}\n\n"))
+		_, _ = w.Write([]byte("event: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"input_json_delta\",\"partial_json\":\"{invalid\"}}\n\n"))
+		_, _ = w.Write([]byte("event: content_block_stop\ndata: {\"type\":\"content_block_stop\",\"index\":0}\n\n"))
+		// valid text follows
+		_, _ = w.Write([]byte("event: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":1,\"content_block\":{\"type\":\"text\",\"text\":\"\"}}\n\n"))
+		_, _ = w.Write([]byte("event: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":1,\"delta\":{\"type\":\"text_delta\",\"text\":\"safe\"}}\n\n"))
+		_, _ = w.Write([]byte("event: content_block_stop\ndata: {\"type\":\"content_block_stop\",\"index\":1}\n\n"))
+		_, _ = w.Write([]byte("event: message_stop\ndata: {\"type\":\"message_stop\"}\n\n"))
+	}))
+	defer server.Close()
+
+	client := NewClaudeClient(server.URL, "sk-ant-test", "claude-test")
+	ch, err := client.Stream(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil)
+	if err != nil {
+		t.Fatalf("Stream() error = %v", err)
+	}
+
+	var chunks []StreamChunk
+	for chunk := range ch {
+		chunks = append(chunks, chunk)
+	}
+
+	// The malformed tool call must be silently dropped; only the text delta and done chunk are emitted.
+	if len(chunks) != 2 {
+		t.Fatalf("chunks len = %d, want 2 (text delta + done); bad tool call must be skipped", len(chunks))
+	}
+	if chunks[0].ToolCallDelta != nil {
+		t.Fatalf("chunk[0] should not carry malformed tool call, got %#v", chunks[0])
+	}
+	if chunks[0].ContentDelta != "safe" {
+		t.Fatalf("chunk[0].ContentDelta = %q, want \"safe\"", chunks[0].ContentDelta)
 	}
 	if !chunks[1].Done {
 		t.Fatal("last chunk must have Done=true")
