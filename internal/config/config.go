@@ -57,7 +57,7 @@ func (c *Config) Validate() error {
 		return fmt.Errorf("unknown llm provider: %q", c.LLM.Provider)
 	}
 	if c.LLM.Provider == "claude" && c.LLM.Claude.APIKey == "" {
-		return errors.New("claude provider requires api key (set llm.claude.apikey or GM_LLM_CLAUDE_APIKEY)")
+		return errors.New("claude provider requires api key (set llm.claude.apikey, GM_LLM_CLAUDE_APIKEY, GM_CLAUDE_API_KEY, or ANTHROPIC_API_KEY)")
 	}
 	return nil
 }
@@ -88,6 +88,21 @@ func Load(path string) (Config, error) {
 		}
 	}
 
+	// Support ANTHROPIC_API_KEY as a low-priority fallback for the Claude API key.
+	if apiKey := os.Getenv("ANTHROPIC_API_KEY"); apiKey != "" {
+		if err := k.Load(confmap.Provider(map[string]any{"llm.claude.apikey": apiKey}, "."), nil); err != nil {
+			return Config{}, err
+		}
+	}
+
+	// Support GM_CLAUDE_API_KEY as an alternative env var (overrides ANTHROPIC_API_KEY).
+	if apiKey := os.Getenv("GM_CLAUDE_API_KEY"); apiKey != "" {
+		if err := k.Load(confmap.Provider(map[string]any{"llm.claude.apikey": apiKey}, "."), nil); err != nil {
+			return Config{}, err
+		}
+	}
+
+	// GM_-prefixed env vars have the highest priority (includes GM_LLM_CLAUDE_APIKEY).
 	if err := k.Load(env.Provider("GM_", ".", func(key string) string {
 		trimmed := strings.TrimPrefix(key, "GM_")
 		return strings.ToLower(strings.ReplaceAll(trimmed, "_", "."))
