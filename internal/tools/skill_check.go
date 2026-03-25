@@ -5,8 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
-	"math/rand"
-	"time"
+	"math/rand/v2"
 
 	"github.com/google/uuid"
 
@@ -25,16 +24,14 @@ type DiceRoller interface {
 	Intn(n int) int
 }
 
-type randomRoller struct {
-	r *rand.Rand
+func newRandomRoller() DiceRoller {
+	return &randomRoller{}
 }
 
-func newRandomRoller() DiceRoller {
-	return &randomRoller{r: rand.New(rand.NewSource(time.Now().UnixNano()))}
-}
+type randomRoller struct{}
 
 func (r *randomRoller) Intn(n int) int {
-	return r.r.Intn(n)
+	return rand.IntN(n)
 }
 
 // SkillCheckTool returns the skill_check tool definition and JSON schema.
@@ -231,10 +228,11 @@ func parseIntArg(args map[string]any, key string) (int, error) {
 	case int64:
 		return int(v), nil
 	case float64:
-		if math.Trunc(v) != v {
+		rounded := math.Round(v)
+		if math.Abs(v-rounded) > 1e-9 {
 			return 0, fmt.Errorf("%s must be an integer", key)
 		}
-		return int(v), nil
+		return int(rounded), nil
 	default:
 		return 0, fmt.Errorf("%s must be an integer", key)
 	}
