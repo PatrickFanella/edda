@@ -42,12 +42,13 @@ const (
 
 // ClaudeClient implements Provider via Anthropic's Messages API.
 type ClaudeClient struct {
-	baseURL           string
-	apiKey            string
-	model             string
-	anthropicVersion  string
-	maxTokens         int
-	client            *http.Client
+	baseURL          string
+	apiKey           string
+	model            string
+	anthropicVersion string
+	maxTokens        int
+	client           *http.Client
+	streamClient     *http.Client // no Timeout; SSE streams are unbounded in duration
 }
 
 // NewClaudeClient returns a Claude-backed provider.
@@ -83,6 +84,13 @@ func NewClaudeClientWithMaxTokens(baseURL, apiKey, model string, maxTokens int) 
 		maxTokens:        normalizeClaudeMaxTokens(maxTokens),
 		client: &http.Client{
 			Timeout:   30 * time.Second,
+			Transport: transport,
+		},
+		// streamClient has no client-level timeout: SSE streams are long-lived and
+		// must not be cut off by the 30s request timeout.  Context cancellation /
+		// deadlines are the caller's mechanism for bounding stream duration.
+		streamClient: &http.Client{
+			Timeout:   0,
 			Transport: transport,
 		},
 	}
@@ -136,6 +144,14 @@ func (c *ClaudeClient) Stream(ctx context.Context, messages []Message, tools []T
 		return nil, err
 	}
 
+	if ct := resp.Header.Get("Content-Type"); !strings.HasPrefix(ct, "text/event-stream") {
+		_ = resp.Body.Close()
+		return nil, &ErrMalformedResponse{
+			URL: c.baseURL + claudeMessagesPath,
+			Err: fmt.Errorf("expected SSE stream with Content-Type %q, got %q", "text/event-stream", ct),
+		}
+	}
+
 	ch := make(chan StreamChunk)
 	go func() {
 		defer close(ch)
@@ -156,7 +172,8 @@ type claudeSSEToolUseState struct {
 // parseSSEStream reads the SSE response body and emits StreamChunk values on ch.
 // It handles content_block_delta (text and input_json), content_block_stop
 // (to emit assembled tool calls), and message_stop (to emit the final Done chunk).
-// Error events and malformed data cause the goroutine to return without a Done chunk.
+// Error events cause the goroutine to return without a Done chunk; malformed JSON
+// in individual events is skipped and the stream continues.
 func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch chan<- StreamChunk) {
 	scanner := bufio.NewScanner(body)
 	// 64 KB initial buffer; 10 MB max to handle large SSE data payloads
@@ -175,16 +192,23 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 
 		line := scanner.Text()
 
-		if strings.HasPrefix(line, "event: ") {
-			eventType = strings.TrimPrefix(line, "event: ")
+		// SSE field: "event:" with optional space after the colon.
+		if strings.HasPrefix(line, "event:") {
+			parts := strings.SplitN(line, ":", 2)
+			if len(parts) == 2 {
+				eventType = strings.TrimPrefix(parts[1], " ")
+			}
 			continue
 		}
 
-		if !strings.HasPrefix(line, "data: ") {
+		// SSE field: "data:" with optional single space after the colon.
+		if !strings.HasPrefix(line, "data:") {
 			continue
 		}
-
-		data := strings.TrimPrefix(line, "data: ")
+		data := strings.TrimPrefix(line, "data:")
+		if len(data) > 0 && data[0] == ' ' {
+			data = data[1:]
+		}
 
 		switch eventType {
 		case claudeSSEEventMessageStop:
@@ -250,7 +274,12 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 			if tu, ok := toolUseByIndex[ev.Index]; ok {
 				var args map[string]any
 				if tu.jsonBuf.Len() > 0 {
-					_ = json.Unmarshal([]byte(tu.jsonBuf.String()), &args)
+					if err := json.Unmarshal([]byte(tu.jsonBuf.String()), &args); err != nil {
+						// Malformed tool arguments JSON: skip emitting this tool call
+						// rather than forwarding nil/partial arguments to the caller.
+						delete(toolUseByIndex, ev.Index)
+						continue
+					}
 				}
 				tc := &ToolCall{
 					ID:        tu.id,
@@ -302,7 +331,11 @@ func (c *ClaudeClient) callMessages(ctx context.Context, messages []Message, too
 	req.Header.Set("x-api-key", c.apiKey)
 	req.Header.Set("anthropic-version", c.anthropicVersion)
 
-	resp, err := c.client.Do(req)
+	httpClient := c.client
+	if stream {
+		httpClient = c.streamClient
+	}
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		return nil, formatConnectionError(messagesURL, err)
 	}
