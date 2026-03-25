@@ -12,7 +12,7 @@ type InputType string
 
 const (
 	GameAction InputType = "game_action"
-	MetaAction InputType = "meta_action"
+	MetaAction InputType = "meta"
 	Narrative  InputType = "narrative"
 
 	InputTypeGameAction InputType = GameAction
