@@ -88,7 +88,8 @@ func Load(path string) (Config, error) {
 		}
 	}
 
-	// Support ANTHROPIC_API_KEY as a low-priority fallback for the Claude API key.
+	// Support ANTHROPIC_API_KEY as the lowest-priority env var for the Claude API key.
+	// Note: this is loaded after the config file, so it takes precedence over file-based config.
 	if apiKey := os.Getenv("ANTHROPIC_API_KEY"); apiKey != "" {
 		if err := k.Load(confmap.Provider(map[string]any{"llm.claude.apikey": apiKey}, "."), nil); err != nil {
 			return Config{}, err
