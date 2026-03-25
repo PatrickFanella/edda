@@ -1,6 +1,9 @@
 package llm
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 // ErrConnection indicates a provider request failure outside of timeout/rate/auth/model classes.
 // It may represent transport-level connectivity problems or generic non-2xx provider responses.
@@ -37,10 +40,14 @@ func (e *ErrTimeout) Unwrap() error { return e.Err }
 type ErrRateLimit struct {
 	URL        string
 	StatusCode int
+	RetryAfter time.Duration
 	Err        error
 }
 
 func (e *ErrRateLimit) Error() string {
+	if e.RetryAfter > 0 {
+		return fmt.Sprintf("provider rate limited request to %s (status %d, retry after %s): %v", e.URL, e.StatusCode, e.RetryAfter, e.Err)
+	}
 	return fmt.Sprintf("provider rate limited request to %s (status %d): %v", e.URL, e.StatusCode, e.Err)
 }
 
@@ -90,3 +97,16 @@ func (e *ErrModelNotFound) Error() string {
 }
 
 func (e *ErrModelNotFound) Unwrap() error { return e.Err }
+
+// ErrTransient indicates a temporary provider-side failure that may succeed on retry.
+type ErrTransient struct {
+	URL        string
+	StatusCode int
+	Err        error
+}
+
+func (e *ErrTransient) Error() string {
+	return fmt.Sprintf("provider transient failure for %s (status %d): %v", e.URL, e.StatusCode, e.Err)
+}
+
+func (e *ErrTransient) Unwrap() error { return e.Err }

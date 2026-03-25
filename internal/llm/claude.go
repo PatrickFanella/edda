@@ -10,6 +10,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -342,7 +343,7 @@ func (c *ClaudeClient) callMessages(ctx context.Context, messages []Message, too
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		defer func() { _ = resp.Body.Close() }()
 		respBody, _ := io.ReadAll(io.LimitReader(resp.Body, 4096))
-		return nil, classifyClaudeHTTPError(messagesURL, c.model, resp.StatusCode, strings.TrimSpace(string(respBody)))
+		return nil, classifyClaudeHTTPError(messagesURL, c.model, resp.StatusCode, strings.TrimSpace(string(respBody)), resp.Header.Get("Retry-After"))
 	}
 	return resp, nil
 }
@@ -354,8 +355,8 @@ func (c *ClaudeClient) messagesURL() (string, error) {
 	return c.baseURL + claudeMessagesPath, nil
 }
 
-func classifyClaudeHTTPError(endpoint, model string, statusCode int, body string) error {
-	baseErr := fmt.Errorf("claude messages request failed with status %d: %s", statusCode, body)
+func classifyClaudeHTTPError(endpoint, model string, statusCode int, body, retryAfter string) error {
+	baseErr := claudeAPIError(body, statusCode)
 
 	switch statusCode {
 	case http.StatusUnauthorized, http.StatusForbidden:
@@ -366,6 +367,18 @@ func classifyClaudeHTTPError(endpoint, model string, statusCode int, body string
 		}
 	case http.StatusTooManyRequests:
 		return &ErrRateLimit{
+			URL:        endpoint,
+			StatusCode: statusCode,
+			RetryAfter: parseRetryAfter(retryAfter),
+			Err:        baseErr,
+		}
+	case http.StatusBadRequest:
+		return &ErrMalformedResponse{
+			URL: endpoint,
+			Err: baseErr,
+		}
+	case http.StatusInternalServerError, 529:
+		return &ErrTransient{
 			URL:        endpoint,
 			StatusCode: statusCode,
 			Err:        baseErr,
@@ -389,6 +402,39 @@ func classifyClaudeHTTPError(endpoint, model string, statusCode int, body string
 			Err: baseErr,
 		}
 	}
+}
+
+func claudeAPIError(body string, statusCode int) error {
+	var apiErr struct {
+		Type  string `json:"type"`
+		Error struct {
+			Type    string `json:"type"`
+			Message string `json:"message"`
+		} `json:"error"`
+	}
+	if err := json.Unmarshal([]byte(body), &apiErr); err == nil {
+		if apiErr.Error.Type != "" || apiErr.Error.Message != "" {
+			return fmt.Errorf("claude %s: %s (status %d)", apiErr.Error.Type, apiErr.Error.Message, statusCode)
+		}
+	}
+	return fmt.Errorf("claude error: %s (status %d)", body, statusCode)
+}
+
+func parseRetryAfter(value string) time.Duration {
+	value = strings.TrimSpace(value)
+	if value == "" {
+		return 0
+	}
+	if seconds, err := strconv.Atoi(value); err == nil && seconds > 0 {
+		return time.Duration(seconds) * time.Second
+	}
+	if t, err := http.ParseTime(value); err == nil {
+		d := time.Until(t)
+		if d > 0 {
+			return d
+		}
+	}
+	return 0
 }
 
 type claudeMessagesRequest struct {
