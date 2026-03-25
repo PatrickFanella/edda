@@ -95,6 +95,12 @@ func (c *Combatant) Validate() error {
 	if c.MaxHP <= 0 {
 		return errors.New("combatant max_hp must be greater than zero")
 	}
+	if c.HP < 0 {
+		return errors.New("combatant hp cannot be negative")
+	}
+	if c.HP > c.MaxHP {
+		return errors.New("combatant hp cannot exceed max_hp")
+	}
 	return nil
 }
 
@@ -117,7 +123,7 @@ type CombatState struct {
 	CampaignID uuid.UUID
 	// Combatants lists all participants and their current stats.
 	Combatants []Combatant
-	// RoundNumber is the current round (starts at 1).
+	// RoundNumber is the current round (0 before the first round, then starts at 1).
 	RoundNumber int
 	// ActiveEffects holds persistent effects that span multiple rounds
 	// (e.g. area-of-effect spells, environmental hazards).
@@ -142,8 +148,18 @@ func (cs *CombatState) Validate() error {
 	if len(cs.Combatants) == 0 {
 		return errors.New("combat state must have at least one combatant")
 	}
+	for i := range cs.Combatants {
+		if err := cs.Combatants[i].Validate(); err != nil {
+			return err
+		}
+	}
 	if cs.RoundNumber < 0 {
 		return errors.New("combat state round_number cannot be negative")
+	}
+	switch cs.Status {
+	case CombatStatusActive, CombatStatusCompleted, CombatStatusFled:
+	default:
+		return errors.New("invalid combat state status")
 	}
 	return nil
 }
@@ -245,8 +261,8 @@ type LootEntry struct {
 
 // CombatOutcome describes the final result of a combat encounter.
 type CombatOutcome struct {
-	// Winner optionally identifies the winning combatant or faction. Nil
-	// indicates a draw or inconclusive result (e.g. both sides fled).
+	// Winner optionally identifies the winning combatant. Nil indicates a
+	// draw or inconclusive result (e.g. both sides fled).
 	Winner *uuid.UUID
 	// Casualties lists the entity IDs of combatants who were defeated.
 	Casualties []uuid.UUID
