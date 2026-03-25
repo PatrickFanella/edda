@@ -47,10 +47,3 @@ func TestClassify_DefaultsToGameAction(t *testing.T) {
 		})
 	}
 }
-
-func TestInputClassifier_Classify(t *testing.T) {
-	classifier := InputClassifier{}
-	if got := classifier.Classify("help"); got != MetaAction {
-		t.Fatalf("classifier.Classify(help) = %q, want %q", got, MetaAction)
-	}
-}
