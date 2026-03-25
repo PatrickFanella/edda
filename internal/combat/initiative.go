@@ -121,12 +121,17 @@ func startNextRoundWithRoller(combatState *CombatState, roller initiativeRoller)
 		return fmt.Errorf("initiative roller is required")
 	}
 
-	combatState.RoundNumber++
-	combatState.SurpriseRoundActive = combatState.RoundNumber == 1 && hasSurprisedCombatant(combatState.Combatants)
+	nextRound := combatState.RoundNumber + 1
+	nextSurpriseRoundActive := nextRound == 1 && hasSurprisedCombatant(combatState.Combatants)
 
-	if combatState.RoundNumber == 1 || combatState.InitiativeRerollEachRound {
-		return rollInitiativeWithRoller(combatState, roller)
+	if nextRound == 1 || combatState.InitiativeRerollEachRound {
+		if err := rollInitiativeWithRoller(combatState, roller); err != nil {
+			return err
+		}
 	}
+
+	combatState.RoundNumber = nextRound
+	combatState.SurpriseRoundActive = nextSurpriseRoundActive
 
 	return nil
 }
@@ -138,12 +143,32 @@ func CombatantsForCurrentRound(combatState *CombatState) []Combatant {
 		return nil
 	}
 
-	combatants := make([]Combatant, 0, len(combatState.Combatants))
+	combatantByID := make(map[uuid.UUID]Combatant, len(combatState.Combatants))
 	for i := range combatState.Combatants {
-		if combatState.SurpriseRoundActive && combatState.Combatants[i].Surprised {
+		combatantByID[combatState.Combatants[i].EntityID] = combatState.Combatants[i]
+	}
+
+	if len(combatState.InitiativeOrder) == 0 {
+		combatants := make([]Combatant, 0, len(combatState.Combatants))
+		for i := range combatState.Combatants {
+			if combatState.SurpriseRoundActive && combatState.Combatants[i].Surprised {
+				continue
+			}
+			combatants = append(combatants, combatState.Combatants[i])
+		}
+		return combatants
+	}
+
+	combatants := make([]Combatant, 0, len(combatState.InitiativeOrder))
+	for i := range combatState.InitiativeOrder {
+		combatant, ok := combatantByID[combatState.InitiativeOrder[i]]
+		if !ok {
 			continue
 		}
-		combatants = append(combatants, combatState.Combatants[i])
+		if combatState.SurpriseRoundActive && combatant.Surprised {
+			continue
+		}
+		combatants = append(combatants, combatant)
 	}
 
 	return combatants
@@ -160,6 +185,13 @@ func hasSurprisedCombatant(combatants []Combatant) bool {
 }
 
 func sortCombatantsByInitiative(combatants []Combatant, roller initiativeRoller) {
+	// Combatants are expected to have unique EntityID values within an encounter.
+	// This matches CombatState identity semantics and allows keyed caches.
+	dexterityByID := make(map[uuid.UUID]int, len(combatants))
+	for i := range combatants {
+		dexterityByID[combatants[i].EntityID] = dexterityStat(combatants[i])
+	}
+
 	randomTieBreak := make(map[uuid.UUID]int, len(combatants))
 	for i := range combatants {
 		// Use a large range to reduce accidental collisions while staying
@@ -172,8 +204,8 @@ func sortCombatantsByInitiative(combatants []Combatant, roller initiativeRoller)
 			return combatants[i].Initiative > combatants[j].Initiative
 		}
 
-		dexI := dexterityStat(combatants[i])
-		dexJ := dexterityStat(combatants[j])
+		dexI := dexterityByID[combatants[i].EntityID]
+		dexJ := dexterityByID[combatants[j].EntityID]
 		if dexI != dexJ {
 			return dexI > dexJ
 		}
