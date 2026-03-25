@@ -386,6 +386,9 @@ func TestClaudeClientCompleteErrorClassificationHTTPStatus(t *testing.T) {
 				if e.StatusCode != tt.status || e.URL != server.URL+claudeMessagesPath {
 					t.Fatalf("rate limit error = %#v, want status=%d url=%q", e, tt.status, server.URL+claudeMessagesPath)
 				}
+				if !e.HasRetryAfter {
+					t.Fatal("expected rate limit error to include Retry-After metadata")
+				}
 				if e.RetryAfter != 3*time.Second {
 					t.Fatalf("retry after = %s, want %s", e.RetryAfter, 3*time.Second)
 				}
@@ -490,6 +493,72 @@ func TestClaudeClientCompleteNetworkAndTimeoutErrorClassification(t *testing.T) 
 				t.Fatalf("unsupported expected error type %T", tt.wantErr)
 			}
 		})
+	}
+}
+
+func TestClaudeClientCompleteRateLimitRetryAfterZero(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Retry-After", "0")
+		w.WriteHeader(http.StatusTooManyRequests)
+		_, _ = w.Write([]byte(`{"type":"error","error":{"type":"rate_limit_error","message":"too many requests"}}`))
+	}))
+	defer server.Close()
+
+	client := NewClaudeClient(server.URL, "sk-ant-test", "claude-test")
+	_, err := client.Complete(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil)
+	if err == nil {
+		t.Fatal("expected rate limit error")
+	}
+
+	var rl *ErrRateLimit
+	if !errors.As(err, &rl) {
+		t.Fatalf("error type = %T, want *ErrRateLimit (error=%v)", err, err)
+	}
+	if !rl.HasRetryAfter {
+		t.Fatal("expected HasRetryAfter true when Retry-After header is 0")
+	}
+	if rl.RetryAfter != 0 {
+		t.Fatalf("retry after = %s, want 0s", rl.RetryAfter)
+	}
+	if !strings.Contains(rl.Error(), "retry after 0s") {
+		t.Fatalf("error = %q, want retry-after text for zero delay", rl.Error())
+	}
+}
+
+func TestClaudeClientCompleteRateLimitRetryAfterPastDate(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Retry-After", "Sun, 06 Nov 1994 08:49:37 GMT")
+		w.WriteHeader(http.StatusTooManyRequests)
+		_, _ = w.Write([]byte(`{"type":"error","error":{"type":"rate_limit_error","message":"too many requests"}}`))
+	}))
+	defer server.Close()
+
+	client := NewClaudeClient(server.URL, "sk-ant-test", "claude-test")
+	_, err := client.Complete(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil)
+	if err == nil {
+		t.Fatal("expected rate limit error")
+	}
+
+	var rl *ErrRateLimit
+	if !errors.As(err, &rl) {
+		t.Fatalf("error type = %T, want *ErrRateLimit (error=%v)", err, err)
+	}
+	if !rl.HasRetryAfter {
+		t.Fatal("expected HasRetryAfter true when Retry-After header exists, even for past date")
+	}
+	if rl.RetryAfter != 0 {
+		t.Fatalf("retry after = %s, want 0s for past date", rl.RetryAfter)
+	}
+}
+
+func TestClaudeAPIErrorSanitizesRawBody(t *testing.T) {
+	body := "line1\r\nline2"
+	err := claudeAPIError(body, http.StatusBadGateway)
+	if got := err.Error(); strings.Contains(got, "\n") || strings.Contains(got, "\r") {
+		t.Fatalf("error contains control characters: %q", got)
+	}
+	if got := err.Error(); !strings.Contains(got, "line1 line2") {
+		t.Fatalf("error = %q, want sanitized body text", got)
 	}
 }
 

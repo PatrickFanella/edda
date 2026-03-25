@@ -366,11 +366,13 @@ func classifyClaudeHTTPError(endpoint, model string, statusCode int, body, retry
 			Err:        baseErr,
 		}
 	case http.StatusTooManyRequests:
+		retryAfterDur, hasRetryAfter := parseRetryAfter(retryAfter)
 		return &ErrRateLimit{
-			URL:        endpoint,
-			StatusCode: statusCode,
-			RetryAfter: parseRetryAfter(retryAfter),
-			Err:        baseErr,
+			URL:           endpoint,
+			StatusCode:    statusCode,
+			RetryAfter:    retryAfterDur,
+			HasRetryAfter: hasRetryAfter,
+			Err:           baseErr,
 		}
 	case http.StatusBadRequest:
 		return &ErrMalformedResponse{
@@ -405,6 +407,8 @@ func classifyClaudeHTTPError(endpoint, model string, statusCode int, body, retry
 }
 
 func claudeAPIError(body string, statusCode int) error {
+	body = sanitizeClaudeErrorBody(body)
+
 	var apiErr struct {
 		Type  string `json:"type"`
 		Error struct {
@@ -413,28 +417,49 @@ func claudeAPIError(body string, statusCode int) error {
 		} `json:"error"`
 	}
 	if err := json.Unmarshal([]byte(body), &apiErr); err == nil {
-		if apiErr.Error.Type != "" || apiErr.Error.Message != "" {
-			return fmt.Errorf("claude %s: %s (status %d)", apiErr.Error.Type, apiErr.Error.Message, statusCode)
+		if apiErr.Error.Type != "" && apiErr.Error.Message != "" {
+			return fmt.Errorf("claude %s: %s", apiErr.Error.Type, apiErr.Error.Message)
+		}
+		if apiErr.Error.Message != "" {
+			return fmt.Errorf("claude error: %s", apiErr.Error.Message)
+		}
+		if apiErr.Error.Type != "" {
+			return fmt.Errorf("claude %s error", apiErr.Error.Type)
 		}
 	}
 	return fmt.Errorf("claude error: %s (status %d)", body, statusCode)
 }
 
-func parseRetryAfter(value string) time.Duration {
+func parseRetryAfter(value string) (time.Duration, bool) {
 	value = strings.TrimSpace(value)
 	if value == "" {
-		return 0
+		return 0, false
 	}
-	if seconds, err := strconv.Atoi(value); err == nil && seconds > 0 {
-		return time.Duration(seconds) * time.Second
+	if seconds, err := strconv.Atoi(value); err == nil {
+		if seconds < 0 {
+			return 0, false
+		}
+		return time.Duration(seconds) * time.Second, true
 	}
 	if t, err := http.ParseTime(value); err == nil {
 		d := time.Until(t)
 		if d > 0 {
-			return d
+			return d, true
 		}
+		return 0, true
 	}
-	return 0
+	return 0, false
+}
+
+func sanitizeClaudeErrorBody(body string) string {
+	const maxLen = 1024
+	body = strings.ReplaceAll(body, "\r", " ")
+	body = strings.ReplaceAll(body, "\n", " ")
+	body = strings.Join(strings.Fields(body), " ")
+	if len(body) > maxLen {
+		return body[:maxLen] + "…"
+	}
+	return body
 }
 
 type claudeMessagesRequest struct {
