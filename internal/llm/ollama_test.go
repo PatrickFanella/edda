@@ -713,7 +713,7 @@ func TestOllamaClientStreamFixtureResponses(t *testing.T) {
 	}
 }
 
-// loadFixture reads a JSON fixture file from testdata/.
+// loadFixture reads a fixture file from testdata/.
 func loadFixture(t *testing.T, name string) []byte {
 	t.Helper()
 	data, err := os.ReadFile(filepath.Join("testdata", name))
