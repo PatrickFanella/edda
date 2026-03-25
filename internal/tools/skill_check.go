@@ -13,6 +13,7 @@ import (
 )
 
 const skillCheckToolName = "skill_check"
+const floatIntegerTolerance = 1e-9
 
 // StatModifierResolver resolves a character's modifier for a given skill/stat.
 type StatModifierResolver interface {
@@ -229,7 +230,7 @@ func parseIntArg(args map[string]any, key string) (int, error) {
 		return int(v), nil
 	case float64:
 		rounded := math.Round(v)
-		if math.Abs(v-rounded) > 1e-9 {
+		if math.Abs(v-rounded) > floatIntegerTolerance {
 			return 0, fmt.Errorf("%s must be an integer", key)
 		}
 		return int(rounded), nil
