@@ -131,6 +131,15 @@ func (f *fixedInitiativeRoller) Intn(n int) int {
 	return v
 }
 
+func baseCombatState(combatants ...Combatant) *CombatState {
+	return &CombatState{
+		ID:         uuid.New(),
+		CampaignID: uuid.New(),
+		Combatants: combatants,
+		Status:     CombatStatusActive,
+	}
+}
+
 func TestRollInitiativeSortsByInitiativeDescending(t *testing.T) {
 	stats12, _ := json.Marshal(map[string]int{"dexterity": 12})
 	stats14, _ := json.Marshal(map[string]int{"dexterity": 14})
@@ -170,17 +179,12 @@ func TestRollInitiativeTieBreakByDexterityThenRandom(t *testing.T) {
 	tieA := Combatant{EntityID: uuid.New(), EntityType: CombatantTypeNPC, Name: "TieA", HP: 10, MaxHP: 10, Stats: stats10}
 	tieB := Combatant{EntityID: uuid.New(), EntityType: CombatantTypeNPC, Name: "TieB", HP: 10, MaxHP: 10, Stats: stats10}
 
-	state := &CombatState{
-		ID:         uuid.New(),
-		CampaignID: uuid.New(),
-		Combatants: []Combatant{tieA, lowDex, highDex, tieB},
-		Status:     CombatStatusActive,
-	}
+	state := baseCombatState(tieA, lowDex, highDex, tieB)
 
-	// Everyone rolls 10. highDex wins first tie-break by dexterity.
+	// lowDex and highDex both end up at initiative 11 but highDex wins by dexterity.
 	// tieB gets higher random tie-break than tieA.
 	roller := &fixedInitiativeRoller{
-		rolls: []int{10, 10, 10, 10},
+		rolls: []int{10, 10, 9, 10},
 		ties:  []int{100, 200, 300, 400},
 	}
 	if err := rollInitiativeWithRoller(state, roller); err != nil {
@@ -200,13 +204,9 @@ func TestCombatantsForCurrentRoundSkipsSurprisedDuringSurpriseRound(t *testing.T
 	ready := Combatant{EntityID: uuid.New(), EntityType: CombatantTypePlayer, Name: "Ready", HP: 10, MaxHP: 10}
 	surprised := Combatant{EntityID: uuid.New(), EntityType: CombatantTypeNPC, Name: "Surprised", HP: 10, MaxHP: 10, Surprised: true}
 
-	state := &CombatState{
-		ID:                  uuid.New(),
-		CampaignID:          uuid.New(),
-		Combatants:          []Combatant{ready, surprised},
-		SurpriseRoundActive: true,
-		Status:              CombatStatusActive,
-	}
+	state := baseCombatState(ready, surprised)
+	state.SurpriseRoundActive = true
+	state.InitiativeOrder = []uuid.UUID{surprised.EntityID, ready.EntityID}
 
 	roundCombatants := CombatantsForCurrentRound(state)
 	if len(roundCombatants) != 1 {
@@ -220,6 +220,56 @@ func TestCombatantsForCurrentRoundSkipsSurprisedDuringSurpriseRound(t *testing.T
 	roundCombatants = CombatantsForCurrentRound(state)
 	if len(roundCombatants) != 2 {
 		t.Fatalf("combatants after surprise round = %d, want 2", len(roundCombatants))
+	}
+	if roundCombatants[0].EntityID != surprised.EntityID || roundCombatants[1].EntityID != ready.EntityID {
+		t.Fatalf("combatants not returned in initiative order: got [%s %s]", roundCombatants[0].Name, roundCombatants[1].Name)
+	}
+}
+
+func TestCombatantsForCurrentRoundFallbackWithoutInitiativeOrder(t *testing.T) {
+	a := Combatant{EntityID: uuid.New(), EntityType: CombatantTypePlayer, Name: "A", HP: 10, MaxHP: 10}
+	b := Combatant{EntityID: uuid.New(), EntityType: CombatantTypeNPC, Name: "B", HP: 10, MaxHP: 10}
+	state := baseCombatState(a, b)
+
+	roundCombatants := CombatantsForCurrentRound(state)
+	if len(roundCombatants) != 2 {
+		t.Fatalf("fallback combatants = %d, want 2", len(roundCombatants))
+	}
+	if roundCombatants[0].EntityID != a.EntityID || roundCombatants[1].EntityID != b.EntityID {
+		t.Fatalf("fallback order mismatch: got [%s %s]", roundCombatants[0].Name, roundCombatants[1].Name)
+	}
+}
+
+func TestStartNextRoundDoesNotMutateStateOnRollError(t *testing.T) {
+	state := &CombatState{
+		ID:         uuid.New(),
+		CampaignID: uuid.New(),
+		Status:     CombatStatusActive,
+	}
+
+	beforeRound := state.RoundNumber
+	beforeSurprise := state.SurpriseRoundActive
+	if err := startNextRoundWithRoller(state, &fixedInitiativeRoller{}); err == nil {
+		t.Fatal("expected error when no combatants are present")
+	}
+	if state.RoundNumber != beforeRound {
+		t.Fatalf("round number mutated on error: got %d want %d", state.RoundNumber, beforeRound)
+	}
+	if state.SurpriseRoundActive != beforeSurprise {
+		t.Fatalf("surprise round flag mutated on error: got %v want %v", state.SurpriseRoundActive, beforeSurprise)
+	}
+}
+
+func TestSortCombatantsByInitiativeHandlesInvalidDexterityStats(t *testing.T) {
+	invalidStats := json.RawMessage(`{`)
+	a := Combatant{EntityID: uuid.New(), Name: "A", Initiative: 10, Stats: invalidStats}
+	b := Combatant{EntityID: uuid.New(), Name: "B", Initiative: 10, Stats: invalidStats}
+	combatants := []Combatant{a, b}
+
+	sortCombatantsByInitiative(combatants, &fixedInitiativeRoller{ties: []int{0, 1}})
+
+	if combatants[0].EntityID != b.EntityID {
+		t.Fatalf("expected random tie-break ordering with invalid dexterity stats")
 	}
 }
 
