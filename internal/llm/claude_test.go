@@ -4,11 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"reflect"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestNewClaudeClientDefaults(t *testing.T) {
@@ -334,20 +337,27 @@ func TestClaudeClientCompleteErrorClassificationHTTPStatus(t *testing.T) {
 		name         string
 		status       int
 		body         string
+		retryAfter   string
 		wantErr      any
 		wantContains string
 	}{
-		{name: "auth unauthorized", status: http.StatusUnauthorized, body: "invalid auth token", wantErr: &ErrAuth{}, wantContains: "status 401"},
-		{name: "auth forbidden", status: http.StatusForbidden, body: "forbidden", wantErr: &ErrAuth{}, wantContains: "status 403"},
-		{name: "rate limit", status: http.StatusTooManyRequests, body: "too many requests", wantErr: &ErrRateLimit{}, wantContains: "status 429"},
+		{name: "auth unauthorized", status: http.StatusUnauthorized, body: `{"type":"error","error":{"type":"authentication_error","message":"invalid auth token"}}`, wantErr: &ErrAuth{}, wantContains: "claude authentication_error: invalid auth token"},
+		{name: "auth forbidden", status: http.StatusForbidden, body: `{"type":"error","error":{"type":"permission_error","message":"forbidden"}}`, wantErr: &ErrAuth{}, wantContains: "claude permission_error: forbidden"},
+		{name: "rate limit", status: http.StatusTooManyRequests, retryAfter: "3", body: `{"type":"error","error":{"type":"rate_limit_error","message":"too many requests"}}`, wantErr: &ErrRateLimit{}, wantContains: "claude rate_limit_error: too many requests"},
+		{name: "bad request malformed", status: http.StatusBadRequest, body: `{"type":"error","error":{"type":"invalid_request_error","message":"request body invalid"}}`, wantErr: &ErrMalformedResponse{}, wantContains: "claude invalid_request_error: request body invalid"},
+		{name: "transient internal error", status: http.StatusInternalServerError, body: `{"type":"error","error":{"type":"api_error","message":"internal error"}}`, wantErr: &ErrTransient{}, wantContains: "claude api_error: internal error"},
+		{name: "transient overloaded", status: 529, body: `{"type":"error","error":{"type":"overloaded_error","message":"temporarily overloaded"}}`, wantErr: &ErrTransient{}, wantContains: "claude overloaded_error: temporarily overloaded"},
 		{name: "model not found", status: http.StatusNotFound, body: "model 'claude-test' not found", wantErr: &ErrModelNotFound{}, wantContains: "claude-test"},
-		{name: "generic non-2xx", status: http.StatusInternalServerError, body: "internal error", wantErr: &ErrConnection{}, wantContains: "status 500"},
+		{name: "generic non-2xx", status: http.StatusNotImplemented, body: "other provider issue", wantErr: &ErrConnection{}, wantContains: "status 501"},
 	}
 
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if tt.retryAfter != "" {
+					w.Header().Set("Retry-After", tt.retryAfter)
+				}
 				w.WriteHeader(tt.status)
 				_, _ = w.Write([]byte(tt.body))
 			}))
@@ -376,6 +386,25 @@ func TestClaudeClientCompleteErrorClassificationHTTPStatus(t *testing.T) {
 				if e.StatusCode != tt.status || e.URL != server.URL+claudeMessagesPath {
 					t.Fatalf("rate limit error = %#v, want status=%d url=%q", e, tt.status, server.URL+claudeMessagesPath)
 				}
+				if e.RetryAfter != 3*time.Second {
+					t.Fatalf("retry after = %s, want %s", e.RetryAfter, 3*time.Second)
+				}
+			case *ErrMalformedResponse:
+				var e *ErrMalformedResponse
+				if !errors.As(err, &e) {
+					t.Fatalf("error type = %T, want *ErrMalformedResponse (error=%v)", err, err)
+				}
+				if e.URL != server.URL+claudeMessagesPath {
+					t.Fatalf("malformed response URL = %q, want %q", e.URL, server.URL+claudeMessagesPath)
+				}
+			case *ErrTransient:
+				var e *ErrTransient
+				if !errors.As(err, &e) {
+					t.Fatalf("error type = %T, want *ErrTransient (error=%v)", err, err)
+				}
+				if e.StatusCode != tt.status || e.URL != server.URL+claudeMessagesPath {
+					t.Fatalf("transient error = %#v, want status=%d url=%q", e, tt.status, server.URL+claudeMessagesPath)
+				}
 			case *ErrModelNotFound:
 				var e *ErrModelNotFound
 				if !errors.As(err, &e) {
@@ -398,6 +427,67 @@ func TestClaudeClientCompleteErrorClassificationHTTPStatus(t *testing.T) {
 
 			if !strings.Contains(err.Error(), tt.wantContains) {
 				t.Fatalf("error = %q, want to contain %q", err.Error(), tt.wantContains)
+			}
+		})
+	}
+}
+
+type roundTripFunc func(*http.Request) (*http.Response, error)
+
+func (fn roundTripFunc) RoundTrip(req *http.Request) (*http.Response, error) {
+	return fn(req)
+}
+
+func TestClaudeClientCompleteNetworkAndTimeoutErrorClassification(t *testing.T) {
+	tests := []struct {
+		name    string
+		err     error
+		wantErr any
+	}{
+		{
+			name:    "timeout to err timeout",
+			err:     context.DeadlineExceeded,
+			wantErr: &ErrTimeout{},
+		},
+		{
+			name: "network to err connection",
+			err: &url.Error{
+				Op:  "Post",
+				URL: "http://example.invalid/v1/messages",
+				Err: fmt.Errorf("dial tcp: connection refused"),
+			},
+			wantErr: &ErrConnection{},
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			client := NewClaudeClient("http://example.invalid", "sk-ant-test", "claude-test")
+			client.client = &http.Client{
+				Transport: roundTripFunc(func(*http.Request) (*http.Response, error) {
+					return nil, tt.err
+				}),
+			}
+
+			_, err := client.Complete(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil)
+			if err == nil {
+				t.Fatal("expected error")
+			}
+
+			switch tt.wantErr.(type) {
+			case *ErrTimeout:
+				var e *ErrTimeout
+				if !errors.As(err, &e) {
+					t.Fatalf("error type = %T, want *ErrTimeout (error=%v)", err, err)
+				}
+			case *ErrConnection:
+				var e *ErrConnection
+				if !errors.As(err, &e) {
+					t.Fatalf("error type = %T, want *ErrConnection (error=%v)", err, err)
+				}
+			default:
+				t.Fatalf("unsupported expected error type %T", tt.wantErr)
 			}
 		})
 	}
