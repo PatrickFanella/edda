@@ -261,7 +261,7 @@ func toClaudeMessages(messages []Message) ([]claudeMessage, string, error) {
 			})
 		case RoleAssistant:
 			content := make([]claudeContentBlock, 0, 1+len(msg.ToolCalls))
-			if msg.Content != "" || len(msg.ToolCalls) == 0 {
+			if msg.Content != "" {
 				content = append(content, claudeContentBlock{Type: claudeContentTypeText, Text: msg.Content})
 			}
 			for _, toolCall := range msg.ToolCalls {
@@ -271,6 +271,9 @@ func toClaudeMessages(messages []Message) ([]claudeMessage, string, error) {
 					Name:  toolCall.Name,
 					Input: toolCall.Arguments,
 				})
+			}
+			if len(content) == 0 {
+				return nil, "", fmt.Errorf("assistant message must include content or tool calls")
 			}
 			out = append(out, claudeMessage{Role: claudeRoleAssistant, Content: content})
 		case RoleTool:
