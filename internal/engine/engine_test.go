@@ -123,38 +123,101 @@ func TestGameState_FieldsAccessible(t *testing.T) {
 	}
 }
 
-func TestMockEngine_SatisfiesInterface(t *testing.T) {
-	var eng GameEngine = &mockEngine{}
+func TestTurnResult_JSONRoundTrip(t *testing.T) {
+	tr := &TurnResult{
+		Narrative: "The door creaks open.",
+		AppliedToolCalls: []AppliedToolCall{
+			{
+				Tool:      "skill_check",
+				Arguments: json.RawMessage(`{"skill":"perception","dc":15}`),
+				Result:    json.RawMessage(`{"success":true}`),
+			},
+		},
+		Choices: []Choice{
+			{ID: "enter", Text: "Enter the room"},
+		},
+		StateChanges: []StateChange{
+			{
+				Entity:   "location",
+				EntityID: uuid.New(),
+				Field:    "visited",
+				OldValue: json.RawMessage(`false`),
+				NewValue: json.RawMessage(`true`),
+			},
+		},
+	}
 
-	ctx := context.Background()
-	cID := uuid.New()
-	uID := uuid.New()
-
-	tr, err := eng.ProcessTurn(ctx, cID, "look around")
+	data, err := json.Marshal(tr)
 	if err != nil {
-		t.Fatalf("ProcessTurn: %v", err)
-	}
-	if tr == nil {
-		t.Fatal("ProcessTurn returned nil TurnResult")
+		t.Fatalf("failed to marshal TurnResult: %v", err)
 	}
 
-	gs, err := eng.GetGameState(ctx, cID)
+	var got TurnResult
+	if err := json.Unmarshal(data, &got); err != nil {
+		t.Fatalf("failed to unmarshal TurnResult: %v", err)
+	}
+
+	if got.Narrative != tr.Narrative {
+		t.Errorf("narrative mismatch: got %q, want %q", got.Narrative, tr.Narrative)
+	}
+	if len(got.AppliedToolCalls) != 1 {
+		t.Fatalf("expected 1 tool call, got %d", len(got.AppliedToolCalls))
+	}
+	if got.AppliedToolCalls[0].Tool != "skill_check" {
+		t.Errorf("tool name mismatch: got %q", got.AppliedToolCalls[0].Tool)
+	}
+	if len(got.Choices) != 1 {
+		t.Fatalf("expected 1 choice, got %d", len(got.Choices))
+	}
+	if len(got.StateChanges) != 1 {
+		t.Fatalf("expected 1 state change, got %d", len(got.StateChanges))
+	}
+}
+
+func TestGameState_JSONRoundTrip(t *testing.T) {
+	gs := &GameState{
+		CurrentLocation: domain.Location{
+			ID:   uuid.New(),
+			Name: "Dark Cave",
+		},
+		PlayerCharacter: domain.PlayerCharacter{
+			ID:   uuid.New(),
+			Name: "Elara",
+		},
+		NPCsPresent: []domain.NPC{
+			{ID: uuid.New(), Name: "Goblin Scout", Alive: true},
+		},
+		ActiveQuests: []domain.Quest{
+			{ID: uuid.New(), Title: "Find the Lost Amulet", Status: domain.QuestStatusActive},
+		},
+	}
+
+	data, err := json.Marshal(gs)
 	if err != nil {
-		t.Fatalf("GetGameState: %v", err)
-	}
-	if gs == nil {
-		t.Fatal("GetGameState returned nil GameState")
+		t.Fatalf("failed to marshal GameState: %v", err)
 	}
 
-	c, err := eng.NewCampaign(ctx, uID)
-	if err != nil {
-		t.Fatalf("NewCampaign: %v", err)
-	}
-	if c == nil {
-		t.Fatal("NewCampaign returned nil Campaign")
+	var got GameState
+	if err := json.Unmarshal(data, &got); err != nil {
+		t.Fatalf("failed to unmarshal GameState: %v", err)
 	}
 
-	if err := eng.LoadCampaign(ctx, cID); err != nil {
-		t.Fatalf("LoadCampaign: %v", err)
+	if got.CurrentLocation.Name != "Dark Cave" {
+		t.Errorf("location name mismatch: got %q", got.CurrentLocation.Name)
+	}
+	if got.PlayerCharacter.Name != "Elara" {
+		t.Errorf("player character name mismatch: got %q", got.PlayerCharacter.Name)
+	}
+	if len(got.NPCsPresent) != 1 {
+		t.Fatalf("expected 1 NPC, got %d", len(got.NPCsPresent))
+	}
+	if got.NPCsPresent[0].Name != "Goblin Scout" {
+		t.Errorf("NPC name mismatch: got %q", got.NPCsPresent[0].Name)
+	}
+	if len(got.ActiveQuests) != 1 {
+		t.Fatalf("expected 1 quest, got %d", len(got.ActiveQuests))
+	}
+	if got.ActiveQuests[0].Title != "Find the Lost Amulet" {
+		t.Errorf("quest title mismatch: got %q", got.ActiveQuests[0].Title)
 	}
 }

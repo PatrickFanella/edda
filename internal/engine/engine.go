@@ -14,21 +14,45 @@ import (
 
 // GameEngine is the primary interface consumed by the TUI and API server.
 // It orchestrates turn processing, campaign management, and state queries.
+//
+// All operations are keyed by campaignID; the engine must behave correctly
+// even if LoadCampaign has never been called for that ID. Implementations
+// may use LoadCampaign as an optional optimization (for example, to warm
+// caches or load campaign data into memory), but callers are not required
+// to invoke it before calling ProcessTurn or GetGameState.
+//
+// For all methods that accept a campaignID, implementations should return a
+// suitable error (e.g. "campaign not found") if the referenced campaign does
+// not exist.
 type GameEngine interface {
-	// ProcessTurn processes the player's input for the given campaign,
+	// ProcessTurn processes the player's input for the given campaignID,
 	// returning a TurnResult that contains the narrative response,
 	// any tool calls that were applied, suggested choices, and state
 	// changes.
+	//
+	// Callers do not need to call LoadCampaign before ProcessTurn; if the
+	// campaign has not been explicitly loaded, the implementation must still
+	// either load it as needed or return an appropriate error.
 	ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerInput string) (*TurnResult, error)
 
-	// GetGameState returns the current state of the specified campaign.
+	// GetGameState returns the current state of the specified campaignID.
+	//
+	// Callers do not need to call LoadCampaign before GetGameState; if the
+	// campaign has not been explicitly loaded, the implementation must still
+	// either load it as needed or return an appropriate error.
 	GetGameState(ctx context.Context, campaignID uuid.UUID) (*GameState, error)
 
 	// NewCampaign creates a new campaign owned by the given user.
 	NewCampaign(ctx context.Context, userID uuid.UUID) (*domain.Campaign, error)
 
-	// LoadCampaign loads an existing campaign into the engine so that
-	// subsequent calls to ProcessTurn and GetGameState can operate on it.
+	// LoadCampaign is an optional optimization that allows the engine to
+	// pre-load or cache data for an existing campaign. After a successful
+	// call, subsequent ProcessTurn and GetGameState invocations for the same
+	// campaignID may perform better, but callers are not required to invoke
+	// LoadCampaign before using those methods.
+	//
+	// Implementations should return an error if the specified campaignID
+	// does not correspond to an existing campaign.
 	LoadCampaign(ctx context.Context, campaignID uuid.UUID) error
 }
 
