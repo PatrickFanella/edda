@@ -2,7 +2,8 @@ package llm
 
 import "fmt"
 
-// ErrConnection indicates a provider connection failure.
+// ErrConnection indicates a provider request failure outside of timeout/rate/auth/model classes.
+// It may represent transport-level connectivity problems or generic non-2xx provider responses.
 type ErrConnection struct {
 	URL string
 	Err error
@@ -17,7 +18,7 @@ func (e *ErrConnection) Error() string {
 
 func (e *ErrConnection) Unwrap() error { return e.Err }
 
-// ErrTimeout indicates a provider request timed out.
+// ErrTimeout indicates a provider request timed out or was canceled by context.
 type ErrTimeout struct {
 	URL string
 	Err error
@@ -25,9 +26,9 @@ type ErrTimeout struct {
 
 func (e *ErrTimeout) Error() string {
 	if e.URL == "" {
-		return fmt.Sprintf("provider request timed out: %v", e.Err)
+		return fmt.Sprintf("provider request timed out or was canceled: %v", e.Err)
 	}
-	return fmt.Sprintf("provider request timed out for %s: %v", e.URL, e.Err)
+	return fmt.Sprintf("provider request for %s timed out or was canceled: %v", e.URL, e.Err)
 }
 
 func (e *ErrTimeout) Unwrap() error { return e.Err }
