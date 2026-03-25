@@ -21,6 +21,21 @@ const (
 	CombatantTypeNPC CombatantType = "npc"
 )
 
+// CombatantStatus tracks the vital state of a combatant within an encounter.
+type CombatantStatus string
+
+const (
+	// CombatantStatusAlive indicates the combatant is conscious and able to act.
+	// This is the zero-value state for new combatants.
+	CombatantStatusAlive CombatantStatus = "alive"
+	// CombatantStatusUnconscious indicates a player character has reached 0 HP
+	// and is incapacitated but not yet dead.
+	CombatantStatusUnconscious CombatantStatus = "unconscious"
+	// CombatantStatusDead indicates the combatant has been killed (NPC at 0 HP,
+	// or a player who failed three death saving throws).
+	CombatantStatusDead CombatantStatus = "dead"
+)
+
 // CombatStatus tracks the current phase of a combat encounter.
 type CombatStatus string
 
@@ -59,6 +74,24 @@ const (
 // Core types
 // ---------------------------------------------------------------------------
 
+// ActiveCondition represents a status effect currently applied to a combatant.
+type ActiveCondition struct {
+	// Name is the identifier of the condition (e.g. "stunned", "prone").
+	Name string
+	// DurationRounds is the number of rounds remaining. Use PermanentDuration
+	// (-1) for conditions with no fixed expiry.
+	DurationRounds int
+}
+
+// DeathSavingThrows tracks the state of death saving throws for an
+// unconscious player combatant.
+type DeathSavingThrows struct {
+	// Successes is the count of successful saving throws (max 3).
+	Successes int
+	// Failures is the count of failed saving throws (max 3).
+	Failures int
+}
+
 // Combatant represents a single participant in a combat encounter.
 type Combatant struct {
 	// EntityID is the unique identifier of the underlying entity.
@@ -73,12 +106,17 @@ type Combatant struct {
 	MaxHP int
 	// Stats holds game-system-agnostic attributes (e.g. strength, dexterity).
 	Stats json.RawMessage
-	// Conditions lists active status effects (e.g. "poisoned", "stunned").
-	Conditions []string
+	// Conditions lists active status effects with their remaining durations.
+	Conditions []ActiveCondition
 	// Initiative determines action order within a round.
 	Initiative int
 	// Surprised indicates this combatant skips turns during the surprise round.
 	Surprised bool
+	// Status tracks whether the combatant is alive, unconscious, or dead.
+	Status CombatantStatus
+	// DeathSavingThrows tracks saving throw progress for unconscious players.
+	// Nil when the combatant is alive or death saving throws are not in use.
+	DeathSavingThrows *DeathSavingThrows
 }
 
 // Validate checks that the combatant has the minimum required fields.
@@ -102,6 +140,11 @@ func (c *Combatant) Validate() error {
 	}
 	if c.HP > c.MaxHP {
 		return errors.New("combatant hp cannot exceed max_hp")
+	}
+	switch c.Status {
+	case "", CombatantStatusAlive, CombatantStatusUnconscious, CombatantStatusDead:
+	default:
+		return errors.New("invalid combatant status")
 	}
 	return nil
 }
@@ -130,6 +173,9 @@ type CombatState struct {
 	// InitiativeRerollEachRound controls whether initiative is re-rolled each round.
 	// Defaults to false (roll once per combat).
 	InitiativeRerollEachRound bool
+	// TrackDeathSavingThrows enables death saving throw tracking for unconscious
+	// player combatants. Defaults to false.
+	TrackDeathSavingThrows bool
 	// SurpriseRoundActive indicates whether round 1 is currently treated as a
 	// surprise round.
 	SurpriseRoundActive bool
