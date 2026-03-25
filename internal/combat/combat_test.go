@@ -28,6 +28,8 @@ func TestCombatantValidate(t *testing.T) {
 		{"empty name", func(c *Combatant) { c.Name = "" }},
 		{"zero max_hp", func(c *Combatant) { c.MaxHP = 0 }},
 		{"negative max_hp", func(c *Combatant) { c.MaxHP = -1 }},
+		{"negative hp", func(c *Combatant) { c.HP = -1 }},
+		{"hp exceeds max_hp", func(c *Combatant) { c.HP = 11 }},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -69,7 +71,11 @@ func TestCombatStateValidate(t *testing.T) {
 		{"nil campaign_id", func(cs *CombatState) { cs.CampaignID = uuid.Nil }},
 		{"no combatants", func(cs *CombatState) { cs.Combatants = nil }},
 		{"empty combatants", func(cs *CombatState) { cs.Combatants = []Combatant{} }},
+		{"invalid combatant", func(cs *CombatState) {
+			cs.Combatants = []Combatant{{EntityID: uuid.Nil}}
+		}},
 		{"negative round", func(cs *CombatState) { cs.RoundNumber = -1 }},
+		{"invalid status", func(cs *CombatState) { cs.Status = "invalid" }},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
