@@ -26,7 +26,9 @@ type CombatantStatus string
 
 const (
 	// CombatantStatusAlive indicates the combatant is conscious and able to act.
-	// This is the zero-value state for new combatants.
+	// Note: the Go zero value for CombatantStatus is "" (empty string), not
+	// CombatantStatusAlive. Validate normalizes an empty status so callers do
+	// not need to set it explicitly on construction.
 	CombatantStatusAlive CombatantStatus = "alive"
 	// CombatantStatusUnconscious indicates a player character has reached 0 HP
 	// and is incapacitated but not yet dead.
@@ -120,6 +122,9 @@ type Combatant struct {
 }
 
 // Validate checks that the combatant has the minimum required fields.
+// An empty Status is normalized to CombatantStatusAlive when HP > 0, or
+// CombatantStatusDead when HP == 0, so callers do not need to set it
+// explicitly on construction.
 func (c *Combatant) Validate() error {
 	if c.EntityID == uuid.Nil {
 		return errors.New("combatant entity_id is required")
@@ -141,10 +146,22 @@ func (c *Combatant) Validate() error {
 	if c.HP > c.MaxHP {
 		return errors.New("combatant hp cannot exceed max_hp")
 	}
+	// Normalize empty status to a sensible default based on current HP so that
+	// downstream logic does not need to handle Status == "" specially.
+	if c.Status == "" {
+		if c.HP <= 0 {
+			c.Status = CombatantStatusDead
+		} else {
+			c.Status = CombatantStatusAlive
+		}
+	}
 	switch c.Status {
-	case "", CombatantStatusAlive, CombatantStatusUnconscious, CombatantStatusDead:
+	case CombatantStatusAlive, CombatantStatusUnconscious, CombatantStatusDead:
 	default:
 		return errors.New("invalid combatant status")
+	}
+	if c.Status == CombatantStatusUnconscious && c.EntityType == CombatantTypeNPC {
+		return errors.New("NPC combatants cannot be unconscious; they are either alive or dead")
 	}
 	return nil
 }
