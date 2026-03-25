@@ -128,6 +128,59 @@ func TestLoadRejectsClaudeWithoutAPIKey(t *testing.T) {
 	}
 }
 
+func TestLoadClaudeAPIKeyFromAnthropicEnv(t *testing.T) {
+	t.Setenv("GM_LLM_PROVIDER", "claude")
+	t.Setenv("ANTHROPIC_API_KEY", "sk-ant-anthropic-key")
+
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if cfg.LLM.Claude.APIKey != "sk-ant-anthropic-key" {
+		t.Fatalf("expected api key from ANTHROPIC_API_KEY, got %q", cfg.LLM.Claude.APIKey)
+	}
+}
+
+func TestLoadClaudeAPIKeyFromGMClaudeAPIKeyEnv(t *testing.T) {
+	t.Setenv("GM_LLM_PROVIDER", "claude")
+	t.Setenv("GM_CLAUDE_API_KEY", "sk-ant-gm-claude-key")
+
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if cfg.LLM.Claude.APIKey != "sk-ant-gm-claude-key" {
+		t.Fatalf("expected api key from GM_CLAUDE_API_KEY, got %q", cfg.LLM.Claude.APIKey)
+	}
+}
+
+func TestGMClaudeAPIKeyOverridesAnthropicAPIKey(t *testing.T) {
+	t.Setenv("GM_LLM_PROVIDER", "claude")
+	t.Setenv("ANTHROPIC_API_KEY", "sk-ant-lower-priority")
+	t.Setenv("GM_CLAUDE_API_KEY", "sk-ant-higher-priority")
+
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if cfg.LLM.Claude.APIKey != "sk-ant-higher-priority" {
+		t.Fatalf("expected GM_CLAUDE_API_KEY to override ANTHROPIC_API_KEY, got %q", cfg.LLM.Claude.APIKey)
+	}
+}
+
+func TestGMLLMClaudeAPIKeyOverridesGMClaudeAPIKey(t *testing.T) {
+	t.Setenv("GM_LLM_PROVIDER", "claude")
+	t.Setenv("GM_CLAUDE_API_KEY", "sk-ant-lower-priority")
+	t.Setenv("GM_LLM_CLAUDE_APIKEY", "sk-ant-highest-priority")
+
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if cfg.LLM.Claude.APIKey != "sk-ant-highest-priority" {
+		t.Fatalf("expected GM_LLM_CLAUDE_APIKEY to have highest priority, got %q", cfg.LLM.Claude.APIKey)
+	}
+}
 func TestValidateAcceptsValidProviders(t *testing.T) {
 	for _, provider := range []string{"ollama", "claude"} {
 		t.Run(provider, func(t *testing.T) {
