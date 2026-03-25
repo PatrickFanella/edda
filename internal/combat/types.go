@@ -33,7 +33,7 @@ const (
 	CombatStatusFled CombatStatus = "fled"
 )
 
-// ActionType categorises the kind of action a combatant can take during a
+// ActionType categorizes the kind of action a combatant can take during a
 // round.
 type ActionType string
 
@@ -157,7 +157,7 @@ func (cs *CombatState) Validate() error {
 type PlayerAction struct {
 	// CombatantID identifies which combatant is acting.
 	CombatantID uuid.UUID
-	// ActionType categorises the action.
+	// ActionType categorizes the action.
 	ActionType ActionType
 	// TargetID optionally identifies the target of the action.
 	TargetID *uuid.UUID
@@ -174,7 +174,7 @@ type PlayerAction struct {
 type CombatAction struct {
 	// ActorID identifies who performed the action.
 	ActorID uuid.UUID
-	// ActionType categorises the action performed.
+	// ActionType categorizes the action performed.
 	ActionType ActionType
 	// TargetID optionally identifies the target.
 	TargetID *uuid.UUID
