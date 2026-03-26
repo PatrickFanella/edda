@@ -42,7 +42,7 @@ type InitiateCombatLogEntry struct {
 // InitiateCombatStore provides persistence needed for initiate_combat.
 type InitiateCombatStore interface {
 	GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error)
-	FindNPCByName(ctx context.Context, campaignID uuid.UUID, name string) (*domain.NPC, error)
+	ListNPCsByCampaign(ctx context.Context, campaignID uuid.UUID) ([]domain.NPC, error)
 	CreateNPC(ctx context.Context, params InitiateCombatNPCParams) (*domain.NPC, error)
 	UpdatePlayerStatus(ctx context.Context, playerCharacterID uuid.UUID, status string) error
 	LogCombatStart(ctx context.Context, entry InitiateCombatLogEntry) error
@@ -95,7 +95,7 @@ func InitiateCombatTool() llm.Tool {
 				},
 				"surprise": map[string]any{
 					"type":        "string",
-					"description": "Optional side with surprise. One of: players, enemies.",
+					"description": "Optional side that has surprise. One of: players, enemies.",
 				},
 			},
 			"required":             []string{"enemies", "environment"},
@@ -143,7 +143,7 @@ func (h *InitiateCombatHandler) Handle(ctx context.Context, args map[string]any)
 	if err != nil {
 		return nil, err
 	}
-	surprise, err := parseOptionalSurpriseArg(args, "surprise")
+	surpriseSide, err := parseOptionalSurpriseArg(args, "surprise")
 	if err != nil {
 		return nil, err
 	}
@@ -166,11 +166,18 @@ func (h *InitiateCombatHandler) Handle(ctx context.Context, args map[string]any)
 		locationID = &currentLocationID
 	}
 
+	existingNPCs, err := h.store.ListNPCsByCampaign(ctx, player.CampaignID)
+	if err != nil {
+		return nil, fmt.Errorf("list campaign npcs: %w", err)
+	}
+	npcByLowerName := make(map[string]*domain.NPC, len(existingNPCs))
+	for i := range existingNPCs {
+		npc := existingNPCs[i]
+		npcByLowerName[strings.ToLower(npc.Name)] = &npc
+	}
+
 	for i, enemy := range enemies {
-		npc, err := h.store.FindNPCByName(ctx, player.CampaignID, enemy.Name)
-		if err != nil {
-			return nil, fmt.Errorf("find enemy npc %q: %w", enemy.Name, err)
-		}
+		npc := npcByLowerName[strings.ToLower(enemy.Name)]
 		if npc == nil {
 			createdNPC, createErr := h.store.CreateNPC(ctx, InitiateCombatNPCParams{
 				CampaignID:  player.CampaignID,
@@ -185,6 +192,7 @@ func (h *InitiateCombatHandler) Handle(ctx context.Context, args map[string]any)
 				return nil, fmt.Errorf("create enemy npc %q: %w", enemy.Name, createErr)
 			}
 			npc = createdNPC
+			npcByLowerName[strings.ToLower(enemy.Name)] = npc
 		}
 		if npc == nil {
 			return nil, fmt.Errorf("enemy npc %q could not be resolved", enemy.Name)
@@ -198,7 +206,7 @@ func (h *InitiateCombatHandler) Handle(ctx context.Context, args map[string]any)
 			MaxHP:      enemy.HP,
 			Stats:      enemy.Stats,
 		}
-		if surprise == "players" {
+		if surpriseSide == "players" {
 			enemyCombatant.Surprised = true
 		}
 		if err := enemyCombatant.Validate(); err != nil {
@@ -209,7 +217,7 @@ func (h *InitiateCombatHandler) Handle(ctx context.Context, args map[string]any)
 		enemyNPCIDs = append(enemyNPCIDs, npc.ID)
 	}
 
-	if surprise == "enemies" {
+	if surpriseSide == "enemies" {
 		combatants[0].Surprised = true
 	}
 
@@ -232,7 +240,7 @@ func (h *InitiateCombatHandler) Handle(ctx context.Context, args map[string]any)
 	}
 
 	initiativeOrder := makeInitiativeOrder(state)
-	opening := buildOpeningDescription(*player, enemies, environmentDescription, surprise)
+	opening := buildOpeningDescription(*player, enemies, environmentDescription, surpriseSide)
 
 	if err := h.store.UpdatePlayerStatus(ctx, playerCharacterID, combatPlayerStatus); err != nil {
 		return nil, fmt.Errorf("set combat mode: %w", err)
@@ -252,7 +260,7 @@ func (h *InitiateCombatHandler) Handle(ctx context.Context, args map[string]any)
 		"combat_state_id":     state.ID.String(),
 		"initiative_order":    initiativeOrder,
 		"environment":         environmentDescription,
-		"surprise":            surprise,
+		"surprise":            surpriseSide,
 		"enemy_count":         len(enemies),
 		"opening_description": opening,
 		"mode":                "combat",
@@ -431,9 +439,9 @@ func buildOpeningDescription(player domain.PlayerCharacter, enemies []enemyInput
 	surpriseText := ""
 	switch surprise {
 	case "players":
-		surpriseText = " The enemy side is surprised."
+		surpriseText = " Players have surprise; the enemy side is surprised."
 	case "enemies":
-		surpriseText = " The player side is surprised."
+		surpriseText = " Enemies have surprise; the player side is surprised."
 	}
 
 	return fmt.Sprintf(
