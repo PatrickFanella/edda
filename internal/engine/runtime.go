@@ -34,6 +34,7 @@ const rightSingleQuote = "’"
 // New creates a concrete GameEngine backed by the shared game and llm packages.
 func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider) *Engine {
 	registry := tools.NewRegistry()
+	_ = tools.RegisterMovePlayer(registry, game.NewMovePlayerStore(queries))
 	return &Engine{
 		queries:   queries,
 		state:     game.NewStateManager(db),
@@ -48,6 +49,12 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 	state, err := e.state.GatherState(ctx, campaignID)
 	if err != nil {
 		return nil, fmt.Errorf("gather state: %w", err)
+	}
+	if state.Player.ID != uuid.Nil {
+		ctx = tools.WithCurrentPlayerCharacterID(ctx, state.Player.ID)
+	}
+	if state.Player.CurrentLocationID != nil {
+		ctx = tools.WithCurrentLocationID(ctx, *state.Player.CurrentLocationID)
 	}
 
 	recentLogs, err := e.queries.ListRecentSessionLogs(ctx, statedb.ListRecentSessionLogsParams{
