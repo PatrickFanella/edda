@@ -3,6 +3,7 @@ package game
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
@@ -14,19 +15,21 @@ import (
 	"github.com/PatrickFanella/game-master/internal/tools"
 )
 
-// updateNPCStore adapts statedb.Querier to the tools.UpdateNPCStore interface.
-type updateNPCStore struct {
+// npcService consolidates NPC-related persistence for both the update_npc and
+// npc_dialogue tools.
+type npcService struct {
 	queries statedb.Querier
 }
 
-var _ tools.UpdateNPCStore = (*updateNPCStore)(nil)
-
-// NewUpdateNPCStore creates a tools.UpdateNPCStore backed by the given Querier.
-func NewUpdateNPCStore(q statedb.Querier) tools.UpdateNPCStore {
-	return &updateNPCStore{queries: q}
+// NewNPCService creates a service that satisfies both tools.UpdateNPCStore and
+// tools.NPCDialogueStore.
+func NewNPCService(q statedb.Querier) *npcService {
+	return &npcService{queries: q}
 }
 
-func (s *updateNPCStore) GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error) {
+// --- shared method ---
+
+func (s *npcService) GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error) {
 	npc, err := s.queries.GetNPCByID(ctx, dbutil.ToPgtype(npcID))
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
@@ -38,7 +41,9 @@ func (s *updateNPCStore) GetNPCByID(ctx context.Context, npcID uuid.UUID) (*doma
 	return &domainNPC, nil
 }
 
-func (s *updateNPCStore) LocationExistsInCampaign(ctx context.Context, locationID, campaignID uuid.UUID) (bool, error) {
+// --- tools.UpdateNPCStore methods ---
+
+func (s *npcService) LocationExistsInCampaign(ctx context.Context, locationID, campaignID uuid.UUID) (bool, error) {
 	location, err := s.queries.GetLocationByID(ctx, dbutil.ToPgtype(locationID))
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
@@ -49,7 +54,7 @@ func (s *updateNPCStore) LocationExistsInCampaign(ctx context.Context, locationI
 	return dbutil.FromPgtype(location.CampaignID) == campaignID, nil
 }
 
-func (s *updateNPCStore) UpdateNPC(ctx context.Context, npc domain.NPC) (*domain.NPC, error) {
+func (s *npcService) UpdateNPC(ctx context.Context, npc domain.NPC) (*domain.NPC, error) {
 	updated, err := s.queries.UpdateNPC(ctx, statedb.UpdateNPCParams{
 		Name:        npc.Name,
 		Description: stringToPgText(npc.Description),
@@ -69,6 +74,40 @@ func (s *updateNPCStore) UpdateNPC(ctx context.Context, npc domain.NPC) (*domain
 	domainNPC := npcToDomain(updated)
 	return &domainNPC, nil
 }
+
+// --- tools.NPCDialogueStore methods ---
+
+func (s *npcService) LogNPCDialogue(ctx context.Context, entry tools.NPCDialogueLogEntry) error {
+	recentLogs, err := s.queries.ListRecentSessionLogs(ctx, statedb.ListRecentSessionLogsParams{
+		CampaignID: dbutil.ToPgtype(entry.CampaignID),
+		LimitCount: 1,
+	})
+	if err != nil {
+		return fmt.Errorf("list recent session logs: %w", err)
+	}
+
+	turnNumber := int32(1)
+	if len(recentLogs) > 0 {
+		turnNumber = recentLogs[0].TurnNumber + 1
+	}
+
+	_, err = s.queries.CreateSessionLog(ctx, statedb.CreateSessionLogParams{
+		CampaignID:   dbutil.ToPgtype(entry.CampaignID),
+		TurnNumber:   turnNumber,
+		PlayerInput:  entry.FormattedDialogue,
+		InputType:    string(domain.Narrative),
+		LlmResponse:  entry.FormattedDialogue,
+		ToolCalls:    []byte("[]"),
+		LocationID:   dbutil.ToPgtype(entry.LocationID),
+		NpcsInvolved: dbutil.UUIDsToPgtype([]uuid.UUID{entry.NPCID}),
+	})
+	if err != nil {
+		return fmt.Errorf("create session log: %w", err)
+	}
+	return nil
+}
+
+// --- helpers ---
 
 func intOrNullInt4(value *int) pgtype.Int4 {
 	if value == nil {

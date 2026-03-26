@@ -10,25 +10,29 @@ import (
 	"github.com/PatrickFanella/game-master/internal/game"
 	"github.com/PatrickFanella/game-master/internal/llm"
 	"github.com/PatrickFanella/game-master/internal/prompt"
-	"github.com/PatrickFanella/game-master/internal/tools"
 )
 
 // maxRecentTurns is the fixed sliding-window size for turn history included in
 // the LLM context.
 const maxRecentTurns = 10
 
+// ToolLister provides the tool definitions to include in LLM calls.
+type ToolLister interface {
+	List() []llm.Tool
+}
+
 // ContextAssembler builds the complete LLM message array for a player turn.
 // It combines GM system instructions, serialized game state, recent turn
 // history, and the current player input into an ordered []llm.Message slice
 // ready for an llm.Provider call.
 type ContextAssembler struct {
-	registry *tools.Registry
+	tools ToolLister
 }
 
 // NewContextAssembler creates a ContextAssembler backed by the given tool
-// registry. The registry may be nil if no tools are needed.
-func NewContextAssembler(registry *tools.Registry) *ContextAssembler {
-	return &ContextAssembler{registry: registry}
+// lister. The lister may be nil if no tools are needed.
+func NewContextAssembler(tools ToolLister) *ContextAssembler {
+	return &ContextAssembler{tools: tools}
 }
 
 // AssembleContext constructs the ordered message array for an LLM call.
@@ -88,10 +92,10 @@ func (a *ContextAssembler) AssembleContext(
 // These should be passed alongside the messages when calling an llm.Provider.
 // Returns nil if no registry was provided.
 func (a *ContextAssembler) Tools() []llm.Tool {
-	if a.registry == nil {
+	if a.tools == nil {
 		return nil
 	}
-	return a.registry.List()
+	return a.tools.List()
 }
 
 // ---------------------------------------------------------------------------

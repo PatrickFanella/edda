@@ -3,9 +3,8 @@ package engine
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
-	"regexp"
-	"strings"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -29,25 +28,21 @@ type Engine struct {
 }
 
 const recentTurnLimit = 10
-const rightSingleQuote = "’"
-
 // New creates a concrete GameEngine backed by the shared game and llm packages.
 func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider) *Engine {
 	registry := tools.NewRegistry()
-	if err := tools.RegisterMovePlayer(registry, game.NewMovePlayerStore(queries)); err != nil {
-		panic(fmt.Sprintf("failed to register move_player tool during initialization: %v", err))
-	}
-	if err := tools.RegisterAddItem(registry, game.NewAddItemStore(queries)); err != nil {
-		panic(fmt.Sprintf("failed to register add_item tool during initialization: %v", err))
-	}
-	if err := tools.RegisterRemoveItem(registry, game.NewRemoveItemStore(queries)); err != nil {
-		panic(fmt.Sprintf("failed to register remove_item tool during initialization: %v", err))
-	}
-	if err := tools.RegisterRollDice(registry); err != nil {
-		panic(fmt.Sprintf("failed to register roll_dice tool during initialization: %v", err))
-	}
-	if err := tools.RegisterUpdateNPC(registry, game.NewUpdateNPCStore(queries)); err != nil {
-		panic(fmt.Sprintf("failed to register update_npc tool during initialization: %v", err))
+	locSvc := game.NewLocationService(queries)
+	invSvc := game.NewInventoryService(queries)
+	npcSvc := game.NewNPCService(queries)
+
+	var errs []error
+	errs = appendErr(errs, tools.RegisterMovePlayer(registry, locSvc))
+	errs = appendErr(errs, tools.RegisterAddItem(registry, invSvc))
+	errs = appendErr(errs, tools.RegisterRemoveItem(registry, invSvc))
+	errs = appendErr(errs, tools.RegisterRollDice(registry))
+	errs = appendErr(errs, tools.RegisterUpdateNPC(registry, npcSvc))
+	if err := errors.Join(errs...); err != nil {
+		panic(fmt.Sprintf("tool registration failed: %v", err))
 	}
 	return &Engine{
 		queries:   queries,
@@ -203,58 +198,6 @@ func pgUUIDsToUUIDs(ids []pgtype.UUID) []uuid.UUID {
 	return out
 }
 
-var numberedChoicePattern = regexp.MustCompile(`^\s*(\d+)[.)]\s+(.*\S)\s*$`)
-
-func extractChoices(narrative string) (string, []Choice) {
-	lines := strings.Split(narrative, "\n")
-	if len(lines) == 0 {
-		return narrative, nil
-	}
-
-	var (
-		narrativeLines []string
-		choices        []Choice
-		inChoices      bool
-	)
-
-	for _, line := range lines {
-		trimmed := strings.TrimSpace(line)
-		if trimmed == "" && !inChoices {
-			narrativeLines = append(narrativeLines, line)
-			continue
-		}
-
-		if matches := numberedChoicePattern.FindStringSubmatch(line); matches != nil {
-			inChoices = true
-			id := matches[1]
-			text := strings.TrimSpace(matches[2])
-			choices = append(choices, Choice{ID: id, Text: text})
-			continue
-		}
-
-		if inChoices {
-			lower := strings.ToLower(strings.ReplaceAll(trimmed, rightSingleQuote, "'"))
-			if strings.HasPrefix(lower, "or describe what you'd like to do") {
-				continue
-			}
-			if trimmed == "" {
-				continue
-			}
-			narrativeLines = append(narrativeLines, line)
-			inChoices = false
-			continue
-		}
-
-		narrativeLines = append(narrativeLines, line)
-	}
-
-	cleaned := strings.TrimSpace(strings.Join(narrativeLines, "\n"))
-	if len(choices) == 0 {
-		return narrative, nil
-	}
-	return cleaned, choices
-}
-
 func marshalAppliedToolCalls(applied []AppliedToolCall) (json.RawMessage, error) {
 	if applied == nil {
 		applied = []AppliedToolCall{}
@@ -264,4 +207,11 @@ func marshalAppliedToolCalls(applied []AppliedToolCall) (json.RawMessage, error)
 		return nil, err
 	}
 	return json.RawMessage(data), nil
+}
+
+func appendErr(errs []error, err error) []error {
+	if err != nil {
+		return append(errs, err)
+	}
+	return errs
 }
