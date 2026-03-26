@@ -41,6 +41,10 @@ func run(args []string) int {
 		logger.Errorf("load config: %v", err)
 		return 1
 	}
+	if _, err := llm.NewLLMProvider(cfg); err != nil {
+		logger.Errorf("initialize llm provider: %v", err)
+		return 1
+	}
 	logger.Infof("starting TUI (provider=%s)", cfg.LLM.Provider)
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
