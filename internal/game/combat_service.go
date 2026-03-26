@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
@@ -37,18 +36,16 @@ func (s *combatService) GetPlayerCharacterByID(ctx context.Context, playerCharac
 	return &domainPC, nil
 }
 
-func (s *combatService) FindNPCByName(ctx context.Context, campaignID uuid.UUID, name string) (*domain.NPC, error) {
+func (s *combatService) ListNPCsByCampaign(ctx context.Context, campaignID uuid.UUID) ([]domain.NPC, error) {
 	npcs, err := s.queries.ListNPCsByCampaign(ctx, dbutil.ToPgtype(campaignID))
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("list npcs by campaign: %w", err)
 	}
+	out := make([]domain.NPC, 0, len(npcs))
 	for _, npc := range npcs {
-		if strings.EqualFold(npc.Name, name) {
-			domainNPC := npcToDomain(npc)
-			return &domainNPC, nil
-		}
+		out = append(out, npcToDomain(npc))
 	}
-	return nil, nil
+	return out, nil
 }
 
 func (s *combatService) CreateNPC(ctx context.Context, params tools.InitiateCombatNPCParams) (*domain.NPC, error) {

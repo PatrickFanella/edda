@@ -11,11 +11,13 @@ import (
 	"github.com/PatrickFanella/game-master/internal/domain"
 )
 
+var _ InitiateCombatStore = (*stubInitiateCombatStore)(nil)
+
 type stubInitiateCombatStore struct {
 	player                *domain.PlayerCharacter
 	npcsByName            map[string]*domain.NPC
 	createErr             error
-	findErr               error
+	listErr               error
 	getPlayerErr          error
 	statusErr             error
 	logErr                error
@@ -32,14 +34,18 @@ func (s *stubInitiateCombatStore) GetPlayerCharacterByID(_ context.Context, _ uu
 	return s.player, nil
 }
 
-func (s *stubInitiateCombatStore) FindNPCByName(_ context.Context, _ uuid.UUID, name string) (*domain.NPC, error) {
-	if s.findErr != nil {
-		return nil, s.findErr
+func (s *stubInitiateCombatStore) ListNPCsByCampaign(_ context.Context, _ uuid.UUID) ([]domain.NPC, error) {
+	if s.listErr != nil {
+		return nil, s.listErr
 	}
-	if s.npcsByName == nil {
+	if len(s.npcsByName) == 0 {
 		return nil, nil
 	}
-	return s.npcsByName[name], nil
+	out := make([]domain.NPC, 0, len(s.npcsByName))
+	for _, npc := range s.npcsByName {
+		out = append(out, *npc)
+	}
+	return out, nil
 }
 
 func (s *stubInitiateCombatStore) CreateNPC(_ context.Context, params InitiateCombatNPCParams) (*domain.NPC, error) {
@@ -240,6 +246,16 @@ func TestInitiateCombatHandleValidationAndStoreErrors(t *testing.T) {
 		t.Fatalf("expected surprise validation error, got %v", err)
 	}
 
+	store.listErr = errors.New("query failed")
+	_, err = h.Handle(ctx, map[string]any{
+		"enemies":     []any{map[string]any{"name": "Ghoul", "description": "Undead", "hp": 7, "stats": map[string]any{"dexterity": 10}, "abilities": []any{"Claw"}}},
+		"environment": "Crypt",
+	})
+	if err == nil || !strings.Contains(err.Error(), "list campaign npcs: query failed") {
+		t.Fatalf("expected campaign npc list error, got %v", err)
+	}
+
+	store.listErr = nil
 	store.statusErr = errors.New("write failed")
 	_, err = h.Handle(ctx, map[string]any{
 		"enemies":     []any{map[string]any{"name": "Ghoul", "description": "Undead", "hp": 7, "stats": map[string]any{"dexterity": 10}, "abilities": []any{"Claw"}}},
@@ -249,5 +265,3 @@ func TestInitiateCombatHandleValidationAndStoreErrors(t *testing.T) {
 		t.Fatalf("expected status update error, got %v", err)
 	}
 }
-
-var _ InitiateCombatStore = (*stubInitiateCombatStore)(nil)
