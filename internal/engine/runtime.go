@@ -34,6 +34,8 @@ func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider) *Engin
 	locSvc := game.NewLocationService(queries)
 	invSvc := game.NewInventoryService(queries)
 	npcSvc := game.NewNPCService(queries)
+	worldSvc := game.NewWorldService(queries)
+	statResolver := game.NewStatModifierResolver(queries)
 
 	var errs []error
 	errs = appendErr(errs, tools.RegisterMovePlayer(registry, locSvc))
@@ -41,6 +43,8 @@ func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider) *Engin
 	errs = appendErr(errs, tools.RegisterRemoveItem(registry, invSvc))
 	errs = appendErr(errs, tools.RegisterRollDice(registry))
 	errs = appendErr(errs, tools.RegisterUpdateNPC(registry, npcSvc))
+	errs = appendErr(errs, tools.RegisterCreateLanguage(registry, worldSvc, worldSvc, nil))
+	errs = appendErr(errs, tools.RegisterSkillCheck(registry, statResolver, nil))
 	if err := errors.Join(errs...); err != nil {
 		panic(fmt.Sprintf("tool registration failed: %v", err))
 	}
