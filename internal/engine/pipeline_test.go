@@ -277,6 +277,9 @@ Or describe what you'd like to do—you're never limited to the options above.`}
 	if result.Choices[1].ID != "2" || result.Choices[1].Text != "Question Ivo about the old keep." {
 		t.Fatalf("choice[1] = %+v", result.Choices[1])
 	}
+	if len(state.savedLogs) == 0 {
+		t.Fatalf("expected at least one session log to be saved, got %d", len(state.savedLogs))
+	}
 	if state.savedLogs[0].LLMResponse != "The signal pulses faster as night falls." {
 		t.Fatalf("saved log narrative = %q", state.savedLogs[0].LLMResponse)
 	}
@@ -329,6 +332,10 @@ func TestEngineProcessTurn_ExecutesMultipleToolCallsAndAppliesStateChanges(t *te
 	}
 	if len(fakeDB.flags) != 1 || fakeDB.flags[0] != "beacon_secured" {
 		t.Fatalf("flag changes = %+v", fakeDB.flags)
+	}
+
+	if len(state.savedLogs) == 0 {
+		t.Fatalf("no session logs were saved")
 	}
 
 	var savedCalls []AppliedToolCall
