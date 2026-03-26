@@ -16,6 +16,8 @@ import (
 type LLMProvider = Provider
 
 const ollamaTagsPath = "/api/tags"
+const ollamaHealthCheckTimeout = 3 * time.Second
+const ollamaHealthCheckErrorBodyLimit = 512
 
 // NewLLMProvider constructs the configured LLM provider implementation.
 func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
@@ -49,7 +51,7 @@ func validateOllamaEndpoint(baseURL string) error {
 	}
 
 	tagsURL := strings.TrimRight(baseURL, "/") + ollamaTagsPath
-	client := &http.Client{Timeout: 3 * time.Second}
+	client := &http.Client{Timeout: ollamaHealthCheckTimeout}
 
 	req, err := http.NewRequest(http.MethodGet, tagsURL, nil)
 	if err != nil {
@@ -63,7 +65,7 @@ func validateOllamaEndpoint(baseURL string) error {
 	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		body, _ := io.ReadAll(io.LimitReader(resp.Body, 512))
+		body, _ := io.ReadAll(io.LimitReader(resp.Body, ollamaHealthCheckErrorBodyLimit))
 		return fmt.Errorf("ollama provider unavailable: %s returned HTTP %d: %s", tagsURL, resp.StatusCode, strings.TrimSpace(string(body)))
 	}
 
