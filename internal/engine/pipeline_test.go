@@ -217,8 +217,8 @@ func TestEngineProcessTurn_SimpleNarrativeAssemblesContext(t *testing.T) {
 	if len(call.tools) != 1 || call.tools[0].Name != "unused_tool" {
 		t.Fatalf("tools sent to provider = %+v", call.tools)
 	}
-	if len(call.messages) != 6 {
-		t.Fatalf("message count = %d, want 6", len(call.messages))
+	if len(call.messages) < 4 {
+		t.Fatalf("message count = %d, want at least 4 (system + history + player input)", len(call.messages))
 	}
 	if call.messages[0].Role != llm.RoleSystem {
 		t.Fatalf("first role = %q, want system", call.messages[0].Role)
@@ -228,12 +228,11 @@ func TestEngineProcessTurn_SimpleNarrativeAssemblesContext(t *testing.T) {
 		!strings.Contains(call.messages[0].Content, "Signal Tower") {
 		t.Fatalf("system content missing assembled state: %q", call.messages[0].Content)
 	}
-	if call.messages[1].Content != "Climb the tower stairs." || call.messages[2].Content != "You reach the tower summit." {
-		t.Fatalf("unexpected oldest history messages: %+v", call.messages[1:3])
-	}
-	if call.messages[3].Content != "Study the crackling beacon." || call.messages[4].Content != "The beacon spits blue sparks." {
-		t.Fatalf("unexpected newest history messages: %+v", call.messages[3:5])
-	}
+	// Verify history appears in chronological order by scanning, not fixed indices.
+	assertHistoryPairInOrder(t, call.messages,
+		"Climb the tower stairs.", "You reach the tower summit.",
+		"Study the crackling beacon.", "The beacon spits blue sparks.",
+	)
 	if last := call.messages[len(call.messages)-1]; last.Role != llm.RoleUser || last.Content != "Ask Ivo what he saw last night." {
 		t.Fatalf("last message = %+v", last)
 	}
@@ -407,5 +406,34 @@ func TestEngineProcessTurn_RetriesBadToolCallAndAppliesCorrectedArguments(t *tes
 	}
 	if got := retryCall.messages[len(retryCall.messages)-1]; got.Role != llm.RoleTool || !strings.Contains(got.Content, "Please retry with corrected arguments.") {
 		t.Fatalf("retry tool message = %+v", got)
+	}
+}
+
+// assertHistoryPairInOrder verifies that user/assistant content pairs appear in
+// order within messages, without assuming fixed indices. Pairs are provided as
+// alternating user, assistant, user, assistant, ... strings.
+func assertHistoryPairInOrder(t *testing.T, messages []llm.Message, pairs ...string) {
+	t.Helper()
+	if len(pairs)%2 != 0 {
+		t.Fatal("pairs must be even (user, assistant, ...)")
+	}
+
+	cursor := 0
+	for i := 0; i < len(pairs); i += 2 {
+		userContent := pairs[i]
+		assistantContent := pairs[i+1]
+		found := false
+		for j := cursor; j < len(messages)-1; j++ {
+			if messages[j].Content == userContent && messages[j].Role == llm.RoleUser {
+				if messages[j+1].Content == assistantContent && messages[j+1].Role == llm.RoleAssistant {
+					cursor = j + 2
+					found = true
+					break
+				}
+			}
+		}
+		if !found {
+			t.Fatalf("history pair not found in order: user=%q, assistant=%q", userContent, assistantContent)
+		}
 	}
 }

@@ -19,22 +19,21 @@ const (
 	minInt32 = -maxInt32 - 1
 )
 
-// itemStore adapts statedb.Querier to add_item/remove_item tool store interfaces.
-type itemStore struct {
+// inventoryService consolidates item-related persistence for both the add_item
+// and remove_item tools.
+type inventoryService struct {
 	queries statedb.Querier
 }
 
-// NewAddItemStore creates a tools.AddItemStore backed by the given Querier.
-func NewAddItemStore(q statedb.Querier) tools.AddItemStore {
-	return &itemStore{queries: q}
+// NewInventoryService creates a service that satisfies both
+// tools.AddItemStore and tools.RemoveItemStore.
+func NewInventoryService(q statedb.Querier) *inventoryService {
+	return &inventoryService{queries: q}
 }
 
-// NewRemoveItemStore creates a tools.RemoveItemStore backed by the given Querier.
-func NewRemoveItemStore(q statedb.Querier) tools.RemoveItemStore {
-	return &itemStore{queries: q}
-}
+// --- tools.AddItemStore methods ---
 
-func (s *itemStore) CreatePlayerItem(ctx context.Context, playerCharacterID uuid.UUID, name, description, itemType, rarity string, quantity int) (uuid.UUID, error) {
+func (s *inventoryService) CreatePlayerItem(ctx context.Context, playerCharacterID uuid.UUID, name, description, itemType, rarity string, quantity int) (uuid.UUID, error) {
 	quantityInt32, err := toInt32Quantity(quantity)
 	if err != nil {
 		return uuid.Nil, err
@@ -60,7 +59,9 @@ func (s *itemStore) CreatePlayerItem(ctx context.Context, playerCharacterID uuid
 	return dbutil.FromPgtype(item.ID), nil
 }
 
-func (s *itemStore) GetPlayerItemByID(ctx context.Context, itemID uuid.UUID) (*tools.PlayerItem, error) {
+// --- tools.RemoveItemStore methods ---
+
+func (s *inventoryService) GetPlayerItemByID(ctx context.Context, itemID uuid.UUID) (*tools.PlayerItem, error) {
 	item, err := s.queries.GetItemByID(ctx, dbutil.ToPgtype(itemID))
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
@@ -80,7 +81,7 @@ func (s *itemStore) GetPlayerItemByID(ctx context.Context, itemID uuid.UUID) (*t
 	}, nil
 }
 
-func (s *itemStore) UpdateItemQuantity(ctx context.Context, itemID uuid.UUID, quantity int) error {
+func (s *inventoryService) UpdateItemQuantity(ctx context.Context, itemID uuid.UUID, quantity int) error {
 	quantityInt32, err := toInt32Quantity(quantity)
 	if err != nil {
 		return err
@@ -93,9 +94,11 @@ func (s *itemStore) UpdateItemQuantity(ctx context.Context, itemID uuid.UUID, qu
 	return err
 }
 
-func (s *itemStore) DeleteItem(ctx context.Context, itemID uuid.UUID) error {
+func (s *inventoryService) DeleteItem(ctx context.Context, itemID uuid.UUID) error {
 	return s.queries.DeleteItem(ctx, dbutil.ToPgtype(itemID))
 }
+
+// --- helpers ---
 
 func toInt32Quantity(quantity int) (int32, error) {
 	if quantity < minInt32 || quantity > maxInt32 {

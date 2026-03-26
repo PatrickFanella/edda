@@ -55,6 +55,35 @@ type mockQuerier struct {
 
 	lastUpdateNPCParams *statedb.UpdateNPCParams
 	updateNPCResult     statedb.Npc
+
+	// LocationService fields.
+	lastUpdateLocationParams    *statedb.UpdateLocationParams
+	updateLocationErr           error
+	lastUpdatePlayerLocParams   *statedb.UpdatePlayerLocationParams
+	updatePlayerLocationErr     error
+
+	// InventoryService fields.
+	playerCharacter          statedb.PlayerCharacter
+	getPlayerCharacterByIDErr error
+	createItemResult         statedb.Item
+	createItemErr            error
+	itemByID                 map[pgtype.UUID]statedb.Item
+	getItemByIDErr           error
+	updateItemQuantityErr    error
+	lastUpdateItemQtyParams  *statedb.UpdateItemQuantityParams
+	deleteItemErr            error
+	lastDeletedItemID        *pgtype.UUID
+
+	// WorldService fields.
+	faction                  statedb.Faction
+	getFactionByIDErr        error
+	culture                  statedb.Culture
+	getCultureByIDErr        error
+	createLanguageResult     statedb.Language
+	createLanguageErr        error
+	lastCreateLanguageParams *statedb.CreateLanguageParams
+	createMemoryErr          error
+	lastCreateMemoryParams   *statedb.CreateMemoryParams
 }
 
 func newMockQuerier() *mockQuerier {
@@ -63,6 +92,7 @@ func newMockQuerier() *mockQuerier {
 		nextUserID:        pgtype.UUID{Bytes: [16]byte{1}, Valid: true},
 		objectivesByQuest: make(map[[16]byte][]statedb.QuestObjective),
 		npcByID:           make(map[[16]byte]mockNPCRecord),
+		itemByID:          make(map[pgtype.UUID]statedb.Item),
 	}
 }
 
@@ -156,6 +186,12 @@ func (m *mockQuerier) GetBeliefSystemByCulture(_ context.Context, _ pgtype.UUID)
 }
 
 func (m *mockQuerier) GetCultureByID(_ context.Context, _ pgtype.UUID) (statedb.Culture, error) {
+	if m.getCultureByIDErr != nil {
+		return statedb.Culture{}, m.getCultureByIDErr
+	}
+	if m.culture.ID.Valid {
+		return m.culture, nil
+	}
 	return statedb.Culture{}, pgx.ErrNoRows
 }
 
@@ -232,6 +268,12 @@ func (m *mockQuerier) CreateFact(_ context.Context, _ statedb.CreateFactParams) 
 }
 
 func (m *mockQuerier) GetFactionByID(_ context.Context, _ pgtype.UUID) (statedb.Faction, error) {
+	if m.getFactionByIDErr != nil {
+		return statedb.Faction{}, m.getFactionByIDErr
+	}
+	if m.faction.ID.Valid {
+		return m.faction, nil
+	}
 	return statedb.Faction{}, pgx.ErrNoRows
 }
 
@@ -296,10 +338,23 @@ func (m *mockQuerier) CreateLocation(_ context.Context, _ statedb.CreateLocation
 }
 
 func (m *mockQuerier) CreateItem(_ context.Context, _ statedb.CreateItemParams) (statedb.Item, error) {
+	if m.createItemErr != nil {
+		return statedb.Item{}, m.createItemErr
+	}
+	if m.createItemResult.ID.Valid {
+		return m.createItemResult, nil
+	}
 	return statedb.Item{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) CreateLanguage(_ context.Context, _ statedb.CreateLanguageParams) (statedb.Language, error) {
+func (m *mockQuerier) CreateLanguage(_ context.Context, arg statedb.CreateLanguageParams) (statedb.Language, error) {
+	if m.createLanguageErr != nil {
+		return statedb.Language{}, m.createLanguageErr
+	}
+	m.lastCreateLanguageParams = &arg
+	if m.createLanguageResult.ID.Valid {
+		return m.createLanguageResult, nil
+	}
 	return statedb.Language{}, pgx.ErrNoRows
 }
 
@@ -323,7 +378,15 @@ func (m *mockQuerier) CreateSessionLog(_ context.Context, arg statedb.CreateSess
 	return statedb.SessionLog{}, nil
 }
 
-func (m *mockQuerier) GetItemByID(_ context.Context, _ pgtype.UUID) (statedb.Item, error) {
+func (m *mockQuerier) GetItemByID(_ context.Context, id pgtype.UUID) (statedb.Item, error) {
+	if m.getItemByIDErr != nil {
+		return statedb.Item{}, m.getItemByIDErr
+	}
+	if m.itemByID != nil {
+		if item, ok := m.itemByID[id]; ok {
+			return item, nil
+		}
+	}
 	return statedb.Item{}, pgx.ErrNoRows
 }
 
@@ -449,8 +512,12 @@ func (m *mockQuerier) ListAliveNPCsByLocation(_ context.Context, _ statedb.ListA
 	return m.npcs, nil
 }
 
-func (m *mockQuerier) UpdateLocation(_ context.Context, _ statedb.UpdateLocationParams) (statedb.Location, error) {
-	return statedb.Location{}, pgx.ErrNoRows
+func (m *mockQuerier) UpdateLocation(_ context.Context, arg statedb.UpdateLocationParams) (statedb.Location, error) {
+	if m.updateLocationErr != nil {
+		return statedb.Location{}, m.updateLocationErr
+	}
+	m.lastUpdateLocationParams = &arg
+	return statedb.Location{}, nil
 }
 
 func (m *mockQuerier) UpdateItem(_ context.Context, _ statedb.UpdateItemParams) (statedb.Item, error) {
@@ -461,8 +528,12 @@ func (m *mockQuerier) UpdateItemEquipped(_ context.Context, _ statedb.UpdateItem
 	return statedb.Item{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) UpdateItemQuantity(_ context.Context, _ statedb.UpdateItemQuantityParams) (statedb.Item, error) {
-	return statedb.Item{}, pgx.ErrNoRows
+func (m *mockQuerier) UpdateItemQuantity(_ context.Context, arg statedb.UpdateItemQuantityParams) (statedb.Item, error) {
+	if m.updateItemQuantityErr != nil {
+		return statedb.Item{}, m.updateItemQuantityErr
+	}
+	m.lastUpdateItemQtyParams = &arg
+	return statedb.Item{}, nil
 }
 
 func (m *mockQuerier) UpdateLanguage(_ context.Context, _ statedb.UpdateLanguageParams) (statedb.Language, error) {
@@ -516,6 +587,12 @@ func (m *mockQuerier) CreatePlayerCharacter(_ context.Context, _ statedb.CreateP
 }
 
 func (m *mockQuerier) GetPlayerCharacterByID(_ context.Context, _ pgtype.UUID) (statedb.PlayerCharacter, error) {
+	if m.getPlayerCharacterByIDErr != nil {
+		return statedb.PlayerCharacter{}, m.getPlayerCharacterByIDErr
+	}
+	if m.playerCharacter.ID.Valid {
+		return m.playerCharacter, nil
+	}
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
 }
 
@@ -550,8 +627,12 @@ func (m *mockQuerier) UpdatePlayerExperience(_ context.Context, _ statedb.Update
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) UpdatePlayerLocation(_ context.Context, _ statedb.UpdatePlayerLocationParams) (statedb.PlayerCharacter, error) {
-	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+func (m *mockQuerier) UpdatePlayerLocation(_ context.Context, arg statedb.UpdatePlayerLocationParams) (statedb.PlayerCharacter, error) {
+	if m.updatePlayerLocationErr != nil {
+		return statedb.PlayerCharacter{}, m.updatePlayerLocationErr
+	}
+	m.lastUpdatePlayerLocParams = &arg
+	return statedb.PlayerCharacter{}, nil
 }
 
 func (m *mockQuerier) UpdatePlayerStatus(_ context.Context, _ statedb.UpdatePlayerStatusParams) (statedb.PlayerCharacter, error) {
@@ -570,7 +651,11 @@ func (m *mockQuerier) UpdateObjective(_ context.Context, _ statedb.UpdateObjecti
 	return statedb.QuestObjective{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) DeleteItem(_ context.Context, _ pgtype.UUID) error {
+func (m *mockQuerier) DeleteItem(_ context.Context, id pgtype.UUID) error {
+	if m.deleteItemErr != nil {
+		return m.deleteItemErr
+	}
+	m.lastDeletedItemID = &id
 	return nil
 }
 
@@ -589,8 +674,12 @@ func (m *mockQuerier) ListActiveFactsByCampaign(_ context.Context, _ pgtype.UUID
 	return m.worldFacts, nil
 }
 
-func (m *mockQuerier) CreateMemory(_ context.Context, _ statedb.CreateMemoryParams) (statedb.Memory, error) {
-	return statedb.Memory{}, pgx.ErrNoRows
+func (m *mockQuerier) CreateMemory(_ context.Context, arg statedb.CreateMemoryParams) (statedb.Memory, error) {
+	if m.createMemoryErr != nil {
+		return statedb.Memory{}, m.createMemoryErr
+	}
+	m.lastCreateMemoryParams = &arg
+	return statedb.Memory{}, nil
 }
 
 func (m *mockQuerier) GetMemoryByID(_ context.Context, _ pgtype.UUID) (statedb.Memory, error) {
