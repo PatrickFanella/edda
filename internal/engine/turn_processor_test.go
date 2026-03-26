@@ -507,3 +507,155 @@ func TestTurnProcessor_NoToolCalls(t *testing.T) {
 		t.Errorf("provider.callCount = %d, want 1", provider.callCount)
 	}
 }
+
+// TestTurnProcessor_RetryLLMCallFails verifies that when the retry LLM call
+// itself returns an error (e.g. network failure during the retry), the tool
+// call is still skipped and the turn completes without a top-level error.
+// The narrative from the initial response is preserved.
+func TestTurnProcessor_RetryLLMCallFails(t *testing.T) {
+	reg, callCount := buildProcessorTestRegistry(t, 999 /* always fail */)
+	validator := tools.NewValidator(reg)
+
+	initialTC := llm.ToolCall{
+		ID:        "tc-rllm",
+		Name:      "mock_tool",
+		Arguments: map[string]any{"name": "bad"},
+	}
+
+	provider := newMockProvider(t,
+		// Initial call succeeds but tool call will fail execution.
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{
+				Content:   "Retry LLM failure narrative.",
+				ToolCalls: []llm.ToolCall{initialTC},
+			},
+			err: nil,
+		},
+		// Retry LLM call itself fails.
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: nil,
+			err:  errors.New("network failure during retry"),
+		},
+	)
+
+	tp := NewTurnProcessor(provider, reg, validator)
+	messages := []llm.Message{{Role: llm.RoleUser, Content: "Do something"}}
+
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), messages, reg.List())
+
+	// The top-level call must not fail – the retry LLM error is swallowed and logged.
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	}
+	if narrative != "Retry LLM failure narrative." {
+		t.Errorf("narrative = %q, want %q", narrative, "Retry LLM failure narrative.")
+	}
+	if len(applied) != 0 {
+		t.Errorf("len(applied) = %d, want 0 (tool call should be skipped)", len(applied))
+	}
+	if provider.callCount != 2 {
+		t.Errorf("provider.callCount = %d, want 2 (initial + failed retry attempt)", provider.callCount)
+	}
+	// The handler must be called exactly once (initial attempt), not during retry
+	// since the retry LLM call never returned a corrected tool call.
+	if *callCount != 1 {
+		t.Errorf("handler call count = %d, want 1", *callCount)
+	}
+}
+
+// TestTurnProcessor_HallucinatedToolCallSkipped verifies that a tool call
+// whose name is not in the advertised availableTools list is rejected as a
+// hallucination and follows the retry-then-skip path even if the name happens
+// to exist in the registry.
+func TestTurnProcessor_HallucinatedToolCallSkipped(t *testing.T) {
+	reg := tools.NewRegistry()
+
+	if err := reg.Register(llm.Tool{
+		Name: "real_tool",
+		Parameters: map[string]any{
+			"type":       "object",
+			"properties": map[string]any{"x": map[string]any{"type": "string"}},
+			"required":   []any{"x"},
+		},
+	}, func(_ context.Context, _ map[string]any) (*tools.ToolResult, error) {
+		return &tools.ToolResult{Success: true}, nil
+	}); err != nil {
+		t.Fatalf("Register real_tool: %v", err)
+	}
+
+	if err := reg.Register(llm.Tool{
+		Name: "secret_tool",
+		Parameters: map[string]any{
+			"type":       "object",
+			"properties": map[string]any{"x": map[string]any{"type": "string"}},
+			"required":   []any{"x"},
+		},
+	}, func(_ context.Context, _ map[string]any) (*tools.ToolResult, error) {
+		t.Error("secret_tool handler must never be called")
+		return nil, errors.New("should not be called")
+	}); err != nil {
+		t.Fatalf("Register secret_tool: %v", err)
+	}
+
+	validator := tools.NewValidator(reg)
+
+	// Advertise only real_tool to the LLM; secret_tool is in the registry
+	// but not in the available set.
+	advertised := []llm.Tool{reg.List()[0]} // real_tool only
+
+	hallucinatedTC := llm.ToolCall{
+		ID:        "tc-halluc",
+		Name:      "secret_tool",
+		Arguments: map[string]any{"x": "v"},
+	}
+	// Retry response also returns no corrected tool call for real_tool.
+	retryTC := llm.ToolCall{
+		ID:        "tc-halluc-retry",
+		Name:      "secret_tool",
+		Arguments: map[string]any{"x": "v2"},
+	}
+
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{
+				Content:   "Hallucination narrative.",
+				ToolCalls: []llm.ToolCall{hallucinatedTC},
+			},
+			err: nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{
+				Content:   "",
+				ToolCalls: []llm.ToolCall{retryTC},
+			},
+			err: nil,
+		},
+	)
+
+	tp := NewTurnProcessor(provider, reg, validator)
+	messages := []llm.Message{{Role: llm.RoleUser, Content: "Do the thing"}}
+
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), messages, advertised)
+
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	}
+	if narrative != "Hallucination narrative." {
+		t.Errorf("narrative = %q, want %q", narrative, "Hallucination narrative.")
+	}
+	if len(applied) != 0 {
+		t.Errorf("len(applied) = %d, want 0 (hallucinated tool must be skipped)", len(applied))
+	}
+}
