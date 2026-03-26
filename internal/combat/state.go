@@ -45,12 +45,14 @@ func ApplyDamage(c *Combatant, damage int) {
 	if c.HP < 0 {
 		c.HP = 0
 	}
-	if c.HP == 0 && c.Status != CombatantStatusUnconscious {
+	if c.HP == 0 {
 		switch c.EntityType {
 		case CombatantTypeNPC:
 			c.Status = CombatantStatusDead
 		case CombatantTypePlayer:
-			c.Status = CombatantStatusUnconscious
+			if c.Status != CombatantStatusDead {
+				c.Status = CombatantStatusUnconscious
+			}
 		}
 	}
 }
@@ -167,19 +169,25 @@ func HasAttackDisadvantage(c *Combatant) bool {
 // ---------------------------------------------------------------------------
 
 // RollDeathSavingThrow processes a death saving throw result for an
-// unconscious player combatant. roll must be in [1, 20].
+// unconscious player combatant. state must have TrackDeathSavingThrows
+// enabled; roll must be in [1, 20].
 //
 // Special cases:
 //   - Natural 20: the combatant regains 1 HP and consciousness.
 //   - Natural 1: counts as two failures.
 //
 // Returns (stabilized, died):
-//   - stabilized=true when the combatant accumulates 3 successes.
+//   - stabilized=true when the death save is resolved without death, either:
+//   - the combatant rolls a natural 20 and regains 1 HP and consciousness, or
+//   - the combatant accumulates 3 successes and is stabilized at 0 HP.
 //   - died=true when the combatant accumulates 3 failures, setting status to Dead.
 //
-// An error is returned if the combatant is not an unconscious player or if
-// roll is outside [1, 20].
-func RollDeathSavingThrow(c *Combatant, roll int) (stabilized bool, died bool, err error) {
+// An error is returned if death save tracking is disabled for the combat state,
+// if the combatant is not an unconscious player, or if roll is outside [1, 20].
+func RollDeathSavingThrow(state *CombatState, c *Combatant, roll int) (stabilized bool, died bool, err error) {
+	if !state.TrackDeathSavingThrows {
+		return false, false, fmt.Errorf("death saving throws are not enabled for this combat")
+	}
 	if c.EntityType != CombatantTypePlayer {
 		return false, false, fmt.Errorf("death saving throws only apply to player combatants")
 	}
