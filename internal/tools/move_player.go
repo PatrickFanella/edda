@@ -100,11 +100,10 @@ func (h *MovePlayerHandler) Handle(ctx context.Context, args map[string]any) (*T
 	return &ToolResult{
 		Success: true,
 		Data: map[string]any{
-			"location_id":  targetLocationID.String(),
-			"name":         locationName,
-			"description":  locationDescription,
+			"location_id": targetLocationID.String(),
+			"name":        locationName,
+			"description": locationDescription,
 		},
 		Narrative: fmt.Sprintf("Player moved to %s.", locationName),
 	}, nil
 }
-

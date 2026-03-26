@@ -58,4 +58,3 @@ func (s *movePlayerStore) UpdatePlayerLocation(ctx context.Context, playerCharac
 	})
 	return err
 }
-

@@ -34,8 +34,9 @@ const rightSingleQuote = "’"
 // New creates a concrete GameEngine backed by the shared game and llm packages.
 func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider) *Engine {
 	registry := tools.NewRegistry()
-	// Safe to ignore: fresh registry with a non-nil store cannot fail registration.
-	_ = tools.RegisterMovePlayer(registry, game.NewMovePlayerStore(queries))
+	if err := tools.RegisterMovePlayer(registry, game.NewMovePlayerStore(queries)); err != nil {
+		panic(fmt.Sprintf("failed to register move_player tool during initialization: %v", err))
+	}
 	return &Engine{
 		queries:   queries,
 		state:     game.NewStateManager(db),

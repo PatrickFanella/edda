@@ -175,4 +175,3 @@ func TestMovePlayerHandleNonexistentLocation(t *testing.T) {
 }
 
 var _ MovePlayerStore = (*stubMovePlayerStore)(nil)
-
