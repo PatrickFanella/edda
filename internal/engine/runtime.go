@@ -37,6 +37,9 @@ func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider) *Engin
 	if err := tools.RegisterMovePlayer(registry, game.NewMovePlayerStore(queries)); err != nil {
 		panic(fmt.Sprintf("failed to register move_player tool during initialization: %v", err))
 	}
+	if err := tools.RegisterRollDice(registry); err != nil {
+		panic(fmt.Sprintf("failed to register roll_dice tool during initialization: %v", err))
+	}
 	return &Engine{
 		queries:   queries,
 		state:     game.NewStateManager(db),
