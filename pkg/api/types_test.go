@@ -92,12 +92,13 @@ func TestEntityResponseJSONShape(t *testing.T) {
 	assertJSONKeys(t, npc, "id", "campaign_id", "name", "description", "personality", "disposition", "faction_id", "faction", "alive", "hp", "stats", "properties")
 
 	quest := QuestResponse{
-		ID:          "quest-1",
-		CampaignID:  "camp-1",
-		Title:       "Secure the pass",
-		Description: "Defeat raiders",
-		QuestType:   "short_term",
-		Status:      "active",
+		ID:            "quest-1",
+		CampaignID:    "camp-1",
+		ParentQuestID: ptr("quest-parent"),
+		Title:         "Secure the pass",
+		Description:   "Defeat raiders",
+		QuestType:     "short_term",
+		Status:        "active",
 		Objectives: []QuestObjectiveResponse{{
 			ID:          "obj-1",
 			Description: "Scout the pass",
@@ -105,7 +106,7 @@ func TestEntityResponseJSONShape(t *testing.T) {
 			OrderIndex:  1,
 		}},
 	}
-	assertJSONKeys(t, quest, "id", "campaign_id", "title", "description", "quest_type", "status", "objectives")
+	assertJSONKeys(t, quest, "id", "campaign_id", "parent_quest_id", "title", "description", "quest_type", "status", "objectives")
 
 	item := ItemResponse{
 		ID:                "item-1",
