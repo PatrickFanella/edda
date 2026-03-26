@@ -43,6 +43,11 @@ func NewTurnProcessor(
 //  2. If the retry also fails, skips the tool call and logs the failure at
 //     ERROR level with full context.
 //
+// Only tool calls whose names are present in availableTools are executed;
+// tool calls for tools not in that set are treated as validation failures and
+// follow the same retry-then-skip path. This prevents hallucinated tool calls
+// from being dispatched even if they happen to exist in the registry.
+//
 // Narrative text from the initial response is always returned regardless of
 // tool call outcomes. Successful tool calls – including successful retries –
 // are collected in the returned slice.
@@ -66,15 +71,28 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 		return narrative, nil, nil
 	}
 
+	// Build an allowlist from the tools actually advertised to the LLM so
+	// that hallucinated tool names are rejected before execution.
+	allowed := make(map[string]struct{}, len(availableTools))
+	for _, t := range availableTools {
+		allowed[t.Name] = struct{}{}
+	}
+
 	// Build the assistant message for retry context. When retrying a specific
 	// failed tool call we include only that call so the LLM can focus on
 	// correcting it without being confused by sibling calls.
 	assistantContent := resp.Content
 
 	for _, tc := range resp.ToolCalls {
-		result, execErr := tp.attemptToolCall(ctx, tc)
+		result, execErr := tp.attemptToolCall(ctx, tc, allowed)
 		if execErr == nil {
-			if atc, encErr := buildAppliedToolCall(tc, result); encErr == nil {
+			if atc, encErr := buildAppliedToolCall(tc, result); encErr != nil {
+				slog.Error("failed to encode applied tool call; skipping",
+					"tool", tc.Name,
+					"tool_call_id", tc.ID,
+					"error", encErr.Error(),
+				)
+			} else {
 				applied = append(applied, atc)
 			}
 			continue
@@ -94,11 +112,12 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 			continue
 		}
 
-		retryResult, retryExecErr := tp.attemptToolCall(ctx, retryTC)
+		retryResult, retryExecErr := tp.attemptToolCall(ctx, retryTC, allowed)
 		if retryExecErr != nil {
 			slog.Error("tool call failed after retry; skipping",
 				"tool", tc.Name,
 				"tool_call_id", tc.ID,
+				"retry_tool_call_id", retryTC.ID,
 				"initial_error", execErr.Error(),
 				"retry_error", retryExecErr.Error(),
 				"retry_arguments", retryTC.Arguments,
@@ -106,7 +125,13 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 			continue
 		}
 
-		if atc, encErr := buildAppliedToolCall(retryTC, retryResult); encErr == nil {
+		if atc, encErr := buildAppliedToolCall(retryTC, retryResult); encErr != nil {
+			slog.Error("failed to encode applied tool call after retry; skipping",
+				"tool", retryTC.Name,
+				"tool_call_id", retryTC.ID,
+				"error", encErr.Error(),
+			)
+		} else {
 			applied = append(applied, atc)
 		}
 	}
@@ -114,10 +139,15 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 	return narrative, applied, nil
 }
 
-// attemptToolCall validates and executes a single tool call. Both validation
-// and execution errors are returned as-is so callers can include them in log
-// messages or retry prompts.
-func (tp *TurnProcessor) attemptToolCall(ctx context.Context, tc llm.ToolCall) (*tools.ToolResult, error) {
+// attemptToolCall validates and executes a single tool call. The allowed set
+// is derived from the tools advertised to the LLM; tool calls whose names are
+// not in the set are rejected as hallucinations before registry lookup.
+// Both validation and execution errors are returned as-is so callers can
+// include them in log messages or retry prompts.
+func (tp *TurnProcessor) attemptToolCall(ctx context.Context, tc llm.ToolCall, allowed map[string]struct{}) (*tools.ToolResult, error) {
+	if _, ok := allowed[tc.Name]; !ok {
+		return nil, fmt.Errorf("validation: tool %q was not in the advertised tool list", tc.Name)
+	}
 	if err := tp.validator.ValidatePreExecution(tc); err != nil {
 		return nil, fmt.Errorf("validation: %w", err)
 	}
@@ -175,7 +205,11 @@ func (tp *TurnProcessor) requestRetry(
 		return retryResp.ToolCalls[0], nil
 	}
 
-	return llm.ToolCall{}, fmt.Errorf("LLM returned no tool calls in retry response")
+	return llm.ToolCall{}, fmt.Errorf(
+		"LLM returned no tool calls in retry response for tool %q (tool_call_id=%s)",
+		failedTC.Name,
+		failedTC.ID,
+	)
 }
 
 // buildAppliedToolCall converts a raw tool call and its result into the
