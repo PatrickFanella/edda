@@ -383,33 +383,55 @@ func TestCombatantStatusValidate(t *testing.T) {
 // Death saving throws
 // ---------------------------------------------------------------------------
 
+func makeDeathSaveState() *CombatState {
+	return &CombatState{
+		ID:                     uuid.New(),
+		CampaignID:             uuid.New(),
+		Status:                 CombatStatusActive,
+		TrackDeathSavingThrows: true,
+	}
+}
+
+func TestRollDeathSavingThrowRequiresTrackingEnabled(t *testing.T) {
+	state := makeDeathSaveState()
+	state.TrackDeathSavingThrows = false
+	c := makePlayer(0, 10)
+	c.Status = CombatantStatusUnconscious
+	if _, _, err := RollDeathSavingThrow(state, c, 10); err == nil {
+		t.Fatal("expected error when TrackDeathSavingThrows is false")
+	}
+}
+
 func TestRollDeathSavingThrowRequiresUnconsciousPlayer(t *testing.T) {
+	state := makeDeathSaveState()
 	player := makePlayer(5, 10)
-	if _, _, err := RollDeathSavingThrow(player, 10); err == nil {
+	if _, _, err := RollDeathSavingThrow(state, player, 10); err == nil {
 		t.Fatal("expected error for conscious player")
 	}
 
 	npc := makeNPC(0, 10)
 	npc.Status = CombatantStatusUnconscious
-	if _, _, err := RollDeathSavingThrow(npc, 10); err == nil {
+	if _, _, err := RollDeathSavingThrow(state, npc, 10); err == nil {
 		t.Fatal("expected error for NPC")
 	}
 }
 
 func TestRollDeathSavingThrowInvalidRoll(t *testing.T) {
+	state := makeDeathSaveState()
 	c := makePlayer(0, 10)
 	c.Status = CombatantStatusUnconscious
 	for _, roll := range []int{0, -1, 21, 100} {
-		if _, _, err := RollDeathSavingThrow(c, roll); err == nil {
+		if _, _, err := RollDeathSavingThrow(state, c, roll); err == nil {
 			t.Fatalf("expected error for invalid roll %d", roll)
 		}
 	}
 }
 
 func TestRollDeathSavingThrowNatural20(t *testing.T) {
+	state := makeDeathSaveState()
 	c := makePlayer(0, 10)
 	c.Status = CombatantStatusUnconscious
-	stabilized, died, err := RollDeathSavingThrow(c, 20)
+	stabilized, died, err := RollDeathSavingThrow(state, c, 20)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -428,9 +450,10 @@ func TestRollDeathSavingThrowNatural20(t *testing.T) {
 }
 
 func TestRollDeathSavingThrowNatural1CountsAsTwoFailures(t *testing.T) {
+	state := makeDeathSaveState()
 	c := makePlayer(0, 10)
 	c.Status = CombatantStatusUnconscious
-	stabilized, died, err := RollDeathSavingThrow(c, 1)
+	stabilized, died, err := RollDeathSavingThrow(state, c, 1)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -443,11 +466,12 @@ func TestRollDeathSavingThrowNatural1CountsAsTwoFailures(t *testing.T) {
 }
 
 func TestRollDeathSavingThrowThreeSuccessesStabilize(t *testing.T) {
+	state := makeDeathSaveState()
 	c := makePlayer(0, 10)
 	c.Status = CombatantStatusUnconscious
 
 	for i := 0; i < 3; i++ {
-		stabilized, died, err := RollDeathSavingThrow(c, 15)
+		stabilized, died, err := RollDeathSavingThrow(state, c, 15)
 		if err != nil {
 			t.Fatalf("roll %d: unexpected error: %v", i+1, err)
 		}
@@ -468,11 +492,12 @@ func TestRollDeathSavingThrowThreeSuccessesStabilize(t *testing.T) {
 }
 
 func TestRollDeathSavingThrowThreeFailuresDie(t *testing.T) {
+	state := makeDeathSaveState()
 	c := makePlayer(0, 10)
 	c.Status = CombatantStatusUnconscious
 
 	for i := 0; i < 3; i++ {
-		stabilized, died, err := RollDeathSavingThrow(c, 5)
+		stabilized, died, err := RollDeathSavingThrow(state, c, 5)
 		if err != nil {
 			t.Fatalf("roll %d: unexpected error: %v", i+1, err)
 		}
@@ -492,13 +517,14 @@ func TestRollDeathSavingThrowThreeFailuresDie(t *testing.T) {
 }
 
 func TestRollDeathSavingThrowMixedResults(t *testing.T) {
+	state := makeDeathSaveState()
 	c := makePlayer(0, 10)
 	c.Status = CombatantStatusUnconscious
 
 	// 2 successes, 2 failures — not resolved yet.
 	rolls := []int{15, 5, 15, 5}
 	for i, roll := range rolls {
-		stabilized, died, err := RollDeathSavingThrow(c, roll)
+		stabilized, died, err := RollDeathSavingThrow(state, c, roll)
 		if err != nil {
 			t.Fatalf("roll %d: unexpected error: %v", i+1, err)
 		}
