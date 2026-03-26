@@ -13,6 +13,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 
 	"github.com/PatrickFanella/game-master/internal/config"
+	"github.com/PatrickFanella/game-master/internal/llm"
 	"github.com/PatrickFanella/game-master/tui"
 )
 
@@ -35,6 +36,10 @@ func run(args []string) int {
 	cfg, err := config.Load(configPath)
 	if err != nil {
 		logger.Errorf("load config: %v", err)
+		return 1
+	}
+	if _, err := llm.NewLLMProvider(cfg); err != nil {
+		logger.Errorf("initialize llm provider: %v", err)
 		return 1
 	}
 	logger.Infof("starting TUI (provider=%s)", cfg.LLM.Provider)
