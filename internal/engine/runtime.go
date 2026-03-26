@@ -37,6 +37,11 @@ func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider) *Engin
 	if err := tools.RegisterMovePlayer(registry, game.NewMovePlayerStore(queries)); err != nil {
 		panic(fmt.Sprintf("failed to register move_player tool during initialization: %v", err))
 	}
+	if err := tools.RegisterAddItem(registry, game.NewAddItemStore(queries)); err != nil {
+		panic(fmt.Sprintf("failed to register add_item tool during initialization: %v", err))
+	}
+	if err := tools.RegisterRemoveItem(registry, game.NewRemoveItemStore(queries)); err != nil {
+		panic(fmt.Sprintf("failed to register remove_item tool during initialization: %v", err))
 	if err := tools.RegisterRollDice(registry); err != nil {
 		panic(fmt.Sprintf("failed to register roll_dice tool during initialization: %v", err))
 	if err := tools.RegisterUpdateNPC(registry, game.NewUpdateNPCStore(queries)); err != nil {
