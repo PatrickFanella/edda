@@ -182,7 +182,7 @@ func (h *CreateEconomicSystemHandler) Handle(ctx context.Context, args map[strin
 	if err != nil {
 		return nil, err
 	}
-	currencyDenominations, err := parseObjectStringArrayArg(currency, "denominations", "currency")
+	currencyDenominations, err := parseRequiredObjectStringArrayArg(currency, "denominations", "currency")
 	if err != nil {
 		return nil, err
 	}
@@ -430,6 +430,27 @@ func parseObjectStringArrayArg(obj map[string]any, key, prefix string) ([]string
 	}
 	if raw == nil {
 		return []string{}, nil
+	}
+	items, ok := raw.([]any)
+	if !ok {
+		return nil, fmt.Errorf("%s.%s must be an array", prefix, key)
+	}
+
+	out := make([]string, 0, len(items))
+	for i, item := range items {
+		s, ok := item.(string)
+		if !ok || strings.TrimSpace(s) == "" {
+			return nil, fmt.Errorf("%s.%s[%d] must be a non-empty string", prefix, key, i)
+		}
+		out = append(out, s)
+	}
+	return out, nil
+}
+
+func parseRequiredObjectStringArrayArg(obj map[string]any, key, prefix string) ([]string, error) {
+	raw, ok := obj[key]
+	if !ok || raw == nil {
+		return nil, fmt.Errorf("%s.%s is required", prefix, key)
 	}
 	items, ok := raw.([]any)
 	if !ok {
