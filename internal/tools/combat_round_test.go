@@ -420,8 +420,8 @@ func TestCombatRoundNoEnemyActions(t *testing.T) {
 	args := defaultRoundArgs(playerID, enemyID)
 	args["enemy_actions"] = []any{}
 
-	// Roll: player d20=10 (miss DC13 with str mod+3 → 13 >= 13 hit).
-	roller := &stubRoller{rolls: []int{9}} // d20=10 + mod 3 = 13 >= DC13 → hit
+	// Roll: player d20=10 + mod 3 = 13 >= DC13 → hit.
+	roller := &stubRoller{rolls: []int{9}} // Intn(20)=9 → d20=10
 	h := NewCombatRoundHandler(roller)
 	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
 
@@ -450,7 +450,7 @@ func TestCombatRoundCriticalSuccessAndFailure(t *testing.T) {
 	args["difficulty"] = 99
 	args["enemy_actions"] = []any{}
 
-	roller := &stubRoller{rolls: []int{19}} // d20 = 20 (Intn(20)=19 → 19+1=20)
+	roller := &stubRoller{rolls: []int{19}} // natural 20 (roller returns 19, d20 = 19+1 = 20)
 	h := NewCombatRoundHandler(roller)
 	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
 
