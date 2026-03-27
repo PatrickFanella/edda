@@ -209,9 +209,9 @@ func (h *CombatRoundHandler) Handle(ctx context.Context, args map[string]any) (*
 		if combat.SkipsTurn(playerCombatant) {
 			narrativeParts = append(narrativeParts, fmt.Sprintf("%s is unable to act this round.", playerCombatant.Name))
 		} else {
-			advantage := combat.HasAttackDisadvantage(playerCombatant)
+			disadvantage := combat.HasAttackDisadvantage(playerCombatant)
 			modifier := combatantStatModifier(playerCombatant, skill)
-			roll, total, success := h.resolveCheck(modifier, dc, false, advantage)
+			roll, total, success := h.resolveCheck(modifier, dc, disadvantage)
 
 			action := combat.CombatAction{
 				ActorID:     playerCombatant.EntityID,
@@ -250,9 +250,9 @@ func (h *CombatRoundHandler) Handle(ctx context.Context, args map[string]any) (*
 			continue
 		}
 
-		advantage := combat.HasAttackDisadvantage(enemy)
+		disadvantage := combat.HasAttackDisadvantage(enemy)
 		modifier := combatantStatModifier(enemy, ea.Skill)
-		roll, total, success := h.resolveCheck(modifier, ea.DC, false, advantage)
+		roll, total, success := h.resolveCheck(modifier, ea.DC, disadvantage)
 
 		action := combat.CombatAction{
 			ActorID:     ea.EnemyID,
@@ -327,7 +327,7 @@ func (h *CombatRoundHandler) Handle(ctx context.Context, args map[string]any) (*
 }
 
 // resolveCheck rolls d20 + modifier vs DC, respecting criticals and disadvantage.
-func (h *CombatRoundHandler) resolveCheck(modifier, dc int, _ bool, disadvantage bool) (roll, total int, success bool) {
+func (h *CombatRoundHandler) resolveCheck(modifier, dc int, disadvantage bool) (roll, total int, success bool) {
 	roll = h.roller.Intn(20) + 1
 	if disadvantage {
 		second := h.roller.Intn(20) + 1
