@@ -428,6 +428,9 @@ func parseObjectStringArrayArg(obj map[string]any, key, prefix string) ([]string
 	if !ok {
 		return []string{}, nil
 	}
+	if raw == nil {
+		return []string{}, nil
+	}
 	items, ok := raw.([]any)
 	if !ok {
 		return nil, fmt.Errorf("%s.%s must be an array", prefix, key)
