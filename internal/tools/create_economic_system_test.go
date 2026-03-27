@@ -213,6 +213,18 @@ func TestCreateEconomicSystemValidationAndErrors(t *testing.T) {
 		}
 	})
 
+	t.Run("missing required currency denominations", func(t *testing.T) {
+		h := NewCreateEconomicSystemHandler(&stubEconomicSystemStore{}, &stubMemoryStore{}, &stubEmbedder{vector: []float32{0.1}})
+		args := copyArgs(baseArgs)
+		args["currency"] = map[string]any{
+			"name": "Mark",
+		}
+		_, err := h.Handle(context.Background(), args)
+		if err == nil || !strings.Contains(err.Error(), "currency.denominations is required") {
+			t.Fatalf("error = %v, want required denominations message", err)
+		}
+	})
+
 	t.Run("scope faction campaign mismatch", func(t *testing.T) {
 		factionID := uuid.New()
 		otherCampaignID := uuid.New()

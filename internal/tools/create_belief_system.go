@@ -281,27 +281,6 @@ func (h *CreateBeliefSystemHandler) Handle(ctx context.Context, args map[string]
 	}, nil
 }
 
-func parseStringArrayArg(args map[string]any, key string) ([]string, error) {
-	raw, ok := args[key]
-	if !ok {
-		return nil, fmt.Errorf("%s is required", key)
-	}
-	items, ok := raw.([]any)
-	if !ok {
-		return nil, fmt.Errorf("%s must be an array", key)
-	}
-
-	out := make([]string, 0, len(items))
-	for i, item := range items {
-		s, ok := item.(string)
-		if !ok || strings.TrimSpace(s) == "" {
-			return nil, fmt.Errorf("%s[%d] must be a non-empty string", key, i)
-		}
-		out = append(out, s)
-	}
-	return out, nil
-}
-
 func parseUUIDArrayFromObject(obj map[string]any, key string) ([]pgtype.UUID, error) {
 	raw, ok := obj[key]
 	if !ok {
