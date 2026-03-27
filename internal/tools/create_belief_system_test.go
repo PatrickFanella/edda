@@ -81,6 +81,29 @@ func TestRegisterCreateBeliefSystem(t *testing.T) {
 	if tools[0].Name != createBeliefSystemToolName {
 		t.Fatalf("tool name = %q, want %q", tools[0].Name, createBeliefSystemToolName)
 	}
+
+	// Verify that the registered tool's JSON schema has the expected required fields.
+	var schema struct {
+		Required []string `json:"required"`
+	}
+	if err := json.Unmarshal(tools[0].Parameters, &schema); err != nil {
+		t.Fatalf("unmarshal tool parameters: %v", err)
+	}
+	if len(schema.Required) == 0 {
+		t.Fatalf("schema required fields is empty, want at least campaign_id and name")
+	}
+
+	requiredSet := make(map[string]struct{}, len(schema.Required))
+	for _, field := range schema.Required {
+		requiredSet[field] = struct{}{}
+	}
+
+	expectedRequired := []string{"campaign_id", "name"}
+	for _, field := range expectedRequired {
+		if _, ok := requiredSet[field]; !ok {
+			t.Fatalf("schema missing required field %q", field)
+		}
+	}
 }
 
 func TestCreateBeliefSystemHandleSuccess(t *testing.T) {
