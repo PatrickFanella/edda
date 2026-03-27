@@ -17,6 +17,7 @@ import (
 )
 
 const createBeliefSystemToolName = "create_belief_system"
+const beliefSystemFactCount = 5
 
 // BeliefSystemStore persists belief systems and related world facts.
 type BeliefSystemStore interface {
@@ -356,24 +357,7 @@ func (h *CreateBeliefSystemHandler) validateFollowerIDs(ctx context.Context, cam
 }
 
 func buildBeliefSystemFacts(name string, deitiesOrPrinciples, practices, institutions []string, moralFramework map[string]any, taboos []string) []string {
-	factCapacity := 0
-	if len(deitiesOrPrinciples) > 0 {
-		factCapacity++
-	}
-	if len(practices) > 0 {
-		factCapacity++
-	}
-	if len(institutions) > 0 {
-		factCapacity++
-	}
-	if len(moralFramework) > 0 {
-		factCapacity++
-	}
-	if len(taboos) > 0 {
-		factCapacity++
-	}
-
-	facts := make([]string, 0, factCapacity)
+	facts := make([]string, 0, beliefSystemFactCount)
 	if len(deitiesOrPrinciples) > 0 {
 		facts = append(facts, fmt.Sprintf("%s deities_or_principles: %s.", name, strings.Join(deitiesOrPrinciples, ", ")))
 	}
