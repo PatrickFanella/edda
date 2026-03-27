@@ -27,6 +27,8 @@ type stubCultureStore struct {
 	getFactionErr         error
 }
 
+var _ CultureStore = (*stubCultureStore)(nil)
+
 func (s *stubCultureStore) CreateCulture(_ context.Context, arg statedb.CreateCultureParams) (statedb.Culture, error) {
 	if s.createCultureErr != nil {
 		return statedb.Culture{}, s.createCultureErr
@@ -94,7 +96,7 @@ func TestRegisterCreateCulture(t *testing.T) {
 	for _, field := range required {
 		requiredSet[field] = struct{}{}
 	}
-	for _, field := range []string{"name", "description", "values", "customs", "social_norms", "art_forms", "taboos", "greeting_customs", "language_id", "belief_system_id", "associated_factions"} {
+	for _, field := range createCultureRequiredFields {
 		if _, ok := requiredSet[field]; !ok {
 			t.Fatalf("schema missing required field %q", field)
 		}
@@ -342,5 +344,3 @@ func TestCreateCultureStoresMemoryMetadata(t *testing.T) {
 		t.Fatalf("metadata.belief_system_id = %v, want %s", metadata["belief_system_id"], beliefSystemID.String())
 	}
 }
-
-var _ CultureStore = (*stubCultureStore)(nil)
