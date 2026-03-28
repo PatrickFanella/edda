@@ -110,7 +110,7 @@ func (h *GenerateNameHandler) GenerateName(ctx context.Context, languageID *pgty
 	}
 
 	vowels, consonants := parsePhonologicalRules(lang.Phonology)
-	pattern := pickPatternFromNaming(lang.Naming, nameType, vowels, consonants)
+	pattern := pickPatternFromNaming(lang.Naming, nameType)
 	return applyPattern(vowels, consonants, pattern), nil
 }
 
@@ -132,15 +132,18 @@ func (h *GenerateNameHandler) Handle(ctx context.Context, args map[string]any) (
 	var langIDPtr *pgtype.UUID
 	if raw, ok := args["language_id"]; ok && raw != nil {
 		s, ok := raw.(string)
-		if !ok || strings.TrimSpace(s) == "" {
-			return nil, errors.New("language_id must be a non-empty string when provided")
+		if !ok {
+			return nil, errors.New("language_id must be a string when provided")
 		}
-		id, err := parseUUIDArg(args, "language_id")
-		if err != nil {
-			return nil, err
+		if strings.TrimSpace(s) != "" {
+			id, err := parseUUIDArg(args, "language_id")
+			if err != nil {
+				return nil, err
+			}
+			pgID := dbutil.ToPgtype(id)
+			langIDPtr = &pgID
 		}
-		pgID := dbutil.ToPgtype(id)
-		langIDPtr = &pgID
+		// Empty/whitespace language_id is treated as not provided.
 	}
 
 	name, err := h.GenerateName(ctx, langIDPtr, nameType)
@@ -191,7 +194,7 @@ func parsePhonologicalRules(phonologyJSON []byte) (vowels, consonants []string) 
 
 // pickPatternFromNaming extracts a pattern for nameType from the language's
 // Naming JSONB, falling back to the default pattern set.
-func pickPatternFromNaming(namingJSON []byte, nameType NameType, vowels, consonants []string) string {
+func pickPatternFromNaming(namingJSON []byte, nameType NameType) string {
 	if len(namingJSON) == 0 {
 		return pickPattern(nil, nameType)
 	}
@@ -208,7 +211,7 @@ func pickPatternFromNaming(namingJSON []byte, nameType NameType, vowels, consona
 		}
 	}
 
-	// Try flat keys per type: person_name_patterns, place_name_patterns, etc.
+	// Try flat keys per type: person_first_patterns, person_last_patterns, place_patterns, object_patterns, etc.
 	flatKey := flatPatternKey(nameType)
 	if patterns := extractStringSlice(raw, flatKey); len(patterns) > 0 {
 		return patterns[rand.IntN(len(patterns))]
