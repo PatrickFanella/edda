@@ -77,7 +77,7 @@ func (h *ApplyConditionHandler) Handle(_ context.Context, args map[string]any) (
 	if err != nil {
 		return nil, err
 	}
-	if durationTurns == 0 || durationTurns < combat.PermanentDuration {
+	if durationTurns < 1 && durationTurns != combat.PermanentDuration {
 		return nil, errors.New("duration_turns must be greater than 0 or -1 for permanent")
 	}
 	source, err := parseStringArg(args, "source")
@@ -96,6 +96,11 @@ func (h *ApplyConditionHandler) Handle(_ context.Context, args map[string]any) (
 
 	combat.AddCondition(target, condition, durationTurns)
 
+	narrativeDuration := fmt.Sprintf("for %d turns", durationTurns)
+	if durationTurns == combat.PermanentDuration {
+		narrativeDuration = "permanently"
+	}
+
 	return &ToolResult{
 		Success: true,
 		Data: map[string]any{
@@ -108,6 +113,6 @@ func (h *ApplyConditionHandler) Handle(_ context.Context, args map[string]any) (
 				"source":         source,
 			},
 		},
-		Narrative: fmt.Sprintf("%s is now %s for %d turns (source: %s).", target.Name, condition, durationTurns, source),
+		Narrative: fmt.Sprintf("%s is now %s %s (source: %s).", target.Name, condition, narrativeDuration, source),
 	}, nil
 }
