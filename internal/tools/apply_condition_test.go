@@ -36,11 +36,11 @@ func TestApplyConditionAddsConditionToCombatant(t *testing.T) {
 	h := NewApplyConditionHandler()
 
 	result, err := h.Handle(context.Background(), map[string]any{
-		"target_id":      enemyID.String(),
-		"condition":      "poisoned",
-		"duration_turns": 3,
-		"source":         "venom blade",
-		"combat_state":   baseCombatStateArgs(playerID, enemyID),
+		"target_id":       enemyID.String(),
+		"condition":       "poisoned",
+		"duration_rounds": 3,
+		"source":          "venom blade",
+		"combat_state":    baseCombatStateArgs(playerID, enemyID),
 	})
 	if err != nil {
 		t.Fatalf("Handle: %v", err)
@@ -80,11 +80,11 @@ func TestApplyConditionRefreshesDuplicateDuration(t *testing.T) {
 
 	h := NewApplyConditionHandler()
 	result, err := h.Handle(context.Background(), map[string]any{
-		"target_id":      enemyID.String(),
-		"condition":      "poisoned",
-		"duration_turns": 4,
-		"source":         "venom cloud",
-		"combat_state":   state,
+		"target_id":       enemyID.String(),
+		"condition":       "poisoned",
+		"duration_rounds": 4,
+		"source":          "venom cloud",
+		"combat_state":    state,
 	})
 	if err != nil {
 		t.Fatalf("Handle: %v", err)
@@ -97,6 +97,46 @@ func TestApplyConditionRefreshesDuplicateDuration(t *testing.T) {
 	}
 	if duration, _ := conditions[0]["duration_rounds"].(int); duration != 4 {
 		t.Fatalf("condition duration = %d, want 4", duration)
+	}
+}
+
+func TestApplyConditionPermanentDuration(t *testing.T) {
+	playerID := uuid.New()
+	enemyID := uuid.New()
+	h := NewApplyConditionHandler()
+
+	result, err := h.Handle(context.Background(), map[string]any{
+		"target_id":       enemyID.String(),
+		"condition":       "blinded",
+		"duration_rounds": -1,
+		"source":          "flash powder",
+		"combat_state":    baseCombatStateArgs(playerID, enemyID),
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	combatant := result.Data["combatant"].(map[string]any)
+	conditions := combatant["conditions"].([]map[string]any)
+	if len(conditions) != 1 {
+		t.Fatalf("conditions count = %d, want 1", len(conditions))
+	}
+	if duration, _ := conditions[0]["duration_rounds"].(int); duration != -1 {
+		t.Fatalf("condition duration = %d, want -1", duration)
+	}
+
+	condition, ok := result.Data["condition"].(map[string]any)
+	if !ok {
+		t.Fatalf("condition type = %T", result.Data["condition"])
+	}
+	if name, _ := condition["name"].(string); name != "blinded" {
+		t.Fatalf("condition name = %q, want blinded", name)
+	}
+	if duration, _ := condition["duration_rounds"].(int); duration != -1 {
+		t.Fatalf("condition payload duration = %d, want -1", duration)
+	}
+	if !strings.Contains(result.Narrative, "permanently") {
+		t.Fatalf("narrative = %q, want permanently wording", result.Narrative)
 	}
 }
 

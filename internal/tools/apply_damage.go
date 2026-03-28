@@ -95,15 +95,25 @@ func (h *ApplyDamageHandler) Handle(_ context.Context, args map[string]any) (*To
 	}
 
 	hpBefore := target.HP
-	combat.ApplyDamage(target, amount)
+	appliedAmount := amount
+	if target.Status == combat.CombatantStatusDead {
+		appliedAmount = 0
+	}
+	combat.ApplyDamage(target, appliedAmount)
 
 	damage := map[string]any{
-		"target_id":   targetID.String(),
-		"amount":      amount,
-		"damage_type": damageType,
-		"source":      source,
-		"hp_before":   hpBefore,
-		"hp_after":    target.HP,
+		"target_id":      targetID.String(),
+		"amount":         amount,
+		"applied_amount": appliedAmount,
+		"damage_type":    damageType,
+		"source":         source,
+		"hp_before":      hpBefore,
+		"hp_after":       target.HP,
+	}
+
+	narrative := fmt.Sprintf("%s takes %d %s damage from %s. HP is now %d/%d.", target.Name, appliedAmount, damageType, source, target.HP, target.MaxHP)
+	if target.Status == combat.CombatantStatusDead && appliedAmount == 0 {
+		narrative = fmt.Sprintf("%s is already dead. %s has no further effect.", target.Name, source)
 	}
 
 	return &ToolResult{
@@ -113,7 +123,7 @@ func (h *ApplyDamageHandler) Handle(_ context.Context, args map[string]any) (*To
 			"combat_state": combatStateToMap(state),
 			"damage":       damage,
 		},
-		Narrative: fmt.Sprintf("%s takes %d %s damage from %s. HP is now %d/%d.", target.Name, amount, damageType, source, target.HP, target.MaxHP),
+		Narrative: narrative,
 	}, nil
 }
 
