@@ -139,6 +139,7 @@ func RunCombatResolverContractTests(t *testing.T, newResolver func(t *testing.T)
 		if err != nil {
 			t.Fatalf("ProcessRound: %v", err)
 		}
+		state = result.UpdatedState
 
 		// Aggregate damage per target.
 		totalDamage := make(map[uuid.UUID]int)
@@ -188,10 +189,11 @@ func RunCombatResolverContractTests(t *testing.T, newResolver func(t *testing.T)
 			if state.Status != CombatStatusActive {
 				break
 			}
-			_, err := resolver.ProcessRound(ctx, action, state)
+			result, err := resolver.ProcessRound(ctx, action, state)
 			if err != nil {
 				t.Fatalf("ProcessRound round %d: %v", round+1, err)
 			}
+			state = result.UpdatedState
 		}
 
 		npcCombatant := contractFindCombatant(state, npc.EntityID)
@@ -229,10 +231,11 @@ func RunCombatResolverContractTests(t *testing.T, newResolver func(t *testing.T)
 			if state.Status != CombatStatusActive {
 				break
 			}
-			_, err := resolver.ProcessRound(ctx, action, state)
+			result, err := resolver.ProcessRound(ctx, action, state)
 			if err != nil {
 				t.Fatalf("ProcessRound round %d: %v", round+1, err)
 			}
+			state = result.UpdatedState
 		}
 
 		playerCombatant := contractFindCombatant(state, player.EntityID)
@@ -277,10 +280,11 @@ func RunCombatResolverContractTests(t *testing.T, newResolver func(t *testing.T)
 		action := contractAttackAction(t, player.EntityID, &npcID)
 
 		// Round 1: condition ticks from duration 2 to 1.
-		_, err = resolver.ProcessRound(ctx, action, state)
+		result1, err := resolver.ProcessRound(ctx, action, state)
 		if err != nil {
 			t.Fatalf("ProcessRound round 1: %v", err)
 		}
+		state = result1.UpdatedState
 		npcCombatant = contractFindCombatant(state, npc.EntityID)
 		if npcCombatant == nil {
 			t.Fatal("NPC not found after round 1")
@@ -293,10 +297,11 @@ func RunCombatResolverContractTests(t *testing.T, newResolver func(t *testing.T)
 		if state.Status != CombatStatusActive {
 			t.Fatal("combat should still be active for round 2")
 		}
-		_, err = resolver.ProcessRound(ctx, action, state)
+		result2, err := resolver.ProcessRound(ctx, action, state)
 		if err != nil {
 			t.Fatalf("ProcessRound round 2: %v", err)
 		}
+		state = result2.UpdatedState
 		npcCombatant = contractFindCombatant(state, npc.EntityID)
 		if npcCombatant == nil {
 			t.Fatal("NPC not found after round 2")
@@ -329,10 +334,11 @@ func RunCombatResolverContractTests(t *testing.T, newResolver func(t *testing.T)
 			if state.Status != CombatStatusActive {
 				break
 			}
-			_, err := resolver.ProcessRound(ctx, action, state)
+			result, err := resolver.ProcessRound(ctx, action, state)
 			if err != nil {
 				t.Fatalf("ProcessRound round %d: %v", round+1, err)
 			}
+			state = result.UpdatedState
 		}
 
 		outcome, err := resolver.ResolveCombat(ctx, state)
