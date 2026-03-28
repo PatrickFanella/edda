@@ -114,3 +114,17 @@ func (s *worldService) CreateEconomicSystem(ctx context.Context, arg statedb.Cre
 func (s *worldService) GetLocationByID(ctx context.Context, id pgtype.UUID) (statedb.Location, error) {
 	return s.queries.GetLocationByID(ctx, id)
 }
+
+// --- tools.CityStore methods ---
+
+func (s *worldService) CreateLocation(ctx context.Context, arg statedb.CreateLocationParams) (statedb.Location, error) {
+	return s.queries.CreateLocation(ctx, arg)
+}
+
+func (s *worldService) UpdateLocation(ctx context.Context, arg statedb.UpdateLocationParams) (statedb.Location, error) {
+	return s.queries.UpdateLocation(ctx, arg)
+}
+
+func (s *worldService) ListLocationsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Location, error) {
+	return s.queries.ListLocationsByCampaign(ctx, campaignID)
+}
