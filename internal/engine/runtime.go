@@ -28,6 +28,7 @@ type Engine struct {
 }
 
 const recentTurnLimit = 10
+
 // New creates a concrete GameEngine backed by the shared game and llm packages.
 func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider) *Engine {
 	registry := tools.NewRegistry()
@@ -51,6 +52,8 @@ func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider) *Engin
 	errs = appendErr(errs, tools.RegisterCreateCulture(registry, worldSvc, worldSvc, nil))
 	errs = appendErr(errs, tools.RegisterSkillCheck(registry, statResolver, nil))
 	errs = appendErr(errs, tools.RegisterCombatRound(registry, nil))
+	errs = appendErr(errs, tools.RegisterApplyDamage(registry))
+	errs = appendErr(errs, tools.RegisterApplyCondition(registry))
 	if err := errors.Join(errs...); err != nil {
 		panic(fmt.Sprintf("tool registration failed: %v", err))
 	}
