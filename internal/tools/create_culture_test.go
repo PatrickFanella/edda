@@ -96,7 +96,7 @@ func TestRegisterCreateCulture(t *testing.T) {
 	for _, field := range required {
 		requiredSet[field] = struct{}{}
 	}
-	for _, field := range createCultureRequiredFields {
+	for _, field := range createCultureRequiredFields() {
 		if _, ok := requiredSet[field]; !ok {
 			t.Fatalf("schema missing required field %q", field)
 		}
@@ -163,6 +163,42 @@ func TestCreateCultureHandleSuccess(t *testing.T) {
 	if store.lastCreateCultureArgs.BeliefSystemID != dbutil.ToPgtype(beliefSystemID) {
 		t.Fatalf("CreateCulture belief_system_id mismatch")
 	}
+	var details map[string]any
+	if err := json.Unmarshal(store.lastCreateCultureArgs.Details, &details); err != nil {
+		t.Fatalf("unmarshal Details: %v", err)
+	}
+	checkStringSlice := func(field string, want []string) {
+		raw, ok := details[field]
+		if !ok {
+			t.Fatalf("Details missing field %q", field)
+		}
+		rawSlice, ok := raw.([]any)
+		if !ok {
+			t.Fatalf("Details field %q has type %T, want []any", field, raw)
+		}
+		if len(rawSlice) != len(want) {
+			t.Fatalf("Details field %q length = %d, want %d", field, len(rawSlice), len(want))
+		}
+		for i, w := range want {
+			gotStr, ok := rawSlice[i].(string)
+			if !ok {
+				t.Fatalf("Details field %q[%d] has type %T, want string", field, i, rawSlice[i])
+			}
+			if gotStr != w {
+				t.Fatalf("Details field %q[%d] = %q, want %q", field, i, gotStr, w)
+			}
+		}
+	}
+	if desc, ok := details["description"].(string); !ok || desc != "A culture shaped by river trade and flood seasons." {
+		t.Fatalf("Details description = %#v, want %q", details["description"], "A culture shaped by river trade and flood seasons.")
+	}
+	checkStringSlice("values", []string{"hospitality", "adaptability"})
+	checkStringSlice("customs", []string{"flood festival"})
+	checkStringSlice("social_norms", []string{"share water rights"})
+	checkStringSlice("art_forms", []string{"boat carving"})
+	checkStringSlice("taboos", []string{"polluting sacred springs"})
+	checkStringSlice("greeting_customs", []string{"touch wrist bands"})
+	checkStringSlice("associated_faction_ids", []string{factionID.String()})
 	if memStore.lastParams.MemoryType != string(domain.MemoryTypeWorldFact) {
 		t.Fatalf("CreateMemory memory_type = %q, want %q", memStore.lastParams.MemoryType, domain.MemoryTypeWorldFact)
 	}

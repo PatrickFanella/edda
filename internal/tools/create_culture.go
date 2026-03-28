@@ -18,18 +18,20 @@ import (
 
 const createCultureToolName = "create_culture"
 
-var createCultureRequiredFields = []string{
-	"name",
-	"description",
-	"values",
-	"customs",
-	"social_norms",
-	"art_forms",
-	"taboos",
-	"greeting_customs",
-	"language_id",
-	"belief_system_id",
-	"associated_factions",
+func createCultureRequiredFields() []string {
+	return []string{
+		"name",
+		"description",
+		"values",
+		"customs",
+		"social_norms",
+		"art_forms",
+		"taboos",
+		"greeting_customs",
+		"language_id",
+		"belief_system_id",
+		"associated_factions",
+	}
 }
 
 // CultureStore persists cultures and validates related world entities.
@@ -114,7 +116,7 @@ func CreateCultureTool() llm.Tool {
 					},
 				},
 			},
-			"required":             createCultureRequiredFields,
+			"required":             createCultureRequiredFields(),
 			"additionalProperties": false,
 		},
 	}
