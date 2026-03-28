@@ -27,9 +27,9 @@ func ApplyConditionTool() llm.Tool {
 					"type":        "string",
 					"description": "Condition name (e.g. stunned, poisoned).",
 				},
-				"duration_turns": map[string]any{
+				"duration_rounds": map[string]any{
 					"type":        "integer",
-					"description": "Condition duration in turns. Use -1 for a permanent condition.",
+					"description": "Condition duration in rounds. Use -1 for a permanent condition.",
 				},
 				"source": map[string]any{
 					"type":        "string",
@@ -40,7 +40,7 @@ func ApplyConditionTool() llm.Tool {
 					"description": "Current combat state containing the target combatant.",
 				},
 			},
-			"required":             []string{"target_id", "condition", "duration_turns", "source", "combat_state"},
+			"required":             []string{"target_id", "condition", "duration_rounds", "source", "combat_state"},
 			"additionalProperties": false,
 		},
 	}
@@ -73,12 +73,12 @@ func (h *ApplyConditionHandler) Handle(_ context.Context, args map[string]any) (
 	if err != nil {
 		return nil, err
 	}
-	durationTurns, err := parseIntArg(args, "duration_turns")
+	durationRounds, err := parseIntArg(args, "duration_rounds")
 	if err != nil {
 		return nil, err
 	}
-	if durationTurns < 1 && durationTurns != combat.PermanentDuration {
-		return nil, errors.New("duration_turns must be greater than 0 or -1 for permanent")
+	if durationRounds < 1 && durationRounds != combat.PermanentDuration {
+		return nil, errors.New("duration_rounds must be greater than 0 or -1 for permanent")
 	}
 	source, err := parseStringArg(args, "source")
 	if err != nil {
@@ -94,10 +94,10 @@ func (h *ApplyConditionHandler) Handle(_ context.Context, args map[string]any) (
 		return nil, fmt.Errorf("target combatant %s not found", targetID)
 	}
 
-	combat.AddCondition(target, condition, durationTurns)
+	combat.AddCondition(target, condition, durationRounds)
 
-	narrativeDuration := fmt.Sprintf("for %d turns", durationTurns)
-	if durationTurns == combat.PermanentDuration {
+	narrativeDuration := fmt.Sprintf("for %d rounds", durationRounds)
+	if durationRounds == combat.PermanentDuration {
 		narrativeDuration = "permanently"
 	}
 
@@ -107,10 +107,10 @@ func (h *ApplyConditionHandler) Handle(_ context.Context, args map[string]any) (
 			"combatant":    combatantStateMap(target),
 			"combat_state": combatStateToMap(state),
 			"condition": map[string]any{
-				"target_id":      targetID.String(),
-				"condition":      condition,
-				"duration_turns": durationTurns,
-				"source":         source,
+				"target_id":       targetID.String(),
+				"name":            condition,
+				"duration_rounds": durationRounds,
+				"source":          source,
 			},
 		},
 		Narrative: fmt.Sprintf("%s is now %s %s (source: %s).", target.Name, condition, narrativeDuration, source),

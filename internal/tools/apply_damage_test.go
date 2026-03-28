@@ -70,6 +70,9 @@ func TestApplyDamageReducesHPAndRecordsDamageType(t *testing.T) {
 	if got, _ := damage["source"].(string); got != "burning hands" {
 		t.Fatalf("source = %q, want burning hands", got)
 	}
+	if got, _ := damage["applied_amount"].(int); got != 4 {
+		t.Fatalf("applied_amount = %d, want 4", got)
+	}
 }
 
 func TestApplyDamageClampsAtZeroAndKillsNPC(t *testing.T) {
@@ -127,5 +130,39 @@ func TestApplyDamageNilHandler(t *testing.T) {
 	_, err := h.Handle(context.Background(), map[string]any{})
 	if err == nil || !strings.Contains(err.Error(), "handler is nil") {
 		t.Fatalf("expected nil handler error, got %v", err)
+	}
+}
+
+func TestApplyDamageDeadTargetNoOpMetadataAndNarrative(t *testing.T) {
+	playerID := uuid.New()
+	enemyID := uuid.New()
+	state := baseCombatStateArgs(playerID, enemyID)
+	combatants := state["combatants"].([]any)
+	enemy := combatants[1].(map[string]any)
+	enemy["hp"] = 0
+	enemy["status"] = "dead"
+
+	h := NewApplyDamageHandler()
+	result, err := h.Handle(context.Background(), map[string]any{
+		"target_id":    enemyID.String(),
+		"amount":       7,
+		"damage_type":  "fire",
+		"source":       "fire bolt",
+		"combat_state": state,
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	damage := result.Data["damage"].(map[string]any)
+	if got, _ := damage["applied_amount"].(int); got != 0 {
+		t.Fatalf("applied_amount = %d, want 0", got)
+	}
+	combatant := result.Data["combatant"].(map[string]any)
+	if hp, _ := combatant["hp"].(int); hp != 0 {
+		t.Fatalf("enemy HP = %d, want 0", hp)
+	}
+	if !strings.Contains(result.Narrative, "already dead") {
+		t.Fatalf("narrative = %q, want already dead", result.Narrative)
 	}
 }
