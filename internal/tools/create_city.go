@@ -230,7 +230,7 @@ func (h *CreateCityHandler) Handle(ctx context.Context, args map[string]any) (*T
 	cityID := dbutil.FromPgtype(city.ID)
 	createdDistrictLocationIDs := []string{}
 	if createDistrictLocations {
-		createdDistrictLocationIDs, err = h.createDistrictLocations(ctx, city.CampaignID, cityID, districts, deriveCityRegion(parentLocation))
+		createdDistrictLocationIDs, err = h.createDistrictLocations(ctx, locations, city.CampaignID, cityID, districts, deriveCityRegion(parentLocation))
 		if err != nil {
 			return nil, err
 		}
@@ -266,18 +266,14 @@ func (h *CreateCityHandler) Handle(ctx context.Context, args map[string]any) (*T
 
 func (h *CreateCityHandler) createDistrictLocations(
 	ctx context.Context,
+	locations []statedb.Location,
 	campaignID pgtype.UUID,
 	cityID uuid.UUID,
 	districts []string,
 	region pgtype.Text,
 ) ([]string, error) {
-	existing, err := h.cityStore.ListLocationsByCampaign(ctx, campaignID)
-	if err != nil {
-		return nil, fmt.Errorf("list campaign locations for districts: %w", err)
-	}
-
 	existingSet := make(map[string]struct{})
-	for _, location := range existing {
+	for _, location := range locations {
 		if !location.LocationType.Valid || !strings.EqualFold(location.LocationType.String, "district") {
 			continue
 		}
