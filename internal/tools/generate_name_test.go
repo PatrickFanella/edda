@@ -291,6 +291,26 @@ func TestGenerateNameHandle_Validation(t *testing.T) {
 			t.Fatalf("error = %v, want UUID-format message", err)
 		}
 	})
+
+	t.Run("empty language_id treated as not provided", func(t *testing.T) {
+		result, err := h.Handle(context.Background(), map[string]any{
+			"name_type":   "place",
+			"language_id": "   ",
+		})
+		if err != nil {
+			t.Fatalf("expected no error for empty language_id, got: %v", err)
+		}
+		if !result.Success {
+			t.Fatal("expected Success=true")
+		}
+		name, ok := result.Data["name"].(string)
+		if !ok || name == "" {
+			t.Fatalf("expected non-empty fallback name, got %v", result.Data["name"])
+		}
+		if _, hasLang := result.Data["language_id"]; hasLang {
+			t.Fatal("expected no language_id in data when empty string provided")
+		}
+	})
 }
 
 func TestGenerateNameHandle_StoreError(t *testing.T) {
