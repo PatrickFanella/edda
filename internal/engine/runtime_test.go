@@ -86,6 +86,8 @@ type testProvider struct{}
 func (p *testProvider) Complete(_ context.Context, _ []llm.Message, tools []llm.Tool) (*llm.Response, error) {
 	var foundUpdateNPC bool
 	var foundUpdatePlayerStats bool
+	var foundAddExperience bool
+	var foundLevelUp bool
 	var foundAddAbility bool
 	var foundRemoveAbility bool
 	for _, tool := range tools {
@@ -95,6 +97,11 @@ func (p *testProvider) Complete(_ context.Context, _ []llm.Message, tools []llm.
 		if tool.Name == "update_player_stats" {
 			foundUpdatePlayerStats = true
 		}
+		if tool.Name == "add_experience" {
+			foundAddExperience = true
+		}
+		if tool.Name == "level_up" {
+			foundLevelUp = true
 		if tool.Name == "add_ability" {
 			foundAddAbility = true
 		}
@@ -108,6 +115,11 @@ func (p *testProvider) Complete(_ context.Context, _ []llm.Message, tools []llm.
 	if !foundUpdatePlayerStats {
 		return nil, errors.New("update_player_stats tool not registered")
 	}
+	if !foundAddExperience {
+		return nil, errors.New("add_experience tool not registered")
+	}
+	if !foundLevelUp {
+		return nil, errors.New("level_up tool not registered")
 	if !foundAddAbility {
 		return nil, errors.New("add_ability tool not registered")
 	}

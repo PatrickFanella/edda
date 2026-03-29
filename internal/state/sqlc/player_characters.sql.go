@@ -347,6 +347,43 @@ func (q *Queries) UpdatePlayerHP(ctx context.Context, arg UpdatePlayerHPParams) 
 	return i, err
 }
 
+const updatePlayerLevel = `-- name: UpdatePlayerLevel :one
+UPDATE player_characters
+SET
+  level = $1,
+  updated_at = now()
+WHERE id = $2
+RETURNING id, campaign_id, user_id, name, description, stats, hp, max_hp, experience, level, status, abilities, current_location_id, created_at, updated_at
+`
+
+type UpdatePlayerLevelParams struct {
+	Level int32
+	ID    pgtype.UUID
+}
+
+func (q *Queries) UpdatePlayerLevel(ctx context.Context, arg UpdatePlayerLevelParams) (PlayerCharacter, error) {
+	row := q.db.QueryRow(ctx, updatePlayerLevel, arg.Level, arg.ID)
+	var i PlayerCharacter
+	err := row.Scan(
+		&i.ID,
+		&i.CampaignID,
+		&i.UserID,
+		&i.Name,
+		&i.Description,
+		&i.Stats,
+		&i.Hp,
+		&i.MaxHp,
+		&i.Experience,
+		&i.Level,
+		&i.Status,
+		&i.Abilities,
+		&i.CurrentLocationID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
 const updatePlayerLocation = `-- name: UpdatePlayerLocation :one
 UPDATE player_characters
 SET
