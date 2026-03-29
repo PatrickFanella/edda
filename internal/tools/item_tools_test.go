@@ -619,7 +619,7 @@ func TestModifyItemHandleInvalidInputs(t *testing.T) {
 	t.Run("item belongs to other player", func(t *testing.T) {
 		h := NewModifyItemHandler(&stubModifyItemStore{
 			items: map[uuid.UUID]*PlayerItem{
-				itemID: {ID: itemID, PlayerCharacterID: otherPlayerID, Name: "Ring", Quantity: 1},
+				itemID: {ID: itemID, PlayerCharacterID: otherPlayerID, Name: "Ring", ItemType: "armor", Rarity: "common", Quantity: 1},
 			},
 		})
 		_, err := h.Handle(ctx, map[string]any{"item_id": itemID.String(), "properties": map[string]any{"charges": 2}})
@@ -631,7 +631,7 @@ func TestModifyItemHandleInvalidInputs(t *testing.T) {
 	t.Run("unsupported properties", func(t *testing.T) {
 		h := NewModifyItemHandler(&stubModifyItemStore{
 			items: map[uuid.UUID]*PlayerItem{
-				itemID: {ID: itemID, PlayerCharacterID: playerID, Name: "Ring"},
+				itemID: {ID: itemID, PlayerCharacterID: playerID, Name: "Ring", ItemType: "armor", Rarity: "common"},
 			},
 		})
 		_, err := h.Handle(ctx, map[string]any{"item_id": itemID.String(), "properties": map[string]any{"speed": 3}})
@@ -649,7 +649,7 @@ func TestModifyItemHandleInvalidInputs(t *testing.T) {
 
 		hUpd := NewModifyItemHandler(&stubModifyItemStore{
 			items: map[uuid.UUID]*PlayerItem{
-				itemID: {ID: itemID, PlayerCharacterID: playerID, Name: "Ring"},
+				itemID: {ID: itemID, PlayerCharacterID: playerID, Name: "Ring", ItemType: "armor", Rarity: "common"},
 			},
 			updateErr: errors.New("write fail"),
 		})
