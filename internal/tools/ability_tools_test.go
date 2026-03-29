@@ -110,6 +110,33 @@ func TestAddAbilityHandleSuccess(t *testing.T) {
 	}
 }
 
+func TestAddAbilityHandleTrimsNameAndDescription(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubAbilityStore{
+		player: &domain.PlayerCharacter{
+			ID:        playerID,
+			Abilities: []byte(`[]`),
+		},
+	}
+	h := NewAddAbilityHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	got, err := h.Handle(ctx, map[string]any{
+		"name":        "  Second Wind  ",
+		"description": "  Recover stamina  ",
+		"type":        "active",
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if got.Data["name"] != "Second Wind" {
+		t.Fatalf("name = %v, want trimmed value", got.Data["name"])
+	}
+	if got.Data["description"] != "Recover stamina" {
+		t.Fatalf("description = %v, want trimmed value", got.Data["description"])
+	}
+}
+
 func TestAddAbilityHandleDuplicateRejected(t *testing.T) {
 	playerID := uuid.New()
 	store := &stubAbilityStore{
@@ -223,6 +250,34 @@ func TestAbilityHandlersValidationAndWrappedErrors(t *testing.T) {
 		}
 	})
 
+	t.Run("add rejects whitespace name", func(t *testing.T) {
+		h := NewAddAbilityHandler(&stubAbilityStore{
+			player: &domain.PlayerCharacter{ID: playerID, Abilities: []byte(`[]`)},
+		})
+		_, err := h.Handle(ctx, map[string]any{
+			"name":        "   ",
+			"description": "Move quickly",
+			"type":        "active",
+		})
+		if err == nil || !strings.Contains(err.Error(), "name cannot be empty or whitespace") {
+			t.Fatalf("error = %v, want whitespace name validation", err)
+		}
+	})
+
+	t.Run("add rejects whitespace description", func(t *testing.T) {
+		h := NewAddAbilityHandler(&stubAbilityStore{
+			player: &domain.PlayerCharacter{ID: playerID, Abilities: []byte(`[]`)},
+		})
+		_, err := h.Handle(ctx, map[string]any{
+			"name":        "Dash",
+			"description": "   ",
+			"type":        "active",
+		})
+		if err == nil || !strings.Contains(err.Error(), "description cannot be empty or whitespace") {
+			t.Fatalf("error = %v, want whitespace description validation", err)
+		}
+	})
+
 	t.Run("add rejects negative cooldown", func(t *testing.T) {
 		h := NewAddAbilityHandler(&stubAbilityStore{
 			player: &domain.PlayerCharacter{ID: playerID, Abilities: []byte(`[]`)},
@@ -249,6 +304,19 @@ func TestAbilityHandlersValidationAndWrappedErrors(t *testing.T) {
 		_, err := h.Handle(ctx, map[string]any{"ability_name": "Dash"})
 		if err == nil || !strings.Contains(err.Error(), "update player abilities: write fail") {
 			t.Fatalf("error = %v, want wrapped update error", err)
+		}
+	})
+
+	t.Run("remove rejects whitespace ability_name", func(t *testing.T) {
+		h := NewRemoveAbilityHandler(&stubAbilityStore{
+			player: &domain.PlayerCharacter{
+				ID:        playerID,
+				Abilities: []byte(`[{"name":"Dash","description":"Move quickly","type":"active"}]`),
+			},
+		})
+		_, err := h.Handle(ctx, map[string]any{"ability_name": "   "})
+		if err == nil || !strings.Contains(err.Error(), "ability_name cannot be empty or whitespace") {
+			t.Fatalf("error = %v, want whitespace ability_name validation", err)
 		}
 	})
 }
