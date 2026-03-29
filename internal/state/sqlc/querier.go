@@ -119,6 +119,7 @@ type Querier interface {
 	UpdatePlayerCharacter(ctx context.Context, arg UpdatePlayerCharacterParams) (PlayerCharacter, error)
 	UpdatePlayerExperience(ctx context.Context, arg UpdatePlayerExperienceParams) (PlayerCharacter, error)
 	UpdatePlayerHP(ctx context.Context, arg UpdatePlayerHPParams) (PlayerCharacter, error)
+	UpdatePlayerLevel(ctx context.Context, arg UpdatePlayerLevelParams) (PlayerCharacter, error)
 	UpdatePlayerLocation(ctx context.Context, arg UpdatePlayerLocationParams) (PlayerCharacter, error)
 	UpdatePlayerStats(ctx context.Context, arg UpdatePlayerStatsParams) (PlayerCharacter, error)
 	UpdatePlayerStatus(ctx context.Context, arg UpdatePlayerStatusParams) (PlayerCharacter, error)
