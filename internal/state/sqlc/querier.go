@@ -115,6 +115,7 @@ type Querier interface {
 	UpdateNPCDisposition(ctx context.Context, arg UpdateNPCDispositionParams) (Npc, error)
 	UpdateNPCLocation(ctx context.Context, arg UpdateNPCLocationParams) (Npc, error)
 	UpdateObjective(ctx context.Context, arg UpdateObjectiveParams) (QuestObjective, error)
+	UpdatePlayerAbilities(ctx context.Context, arg UpdatePlayerAbilitiesParams) (PlayerCharacter, error)
 	UpdatePlayerCharacter(ctx context.Context, arg UpdatePlayerCharacterParams) (PlayerCharacter, error)
 	UpdatePlayerExperience(ctx context.Context, arg UpdatePlayerExperienceParams) (PlayerCharacter, error)
 	UpdatePlayerHP(ctx context.Context, arg UpdatePlayerHPParams) (PlayerCharacter, error)
