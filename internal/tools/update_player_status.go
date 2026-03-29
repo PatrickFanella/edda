@@ -34,6 +34,11 @@ type playerStatusEntry struct {
 	Duration *statusDuration `json:"duration,omitempty"`
 }
 
+type playerStatusState struct {
+	Mode       string              `json:"mode,omitempty"`
+	Conditions []playerStatusEntry `json:"conditions"`
+}
+
 // UpdatePlayerStatusStore provides player status lookup and persistence for update_player_status.
 type UpdatePlayerStatusStore interface {
 	GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error)
@@ -130,31 +135,38 @@ func (h *UpdatePlayerStatusHandler) Handle(ctx context.Context, args map[string]
 		return nil, errors.New("current player character does not exist")
 	}
 
-	currentStatuses, err := parsePersistedStatuses(playerCharacter.Status)
+	currentState, err := parsePersistedStatusState(playerCharacter.Status)
 	if err != nil {
 		return nil, err
 	}
-	if hasStatus(currentStatuses, "dead") && statusName != "dead" {
+	if hasStatus(currentState.Conditions, "dead") && statusName != "dead" {
 		return nil, errors.New("cannot update status for a dead player character")
 	}
 
-	updatedStatuses := applyStatusUpdate(currentStatuses, statusName, duration)
-	persistedStatus, err := json.Marshal(updatedStatuses)
+	updatedStatuses := applyStatusUpdate(currentState.Conditions, statusName, duration)
+	persistedStatus, err := marshalPersistedStatusState(playerStatusState{
+		Mode:       currentState.Mode,
+		Conditions: updatedStatuses,
+	})
 	if err != nil {
 		return nil, fmt.Errorf("marshal updated status: %w", err)
 	}
 
-	if err := h.store.UpdatePlayerStatus(ctx, playerCharacterID, string(persistedStatus)); err != nil {
+	if err := h.store.UpdatePlayerStatus(ctx, playerCharacterID, persistedStatus); err != nil {
 		return nil, fmt.Errorf("update player status: %w", err)
 	}
 
+	appliedDuration := durationForStatus(updatedStatuses, statusName)
 	data := map[string]any{
 		"player_character_id": playerCharacterID.String(),
 		"status":              statusName,
 		"statuses":            updatedStatuses,
 	}
-	if duration != nil {
-		data["duration"] = duration
+	if currentState.Mode != "" {
+		data["mode"] = currentState.Mode
+	}
+	if appliedDuration != nil {
+		data["duration"] = appliedDuration
 	}
 	if statusName == "dead" {
 		data["game_over"] = true
@@ -194,22 +206,53 @@ func parseOptionalStatusDurationArg(args map[string]any, key string) (*statusDur
 	return &statusDuration{Unit: unit, Value: value}, nil
 }
 
-func parsePersistedStatuses(raw string) ([]playerStatusEntry, error) {
+func parsePersistedStatusState(raw string) (playerStatusState, error) {
+	state := playerStatusState{Conditions: []playerStatusEntry{}}
 	trimmed := strings.TrimSpace(raw)
-	if trimmed == "" || strings.EqualFold(trimmed, "active") || strings.EqualFold(trimmed, "in_combat") || strings.EqualFold(trimmed, "defeated") {
-		return nil, nil
+	if trimmed == "" {
+		return state, nil
+	}
+	if strings.HasPrefix(trimmed, "{") {
+		if err := json.Unmarshal([]byte(trimmed), &state); err != nil {
+			return playerStatusState{}, fmt.Errorf("unmarshal player status object: %w", err)
+		}
+		for i := range state.Conditions {
+			state.Conditions[i].Status = strings.ToLower(strings.TrimSpace(state.Conditions[i].Status))
+		}
+		state.Mode = strings.ToLower(strings.TrimSpace(state.Mode))
+		return state, nil
 	}
 	if !strings.HasPrefix(trimmed, "[") {
-		return []playerStatusEntry{{Status: strings.ToLower(trimmed)}}, nil
+		lowerTrimmed := strings.ToLower(trimmed)
+		if lowerTrimmed == "active" || lowerTrimmed == "in_combat" || lowerTrimmed == "defeated" {
+			state.Mode = lowerTrimmed
+			return state, nil
+		}
+		state.Conditions = []playerStatusEntry{{Status: lowerTrimmed}}
+		return state, nil
 	}
-	var statuses []playerStatusEntry
-	if err := json.Unmarshal([]byte(trimmed), &statuses); err != nil {
-		return nil, fmt.Errorf("unmarshal player status: %w", err)
+	if err := json.Unmarshal([]byte(trimmed), &state.Conditions); err != nil {
+		return playerStatusState{}, fmt.Errorf("unmarshal player status: %w", err)
 	}
-	for i := range statuses {
-		statuses[i].Status = strings.ToLower(strings.TrimSpace(statuses[i].Status))
+	for i := range state.Conditions {
+		state.Conditions[i].Status = strings.ToLower(strings.TrimSpace(state.Conditions[i].Status))
 	}
-	return statuses, nil
+	return state, nil
+}
+
+func marshalPersistedStatusState(state playerStatusState) (string, error) {
+	if state.Mode == "" {
+		payload, err := json.Marshal(state.Conditions)
+		if err != nil {
+			return "", err
+		}
+		return string(payload), nil
+	}
+	payload, err := json.Marshal(state)
+	if err != nil {
+		return "", err
+	}
+	return string(payload), nil
 }
 
 func applyStatusUpdate(current []playerStatusEntry, next string, duration *statusDuration) []playerStatusEntry {
@@ -258,4 +301,13 @@ func hasStatus(statuses []playerStatusEntry, status string) bool {
 		}
 	}
 	return false
+}
+
+func durationForStatus(statuses []playerStatusEntry, status string) *statusDuration {
+	for _, s := range statuses {
+		if strings.EqualFold(s.Status, status) {
+			return s.Duration
+		}
+	}
+	return nil
 }

@@ -204,6 +204,89 @@ func TestUpdatePlayerStatusDeadSetsGameOver(t *testing.T) {
 	}
 }
 
+func TestUpdatePlayerStatusPreservesCombatMode(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatusStore{
+		player: &domain.PlayerCharacter{
+			ID:     playerID,
+			Status: "in_combat",
+		},
+	}
+	h := NewUpdatePlayerStatusHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	result, err := h.Handle(ctx, map[string]any{
+		"status": "poisoned",
+		"duration": map[string]any{
+			"unit":  "turns",
+			"value": "2",
+		},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if got, _ := result.Data["mode"].(string); got != "in_combat" {
+		t.Fatalf("mode = %q, want in_combat", got)
+	}
+
+	var persisted playerStatusState
+	if err := json.Unmarshal([]byte(store.lastStatus), &persisted); err != nil {
+		t.Fatalf("unmarshal persisted status object: %v", err)
+	}
+	if persisted.Mode != "in_combat" {
+		t.Fatalf("persisted mode = %q, want in_combat", persisted.Mode)
+	}
+	if len(persisted.Conditions) != 1 || persisted.Conditions[0].Status != "poisoned" {
+		t.Fatalf("persisted conditions = %+v, want one poisoned", persisted.Conditions)
+	}
+}
+
+func TestUpdatePlayerStatusResponseDurationMatchesPersisted(t *testing.T) {
+	cases := []string{"healthy", "dead"}
+	for _, statusName := range cases {
+		t.Run(statusName, func(t *testing.T) {
+			playerID := uuid.New()
+			store := &stubUpdatePlayerStatusStore{
+				player: &domain.PlayerCharacter{
+					ID:     playerID,
+					Status: `[{"status":"poisoned","duration":{"unit":"turns","value":"3"}}]`,
+				},
+			}
+			h := NewUpdatePlayerStatusHandler(store)
+			ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+			result, err := h.Handle(ctx, map[string]any{
+				"status": statusName,
+				"duration": map[string]any{
+					"unit":  "turns",
+					"value": "99",
+				},
+			})
+			if err != nil {
+				t.Fatalf("Handle: %v", err)
+			}
+			if _, exists := result.Data["duration"]; exists {
+				t.Fatalf("response duration should be omitted for %s, got %v", statusName, result.Data["duration"])
+			}
+
+			var statuses []playerStatusEntry
+			if err := json.Unmarshal([]byte(store.lastStatus), &statuses); err != nil {
+				t.Fatalf("unmarshal persisted status: %v", err)
+			}
+			for _, entry := range statuses {
+				if entry.Status == statusName && entry.Duration != nil {
+					t.Fatalf("persisted %s duration = %+v, want nil", statusName, entry.Duration)
+				}
+			}
+			if statusName == "dead" {
+				if len(statuses) != 1 || statuses[0].Status != "dead" {
+					t.Fatalf("persisted statuses = %+v, want only dead", statuses)
+				}
+			}
+		})
+	}
+}
+
 func TestUpdatePlayerStatusErrors(t *testing.T) {
 	playerID := uuid.New()
 	h := NewUpdatePlayerStatusHandler(&stubUpdatePlayerStatusStore{
@@ -219,6 +302,36 @@ func TestUpdatePlayerStatusErrors(t *testing.T) {
 	_, err = h.Handle(ctx, map[string]any{"status": "unknown"})
 	if err == nil || !strings.Contains(err.Error(), "status must be one of") {
 		t.Fatalf("expected status validation error, got %v", err)
+	}
+
+	_, err = h.Handle(ctx, map[string]any{
+		"status": "poisoned",
+		"duration": map[string]any{
+			"unit":  "days",
+			"value": "2",
+		},
+	})
+	if err == nil || !strings.Contains(err.Error(), "duration.unit must be one of") {
+		t.Fatalf("expected duration unit validation error, got %v", err)
+	}
+
+	_, err = h.Handle(ctx, map[string]any{
+		"status":   "poisoned",
+		"duration": "bad",
+	})
+	if err == nil || !strings.Contains(err.Error(), "duration must be an object") {
+		t.Fatalf("expected duration object validation error, got %v", err)
+	}
+
+	_, err = h.Handle(ctx, map[string]any{
+		"status": "poisoned",
+		"duration": map[string]any{
+			"unit":  "turns",
+			"value": "   ",
+		},
+	})
+	if err == nil || !strings.Contains(err.Error(), "duration.value") {
+		t.Fatalf("expected duration value validation error, got %v", err)
 	}
 }
 
@@ -243,3 +356,68 @@ func TestUpdatePlayerStatusStoreErrors(t *testing.T) {
 }
 
 var _ UpdatePlayerStatusStore = (*stubUpdatePlayerStatusStore)(nil)
+
+func TestParsePersistedStatusStateCompatibility(t *testing.T) {
+	tests := []struct {
+		name      string
+		raw       string
+		wantMode  string
+		wantCount int
+	}{
+		{name: "empty", raw: "", wantMode: "", wantCount: 0},
+		{name: "legacy mode", raw: "in_combat", wantMode: "in_combat", wantCount: 0},
+		{name: "legacy array", raw: `[{"status":"cursed"}]`, wantMode: "", wantCount: 1},
+		{name: "new object", raw: `{"mode":"active","conditions":[{"status":"poisoned"}]}`, wantMode: "active", wantCount: 1},
+		{name: "legacy scalar condition", raw: "resting", wantMode: "", wantCount: 1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := parsePersistedStatusState(tt.raw)
+			if err != nil {
+				t.Fatalf("parsePersistedStatusState: %v", err)
+			}
+			if got.Mode != tt.wantMode {
+				t.Fatalf("mode = %q, want %q", got.Mode, tt.wantMode)
+			}
+			if len(got.Conditions) != tt.wantCount {
+				t.Fatalf("conditions count = %d, want %d", len(got.Conditions), tt.wantCount)
+			}
+		})
+	}
+
+	_, err := parsePersistedStatusState("{bad json")
+	if err == nil {
+		t.Fatal("expected parse error for invalid object JSON")
+	}
+}
+
+func TestMarshalPersistedStatusStateCompatibility(t *testing.T) {
+	arrayPayload, err := marshalPersistedStatusState(playerStatusState{
+		Conditions: []playerStatusEntry{{Status: "resting"}},
+	})
+	if err != nil {
+		t.Fatalf("marshalPersistedStatusState array: %v", err)
+	}
+	if !strings.HasPrefix(arrayPayload, "[") {
+		t.Fatalf("array payload = %q, want JSON array", arrayPayload)
+	}
+
+	objectPayload, err := marshalPersistedStatusState(playerStatusState{
+		Mode:       "in_combat",
+		Conditions: []playerStatusEntry{{Status: "poisoned"}},
+	})
+	if err != nil {
+		t.Fatalf("marshalPersistedStatusState object: %v", err)
+	}
+	if !strings.HasPrefix(objectPayload, "{") {
+		t.Fatalf("object payload = %q, want JSON object", objectPayload)
+	}
+
+	var decoded map[string]any
+	if err := json.Unmarshal([]byte(objectPayload), &decoded); err != nil {
+		t.Fatalf("unmarshal object payload: %v", err)
+	}
+	if decoded["mode"] != "in_combat" {
+		t.Fatalf("decoded mode = %v, want in_combat", decoded["mode"])
+	}
+}
