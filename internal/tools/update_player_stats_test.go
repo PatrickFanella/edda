@@ -261,4 +261,76 @@ func TestUpdatePlayerStatsHandleStoreErrors(t *testing.T) {
 	})
 }
 
+func TestUpdatePlayerStatsHandlerWithBoundsSwapsInvalidBounds(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatsStore{
+		player: &domain.PlayerCharacter{
+			ID:    playerID,
+			Stats: []byte(`{"strength":18}`),
+		},
+	}
+	h := NewUpdatePlayerStatsHandlerWithBounds(store, 30, 1)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	got, err := h.Handle(ctx, map[string]any{
+		"stat_name": "strength",
+		"value":     40,
+		"operation": "set",
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if got.Data["new_value"] != 30 {
+		t.Fatalf("new_value = %v, want 30", got.Data["new_value"])
+	}
+}
+
+func TestUpdatePlayerStatsHandleRejectsNonIntegerStoredStat(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatsStore{
+		player: &domain.PlayerCharacter{
+			ID:    playerID,
+			Stats: []byte(`{"strength":10.5}`),
+		},
+	}
+	h := NewUpdatePlayerStatsHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"stat_name": "strength",
+		"value":     1,
+		"operation": "add",
+	})
+	if err == nil {
+		t.Fatal("expected non-integer stat error")
+	}
+	if !strings.Contains(err.Error(), "not a valid integer") {
+		t.Fatalf("error = %v, want integer validation message", err)
+	}
+}
+
+func TestUpdatePlayerStatsHandleRejectsOutOfRangeStoredStat(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatsStore{
+		player: &domain.PlayerCharacter{
+			ID:    playerID,
+			Stats: []byte(`{"strength":1e100}`),
+		},
+	}
+	h := NewUpdatePlayerStatsHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"stat_name": "strength",
+		"value":     1,
+		"operation": "add",
+	})
+	if err == nil {
+		t.Fatal("expected out-of-range stat error")
+	}
+	if !strings.Contains(err.Error(), "not a valid integer") {
+		t.Fatalf("error = %v, want integer validation message", err)
+	}
+}
+
 var _ UpdatePlayerStatsStore = (*stubUpdatePlayerStatsStore)(nil)

@@ -19,13 +19,24 @@ const (
 	defaultMaxStatValue       = 30
 )
 
-var knownPlayerStats = map[string]struct{}{
-	"strength":     {},
-	"dexterity":    {},
-	"constitution": {},
-	"intelligence": {},
-	"wisdom":       {},
-	"charisma":     {},
+var playerStatNames = []string{
+	"strength",
+	"dexterity",
+	"constitution",
+	"intelligence",
+	"wisdom",
+	"charisma",
+}
+
+var knownPlayerStats map[string]struct{}
+
+var playerStatNamesList = strings.Join(playerStatNames, ", ")
+
+func init() {
+	knownPlayerStats = make(map[string]struct{}, len(playerStatNames))
+	for _, statName := range playerStatNames {
+		knownPlayerStats[statName] = struct{}{}
+	}
 }
 
 // UpdatePlayerStatsStore provides player stats lookup and persistence for update_player_stats.
@@ -45,7 +56,7 @@ func UpdatePlayerStatsTool() llm.Tool {
 				"stat_name": map[string]any{
 					"type":        "string",
 					"description": "Player stat name to update (strength, dexterity, constitution, intelligence, wisdom, charisma).",
-					"enum":        []string{"strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"},
+					"enum":        playerStatNames,
 				},
 				"value": map[string]any{
 					"type":        "integer",
@@ -86,7 +97,7 @@ func NewUpdatePlayerStatsHandler(store UpdatePlayerStatsStore) *UpdatePlayerStat
 // NewUpdatePlayerStatsHandlerWithBounds creates a new update_player_stats handler using custom stat bounds.
 func NewUpdatePlayerStatsHandlerWithBounds(store UpdatePlayerStatsStore, minStatValue, maxStatValue int) *UpdatePlayerStatsHandler {
 	if minStatValue > maxStatValue {
-		minStatValue, maxStatValue = defaultMinStatValue, defaultMaxStatValue
+		minStatValue, maxStatValue = maxStatValue, minStatValue
 	}
 	return &UpdatePlayerStatsHandler{
 		store:        store,
@@ -115,7 +126,7 @@ func (h *UpdatePlayerStatsHandler) Handle(ctx context.Context, args map[string]a
 	}
 	statName = strings.ToLower(strings.TrimSpace(statName))
 	if _, known := knownPlayerStats[statName]; !known {
-		return nil, errors.New("stat_name must be one of: strength, dexterity, constitution, intelligence, wisdom, charisma")
+		return nil, fmt.Errorf("stat_name must be one of: %s", playerStatNamesList)
 	}
 
 	operation, err := parseStringArg(args, "operation")
@@ -210,22 +221,11 @@ func findStatKey(stats map[string]any, statName string) (string, bool) {
 }
 
 func parseStatValue(value any, statName string) (int, error) {
-	switch typed := value.(type) {
-	case int:
-		return typed, nil
-	case int8:
-		return int(typed), nil
-	case int16:
-		return int(typed), nil
-	case int32:
-		return int(typed), nil
-	case int64:
-		return int(typed), nil
-	case float64:
-		return int(typed), nil
-	default:
-		return 0, fmt.Errorf("player stat %q has non-numeric value", statName)
+	parsed, err := parseIntArg(map[string]any{"stat_value": value}, "stat_value")
+	if err != nil {
+		return 0, fmt.Errorf("player stat %q is not a valid integer: %w", statName, err)
 	}
+	return parsed, nil
 }
 
 func clampStatValue(value, minValue, maxValue int) int {
