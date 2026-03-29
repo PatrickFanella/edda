@@ -30,17 +30,17 @@ type playerAbility struct {
 	Cooldown    *int   `json:"cooldown"`
 }
 
-// AddAbilityStore provides player lookup and ability persistence for add_ability.
-type AddAbilityStore interface {
+// AbilityStore provides player lookup and ability persistence for ability tools.
+type AbilityStore interface {
 	GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error)
 	UpdatePlayerAbilities(ctx context.Context, playerCharacterID uuid.UUID, abilities json.RawMessage) error
 }
 
-// RemoveAbilityStore provides player lookup and ability persistence for remove_ability.
-type RemoveAbilityStore interface {
-	GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error)
-	UpdatePlayerAbilities(ctx context.Context, playerCharacterID uuid.UUID, abilities json.RawMessage) error
-}
+// AddAbilityStore aliases AbilityStore for add_ability handlers.
+type AddAbilityStore = AbilityStore
+
+// RemoveAbilityStore aliases AbilityStore for remove_ability handlers.
+type RemoveAbilityStore = AbilityStore
 
 // AddAbilityTool returns the add_ability tool definition and JSON schema.
 func AddAbilityTool() llm.Tool {
@@ -110,9 +110,17 @@ func (h *AddAbilityHandler) Handle(ctx context.Context, args map[string]any) (*T
 	if err != nil {
 		return nil, err
 	}
+	name = strings.TrimSpace(name)
+	if name == "" {
+		return nil, errors.New("name cannot be empty or whitespace")
+	}
 	description, err := parseStringArg(args, "description")
 	if err != nil {
 		return nil, err
+	}
+	description = strings.TrimSpace(description)
+	if description == "" {
+		return nil, errors.New("description cannot be empty or whitespace")
 	}
 	abilityType, err := parseStringArg(args, "type")
 	if err != nil {
@@ -230,6 +238,10 @@ func (h *RemoveAbilityHandler) Handle(ctx context.Context, args map[string]any) 
 	abilityName, err := parseStringArg(args, "ability_name")
 	if err != nil {
 		return nil, err
+	}
+	abilityName = strings.TrimSpace(abilityName)
+	if abilityName == "" {
+		return nil, errors.New("ability_name cannot be empty or whitespace")
 	}
 
 	playerCharacter, err := h.store.GetPlayerCharacterByID(ctx, playerCharacterID)
