@@ -213,13 +213,16 @@ func parsePersistedStatuses(raw string) ([]playerStatusEntry, error) {
 }
 
 func applyStatusUpdate(current []playerStatusEntry, next string, duration *statusDuration) []playerStatusEntry {
+	if next == "healthy" {
+		duration = nil
+	}
 	updated := make([]playerStatusEntry, 0, len(current)+1)
 	for _, status := range current {
 		if status.Status == "" {
 			continue
 		}
 		if status.Status == next {
-			if duration == nil {
+			if duration == nil && next != "healthy" && next != "dead" {
 				duration = status.Duration
 			}
 			continue
@@ -241,7 +244,7 @@ func applyStatusUpdate(current []playerStatusEntry, next string, duration *statu
 	case "dead":
 		return []playerStatusEntry{{Status: "dead"}}
 	case "healthy":
-		updated = append(updated, playerStatusEntry{Status: "healthy", Duration: duration})
+		updated = append(updated, playerStatusEntry{Status: "healthy"})
 	default:
 		updated = append(updated, playerStatusEntry{Status: next, Duration: duration})
 	}
