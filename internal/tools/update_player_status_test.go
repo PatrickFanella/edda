@@ -199,6 +199,9 @@ func TestUpdatePlayerStatusDeadSetsGameOver(t *testing.T) {
 	if len(statuses) != 1 || statuses[0].Status != "dead" {
 		t.Fatalf("persisted statuses = %+v, want only dead", statuses)
 	}
+	if statuses[0].Duration != nil {
+		t.Fatalf("dead status duration = %+v, want nil", statuses[0].Duration)
+	}
 }
 
 func TestUpdatePlayerStatusErrors(t *testing.T) {
