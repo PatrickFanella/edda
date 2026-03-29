@@ -110,6 +110,24 @@ func RunCombatResolverContractTests(t *testing.T, newResolver func(t *testing.T)
 		if len(result.ActionsTaken) == 0 {
 			t.Error("expected at least one action taken")
 		}
+
+		// Verify that actions were executed in initiative order.
+		initOrderIndex := make(map[uuid.UUID]int, len(state.InitiativeOrder))
+		for idx, id := range state.InitiativeOrder {
+			initOrderIndex[id] = idx
+		}
+
+		prevIdx := -1
+		for i, act := range result.ActionsTaken {
+			idx, ok := initOrderIndex[act.ActorID]
+			if !ok {
+				t.Fatalf("action %d has actor %v not present in initiative order", i, act.ActorID)
+			}
+			if idx < prevIdx {
+				t.Errorf("actions not in initiative order: action %d actor %v (initiative index %d) occurs after actor with lower initiative index %d", i, act.ActorID, idx, prevIdx)
+			}
+			prevIdx = idx
+		}
 	})
 
 	t.Run("DamageReducesHP", func(t *testing.T) {
@@ -149,8 +167,16 @@ func RunCombatResolverContractTests(t *testing.T, newResolver func(t *testing.T)
 
 		// For each target that received damage, verify HP was reduced correctly.
 		for targetID, dmg := range totalDamage {
-			before := beforeHP[targetID]
+			before, ok := beforeHP[targetID]
+			if !ok {
+				t.Errorf("DamageDealt references unknown target %v not in combatants list", targetID)
+				continue
+			}
 			after := contractFindHP(state, targetID)
+			if after == -1 {
+				t.Errorf("target %v not found in updated state after round", targetID)
+				continue
+			}
 			expected := before - dmg
 			if expected < 0 {
 				expected = 0
@@ -350,32 +376,39 @@ func RunCombatResolverContractTests(t *testing.T, newResolver func(t *testing.T)
 			t.Error("outcome narrative should not be empty")
 		}
 
-		// NPC should have been killed; verify consequences.
+		// NPC must have been killed for this contract test to be meaningful.
 		npcCombatant := contractFindCombatant(state, npc.EntityID)
-		if npcCombatant != nil && npcCombatant.Status == CombatantStatusDead {
-			if outcome.Winner == nil {
-				t.Error("expected a winner when NPC is dead")
-			}
-			if len(outcome.Casualties) == 0 {
-				t.Error("expected casualties when NPC is dead")
-			}
-			if outcome.XPEarned <= 0 {
-				t.Error("expected positive XP earned when NPC is dead")
-			}
-			// Verify dead NPC appears in casualties list.
-			found := false
-			for _, id := range outcome.Casualties {
-				if id == npc.EntityID {
-					found = true
-					break
-				}
-			}
-			if !found {
-				t.Error("dead NPC should be in casualties list")
-			}
+		if npcCombatant == nil {
+			t.Fatal("NPC combatant not found in state")
+		}
+		if npcCombatant.Status != CombatantStatusDead {
+			t.Fatalf("NPC status = %q, want %q; combat should have resulted in NPC death",
+				npcCombatant.Status, CombatantStatusDead)
 		}
 
-		// State should be completed after ResolveCombat.
+		if outcome.Winner == nil {
+			t.Error("expected a winner when NPC is dead")
+		}
+		if len(outcome.Casualties) == 0 {
+			t.Error("expected casualties when NPC is dead")
+		}
+		if outcome.XPEarned <= 0 {
+			t.Error("expected positive XP earned when NPC is dead")
+		}
+		// Verify dead NPC appears in casualties list.
+		found := false
+		for _, id := range outcome.Casualties {
+			if id == npc.EntityID {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Error("dead NPC should be in casualties list")
+		}
+
+		// ResolveCombat sets state to completed (mutation is part of the
+		// contract — the interface does not return an updated state).
 		if state.Status != CombatStatusCompleted {
 			t.Errorf("combat status = %q, want %q after ResolveCombat",
 				state.Status, CombatStatusCompleted)
@@ -442,11 +475,11 @@ func contractNPC(t *testing.T, name string, hp, maxHP int) Combatant {
 
 func contractAttackAction(t *testing.T, combatantID uuid.UUID, targetID *uuid.UUID) PlayerAction {
 	t.Helper()
-	details, err := json.Marshal(actionDetails{
-		Skill:       "strength",
-		Difficulty:  10,
-		DamageOnHit: 5,
-		DamageType:  "slashing",
+	details, err := json.Marshal(map[string]any{
+		"skill":       "strength",
+		"difficulty":  10,
+		"damage_on_hit": 5,
+		"damage_type": "slashing",
 	})
 	if err != nil {
 		t.Fatalf("marshal action details: %v", err)
@@ -461,6 +494,9 @@ func contractAttackAction(t *testing.T, combatantID uuid.UUID, targetID *uuid.UU
 }
 
 func contractFindCombatant(state *CombatState, id uuid.UUID) *Combatant {
+	if state == nil {
+		return nil
+	}
 	for i := range state.Combatants {
 		if state.Combatants[i].EntityID == id {
 			return &state.Combatants[i]
