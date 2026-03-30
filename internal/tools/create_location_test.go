@@ -173,7 +173,6 @@ func TestCreateLocationHandleSuccessWithBidirectionalConnectionsAndMemory(t *tes
 	targetLocationID := uuid.New()
 	newLocationID := uuid.New()
 	conn1ID := uuid.New()
-	conn2ID := uuid.New()
 
 	store := &stubLocationStore{
 		locationsByID: map[[16]byte]statedb.Location{
@@ -205,14 +204,6 @@ func TestCreateLocationHandleSuccessWithBidirectionalConnectionsAndMemory(t *tes
 				Bidirectional:  true,
 				CampaignID:     dbutil.ToPgtype(campaignID),
 			},
-			{
-				ID:             dbutil.ToPgtype(conn2ID),
-				FromLocationID: dbutil.ToPgtype(targetLocationID),
-				ToLocationID:   dbutil.ToPgtype(newLocationID),
-				Description:    pgtype.Text{String: "A worn trail", Valid: true},
-				Bidirectional:  true,
-				CampaignID:     dbutil.ToPgtype(campaignID),
-			},
 		},
 	}
 	memStore := &stubMemoryStore{}
@@ -237,28 +228,23 @@ func TestCreateLocationHandleSuccessWithBidirectionalConnectionsAndMemory(t *tes
 		t.Fatalf("Handle: %v", err)
 	}
 
-	if len(store.createConnection) != 2 {
-		t.Fatalf("CreateConnection call count = %d, want 2", len(store.createConnection))
+	if len(store.createConnection) != 1 {
+		t.Fatalf("CreateConnection call count = %d, want 1", len(store.createConnection))
 	}
-	if dbutil.FromPgtype(store.createConnection[0].FromLocationID) != newLocationID {
+	conn := store.createConnection[0]
+	if dbutil.FromPgtype(conn.FromLocationID) != newLocationID {
 		t.Fatalf("forward connection from_location_id mismatch")
 	}
-	if dbutil.FromPgtype(store.createConnection[0].ToLocationID) != targetLocationID {
+	if dbutil.FromPgtype(conn.ToLocationID) != targetLocationID {
 		t.Fatalf("forward connection to_location_id mismatch")
-	}
-	if dbutil.FromPgtype(store.createConnection[1].FromLocationID) != targetLocationID {
-		t.Fatalf("reverse connection from_location_id mismatch")
-	}
-	if dbutil.FromPgtype(store.createConnection[1].ToLocationID) != newLocationID {
-		t.Fatalf("reverse connection to_location_id mismatch")
 	}
 
 	connectionsData, ok := got.Data["connections"].([]map[string]any)
 	if !ok {
 		t.Fatalf("result connections type = %T, want []map[string]any", got.Data["connections"])
 	}
-	if len(connectionsData) != 2 {
-		t.Fatalf("result connections count = %d, want 2", len(connectionsData))
+	if len(connectionsData) != 1 {
+		t.Fatalf("result connections count = %d, want 1", len(connectionsData))
 	}
 	if memStore.lastParams.MemoryType != string(domain.MemoryTypeWorldFact) {
 		t.Fatalf("memory_type = %q, want %q", memStore.lastParams.MemoryType, domain.MemoryTypeWorldFact)
@@ -336,6 +322,9 @@ func TestCreateLocationValidationAndErrors(t *testing.T) {
 		if err == nil || !strings.Contains(err.Error(), "validate connections[0].location_id") {
 			t.Fatalf("error = %v, want connected-location validation error", err)
 		}
+		if len(baseStore.createLocationCall) != 0 {
+			t.Fatalf("CreateLocation call count = %d, want 0", len(baseStore.createLocationCall))
+		}
 	})
 
 	t.Run("connection target outside campaign", func(t *testing.T) {
@@ -364,6 +353,9 @@ func TestCreateLocationValidationAndErrors(t *testing.T) {
 		_, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), args)
 		if err == nil || !strings.Contains(err.Error(), "must belong to active campaign") {
 			t.Fatalf("error = %v, want campaign-scoped validation", err)
+		}
+		if len(store.createLocationCall) != 0 {
+			t.Fatalf("CreateLocation call count = %d, want 0", len(store.createLocationCall))
 		}
 	})
 
