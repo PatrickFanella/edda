@@ -285,6 +285,9 @@ func TestCreateNPCHandleDuplicateNameAtLocationRejected(t *testing.T) {
 	if !strings.Contains(err.Error(), "already exists at location") {
 		t.Fatalf("error = %v, want duplicate-name message", err)
 	}
+	if store.lastCreateParams.Name != "" {
+		t.Fatalf("expected CreateNPC not to be called on duplicate, got params: %#v", store.lastCreateParams)
+	}
 }
 
 func TestCreateNPCValidationAndContextErrors(t *testing.T) {
@@ -372,6 +375,100 @@ func TestCreateNPCValidationAndContextErrors(t *testing.T) {
 		})
 		if err == nil || !strings.Contains(err.Error(), "create npc: db unavailable") {
 			t.Fatalf("error = %v, want wrapped create error", err)
+		}
+	})
+}
+
+func TestCreateNPCHandleEmbeddingFailuresAreBestEffort(t *testing.T) {
+	campaignID := uuid.New()
+	playerID := uuid.New()
+	locationID := uuid.New()
+	npcID := uuid.New()
+
+	playerLocationCopy := locationID
+	baseStore := &stubCreateNPCStore{
+		playerCharacters: map[uuid.UUID]*domain.PlayerCharacter{
+			playerID: {
+				ID:                playerID,
+				CampaignID:        campaignID,
+				CurrentLocationID: &playerLocationCopy,
+			},
+		},
+		validLocations: map[uuid.UUID]uuid.UUID{
+			locationID: campaignID,
+		},
+		createdNPC: &domain.NPC{
+			ID:          npcID,
+			CampaignID:  campaignID,
+			Name:        "Mira",
+			Description: "Quartermaster",
+			Personality: "Methodical",
+			Disposition: 0,
+			LocationID:  &playerLocationCopy,
+			Alive:       true,
+			Stats:       json.RawMessage(`{}`),
+			Properties:  json.RawMessage(`{}`),
+		},
+		npcsByCampaign: map[uuid.UUID][]domain.NPC{
+			campaignID: {},
+		},
+	}
+	args := map[string]any{
+		"name":        "Mira",
+		"description": "Quartermaster",
+		"personality": "Methodical",
+	}
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	t.Run("embedder failure does not fail tool", func(t *testing.T) {
+		store := *baseStore
+		store.playerCharacters = map[uuid.UUID]*domain.PlayerCharacter{
+			playerID: baseStore.playerCharacters[playerID],
+		}
+		store.validLocations = map[uuid.UUID]uuid.UUID{
+			locationID: campaignID,
+		}
+		store.npcsByCampaign = map[uuid.UUID][]domain.NPC{
+			campaignID: {},
+		}
+		memStore := &stubMemoryStore{}
+		h := NewCreateNPCHandler(&store, memStore, &stubEmbedder{err: errors.New("embedder down")})
+
+		got, err := h.Handle(ctx, args)
+		if err != nil {
+			t.Fatalf("Handle returned error for embedder failure: %v", err)
+		}
+		if !got.Success {
+			t.Fatalf("expected success result, got %#v", got)
+		}
+		if memStore.called {
+			t.Fatal("expected CreateMemory not to be called when embedder fails")
+		}
+	})
+
+	t.Run("memory store failure does not fail tool", func(t *testing.T) {
+		store := *baseStore
+		store.playerCharacters = map[uuid.UUID]*domain.PlayerCharacter{
+			playerID: baseStore.playerCharacters[playerID],
+		}
+		store.validLocations = map[uuid.UUID]uuid.UUID{
+			locationID: campaignID,
+		}
+		store.npcsByCampaign = map[uuid.UUID][]domain.NPC{
+			campaignID: {},
+		}
+		memStore := &stubMemoryStore{err: errors.New("memory write failed")}
+		h := NewCreateNPCHandler(&store, memStore, &stubEmbedder{vector: []float32{0.1}})
+
+		got, err := h.Handle(ctx, args)
+		if err != nil {
+			t.Fatalf("Handle returned error for memory store failure: %v", err)
+		}
+		if !got.Success {
+			t.Fatalf("expected success result, got %#v", got)
+		}
+		if !memStore.called {
+			t.Fatal("expected CreateMemory to be attempted")
 		}
 	})
 }
