@@ -73,6 +73,8 @@ func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider) *Engin
 	errs = appendErr(errs, tools.RegisterAddAbility(registry, combatSvc))
 	errs = appendErr(errs, tools.RegisterRemoveAbility(registry, combatSvc))
 	errs = appendErr(errs, tools.RegisterResolveCombat(registry, combatSvc))
+	errs = appendErr(errs, tools.RegisterEstablishFact(registry, worldSvc, worldSvc, nil))
+	errs = appendErr(errs, tools.RegisterReviseFact(registry, worldSvc, worldSvc, nil))
 	if err := errors.Join(errs...); err != nil {
 		panic(fmt.Sprintf("tool registration failed: %v", err))
 	}
