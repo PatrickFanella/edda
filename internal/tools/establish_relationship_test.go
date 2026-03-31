@@ -2,7 +2,6 @@ package tools
 
 import (
 	"context"
-	"errors"
 	"strings"
 	"testing"
 
@@ -297,7 +296,7 @@ func TestEstablishRelationshipHandleStrengthValidation(t *testing.T) {
 
 func TestRegisterEstablishRelationshipRequiresStore(t *testing.T) {
 	err := RegisterEstablishRelationship(NewRegistry(), nil)
-	if err == nil || !errors.Is(err, errors.New("establish_relationship store is required")) && !strings.Contains(err.Error(), "establish_relationship store is required") {
+	if err == nil || !strings.Contains(err.Error(), "establish_relationship store is required") {
 		t.Fatalf("error = %v, want missing store error", err)
 	}
 }
