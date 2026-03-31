@@ -319,7 +319,7 @@ func TestAssembleContext_EnforcesTokenBudgetByReducingHistoryThenMemories(t *tes
 	baseSystem := llm.Message{Role: llm.RoleSystem, Content: buildSystemContent(state)}
 	trimmedMemories := trimRetrievedMemories(buildMemoryMessage(memories))
 	playerMessage := llm.Message{Role: llm.RoleUser, Content: playerInput}
-	budget := estimateMessagesTokens(baseSystem, trimmedMemories, playerMessage)
+	budget := estimateContextTokens(baseSystem, nil, trimmedMemories, playerMessage)
 
 	a := NewContextAssembler(nil, WithTokenBudget(budget))
 	msgs := a.AssembleContext(state, logs, playerInput, memories...)
