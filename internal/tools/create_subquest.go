@@ -11,6 +11,7 @@ import (
 	"github.com/PatrickFanella/game-master/internal/domain"
 	"github.com/PatrickFanella/game-master/internal/llm"
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
@@ -117,17 +118,28 @@ func (h *CreateSubquestHandler) Handle(ctx context.Context, args map[string]any)
 
 	parentQuest, err := h.questStore.GetQuestByID(ctx, dbutil.ToPgtype(parentQuestID))
 	if err != nil {
-		return nil, fmt.Errorf("parent quest not found: %w", err)
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, fmt.Errorf("parent quest not found: %w", err)
+		}
+		return nil, fmt.Errorf("parent quest lookup failed: %w", err)
 	}
 	if parentQuest.Status != string(domain.QuestStatusActive) {
 		return nil, errors.New("parent quest must be active")
+	}
+	trimmedTitle := strings.TrimSpace(title)
+	if trimmedTitle == "" {
+		return nil, errors.New("title must not be empty or whitespace")
+	}
+	trimmedDescription := strings.TrimSpace(description)
+	if trimmedDescription == "" {
+		return nil, errors.New("description must not be empty or whitespace")
 	}
 
 	quest, err := h.questStore.CreateQuest(ctx, statedb.CreateQuestParams{
 		CampaignID:    parentQuest.CampaignID,
 		ParentQuestID: pgtype.UUID{Bytes: dbutil.ToPgtype(parentQuestID).Bytes, Valid: true},
-		Title:         strings.TrimSpace(title),
-		Description:   pgtype.Text{String: strings.TrimSpace(description), Valid: true},
+		Title:         trimmedTitle,
+		Description:   pgtype.Text{String: trimmedDescription, Valid: true},
 		QuestType:     questType,
 		Status:        string(domain.QuestStatusActive),
 	})

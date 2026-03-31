@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"github.com/PatrickFanella/game-master/internal/dbutil"
@@ -173,7 +174,60 @@ func TestCreateSubquestParentLookupError(t *testing.T) {
 			map[string]any{"description": "Search forest edge", "order_index": 1},
 		},
 	})
-	if err == nil || !strings.Contains(err.Error(), "parent quest not found") {
-		t.Fatalf("error = %v, want parent quest lookup wrapping", err)
+	if err == nil || !strings.Contains(err.Error(), "parent quest lookup failed") {
+		t.Fatalf("error = %v, want parent quest lookup failed wrapping", err)
 	}
+}
+
+func TestCreateSubquestValidationAndParentErrors(t *testing.T) {
+	parentQuestID := uuid.New()
+	store := &stubQuestStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			dbutil.ToPgtype(parentQuestID).Bytes: {
+				ID:          dbutil.ToPgtype(parentQuestID),
+				CampaignID:  dbutil.ToPgtype(uuid.New()),
+				Title:       "Main Quest",
+				Description: pgtype.Text{String: "Main", Valid: true},
+				QuestType:   string(domain.QuestTypeLongTerm),
+				Status:      string(domain.QuestStatusActive),
+			},
+		},
+	}
+	h := NewCreateSubquestHandler(store)
+
+	baseArgs := map[string]any{
+		"parent_quest_id": parentQuestID.String(),
+		"title":           "Scout the area",
+		"description":     "Find enemy movement.",
+		"quest_type":      "short_term",
+		"objectives": []any{
+			map[string]any{"description": "Search forest edge", "order_index": 1},
+		},
+	}
+
+	t.Run("parent not found from no rows", func(t *testing.T) {
+		h := NewCreateSubquestHandler(&stubQuestStore{getQuestErr: pgx.ErrNoRows})
+		_, err := h.Handle(context.Background(), copyQuestArgs(baseArgs))
+		if err == nil || !strings.Contains(err.Error(), "parent quest not found") {
+			t.Fatalf("error = %v, want parent quest not found", err)
+		}
+	})
+
+	t.Run("reject whitespace title", func(t *testing.T) {
+		args := copyQuestArgs(baseArgs)
+		args["title"] = "   "
+		_, err := h.Handle(context.Background(), args)
+		if err == nil || !strings.Contains(err.Error(), "title must not be empty or whitespace") {
+			t.Fatalf("error = %v, want whitespace title validation", err)
+		}
+	})
+
+	t.Run("reject whitespace description", func(t *testing.T) {
+		args := copyQuestArgs(baseArgs)
+		args["description"] = "   "
+		_, err := h.Handle(context.Background(), args)
+		if err == nil || !strings.Contains(err.Error(), "description must not be empty or whitespace") {
+			t.Fatalf("error = %v, want whitespace description validation", err)
+		}
+	})
 }
