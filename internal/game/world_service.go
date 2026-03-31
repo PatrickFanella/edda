@@ -142,3 +142,17 @@ func (s *worldService) ListLocationsByCampaign(ctx context.Context, campaignID p
 func (s *worldService) CreateConnection(ctx context.Context, arg statedb.CreateConnectionParams) (statedb.LocationConnection, error) {
 	return s.queries.CreateConnection(ctx, arg)
 }
+
+// --- tools.QuestStore methods ---
+
+func (s *worldService) CreateQuest(ctx context.Context, arg statedb.CreateQuestParams) (statedb.Quest, error) {
+	return s.queries.CreateQuest(ctx, arg)
+}
+
+func (s *worldService) CreateObjective(ctx context.Context, arg statedb.CreateObjectiveParams) (statedb.QuestObjective, error) {
+	return s.queries.CreateObjective(ctx, arg)
+}
+
+func (s *worldService) CreateRelationship(ctx context.Context, arg statedb.CreateRelationshipParams) (statedb.EntityRelationship, error) {
+	return s.queries.CreateRelationship(ctx, arg)
+}
