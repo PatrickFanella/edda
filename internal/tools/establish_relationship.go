@@ -64,7 +64,7 @@ func EstablishRelationshipTool() llm.Tool {
 				},
 				"strength": map[string]any{
 					"type":        "integer",
-					"description": "Optional relationship strength from 1-10. Defaults to 5.",
+					"description": "Optional relationship strength from 1-10. Defaults to 5. This tool intentionally uses a 1-10 scale even though the underlying database column supports a broader integer range.",
 					"minimum":     1,
 					"maximum":     10,
 				},
@@ -142,7 +142,7 @@ func (h *EstablishRelationshipHandler) Handle(ctx context.Context, args map[stri
 		return nil, errors.New("description must not be empty or whitespace")
 	}
 
-	strength, err := parseRelationshipStrengthArg(args, "strength")
+	strength, strengthProvided, err := parseRelationshipStrengthArg(args, "strength")
 	if err != nil {
 		return nil, err
 	}
@@ -179,10 +179,14 @@ func (h *EstablishRelationshipHandler) Handle(ctx context.Context, args map[stri
 	updated := false
 	for _, existingRelationship := range existing {
 		if strings.EqualFold(strings.TrimSpace(existingRelationship.RelationshipType), trimmedRelationshipType) {
+			updateStrength := existingRelationship.Strength
+			if strengthProvided || !updateStrength.Valid {
+				updateStrength = pgtype.Int4{Int32: int32(strength), Valid: true}
+			}
 			relationship, err = h.store.UpdateRelationship(ctx, statedb.UpdateRelationshipParams{
 				RelationshipType: trimmedRelationshipType,
 				Description:      pgtype.Text{String: trimmedDescription, Valid: true},
-				Strength:         pgtype.Int4{Int32: int32(strength), Valid: true},
+				Strength:         updateStrength,
 				ID:               existingRelationship.ID,
 				CampaignID:       dbutil.ToPgtype(campaignID),
 			})
@@ -258,18 +262,18 @@ func parseRelationshipEntityTypeArg(args map[string]any, key string) (string, er
 	}
 }
 
-func parseRelationshipStrengthArg(args map[string]any, key string) (int, error) {
+func parseRelationshipStrengthArg(args map[string]any, key string) (int, bool, error) {
 	if _, ok := args[key]; !ok {
-		return 5, nil
+		return 5, false, nil
 	}
 	strength, err := parseIntArg(args, key)
 	if err != nil {
-		return 0, err
+		return 0, false, err
 	}
 	if strength < 1 || strength > 10 {
-		return 0, fmt.Errorf("%s must be between 1 and 10", key)
+		return 0, false, fmt.Errorf("%s must be between 1 and 10", key)
 	}
-	return strength, nil
+	return strength, true, nil
 }
 
 func (h *EstablishRelationshipHandler) validateEntityInCampaign(ctx context.Context, campaignID uuid.UUID, entityType string, entityID uuid.UUID, role string) error {

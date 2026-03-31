@@ -206,6 +206,7 @@ func TestEstablishRelationshipHandleUpdatesDuplicateRelationship(t *testing.T) {
 				TargetEntityType: "location",
 				TargetEntityID:   dbutil.ToPgtype(targetID),
 				RelationshipType: "rival",
+				Strength:         pgtype.Int4{Int32: 4, Valid: true},
 			},
 		},
 	}
@@ -233,8 +234,61 @@ func TestEstablishRelationshipHandleUpdatesDuplicateRelationship(t *testing.T) {
 	if store.updateRelationshipCalls[0].ID != dbutil.ToPgtype(relationshipID) {
 		t.Fatalf("updated relationship id mismatch")
 	}
+	if store.updateRelationshipCalls[0].Strength.Int32 != 9 || !store.updateRelationshipCalls[0].Strength.Valid {
+		t.Fatalf("updated strength = %d (valid=%v), want 9 valid", store.updateRelationshipCalls[0].Strength.Int32, store.updateRelationshipCalls[0].Strength.Valid)
+	}
 	if updated, ok := result.Data["updated"].(bool); !ok || !updated {
 		t.Fatalf("result updated = %v, want true", result.Data["updated"])
+	}
+}
+
+func TestEstablishRelationshipHandleUpdatesDuplicateRelationshipPreservesStrengthWhenOmitted(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+	sourceID := uuid.New()
+	targetID := uuid.New()
+	relationshipID := uuid.New()
+
+	store := &stubEstablishRelationshipStore{
+		locationsByID: map[[16]byte]statedb.Location{
+			dbutil.ToPgtype(currentLocationID).Bytes: {ID: dbutil.ToPgtype(currentLocationID), CampaignID: dbutil.ToPgtype(campaignID)},
+			dbutil.ToPgtype(targetID).Bytes:          {ID: dbutil.ToPgtype(targetID), CampaignID: dbutil.ToPgtype(campaignID)},
+		},
+		npcsByID: map[[16]byte]statedb.Npc{
+			dbutil.ToPgtype(sourceID).Bytes: {ID: dbutil.ToPgtype(sourceID), CampaignID: dbutil.ToPgtype(campaignID)},
+		},
+		relationshipsBetween: []statedb.EntityRelationship{
+			{
+				ID:               dbutil.ToPgtype(relationshipID),
+				CampaignID:       dbutil.ToPgtype(campaignID),
+				SourceEntityType: "npc",
+				SourceEntityID:   dbutil.ToPgtype(sourceID),
+				TargetEntityType: "location",
+				TargetEntityID:   dbutil.ToPgtype(targetID),
+				RelationshipType: "rival",
+				Strength:         pgtype.Int4{Int32: 8, Valid: true},
+			},
+		},
+	}
+	h := NewEstablishRelationshipHandler(store)
+	ctx := WithCurrentLocationID(context.Background(), currentLocationID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"source_entity_type": "npc",
+		"source_entity_id":   sourceID.String(),
+		"target_entity_type": "location",
+		"target_entity_id":   targetID.String(),
+		"relationship_type":  "rival",
+		"description":        "Still rivals.",
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if len(store.updateRelationshipCalls) != 1 {
+		t.Fatalf("UpdateRelationship call count = %d, want 1", len(store.updateRelationshipCalls))
+	}
+	if store.updateRelationshipCalls[0].Strength.Int32 != 8 || !store.updateRelationshipCalls[0].Strength.Valid {
+		t.Fatalf("updated strength = %d (valid=%v), want existing 8 valid", store.updateRelationshipCalls[0].Strength.Int32, store.updateRelationshipCalls[0].Strength.Valid)
 	}
 }
 
