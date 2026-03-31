@@ -209,6 +209,9 @@ func trimOldestHistoryTurn(messages []llm.Message) []llm.Message {
 	for next < len(messages) && messages[next].Role == llm.RoleAssistant {
 		next++
 	}
+	if next == len(messages) {
+		return nil
+	}
 	return messages[next:]
 }
 
