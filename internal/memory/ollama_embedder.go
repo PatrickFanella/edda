@@ -140,6 +140,8 @@ func (o *OllamaEmbedder) BatchEmbed(ctx context.Context, texts []string) ([][]fl
 		return nil, &ErrEmbeddingFailed{Err: err}
 	}
 
+	// For partial failures, failed positions remain nil to preserve input order
+	// per the Embedder interface contract.
 	vectors := make([][]float32, len(texts))
 	failed := 0
 	var lastErr error
@@ -165,7 +167,7 @@ func (o *OllamaEmbedder) BatchEmbed(ctx context.Context, texts []string) ([][]fl
 
 func (o *OllamaEmbedder) endpoint() (string, error) {
 	if _, err := url.ParseRequestURI(o.baseURL); err != nil {
-		return "", fmt.Errorf("invalid ollama base url %q: %w", o.baseURL, err)
+		return "", fmt.Errorf("invalid ollama base URL %q: %w", o.baseURL, err)
 	}
 	return o.baseURL + ollamaEmbedPath, nil
 }
@@ -184,10 +186,7 @@ func (o *OllamaEmbedder) embed(ctx context.Context, input any) (*ollamaEmbedResp
 		return nil, fmt.Errorf("failed to marshal ollama embed request: %w", err)
 	}
 
-	requestCtx, cancel := context.WithTimeout(ctx, o.timeout)
-	defer cancel()
-
-	req, err := http.NewRequestWithContext(requestCtx, http.MethodPost, endpoint, bytes.NewReader(body))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, endpoint, bytes.NewReader(body))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create ollama embed request: %w", err)
 	}

@@ -151,7 +151,7 @@ func TestOllamaEmbedderBatchEmbed_FallsBackToLoopWhenBatchUnsupported(t *testing
 func TestOllamaEmbedderEmbed_TimeoutAndConnectionErrors(t *testing.T) {
 	t.Run("timeout", func(t *testing.T) {
 		server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			time.Sleep(120 * time.Millisecond)
+			time.Sleep(250 * time.Millisecond)
 			_, _ = w.Write([]byte(`{"embeddings":[[1,2]]}`))
 		}))
 		defer server.Close()
@@ -186,4 +186,3 @@ func TestOllamaEmbedderEmbed_TimeoutAndConnectionErrors(t *testing.T) {
 		}
 	})
 }
-
