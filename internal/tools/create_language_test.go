@@ -57,11 +57,11 @@ type stubMemoryStore struct {
 }
 
 func (s *stubMemoryStore) CreateMemory(_ context.Context, params CreateMemoryParams) error {
+	s.called = true
+	s.lastParams = params
 	if s.err != nil {
 		return s.err
 	}
-	s.called = true
-	s.lastParams = params
 	return nil
 }
 

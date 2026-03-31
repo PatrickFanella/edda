@@ -161,14 +161,7 @@ func TestCreateNPCHandleSuccessDefaultsAndEmbedding(t *testing.T) {
 			Properties:  json.RawMessage(`{"role":"harbor master"}`),
 		},
 		npcsByCampaign: map[uuid.UUID][]domain.NPC{
-			campaignID: {
-				{
-					ID:         npcID,
-					CampaignID: campaignID,
-					Name:       "Captain Maris",
-					LocationID: &playerLocationCopy,
-				},
-			},
+			campaignID: {},
 		},
 	}
 	memStore := &stubMemoryStore{}

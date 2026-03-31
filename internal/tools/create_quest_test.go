@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"github.com/PatrickFanella/game-master/internal/dbutil"
@@ -63,7 +64,7 @@ func (s *stubQuestStore) GetQuestByID(_ context.Context, id pgtype.UUID) (stated
 	}
 	quest, ok := s.questsByID[id.Bytes]
 	if !ok {
-		return statedb.Quest{}, errors.New("quest not found")
+		return statedb.Quest{}, pgx.ErrNoRows
 	}
 	return quest, nil
 }
