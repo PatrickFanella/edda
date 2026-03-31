@@ -4,7 +4,6 @@ package assembly
 
 import (
 	"fmt"
-	"math"
 	"strings"
 
 	"github.com/PatrickFanella/game-master/internal/domain"
@@ -97,11 +96,14 @@ func (a *ContextAssembler) AssembleContext(
 	messages = append(messages, baseSystem)
 
 	if budget := a.config.maxTokenBudget; budget > 0 {
-		for estimateMessagesTokens(baseSystem, historyMessages, memoryMessage, playerMessage) > budget && len(historyMessages) > 0 {
+		estimatedTokens := estimateContextTokens(baseSystem, historyMessages, memoryMessage, playerMessage)
+		for estimatedTokens > budget && len(historyMessages) > 0 {
 			historyMessages = trimOldestHistoryTurn(historyMessages)
+			estimatedTokens = estimateContextTokens(baseSystem, historyMessages, memoryMessage, playerMessage)
 		}
-		for estimateMessagesTokens(baseSystem, historyMessages, memoryMessage, playerMessage) > budget && memoryMessage != nil {
+		for estimatedTokens > budget && memoryMessage != nil {
 			memoryMessage = trimRetrievedMemories(memoryMessage)
+			estimatedTokens = estimateContextTokens(baseSystem, historyMessages, memoryMessage, playerMessage)
 		}
 	}
 
@@ -213,21 +215,18 @@ func trimRetrievedMemories(message *llm.Message) *llm.Message {
 	}
 }
 
-func estimateMessagesTokens(messages ...interface{}) int {
+func estimateContextTokens(baseSystem llm.Message, historyMessages []llm.Message, memoryMessage *llm.Message, playerMessage llm.Message) int {
+	total := estimateTokens(baseSystem.Content) + estimateTokens(playerMessage.Content) + estimateMessagesTokens(historyMessages)
+	if memoryMessage != nil {
+		total += estimateTokens(memoryMessage.Content)
+	}
+	return total
+}
+
+func estimateMessagesTokens(messages []llm.Message) int {
 	total := 0
 	for _, message := range messages {
-		switch value := message.(type) {
-		case llm.Message:
-			total += estimateTokens(value.Content)
-		case *llm.Message:
-			if value != nil {
-				total += estimateTokens(value.Content)
-			}
-		case []llm.Message:
-			for _, msg := range value {
-				total += estimateTokens(msg.Content)
-			}
-		}
+		total += estimateTokens(message.Content)
 	}
 	return total
 }
@@ -236,7 +235,7 @@ func estimateTokens(content string) int {
 	if strings.TrimSpace(content) == "" {
 		return 0
 	}
-	return int(math.Ceil(float64(len(content)) / 4))
+	return (len(content) + 3) / 4
 }
 
 func nonEmptyStrings(values []string) []string {
