@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
@@ -25,7 +24,7 @@ type UpdateQuestStore interface {
 	UpdateQuestStatus(ctx context.Context, arg statedb.UpdateQuestStatusParams) (statedb.Quest, error)
 	ListObjectivesByQuest(ctx context.Context, questID pgtype.UUID) ([]statedb.QuestObjective, error)
 	CreateObjective(ctx context.Context, arg statedb.CreateObjectiveParams) (statedb.QuestObjective, error)
-	ListSubquestsByParentQuest(ctx context.Context, parentQuestID pgtype.UUID) ([]statedb.Quest, error)
+	ListQuestsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Quest, error)
 }
 
 // UpdateQuestTool returns the update_quest tool definition and JSON schema.
@@ -138,7 +137,9 @@ func (h *UpdateQuestHandler) Handle(ctx context.Context, args map[string]any) (*
 		}
 	}
 
-	if hasStatus && statusUpdate != quest.Status {
+	originalStatus := quest.Status
+	statusChanged := hasStatus && statusUpdate != originalStatus
+	if statusChanged {
 		quest, err = h.store.UpdateQuestStatus(ctx, statedb.UpdateQuestStatusParams{
 			Status: statusUpdate,
 			ID:     quest.ID,
@@ -149,8 +150,8 @@ func (h *UpdateQuestHandler) Handle(ctx context.Context, args map[string]any) (*
 	}
 
 	cascadedSubquests := make([]map[string]any, 0)
-	if hasStatus && (statusUpdate == string(domain.QuestStatusCompleted) || statusUpdate == string(domain.QuestStatusFailed)) {
-		cascadedSubquests, err = h.cascadeSubquestStatus(ctx, dbutil.FromPgtype(quest.ID), statusUpdate)
+	if statusChanged && (statusUpdate == string(domain.QuestStatusCompleted) || statusUpdate == string(domain.QuestStatusFailed)) {
+		cascadedSubquests, err = h.cascadeSubquestStatus(ctx, quest, statusUpdate)
 		if err != nil {
 			return nil, err
 		}
@@ -235,22 +236,33 @@ func (h *UpdateQuestHandler) Handle(ctx context.Context, args map[string]any) (*
 	}, nil
 }
 
-func (h *UpdateQuestHandler) cascadeSubquestStatus(ctx context.Context, parentQuestID uuid.UUID, parentStatus string) ([]map[string]any, error) {
-	subquests, err := h.store.ListSubquestsByParentQuest(ctx, dbutil.ToPgtype(parentQuestID))
+func (h *UpdateQuestHandler) cascadeSubquestStatus(ctx context.Context, parentQuest statedb.Quest, parentStatus string) ([]map[string]any, error) {
+	quests, err := h.store.ListQuestsByCampaign(ctx, parentQuest.CampaignID)
 	if err != nil {
-		return nil, fmt.Errorf("list subquests: %w", err)
+		return nil, fmt.Errorf("list quests by campaign: %w", err)
 	}
 
+	parentQuestID := dbutil.FromPgtype(parentQuest.ID)
 	cascadeStatus := string(domain.QuestStatusFailed)
 	if parentStatus == string(domain.QuestStatusCompleted) {
 		cascadeStatus = string(domain.QuestStatusAbandoned)
 	}
 
+	childrenByParent := make(map[[16]byte][]statedb.Quest)
+	for _, quest := range quests {
+		if !quest.ParentQuestID.Valid {
+			continue
+		}
+		childrenByParent[quest.ParentQuestID.Bytes] = append(childrenByParent[quest.ParentQuestID.Bytes], quest)
+	}
+
+	queue := append([]statedb.Quest(nil), childrenByParent[dbutil.ToPgtype(parentQuestID).Bytes]...)
 	cascaded := make([]map[string]any, 0)
-	for _, subquest := range subquests {
-		updatedSubquest := subquest
+	for len(queue) > 0 {
+		subquest := queue[0]
+		queue = queue[1:]
 		if subquest.Status == string(domain.QuestStatusActive) {
-			updatedSubquest, err = h.store.UpdateQuestStatus(ctx, statedb.UpdateQuestStatusParams{
+			updatedSubquest, err := h.store.UpdateQuestStatus(ctx, statedb.UpdateQuestStatusParams{
 				Status: cascadeStatus,
 				ID:     subquest.ID,
 			})
@@ -264,12 +276,7 @@ func (h *UpdateQuestHandler) cascadeSubquestStatus(ctx context.Context, parentQu
 				"new_status": updatedSubquest.Status,
 			})
 		}
-
-		descendantCascades, err := h.cascadeSubquestStatus(ctx, dbutil.FromPgtype(updatedSubquest.ID), parentStatus)
-		if err != nil {
-			return nil, err
-		}
-		cascaded = append(cascaded, descendantCascades...)
+		queue = append(queue, childrenByParent[subquest.ID.Bytes]...)
 	}
 
 	return cascaded, nil
@@ -315,6 +322,9 @@ func parseOptionalObjectiveDescriptionsArg(args map[string]any, key string) ([]s
 	items, ok := raw.([]any)
 	if !ok {
 		return nil, false, fmt.Errorf("%s must be an array", key)
+	}
+	if len(items) == 0 {
+		return nil, false, fmt.Errorf("%s must contain at least one objective", key)
 	}
 	out := make([]string, 0, len(items))
 	for i, item := range items {
