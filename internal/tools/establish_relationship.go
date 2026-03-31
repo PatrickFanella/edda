@@ -40,7 +40,7 @@ func EstablishRelationshipTool() llm.Tool {
 			"properties": map[string]any{
 				"source_entity_type": map[string]any{
 					"type":        "string",
-					"description": "Source entity type (npc, location, faction, player_character, player alias, item).",
+					"description": "Source entity type (npc, location, faction, player_character, item). You may also provide player as an alias for player_character.",
 				},
 				"source_entity_id": map[string]any{
 					"type":        "string",
@@ -48,7 +48,7 @@ func EstablishRelationshipTool() llm.Tool {
 				},
 				"target_entity_type": map[string]any{
 					"type":        "string",
-					"description": "Target entity type (npc, location, faction, player_character, player alias, item).",
+					"description": "Target entity type (npc, location, faction, player_character, item). You may also provide player as an alias for player_character.",
 				},
 				"target_entity_id": map[string]any{
 					"type":        "string",
@@ -209,9 +209,13 @@ func (h *EstablishRelationshipHandler) Handle(ctx context.Context, args map[stri
 		}
 	}
 
+	verb := "established"
+	if updated {
+		verb = "updated"
+	}
 	summary := fmt.Sprintf("Relationship %q %s between %s %s and %s %s.",
 		trimmedRelationshipType,
-		map[bool]string{true: "updated", false: "established"}[updated],
+		verb,
 		sourceEntityType,
 		sourceEntityID.String(),
 		targetEntityType,
