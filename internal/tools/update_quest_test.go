@@ -24,10 +24,11 @@ type stubUpdateQuestStore struct {
 	updateQuestStatusErr   error
 	listObjectivesErr      error
 	createObjectiveErr     error
-	listSubquestsErr       error
+	listQuestsErr          error
 	updateQuestCalls       []statedb.UpdateQuestParams
 	updateQuestStatusCalls []statedb.UpdateQuestStatusParams
 	createObjectiveCalls   []statedb.CreateObjectiveParams
+	listQuestsCalls        []pgtype.UUID
 }
 
 func (s *stubUpdateQuestStore) GetQuestByID(_ context.Context, id pgtype.UUID) (statedb.Quest, error) {
@@ -106,11 +107,26 @@ func (s *stubUpdateQuestStore) CreateObjective(_ context.Context, arg statedb.Cr
 	return created, nil
 }
 
-func (s *stubUpdateQuestStore) ListSubquestsByParentQuest(_ context.Context, parentQuestID pgtype.UUID) ([]statedb.Quest, error) {
-	if s.listSubquestsErr != nil {
-		return nil, s.listSubquestsErr
+func (s *stubUpdateQuestStore) ListQuestsByCampaign(_ context.Context, campaignID pgtype.UUID) ([]statedb.Quest, error) {
+	if s.listQuestsErr != nil {
+		return nil, s.listQuestsErr
 	}
-	return append([]statedb.Quest(nil), s.subquestsByParentID[parentQuestID.Bytes]...), nil
+	s.listQuestsCalls = append(s.listQuestsCalls, campaignID)
+
+	var quests []statedb.Quest
+	for _, quest := range s.questsByID {
+		if quest.CampaignID == campaignID {
+			quests = append(quests, quest)
+		}
+	}
+	for _, children := range s.subquestsByParentID {
+		for _, quest := range children {
+			if quest.CampaignID == campaignID {
+				quests = append(quests, quest)
+			}
+		}
+	}
+	return quests, nil
 }
 
 func TestRegisterUpdateQuest(t *testing.T) {
@@ -209,13 +225,16 @@ func TestUpdateQuestHandleCascadeOnCompletedParent(t *testing.T) {
 	childActiveID := uuid.New()
 	childDoneID := uuid.New()
 	grandchildActiveID := uuid.New()
+	campaignID := uuid.New()
 
 	parentKey := dbutil.ToPgtype(parentQuestID).Bytes
+	campaignPg := dbutil.ToPgtype(campaignID)
+	childActiveKey := dbutil.ToPgtype(childActiveID).Bytes
 	store := &stubUpdateQuestStore{
 		questsByID: map[[16]byte]statedb.Quest{
 			parentKey: {
 				ID:          dbutil.ToPgtype(parentQuestID),
-				CampaignID:  dbutil.ToPgtype(uuid.New()),
+				CampaignID:  campaignPg,
 				Title:       "Main Quest",
 				Description: pgtype.Text{String: "Primary objective", Valid: true},
 				QuestType:   string(domain.QuestTypeLongTerm),
@@ -229,24 +248,24 @@ func TestUpdateQuestHandleCascadeOnCompletedParent(t *testing.T) {
 			parentKey: {
 				{
 					ID:            dbutil.ToPgtype(childActiveID),
-					CampaignID:    dbutil.ToPgtype(uuid.New()),
+					CampaignID:    campaignPg,
 					ParentQuestID: pgtype.UUID{Bytes: parentKey, Valid: true},
 					Title:         "Active Child",
 					Status:        string(domain.QuestStatusActive),
 				},
 				{
 					ID:            dbutil.ToPgtype(childDoneID),
-					CampaignID:    dbutil.ToPgtype(uuid.New()),
+					CampaignID:    campaignPg,
 					ParentQuestID: pgtype.UUID{Bytes: parentKey, Valid: true},
 					Title:         "Completed Child",
 					Status:        string(domain.QuestStatusCompleted),
 				},
 			},
-			dbutil.ToPgtype(childActiveID).Bytes: {
+			childActiveKey: {
 				{
 					ID:            dbutil.ToPgtype(grandchildActiveID),
-					CampaignID:    dbutil.ToPgtype(uuid.New()),
-					ParentQuestID: pgtype.UUID{Bytes: dbutil.ToPgtype(childActiveID).Bytes, Valid: true},
+					CampaignID:    campaignPg,
+					ParentQuestID: pgtype.UUID{Bytes: childActiveKey, Valid: true},
 					Title:         "Grandchild Active",
 					Status:        string(domain.QuestStatusActive),
 				},
@@ -265,6 +284,9 @@ func TestUpdateQuestHandleCascadeOnCompletedParent(t *testing.T) {
 
 	if len(store.updateQuestStatusCalls) != 3 {
 		t.Fatalf("UpdateQuestStatus call count = %d, want 3", len(store.updateQuestStatusCalls))
+	}
+	if len(store.listQuestsCalls) != 1 {
+		t.Fatalf("ListQuestsByCampaign call count = %d, want 1", len(store.listQuestsCalls))
 	}
 	if store.updateQuestStatusCalls[0].Status != string(domain.QuestStatusCompleted) {
 		t.Fatalf("parent status update = %q, want completed", store.updateQuestStatusCalls[0].Status)
@@ -288,13 +310,15 @@ func TestUpdateQuestHandleCascadeOnCompletedParent(t *testing.T) {
 func TestUpdateQuestHandleCascadeOnFailedParent(t *testing.T) {
 	parentQuestID := uuid.New()
 	childActiveID := uuid.New()
+	campaignID := uuid.New()
 	parentKey := dbutil.ToPgtype(parentQuestID).Bytes
+	campaignPg := dbutil.ToPgtype(campaignID)
 
 	store := &stubUpdateQuestStore{
 		questsByID: map[[16]byte]statedb.Quest{
 			parentKey: {
 				ID:          dbutil.ToPgtype(parentQuestID),
-				CampaignID:  dbutil.ToPgtype(uuid.New()),
+				CampaignID:  campaignPg,
 				Title:       "Main Quest",
 				Description: pgtype.Text{String: "Primary objective", Valid: true},
 				QuestType:   string(domain.QuestTypeLongTerm),
@@ -308,7 +332,7 @@ func TestUpdateQuestHandleCascadeOnFailedParent(t *testing.T) {
 			parentKey: {
 				{
 					ID:            dbutil.ToPgtype(childActiveID),
-					CampaignID:    dbutil.ToPgtype(uuid.New()),
+					CampaignID:    campaignPg,
 					ParentQuestID: pgtype.UUID{Bytes: parentKey, Valid: true},
 					Title:         "Active Child",
 					Status:        string(domain.QuestStatusActive),
@@ -328,6 +352,9 @@ func TestUpdateQuestHandleCascadeOnFailedParent(t *testing.T) {
 
 	if len(store.updateQuestStatusCalls) != 2 {
 		t.Fatalf("UpdateQuestStatus call count = %d, want 2", len(store.updateQuestStatusCalls))
+	}
+	if len(store.listQuestsCalls) != 1 {
+		t.Fatalf("ListQuestsByCampaign call count = %d, want 1", len(store.listQuestsCalls))
 	}
 	if store.updateQuestStatusCalls[1].Status != string(domain.QuestStatusFailed) {
 		t.Fatalf("child cascade status = %q, want failed", store.updateQuestStatusCalls[1].Status)
@@ -407,6 +434,64 @@ func TestUpdateQuestValidationAndErrors(t *testing.T) {
 		})
 		if err == nil || !strings.Contains(err.Error(), "new_objectives[1] must be a non-empty string") {
 			t.Fatalf("error = %v, want objective item validation", err)
+		}
+	})
+
+	t.Run("new_objectives empty array validation", func(t *testing.T) {
+		_, err := h.Handle(context.Background(), map[string]any{
+			"quest_id":       questID.String(),
+			"new_objectives": []any{},
+		})
+		if err == nil || !strings.Contains(err.Error(), "new_objectives must contain at least one objective") {
+			t.Fatalf("error = %v, want empty objectives validation", err)
+		}
+	})
+
+	t.Run("no-op status does not cascade", func(t *testing.T) {
+		activeChildID := uuid.New()
+		campaignID := uuid.New()
+		campaignPg := dbutil.ToPgtype(campaignID)
+		parentKey := dbutil.ToPgtype(questID).Bytes
+
+		store := &stubUpdateQuestStore{
+			questsByID: map[[16]byte]statedb.Quest{
+				parentKey: {
+					ID:          dbutil.ToPgtype(questID),
+					CampaignID:  campaignPg,
+					Title:       "Quest",
+					Description: pgtype.Text{String: "desc", Valid: true},
+					QuestType:   string(domain.QuestTypeMediumTerm),
+					Status:      string(domain.QuestStatusCompleted),
+				},
+			},
+			objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
+				parentKey: {},
+			},
+			subquestsByParentID: map[[16]byte][]statedb.Quest{
+				parentKey: {
+					{
+						ID:            dbutil.ToPgtype(activeChildID),
+						CampaignID:    campaignPg,
+						ParentQuestID: pgtype.UUID{Bytes: parentKey, Valid: true},
+						Title:         "Active Child",
+						Status:        string(domain.QuestStatusActive),
+					},
+				},
+			},
+		}
+		h := NewUpdateQuestHandler(store)
+		_, err := h.Handle(context.Background(), map[string]any{
+			"quest_id": questID.String(),
+			"status":   "completed",
+		})
+		if err != nil {
+			t.Fatalf("Handle: %v", err)
+		}
+		if len(store.updateQuestStatusCalls) != 0 {
+			t.Fatalf("UpdateQuestStatus call count = %d, want 0 for no-op status", len(store.updateQuestStatusCalls))
+		}
+		if len(store.listQuestsCalls) != 0 {
+			t.Fatalf("ListQuestsByCampaign call count = %d, want 0 for no-op status", len(store.listQuestsCalls))
 		}
 	})
 }
