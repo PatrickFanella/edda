@@ -197,6 +197,14 @@ func (h *CreateNPCHandler) Handle(ctx context.Context, args map[string]any) (*To
 		return nil, err
 	}
 
+	npcs, err := h.store.ListNPCsByCampaign(ctx, playerCharacter.CampaignID)
+	if err != nil {
+		return nil, fmt.Errorf("list npcs by campaign: %w", err)
+	}
+	if hasDuplicateNPCNameAtLocation(npcs, name, locationID) {
+		return nil, fmt.Errorf("npc with name %q already exists at location %s", name, locationID)
+	}
+
 	locationIDPtr := &locationID
 	npc, err := h.store.CreateNPC(ctx, CreateNPCParams{
 		CampaignID:  playerCharacter.CampaignID,
@@ -213,19 +221,9 @@ func (h *CreateNPCHandler) Handle(ctx context.Context, args map[string]any) (*To
 		return nil, fmt.Errorf("create npc: %w", err)
 	}
 
-	npcs, err := h.store.ListNPCsByCampaign(ctx, playerCharacter.CampaignID)
-	if err != nil {
-		return nil, fmt.Errorf("list npcs by campaign: %w", err)
-	}
-	if hasDuplicateNPCNameAtLocation(npcs, npc.ID, npc.Name, locationID) {
-		return nil, fmt.Errorf("npc with name %q already exists at location %s", npc.Name, locationID)
-	}
-
 	role := deriveNPCRole(description, propertiesObj)
 	if h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedNPCMemory(ctx, npc, role); err != nil {
-			return nil, err
-		}
+		_ = h.embedNPCMemory(ctx, npc, role)
 	}
 
 	statsData, err := rawJSONToObject(npc.Stats, "stats")
@@ -332,12 +330,9 @@ func rawJSONToObject(value json.RawMessage, key string) (map[string]any, error) 
 	return out, nil
 }
 
-func hasDuplicateNPCNameAtLocation(npcs []domain.NPC, createdID uuid.UUID, name string, locationID uuid.UUID) bool {
+func hasDuplicateNPCNameAtLocation(npcs []domain.NPC, name string, locationID uuid.UUID) bool {
 	needle := strings.TrimSpace(name)
 	for _, existing := range npcs {
-		if existing.ID == createdID {
-			continue
-		}
 		if existing.LocationID == nil || *existing.LocationID != locationID {
 			continue
 		}
