@@ -321,5 +321,205 @@ func TestAbilityHandlersValidationAndWrappedErrors(t *testing.T) {
 	})
 }
 
+func TestAddAbilityHandleNilPlayer(t *testing.T) {
+	playerID := uuid.New()
+	h := NewAddAbilityHandler(&stubAbilityStore{player: nil})
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	_, err := h.Handle(ctx, map[string]any{
+		"name":        "Dash",
+		"description": "Move quickly",
+		"type":        "active",
+	})
+	if err == nil || !strings.Contains(err.Error(), "current player character does not exist") {
+		t.Fatalf("error = %v, want nil player error", err)
+	}
+}
+
+func TestAddAbilityHandleGetPlayerError(t *testing.T) {
+	playerID := uuid.New()
+	h := NewAddAbilityHandler(&stubAbilityStore{getErr: errors.New("db failure")})
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	_, err := h.Handle(ctx, map[string]any{
+		"name":        "Dash",
+		"description": "Move quickly",
+		"type":        "active",
+	})
+	if err == nil || !strings.Contains(err.Error(), "get player character") {
+		t.Fatalf("error = %v, want get player character error", err)
+	}
+}
+
+func TestAddAbilityHandleUpdateError(t *testing.T) {
+	playerID := uuid.New()
+	h := NewAddAbilityHandler(&stubAbilityStore{
+		player:    &domain.PlayerCharacter{ID: playerID, Abilities: []byte(`[]`)},
+		updateErr: errors.New("write fail"),
+	})
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	_, err := h.Handle(ctx, map[string]any{
+		"name":        "Dash",
+		"description": "Move quickly",
+		"type":        "active",
+	})
+	if err == nil || !strings.Contains(err.Error(), "update player abilities") {
+		t.Fatalf("error = %v, want update player abilities error", err)
+	}
+}
+
+func TestAddAbilityHandleZeroCooldown(t *testing.T) {
+	playerID := uuid.New()
+	h := NewAddAbilityHandler(&stubAbilityStore{
+		player: &domain.PlayerCharacter{ID: playerID, Abilities: []byte(`[]`)},
+	})
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	got, err := h.Handle(ctx, map[string]any{
+		"name":        "Dash",
+		"description": "Move quickly",
+		"type":        "active",
+		"cooldown":    0,
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	cd, ok := got.Data["cooldown"].(*int)
+	if !ok || cd == nil || *cd != 0 {
+		t.Fatalf("cooldown = %v, want pointer to 0", got.Data["cooldown"])
+	}
+}
+
+func TestAddAbilityHandleNoCooldown(t *testing.T) {
+	playerID := uuid.New()
+	h := NewAddAbilityHandler(&stubAbilityStore{
+		player: &domain.PlayerCharacter{ID: playerID, Abilities: []byte(`[]`)},
+	})
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	got, err := h.Handle(ctx, map[string]any{
+		"name":        "Dash",
+		"description": "Move quickly",
+		"type":        "active",
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if got.Data["cooldown"] != (*int)(nil) {
+		t.Fatalf("cooldown = %v, want nil", got.Data["cooldown"])
+	}
+}
+
+func TestAddAbilityHandlePassiveType(t *testing.T) {
+	playerID := uuid.New()
+	h := NewAddAbilityHandler(&stubAbilityStore{
+		player: &domain.PlayerCharacter{ID: playerID, Abilities: []byte(`[]`)},
+	})
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	got, err := h.Handle(ctx, map[string]any{
+		"name":        "Resilience",
+		"description": "Passive toughness",
+		"type":        "passive",
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if got.Data["type"] != "passive" {
+		t.Fatalf("type = %v, want passive", got.Data["type"])
+	}
+}
+
+func TestRemoveAbilityHandleNilPlayer(t *testing.T) {
+	playerID := uuid.New()
+	h := NewRemoveAbilityHandler(&stubAbilityStore{player: nil})
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	_, err := h.Handle(ctx, map[string]any{"ability_name": "Dash"})
+	if err == nil || !strings.Contains(err.Error(), "current player character does not exist") {
+		t.Fatalf("error = %v, want nil player error", err)
+	}
+}
+
+func TestRemoveAbilityHandleGetPlayerError(t *testing.T) {
+	playerID := uuid.New()
+	h := NewRemoveAbilityHandler(&stubAbilityStore{getErr: errors.New("db failure")})
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	_, err := h.Handle(ctx, map[string]any{"ability_name": "Dash"})
+	if err == nil || !strings.Contains(err.Error(), "get player character") {
+		t.Fatalf("error = %v, want get player character error", err)
+	}
+}
+
+func TestAddAbilityHandleMissingArgs(t *testing.T) {
+	playerID := uuid.New()
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	h := NewAddAbilityHandler(&stubAbilityStore{
+		player: &domain.PlayerCharacter{ID: playerID, Abilities: []byte(`[]`)},
+	})
+
+	cases := []struct {
+		name    string
+		args    map[string]any
+		wantErr string
+	}{
+		{
+			name: "missing name",
+			args: map[string]any{
+				"description": "Move quickly",
+				"type":        "active",
+			},
+			wantErr: "name is required",
+		},
+		{
+			name: "missing description",
+			args: map[string]any{
+				"name": "Dash",
+				"type": "active",
+			},
+			wantErr: "description is required",
+		},
+		{
+			name: "missing type",
+			args: map[string]any{
+				"name":        "Dash",
+				"description": "Move quickly",
+			},
+			wantErr: "type is required",
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			_, err := h.Handle(ctx, tc.args)
+			if err == nil || !strings.Contains(err.Error(), tc.wantErr) {
+				t.Fatalf("error = %v, want %q", err, tc.wantErr)
+			}
+		})
+	}
+}
+
+func TestRemoveAbilityHandleMissingAbilityName(t *testing.T) {
+	playerID := uuid.New()
+	h := NewRemoveAbilityHandler(&stubAbilityStore{
+		player: &domain.PlayerCharacter{ID: playerID, Abilities: []byte(`[]`)},
+	})
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	_, err := h.Handle(ctx, map[string]any{})
+	if err == nil || !strings.Contains(err.Error(), "ability_name is required") {
+		t.Fatalf("error = %v, want ability_name is required", err)
+	}
+}
+
+func TestAddAbilityHandleCorruptedAbilitiesJSON(t *testing.T) {
+	playerID := uuid.New()
+	h := NewAddAbilityHandler(&stubAbilityStore{
+		player: &domain.PlayerCharacter{ID: playerID, Abilities: []byte(`not json`)},
+	})
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	_, err := h.Handle(ctx, map[string]any{
+		"name":        "Dash",
+		"description": "Move quickly",
+		"type":        "active",
+	})
+	if err == nil || !strings.Contains(err.Error(), "unmarshal player abilities") {
+		t.Fatalf("error = %v, want unmarshal player abilities error", err)
+	}
+}
+
 var _ AddAbilityStore = (*stubAbilityStore)(nil)
 var _ RemoveAbilityStore = (*stubAbilityStore)(nil)

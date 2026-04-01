@@ -333,4 +333,182 @@ func TestUpdatePlayerStatsHandleRejectsOutOfRangeStoredStat(t *testing.T) {
 	}
 }
 
+func TestUpdatePlayerStatsHandleMultipleOperationsSequential(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatsStore{
+		player: &domain.PlayerCharacter{
+			ID:    playerID,
+			Stats: []byte(`{"strength":10,"dexterity":8}`),
+		},
+	}
+	h := NewUpdatePlayerStatsHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	// First call: set strength = 20.
+	got, err := h.Handle(ctx, map[string]any{
+		"stat_name": "strength",
+		"value":     20,
+		"operation": "set",
+	})
+	if err != nil {
+		t.Fatalf("first Handle: %v", err)
+	}
+	if got.Data["new_value"] != 20 {
+		t.Fatalf("first new_value = %v, want 20", got.Data["new_value"])
+	}
+
+	// Rebuild store.player.Stats from what was persisted so the second call sees updated data.
+	store.player.Stats = append([]byte(nil), store.lastStats...)
+
+	// Second call: add 3 to dexterity.
+	got, err = h.Handle(ctx, map[string]any{
+		"stat_name": "dexterity",
+		"value":     3,
+		"operation": "add",
+	})
+	if err != nil {
+		t.Fatalf("second Handle: %v", err)
+	}
+	if got.Data["new_value"] != 11 {
+		t.Fatalf("second new_value = %v, want 11", got.Data["new_value"])
+	}
+
+	// Verify both stats are present and correct in the final persisted payload.
+	var final map[string]any
+	if err := json.Unmarshal(store.lastStats, &final); err != nil {
+		t.Fatalf("unmarshal final stats: %v", err)
+	}
+	if final["strength"] != float64(20) {
+		t.Fatalf("final strength = %v, want 20", final["strength"])
+	}
+	if final["dexterity"] != float64(11) {
+		t.Fatalf("final dexterity = %v, want 11", final["dexterity"])
+	}
+	if store.updateCalls != 2 {
+		t.Fatalf("updateCalls = %d, want 2", store.updateCalls)
+	}
+}
+
+func TestUpdatePlayerStatsHandleMissingArgs(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatsStore{
+		player: &domain.PlayerCharacter{
+			ID:    playerID,
+			Stats: []byte(`{"strength":10}`),
+		},
+	}
+	h := NewUpdatePlayerStatsHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	tests := []struct {
+		name string
+		args map[string]any
+		want string
+	}{
+		{
+			name: "missing stat_name",
+			args: map[string]any{"value": 1, "operation": "set"},
+			want: "stat_name is required",
+		},
+		{
+			name: "missing value",
+			args: map[string]any{"stat_name": "strength", "operation": "set"},
+			want: "value is required",
+		},
+		{
+			name: "missing operation",
+			args: map[string]any{"stat_name": "strength", "value": 1},
+			want: "operation is required",
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			_, err := h.Handle(ctx, tc.args)
+			if err == nil {
+				t.Fatal("expected error")
+			}
+			if !strings.Contains(err.Error(), tc.want) {
+				t.Fatalf("error = %v, want contains %q", err, tc.want)
+			}
+		})
+	}
+}
+
+func TestUpdatePlayerStatsHandleNilPlayer(t *testing.T) {
+	playerID := uuid.New()
+	// store returns nil player, no error.
+	store := &stubUpdatePlayerStatsStore{player: nil}
+	h := NewUpdatePlayerStatsHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"stat_name": "strength",
+		"value":     1,
+		"operation": "set",
+	})
+	if err == nil {
+		t.Fatal("expected nil-player error")
+	}
+	if !strings.Contains(err.Error(), "current player character does not exist") {
+		t.Fatalf("error = %v, want 'current player character does not exist'", err)
+	}
+}
+
+func TestUpdatePlayerStatsHandleEmptyStats(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatsStore{
+		player: &domain.PlayerCharacter{
+			ID:    playerID,
+			Stats: nil, // empty / unset stats
+		},
+	}
+	h := NewUpdatePlayerStatsHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"stat_name": "strength",
+		"value":     10,
+		"operation": "set",
+	})
+	if err == nil {
+		t.Fatal("expected error for missing stat in empty stats")
+	}
+	if !strings.Contains(err.Error(), "does not exist") {
+		t.Fatalf("error = %v, want 'does not exist'", err)
+	}
+}
+
+func TestUpdatePlayerStatsHandleCaseInsensitiveStatName(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatsStore{
+		player: &domain.PlayerCharacter{
+			ID:    playerID,
+			Stats: []byte(`{"strength":10}`),
+		},
+	}
+	h := NewUpdatePlayerStatsHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	got, err := h.Handle(ctx, map[string]any{
+		"stat_name": " STRENGTH ", // leading/trailing space + uppercase
+		"value":     15,
+		"operation": "set",
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if got.Data["new_value"] != 15 {
+		t.Fatalf("new_value = %v, want 15", got.Data["new_value"])
+	}
+
+	var updated map[string]any
+	if err := json.Unmarshal(store.lastStats, &updated); err != nil {
+		t.Fatalf("unmarshal updated stats: %v", err)
+	}
+	if updated["strength"] != float64(15) {
+		t.Fatalf("strength = %v, want 15", updated["strength"])
+	}
+}
+
 var _ UpdatePlayerStatsStore = (*stubUpdatePlayerStatsStore)(nil)

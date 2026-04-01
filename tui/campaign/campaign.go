@@ -1,11 +1,10 @@
 // Package campaign provides the campaign-selection TUI view used during
 // Game Master start-up. It presents a list of existing campaigns plus a
-// "New campaign" option; when "New campaign" is selected, it shows a Huh
-// form that lets the player type a campaign name before proceeding.
+// "New campaign" option; when "New campaign" is selected, it shows a multi-step
+// Huh form that collects campaign name, genre, and difficulty before proceeding.
 package campaign
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
@@ -41,8 +40,8 @@ func (i item) FilterValue() string { return i.name }
 type Model struct {
 	campaigns []statedb.Campaign
 	list      list.Model
-	form      *huh.Form // non-nil when "New campaign" is being named
-	newName   string    // value entered by the player
+	form       *huh.Form          // non-nil when "New campaign" form is open
+	formResult CampaignFormResult  // values collected by the form
 	width     int
 	height    int
 }
@@ -132,7 +131,7 @@ func (m Model) updateList(msg tea.Msg) (tea.Model, tea.Cmd) {
 				return m, nil
 			}
 			if selected.id == newCampaignSentinel {
-				m.form = buildNameForm(&m.newName)
+				m.form = buildCampaignForm(&m.formResult)
 				return m, m.form.Init()
 			}
 			// Find the matching campaign and emit SelectedMsg.
@@ -157,9 +156,10 @@ func (m Model) updateForm(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.form = f
 	}
 	if m.form.State == huh.StateCompleted {
-		name := strings.TrimSpace(m.newName)
+		result := m.formResult
+		result.Name = strings.TrimSpace(result.Name)
 		m.form = nil
-		return m, func() tea.Msg { return NewCampaignNameMsg{Name: name} }
+		return m, func() tea.Msg { return NewCampaignFormMsg{Result: result} }
 	}
 	if m.form.State == huh.StateAborted {
 		m.form = nil
@@ -200,30 +200,11 @@ func (m Model) renderForm() string {
 			Render(content))
 }
 
-// buildNameForm constructs the Huh form used to capture a new campaign name.
-func buildNameForm(target *string) *huh.Form {
-	return huh.NewForm(
-		huh.NewGroup(
-			huh.NewInput().
-				Title("Campaign name").
-				Placeholder("e.g. Shadows of the East").
-				Value(target).
-				Validate(func(s string) error {
-					if strings.TrimSpace(s) == "" {
-						return errEmptyName
-					}
-					return nil
-				}),
-		),
-	).WithShowHelp(false)
-}
-
-// NewCampaignNameMsg is sent after the player has typed a new campaign name.
+// Deprecated: NewCampaignNameMsg is retained for backward compatibility.
+// New code should use NewCampaignFormMsg instead.
 type NewCampaignNameMsg struct {
 	Name string
 }
-
-var errEmptyName = errors.New("campaign name cannot be empty")
 
 func formatCampaignDescription(c statedb.Campaign) string {
 	genre := "Unknown genre"

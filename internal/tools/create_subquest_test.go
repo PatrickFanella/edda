@@ -231,3 +231,98 @@ func TestCreateSubquestValidationAndParentErrors(t *testing.T) {
 		}
 	})
 }
+
+
+func TestCreateSubquestMissingParentQuestID(t *testing.T) {
+	h := NewCreateSubquestHandler(&stubQuestStore{})
+	_, err := h.Handle(context.Background(), map[string]any{
+		"title":       "Scout",
+		"description": "Find enemy.",
+		"quest_type":  "short_term",
+		"objectives": []any{
+			map[string]any{"description": "Search", "order_index": 0},
+		},
+	})
+	if err == nil || !strings.Contains(err.Error(), "parent_quest_id is required") {
+		t.Fatalf("error = %v, want parent_quest_id required error", err)
+	}
+}
+
+func TestCreateSubquestFailedParent(t *testing.T) {
+	parentQuestID := uuid.New()
+	store := &stubQuestStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			dbutil.ToPgtype(parentQuestID).Bytes: {
+				ID:          dbutil.ToPgtype(parentQuestID),
+				CampaignID:  dbutil.ToPgtype(uuid.New()),
+				Title:       "Main Quest",
+				Description: pgtype.Text{String: "Main", Valid: true},
+				QuestType:   string(domain.QuestTypeLongTerm),
+				Status:      string(domain.QuestStatusFailed),
+			},
+		},
+	}
+
+	h := NewCreateSubquestHandler(store)
+	_, err := h.Handle(context.Background(), map[string]any{
+		"parent_quest_id": parentQuestID.String(),
+		"title":           "Scout the area",
+		"description":     "Find enemy movement.",
+		"quest_type":      "short_term",
+		"objectives": []any{
+			map[string]any{"description": "Search forest edge", "order_index": 1},
+		},
+	})
+	if err == nil || !strings.Contains(err.Error(), "parent quest must be active") {
+		t.Fatalf("error = %v, want parent quest active error", err)
+	}
+}
+
+func TestCreateSubquestInheritsQuestType(t *testing.T) {
+	campaignID := uuid.New()
+	parentQuestID := uuid.New()
+	subquestID := uuid.New()
+
+	store := &stubQuestStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			dbutil.ToPgtype(parentQuestID).Bytes: {
+				ID:          dbutil.ToPgtype(parentQuestID),
+				CampaignID:  dbutil.ToPgtype(campaignID),
+				Title:       "Main Quest",
+				Description: pgtype.Text{String: "Main", Valid: true},
+				QuestType:   string(domain.QuestTypeLongTerm),
+				Status:      string(domain.QuestStatusActive),
+			},
+		},
+		createdQuest: statedb.Quest{
+			ID:            dbutil.ToPgtype(subquestID),
+			CampaignID:    dbutil.ToPgtype(campaignID),
+			ParentQuestID: pgtype.UUID{Bytes: dbutil.ToPgtype(parentQuestID).Bytes, Valid: true},
+			Title:         "Scout the area",
+			Description:   pgtype.Text{String: "Find enemy movement.", Valid: true},
+			QuestType:     string(domain.QuestTypeShortTerm),
+			Status:        string(domain.QuestStatusActive),
+		},
+	}
+
+	h := NewCreateSubquestHandler(store)
+	_, err := h.Handle(context.Background(), map[string]any{
+		"parent_quest_id": parentQuestID.String(),
+		"title":           "Scout the area",
+		"description":     "Find enemy movement.",
+		"quest_type":      "short_term",
+		"objectives": []any{
+			map[string]any{"description": "Search forest edge", "order_index": 1},
+		},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	if len(store.createQuestCalls) != 1 {
+		t.Fatalf("CreateQuest call count = %d, want 1", len(store.createQuestCalls))
+	}
+	if store.createQuestCalls[0].QuestType != string(domain.QuestTypeShortTerm) {
+		t.Fatalf("quest_type = %q, want %q", store.createQuestCalls[0].QuestType, string(domain.QuestTypeShortTerm))
+	}
+}

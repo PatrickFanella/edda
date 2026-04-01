@@ -125,3 +125,41 @@ func TestUpdate_WindowSizeMsg(t *testing.T) {
 func containsSubstr(s, sub string) bool {
 	return strings.Contains(s, sub)
 }
+
+
+func TestBuildCampaignForm_ReturnsNonNil(t *testing.T) {
+	var result campaign.CampaignFormResult
+	f := campaign.ExportBuildCampaignForm(&result)
+	if f == nil {
+		t.Fatal("buildCampaignForm returned nil")
+	}
+}
+
+func TestCampaignFormResult_PopulatedAfterFormCreation(t *testing.T) {
+	result := campaign.CampaignFormResult{
+		Name:       "Test Campaign",
+		Genre:      "Fantasy",
+		Difficulty: "Casual",
+	}
+	if result.Name != "Test Campaign" {
+		t.Errorf("Name = %q, want %q", result.Name, "Test Campaign")
+	}
+	if result.Genre != "Fantasy" {
+		t.Errorf("Genre = %q, want %q", result.Genre, "Fantasy")
+	}
+	if result.Difficulty != "Casual" {
+		t.Errorf("Difficulty = %q, want %q", result.Difficulty, "Casual")
+	}
+}
+
+func TestGenreOptions_NotEmpty(t *testing.T) {
+	if len(campaign.GenreOptions) == 0 {
+		t.Fatal("GenreOptions should not be empty")
+	}
+}
+
+func TestDifficultyOptions_NotEmpty(t *testing.T) {
+	if len(campaign.DifficultyOptions) == 0 {
+		t.Fatal("DifficultyOptions should not be empty")
+	}
+}

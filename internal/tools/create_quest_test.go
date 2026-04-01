@@ -316,6 +316,157 @@ func TestCreateQuestValidationAndErrors(t *testing.T) {
 	})
 }
 
+func TestCreateQuestEmptyObjectivesArray(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+
+	store := &stubQuestStore{
+		locationsByID: map[[16]byte]statedb.Location{
+			dbutil.ToPgtype(currentLocationID).Bytes: {
+				ID:         dbutil.ToPgtype(currentLocationID),
+				CampaignID: dbutil.ToPgtype(campaignID),
+			},
+		},
+	}
+	h := NewCreateQuestHandler(store)
+
+	got, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{
+		"title":       "Empty Objectives Quest",
+		"description": "A quest with no objectives.",
+		"quest_type":  "short_term",
+		"objectives":  []any{},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	if len(store.createObjectiveCalls) != 0 {
+		t.Fatalf("CreateObjective call count = %d, want 0", len(store.createObjectiveCalls))
+	}
+	objectives, ok := got.Data["objectives"]
+	if !ok {
+		t.Fatalf("result missing objectives key")
+	}
+	if objSlice, ok := objectives.([]map[string]any); ok && len(objSlice) != 0 {
+		t.Fatalf("result objectives length = %d, want 0", len(objSlice))
+	}
+}
+
+func TestCreateQuestNegativeOrderIndex(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+
+	store := &stubQuestStore{
+		locationsByID: map[[16]byte]statedb.Location{
+			dbutil.ToPgtype(currentLocationID).Bytes: {
+				ID:         dbutil.ToPgtype(currentLocationID),
+				CampaignID: dbutil.ToPgtype(campaignID),
+			},
+		},
+	}
+	h := NewCreateQuestHandler(store)
+
+	_, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{
+		"title":       "Negative Order Quest",
+		"description": "Quest with negative order_index.",
+		"quest_type":  "short_term",
+		"objectives": []any{
+			map[string]any{"description": "obj", "order_index": -1},
+		},
+	})
+	if err == nil || !strings.Contains(err.Error(), "order_index must be greater than or equal to 0") {
+		t.Fatalf("error = %v, want order_index validation error", err)
+	}
+}
+
+func TestCreateQuestDuplicateOrderIndex(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+
+	store := &stubQuestStore{
+		locationsByID: map[[16]byte]statedb.Location{
+			dbutil.ToPgtype(currentLocationID).Bytes: {
+				ID:         dbutil.ToPgtype(currentLocationID),
+				CampaignID: dbutil.ToPgtype(campaignID),
+			},
+		},
+	}
+	h := NewCreateQuestHandler(store)
+
+	_, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{
+		"title":       "Duplicate Order Quest",
+		"description": "Quest with duplicate order_index values.",
+		"quest_type":  "medium_term",
+		"objectives": []any{
+			map[string]any{"description": "First objective", "order_index": 0},
+			map[string]any{"description": "Second objective", "order_index": 0},
+		},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	if len(store.createObjectiveCalls) != 2 {
+		t.Fatalf("CreateObjective call count = %d, want 2", len(store.createObjectiveCalls))
+	}
+	for i, call := range store.createObjectiveCalls {
+		if call.OrderIndex != 0 {
+			t.Fatalf("createObjectiveCalls[%d].OrderIndex = %d, want 0", i, call.OrderIndex)
+		}
+	}
+}
+
+func TestCreateQuestInvalidRelatedEntityUUID(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+
+	store := &stubQuestStore{
+		locationsByID: map[[16]byte]statedb.Location{
+			dbutil.ToPgtype(currentLocationID).Bytes: {
+				ID:         dbutil.ToPgtype(currentLocationID),
+				CampaignID: dbutil.ToPgtype(campaignID),
+			},
+		},
+	}
+	h := NewCreateQuestHandler(store)
+
+	_, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{
+		"title":       "Invalid Entity UUID Quest",
+		"description": "Quest with bad entity UUID.",
+		"quest_type":  "short_term",
+		"objectives": []any{
+			map[string]any{"description": "Do something", "order_index": 0},
+		},
+		"related_entities": []any{
+			map[string]any{"entity_type": "npc", "entity_id": "not-a-uuid"},
+		},
+	})
+	if err == nil || !strings.Contains(err.Error(), "entity_id") {
+		t.Fatalf("error = %v, want entity_id parse error", err)
+	}
+}
+
+func TestCreateQuestLocationNotFound(t *testing.T) {
+	currentLocationID := uuid.New()
+
+	store := &stubQuestStore{
+		getLocationErr: errors.New("location not found"),
+	}
+	h := NewCreateQuestHandler(store)
+
+	_, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{
+		"title":       "Lost Location Quest",
+		"description": "Quest where location lookup fails.",
+		"quest_type":  "short_term",
+		"objectives": []any{
+			map[string]any{"description": "Find it", "order_index": 0},
+		},
+	})
+	if err == nil || !strings.Contains(err.Error(), "resolve campaign from current location") {
+		t.Fatalf("error = %v, want resolve campaign location error", err)
+	}
+}
+
 var _ QuestStore = (*stubQuestStore)(nil)
 
 func copyQuestArgs(in map[string]any) map[string]any {

@@ -660,6 +660,238 @@ func TestModifyItemHandleInvalidInputs(t *testing.T) {
 	})
 }
 
+func TestAddItemHandleExplicitQuantity(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubAddItemStore{itemID: uuid.New()}
+	h := NewAddItemHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	got, err := h.Handle(ctx, map[string]any{
+		"name":        "Arrow",
+		"description": "A sharp arrow.",
+		"item_type":   "misc",
+		"quantity":    5,
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if store.lastQuantity != 5 {
+		t.Fatalf("stored quantity = %d, want 5", store.lastQuantity)
+	}
+	if got.Data["quantity"] != 5 {
+		t.Fatalf("result quantity = %v, want 5", got.Data["quantity"])
+	}
+}
+
+func TestAddItemHandleAllItemTypes(t *testing.T) {
+	playerID := uuid.New()
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	for _, itemType := range []string{"weapon", "armor", "consumable", "quest", "misc"} {
+		itemType := itemType
+		t.Run(itemType, func(t *testing.T) {
+			store := &stubAddItemStore{itemID: uuid.New()}
+			h := NewAddItemHandler(store)
+			_, err := h.Handle(ctx, map[string]any{
+				"name":        "Test Item",
+				"description": "A test item.",
+				"item_type":   itemType,
+			})
+			if err != nil {
+				t.Fatalf("Handle(%s): %v", itemType, err)
+			}
+			if store.lastType != itemType {
+				t.Fatalf("stored type = %q, want %q", store.lastType, itemType)
+			}
+		})
+	}
+}
+
+func TestAddItemHandleMissingRequiredFields(t *testing.T) {
+	playerID := uuid.New()
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	cases := []struct {
+		name    string
+		args    map[string]any
+		wantErr string
+	}{
+		{
+			name:    "missing name",
+			args:    map[string]any{"description": "d", "item_type": "misc"},
+			wantErr: "name is required",
+		},
+		{
+			name:    "missing description",
+			args:    map[string]any{"name": "n", "item_type": "misc"},
+			wantErr: "description is required",
+		},
+		{
+			name:    "missing item_type",
+			args:    map[string]any{"name": "n", "description": "d"},
+			wantErr: "item_type is required",
+		},
+	}
+	for _, tc := range cases {
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			h := NewAddItemHandler(&stubAddItemStore{})
+			_, err := h.Handle(ctx, tc.args)
+			if err == nil || !strings.Contains(err.Error(), tc.wantErr) {
+				t.Fatalf("error = %v, want %q", err, tc.wantErr)
+			}
+		})
+	}
+}
+
+func TestCreateItemHandleAllRarities(t *testing.T) {
+	playerID := uuid.New()
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	for _, rarity := range []string{"common", "uncommon", "rare", "epic", "legendary"} {
+		rarity := rarity
+		t.Run(rarity, func(t *testing.T) {
+			store := &stubCreateItemStore{itemID: uuid.New()}
+			h := NewCreateItemHandler(store)
+			_, err := h.Handle(ctx, map[string]any{
+				"name":        "Test Item",
+				"description": "A test item.",
+				"item_type":   "misc",
+				"rarity":      rarity,
+				"properties":  map[string]any{},
+			})
+			if err != nil {
+				t.Fatalf("Handle(%s): %v", rarity, err)
+			}
+			if store.lastRarity != rarity {
+				t.Fatalf("stored rarity = %q, want %q", store.lastRarity, rarity)
+			}
+		})
+	}
+}
+
+func TestCreateItemHandleEmptyProperties(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubCreateItemStore{itemID: uuid.New()}
+	h := NewCreateItemHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"name":        "Empty Props Item",
+		"description": "An item with no properties.",
+		"item_type":   "misc",
+		"rarity":      "common",
+		"properties":  map[string]any{},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+}
+
+func TestCreateItemHandleAllPropertyKeys(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubCreateItemStore{itemID: uuid.New()}
+	h := NewCreateItemHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"name":        "Full Props Item",
+		"description": "An item with all supported properties.",
+		"item_type":   "weapon",
+		"rarity":      "rare",
+		"properties": map[string]any{
+			"effects": []any{"fire"},
+			"damage":  "1d8",
+			"armor":   5,
+			"charges": 3,
+			"weight":  2.5,
+		},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+}
+
+func TestModifyItemHandleEmptyProperties(t *testing.T) {
+	playerID := uuid.New()
+	itemID := uuid.New()
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	store := &stubModifyItemStore{
+		items: map[uuid.UUID]*PlayerItem{
+			itemID: {
+				ID:                itemID,
+				PlayerCharacterID: playerID,
+				Name:              "Sword",
+				ItemType:          "weapon",
+				Rarity:            "common",
+				Properties:        map[string]any{"charges": 3},
+			},
+		},
+	}
+	h := NewModifyItemHandler(store)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"item_id":    itemID.String(),
+		"properties": map[string]any{},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	// Existing properties should be preserved when empty update is applied.
+	if store.lastUpdatedProperties["charges"] != 3 {
+		t.Fatalf("charges should be preserved, got %v", store.lastUpdatedProperties["charges"])
+	}
+}
+
+func TestRemoveItemHandleExactQuantityDeletes(t *testing.T) {
+	playerID := uuid.New()
+	itemID := uuid.New()
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	store := &stubRemoveItemStore{
+		items: map[uuid.UUID]*PlayerItem{
+			itemID: {ID: itemID, PlayerCharacterID: playerID, Name: "Bomb", Quantity: 5},
+		},
+	}
+	h := NewRemoveItemHandler(store)
+
+	got, err := h.Handle(ctx, map[string]any{
+		"item_id":  itemID.String(),
+		"quantity": 5,
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if store.lastDeletedID != itemID {
+		t.Fatalf("deleted id = %s, want %s", store.lastDeletedID, itemID)
+	}
+	if store.lastUpdatedID != uuid.Nil {
+		t.Fatalf("unexpected update id = %s", store.lastUpdatedID)
+	}
+	if got.Data["deleted"] != true {
+		t.Fatalf("deleted flag = %v, want true", got.Data["deleted"])
+	}
+}
+
+func TestRemoveItemHandleNegativeQuantity(t *testing.T) {
+	playerID := uuid.New()
+	itemID := uuid.New()
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	store := &stubRemoveItemStore{
+		items: map[uuid.UUID]*PlayerItem{
+			itemID: {ID: itemID, PlayerCharacterID: playerID, Name: "Bomb", Quantity: 5},
+		},
+	}
+	h := NewRemoveItemHandler(store)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"item_id":  itemID.String(),
+		"quantity": -1,
+	})
+	if err == nil || !strings.Contains(err.Error(), "quantity must be greater than 0") {
+		t.Fatalf("error = %v, want quantity must be greater than 0", err)
+	}
+}
+
 var _ AddItemStore = (*stubAddItemStore)(nil)
 var _ RemoveItemStore = (*stubRemoveItemStore)(nil)
 var _ CreateItemStore = (*stubCreateItemStore)(nil)

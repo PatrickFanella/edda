@@ -502,4 +502,165 @@ func TestUpdateQuestValidationAndErrors(t *testing.T) {
 	})
 }
 
+func TestUpdateQuestStatusOnly(t *testing.T) {
+	questID := uuid.New()
+	questKey := dbutil.ToPgtype(questID).Bytes
+	campaignID := uuid.New()
+	campaignPg := dbutil.ToPgtype(campaignID)
+
+	store := &stubUpdateQuestStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			questKey: {
+				ID:          dbutil.ToPgtype(questID),
+				CampaignID:  campaignPg,
+				Title:       "Escort Mission",
+				Description: pgtype.Text{String: "Escort the merchant", Valid: true},
+				QuestType:   string(domain.QuestTypeShortTerm),
+				Status:      string(domain.QuestStatusActive),
+			},
+		},
+		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
+			questKey: {},
+		},
+		subquestsByParentID: map[[16]byte][]statedb.Quest{},
+	}
+
+	h := NewUpdateQuestHandler(store)
+	got, err := h.Handle(context.Background(), map[string]any{
+		"quest_id": questID.String(),
+		"status":   "completed",
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	if len(store.updateQuestStatusCalls) != 1 {
+		t.Fatalf("UpdateQuestStatus call count = %d, want 1", len(store.updateQuestStatusCalls))
+	}
+	if store.updateQuestStatusCalls[0].Status != string(domain.QuestStatusCompleted) {
+		t.Fatalf("status update = %q, want completed", store.updateQuestStatusCalls[0].Status)
+	}
+	if len(store.updateQuestCalls) != 0 {
+		t.Fatalf("UpdateQuest call count = %d, want 0", len(store.updateQuestCalls))
+	}
+	if len(store.createObjectiveCalls) != 0 {
+		t.Fatalf("CreateObjective call count = %d, want 0", len(store.createObjectiveCalls))
+	}
+	if got.Data["status"] != string(domain.QuestStatusCompleted) {
+		t.Fatalf("result status = %v, want completed", got.Data["status"])
+	}
+}
+
+func TestUpdateQuestDescriptionOnly(t *testing.T) {
+	questID := uuid.New()
+	questKey := dbutil.ToPgtype(questID).Bytes
+
+	store := &stubUpdateQuestStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			questKey: {
+				ID:          dbutil.ToPgtype(questID),
+				CampaignID:  dbutil.ToPgtype(uuid.New()),
+				Title:       "Gather Intel",
+				Description: pgtype.Text{String: "Original briefing", Valid: true},
+				QuestType:   string(domain.QuestTypeMediumTerm),
+				Status:      string(domain.QuestStatusActive),
+			},
+		},
+		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
+			questKey: {},
+		},
+		subquestsByParentID: map[[16]byte][]statedb.Quest{},
+	}
+
+	h := NewUpdateQuestHandler(store)
+	got, err := h.Handle(context.Background(), map[string]any{
+		"quest_id":           questID.String(),
+		"description_update": "Updated briefing with new intelligence",
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	if len(store.updateQuestCalls) != 1 {
+		t.Fatalf("UpdateQuest call count = %d, want 1", len(store.updateQuestCalls))
+	}
+	if store.updateQuestCalls[0].Description.String != "Updated briefing with new intelligence" {
+		t.Fatalf("updated description = %q, want Updated briefing with new intelligence", store.updateQuestCalls[0].Description.String)
+	}
+	if len(store.updateQuestStatusCalls) != 0 {
+		t.Fatalf("UpdateQuestStatus call count = %d, want 0", len(store.updateQuestStatusCalls))
+	}
+	if len(store.createObjectiveCalls) != 0 {
+		t.Fatalf("CreateObjective call count = %d, want 0", len(store.createObjectiveCalls))
+	}
+	if got.Data["description"] != "Updated briefing with new intelligence" {
+		t.Fatalf("result description = %v, want Updated briefing with new intelligence", got.Data["description"])
+	}
+}
+
+func TestUpdateQuestNewObjectivesOnly(t *testing.T) {
+	questID := uuid.New()
+	questKey := dbutil.ToPgtype(questID).Bytes
+
+	store := &stubUpdateQuestStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			questKey: {
+				ID:          dbutil.ToPgtype(questID),
+				CampaignID:  dbutil.ToPgtype(uuid.New()),
+				Title:       "Defend the Keep",
+				Description: pgtype.Text{String: "Hold the position", Valid: true},
+				QuestType:   string(domain.QuestTypeLongTerm),
+				Status:      string(domain.QuestStatusActive),
+			},
+		},
+		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
+			questKey: {
+				{
+					ID:          dbutil.ToPgtype(uuid.New()),
+					QuestID:     dbutil.ToPgtype(questID),
+					Description: "Fortify walls",
+					Completed:   false,
+					OrderIndex:  5,
+				},
+			},
+		},
+		subquestsByParentID: map[[16]byte][]statedb.Quest{},
+	}
+
+	h := NewUpdateQuestHandler(store)
+	got, err := h.Handle(context.Background(), map[string]any{
+		"quest_id": questID.String(),
+		"new_objectives": []any{
+			"Rally the garrison",
+			"Secure the gate",
+		},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	if len(store.createObjectiveCalls) != 2 {
+		t.Fatalf("CreateObjective call count = %d, want 2", len(store.createObjectiveCalls))
+	}
+	if store.createObjectiveCalls[0].OrderIndex != 6 {
+		t.Fatalf("first objective order_index = %d, want 6", store.createObjectiveCalls[0].OrderIndex)
+	}
+	if store.createObjectiveCalls[1].OrderIndex != 7 {
+		t.Fatalf("second objective order_index = %d, want 7", store.createObjectiveCalls[1].OrderIndex)
+	}
+	if len(store.updateQuestCalls) != 0 {
+		t.Fatalf("UpdateQuest call count = %d, want 0", len(store.updateQuestCalls))
+	}
+	if len(store.updateQuestStatusCalls) != 0 {
+		t.Fatalf("UpdateQuestStatus call count = %d, want 0", len(store.updateQuestStatusCalls))
+	}
+	added, ok := got.Data["added_objectives"].([]map[string]any)
+	if !ok {
+		t.Fatalf("added_objectives type = %T, want []map[string]any", got.Data["added_objectives"])
+	}
+	if len(added) != 2 {
+		t.Fatalf("added_objectives length = %d, want 2", len(added))
+	}
+}
+
 var _ UpdateQuestStore = (*stubUpdateQuestStore)(nil)

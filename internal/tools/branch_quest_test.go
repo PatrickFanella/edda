@@ -416,3 +416,138 @@ func TestBranchQuest_InvalidOriginalStatus(t *testing.T) {
 		t.Fatalf("error = %q, want status validation error", err.Error())
 	}
 }
+
+
+func TestBranchQuest_EmptyObjectives(t *testing.T) {
+	locationID := uuid.New()
+	campaignID := uuid.New()
+	originalQuestID := uuid.New()
+	branchQuestID := uuid.New()
+
+	store := baseBranchStore(locationID, campaignID, originalQuestID, branchQuestID)
+	handler := NewBranchQuestHandler(store)
+
+	args := baseBranchArgs(originalQuestID)
+	args["branch_objectives"] = []any{}
+
+	result, err := handler.Handle(branchQuestCtx(locationID), args)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !result.Success {
+		t.Fatal("expected success")
+	}
+
+	// No objectives created.
+	if len(store.createObjectiveCalls) != 0 {
+		t.Fatalf("create objective calls = %d, want 0", len(store.createObjectiveCalls))
+	}
+
+	// Result objectives array should be empty.
+	objectives, ok := result.Data["objectives"].([]map[string]any)
+	if !ok {
+		t.Fatalf("objectives type = %T, want []map[string]any", result.Data["objectives"])
+	}
+	if len(objectives) != 0 {
+		t.Fatalf("objectives length = %d, want 0", len(objectives))
+	}
+
+	// quest_branch relationship still created.
+	if len(store.createRelationshipCalls) != 1 {
+		t.Fatalf("create relationship calls = %d, want 1", len(store.createRelationshipCalls))
+	}
+	if store.createRelationshipCalls[0].RelationshipType != "quest_branch" {
+		t.Fatalf("relationship type = %q, want quest_branch", store.createRelationshipCalls[0].RelationshipType)
+	}
+}
+
+func TestBranchQuest_OriginalQuestFailed(t *testing.T) {
+	locationID := uuid.New()
+	campaignID := uuid.New()
+	originalQuestID := uuid.New()
+	branchQuestID := uuid.New()
+
+	store := baseBranchStore(locationID, campaignID, originalQuestID, branchQuestID)
+	// Override original quest status to failed.
+	store.questsByID[dbutil.ToPgtype(originalQuestID).Bytes] = statedb.Quest{
+		ID:         dbutil.ToPgtype(originalQuestID),
+		CampaignID: dbutil.ToPgtype(campaignID),
+		Title:      "Original Quest",
+		QuestType:  string(domain.QuestTypeMediumTerm),
+		Status:     string(domain.QuestStatusFailed),
+	}
+
+	handler := NewBranchQuestHandler(store)
+	result, err := handler.Handle(branchQuestCtx(locationID), baseBranchArgs(originalQuestID))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !result.Success {
+		t.Fatal("expected success")
+	}
+
+	// Branch created despite failed original.
+	if len(store.createQuestCalls) != 1 {
+		t.Fatalf("create quest calls = %d, want 1", len(store.createQuestCalls))
+	}
+	if len(store.createRelationshipCalls) != 1 {
+		t.Fatalf("create relationship calls = %d, want 1", len(store.createRelationshipCalls))
+	}
+	if store.createRelationshipCalls[0].RelationshipType != "quest_branch" {
+		t.Fatalf("relationship type = %q, want quest_branch", store.createRelationshipCalls[0].RelationshipType)
+	}
+}
+
+func TestBranchQuest_MultipleBranchesFromSameQuest(t *testing.T) {
+	locationID := uuid.New()
+	campaignID := uuid.New()
+	originalQuestID := uuid.New()
+	branchQuestID := uuid.New()
+
+	store := baseBranchStore(locationID, campaignID, originalQuestID, branchQuestID)
+	handler := NewBranchQuestHandler(store)
+	ctx := branchQuestCtx(locationID)
+
+	// First branch.
+	args1 := baseBranchArgs(originalQuestID)
+	args1["branch_title"] = "Path A"
+	args1["branch_objectives"] = []any{
+		map[string]any{"description": "A objective", "order_index": float64(0)},
+	}
+	result1, err := handler.Handle(ctx, args1)
+	if err != nil {
+		t.Fatalf("first branch error: %v", err)
+	}
+	if !result1.Success {
+		t.Fatal("first branch: expected success")
+	}
+
+	// Second branch.
+	args2 := baseBranchArgs(originalQuestID)
+	args2["branch_title"] = "Path B"
+	args2["branch_objectives"] = []any{
+		map[string]any{"description": "B objective", "order_index": float64(0)},
+	}
+	result2, err := handler.Handle(ctx, args2)
+	if err != nil {
+		t.Fatalf("second branch error: %v", err)
+	}
+	if !result2.Success {
+		t.Fatal("second branch: expected success")
+	}
+
+	// 2 quest creates total.
+	if len(store.createQuestCalls) != 2 {
+		t.Fatalf("create quest calls = %d, want 2", len(store.createQuestCalls))
+	}
+
+	// Both relationships are quest_branch.
+	if len(store.createRelationshipCalls) != 2 {
+		t.Fatalf("create relationship calls = %d, want 2", len(store.createRelationshipCalls))
+	}
+	for i, rel := range store.createRelationshipCalls {
+		if rel.RelationshipType != "quest_branch" {
+			t.Fatalf("relationship[%d] type = %q, want quest_branch", i, rel.RelationshipType)
+		}
+	}
+}
