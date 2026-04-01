@@ -65,6 +65,22 @@ func (s *stubLoreStore) GetLocationByID(_ context.Context, _ pgtype.UUID) (state
 	return s.currentLocation, nil
 }
 
+func (s *stubLoreStore) GetFactionByID(_ context.Context, id pgtype.UUID) (statedb.Faction, error) {
+	return statedb.Faction{ID: id, CampaignID: s.currentLocation.CampaignID}, nil
+}
+
+func (s *stubLoreStore) GetNPCByID(_ context.Context, id pgtype.UUID) (statedb.Npc, error) {
+	return statedb.Npc{ID: id, CampaignID: s.currentLocation.CampaignID}, nil
+}
+
+func (s *stubLoreStore) GetPlayerCharacterByID(_ context.Context, id pgtype.UUID) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{ID: id, CampaignID: s.currentLocation.CampaignID}, nil
+}
+
+func (s *stubLoreStore) GetItemByID(_ context.Context, id pgtype.UUID) (statedb.Item, error) {
+	return statedb.Item{ID: id, CampaignID: s.currentLocation.CampaignID}, nil
+}
+
 func TestRegisterCreateLore(t *testing.T) {
 	reg := NewRegistry()
 	if err := RegisterCreateLore(reg, &stubLoreStore{}, &stubMemoryStore{}, &stubEmbedder{vector: []float32{0.1}}); err != nil {
