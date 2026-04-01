@@ -244,4 +244,201 @@ func TestLevelUpHandleValidationAndStoreErrors(t *testing.T) {
 	})
 }
 
+func TestLevelUpHandleNoStatBoostsOrAbilities(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubLevelUpStore{
+		player: &domain.PlayerCharacter{
+			ID:         playerID,
+			Experience: 1000,
+			Level:      1,
+		},
+	}
+	h := NewLevelUpHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	got, err := h.Handle(ctx, map[string]any{})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if got.Data["new_level"] != 2 {
+		t.Fatalf("new_level = %v, want 2", got.Data["new_level"])
+	}
+	if store.updateStatsCallCount != 0 {
+		t.Fatalf("updateStatsCallCount = %d, want 0", store.updateStatsCallCount)
+	}
+	if store.updateAbilityCallCount != 0 {
+		t.Fatalf("updateAbilityCallCount = %d, want 0", store.updateAbilityCallCount)
+	}
+}
+
+func TestLevelUpHandleInsufficientExperience(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubLevelUpStore{
+		player: &domain.PlayerCharacter{
+			ID:         playerID,
+			Experience: 50,
+			Level:      1,
+		},
+	}
+	h := NewLevelUpHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{})
+	if err == nil || !strings.Contains(err.Error(), "insufficient experience") {
+		t.Fatalf("error = %v, want insufficient experience", err)
+	}
+}
+
+func TestLevelUpHandleNilPlayer(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubLevelUpStore{} // player is nil by default, no getErr
+	h := NewLevelUpHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{})
+	if err == nil || !strings.Contains(err.Error(), "current player character does not exist") {
+		t.Fatalf("error = %v, want current player character does not exist", err)
+	}
+}
+
+func TestLevelUpHandleUpdateStatsError(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubLevelUpStore{
+		player: &domain.PlayerCharacter{
+			ID:         playerID,
+			Experience: 1000,
+			Level:      1,
+			Stats:      []byte(`{"strength":10}`),
+		},
+		updateStatsErr: errors.New("db stats write failed"),
+	}
+	h := NewLevelUpHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"stat_boosts": map[string]any{"strength": 2},
+	})
+	if err == nil || !strings.Contains(err.Error(), "update player stats") {
+		t.Fatalf("error = %v, want update player stats wrapper", err)
+	}
+}
+
+func TestLevelUpHandleUpdateAbilitiesError(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubLevelUpStore{
+		player: &domain.PlayerCharacter{
+			ID:         playerID,
+			Experience: 1000,
+			Level:      1,
+		},
+		updateAbilitiesErr: errors.New("db abilities write failed"),
+	}
+	h := NewLevelUpHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"new_abilities": []any{"Power Strike"},
+	})
+	if err == nil || !strings.Contains(err.Error(), "update player abilities") {
+		t.Fatalf("error = %v, want update player abilities wrapper", err)
+	}
+}
+
+func TestLevelUpHandleDuplicateAbilitiesSkipped(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubLevelUpStore{
+		player: &domain.PlayerCharacter{
+			ID:         playerID,
+			Experience: 1000,
+			Level:      1,
+			Abilities:  []byte(`["Parry","Dodge"]`),
+		},
+	}
+	h := NewLevelUpHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	got, err := h.Handle(ctx, map[string]any{
+		"new_abilities": []any{"parry", "Dodge", "Shield Bash"},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	added, ok := got.Data["new_abilities_added"].([]string)
+	if !ok {
+		t.Fatalf("new_abilities_added has unexpected type %T", got.Data["new_abilities_added"])
+	}
+	if len(added) != 1 || added[0] != "Shield Bash" {
+		t.Fatalf("new_abilities_added = %v, want [Shield Bash]", added)
+	}
+}
+
+func TestLevelUpHandleStatBoostInvalidArgs(t *testing.T) {
+	playerID := uuid.New()
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	tests := []struct {
+		name    string
+		args    map[string]any
+		wantErr string
+	}{
+		{
+			name:    "stat_boosts not an object",
+			args:    map[string]any{"stat_boosts": "bad"},
+			wantErr: "stat_boosts must be an object",
+		},
+		{
+			name:    "new_abilities not an array",
+			args:    map[string]any{"new_abilities": "bad"},
+			wantErr: "new_abilities must be an array",
+		},
+		{
+			name:    "new_abilities contains empty string",
+			args:    map[string]any{"new_abilities": []any{""}},
+			wantErr: "non-empty string",
+		},
+	}
+
+	for _, tc := range tests {
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			store := &stubLevelUpStore{
+				player: &domain.PlayerCharacter{
+					ID:         playerID,
+					Experience: 1000,
+					Level:      1,
+				},
+			}
+			h := NewLevelUpHandler(store)
+			_, err := h.Handle(ctx, tc.args)
+			if err == nil || !strings.Contains(err.Error(), tc.wantErr) {
+				t.Fatalf("error = %v, want %q", err, tc.wantErr)
+			}
+		})
+	}
+}
+
+func TestLevelUpHandleZeroBoostSkipped(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubLevelUpStore{
+		player: &domain.PlayerCharacter{
+			ID:         playerID,
+			Experience: 1000,
+			Level:      1,
+			Stats:      []byte(`{"strength":10}`),
+		},
+	}
+	h := NewLevelUpHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"stat_boosts": map[string]any{"strength": 0},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if store.updateStatsCallCount != 0 {
+		t.Fatalf("updateStatsCallCount = %d, want 0", store.updateStatsCallCount)
+	}
+}
+
 var _ LevelUpStore = (*stubLevelUpStore)(nil)

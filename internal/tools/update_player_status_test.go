@@ -355,6 +355,150 @@ func TestUpdatePlayerStatusStoreErrors(t *testing.T) {
 	}
 }
 
+func TestUpdatePlayerStatusHandleNilPlayer(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatusStore{player: nil}
+	h := NewUpdatePlayerStatusHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{"status": "poisoned"})
+	if err == nil || !strings.Contains(err.Error(), "current player character does not exist") {
+		t.Fatalf("expected nil player error, got %v", err)
+	}
+}
+
+func TestUpdatePlayerStatusHandleMissingStatus(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatusStore{
+		player: &domain.PlayerCharacter{ID: playerID},
+	}
+	h := NewUpdatePlayerStatusHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{})
+	if err == nil || !strings.Contains(err.Error(), "status is required") {
+		t.Fatalf("expected missing status error, got %v", err)
+	}
+}
+
+func TestUpdatePlayerStatusHandleNewStatusRemovesHealthy(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatusStore{
+		player: &domain.PlayerCharacter{
+			ID:     playerID,
+			Status: `[{"status":"healthy"}]`,
+		},
+	}
+	h := NewUpdatePlayerStatusHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{
+		"status": "poisoned",
+		"duration": map[string]any{
+			"unit":  "turns",
+			"value": "2",
+		},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	var statuses []playerStatusEntry
+	if err := json.Unmarshal([]byte(store.lastStatus), &statuses); err != nil {
+		t.Fatalf("unmarshal persisted status: %v", err)
+	}
+	if len(statuses) != 1 {
+		t.Fatalf("persisted statuses count = %d, want 1", len(statuses))
+	}
+	if statuses[0].Status != "poisoned" {
+		t.Fatalf("persisted status = %q, want poisoned", statuses[0].Status)
+	}
+}
+
+func TestUpdatePlayerStatusHandleDeadClearsAllPrior(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatusStore{
+		player: &domain.PlayerCharacter{
+			ID:     playerID,
+			Status: `[{"status":"poisoned"},{"status":"cursed"},{"status":"resting"}]`,
+		},
+	}
+	h := NewUpdatePlayerStatusHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	result, err := h.Handle(ctx, map[string]any{"status": "dead"})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if got, _ := result.Data["game_over"].(bool); !got {
+		t.Fatalf("game_over = %v, want true", result.Data["game_over"])
+	}
+
+	var statuses []playerStatusEntry
+	if err := json.Unmarshal([]byte(store.lastStatus), &statuses); err != nil {
+		t.Fatalf("unmarshal persisted status: %v", err)
+	}
+	if len(statuses) != 1 || statuses[0].Status != "dead" {
+		t.Fatalf("persisted statuses = %+v, want only dead", statuses)
+	}
+}
+
+func TestUpdatePlayerStatusHandleAddStatusWithoutDuration(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatusStore{
+		player: &domain.PlayerCharacter{ID: playerID},
+	}
+	h := NewUpdatePlayerStatusHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{"status": "cursed"})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	var statuses []playerStatusEntry
+	if err := json.Unmarshal([]byte(store.lastStatus), &statuses); err != nil {
+		t.Fatalf("unmarshal persisted status: %v", err)
+	}
+	if len(statuses) != 1 {
+		t.Fatalf("persisted statuses count = %d, want 1", len(statuses))
+	}
+	if statuses[0].Status != "cursed" {
+		t.Fatalf("persisted status = %q, want cursed", statuses[0].Status)
+	}
+	if statuses[0].Duration != nil {
+		t.Fatalf("persisted duration = %+v, want nil", statuses[0].Duration)
+	}
+}
+
+func TestUpdatePlayerStatusHandleRefreshKeepsOldDurationWhenNewOmitted(t *testing.T) {
+	playerID := uuid.New()
+	store := &stubUpdatePlayerStatusStore{
+		player: &domain.PlayerCharacter{
+			ID:     playerID,
+			Status: `[{"status":"poisoned","duration":{"unit":"turns","value":"3"}}]`,
+		},
+	}
+	h := NewUpdatePlayerStatusHandler(store)
+	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+
+	_, err := h.Handle(ctx, map[string]any{"status": "poisoned"})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	var statuses []playerStatusEntry
+	if err := json.Unmarshal([]byte(store.lastStatus), &statuses); err != nil {
+		t.Fatalf("unmarshal persisted status: %v", err)
+	}
+	if len(statuses) != 1 {
+		t.Fatalf("persisted statuses count = %d, want 1", len(statuses))
+	}
+	if statuses[0].Duration == nil || statuses[0].Duration.Unit != "turns" || statuses[0].Duration.Value != "3" {
+		t.Fatalf("persisted duration = %+v, want turns/3", statuses[0].Duration)
+	}
+}
+
 var _ UpdatePlayerStatusStore = (*stubUpdatePlayerStatusStore)(nil)
 
 func TestParsePersistedStatusStateCompatibility(t *testing.T) {

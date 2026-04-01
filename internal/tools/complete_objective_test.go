@@ -285,3 +285,154 @@ func TestCompleteObjectiveValidationErrors(t *testing.T) {
 		t.Fatalf("error = %v, want ambiguous description error", err)
 	}
 }
+
+
+func TestCompleteObjectiveAlreadyCompleted(t *testing.T) {
+	questID := uuid.New()
+	objID := uuid.New()
+	store := &stubCompleteObjectiveStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			dbutil.ToPgtype(questID).Bytes: {
+				ID:     dbutil.ToPgtype(questID),
+				Title:  "Already Done Quest",
+				Status: string(domain.QuestStatusActive),
+			},
+		},
+		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
+			dbutil.ToPgtype(questID).Bytes: {
+				{
+					ID:          dbutil.ToPgtype(objID),
+					QuestID:     dbutil.ToPgtype(questID),
+					Description: "Already finished task",
+					Completed:   true,
+					OrderIndex:  0,
+				},
+			},
+		},
+	}
+
+	h := NewCompleteObjectiveHandler(store)
+	got, err := h.Handle(context.Background(), map[string]any{
+		"quest_id":     questID.String(),
+		"objective_id": objID.String(),
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	if len(store.completeObjectiveCalls) != 0 {
+		t.Fatalf("CompleteObjective call count = %d, want 0", len(store.completeObjectiveCalls))
+	}
+	if !strings.Contains(got.Narrative, "was already complete") {
+		t.Fatalf("narrative = %q, want 'was already complete' message", got.Narrative)
+	}
+	if got.Data["objective_completed"] != true {
+		t.Fatalf("objective_completed = %v, want true", got.Data["objective_completed"])
+	}
+}
+
+func TestCompleteObjectiveNotFoundByID(t *testing.T) {
+	questID := uuid.New()
+	objID := uuid.New()
+	unrelatedObjID := uuid.New()
+	store := &stubCompleteObjectiveStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			dbutil.ToPgtype(questID).Bytes: {
+				ID:     dbutil.ToPgtype(questID),
+				Title:  "Mismatch Quest",
+				Status: string(domain.QuestStatusActive),
+			},
+		},
+		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
+			dbutil.ToPgtype(questID).Bytes: {
+				{
+					ID:          dbutil.ToPgtype(objID),
+					QuestID:     dbutil.ToPgtype(questID),
+					Description: "Real objective",
+					Completed:   false,
+					OrderIndex:  0,
+				},
+			},
+		},
+	}
+
+	h := NewCompleteObjectiveHandler(store)
+	_, err := h.Handle(context.Background(), map[string]any{
+		"quest_id":     questID.String(),
+		"objective_id": unrelatedObjID.String(),
+	})
+	if err == nil || !strings.Contains(err.Error(), "objective_id does not belong to the specified quest") {
+		t.Fatalf("error = %v, want objective_id does not belong error", err)
+	}
+}
+
+func TestCompleteObjectiveInvalidObjectiveIDFormat(t *testing.T) {
+	questID := uuid.New()
+	store := &stubCompleteObjectiveStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			dbutil.ToPgtype(questID).Bytes: {
+				ID:     dbutil.ToPgtype(questID),
+				Title:  "UUID Test Quest",
+				Status: string(domain.QuestStatusActive),
+			},
+		},
+	}
+
+	h := NewCompleteObjectiveHandler(store)
+	_, err := h.Handle(context.Background(), map[string]any{
+		"quest_id":     questID.String(),
+		"objective_id": "not-a-uuid",
+	})
+	if err == nil {
+		t.Fatal("expected error for invalid objective_id UUID, got nil")
+	}
+}
+
+func TestCompleteObjectiveQuestNotFound(t *testing.T) {
+	store := &stubCompleteObjectiveStore{
+		questsByID: map[[16]byte]statedb.Quest{},
+	}
+
+	h := NewCompleteObjectiveHandler(store)
+	_, err := h.Handle(context.Background(), map[string]any{
+		"quest_id":     uuid.New().String(),
+		"objective_id": uuid.New().String(),
+	})
+	if err == nil || !strings.Contains(err.Error(), "get quest") {
+		t.Fatalf("error = %v, want error containing 'get quest'", err)
+	}
+}
+
+func TestCompleteObjectiveDescriptionNoMatch(t *testing.T) {
+	questID := uuid.New()
+	objID := uuid.New()
+	store := &stubCompleteObjectiveStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			dbutil.ToPgtype(questID).Bytes: {
+				ID:     dbutil.ToPgtype(questID),
+				Title:  "No Match Quest",
+				Status: string(domain.QuestStatusActive),
+			},
+		},
+		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
+			dbutil.ToPgtype(questID).Bytes: {
+				{
+					ID:          dbutil.ToPgtype(objID),
+					QuestID:     dbutil.ToPgtype(questID),
+					Description: "Find the hidden gem",
+					Completed:   false,
+					OrderIndex:  0,
+				},
+			},
+		},
+	}
+
+	h := NewCompleteObjectiveHandler(store)
+	_, err := h.Handle(context.Background(), map[string]any{
+		"quest_id":              questID.String(),
+		"objective_description": "something completely different",
+	})
+	if err == nil || !strings.Contains(err.Error(), "objective_description did not match any objective") {
+		t.Fatalf("error = %v, want objective_description did not match error", err)
+	}
+}
