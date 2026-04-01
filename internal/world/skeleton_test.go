@@ -156,8 +156,11 @@ func TestSkeletonGenerator_Success(t *testing.T) {
 	}
 
 	// Starting location resolved.
-	if skel.StartingLocationID == "" {
-		t.Error("starting location ID not resolved")
+	if skel.StartingLocationName == "" {
+		t.Error("starting location name not resolved")
+	}
+	if skel.StartingLocationName != "Ironhold" {
+		t.Errorf("starting location name: got %q, want %q", skel.StartingLocationName, "Ironhold")
 	}
 
 	// Store received correct number of calls: 1 faction + 2 locations + 2 NPCs + 1 fact = 6.
@@ -216,8 +219,8 @@ func TestSkeletonGenerator_EmptyProfile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if skel.StartingLocationID != "" {
-		t.Errorf("expected empty starting location, got %q", skel.StartingLocationID)
+	if skel.StartingLocationName != "" {
+		t.Errorf("expected empty starting location, got %q", skel.StartingLocationName)
 	}
 }
 

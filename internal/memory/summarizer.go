@@ -7,15 +7,10 @@ import (
 	"strings"
 
 	"github.com/PatrickFanella/game-master/internal/llm"
+	"github.com/PatrickFanella/game-master/internal/llmutil"
+	"github.com/PatrickFanella/game-master/internal/prompt"
 )
 
-const summarizeSystemPrompt = `You are a game session summarizer. Given a player's action and the game's response, produce a concise summary.
-Respond with ONLY a JSON object (no markdown, no explanation) with these fields:
-- "summary": 1-3 sentence prose summary of what happened
-- "location": location name mentioned (empty string if none)
-- "npcs": array of NPC names involved (empty array if none)
-- "event_type": one of: combat, dialogue, exploration, quest_update, discovery, trade, other
-- "significance": one of: low, medium, high, critical`
 
 // SummaryResult holds the structured output of a turn summarization.
 type SummaryResult struct {
@@ -56,7 +51,7 @@ func (s *Summarizer) SummarizeTurn(ctx context.Context, playerInput string, llmR
 	)
 
 	messages := []llm.Message{
-		{Role: llm.RoleSystem, Content: summarizeSystemPrompt},
+		{Role: llm.RoleSystem, Content: prompt.Summarizer},
 		{Role: llm.RoleUser, Content: userContent},
 	}
 
@@ -70,7 +65,7 @@ func (s *Summarizer) SummarizeTurn(ctx context.Context, playerInput string, llmR
 		return nil, fmt.Errorf("summarize turn: empty LLM response: %w", &ErrEmptyInput{})
 	}
 
-	content = stripMarkdownFences(content)
+	content = llmutil.StripMarkdownFences(content)
 
 	var result SummaryResult
 	if err := json.Unmarshal([]byte(content), &result); err != nil {
@@ -90,20 +85,3 @@ func (s *Summarizer) SummarizeTurn(ctx context.Context, playerInput string, llmR
 	return &result, nil
 }
 
-// stripMarkdownFences removes ```json ... ``` wrapping that LLMs sometimes add
-// around JSON output.
-func stripMarkdownFences(s string) string {
-	trimmed := strings.TrimSpace(s)
-	if !strings.HasPrefix(trimmed, "```") {
-		return s
-	}
-	// Remove opening fence line.
-	if idx := strings.Index(trimmed, "\n"); idx != -1 {
-		trimmed = trimmed[idx+1:]
-	}
-	// Remove closing fence.
-	if idx := strings.LastIndex(trimmed, "```"); idx != -1 {
-		trimmed = trimmed[:idx]
-	}
-	return strings.TrimSpace(trimmed)
-}

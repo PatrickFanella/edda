@@ -149,10 +149,10 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		l.state = launcherLoadingCampaign
 		return l, tea.Batch(l.spinner.Tick, l.runLoadCampaign(msg.Campaign))
 
-	case campaign.NewCampaignNameMsg:
+	case campaign.NewCampaignFormMsg:
 		l.errMsg = ""
 		l.state = launcherCreating
-		return l, tea.Batch(l.spinner.Tick, l.runCreateCampaign(msg.Name))
+		return l, tea.Batch(l.spinner.Tick, l.runCreateCampaign(msg.Result))
 
 	case campaignCreatedMsg:
 		if msg.err != nil {
@@ -244,12 +244,12 @@ func (l Launcher) runBootstrap() tea.Cmd {
 
 // runCreateCampaign returns a tea.Cmd that creates a new campaign in the DB.
 // It uses the launcher's context so the operation is cancelled on shutdown.
-func (l Launcher) runCreateCampaign(name string) tea.Cmd {
+func (l Launcher) runCreateCampaign(result campaign.CampaignFormResult) tea.Cmd {
 	ctx := l.ctx
 	queries := l.queries
 	userID := l.user.ID
 	return func() tea.Msg {
-		c, err := bootstrap.CreateCampaign(ctx, queries, userID, name)
+		c, err := bootstrap.CreateCampaign(ctx, queries, userID, result.Name, result.Genre, result.Difficulty)
 		return campaignCreatedMsg{c: c, err: err}
 	}
 }

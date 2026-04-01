@@ -27,60 +27,79 @@ type noopQuerier struct{}
 func (n *noopQuerier) CompleteObjective(ctx context.Context, id pgtype.UUID) (statedb.QuestObjective, error) {
 	return statedb.QuestObjective{}, nil
 }
+
 func (n *noopQuerier) CreateBeliefSystem(ctx context.Context, arg statedb.CreateBeliefSystemParams) (statedb.BeliefSystem, error) {
 	return statedb.BeliefSystem{}, nil
 }
+
 func (n *noopQuerier) CreateCampaign(ctx context.Context, arg statedb.CreateCampaignParams) (statedb.Campaign, error) {
 	return statedb.Campaign{}, nil
 }
+
 func (n *noopQuerier) CreateConnection(ctx context.Context, arg statedb.CreateConnectionParams) (statedb.LocationConnection, error) {
 	return statedb.LocationConnection{}, nil
 }
+
 func (n *noopQuerier) CreateCulture(ctx context.Context, arg statedb.CreateCultureParams) (statedb.Culture, error) {
 	return statedb.Culture{}, nil
 }
+
 func (n *noopQuerier) CreateEconomicSystem(ctx context.Context, arg statedb.CreateEconomicSystemParams) (statedb.EconomicSystem, error) {
 	return statedb.EconomicSystem{}, nil
 }
+
 func (n *noopQuerier) CreateFact(ctx context.Context, arg statedb.CreateFactParams) (statedb.WorldFact, error) {
 	return statedb.WorldFact{}, nil
 }
+
 func (n *noopQuerier) CreateFaction(ctx context.Context, arg statedb.CreateFactionParams) (statedb.Faction, error) {
 	return statedb.Faction{}, nil
 }
+
 func (n *noopQuerier) CreateFactionRelationship(ctx context.Context, arg statedb.CreateFactionRelationshipParams) (statedb.FactionRelationship, error) {
 	return statedb.FactionRelationship{}, nil
 }
+
 func (n *noopQuerier) CreateItem(ctx context.Context, arg statedb.CreateItemParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (n *noopQuerier) CreateLanguage(ctx context.Context, arg statedb.CreateLanguageParams) (statedb.Language, error) {
 	return statedb.Language{}, nil
 }
+
 func (n *noopQuerier) CreateLocation(ctx context.Context, arg statedb.CreateLocationParams) (statedb.Location, error) {
 	return statedb.Location{}, nil
 }
+
 func (n *noopQuerier) CreateMemory(ctx context.Context, arg statedb.CreateMemoryParams) (statedb.Memory, error) {
 	return statedb.Memory{}, nil
 }
+
 func (n *noopQuerier) CreateNPC(ctx context.Context, arg statedb.CreateNPCParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (n *noopQuerier) CreateObjective(ctx context.Context, arg statedb.CreateObjectiveParams) (statedb.QuestObjective, error) {
 	return statedb.QuestObjective{}, nil
 }
+
 func (n *noopQuerier) CreatePlayerCharacter(ctx context.Context, arg statedb.CreatePlayerCharacterParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (n *noopQuerier) CreateQuest(ctx context.Context, arg statedb.CreateQuestParams) (statedb.Quest, error) {
 	return statedb.Quest{}, nil
 }
+
 func (n *noopQuerier) CreateRelationship(ctx context.Context, arg statedb.CreateRelationshipParams) (statedb.EntityRelationship, error) {
 	return statedb.EntityRelationship{}, nil
 }
+
 func (n *noopQuerier) CreateSessionLog(ctx context.Context, arg statedb.CreateSessionLogParams) (statedb.SessionLog, error) {
 	return statedb.SessionLog{}, nil
 }
+
 func (n *noopQuerier) CreateUser(ctx context.Context, name string) (statedb.User, error) {
 	return statedb.User{}, nil
 }
@@ -100,159 +119,211 @@ func (n *noopQuerier) DeleteUser(ctx context.Context, id pgtype.UUID) error { re
 func (n *noopQuerier) GetBeliefSystemByCulture(ctx context.Context, cultureID pgtype.UUID) (statedb.BeliefSystem, error) {
 	return statedb.BeliefSystem{}, nil
 }
+
 func (n *noopQuerier) GetBeliefSystemByID(ctx context.Context, id pgtype.UUID) (statedb.BeliefSystem, error) {
 	return statedb.BeliefSystem{}, nil
 }
+
 func (n *noopQuerier) GetCampaignByID(ctx context.Context, id pgtype.UUID) (statedb.Campaign, error) {
 	return statedb.Campaign{}, nil
 }
+
 func (n *noopQuerier) GetConnectionsFromLocation(ctx context.Context, arg statedb.GetConnectionsFromLocationParams) ([]statedb.GetConnectionsFromLocationRow, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) GetCultureByID(ctx context.Context, id pgtype.UUID) (statedb.Culture, error) {
 	return statedb.Culture{}, nil
 }
+
 func (n *noopQuerier) GetEconomicSystemByID(ctx context.Context, id pgtype.UUID) (statedb.EconomicSystem, error) {
 	return statedb.EconomicSystem{}, nil
 }
+
 func (n *noopQuerier) GetFactByID(ctx context.Context, id pgtype.UUID) (statedb.WorldFact, error) {
 	return statedb.WorldFact{}, nil
 }
+
 func (n *noopQuerier) GetFactionByID(ctx context.Context, id pgtype.UUID) (statedb.Faction, error) {
 	return statedb.Faction{}, nil
 }
+
 func (n *noopQuerier) GetFactionRelationships(ctx context.Context, factionID pgtype.UUID) ([]statedb.FactionRelationship, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) GetItemByID(ctx context.Context, id pgtype.UUID) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (n *noopQuerier) GetLanguageByID(ctx context.Context, id pgtype.UUID) (statedb.Language, error) {
 	return statedb.Language{}, nil
 }
-func (n *noopQuerier) GetLocationByID(ctx context.Context, id pgtype.UUID) (statedb.Location, error) {
+
+func (n *noopQuerier) GetLocationByID(ctx context.Context, arg statedb.GetLocationByIDParams) (statedb.Location, error) {
 	return statedb.Location{}, nil
 }
+
 func (n *noopQuerier) GetMemoryByID(ctx context.Context, id pgtype.UUID) (statedb.Memory, error) {
 	return statedb.Memory{}, nil
 }
-func (n *noopQuerier) GetNPCByID(ctx context.Context, id pgtype.UUID) (statedb.Npc, error) {
+
+func (n *noopQuerier) GetNPCByID(ctx context.Context, arg statedb.GetNPCByIDParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (n *noopQuerier) GetPlayerCharacterByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.PlayerCharacter, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) GetPlayerCharacterByID(ctx context.Context, id pgtype.UUID) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
-func (n *noopQuerier) GetQuestByID(ctx context.Context, id pgtype.UUID) (statedb.Quest, error) {
+
+func (n *noopQuerier) GetQuestByID(ctx context.Context, arg statedb.GetQuestByIDParams) (statedb.Quest, error) {
 	return statedb.Quest{}, nil
 }
+
 func (n *noopQuerier) GetRelationshipsBetween(ctx context.Context, arg statedb.GetRelationshipsBetweenParams) ([]statedb.EntityRelationship, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) GetRelationshipsByEntity(ctx context.Context, arg statedb.GetRelationshipsByEntityParams) ([]statedb.EntityRelationship, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) GetSessionLogByID(ctx context.Context, id pgtype.UUID) (statedb.SessionLog, error) {
 	return statedb.SessionLog{}, nil
 }
+
 func (n *noopQuerier) GetUserByID(ctx context.Context, id pgtype.UUID) (statedb.User, error) {
 	return statedb.User{}, nil
 }
+
 func (n *noopQuerier) GetUserByName(ctx context.Context, name string) (statedb.User, error) {
 	return statedb.User{}, nil
 }
+
 func (n *noopQuerier) KillNPC(ctx context.Context, id pgtype.UUID) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (n *noopQuerier) ListActiveFactsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.WorldFact, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListActiveQuests(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Quest, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListAliveNPCsByLocation(ctx context.Context, arg statedb.ListAliveNPCsByLocationParams) ([]statedb.Npc, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListBeliefSystemsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.BeliefSystem, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListCampaignsByUser(ctx context.Context, createdBy pgtype.UUID) ([]statedb.Campaign, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListCulturesByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Culture, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListCulturesByLanguage(ctx context.Context, languageID pgtype.UUID) ([]statedb.Culture, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListEconomicSystemsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.EconomicSystem, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListFactionsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Faction, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListFactsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.WorldFact, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListFactsByCategory(ctx context.Context, arg statedb.ListFactsByCategoryParams) ([]statedb.WorldFact, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListItemsByPlayer(ctx context.Context, arg statedb.ListItemsByPlayerParams) ([]statedb.Item, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListItemsByType(ctx context.Context, arg statedb.ListItemsByTypeParams) ([]statedb.Item, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListLanguagesByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Language, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListLanguagesByFaction(ctx context.Context, factionID pgtype.UUID) ([]statedb.Language, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListLocationsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Location, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListLocationsByRegion(ctx context.Context, arg statedb.ListLocationsByRegionParams) ([]statedb.Location, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListMemoriesByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Memory, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListNPCsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Npc, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListNPCsByFaction(ctx context.Context, arg statedb.ListNPCsByFactionParams) ([]statedb.Npc, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListNPCsByLocation(ctx context.Context, arg statedb.ListNPCsByLocationParams) ([]statedb.Npc, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListObjectivesByQuest(ctx context.Context, questID pgtype.UUID) ([]statedb.QuestObjective, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListObjectivesByQuests(ctx context.Context, questIds []pgtype.UUID) ([]statedb.QuestObjective, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListQuestsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Quest, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListQuestsByType(ctx context.Context, arg statedb.ListQuestsByTypeParams) ([]statedb.Quest, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListRecentSessionLogs(ctx context.Context, arg statedb.ListRecentSessionLogsParams) ([]statedb.SessionLog, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListRelationshipsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.EntityRelationship, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListSessionLogsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.SessionLog, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListSessionLogsByLocation(ctx context.Context, arg statedb.ListSessionLogsByLocationParams) ([]statedb.SessionLog, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) ListSubquestsByParentQuest(ctx context.Context, parentQuestID pgtype.UUID) ([]statedb.Quest, error) {
 	return nil, nil
 }
@@ -261,99 +332,131 @@ func (n *noopQuerier) Ping(ctx context.Context) (int32, error)               { r
 func (n *noopQuerier) SearchMemoriesBySimilarity(ctx context.Context, arg statedb.SearchMemoriesBySimilarityParams) ([]statedb.SearchMemoriesBySimilarityRow, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) SearchMemoriesWithFilters(ctx context.Context, arg statedb.SearchMemoriesWithFiltersParams) ([]statedb.SearchMemoriesWithFiltersRow, error) {
 	return nil, nil
 }
+
 func (n *noopQuerier) SupersedeFact(ctx context.Context, arg statedb.SupersedeFactParams) (statedb.WorldFact, error) {
 	return statedb.WorldFact{}, nil
 }
+
 func (n *noopQuerier) TransferItem(ctx context.Context, arg statedb.TransferItemParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (n *noopQuerier) UpdateBeliefSystem(ctx context.Context, arg statedb.UpdateBeliefSystemParams) (statedb.BeliefSystem, error) {
 	return statedb.BeliefSystem{}, nil
 }
+
 func (n *noopQuerier) UpdateCampaign(ctx context.Context, arg statedb.UpdateCampaignParams) (statedb.Campaign, error) {
 	return statedb.Campaign{}, nil
 }
+
 func (n *noopQuerier) UpdateCampaignStatus(ctx context.Context, arg statedb.UpdateCampaignStatusParams) (statedb.Campaign, error) {
 	return statedb.Campaign{}, nil
 }
+
 func (n *noopQuerier) UpdateCulture(ctx context.Context, arg statedb.UpdateCultureParams) (statedb.Culture, error) {
 	return statedb.Culture{}, nil
 }
+
 func (n *noopQuerier) UpdateEconomicSystem(ctx context.Context, arg statedb.UpdateEconomicSystemParams) (statedb.EconomicSystem, error) {
 	return statedb.EconomicSystem{}, nil
 }
+
 func (n *noopQuerier) UpdateFaction(ctx context.Context, arg statedb.UpdateFactionParams) (statedb.Faction, error) {
 	return statedb.Faction{}, nil
 }
+
 func (n *noopQuerier) UpdateFactionRelationship(ctx context.Context, arg statedb.UpdateFactionRelationshipParams) (statedb.FactionRelationship, error) {
 	return statedb.FactionRelationship{}, nil
 }
+
 func (n *noopQuerier) UpdateItem(ctx context.Context, arg statedb.UpdateItemParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (n *noopQuerier) UpdateItemEquipped(ctx context.Context, arg statedb.UpdateItemEquippedParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (n *noopQuerier) UpdateItemQuantity(ctx context.Context, arg statedb.UpdateItemQuantityParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (n *noopQuerier) UpdateItemProperties(ctx context.Context, arg statedb.UpdateItemPropertiesParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (n *noopQuerier) UpdateLanguage(ctx context.Context, arg statedb.UpdateLanguageParams) (statedb.Language, error) {
 	return statedb.Language{}, nil
 }
+
 func (n *noopQuerier) UpdateLocation(ctx context.Context, arg statedb.UpdateLocationParams) (statedb.Location, error) {
 	return statedb.Location{}, nil
 }
+
 func (n *noopQuerier) UpdateNPC(ctx context.Context, arg statedb.UpdateNPCParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (n *noopQuerier) UpdateNPCDisposition(ctx context.Context, arg statedb.UpdateNPCDispositionParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (n *noopQuerier) UpdateNPCLocation(ctx context.Context, arg statedb.UpdateNPCLocationParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (n *noopQuerier) UpdateObjective(ctx context.Context, arg statedb.UpdateObjectiveParams) (statedb.QuestObjective, error) {
 	return statedb.QuestObjective{}, nil
 }
+
 func (n *noopQuerier) UpdatePlayerCharacter(ctx context.Context, arg statedb.UpdatePlayerCharacterParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (n *noopQuerier) UpdatePlayerExperience(ctx context.Context, arg statedb.UpdatePlayerExperienceParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (n *noopQuerier) UpdatePlayerLevel(ctx context.Context, arg statedb.UpdatePlayerLevelParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (n *noopQuerier) UpdatePlayerAbilities(ctx context.Context, arg statedb.UpdatePlayerAbilitiesParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (n *noopQuerier) UpdatePlayerHP(ctx context.Context, arg statedb.UpdatePlayerHPParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (n *noopQuerier) UpdatePlayerLocation(ctx context.Context, arg statedb.UpdatePlayerLocationParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (n *noopQuerier) UpdatePlayerStats(ctx context.Context, arg statedb.UpdatePlayerStatsParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (n *noopQuerier) UpdatePlayerStatus(ctx context.Context, arg statedb.UpdatePlayerStatusParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (n *noopQuerier) UpdateQuest(ctx context.Context, arg statedb.UpdateQuestParams) (statedb.Quest, error) {
 	return statedb.Quest{}, nil
 }
+
 func (n *noopQuerier) UpdateQuestStatus(ctx context.Context, arg statedb.UpdateQuestStatusParams) (statedb.Quest, error) {
 	return statedb.Quest{}, nil
 }
+
 func (n *noopQuerier) UpdateRelationship(ctx context.Context, arg statedb.UpdateRelationshipParams) (statedb.EntityRelationship, error) {
 	return statedb.EntityRelationship{}, nil
 }
+
 func (n *noopQuerier) UpdateUser(ctx context.Context, arg statedb.UpdateUserParams) (statedb.User, error) {
 	return statedb.User{}, nil
 }
@@ -659,12 +762,16 @@ func TestLauncherCampaignSelected_NoEngineStillTransitionsToApp(t *testing.T) {
 	}
 }
 
-func TestLauncherNewCampaignNameMsg_TransitionsToCreating(t *testing.T) {
+func TestLauncherNewCampaignFormMsg_TransitionsToCreating(t *testing.T) {
 	l := newTestLauncher()
-	m, cmd := l.Update(campaign.NewCampaignNameMsg{Name: "Brave New World"})
+	m, cmd := l.Update(campaign.NewCampaignFormMsg{Result: campaign.CampaignFormResult{
+		Name:       "Brave New World",
+		Genre:      "Fantasy",
+		Difficulty: "Casual",
+	}})
 	launcher, ok := m.(Launcher)
 	if !ok {
-		t.Fatalf("expected Launcher after NewCampaignNameMsg, got %T", m)
+		t.Fatalf("expected Launcher after NewCampaignFormMsg, got %T", m)
 	}
 	if launcher.state != launcherCreating {
 		t.Fatalf("expected launcherCreating, got %d", launcher.state)

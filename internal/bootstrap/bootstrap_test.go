@@ -190,13 +190,13 @@ func (s *stubQuerier) GetItemByID(ctx context.Context, id pgtype.UUID) (statedb.
 func (s *stubQuerier) GetLanguageByID(ctx context.Context, id pgtype.UUID) (statedb.Language, error) {
 	return statedb.Language{}, nil
 }
-func (s *stubQuerier) GetLocationByID(ctx context.Context, id pgtype.UUID) (statedb.Location, error) {
+func (s *stubQuerier) GetLocationByID(ctx context.Context, arg statedb.GetLocationByIDParams) (statedb.Location, error) {
 	return statedb.Location{}, nil
 }
 func (s *stubQuerier) GetMemoryByID(ctx context.Context, id pgtype.UUID) (statedb.Memory, error) {
 	return statedb.Memory{}, nil
 }
-func (s *stubQuerier) GetNPCByID(ctx context.Context, id pgtype.UUID) (statedb.Npc, error) {
+func (s *stubQuerier) GetNPCByID(ctx context.Context, arg statedb.GetNPCByIDParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
 func (s *stubQuerier) GetPlayerCharacterByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.PlayerCharacter, error) {
@@ -205,7 +205,7 @@ func (s *stubQuerier) GetPlayerCharacterByCampaign(ctx context.Context, campaign
 func (s *stubQuerier) GetPlayerCharacterByID(ctx context.Context, id pgtype.UUID) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
-func (s *stubQuerier) GetQuestByID(ctx context.Context, id pgtype.UUID) (statedb.Quest, error) {
+func (s *stubQuerier) GetQuestByID(ctx context.Context, arg statedb.GetQuestByIDParams) (statedb.Quest, error) {
 	return statedb.Quest{}, nil
 }
 func (s *stubQuerier) GetRelationshipsBetween(ctx context.Context, arg statedb.GetRelationshipsBetweenParams) ([]statedb.EntityRelationship, error) {
@@ -526,7 +526,7 @@ func TestCreateCampaign_CreatesLocationForCampaign(t *testing.T) {
 	userID := pgtype.UUID{Bytes: [16]byte{7}, Valid: true}
 	q := &stubQuerier{}
 
-	camp, err := bootstrap.CreateCampaign(context.Background(), q, userID, "My Campaign")
+	camp, err := bootstrap.CreateCampaign(context.Background(), q, userID, "My Campaign", "", "")
 	if err != nil {
 		t.Fatalf("CreateCampaign returned error: %v", err)
 	}
@@ -546,7 +546,7 @@ func TestCreateCampaign_EmptyNameReturnsError(t *testing.T) {
 	userID := pgtype.UUID{Bytes: [16]byte{8}, Valid: true}
 	q := &stubQuerier{}
 
-	_, err := bootstrap.CreateCampaign(context.Background(), q, userID, "")
+	_, err := bootstrap.CreateCampaign(context.Background(), q, userID, "", "", "")
 	if err == nil {
 		t.Fatal("expected error for empty campaign name")
 	}
@@ -556,7 +556,7 @@ func TestCreateCampaign_WhitespaceOnlyNameReturnsError(t *testing.T) {
 	userID := pgtype.UUID{Bytes: [16]byte{9}, Valid: true}
 	q := &stubQuerier{}
 
-	_, err := bootstrap.CreateCampaign(context.Background(), q, userID, "   ")
+	_, err := bootstrap.CreateCampaign(context.Background(), q, userID, "   ", "", "")
 	if err == nil {
 		t.Fatal("expected error for whitespace-only campaign name")
 	}
@@ -566,7 +566,7 @@ func TestCreateCampaign_TrimsWhitespace(t *testing.T) {
 	userID := pgtype.UUID{Bytes: [16]byte{10}, Valid: true}
 	q := &stubQuerier{}
 
-	camp, err := bootstrap.CreateCampaign(context.Background(), q, userID, "  My Adventure  ")
+	camp, err := bootstrap.CreateCampaign(context.Background(), q, userID, "  My Adventure  ", "", "")
 	if err != nil {
 		t.Fatalf("CreateCampaign returned error: %v", err)
 	}

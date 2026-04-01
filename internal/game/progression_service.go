@@ -3,10 +3,8 @@ package game
 import (
 	"context"
 	"encoding/json"
-	"errors"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5"
 
 	"github.com/PatrickFanella/game-master/internal/dbutil"
 	"github.com/PatrickFanella/game-master/internal/domain"
@@ -23,15 +21,7 @@ func NewProgressionService(q statedb.Querier) *progressionService {
 }
 
 func (s *progressionService) GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error) {
-	pc, err := s.queries.GetPlayerCharacterByID(ctx, dbutil.ToPgtype(playerCharacterID))
-	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, nil
-		}
-		return nil, err
-	}
-	domainPC := playerCharacterToDomain(pc)
-	return &domainPC, nil
+	return getPlayerCharacterByID(ctx, s.queries, playerCharacterID)
 }
 
 func (s *progressionService) UpdatePlayerExperience(ctx context.Context, playerCharacterID uuid.UUID, experience, level int) error {

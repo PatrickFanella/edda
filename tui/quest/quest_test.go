@@ -5,6 +5,8 @@ import (
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
+
+	"github.com/PatrickFanella/game-master/tui/msgs"
 )
 
 // Compile-time checks: *Model must satisfy tea.Model and the sub-model
@@ -52,7 +54,7 @@ func TestEscEmitsNavigateBackMsg(t *testing.T) {
 		t.Fatal("expected a command on Esc, got nil")
 	}
 	msg := cmd()
-	if _, ok := msg.(NavigateBackMsg); !ok {
+	if _, ok := msg.(msgs.NavigateBackMsg); !ok {
 		t.Fatalf("expected NavigateBackMsg, got %T", msg)
 	}
 }

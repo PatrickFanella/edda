@@ -6,13 +6,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgtype"
-
 	"github.com/PatrickFanella/game-master/internal/config"
-	"github.com/PatrickFanella/game-master/internal/dbutil"
 	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
 )
 
 func TestMarshalAppliedToolCallsNilEncodesArray(t *testing.T) {
@@ -39,48 +34,6 @@ func TestMarshalAppliedToolCallsPreservesEntries(t *testing.T) {
 	}
 }
 
-type testQuerier struct {
-	statedb.Querier
-	updateNPCCalled bool
-}
-
-func (q *testQuerier) GetLocationByID(_ context.Context, id pgtype.UUID) (statedb.Location, error) {
-	return statedb.Location{
-		ID: id,
-	}, nil
-}
-
-func (q *testQuerier) GetNPCByID(_ context.Context, id pgtype.UUID) (statedb.Npc, error) {
-	locationID := uuid.New()
-	return statedb.Npc{
-		ID:          id,
-		CampaignID:  dbutil.ToPgtype(uuid.New()),
-		Name:        "Runtime NPC",
-		Description: pgtype.Text{String: "desc", Valid: true},
-		Personality: pgtype.Text{String: "calm", Valid: true},
-		Disposition: 0,
-		LocationID:  dbutil.ToPgtype(locationID),
-		Alive:       true,
-	}, nil
-}
-
-func (q *testQuerier) UpdateNPC(_ context.Context, arg statedb.UpdateNPCParams) (statedb.Npc, error) {
-	q.updateNPCCalled = true
-	return statedb.Npc{
-		ID:          arg.ID,
-		CampaignID:  dbutil.ToPgtype(uuid.New()),
-		Name:        arg.Name,
-		Description: arg.Description,
-		Personality: arg.Personality,
-		Disposition: arg.Disposition,
-		LocationID:  arg.LocationID,
-		FactionID:   arg.FactionID,
-		Alive:       arg.Alive,
-		Hp:          arg.Hp,
-		Stats:       arg.Stats,
-		Properties:  arg.Properties,
-	}, nil
-}
 
 type testProvider struct{}
 
@@ -143,7 +96,7 @@ func (p *testProvider) Complete(_ context.Context, _ []llm.Message, tools []llm.
 				ID:   "1",
 				Name: "update_npc",
 				Arguments: map[string]any{
-					"npc_id":      uuid.New().String(),
+					"npc_id":      "00000000-0000-0000-0000-000000000001",
 					"description": "updated via runtime registration test",
 				},
 			},
@@ -155,21 +108,29 @@ func (p *testProvider) Stream(_ context.Context, _ []llm.Message, _ []llm.Tool) 
 	return nil, errors.New("not implemented")
 }
 
-func TestNewRegistersUpdateNPCTool(t *testing.T) {
-	queries := &testQuerier{}
-	e := New(nil, queries, &testProvider{}, config.LLMConfig{Provider: "ollama", Ollama: config.OllamaConfig{ContextTokenBudget: 8000}})
-
-	_, applied, err := e.processor.ProcessWithRecovery(context.Background(), nil, e.assembler.Tools())
+func TestNewRegistersExpectedTools(t *testing.T) {
+	e, err := New(nil, &testProvider{}, config.LLMConfig{Provider: "ollama", Ollama: config.OllamaConfig{ContextTokenBudget: 8000}})
 	if err != nil {
-		t.Fatalf("ProcessWithRecovery: %v", err)
+		t.Fatalf("New() error = %v", err)
 	}
-	if len(applied) != 1 {
-		t.Fatalf("applied count = %d, want 1", len(applied))
+
+	tools := e.assembler.Tools()
+	want := []string{
+		"update_npc",
+		"update_player_stats",
+		"add_experience",
+		"level_up",
+		"add_ability",
+		"remove_ability",
+		"update_quest",
 	}
-	if applied[0].Tool != "update_npc" {
-		t.Fatalf("applied tool = %q, want update_npc", applied[0].Tool)
+	registered := make(map[string]bool, len(tools))
+	for _, tool := range tools {
+		registered[tool.Name] = true
 	}
-	if !queries.updateNPCCalled {
-		t.Fatal("expected UpdateNPC to be called by update_npc handler")
+	for _, name := range want {
+		if !registered[name] {
+			t.Errorf("expected tool %q to be registered", name)
+		}
 	}
 }

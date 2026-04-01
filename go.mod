@@ -1,6 +1,6 @@
 module github.com/PatrickFanella/game-master
 
-go 1.24.0
+go 1.25.0
 
 require (
 	github.com/charmbracelet/bubbles v0.21.1-0.20250623103423-23b8fd6302d7
@@ -9,6 +9,7 @@ require (
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/charmbracelet/log v0.4.2
 	github.com/charmbracelet/x/exp/teatest v0.0.0-20260323091123-df7b1bcffcca
+	github.com/coder/websocket v1.8.14
 	github.com/go-chi/chi/v5 v5.2.5
 	github.com/go-chi/cors v1.2.2
 	github.com/google/uuid v1.6.0
@@ -21,6 +22,7 @@ require (
 	github.com/pgvector/pgvector-go v0.3.0
 	github.com/pressly/goose/v3 v3.24.1
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.40.0
+	golang.org/x/sync v0.20.0
 )
 
 require (
@@ -111,7 +113,6 @@ require (
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.48.0 // indirect
 	golang.org/x/exp v0.0.0-20240325151524-a685a6edb6d8 // indirect
-	golang.org/x/sync v0.19.0 // indirect
 	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/text v0.34.0 // indirect
 	google.golang.org/grpc v1.79.1 // indirect

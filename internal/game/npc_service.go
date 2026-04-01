@@ -30,7 +30,7 @@ func NewNPCService(q statedb.Querier) *npcService {
 // --- shared method ---
 
 func (s *npcService) GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error) {
-	npc, err := s.queries.GetNPCByID(ctx, dbutil.ToPgtype(npcID))
+	npc, err := s.queries.GetNPCByID(ctx, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID)})
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil
@@ -44,7 +44,7 @@ func (s *npcService) GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.N
 // --- tools.UpdateNPCStore methods ---
 
 func (s *npcService) LocationExistsInCampaign(ctx context.Context, locationID, campaignID uuid.UUID) (bool, error) {
-	location, err := s.queries.GetLocationByID(ctx, dbutil.ToPgtype(locationID))
+	location, err := s.queries.GetLocationByID(ctx, statedb.GetLocationByIDParams{ID: dbutil.ToPgtype(locationID)})
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return false, nil
@@ -76,15 +76,7 @@ func (s *npcService) UpdateNPC(ctx context.Context, npc domain.NPC) (*domain.NPC
 }
 
 func (s *npcService) GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error) {
-	playerCharacter, err := s.queries.GetPlayerCharacterByID(ctx, dbutil.ToPgtype(playerCharacterID))
-	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, nil
-		}
-		return nil, err
-	}
-	domainPlayerCharacter := playerCharacterToDomain(playerCharacter)
-	return &domainPlayerCharacter, nil
+	return getPlayerCharacterByID(ctx, s.queries, playerCharacterID)
 }
 
 func (s *npcService) CreateNPC(ctx context.Context, params tools.CreateNPCParams) (*domain.NPC, error) {
@@ -108,15 +100,7 @@ func (s *npcService) CreateNPC(ctx context.Context, params tools.CreateNPCParams
 }
 
 func (s *npcService) ListNPCsByCampaign(ctx context.Context, campaignID uuid.UUID) ([]domain.NPC, error) {
-	npcs, err := s.queries.ListNPCsByCampaign(ctx, dbutil.ToPgtype(campaignID))
-	if err != nil {
-		return nil, err
-	}
-	out := make([]domain.NPC, 0, len(npcs))
-	for _, npc := range npcs {
-		out = append(out, npcToDomain(npc))
-	}
-	return out, nil
+	return listNPCsByCampaign(ctx, s.queries, campaignID)
 }
 
 // --- tools.NPCDialogueStore methods ---

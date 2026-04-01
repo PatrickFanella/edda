@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"github.com/PatrickFanella/game-master/internal/dbutil"
@@ -16,8 +15,10 @@ import (
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
 )
 
-const createBeliefSystemToolName = "create_belief_system"
-const beliefSystemFactCount = 5
+const (
+	createBeliefSystemToolName = "create_belief_system"
+	beliefSystemFactCount      = 5
+)
 
 // BeliefSystemStore persists belief systems and related world facts.
 type BeliefSystemStore interface {
@@ -198,14 +199,14 @@ func (h *CreateBeliefSystemHandler) Handle(ctx context.Context, args map[string]
 	}
 
 	details := map[string]any{
-		"description":            description,
-		"deities_or_principles":  deitiesOrPrinciples,
-		"practices":              practices,
-		"institutions":           institutions,
-		"moral_framework":        moralFramework,
-		"taboos":                 taboos,
-		"follower_faction_ids":   dbutil.PgUUIDsToStrings(followerFactionIDs),
-		"follower_culture_ids":   dbutil.PgUUIDsToStrings(followerCultureIDs),
+		"description":           description,
+		"deities_or_principles": deitiesOrPrinciples,
+		"practices":             practices,
+		"institutions":          institutions,
+		"moral_framework":       moralFramework,
+		"taboos":                taboos,
+		"follower_faction_ids":  dbutil.PgUUIDsToStrings(followerFactionIDs),
+		"follower_culture_ids":  dbutil.PgUUIDsToStrings(followerCultureIDs),
 	}
 	detailsJSON, err := json.Marshal(details)
 	if err != nil {
@@ -265,45 +266,20 @@ func (h *CreateBeliefSystemHandler) Handle(ctx context.Context, args map[string]
 		Data: map[string]any{
 			"id":                    dbutil.FromPgtype(beliefSystem.ID).String(),
 			"campaign_id":           dbutil.FromPgtype(beliefSystem.CampaignID).String(),
-		"name":                  beliefSystem.Name,
-		"description":           description,
-		"deities_or_principles": deitiesOrPrinciples,
-		"practices":             practices,
-		"institutions":          institutions,
-		"moral_framework":       moralFramework,
-		"taboos":                taboos,
-		"followers": map[string]any{
+			"name":                  beliefSystem.Name,
+			"description":           description,
+			"deities_or_principles": deitiesOrPrinciples,
+			"practices":             practices,
+			"institutions":          institutions,
+			"moral_framework":       moralFramework,
+			"taboos":                taboos,
+			"followers": map[string]any{
 				"faction_ids": dbutil.PgUUIDsToStrings(followerFactionIDs),
 				"culture_ids": dbutil.PgUUIDsToStrings(followerCultureIDs),
-		},
+			},
 		},
 		Narrative: fmt.Sprintf("Belief system %q created successfully.", beliefSystem.Name),
 	}, nil
-}
-
-func parseUUIDArrayFromObject(obj map[string]any, key string) ([]pgtype.UUID, error) {
-	raw, ok := obj[key]
-	if !ok {
-		return nil, nil
-	}
-	items, ok := raw.([]any)
-	if !ok {
-		return nil, fmt.Errorf("followers.%s must be an array", key)
-	}
-
-	out := make([]pgtype.UUID, 0, len(items))
-	for i, item := range items {
-		s, ok := item.(string)
-		if !ok || strings.TrimSpace(s) == "" {
-			return nil, fmt.Errorf("followers.%s[%d] must be a non-empty string UUID", key, i)
-		}
-		id, err := uuid.Parse(s)
-		if err != nil {
-			return nil, fmt.Errorf("followers.%s[%d] must be a valid UUID", key, i)
-		}
-		out = append(out, dbutil.ToPgtype(id))
-	}
-	return out, nil
 }
 
 func (h *CreateBeliefSystemHandler) validateFollowerIDs(ctx context.Context, campaignID pgtype.UUID, factionIDs, cultureIDs []pgtype.UUID) error {

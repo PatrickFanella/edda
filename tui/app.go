@@ -20,6 +20,7 @@ import (
 	"github.com/PatrickFanella/game-master/tui/inventory"
 	"github.com/PatrickFanella/game-master/tui/narrative"
 	"github.com/PatrickFanella/game-master/tui/quest"
+	"github.com/PatrickFanella/game-master/tui/msgs"
 	"github.com/PatrickFanella/game-master/tui/styles"
 )
 
@@ -66,7 +67,6 @@ type App struct {
 	engine    engine.GameEngine
 	campaign  statedb.Campaign
 	router    *Router
-	viewState ViewState
 	width     int
 	height    int
 	turnBusy  bool
@@ -115,13 +115,12 @@ func NewAppWithEngine(cfg config.Config, campaign statedb.Campaign, ctx context.
 		engine:    gameEngine,
 		campaign:  campaign,
 		router:    router,
-		viewState: ViewNarrative,
 	}
 }
 
 // ActiveViewState returns the currently active ViewState.
 func (a App) ActiveViewState() ViewState {
-	return a.viewState
+	return ViewState(a.router.ActiveTab())
 }
 
 // Init implements tea.Model. No start-up commands are needed.
@@ -142,14 +141,11 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return a, tea.Quit
 		case "tab", "right", "l":
 			a.router.NextTab()
-			a.viewState = ViewState(a.router.ActiveTab())
 		case "shift+tab", "left", "h":
 			a.router.PrevTab()
-			a.viewState = ViewState(a.router.ActiveTab())
 		case "1", "2", "3", "4":
 			idx := int(msg.String()[0] - '1')
 			a.router.GoToTab(idx)
-			a.viewState = ViewState(a.router.ActiveTab())
 		default:
 			cmd := a.router.Update(msg)
 			return a, cmd
@@ -236,17 +232,8 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		return a, nil
 
-	case character.NavigateBackMsg:
+	case msgs.NavigateBackMsg:
 		a.router.GoToTab(int(ViewNarrative))
-		a.viewState = ViewNarrative
-
-	case inventory.NavigateBackMsg:
-		a.router.GoToTab(int(ViewNarrative))
-		a.viewState = ViewNarrative
-
-	case quest.NavigateBackMsg:
-		a.router.GoToTab(int(ViewNarrative))
-		a.viewState = ViewNarrative
 
 	default:
 		// Forward any other message types (e.g. commands produced by sub-views)

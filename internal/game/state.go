@@ -46,4 +46,10 @@ type StateManager interface {
 
 	// SaveSessionLog persists a turn's session log entry.
 	SaveSessionLog(ctx context.Context, log domain.SessionLog) error
+
+	// ListRecentSessionLogs returns the most recent session log entries for a campaign.
+	ListRecentSessionLogs(ctx context.Context, campaignID uuid.UUID, limit int) ([]domain.SessionLog, error)
+
+	// GetCampaignByID returns the campaign for the given ID.
+	GetCampaignByID(ctx context.Context, campaignID uuid.UUID) (*domain.Campaign, error)
 }

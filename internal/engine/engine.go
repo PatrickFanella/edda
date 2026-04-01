@@ -54,6 +54,23 @@ type GameEngine interface {
 	// Implementations should return an error if the specified campaignID
 	// does not correspond to an existing campaign.
 	LoadCampaign(ctx context.Context, campaignID uuid.UUID) error
+
+	// ProcessTurnStream is like ProcessTurn but delivers narrative chunks over
+	// the returned channel. The channel is closed when processing completes.
+	// Callers must consume the channel fully to avoid goroutine leaks.
+	ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, playerInput string) (<-chan StreamEvent, error)
+}
+
+// StreamEvent carries either a narrative chunk or the final turn result.
+type StreamEvent struct {
+	// Type is "chunk" for narrative fragments, "result" for the final outcome.
+	Type string
+	// Text is the narrative fragment (when Type is "chunk").
+	Text string
+	// Result is the complete turn result (when Type is "result").
+	Result *TurnResult
+	// Err is set if an error occurred during streaming.
+	Err error
 }
 
 // ---------------------------------------------------------------------------

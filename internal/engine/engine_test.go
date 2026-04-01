@@ -36,6 +36,12 @@ func (m *mockEngine) LoadCampaign(_ context.Context, _ uuid.UUID) error {
 	return nil
 }
 
+func (m *mockEngine) ProcessTurnStream(_ context.Context, _ uuid.UUID, _ string) (<-chan StreamEvent, error) {
+	ch := make(chan StreamEvent)
+	close(ch)
+	return ch, nil
+}
+
 // ---------------------------------------------------------------------------
 // Type construction tests
 // ---------------------------------------------------------------------------

@@ -29,7 +29,8 @@ RETURNING id, campaign_id, name, description, personality, disposition, location
 -- name: GetNPCByID :one
 SELECT id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at
 FROM npcs
-WHERE id = sqlc.arg(id);
+WHERE id = sqlc.arg(id)
+  AND (sqlc.narg(campaign_id)::uuid IS NULL OR campaign_id = sqlc.narg(campaign_id));
 
 -- name: ListNPCsByCampaign :many
 SELECT id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at

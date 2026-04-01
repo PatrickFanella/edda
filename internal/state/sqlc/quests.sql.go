@@ -67,10 +67,16 @@ const getQuestByID = `-- name: GetQuestByID :one
 SELECT id, campaign_id, parent_quest_id, title, description, quest_type, status, created_at, updated_at
 FROM quests
 WHERE id = $1
+  AND ($2::uuid IS NULL OR campaign_id = $2)
 `
 
-func (q *Queries) GetQuestByID(ctx context.Context, id pgtype.UUID) (Quest, error) {
-	row := q.db.QueryRow(ctx, getQuestByID, id)
+type GetQuestByIDParams struct {
+	ID         pgtype.UUID
+	CampaignID pgtype.UUID
+}
+
+func (q *Queries) GetQuestByID(ctx context.Context, arg GetQuestByIDParams) (Quest, error) {
+	row := q.db.QueryRow(ctx, getQuestByID, arg.ID, arg.CampaignID)
 	var i Quest
 	err := row.Scan(
 		&i.ID,

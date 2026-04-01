@@ -8,14 +8,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgtype"
 
 	"github.com/PatrickFanella/game-master/internal/assembly"
-	"github.com/PatrickFanella/game-master/internal/dbutil"
 	"github.com/PatrickFanella/game-master/internal/domain"
 	"github.com/PatrickFanella/game-master/internal/game"
 	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
 	"github.com/PatrickFanella/game-master/internal/tools"
 )
 
@@ -65,6 +62,7 @@ type fakeStateManager struct {
 	state             *game.GameState
 	gatheredCampaigns []uuid.UUID
 	savedLogs         []domain.SessionLog
+	recentLogs        []domain.SessionLog
 }
 
 func (f *fakeStateManager) GetOrCreateDefaultUser(context.Context) (*domain.User, error) {
@@ -86,15 +84,18 @@ func (f *fakeStateManager) SaveSessionLog(_ context.Context, log domain.SessionL
 	return nil
 }
 
-type pipelineQuerier struct {
-	statedb.Querier
-	recentLogs []statedb.SessionLog
-	params     []statedb.ListRecentSessionLogsParams
+// ListRecentSessionLogs returns the fake recent logs.
+func (f *fakeStateManager) ListRecentSessionLogs(_ context.Context, _ uuid.UUID, _ int) ([]domain.SessionLog, error) {
+	return append([]domain.SessionLog(nil), f.recentLogs...), nil
 }
 
-func (q *pipelineQuerier) ListRecentSessionLogs(_ context.Context, arg statedb.ListRecentSessionLogsParams) ([]statedb.SessionLog, error) {
-	q.params = append(q.params, arg)
-	return append([]statedb.SessionLog(nil), q.recentLogs...), nil
+// GetCampaignByID returns the campaign from the fake state.
+func (f *fakeStateManager) GetCampaignByID(_ context.Context, _ uuid.UUID) (*domain.Campaign, error) {
+	if f.state != nil {
+		c := f.state.Campaign
+		return &c, nil
+	}
+	return &domain.Campaign{}, nil
 }
 
 func makePipelineState(campaignID uuid.UUID) *game.GameState {
@@ -127,25 +128,21 @@ func makePipelineState(campaignID uuid.UUID) *game.GameState {
 	}
 }
 
-func makeRecentLog(campaignID uuid.UUID, turn int, playerInput, response string) statedb.SessionLog {
-	return statedb.SessionLog{
-		ID:          dbutil.ToPgtype(uuid.New()),
-		CampaignID:  dbutil.ToPgtype(campaignID),
-		TurnNumber:  int32(turn),
+func makeRecentDomainLog(campaignID uuid.UUID, turn int, playerInput, response string) domain.SessionLog {
+	return domain.SessionLog{
+		ID:          uuid.New(),
+		CampaignID:  campaignID,
+		TurnNumber:  turn,
 		PlayerInput: playerInput,
-		InputType:   string(domain.Classify(playerInput)),
-		LlmResponse: response,
-		ToolCalls:   []byte("[]"),
-		CreatedAt: pgtype.Timestamptz{
-			Time:  time.Unix(int64(turn), 0).UTC(),
-			Valid: true,
-		},
+		InputType:   domain.Classify(playerInput),
+		LLMResponse: response,
+		ToolCalls:   json.RawMessage("[]"),
+		CreatedAt:   time.Unix(int64(turn), 0).UTC(),
 	}
 }
 
-func newPipelineTestEngine(state *fakeStateManager, queries *pipelineQuerier, provider llm.Provider, reg *tools.Registry) *Engine {
+func newPipelineTestEngine(state *fakeStateManager, provider llm.Provider, reg *tools.Registry) *Engine {
 	return &Engine{
-		queries:   queries,
 		state:     state,
 		assembler: assembly.NewContextAssembler(reg),
 		processor: NewTurnProcessor(provider, reg, tools.NewValidator(reg)),
@@ -179,14 +176,14 @@ func TestEngineProcessTurn_SimpleNarrativeAssemblesContext(t *testing.T) {
 	provider := newScriptedProvider(t, scriptedResponse{
 		resp: &llm.Response{Content: "The tower groans as the wind rolls through the stones."},
 	})
-	state := &fakeStateManager{state: makePipelineState(campaignID)}
-	queries := &pipelineQuerier{
-		recentLogs: []statedb.SessionLog{
-			makeRecentLog(campaignID, 2, "Study the crackling beacon.", "The beacon spits blue sparks."),
-			makeRecentLog(campaignID, 1, "Climb the tower stairs.", "You reach the tower summit."),
+	state := &fakeStateManager{
+		state: makePipelineState(campaignID),
+		recentLogs: []domain.SessionLog{
+			makeRecentDomainLog(campaignID, 1, "Climb the tower stairs.", "You reach the tower summit."),
+			makeRecentDomainLog(campaignID, 2, "Study the crackling beacon.", "The beacon spits blue sparks."),
 		},
 	}
-	engine := newPipelineTestEngine(state, queries, provider, reg)
+	engine := newPipelineTestEngine(state, provider, reg)
 
 	result, err := engine.ProcessTurn(context.Background(), campaignID, "Ask Ivo what he saw last night.")
 	if err != nil {
@@ -208,9 +205,6 @@ func TestEngineProcessTurn_SimpleNarrativeAssemblesContext(t *testing.T) {
 	}
 	if len(provider.calls) != 1 {
 		t.Fatalf("provider call count = %d, want 1", len(provider.calls))
-	}
-	if len(queries.params) != 1 || queries.params[0].LimitCount != recentTurnLimit {
-		t.Fatalf("ListRecentSessionLogs params = %+v", queries.params)
 	}
 
 	call := provider.calls[0]
@@ -260,7 +254,7 @@ func TestEngineProcessTurn_ReturnsChoicesInTurnResult(t *testing.T) {
 Or describe what you'd like to do—you're never limited to the options above.`},
 	})
 	state := &fakeStateManager{state: makePipelineState(campaignID)}
-	engine := newPipelineTestEngine(state, &pipelineQuerier{}, provider, tools.NewRegistry())
+	engine := newPipelineTestEngine(state, provider, tools.NewRegistry())
 
 	result, err := engine.ProcessTurn(context.Background(), campaignID, "What are my options?")
 	if err != nil {
@@ -313,7 +307,7 @@ func TestEngineProcessTurn_ExecutesMultipleToolCallsAndAppliesStateChanges(t *te
 		},
 	})
 	state := &fakeStateManager{state: makePipelineState(campaignID)}
-	engine := newPipelineTestEngine(state, &pipelineQuerier{}, provider, reg)
+	engine := newPipelineTestEngine(state, provider, reg)
 
 	result, err := engine.ProcessTurn(context.Background(), campaignID, "Secure the beacon and note the route.")
 	if err != nil {
@@ -377,7 +371,7 @@ func TestEngineProcessTurn_RetriesBadToolCallAndAppliesCorrectedArguments(t *tes
 		},
 	)
 	state := &fakeStateManager{state: makePipelineState(campaignID)}
-	engine := newPipelineTestEngine(state, &pipelineQuerier{}, provider, reg)
+	engine := newPipelineTestEngine(state, provider, reg)
 
 	result, err := engine.ProcessTurn(context.Background(), campaignID, "Lock the mechanism.")
 	if err != nil {

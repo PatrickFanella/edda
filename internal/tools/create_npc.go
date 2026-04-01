@@ -293,17 +293,6 @@ func (h *CreateNPCHandler) embedNPCMemory(ctx context.Context, npc *domain.NPC, 
 	return nil
 }
 
-func parseOptionalJSONObjectArgWithSet(args map[string]any, key string) (map[string]any, bool, error) {
-	raw, ok := args[key]
-	if !ok {
-		return nil, false, nil
-	}
-	obj, ok := raw.(map[string]any)
-	if !ok {
-		return nil, false, fmt.Errorf("%s must be an object", key)
-	}
-	return obj, true, nil
-}
 
 func marshalOptionalJSONObject(obj map[string]any, set bool, key string) (json.RawMessage, error) {
 	if !set {

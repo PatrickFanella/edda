@@ -26,27 +26,11 @@ func NewCombatService(q statedb.Querier) *combatService {
 }
 
 func (s *combatService) GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error) {
-	pc, err := s.queries.GetPlayerCharacterByID(ctx, dbutil.ToPgtype(playerCharacterID))
-	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, nil
-		}
-		return nil, err
-	}
-	domainPC := playerCharacterToDomain(pc)
-	return &domainPC, nil
+	return getPlayerCharacterByID(ctx, s.queries, playerCharacterID)
 }
 
 func (s *combatService) ListNPCsByCampaign(ctx context.Context, campaignID uuid.UUID) ([]domain.NPC, error) {
-	npcs, err := s.queries.ListNPCsByCampaign(ctx, dbutil.ToPgtype(campaignID))
-	if err != nil {
-		return nil, fmt.Errorf("list npcs by campaign: %w", err)
-	}
-	out := make([]domain.NPC, 0, len(npcs))
-	for _, npc := range npcs {
-		out = append(out, npcToDomain(npc))
-	}
-	return out, nil
+	return listNPCsByCampaign(ctx, s.queries, campaignID)
 }
 
 func (s *combatService) CreateNPC(ctx context.Context, params tools.InitiateCombatNPCParams) (*domain.NPC, error) {
@@ -213,7 +197,7 @@ func (s *combatService) MarkNPCDead(ctx context.Context, npcID uuid.UUID) error 
 }
 
 func (s *combatService) GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error) {
-	npc, err := s.queries.GetNPCByID(ctx, dbutil.ToPgtype(npcID))
+	npc, err := s.queries.GetNPCByID(ctx, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID)})
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil

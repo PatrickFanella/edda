@@ -6,12 +6,10 @@ package character
 import (
 	tea "github.com/charmbracelet/bubbletea"
 
+	"github.com/PatrickFanella/game-master/tui/msgs"
 	"github.com/PatrickFanella/game-master/tui/styles"
 )
 
-// NavigateBackMsg is emitted when the user presses Escape to return to the
-// narrative view.
-type NavigateBackMsg struct{}
 
 // Model is the Bubble Tea model for the character sheet view.
 type Model struct {
@@ -36,7 +34,7 @@ func (m *Model) Init() tea.Cmd { return nil }
 // parent App can return focus to the narrative view.
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if key, ok := msg.(tea.KeyMsg); ok && key.Type == tea.KeyEsc {
-		return m, func() tea.Msg { return NavigateBackMsg{} }
+		return m, func() tea.Msg { return msgs.NavigateBackMsg{} }
 	}
 	return m, nil
 }
