@@ -33,6 +33,7 @@ func (m *NoOpMiddleware) Authenticate(next http.Handler) http.Handler {
 }
 
 // UserFromContext extracts an authenticated user ID from context.
+// A uuid.Nil value is treated as unauthenticated and returns ok=false.
 func UserFromContext(ctx context.Context) (uuid.UUID, bool) {
 	if ctx == nil {
 		return uuid.Nil, false

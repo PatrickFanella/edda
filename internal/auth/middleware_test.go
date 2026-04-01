@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -40,6 +41,14 @@ func TestUserFromContext_NoValue(t *testing.T) {
 	userID, ok := UserFromContext(nil)
 	if ok {
 		t.Fatalf("expected no user ID")
+	}
+	if userID != uuid.Nil {
+		t.Fatalf("user ID = %s, want nil UUID", userID)
+	}
+
+	userID, ok = UserFromContext(context.Background())
+	if ok {
+		t.Fatalf("expected no user ID from empty context")
 	}
 	if userID != uuid.Nil {
 		t.Fatalf("user ID = %s, want nil UUID", userID)
