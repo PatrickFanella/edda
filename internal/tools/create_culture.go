@@ -286,12 +286,6 @@ func (h *CreateCultureHandler) Handle(ctx context.Context, args map[string]any) 
 	}, nil
 }
 
-func parseRequiredUUIDArrayArg(args map[string]any, key string) ([]uuid.UUID, error) {
-	if _, ok := args[key]; !ok {
-		return nil, fmt.Errorf("%s is required", key)
-	}
-	return parseUUIDArrayArg(args, key)
-}
 
 func (h *CreateCultureHandler) validateAssociatedFactions(ctx context.Context, campaignID pgtype.UUID, factionIDs []uuid.UUID) error {
 	for i, factionID := range factionIDs {

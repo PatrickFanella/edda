@@ -2,12 +2,14 @@ package game
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
+	"golang.org/x/sync/errgroup"
 
 	"github.com/PatrickFanella/game-master/internal/dbutil"
 	"github.com/PatrickFanella/game-master/internal/domain"
@@ -52,7 +54,20 @@ func (sm *pgStateManager) GetOrCreateDefaultUser(ctx context.Context) (*domain.U
 }
 
 func (sm *pgStateManager) CreateCampaign(ctx context.Context, params CreateCampaignParams) (*domain.Campaign, error) {
-	return nil, fmt.Errorf("CreateCampaign: not yet implemented (requires campaign queries)")
+	campaign, err := sm.queries.CreateCampaign(ctx, statedb.CreateCampaignParams{
+		Name:        params.Name,
+		Description: pgtype.Text{String: params.Description, Valid: params.Description != ""},
+		Genre:       pgtype.Text{String: params.Genre, Valid: params.Genre != ""},
+		Tone:        pgtype.Text{String: params.Tone, Valid: params.Tone != ""},
+		Themes:      params.Themes,
+		Status:      "active",
+		CreatedBy:   dbutil.ToPgtype(params.UserID),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("create campaign: %w", err)
+	}
+	c := campaignToDomain(campaign)
+	return &c, nil
 }
 
 func (sm *pgStateManager) GatherState(ctx context.Context, campaignID uuid.UUID) (*GameState, error) {
@@ -67,81 +82,130 @@ func (sm *pgStateManager) GatherState(ctx context.Context, campaignID uuid.UUID)
 
 	pgCampaignID := dbutil.ToPgtype(campaignID)
 
+	// Campaign must be loaded first — everything else depends on it.
 	campaign, err := sm.queries.GetCampaignByID(ctx, pgCampaignID)
 	if err != nil {
 		return nil, fmt.Errorf("gather state campaign: %w", err)
 	}
 	state.Campaign = campaignToDomain(campaign)
 
-	playerCharacters, err := sm.queries.GetPlayerCharacterByCampaign(ctx, pgCampaignID)
-	if err != nil {
-		return nil, fmt.Errorf("gather state player: %w", err)
+	// Round 1: fan out independent queries that only need campaign ID.
+	g, gCtx := errgroup.WithContext(ctx)
+
+	var playerCharacters []statedb.PlayerCharacter
+	var quests []statedb.Quest
+	var worldFacts []statedb.WorldFact
+
+	g.Go(func() error {
+		var err error
+		playerCharacters, err = sm.queries.GetPlayerCharacterByCampaign(gCtx, pgCampaignID)
+		return err
+	})
+	g.Go(func() error {
+		var err error
+		quests, err = sm.queries.ListActiveQuests(gCtx, pgCampaignID)
+		return err
+	})
+	g.Go(func() error {
+		var err error
+		worldFacts, err = sm.queries.ListActiveFactsByCampaign(gCtx, pgCampaignID)
+		return err
+	})
+	if err := g.Wait(); err != nil {
+		return nil, fmt.Errorf("gather state: %w", err)
 	}
+
+	// Convert world facts.
+	for _, fact := range worldFacts {
+		state.WorldFacts = append(state.WorldFacts, worldFactToDomain(fact))
+	}
+
+	// Process player character.
 	if len(playerCharacters) > 0 {
-		// GetPlayerCharacterByCampaign SQL orders by created_at ASC, so use the most recently created character.
-		currentIdx := len(playerCharacters) - 1
-		player := playerCharacterToDomain(playerCharacters[currentIdx])
+		// SQL orders by created_at ASC; use the most recently created character.
+		player := playerCharacterToDomain(playerCharacters[len(playerCharacters)-1])
 		state.Player = player
 
+		// Round 2: fan out queries that depend on the player character.
 		if player.CurrentLocationID != nil {
-			location, err := sm.queries.GetLocationByID(ctx, dbutil.ToPgtype(*player.CurrentLocationID))
-			if err != nil {
-				return nil, fmt.Errorf("gather state location: %w", err)
-			}
-			state.CurrentLocation = locationToDomain(location)
+			g2, g2Ctx := errgroup.WithContext(ctx)
 
-			connections, err := sm.queries.GetConnectionsFromLocation(ctx, statedb.GetConnectionsFromLocationParams{
-				CampaignID: pgCampaignID,
-				LocationID: dbutil.ToPgtype(*player.CurrentLocationID),
+			var location statedb.Location
+			var connections []statedb.GetConnectionsFromLocationRow
+			var nearbyNPCs []statedb.Npc
+			var items []statedb.Item
+
+			pgLocationID := dbutil.ToPgtype(*player.CurrentLocationID)
+
+			g2.Go(func() error {
+				var err error
+				location, err = sm.queries.GetLocationByID(g2Ctx, statedb.GetLocationByIDParams{ID: pgLocationID})
+				return err
 			})
-			if err != nil {
-				return nil, fmt.Errorf("gather state location connections: %w", err)
+			g2.Go(func() error {
+				var err error
+				connections, err = sm.queries.GetConnectionsFromLocation(g2Ctx, statedb.GetConnectionsFromLocationParams{
+					CampaignID: pgCampaignID,
+					LocationID: pgLocationID,
+				})
+				return err
+			})
+			g2.Go(func() error {
+				var err error
+				nearbyNPCs, err = sm.queries.ListAliveNPCsByLocation(g2Ctx, statedb.ListAliveNPCsByLocationParams{
+					CampaignID: pgCampaignID,
+					LocationID: pgLocationID,
+				})
+				return err
+			})
+			g2.Go(func() error {
+				var err error
+				items, err = sm.queries.ListItemsByPlayer(g2Ctx, statedb.ListItemsByPlayerParams{
+					CampaignID:        pgCampaignID,
+					PlayerCharacterID: dbutil.ToPgtype(player.ID),
+				})
+				return err
+			})
+			if err := g2.Wait(); err != nil {
+				return nil, fmt.Errorf("gather state: %w", err)
 			}
+
+			state.CurrentLocation = locationToDomain(location)
 			for _, c := range connections {
 				state.CurrentLocationConnections = append(state.CurrentLocationConnections, locationConnectionToDomain(c))
 			}
-
-			npcs, err := sm.queries.ListAliveNPCsByLocation(ctx, statedb.ListAliveNPCsByLocationParams{
-				CampaignID: pgCampaignID,
-				LocationID: dbutil.ToPgtype(*player.CurrentLocationID),
-			})
-			if err != nil {
-				return nil, fmt.Errorf("gather state location npcs: %w", err)
-			}
-			for _, npc := range npcs {
+			for _, npc := range nearbyNPCs {
 				state.NearbyNPCs = append(state.NearbyNPCs, npcToDomain(npc))
 			}
-		}
-
-		items, err := sm.queries.ListItemsByPlayer(ctx, statedb.ListItemsByPlayerParams{
-			CampaignID:        pgCampaignID,
-			PlayerCharacterID: dbutil.ToPgtype(player.ID),
-		})
-		if err != nil {
-			return nil, fmt.Errorf("gather state inventory: %w", err)
-		}
-		for _, item := range items {
-			state.PlayerInventory = append(state.PlayerInventory, itemToDomain(item))
+			for _, item := range items {
+				state.PlayerInventory = append(state.PlayerInventory, itemToDomain(item))
+			}
+		} else {
+			// No location — only fetch inventory.
+			items, err := sm.queries.ListItemsByPlayer(ctx, statedb.ListItemsByPlayerParams{
+				CampaignID:        pgCampaignID,
+				PlayerCharacterID: dbutil.ToPgtype(player.ID),
+			})
+			if err != nil {
+				return nil, fmt.Errorf("gather state inventory: %w", err)
+			}
+			for _, item := range items {
+				state.PlayerInventory = append(state.PlayerInventory, itemToDomain(item))
+			}
 		}
 	}
 
-	quests, err := sm.queries.ListActiveQuests(ctx, pgCampaignID)
-	if err != nil {
-		return nil, fmt.Errorf("gather state quests: %w", err)
-	}
+	// Quest objectives depend on quests — must be sequential after Round 1.
 	questIDs := make([]pgtype.UUID, 0, len(quests))
 	for _, quest := range quests {
-		q := questToDomain(quest)
-		state.ActiveQuests = append(state.ActiveQuests, q)
+		state.ActiveQuests = append(state.ActiveQuests, questToDomain(quest))
 		questIDs = append(questIDs, quest.ID)
 	}
-
 	if len(questIDs) > 0 {
 		objectives, err := sm.queries.ListObjectivesByQuests(ctx, questIDs)
 		if err != nil {
 			return nil, fmt.Errorf("gather state quest objectives: %w", err)
 		}
-
 		for _, objective := range objectives {
 			questID := dbutil.FromPgtype(objective.QuestID)
 			state.ActiveQuestObjectives[questID] = append(
@@ -149,14 +213,6 @@ func (sm *pgStateManager) GatherState(ctx context.Context, campaignID uuid.UUID)
 				questObjectiveToDomain(objective),
 			)
 		}
-	}
-
-	worldFacts, err := sm.queries.ListActiveFactsByCampaign(ctx, pgCampaignID)
-	if err != nil {
-		return nil, fmt.Errorf("gather state world facts: %w", err)
-	}
-	for _, fact := range worldFacts {
-		state.WorldFacts = append(state.WorldFacts, worldFactToDomain(fact))
 	}
 
 	return state, nil
@@ -188,4 +244,70 @@ func uuidOrNil(id *uuid.UUID) uuid.UUID {
 		return uuid.Nil
 	}
 	return *id
+}
+
+
+func (sm *pgStateManager) ListRecentSessionLogs(ctx context.Context, campaignID uuid.UUID, limit int) ([]domain.SessionLog, error) {
+	logs, err := sm.queries.ListRecentSessionLogs(ctx, statedb.ListRecentSessionLogsParams{
+		CampaignID: dbutil.ToPgtype(campaignID),
+		LimitCount: int32(limit),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("list recent session logs: %w", err)
+	}
+	return sessionLogsToDomain(logs), nil
+}
+
+func (sm *pgStateManager) GetCampaignByID(ctx context.Context, campaignID uuid.UUID) (*domain.Campaign, error) {
+	campaign, err := sm.queries.GetCampaignByID(ctx, dbutil.ToPgtype(campaignID))
+	if err != nil {
+		return nil, fmt.Errorf("get campaign: %w", err)
+	}
+	c := campaignToDomain(campaign)
+	return &c, nil
+}
+
+func sessionLogsToDomain(logs []statedb.SessionLog) []domain.SessionLog {
+	if len(logs) == 0 {
+		return nil
+	}
+	result := make([]domain.SessionLog, 0, len(logs))
+	for i := len(logs) - 1; i >= 0; i-- {
+		l := logs[i]
+		result = append(result, domain.SessionLog{
+			ID:           dbutil.FromPgtype(l.ID),
+			CampaignID:   dbutil.FromPgtype(l.CampaignID),
+			TurnNumber:   int(l.TurnNumber),
+			PlayerInput:  l.PlayerInput,
+			InputType:    domain.InputType(l.InputType),
+			LLMResponse:  l.LlmResponse,
+			ToolCalls:    append(json.RawMessage(nil), l.ToolCalls...),
+			LocationID:   optionalUUID(l.LocationID),
+			NPCsInvolved: pgUUIDsToUUIDs(l.NpcsInvolved),
+			CreatedAt:    l.CreatedAt.Time,
+		})
+	}
+	return result
+}
+
+func optionalUUID(id pgtype.UUID) *uuid.UUID {
+	if !id.Valid {
+		return nil
+	}
+	value := dbutil.FromPgtype(id)
+	return &value
+}
+
+func pgUUIDsToUUIDs(ids []pgtype.UUID) []uuid.UUID {
+	if len(ids) == 0 {
+		return nil
+	}
+	out := make([]uuid.UUID, 0, len(ids))
+	for _, id := range ids {
+		if !id.Valid {
+			continue
+		}
+		out = append(out, dbutil.FromPgtype(id))
+	}
+	return out
 }

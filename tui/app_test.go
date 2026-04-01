@@ -61,6 +61,12 @@ func (m *mockGameEngine) LoadCampaign(ctx context.Context, campaignID uuid.UUID)
 	return nil
 }
 
+func (m *mockGameEngine) ProcessTurnStream(_ context.Context, _ uuid.UUID, _ string) (<-chan engine.StreamEvent, error) {
+	ch := make(chan engine.StreamEvent)
+	close(ch)
+	return ch, nil
+}
+
 func keyForView(view ViewState) rune {
 	// ViewState is zero-based; user-facing key bindings are 1-based.
 	return rune('1' + view)
@@ -149,7 +155,6 @@ func TestAppUpdateTabWrapsAround(t *testing.T) {
 	app := NewApp(testCfg, testCampaign)
 	// Advance to the last view (QuestLog = index 3).
 	app.router.GoToTab(3)
-	app.viewState = ViewQuestLog
 	m, _ := app.Update(tea.KeyMsg{Type: tea.KeyTab})
 	updated := m.(App)
 	if updated.ActiveViewState() != ViewNarrative {
@@ -170,7 +175,6 @@ func TestAppUpdateShiftTabCyclesBackward(t *testing.T) {
 func TestAppUpdateShiftTabPrevView(t *testing.T) {
 	app := NewApp(testCfg, testCampaign)
 	app.router.GoToTab(2)
-	app.viewState = ViewInventory
 	m, _ := app.Update(tea.KeyMsg{Type: tea.KeyShiftTab})
 	updated := m.(App)
 	if updated.ActiveViewState() != ViewCharacterSheet {

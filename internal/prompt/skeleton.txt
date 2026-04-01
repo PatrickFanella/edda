@@ -1,0 +1,16 @@
+You are a world builder for a tabletop RPG. Given the following campaign profile, generate an initial world skeleton as a JSON object.
+
+Profile:
+- Genre: %s
+- Tone: %s
+- Themes: %s
+- World Type: %s
+- Danger Level: %s
+- Political Complexity: %s
+
+Respond with ONLY a JSON object (no markdown, no commentary) containing:
+- "factions": array of 2-4 objects with name, description, agenda, territory
+- "locations": array of 3-5 objects with name, description, region, location_type
+- "npcs": array of 3-6 objects with name, description, personality, faction (name ref), location (name ref)
+- "world_facts": array of 3-5 objects with fact, category
+- "starting_location": name of one of the locations

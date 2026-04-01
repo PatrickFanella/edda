@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/PatrickFanella/game-master/internal/dbutil"
+	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
 	"github.com/PatrickFanella/game-master/pkg/api"
 )
 
@@ -35,7 +36,7 @@ func (h *Handlers) ListNPCs(w http.ResponseWriter, r *http.Request) {
 
 // GetNPC returns a single NPC by ID.
 func (h *Handlers) GetNPC(w http.ResponseWriter, r *http.Request) {
-	_, err := campaignIDFromURL(r)
+	campaignID, err := campaignIDFromURL(r)
 	if err != nil {
 		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid campaign id: %v", err))
 		return
@@ -47,7 +48,10 @@ func (h *Handlers) GetNPC(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	npc, err := h.Queries.GetNPCByID(r.Context(), dbutil.ToPgtype(nid))
+	npc, err := h.Queries.GetNPCByID(r.Context(), statedb.GetNPCByIDParams{
+		ID:         dbutil.ToPgtype(nid),
+		CampaignID: dbutil.ToPgtype(campaignID),
+	})
 	if err != nil {
 		h.Logger.Debugf("get npc %s: %v", nid, err)
 		writeError(w, http.StatusNotFound, "npc not found")

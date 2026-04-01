@@ -111,15 +111,3 @@ func (h *DescribeSceneHandler) Handle(ctx context.Context, args map[string]any) 
 		Narrative: "Scene description updated successfully.",
 	}, nil
 }
-
-func parseOptionalNonEmptyStringArg(args map[string]any, key string) (*string, error) {
-	raw, ok := args[key]
-	if !ok {
-		return nil, nil
-	}
-	s, ok := raw.(string)
-	if !ok || s == "" {
-		return nil, fmt.Errorf("%s must be a non-empty string", key)
-	}
-	return &s, nil
-}

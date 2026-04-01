@@ -44,6 +44,12 @@ func (s *stubEngine) LoadCampaign(_ context.Context, _ uuid.UUID) error {
 	return nil
 }
 
+func (s *stubEngine) ProcessTurnStream(_ context.Context, _ uuid.UUID, _ string) (<-chan engine.StreamEvent, error) {
+	ch := make(chan engine.StreamEvent)
+	close(ch)
+	return ch, nil
+}
+
 func newActionRouter(h *Handlers) *chi.Mux {
 	r := chi.NewRouter()
 	authMW := auth.NewNoOpMiddleware(uuid.MustParse("00000000-0000-0000-0000-000000000001"))

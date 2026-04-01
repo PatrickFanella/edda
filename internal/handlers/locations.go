@@ -48,7 +48,10 @@ func (h *Handlers) GetLocation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	location, err := h.Queries.GetLocationByID(r.Context(), dbutil.ToPgtype(lid))
+	location, err := h.Queries.GetLocationByID(r.Context(), statedb.GetLocationByIDParams{
+		ID:         dbutil.ToPgtype(lid),
+		CampaignID: dbutil.ToPgtype(campaignID),
+	})
 	if err != nil {
 		h.Logger.Debugf("get location %s: %v", lid, err)
 		writeError(w, http.StatusNotFound, "location not found")

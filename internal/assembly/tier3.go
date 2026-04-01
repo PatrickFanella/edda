@@ -9,22 +9,13 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/PatrickFanella/game-master/internal/game"
+	"github.com/PatrickFanella/game-master/internal/memory"
 )
 
-// MemoryRetriever abstracts semantic memory search so the assembly package
-// does not import the memory package directly.
+// MemoryRetriever abstracts semantic memory search for the assembly package.
 type MemoryRetriever interface {
-	SearchSimilar(ctx context.Context, campaignID uuid.UUID, query string, limit int) ([]MemorySearchResult, error)
+	SearchSimilar(ctx context.Context, campaignID uuid.UUID, query string, limit int) ([]memory.MemoryResult, error)
 }
-
-// MemorySearchResult is a reduced view of a memory search hit, carrying only
-// what the assembler needs for context formatting.
-type MemorySearchResult struct {
-	Content    string
-	MemoryType string
-	Distance   float64
-}
-
 // Tier3Retriever fetches semantically relevant memories for a player turn and
 // formats them for inclusion in the LLM context window.
 type Tier3Retriever struct {

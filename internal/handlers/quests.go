@@ -52,7 +52,7 @@ func (h *Handlers) ListQuests(w http.ResponseWriter, r *http.Request) {
 
 // GetQuest returns a single quest with its objectives.
 func (h *Handlers) GetQuest(w http.ResponseWriter, r *http.Request) {
-	_, err := campaignIDFromURL(r)
+	campaignID, err := campaignIDFromURL(r)
 	if err != nil {
 		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid campaign id: %v", err))
 		return
@@ -66,7 +66,10 @@ func (h *Handlers) GetQuest(w http.ResponseWriter, r *http.Request) {
 
 	pgQID := dbutil.ToPgtype(qid)
 
-	quest, err := h.Queries.GetQuestByID(r.Context(), pgQID)
+	quest, err := h.Queries.GetQuestByID(r.Context(), statedb.GetQuestByIDParams{
+		ID:         pgQID,
+		CampaignID: dbutil.ToPgtype(campaignID),
+	})
 	if err != nil {
 		h.Logger.Debugf("get quest %s: %v", qid, err)
 		writeError(w, http.StatusNotFound, "quest not found")

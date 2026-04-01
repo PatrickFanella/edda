@@ -27,7 +27,7 @@ func NewLocationService(q statedb.Querier) *locationService {
 // --- tools.MovePlayerStore methods ---
 
 func (s *locationService) GetLocation(ctx context.Context, locationID uuid.UUID) (name, description string, err error) {
-	location, err := s.queries.GetLocationByID(ctx, dbutil.ToPgtype(locationID))
+	location, err := s.queries.GetLocationByID(ctx, statedb.GetLocationByIDParams{ID: dbutil.ToPgtype(locationID)})
 	if err != nil {
 		return "", "", err
 	}
@@ -35,7 +35,7 @@ func (s *locationService) GetLocation(ctx context.Context, locationID uuid.UUID)
 }
 
 func (s *locationService) IsLocationConnected(ctx context.Context, fromLocationID, toLocationID uuid.UUID) (bool, error) {
-	fromLocation, err := s.queries.GetLocationByID(ctx, dbutil.ToPgtype(fromLocationID))
+	fromLocation, err := s.queries.GetLocationByID(ctx, statedb.GetLocationByIDParams{ID: dbutil.ToPgtype(fromLocationID)})
 	if err != nil {
 		return false, fmt.Errorf("get current location: %w", err)
 	}
@@ -67,7 +67,7 @@ func (s *locationService) UpdatePlayerLocation(ctx context.Context, playerCharac
 // --- tools.DescribeSceneStore methods ---
 
 func (s *locationService) UpdateScene(ctx context.Context, locationID uuid.UUID, description string, mood, timeOfDay *string) error {
-	location, err := s.queries.GetLocationByID(ctx, dbutil.ToPgtype(locationID))
+	location, err := s.queries.GetLocationByID(ctx, statedb.GetLocationByIDParams{ID: dbutil.ToPgtype(locationID)})
 	if err != nil {
 		return fmt.Errorf("get location: %w", err)
 	}

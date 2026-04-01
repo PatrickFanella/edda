@@ -9,11 +9,12 @@ import (
 
 	"github.com/PatrickFanella/game-master/internal/domain"
 	"github.com/PatrickFanella/game-master/internal/game"
+	"github.com/PatrickFanella/game-master/internal/memory"
 )
 
 // stubRetriever implements MemoryRetriever for tests.
 type stubRetriever struct {
-	results  []MemorySearchResult
+	results  []memory.MemoryResult
 	err      error
 	captured struct {
 		campaignID uuid.UUID
@@ -22,7 +23,7 @@ type stubRetriever struct {
 	}
 }
 
-func (s *stubRetriever) SearchSimilar(_ context.Context, campaignID uuid.UUID, query string, limit int) ([]MemorySearchResult, error) {
+func (s *stubRetriever) SearchSimilar(_ context.Context, campaignID uuid.UUID, query string, limit int) ([]memory.MemoryResult, error) {
 	s.captured.campaignID = campaignID
 	s.captured.query = query
 	s.captured.limit = limit
@@ -31,7 +32,7 @@ func (s *stubRetriever) SearchSimilar(_ context.Context, campaignID uuid.UUID, q
 
 func TestTier3Retriever_BasicRetrieval(t *testing.T) {
 	stub := &stubRetriever{
-		results: []MemorySearchResult{
+		results: []memory.MemoryResult{
 			{Content: "The dragon attacked", MemoryType: "narrative", Distance: 0.2},
 			{Content: "Sword found in cave", MemoryType: "item", Distance: 0.35},
 		},
@@ -101,7 +102,7 @@ func TestTier3Retriever_CompositeQuery(t *testing.T) {
 
 func TestTier3Retriever_NilState(t *testing.T) {
 	stub := &stubRetriever{
-		results: []MemorySearchResult{
+		results: []memory.MemoryResult{
 			{Content: "old memory", MemoryType: "event", Distance: 0.1},
 		},
 	}

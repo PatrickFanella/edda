@@ -67,10 +67,16 @@ const getLocationByID = `-- name: GetLocationByID :one
 SELECT id, campaign_id, name, description, region, location_type, properties, created_at, updated_at
 FROM locations
 WHERE id = $1
+  AND ($2::uuid IS NULL OR campaign_id = $2)
 `
 
-func (q *Queries) GetLocationByID(ctx context.Context, id pgtype.UUID) (Location, error) {
-	row := q.db.QueryRow(ctx, getLocationByID, id)
+type GetLocationByIDParams struct {
+	ID         pgtype.UUID
+	CampaignID pgtype.UUID
+}
+
+func (q *Queries) GetLocationByID(ctx context.Context, arg GetLocationByIDParams) (Location, error) {
+	row := q.db.QueryRow(ctx, getLocationByID, arg.ID, arg.CampaignID)
 	var i Location
 	err := row.Scan(
 		&i.ID,

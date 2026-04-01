@@ -1,9 +1,116 @@
 package handlers
 
-import "net/http"
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"time"
 
-// HandleWebSocket upgrades to WebSocket for streaming game events.
-// TODO(#165): Implement with github.com/coder/websocket once added to go.mod.
+	"github.com/coder/websocket"
+	"github.com/coder/websocket/wsjson"
+
+	"github.com/PatrickFanella/game-master/pkg/api"
+)
+
+// wsActionMessage is the client-to-server message envelope.
+type wsActionMessage struct {
+	Type    string          `json:"type"`
+	Payload json.RawMessage `json:"payload"`
+}
+
+// wsActionPayload carries the player input within an action message.
+type wsActionPayload struct {
+	Input string `json:"input"`
+}
+
+// HandleWebSocket upgrades to WebSocket and streams game events to the client.
 func (h *Handlers) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
-	writeError(w, http.StatusNotImplemented, "WebSocket streaming not yet implemented")
+	campaignID, err := campaignIDFromURL(r)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid campaign id: %v", err))
+		return
+	}
+
+	conn, err := websocket.Accept(w, r, nil)
+	if err != nil {
+		h.Logger.Errorf("websocket accept for campaign %s: %v", campaignID, err)
+		return
+	}
+	defer conn.CloseNow()
+
+	ctx := r.Context()
+
+	for {
+		var msg wsActionMessage
+		if err := wsjson.Read(ctx, conn, &msg); err != nil {
+			closeStatus := websocket.CloseStatus(err)
+			if closeStatus == websocket.StatusNormalClosure || closeStatus == websocket.StatusGoingAway {
+				h.Logger.Infof("websocket closed normally for campaign %s", campaignID)
+			} else if ctx.Err() != nil {
+				h.Logger.Infof("websocket context done for campaign %s", campaignID)
+			} else {
+				h.Logger.Errorf("websocket read for campaign %s: %v", campaignID, err)
+			}
+			return
+		}
+
+		if msg.Type != "action" {
+			sendErrorEnvelope(ctx, conn, fmt.Sprintf("unknown message type: %q", msg.Type))
+			continue
+		}
+
+		var payload wsActionPayload
+		if err := json.Unmarshal(msg.Payload, &payload); err != nil {
+			sendErrorEnvelope(ctx, conn, fmt.Sprintf("invalid payload: %v", err))
+			continue
+		}
+
+		if payload.Input == "" {
+			sendErrorEnvelope(ctx, conn, "input is required")
+			continue
+		}
+
+		ch, err := h.Engine.ProcessTurnStream(ctx, campaignID, payload.Input)
+		if err != nil {
+			sendErrorEnvelope(ctx, conn, fmt.Sprintf("stream error: %v", err))
+			continue
+		}
+
+		for event := range ch {
+			var envelope api.WebSocketMessageEnvelope
+			envelope.Timestamp = time.Now()
+
+			switch event.Type {
+			case "chunk":
+				envelope.Type = "chunk"
+				envelope.Payload, _ = json.Marshal(map[string]string{"text": event.Text})
+			case "result":
+				envelope.Type = "result"
+				envelope.Payload, _ = json.Marshal(event.Result)
+			case "error":
+				envelope.Type = "error"
+				envelope.Payload, _ = json.Marshal(map[string]string{"error": event.Err.Error()})
+			default:
+				continue
+			}
+
+			if err := wsjson.Write(ctx, conn, envelope); err != nil {
+				h.Logger.Errorf("websocket write for campaign %s: %v", campaignID, err)
+				return
+			}
+		}
+	}
+}
+
+// sendErrorEnvelope writes an error envelope to the WebSocket connection.
+func sendErrorEnvelope(ctx context.Context, conn *websocket.Conn, msg string) {
+	payload, _ := json.Marshal(map[string]string{"error": msg})
+	envelope := api.WebSocketMessageEnvelope{
+		Type:      "error",
+		Payload:   payload,
+		Timestamp: time.Now(),
+	}
+	//nolint:errcheck // Best-effort; connection may already be closing.
+	wsjson.Write(ctx, conn, envelope)
 }

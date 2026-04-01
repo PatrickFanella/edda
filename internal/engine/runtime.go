@@ -3,16 +3,14 @@ package engine
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
+	"log/slog"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgtype"
 
 	"github.com/PatrickFanella/game-master/internal/assembly"
 	"github.com/PatrickFanella/game-master/internal/bootstrap"
 	"github.com/PatrickFanella/game-master/internal/config"
-	"github.com/PatrickFanella/game-master/internal/dbutil"
 	"github.com/PatrickFanella/game-master/internal/domain"
 	"github.com/PatrickFanella/game-master/internal/game"
 	"github.com/PatrickFanella/game-master/internal/llm"
@@ -22,7 +20,6 @@ import (
 
 // Engine is the concrete GameEngine implementation used by the TUI.
 type Engine struct {
-	queries   statedb.Querier
 	state     game.StateManager
 	assembler *assembly.ContextAssembler
 	processor *TurnProcessor
@@ -31,71 +28,37 @@ type Engine struct {
 
 const recentTurnLimit = 10
 
-// New creates a concrete GameEngine backed by the shared game and llm packages.
-func New(db statedb.DBTX, queries statedb.Querier, provider llm.Provider, llmCfg config.LLMConfig) *Engine {
-	registry := tools.NewRegistry()
-	locSvc := game.NewLocationService(queries)
-	invSvc := game.NewInventoryService(queries)
-	npcSvc := game.NewNPCService(queries)
-	worldSvc := game.NewWorldService(queries)
-	combatSvc := game.NewCombatService(queries)
-	progressionSvc := game.NewProgressionService(queries)
-	statResolver := game.NewStatModifierResolver(queries)
+// Option configures the Engine during construction.
+type Option func(*Engine)
 
-	var errs []error
-	errs = appendErr(errs, tools.RegisterMovePlayer(registry, locSvc))
-	errs = appendErr(errs, tools.RegisterAddItem(registry, invSvc))
-	errs = appendErr(errs, tools.RegisterRemoveItem(registry, invSvc))
-	errs = appendErr(errs, tools.RegisterModifyItem(registry, invSvc))
-	errs = appendErr(errs, tools.RegisterCreateItem(registry, invSvc))
-	errs = appendErr(errs, tools.RegisterRollDice(registry))
-	errs = appendErr(errs, tools.RegisterUpdateNPC(registry, npcSvc))
-	errs = appendErr(errs, tools.RegisterInitiateCombat(registry, combatSvc))
-	errs = appendErr(errs, tools.RegisterCreateLanguage(registry, worldSvc, worldSvc, nil))
-	errs = appendErr(errs, tools.RegisterCreateBeliefSystem(registry, worldSvc, worldSvc, nil))
-	errs = appendErr(errs, tools.RegisterCreateEconomicSystem(registry, worldSvc, worldSvc, nil))
-	errs = appendErr(errs, tools.RegisterCreateCulture(registry, worldSvc, worldSvc, nil))
-	errs = appendErr(errs, tools.RegisterCreateCity(registry, worldSvc, worldSvc, nil))
-	errs = appendErr(errs, tools.RegisterCreateLocation(registry, worldSvc, worldSvc, nil))
-	errs = appendErr(errs, tools.RegisterCreateFaction(registry, worldSvc, worldSvc, nil))
-	errs = appendErr(errs, tools.RegisterCreateQuest(registry, worldSvc))
-	errs = appendErr(errs, tools.RegisterEstablishRelationship(registry, worldSvc))
-	errs = appendErr(errs, tools.RegisterCreateSubquest(registry, worldSvc))
-	errs = appendErr(errs, tools.RegisterCompleteObjective(registry, worldSvc))
-	errs = appendErr(errs, tools.RegisterUpdateQuest(registry, worldSvc))
-	errs = appendErr(errs, tools.RegisterCreateNPC(registry, npcSvc, worldSvc, nil))
-	errs = appendErr(errs, tools.RegisterGenerateName(registry, worldSvc))
-	errs = appendErr(errs, tools.RegisterSkillCheck(registry, statResolver, nil))
-	errs = appendErr(errs, tools.RegisterCombatRound(registry, nil))
-	errs = appendErr(errs, tools.RegisterApplyDamage(registry))
-	errs = appendErr(errs, tools.RegisterApplyCondition(registry))
-	errs = appendErr(errs, tools.RegisterUpdatePlayerStats(registry, combatSvc))
-	errs = appendErr(errs, tools.RegisterUpdatePlayerStatus(registry, combatSvc))
-	errs = appendErr(errs, tools.RegisterAddExperience(registry, progressionSvc))
-	errs = appendErr(errs, tools.RegisterLevelUp(registry, progressionSvc))
-	errs = appendErr(errs, tools.RegisterAddAbility(registry, combatSvc))
-	errs = appendErr(errs, tools.RegisterRemoveAbility(registry, combatSvc))
-	errs = appendErr(errs, tools.RegisterResolveCombat(registry, combatSvc))
-	errs = appendErr(errs, tools.RegisterEstablishFact(registry, worldSvc, worldSvc, nil))
-	errs = appendErr(errs, tools.RegisterCreateLore(registry, worldSvc, worldSvc, nil))
-	errs = appendErr(errs, tools.RegisterReviseFact(registry, worldSvc, worldSvc, nil))
-	if err := errors.Join(errs...); err != nil {
-		panic(fmt.Sprintf("tool registration failed: %v", err))
+// WithTier3Retriever attaches a semantic memory retriever to the engine.
+// When set, ProcessTurn includes relevant memories in the LLM context.
+func WithTier3Retriever(t *assembly.Tier3Retriever) Option {
+	return func(e *Engine) {
+		e.tier3 = t
 	}
-	return &Engine{
-		queries:   queries,
+}
+
+// New creates a concrete GameEngine backed by the shared game and llm packages.
+func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts ...Option) (*Engine, error) {
+	queries := statedb.New(db)
+	registry := tools.NewRegistry()
+
+	if err := registerAllTools(registry, queries); err != nil {
+		return nil, fmt.Errorf("register tools: %w", err)
+	}
+
+	e := &Engine{
 		state:     game.NewStateManager(db),
 		assembler: assembly.NewContextAssembler(registry, assembly.WithTokenBudget(llmCfg.ContextTokenBudget())),
 		processor: NewTurnProcessor(provider, registry, tools.NewValidator(registry)),
 	}
+	for _, opt := range opts {
+		opt(e)
+	}
+	return e, nil
 }
 
-// SetTier3Retriever attaches a semantic memory retriever to the engine.
-// When set, ProcessTurn will fetch relevant memories and include them in
-// the LLM context. Passing nil disables retrieval.
-func (e *Engine) SetTier3Retriever(t *assembly.Tier3Retriever) {
-	e.tier3 = t
-}
 
 var _ GameEngine = (*Engine)(nil)
 
@@ -111,18 +74,17 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 		ctx = tools.WithCurrentLocationID(ctx, *state.Player.CurrentLocationID)
 	}
 
-	recentLogs, err := e.queries.ListRecentSessionLogs(ctx, statedb.ListRecentSessionLogsParams{
-		CampaignID: dbutil.ToPgtype(campaignID),
-		LimitCount: recentTurnLimit,
-	})
+	recentTurns, err := e.state.ListRecentSessionLogs(ctx, campaignID, recentTurnLimit)
 	if err != nil {
 		return nil, fmt.Errorf("list recent session logs: %w", err)
 	}
-
-	recentTurns := sessionLogsToDomain(recentLogs)
 	var retrievedMemories []string
 	if e.tier3 != nil {
-		retrievedMemories, _ = e.tier3.Retrieve(ctx, campaignID, playerInput, state)
+		var tier3Err error
+		retrievedMemories, tier3Err = e.tier3.Retrieve(ctx, campaignID, playerInput, state)
+		if tier3Err != nil {
+			slog.Warn("tier3 memory retrieval failed", "campaign_id", campaignID, "error", tier3Err)
+		}
 	}
 
 	messages := e.assembler.AssembleContext(state, recentTurns, playerInput, retrievedMemories...)
@@ -146,7 +108,7 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 
 	log := domain.SessionLog{
 		CampaignID:  campaignID,
-		TurnNumber:  nextTurnNumber(recentLogs),
+		TurnNumber:  nextTurnNumber(recentTurns),
 		PlayerInput: playerInput,
 		InputType:   domain.Classify(playerInput),
 		LLMResponse: narrative,
@@ -169,83 +131,46 @@ func (e *Engine) GetGameState(ctx context.Context, campaignID uuid.UUID) (*GameS
 }
 
 func (e *Engine) NewCampaign(ctx context.Context, userID uuid.UUID) (*domain.Campaign, error) {
-	campaign, err := bootstrap.CreateCampaign(ctx, e.queries, dbutil.ToPgtype(userID), bootstrap.DefaultCampaignName)
-	if err != nil {
-		return nil, fmt.Errorf("create campaign: %w", err)
-	}
-	return &domain.Campaign{
-		ID:          dbutil.FromPgtype(campaign.ID),
-		Name:        campaign.Name,
-		Description: campaign.Description.String,
-		Genre:       campaign.Genre.String,
-		Tone:        campaign.Tone.String,
-		Themes:      campaign.Themes,
-		Status:      domain.CampaignStatus(campaign.Status),
-		CreatedBy:   dbutil.FromPgtype(campaign.CreatedBy),
-		CreatedAt:   campaign.CreatedAt.Time,
-		UpdatedAt:   campaign.UpdatedAt.Time,
-	}, nil
+	return e.state.CreateCampaign(ctx, game.CreateCampaignParams{
+		Name:   bootstrap.DefaultCampaignName,
+		UserID: userID,
+	})
 }
 
 func (e *Engine) LoadCampaign(ctx context.Context, campaignID uuid.UUID) error {
-	_, err := e.queries.GetCampaignByID(ctx, dbutil.ToPgtype(campaignID))
+	_, err := e.state.GetCampaignByID(ctx, campaignID)
 	if err != nil {
 		return fmt.Errorf("load campaign: %w", err)
 	}
 	return nil
 }
 
-func nextTurnNumber(logs []statedb.SessionLog) int {
+// ProcessTurnStream is like ProcessTurn but delivers narrative chunks over
+// the returned channel. The channel is closed when processing completes.
+// Callers must consume the channel fully to avoid goroutine leaks.
+//
+// In this initial implementation the full narrative is sent as a single
+// chunk followed by the complete TurnResult.
+func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, playerInput string) (<-chan StreamEvent, error) {
+	ch := make(chan StreamEvent, 2)
+	go func() {
+		defer close(ch)
+		result, err := e.ProcessTurn(ctx, campaignID, playerInput)
+		if err != nil {
+			ch <- StreamEvent{Type: "error", Err: err}
+			return
+		}
+		ch <- StreamEvent{Type: "chunk", Text: result.Narrative}
+		ch <- StreamEvent{Type: "result", Result: result}
+	}()
+	return ch, nil
+}
+
+func nextTurnNumber(logs []domain.SessionLog) int {
 	if len(logs) == 0 {
 		return 1
 	}
-	return int(logs[0].TurnNumber) + 1
-}
-
-func sessionLogsToDomain(logs []statedb.SessionLog) []domain.SessionLog {
-	if len(logs) == 0 {
-		return nil
-	}
-
-	turns := make([]domain.SessionLog, 0, len(logs))
-	for i := len(logs) - 1; i >= 0; i-- {
-		log := logs[i]
-		turns = append(turns, domain.SessionLog{
-			ID:           dbutil.FromPgtype(log.ID),
-			CampaignID:   dbutil.FromPgtype(log.CampaignID),
-			TurnNumber:   int(log.TurnNumber),
-			PlayerInput:  log.PlayerInput,
-			InputType:    domain.InputType(log.InputType),
-			LLMResponse:  log.LlmResponse,
-			ToolCalls:    append(json.RawMessage(nil), log.ToolCalls...),
-			LocationID:   optionalUUID(log.LocationID),
-			NPCsInvolved: pgUUIDsToUUIDs(log.NpcsInvolved),
-			CreatedAt:    log.CreatedAt.Time,
-		})
-	}
-	return turns
-}
-
-func optionalUUID(id pgtype.UUID) *uuid.UUID {
-	if !id.Valid {
-		return nil
-	}
-	value := dbutil.FromPgtype(id)
-	return &value
-}
-
-func pgUUIDsToUUIDs(ids []pgtype.UUID) []uuid.UUID {
-	if len(ids) == 0 {
-		return nil
-	}
-	out := make([]uuid.UUID, 0, len(ids))
-	for _, id := range ids {
-		if !id.Valid {
-			continue
-		}
-		out = append(out, dbutil.FromPgtype(id))
-	}
-	return out
+	return logs[len(logs)-1].TurnNumber + 1
 }
 
 func marshalAppliedToolCalls(applied []AppliedToolCall) (json.RawMessage, error) {
@@ -259,9 +184,3 @@ func marshalAppliedToolCalls(applied []AppliedToolCall) (json.RawMessage, error)
 	return json.RawMessage(data), nil
 }
 
-func appendErr(errs []error, err error) []error {
-	if err != nil {
-		return append(errs, err)
-	}
-	return errs
-}

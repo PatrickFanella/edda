@@ -19,7 +19,8 @@ RETURNING id, campaign_id, name, description, region, location_type, properties,
 -- name: GetLocationByID :one
 SELECT id, campaign_id, name, description, region, location_type, properties, created_at, updated_at
 FROM locations
-WHERE id = sqlc.arg(id);
+WHERE id = sqlc.arg(id)
+  AND (sqlc.narg(campaign_id)::uuid IS NULL OR campaign_id = sqlc.narg(campaign_id));
 
 -- name: ListLocationsByCampaign :many
 SELECT id, campaign_id, name, description, region, location_type, properties, created_at, updated_at

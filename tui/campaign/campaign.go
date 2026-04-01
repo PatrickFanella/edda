@@ -200,11 +200,6 @@ func (m Model) renderForm() string {
 			Render(content))
 }
 
-// Deprecated: NewCampaignNameMsg is retained for backward compatibility.
-// New code should use NewCampaignFormMsg instead.
-type NewCampaignNameMsg struct {
-	Name string
-}
 
 func formatCampaignDescription(c statedb.Campaign) string {
 	genre := "Unknown genre"

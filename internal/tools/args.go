@@ -6,6 +6,9 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
+
+	"github.com/PatrickFanella/game-master/internal/dbutil"
 )
 
 const floatIntegerTolerance = 1e-9
@@ -171,4 +174,72 @@ func parseUUIDFromNestedObject(obj map[string]any, key, prefix string) (uuid.UUI
 		return uuid.Nil, fmt.Errorf("%s.%s must be a valid UUID", prefix, key)
 	}
 	return id, nil
+}
+
+func parseOptionalJSONObjectArg(args map[string]any, key string) (map[string]any, error) {
+	raw, ok := args[key]
+	if !ok || raw == nil {
+		return map[string]any{}, nil
+	}
+	obj, ok := raw.(map[string]any)
+	if !ok {
+		return nil, fmt.Errorf("%s must be an object", key)
+	}
+	return obj, nil
+}
+
+func parseOptionalJSONObjectArgWithSet(args map[string]any, key string) (map[string]any, bool, error) {
+	raw, ok := args[key]
+	if !ok {
+		return nil, false, nil
+	}
+	obj, ok := raw.(map[string]any)
+	if !ok {
+		return nil, false, fmt.Errorf("%s must be an object", key)
+	}
+	return obj, true, nil
+}
+
+func parseOptionalNonEmptyStringArg(args map[string]any, key string) (*string, error) {
+	raw, ok := args[key]
+	if !ok {
+		return nil, nil
+	}
+	s, ok := raw.(string)
+	if !ok || s == "" {
+		return nil, fmt.Errorf("%s must be a non-empty string", key)
+	}
+	return &s, nil
+}
+
+func parseRequiredUUIDArrayArg(args map[string]any, key string) ([]uuid.UUID, error) {
+	if _, ok := args[key]; !ok {
+		return nil, fmt.Errorf("%s is required", key)
+	}
+	return parseUUIDArrayArg(args, key)
+}
+
+func parseUUIDArrayFromObject(obj map[string]any, key string) ([]pgtype.UUID, error) {
+	raw, ok := obj[key]
+	if !ok {
+		return nil, nil
+	}
+	items, ok := raw.([]any)
+	if !ok {
+		return nil, fmt.Errorf("followers.%s must be an array", key)
+	}
+
+	out := make([]pgtype.UUID, 0, len(items))
+	for i, item := range items {
+		s, ok := item.(string)
+		if !ok || strings.TrimSpace(s) == "" {
+			return nil, fmt.Errorf("followers.%s[%d] must be a non-empty string UUID", key, i)
+		}
+		id, err := uuid.Parse(s)
+		if err != nil {
+			return nil, fmt.Errorf("followers.%s[%d] must be a valid UUID", key, i)
+		}
+		out = append(out, dbutil.ToPgtype(id))
+	}
+	return out, nil
 }

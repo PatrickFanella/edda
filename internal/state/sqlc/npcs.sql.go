@@ -92,10 +92,16 @@ const getNPCByID = `-- name: GetNPCByID :one
 SELECT id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at
 FROM npcs
 WHERE id = $1
+  AND ($2::uuid IS NULL OR campaign_id = $2)
 `
 
-func (q *Queries) GetNPCByID(ctx context.Context, id pgtype.UUID) (Npc, error) {
-	row := q.db.QueryRow(ctx, getNPCByID, id)
+type GetNPCByIDParams struct {
+	ID         pgtype.UUID
+	CampaignID pgtype.UUID
+}
+
+func (q *Queries) GetNPCByID(ctx context.Context, arg GetNPCByIDParams) (Npc, error) {
+	row := q.db.QueryRow(ctx, getNPCByID, arg.ID, arg.CampaignID)
 	var i Npc
 	err := row.Scan(
 		&i.ID,

@@ -400,7 +400,7 @@ func (m *mockQuerier) ListLanguagesByFaction(_ context.Context, _ pgtype.UUID) (
 	return nil, nil
 }
 
-func (m *mockQuerier) GetLocationByID(_ context.Context, _ pgtype.UUID) (statedb.Location, error) {
+func (m *mockQuerier) GetLocationByID(_ context.Context, arg statedb.GetLocationByIDParams) (statedb.Location, error) {
 	if m.getLocationErr != nil {
 		return statedb.Location{}, m.getLocationErr
 	}
@@ -410,11 +410,11 @@ func (m *mockQuerier) GetLocationByID(_ context.Context, _ pgtype.UUID) (statedb
 	return m.location, nil
 }
 
-func (m *mockQuerier) GetNPCByID(_ context.Context, id pgtype.UUID) (statedb.Npc, error) {
+func (m *mockQuerier) GetNPCByID(_ context.Context, arg statedb.GetNPCByIDParams) (statedb.Npc, error) {
 	if m.getNPCByIDErr != nil {
 		return statedb.Npc{}, m.getNPCByIDErr
 	}
-	record, ok := m.npcByID[id.Bytes]
+	record, ok := m.npcByID[arg.ID.Bytes]
 	if !ok {
 		return statedb.Npc{}, pgx.ErrNoRows
 	}
@@ -606,7 +606,7 @@ func (m *mockQuerier) GetPlayerCharacterByID(_ context.Context, _ pgtype.UUID) (
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) GetQuestByID(_ context.Context, _ pgtype.UUID) (statedb.Quest, error) {
+func (m *mockQuerier) GetQuestByID(_ context.Context, arg statedb.GetQuestByIDParams) (statedb.Quest, error) {
 	return statedb.Quest{}, pgx.ErrNoRows
 }
 

@@ -329,22 +329,22 @@ func (q *Queries) UpdateItemEquipped(ctx context.Context, arg UpdateItemEquipped
 	return i, err
 }
 
-const updateItemQuantity = `-- name: UpdateItemQuantity :one
+const updateItemProperties = `-- name: UpdateItemProperties :one
 UPDATE items
 SET
-  quantity = $1,
+  properties = COALESCE($1::jsonb, properties),
   updated_at = now()
 WHERE id = $2
 RETURNING id, campaign_id, player_character_id, name, description, item_type, rarity, properties, equipped, quantity, created_at, updated_at
 `
 
-type UpdateItemQuantityParams struct {
-	Quantity int32
-	ID       pgtype.UUID
+type UpdateItemPropertiesParams struct {
+	Properties []byte
+	ID         pgtype.UUID
 }
 
-func (q *Queries) UpdateItemQuantity(ctx context.Context, arg UpdateItemQuantityParams) (Item, error) {
-	row := q.db.QueryRow(ctx, updateItemQuantity, arg.Quantity, arg.ID)
+func (q *Queries) UpdateItemProperties(ctx context.Context, arg UpdateItemPropertiesParams) (Item, error) {
+	row := q.db.QueryRow(ctx, updateItemProperties, arg.Properties, arg.ID)
 	var i Item
 	err := row.Scan(
 		&i.ID,
@@ -363,22 +363,22 @@ func (q *Queries) UpdateItemQuantity(ctx context.Context, arg UpdateItemQuantity
 	return i, err
 }
 
-const updateItemProperties = `-- name: UpdateItemProperties :one
+const updateItemQuantity = `-- name: UpdateItemQuantity :one
 UPDATE items
 SET
-  properties = COALESCE($1::jsonb, properties),
+  quantity = $1,
   updated_at = now()
 WHERE id = $2
 RETURNING id, campaign_id, player_character_id, name, description, item_type, rarity, properties, equipped, quantity, created_at, updated_at
 `
 
-type UpdateItemPropertiesParams struct {
-	Properties []byte
-	ID         pgtype.UUID
+type UpdateItemQuantityParams struct {
+	Quantity int32
+	ID       pgtype.UUID
 }
 
-func (q *Queries) UpdateItemProperties(ctx context.Context, arg UpdateItemPropertiesParams) (Item, error) {
-	row := q.db.QueryRow(ctx, updateItemProperties, arg.Properties, arg.ID)
+func (q *Queries) UpdateItemQuantity(ctx context.Context, arg UpdateItemQuantityParams) (Item, error) {
+	row := q.db.QueryRow(ctx, updateItemQuantity, arg.Quantity, arg.ID)
 	var i Item
 	err := row.Scan(
 		&i.ID,

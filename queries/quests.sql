@@ -19,7 +19,8 @@ RETURNING id, campaign_id, parent_quest_id, title, description, quest_type, stat
 -- name: GetQuestByID :one
 SELECT id, campaign_id, parent_quest_id, title, description, quest_type, status, created_at, updated_at
 FROM quests
-WHERE id = sqlc.arg(id);
+WHERE id = sqlc.arg(id)
+  AND (sqlc.narg(campaign_id)::uuid IS NULL OR campaign_id = sqlc.narg(campaign_id));
 
 -- name: ListQuestsByCampaign :many
 SELECT id, campaign_id, parent_quest_id, title, description, quest_type, status, created_at, updated_at

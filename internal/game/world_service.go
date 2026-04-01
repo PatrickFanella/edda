@@ -130,7 +130,7 @@ func (s *worldService) CreateFactionRelationship(ctx context.Context, arg stated
 }
 
 func (s *worldService) GetLocationByID(ctx context.Context, id pgtype.UUID) (statedb.Location, error) {
-	return s.queries.GetLocationByID(ctx, id)
+	return s.queries.GetLocationByID(ctx, statedb.GetLocationByIDParams{ID: id})
 }
 
 // --- tools.CityStore methods ---
@@ -158,7 +158,7 @@ func (s *worldService) CreateQuest(ctx context.Context, arg statedb.CreateQuestP
 }
 
 func (s *worldService) GetQuestByID(ctx context.Context, id pgtype.UUID) (statedb.Quest, error) {
-	return s.queries.GetQuestByID(ctx, id)
+	return s.queries.GetQuestByID(ctx, statedb.GetQuestByIDParams{ID: id})
 }
 
 func (s *worldService) CreateObjective(ctx context.Context, arg statedb.CreateObjectiveParams) (statedb.QuestObjective, error) {
@@ -190,7 +190,7 @@ func (s *worldService) CreateRelationship(ctx context.Context, arg statedb.Creat
 }
 
 func (s *worldService) GetNPCByID(ctx context.Context, id pgtype.UUID) (statedb.Npc, error) {
-	return s.queries.GetNPCByID(ctx, id)
+	return s.queries.GetNPCByID(ctx, statedb.GetNPCByIDParams{ID: id})
 }
 
 func (s *worldService) GetPlayerCharacterByID(ctx context.Context, id pgtype.UUID) (statedb.PlayerCharacter, error) {
@@ -207,4 +207,8 @@ func (s *worldService) GetRelationshipsBetween(ctx context.Context, arg statedb.
 
 func (s *worldService) UpdateRelationship(ctx context.Context, arg statedb.UpdateRelationshipParams) (statedb.EntityRelationship, error) {
 	return s.queries.UpdateRelationship(ctx, arg)
+}
+
+func (s *worldService) GetRelationshipsByEntity(ctx context.Context, arg statedb.GetRelationshipsByEntityParams) ([]statedb.EntityRelationship, error) {
+	return s.queries.GetRelationshipsByEntity(ctx, arg)
 }

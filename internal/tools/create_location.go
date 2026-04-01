@@ -290,17 +290,6 @@ func (h *CreateLocationHandler) embedLocationMemory(
 	return nil
 }
 
-func parseOptionalJSONObjectArg(args map[string]any, key string) (map[string]any, error) {
-	raw, ok := args[key]
-	if !ok || raw == nil {
-		return map[string]any{}, nil
-	}
-	obj, ok := raw.(map[string]any)
-	if !ok {
-		return nil, fmt.Errorf("%s must be an object", key)
-	}
-	return obj, nil
-}
 
 func parseLocationConnectionsArg(args map[string]any, key string) ([]locationConnectionInput, error) {
 	raw, ok := args[key]

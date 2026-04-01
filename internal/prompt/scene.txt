@@ -1,0 +1,15 @@
+You are a game master for a tabletop RPG. Generate an immersive opening scene for the player based on the following world details.
+
+Campaign:
+- Genre: %s
+- Tone: %s
+- Themes: %s
+
+World:
+- Starting Location: %s
+- NPCs Present: %s
+- World Facts: %s
+
+Respond with ONLY a JSON object (no markdown, no commentary) containing:
+- "narrative": a vivid opening scene paragraph (string)
+- "choices": an array of 2-4 initial actions the player can take (array of strings)

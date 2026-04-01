@@ -3,8 +3,10 @@
 package statedb_test
 
 import (
+	"bytes"
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -215,7 +217,7 @@ func createQuest(t *testing.T, q *statedb.Queries, campaignID pgtype.UUID) state
 	quest, err := q.CreateQuest(context.Background(), statedb.CreateQuestParams{
 		CampaignID: campaignID,
 		Title:      "Test Quest",
-		QuestType:  "main",
+		QuestType:  "short_term",
 		Status:     "active",
 	})
 	if err != nil {
@@ -465,7 +467,7 @@ func TestIntegrationLocations(t *testing.T) {
 	}
 
 	// GetByID
-	got, err := q.GetLocationByID(ctx, loc.ID)
+	got, err := q.GetLocationByID(ctx, GetLocationByIDParams{ID: loc.ID, CampaignID: loc.CampaignID})
 	if err != nil {
 		t.Fatalf("GetLocationByID: %v", err)
 	}
@@ -635,7 +637,7 @@ func TestIntegrationNPCs(t *testing.T) {
 	}
 
 	// GetNPCByID
-	got, err := q.GetNPCByID(ctx, npc.ID)
+	got, err := q.GetNPCByID(ctx, GetNPCByIDParams{ID: npc.ID, CampaignID: npc.CampaignID})
 	if err != nil {
 		t.Fatalf("GetNPCByID: %v", err)
 	}
@@ -884,7 +886,7 @@ func TestIntegrationQuests(t *testing.T) {
 	main, err := q.CreateQuest(ctx, statedb.CreateQuestParams{
 		CampaignID: camp.ID,
 		Title:      "Destroy the Ring",
-		QuestType:  "main",
+		QuestType:  "short_term",
 		Status:     "active",
 	})
 	if err != nil {
@@ -896,7 +898,7 @@ func TestIntegrationQuests(t *testing.T) {
 		CampaignID:    camp.ID,
 		ParentQuestID: main.ID,
 		Title:         "Find the Fellowship",
-		QuestType:     "side",
+		QuestType:     "long_term",
 		Status:        "active",
 	})
 	if err != nil {
@@ -907,7 +909,7 @@ func TestIntegrationQuests(t *testing.T) {
 	}
 
 	// GetQuestByID
-	got, err := q.GetQuestByID(ctx, main.ID)
+	got, err := q.GetQuestByID(ctx, GetQuestByIDParams{ID: main.ID, CampaignID: main.CampaignID})
 	if err != nil {
 		t.Fatalf("GetQuestByID: %v", err)
 	}
@@ -934,7 +936,7 @@ func TestIntegrationQuests(t *testing.T) {
 	}
 
 	// ListQuestsByType
-	mainType, err := q.ListQuestsByType(ctx, statedb.ListQuestsByTypeParams{CampaignID: camp.ID, QuestType: "main"})
+	mainType, err := q.ListQuestsByType(ctx, statedb.ListQuestsByTypeParams{CampaignID: camp.ID, QuestType: "short_term"})
 	if err != nil {
 		t.Fatalf("ListQuestsByType: %v", err)
 	}
@@ -955,7 +957,7 @@ func TestIntegrationQuests(t *testing.T) {
 	upd, err := q.UpdateQuest(ctx, statedb.UpdateQuestParams{
 		ID:        main.ID,
 		Title:     "Destroy the One Ring",
-		QuestType: "main",
+		QuestType: "short_term",
 		Status:    "active",
 	})
 	if err != nil {
@@ -1064,7 +1066,7 @@ func TestIntegrationItems(t *testing.T) {
 		PlayerCharacterID: pc1.ID,
 		Name:              "The One Ring",
 		Description:       txt("A dangerous golden ring"),
-		ItemType:          "magical",
+		ItemType:          "quest",
 		Rarity:            "legendary",
 		Equipped:          false,
 		Quantity:          1,
@@ -1100,7 +1102,7 @@ func TestIntegrationItems(t *testing.T) {
 	// ListItemsByType
 	byType, err := q.ListItemsByType(ctx, statedb.ListItemsByTypeParams{
 		CampaignID: camp.ID,
-		ItemType:   "magical",
+		ItemType:   "quest",
 	})
 	if err != nil {
 		t.Fatalf("ListItemsByType: %v", err)
@@ -1113,7 +1115,7 @@ func TestIntegrationItems(t *testing.T) {
 	upd, err := q.UpdateItem(ctx, statedb.UpdateItemParams{
 		ID:       item.ID,
 		Name:     "The Ring of Power",
-		ItemType: "magical",
+		ItemType: "quest",
 		Rarity:   "legendary",
 		Equipped: false,
 		Quantity: 1,
@@ -1446,12 +1448,12 @@ func TestIntegrationExpandedWorldTables(t *testing.T) {
 
 	// Languages CRUD + ListLanguagesByFaction
 	lang, err := q.CreateLanguage(ctx, statedb.CreateLanguageParams{
-		CampaignID: camp.ID,
-		Name:       "Eldertongue",
-		Description: txt("Ancestral language"),
-		Phonology:  []byte(`{"vowels":["a","e"]}`),
-		Naming:     []byte(`{"pattern":"CV-CV"}`),
-		Vocabulary: []byte(`{"sun":"sol"}`),
+		CampaignID:         camp.ID,
+		Name:               "Eldertongue",
+		Description:        txt("Ancestral language"),
+		Phonology:          []byte(`{"vowels":["a","e"]}`),
+		Naming:             []byte(`{"pattern":"CV-CV"}`),
+		Vocabulary:         []byte(`{"sun":"sol"}`),
 		SpokenByFactionIds: []pgtype.UUID{faction.ID},
 	})
 	if err != nil {
@@ -1472,12 +1474,12 @@ func TestIntegrationExpandedWorldTables(t *testing.T) {
 		t.Error("ListLanguagesByCampaign: unexpected result")
 	}
 	updatedLang, err := q.UpdateLanguage(ctx, statedb.UpdateLanguageParams{
-		ID:         lang.ID,
-		Name:       "Modern Eldertongue",
-		Description: txt("Contemporary dialect"),
-		Phonology:  []byte(`{"vowels":["a","e","i"]}`),
-		Naming:     []byte(`{"pattern":"CVC"}`),
-		Vocabulary: []byte(`{"sun":"sol","moon":"luna"}`),
+		ID:                 lang.ID,
+		Name:               "Modern Eldertongue",
+		Description:        txt("Contemporary dialect"),
+		Phonology:          []byte(`{"vowels":["a","e","i"]}`),
+		Naming:             []byte(`{"pattern":"CVC"}`),
+		Vocabulary:         []byte(`{"sun":"sol","moon":"luna"}`),
 		SpokenByFactionIds: []pgtype.UUID{faction.ID},
 	})
 	if err != nil {
@@ -1760,7 +1762,7 @@ func TestIntegrationSessionLogs(t *testing.T) {
 		CampaignID:   camp.ID,
 		TurnNumber:   1,
 		PlayerInput:  "I attack the goblin",
-		InputType:    "action",
+		InputType:    "game_action",
 		LlmResponse:  "You swing your sword...",
 		LocationID:   loc.ID,
 		NpcsInvolved: []pgtype.UUID{npc.ID},
@@ -1776,7 +1778,7 @@ func TestIntegrationSessionLogs(t *testing.T) {
 		CampaignID:  camp.ID,
 		TurnNumber:  2,
 		PlayerInput: "I look around",
-		InputType:   "action",
+		InputType:   "game_action",
 		LlmResponse: "You see a dark cave...",
 		LocationID:  loc.ID,
 	})
@@ -1875,7 +1877,7 @@ func TestIntegrationForeignKeyConstraints(t *testing.T) {
 		_, err := q.CreateQuest(ctx, statedb.CreateQuestParams{
 			CampaignID: phantom,
 			Title:      "ghost quest",
-			QuestType:  "main",
+			QuestType:  "short_term",
 			Status:     "active",
 		})
 		if err == nil {
@@ -1929,4 +1931,279 @@ func TestIntegrationForeignKeyConstraints(t *testing.T) {
 			t.Fatal("expected FK violation for non-existent campaign_id, got nil")
 		}
 	})
+}
+
+// TestIntegrationMemories_EmptyResults verifies that similarity and filter searches
+// return empty slices (not errors) when no memories exist.
+func TestIntegrationMemories_EmptyResults(t *testing.T) {
+	ctx := context.Background()
+	q := newTx(t)
+	user := createUser(t, q, "empty-mem-user")
+	camp := createCampaign(t, q, user.ID)
+
+	// SearchMemoriesBySimilarity on campaign with zero memories.
+	results, err := q.SearchMemoriesBySimilarity(ctx, statedb.SearchMemoriesBySimilarityParams{
+		CampaignID:     camp.ID,
+		QueryEmbedding: makeVec(0),
+		LimitCount:     10,
+	})
+	if err != nil {
+		t.Fatalf("SearchMemoriesBySimilarity: %v", err)
+	}
+	if len(results) != 0 {
+		t.Errorf("SearchMemoriesBySimilarity: expected 0 results, got %d", len(results))
+	}
+
+	// SearchMemoriesWithFilters on campaign with zero memories.
+	filtered, err := q.SearchMemoriesWithFilters(ctx, statedb.SearchMemoriesWithFiltersParams{
+		CampaignID:     camp.ID,
+		QueryEmbedding: makeVec(0),
+		LimitCount:     10,
+	})
+	if err != nil {
+		t.Fatalf("SearchMemoriesWithFilters: %v", err)
+	}
+	if len(filtered) != 0 {
+		t.Errorf("SearchMemoriesWithFilters: expected 0 results, got %d", len(filtered))
+	}
+}
+
+// TestIntegrationMemories_LocationFilter verifies that the location_id filter
+// returns only memories associated with the requested location.
+func TestIntegrationMemories_LocationFilter(t *testing.T) {
+	ctx := context.Background()
+	q := newTx(t)
+	user := createUser(t, q, "loc-filter-user")
+	camp := createCampaign(t, q, user.ID)
+	locA := createLocation(t, q, camp.ID, "Location A")
+	locB := createLocation(t, q, camp.ID, "Location B")
+
+	mA, err := q.CreateMemory(ctx, statedb.CreateMemoryParams{
+		CampaignID: camp.ID,
+		Content:    "Event at location A",
+		Embedding:  makeVec(0),
+		MemoryType: "scene",
+		LocationID: locA.ID,
+	})
+	if err != nil {
+		t.Fatalf("CreateMemory (locA): %v", err)
+	}
+
+	mB, err := q.CreateMemory(ctx, statedb.CreateMemoryParams{
+		CampaignID: camp.ID,
+		Content:    "Event at location B",
+		Embedding:  makeVec(1),
+		MemoryType: "scene",
+		LocationID: locB.ID,
+	})
+	if err != nil {
+		t.Fatalf("CreateMemory (locB): %v", err)
+	}
+
+	// Filter by location A → only mA
+	resA, err := q.SearchMemoriesWithFilters(ctx, statedb.SearchMemoriesWithFiltersParams{
+		CampaignID:     camp.ID,
+		QueryEmbedding: makeVec(0),
+		LocationID:     locA.ID,
+		LimitCount:     10,
+	})
+	if err != nil {
+		t.Fatalf("SearchMemoriesWithFilters (locA): %v", err)
+	}
+	if len(resA) != 1 {
+		t.Fatalf("filter locA: expected 1 result, got %d", len(resA))
+	}
+	if resA[0].ID != mA.ID {
+		t.Errorf("filter locA: expected memory %v, got %v", mA.ID, resA[0].ID)
+	}
+
+	// Filter by location B → only mB
+	resB, err := q.SearchMemoriesWithFilters(ctx, statedb.SearchMemoriesWithFiltersParams{
+		CampaignID:     camp.ID,
+		QueryEmbedding: makeVec(1),
+		LocationID:     locB.ID,
+		LimitCount:     10,
+	})
+	if err != nil {
+		t.Fatalf("SearchMemoriesWithFilters (locB): %v", err)
+	}
+	if len(resB) != 1 {
+		t.Fatalf("filter locB: expected 1 result, got %d", len(resB))
+	}
+	if resB[0].ID != mB.ID {
+		t.Errorf("filter locB: expected memory %v, got %v", mB.ID, resB[0].ID)
+	}
+}
+
+// TestIntegrationMemories_TimeRangeFilter verifies that StartTime/EndTime filters
+// on created_at work correctly.
+func TestIntegrationMemories_TimeRangeFilter(t *testing.T) {
+	ctx := context.Background()
+	q := newTx(t)
+	user := createUser(t, q, "time-filter-user")
+	camp := createCampaign(t, q, user.ID)
+
+	_, err := q.CreateMemory(ctx, statedb.CreateMemoryParams{
+		CampaignID: camp.ID,
+		Content:    "Memory day 1",
+		Embedding:  makeVec(0),
+		MemoryType: "scene",
+		InGameTime: txt("day 1"),
+	})
+	if err != nil {
+		t.Fatalf("CreateMemory (day1): %v", err)
+	}
+
+	_, err = q.CreateMemory(ctx, statedb.CreateMemoryParams{
+		CampaignID: camp.ID,
+		Content:    "Memory day 5",
+		Embedding:  makeVec(1),
+		MemoryType: "scene",
+		InGameTime: txt("day 5"),
+	})
+	if err != nil {
+		t.Fatalf("CreateMemory (day5): %v", err)
+	}
+
+	pastTime := pgtype.Timestamptz{Time: time.Now().Add(-1 * time.Hour), Valid: true}
+	futureTime := pgtype.Timestamptz{Time: time.Now().Add(1 * time.Hour), Valid: true}
+	farFuture := pgtype.Timestamptz{Time: time.Now().Add(24 * time.Hour), Valid: true}
+
+	// past..future window includes both memories (created just now).
+	all, err := q.SearchMemoriesWithFilters(ctx, statedb.SearchMemoriesWithFiltersParams{
+		CampaignID:     camp.ID,
+		QueryEmbedding: makeVec(0),
+		StartTime:      pastTime,
+		EndTime:        futureTime,
+		LimitCount:     10,
+	})
+	if err != nil {
+		t.Fatalf("SearchMemoriesWithFilters (past..future): %v", err)
+	}
+	if len(all) != 2 {
+		t.Errorf("time range past..future: expected 2 results, got %d", len(all))
+	}
+
+	// future..farFuture window excludes all memories.
+	none, err := q.SearchMemoriesWithFilters(ctx, statedb.SearchMemoriesWithFiltersParams{
+		CampaignID:     camp.ID,
+		QueryEmbedding: makeVec(0),
+		StartTime:      futureTime,
+		EndTime:        farFuture,
+		LimitCount:     10,
+	})
+	if err != nil {
+		t.Fatalf("SearchMemoriesWithFilters (future..farFuture): %v", err)
+	}
+	if len(none) != 0 {
+		t.Errorf("time range future..farFuture: expected 0 results, got %d", len(none))
+	}
+}
+
+// TestIntegrationMemories_SimilarityOrdering verifies that cosine similarity search
+// returns results in ascending distance order and respects the limit.
+func TestIntegrationMemories_SimilarityOrdering(t *testing.T) {
+	ctx := context.Background()
+	q := newTx(t)
+	user := createUser(t, q, "sim-order-user")
+	camp := createCampaign(t, q, user.ID)
+
+	// Create 5 memories with orthogonal unit vectors at positions 0..4.
+	type memEntry struct {
+		idx int
+		id  pgtype.UUID
+	}
+	entries := make([]memEntry, 5)
+	for i := 0; i < 5; i++ {
+		m, err := q.CreateMemory(ctx, statedb.CreateMemoryParams{
+			CampaignID: camp.ID,
+			Content:    fmt.Sprintf("memory-%d", i),
+			Embedding:  makeVec(i),
+			MemoryType: "scene",
+		})
+		if err != nil {
+			t.Fatalf("CreateMemory(%d): %v", i, err)
+		}
+		entries[i] = memEntry{idx: i, id: m.ID}
+	}
+
+	// Query with makeVec(0), limit 3 — closest should be index 0 (distance ≈ 0).
+	res, err := q.SearchMemoriesBySimilarity(ctx, statedb.SearchMemoriesBySimilarityParams{
+		CampaignID:     camp.ID,
+		QueryEmbedding: makeVec(0),
+		LimitCount:     3,
+	})
+	if err != nil {
+		t.Fatalf("SearchMemoriesBySimilarity (vec0): %v", err)
+	}
+	if len(res) != 3 {
+		t.Fatalf("expected 3 results, got %d", len(res))
+	}
+	if res[0].ID != entries[0].id {
+		t.Errorf("first result should be memory-0, got content %q", res[0].Content)
+	}
+	if res[0].Distance > 1e-6 {
+		t.Errorf("expected distance ≈ 0 for exact match, got %f", res[0].Distance)
+	}
+	// Verify ascending distance order.
+	for i := 1; i < len(res); i++ {
+		if res[i].Distance < res[i-1].Distance {
+			t.Errorf("results not in ascending distance order: [%d]=%f < [%d]=%f",
+				i, res[i].Distance, i-1, res[i-1].Distance)
+		}
+	}
+
+	// Query with makeVec(2) — first result must be memory-2.
+	res2, err := q.SearchMemoriesBySimilarity(ctx, statedb.SearchMemoriesBySimilarityParams{
+		CampaignID:     camp.ID,
+		QueryEmbedding: makeVec(2),
+		LimitCount:     3,
+	})
+	if err != nil {
+		t.Fatalf("SearchMemoriesBySimilarity (vec2): %v", err)
+	}
+	if len(res2) < 1 {
+		t.Fatal("expected at least 1 result")
+	}
+	if res2[0].ID != entries[2].id {
+		t.Errorf("first result should be memory-2, got content %q", res2[0].Content)
+	}
+}
+
+// TestIntegrationMemories_MetadataRoundTrip verifies that JSON metadata survives
+// a store-then-retrieve cycle.
+func TestIntegrationMemories_MetadataRoundTrip(t *testing.T) {
+	ctx := context.Background()
+	q := newTx(t)
+	user := createUser(t, q, "meta-user")
+	camp := createCampaign(t, q, user.ID)
+
+	meta := []byte(`{"key":"value","nested":{"n":42}}`)
+
+	m, err := q.CreateMemory(ctx, statedb.CreateMemoryParams{
+		CampaignID: camp.ID,
+		Content:    "memory with metadata",
+		Embedding:  makeVec(0),
+		MemoryType: "scene",
+		Metadata:   meta,
+	})
+	if err != nil {
+		t.Fatalf("CreateMemory: %v", err)
+	}
+
+	got, err := q.GetMemoryByID(ctx, m.ID)
+	if err != nil {
+		t.Fatalf("GetMemoryByID: %v", err)
+	}
+	// JSONB normalises whitespace; compare semantically via compact form.
+	var wantBuf, gotBuf bytes.Buffer
+	if err := json.Compact(&wantBuf, meta); err != nil {
+		t.Fatalf("compact want: %v", err)
+	}
+	if err := json.Compact(&gotBuf, got.Metadata); err != nil {
+		t.Fatalf("compact got: %v", err)
+	}
+	if wantBuf.String() != gotBuf.String() {
+		t.Errorf("metadata mismatch:\n  want: %s\n  got:  %s", wantBuf.String(), gotBuf.String())
+	}
 }

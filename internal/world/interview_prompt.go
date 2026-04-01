@@ -1,9 +1,7 @@
 package world
 
-import _ "embed"
+import "github.com/PatrickFanella/game-master/internal/prompt"
 
-// interviewPrompt is the system prompt that instructs the LLM how to conduct
-// the campaign-creation interview.
-//
-//go:embed interview_prompt.txt
-var interviewPrompt string
+// interviewPrompt is the system prompt for the campaign-creation interview,
+// sourced from the consolidated prompt package.
+var interviewPrompt = prompt.CharacterInterview
