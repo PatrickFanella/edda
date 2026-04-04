@@ -1,16 +1,11 @@
 // Package tui – launcher model.
-//
-// Launcher is the initial Bubble Tea model. It:
-//  1. Connects to the database and runs the bootstrap sequence
-//     (creates the default "Player" user if missing).
-//  2. Displays the campaign-selection view.
-//  3. After the player chooses (or creates) a campaign it loads the campaign
-//     in the engine and transitions to the main App.
 package tui
 
 import (
 	"context"
 	"fmt"
+	"log/slog"
+	"strings"
 
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
@@ -20,15 +15,13 @@ import (
 	"github.com/PatrickFanella/game-master/internal/config"
 	"github.com/PatrickFanella/game-master/internal/dbutil"
 	"github.com/PatrickFanella/game-master/internal/engine"
+	"github.com/PatrickFanella/game-master/internal/llm"
 	"github.com/PatrickFanella/game-master/internal/logging"
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"github.com/PatrickFanella/game-master/internal/world"
 	"github.com/PatrickFanella/game-master/tui/campaign"
 	"github.com/PatrickFanella/game-master/tui/styles"
 )
-
-// ---------------------------------------------------------------------------
-// Messages
-// ---------------------------------------------------------------------------
 
 // bootstrapDoneMsg carries the result of the DB bootstrap step.
 type bootstrapDoneMsg struct {
@@ -36,10 +29,16 @@ type bootstrapDoneMsg struct {
 	err    error
 }
 
-// campaignCreatedMsg is sent after a new campaign has been persisted.
-type campaignCreatedMsg struct {
-	c   statedb.Campaign
-	err error
+// proposalsGeneratedMsg carries generated campaign proposals.
+type proposalsGeneratedMsg struct {
+	proposals []world.CampaignProposal
+	err       error
+}
+
+// campaignNamedMsg carries a generated campaign name.
+type campaignNamedMsg struct {
+	name string
+	err  error
 }
 
 // campaignLoadedMsg is sent after a campaign has been loaded in the engine.
@@ -48,30 +47,46 @@ type campaignLoadedMsg struct {
 	err error
 }
 
-// ---------------------------------------------------------------------------
-// Launcher
-// ---------------------------------------------------------------------------
-
 // launcherState is the internal phase of the Launcher model.
 type launcherState int
 
 const (
-	launcherLoading         launcherState = iota // running DB bootstrap
-	launcherSelecting                            // showing campaign-selection list
-	launcherCreating                             // creating a new campaign in the DB
-	launcherLoadingCampaign                      // loading selected campaign into engine
+	launcherLoading launcherState = iota
+	launcherSelecting
+	launcherChooseMethod
+	launcherInterviewing
+	launcherAttributes
+	launcherGeneratingProposals
+	launcherProposals
+	launcherGeneratingName
+	launcherCharMethod
+	launcherCharInterview
+	launcherCharForm
+	launcherConfirmation
+	launcherWorldBuilding
+	launcherLoadingCampaign
 )
 
-// Launcher is the root Bubble Tea model during start-up.
+// Launcher is the root Bubble Tea model during start-up and campaign creation.
 type Launcher struct {
-	cfg     config.Config
-	ctx     context.Context
-	engine  engine.GameEngine
-	queries statedb.Querier
-	logBuf  *logging.RingBuffer
-	user    statedb.User
-	state   launcherState
-	picker  campaign.Model
+	cfg      config.Config
+	ctx      context.Context
+	engine   engine.GameEngine
+	queries  statedb.Querier
+	provider llm.Provider
+	logBuf   *logging.RingBuffer
+
+	user  statedb.User
+	state launcherState
+	view  View
+
+	campaignProfile  *world.CampaignProfile
+	characterProfile *world.CharacterProfile
+	proposalAttrs    campaign.AttributesReadyMsg
+	campaignName     string
+	campaignSummary  string
+	openingScene     *world.SceneResult
+
 	spinner spinner.Model
 	errMsg  string
 	width   int
@@ -86,9 +101,12 @@ func WithLogBuffer(buf *logging.RingBuffer) LauncherOption {
 	return func(l *Launcher) { l.logBuf = buf }
 }
 
-// NewLauncher creates the Launcher model. ctx is used for all DB operations so
-// they can be cancelled on SIGTERM/ctrl+c. queries must already be open and
-// ready.
+// WithLLMProvider attaches the LLM provider used by the creation wizard.
+func WithLLMProvider(provider llm.Provider) LauncherOption {
+	return func(l *Launcher) { l.provider = provider }
+}
+
+// NewLauncher creates the Launcher model.
 func NewLauncher(cfg config.Config, ctx context.Context, queries statedb.Querier) Launcher {
 	return NewLauncherWithEngine(cfg, ctx, queries, nil)
 }
@@ -98,6 +116,7 @@ func NewLauncherWithEngine(cfg config.Config, ctx context.Context, queries state
 	sp := spinner.New()
 	sp.Spinner = spinner.Dot
 	sp.Style = lipgloss.NewStyle().Foreground(styles.ColorAccent)
+
 	l := Launcher{
 		cfg:     cfg,
 		ctx:     ctx,
@@ -112,7 +131,11 @@ func NewLauncherWithEngine(cfg config.Config, ctx context.Context, queries state
 	return l
 }
 
-// Init implements tea.Model.  It fires the DB bootstrap command immediately.
+func (l Launcher) logger() *slog.Logger {
+	return slog.Default().WithGroup("launcher")
+}
+
+// Init implements tea.Model.
 func (l Launcher) Init() tea.Cmd {
 	return tea.Batch(l.spinner.Tick, l.runBootstrap())
 }
@@ -120,14 +143,13 @@ func (l Launcher) Init() tea.Cmd {
 // Update implements tea.Model.
 func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
-
 	case tea.WindowSizeMsg:
 		l.width = msg.Width
 		l.height = msg.Height
-		// Only resize the picker when it has been initialised.
-		if l.state == launcherSelecting {
-			l.picker.SetSize(msg.Width, msg.Height)
+		if l.view != nil {
+			l.view.SetSize(msg.Width, msg.Height)
 		}
+		return l, nil
 
 	case tea.KeyMsg:
 		if msg.Type == tea.KeyCtrlC {
@@ -135,64 +157,197 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 	case spinner.TickMsg:
-		// Only advance the spinner while it is actually visible (loading or
-		// creating/loading-campaign states). In the selecting state the spinner is not shown so
-		// we drop the tick to avoid a perpetual background tick loop.
-		if l.state == launcherLoading || l.state == launcherCreating || l.state == launcherLoadingCampaign {
+		if l.usesRootSpinner() {
 			var cmd tea.Cmd
 			l.spinner, cmd = l.spinner.Update(msg)
 			return l, cmd
 		}
-		return l, nil
 
 	case bootstrapDoneMsg:
 		if msg.err != nil {
 			l.errMsg = fmt.Sprintf("Bootstrap failed: %v", msg.err)
+			l.state = launcherLoading
+			l.view = nil
 			return l, nil
 		}
-		l.errMsg = ""
 		l.user = msg.result.User
-		campaigns := msg.result.Campaigns
-		l.picker = campaign.New(campaigns)
-		l.picker.SetSize(l.width, l.height)
-		l.state = launcherSelecting
-		return l, nil
+		l.logger().Info("bootstrap complete", "campaigns", len(msg.result.Campaigns), "user", msg.result.User.Name)
+		picker := campaign.NewPicker(msg.result.Campaigns)
+		return l.activateView(launcherSelecting, &picker)
 
 	case campaign.SelectedMsg:
 		l.errMsg = ""
+		l.openingScene = nil
+		l.logger().Info("loading existing campaign", "campaign_id", dbutil.FromPgtype(msg.Campaign.ID), "campaign", msg.Campaign.Name)
 		l.state = launcherLoadingCampaign
+		l.view = nil
 		return l, tea.Batch(l.spinner.Tick, l.runLoadCampaign(msg.Campaign))
 
-	case campaign.NewCampaignFormMsg:
+	case campaign.NewCampaignMsg:
+		l.resetCreationState()
 		l.errMsg = ""
-		l.state = launcherCreating
-		return l, tea.Batch(l.spinner.Tick, l.runCreateCampaign(msg.Result))
+		l.logger().Info("starting new campaign wizard")
+		method := campaign.NewMethodModel()
+		return l.activateView(launcherChooseMethod, &method)
 
-	case campaignCreatedMsg:
+	case campaign.MethodChosenMsg:
+		l.errMsg = ""
+		l.logger().Info("campaign creation method chosen", "method", creationMethodLabel(msg.Method))
+		switch msg.Method {
+		case campaign.MethodDescribe:
+			if l.provider == nil {
+				l.errMsg = "LLM provider unavailable"
+				return l, nil
+			}
+			iv := campaign.NewInterviewModel(l.ctx, l.provider)
+			return l.activateView(launcherInterviewing, &iv)
+		case campaign.MethodAttributes:
+			attrs := campaign.NewAttributesModelWithValues(l.proposalAttrs.Genre, l.proposalAttrs.SettingStyle, l.proposalAttrs.Tone)
+			return l.activateView(launcherAttributes, &attrs)
+		}
+
+	case campaign.ProfileReadyMsg:
+		profile := msg.Profile
+		l.campaignProfile = &profile
+		l.campaignSummary = summarizeCampaignProfile(profile)
+		l.state = launcherGeneratingName
+		l.view = nil
+		return l, tea.Batch(l.spinner.Tick, l.runGenerateCampaignName(&profile))
+
+	case campaignNamedMsg:
 		if msg.err != nil {
-			l.errMsg = fmt.Sprintf("Create campaign failed: %v", msg.err)
-			l.state = launcherSelecting
+			l.errMsg = fmt.Sprintf("Generate campaign name failed: %v", msg.err)
+			method := campaign.NewMethodModel()
+			return l.activateView(launcherChooseMethod, &method)
+		}
+		l.campaignName = msg.name
+		l.errMsg = ""
+		charMethod := campaign.NewCharMethodModel()
+		return l.activateView(launcherCharMethod, &charMethod)
+
+	case campaign.AttributesReadyMsg:
+		if l.provider == nil {
+			l.errMsg = "LLM provider unavailable"
+			return l, nil
+		}
+		l.proposalAttrs = msg
+		l.logger().Info("generating campaign proposals", "genre", msg.Genre, "setting_style", msg.SettingStyle, "tone", msg.Tone)
+		l.errMsg = ""
+		l.state = launcherGeneratingProposals
+		l.view = nil
+		return l, tea.Batch(l.spinner.Tick, l.runGenerateProposals(msg))
+
+	case proposalsGeneratedMsg:
+		if msg.err != nil {
+			l.errMsg = fmt.Sprintf("Generate proposals failed: %v", msg.err)
+			l.logger().Error("campaign proposal generation failed",
+				"genre", l.proposalAttrs.Genre,
+				"setting_style", l.proposalAttrs.SettingStyle,
+				"tone", l.proposalAttrs.Tone,
+				"error", msg.err,
+			)
+			attrs := campaign.NewAttributesModelWithState(l.proposalAttrs.Genre, l.proposalAttrs.SettingStyle, l.proposalAttrs.Tone, l.errMsg)
+			return l.activateView(launcherAttributes, &attrs)
+		}
+		l.errMsg = ""
+		l.logger().Info("campaign proposals generated", "count", len(msg.proposals))
+		proposals := campaign.NewProposalsModel(msg.proposals)
+		return l.activateView(launcherProposals, &proposals)
+
+	case campaign.ProposalSelectedMsg:
+		proposal := msg.Proposal
+		l.campaignProfile = &proposal.Profile
+		l.campaignName = proposal.Name
+		l.campaignSummary = proposal.Summary
+		l.errMsg = ""
+		l.logger().Info("campaign proposal selected", "campaign", proposal.Name)
+		charMethod := campaign.NewCharMethodModel()
+		return l.activateView(launcherCharMethod, &charMethod)
+
+	case campaign.CharMethodChosenMsg:
+		l.errMsg = ""
+		switch msg.Method {
+		case campaign.MethodDescribe:
+			if l.provider == nil {
+				l.errMsg = "LLM provider unavailable"
+				return l, nil
+			}
+			if l.campaignProfile == nil {
+				l.errMsg = "Campaign profile missing"
+				method := campaign.NewMethodModel()
+				return l.activateView(launcherChooseMethod, &method)
+			}
+			iv := campaign.NewCharInterviewModel(l.ctx, l.provider, l.campaignProfile)
+			return l.activateView(launcherCharInterview, &iv)
+		case campaign.MethodAttributes:
+			form := campaign.NewCharFormModel()
+			return l.activateView(launcherCharForm, &form)
+		}
+
+	case campaign.CharacterReadyMsg:
+		profile := msg.Profile
+		l.characterProfile = &profile
+		if l.campaignProfile == nil {
+			l.errMsg = "Campaign profile missing"
+			method := campaign.NewMethodModel()
+			return l.activateView(launcherChooseMethod, &method)
+		}
+		confirm := campaign.NewConfirmationModel(l.campaignName, l.campaignSummary, *l.campaignProfile, profile)
+		return l.activateView(launcherConfirmation, &confirm)
+
+	case campaign.ChangeMsg:
+		l.errMsg = ""
+		charMethod := campaign.NewCharMethodModel()
+		return l.activateView(launcherCharMethod, &charMethod)
+
+	case campaign.ConfirmedMsg:
+		if l.provider == nil {
+			l.errMsg = "LLM provider unavailable"
 			return l, nil
 		}
 		l.errMsg = ""
+		profile := msg.Profile
+		characterProfile := msg.CharacterProfile
+		l.campaignProfile = &profile
+		l.characterProfile = &characterProfile
+		l.campaignName = msg.Name
+		l.campaignSummary = msg.Summary
+		l.logger().Info("building new campaign world", "campaign", msg.Name)
+		wb := campaign.NewWorldBuildModel(l.ctx, world.NewOrchestrator(l.provider, l.queries), world.OrchestratorInput{
+			Name:             msg.Name,
+			Summary:          msg.Summary,
+			Profile:          &profile,
+			CharacterProfile: &characterProfile,
+			UserID:           dbutil.FromPgtype(l.user.ID),
+		})
+		return l.activateView(launcherWorldBuilding, &wb)
+
+	case campaign.WorldReadyMsg:
+		l.errMsg = ""
+		l.openingScene = msg.Result.Scene
+		l.logger().Info("world build complete", "campaign_id", dbutil.FromPgtype(msg.Result.Campaign.ID), "campaign", msg.Result.Campaign.Name)
 		l.state = launcherLoadingCampaign
-		return l, tea.Batch(l.spinner.Tick, l.runLoadCampaign(msg.c))
+		l.view = nil
+		return l, tea.Batch(l.spinner.Tick, l.runLoadCampaign(msg.Result.Campaign))
+
+	case campaign.WorldErrorMsg:
+		return l.reloadPicker(fmt.Sprintf("World building failed: %v", msg.Err))
+
+	case campaign.BackMsg:
+		return l.handleBack()
 
 	case campaignLoadedMsg:
 		if msg.err != nil {
-			l.errMsg = fmt.Sprintf("Load campaign failed: %v", msg.err)
-			l.state = launcherSelecting
-			return l, nil
+			return l.reloadPicker(fmt.Sprintf("Load campaign failed: %v", msg.err))
 		}
-		l.errMsg = ""
-		return l.transitionToApp(msg.c)
+		return l.transitionToApp(msg.c, l.openingScene)
 	}
 
-	// Forward messages to the campaign picker when it's active.
-	if l.state == launcherSelecting {
-		updated, cmd := l.picker.Update(msg)
-		if m, ok := updated.(campaign.Model); ok {
-			l.picker = m
+	if l.view != nil {
+		updated, cmd := l.view.Update(msg)
+		if next := normalizeLauncherView(updated); next != nil {
+			next.SetSize(l.width, l.height)
+			l.view = next
 		}
 		return l, cmd
 	}
@@ -203,32 +358,88 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 // View implements tea.Model.
 func (l Launcher) View() string {
 	switch l.state {
-	case launcherSelecting:
-		if l.errMsg != "" {
-			return styles.JoinVertical(
-				styles.StatusError.Render("⚠  "+l.errMsg),
-				l.picker.View(),
-			)
-		}
-		return l.picker.View()
-
-	case launcherCreating:
-		return l.loadingView("Creating campaign…")
-
-	case launcherLoadingCampaign:
-		return l.loadingView("Loading campaign…")
-
-	default: // launcherLoading
+	case launcherLoading:
 		if l.errMsg != "" {
 			return styles.StatusError.Render("⚠  " + l.errMsg)
 		}
 		return l.loadingView("Connecting to database…")
+	case launcherGeneratingProposals:
+		return l.loadingView("Drafting campaign proposals…")
+	case launcherGeneratingName:
+		return l.loadingView("Naming your campaign…")
+	case launcherLoadingCampaign:
+		return l.loadingView("Loading campaign…")
+	}
+
+	if l.view == nil {
+		return ""
+	}
+	if l.errMsg == "" {
+		return l.view.View()
+	}
+	return styles.JoinVertical(
+		styles.StatusError.Render("⚠  "+l.errMsg),
+		l.view.View(),
+	)
+}
+
+func (l Launcher) usesRootSpinner() bool {
+	switch l.state {
+	case launcherLoading, launcherGeneratingProposals, launcherGeneratingName, launcherLoadingCampaign:
+		return true
+	default:
+		return false
 	}
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
+func (l Launcher) activateView(state launcherState, view View) (Launcher, tea.Cmd) {
+	l.state = state
+	l.view = view
+	if view != nil {
+		view.SetSize(l.width, l.height)
+		return l, view.Init()
+	}
+	return l, nil
+}
+
+func (l Launcher) handleBack() (tea.Model, tea.Cmd) {
+	l.errMsg = ""
+	switch l.state {
+	case launcherChooseMethod:
+		return l.reloadPicker("")
+	case launcherInterviewing, launcherAttributes:
+		method := campaign.NewMethodModel()
+		return l.activateView(launcherChooseMethod, &method)
+	case launcherProposals:
+		attrs := campaign.NewAttributesModelWithValues(l.proposalAttrs.Genre, l.proposalAttrs.SettingStyle, l.proposalAttrs.Tone)
+		return l.activateView(launcherAttributes, &attrs)
+	case launcherCharMethod:
+		method := campaign.NewMethodModel()
+		return l.activateView(launcherChooseMethod, &method)
+	case launcherCharInterview, launcherCharForm, launcherConfirmation:
+		charMethod := campaign.NewCharMethodModel()
+		return l.activateView(launcherCharMethod, &charMethod)
+	default:
+		return l, nil
+	}
+}
+
+func (l Launcher) reloadPicker(errMsg string) (tea.Model, tea.Cmd) {
+	l.errMsg = errMsg
+	l.state = launcherLoading
+	l.view = nil
+	l.openingScene = nil
+	return l, tea.Batch(l.spinner.Tick, l.runBootstrap())
+}
+
+func (l *Launcher) resetCreationState() {
+	l.campaignProfile = nil
+	l.characterProfile = nil
+	l.proposalAttrs = campaign.AttributesReadyMsg{}
+	l.campaignName = ""
+	l.campaignSummary = ""
+	l.openingScene = nil
+}
 
 // loadingView renders a centred spinner with a message.
 func (l Launcher) loadingView(msg string) string {
@@ -240,13 +451,14 @@ func (l Launcher) loadingView(msg string) string {
 }
 
 // transitionToApp creates the main App model and returns it as the new model.
-func (l Launcher) transitionToApp(c statedb.Campaign) (tea.Model, tea.Cmd) {
+func (l Launcher) transitionToApp(c statedb.Campaign, scene *world.SceneResult) (tea.Model, tea.Cmd) {
 	app := NewAppWithEngine(l.cfg, c, l.ctx, l.engine, l.logBuf)
+	app.seedOpeningScene(scene)
+	l.openingScene = nil
 	return app, app.Init()
 }
 
 // runBootstrap returns a tea.Cmd that runs the DB bootstrap asynchronously.
-// It uses the launcher's context so the operation is cancelled on shutdown.
 func (l Launcher) runBootstrap() tea.Cmd {
 	ctx := l.ctx
 	queries := l.queries
@@ -256,15 +468,22 @@ func (l Launcher) runBootstrap() tea.Cmd {
 	}
 }
 
-// runCreateCampaign returns a tea.Cmd that creates a new campaign in the DB.
-// It uses the launcher's context so the operation is cancelled on shutdown.
-func (l Launcher) runCreateCampaign(result campaign.CampaignFormResult) tea.Cmd {
+func (l Launcher) runGenerateProposals(attrs campaign.AttributesReadyMsg) tea.Cmd {
 	ctx := l.ctx
-	queries := l.queries
-	userID := l.user.ID
+	provider := l.provider
 	return func() tea.Msg {
-		c, err := bootstrap.CreateCampaign(ctx, queries, userID, result.Name, result.Genre)
-		return campaignCreatedMsg{c: c, err: err}
+		generator := world.NewProposalGenerator(provider)
+		proposals, err := generator.Generate(ctx, attrs.Genre, attrs.SettingStyle, attrs.Tone)
+		return proposalsGeneratedMsg{proposals: proposals, err: err}
+	}
+}
+
+func (l Launcher) runGenerateCampaignName(profile *world.CampaignProfile) tea.Cmd {
+	ctx := l.ctx
+	provider := l.provider
+	return func() tea.Msg {
+		name, err := world.GenerateCampaignName(ctx, provider, profile)
+		return campaignNamedMsg{name: name, err: err}
 	}
 }
 
@@ -279,5 +498,86 @@ func (l Launcher) runLoadCampaign(c statedb.Campaign) tea.Cmd {
 		}
 		err := gameEngine.LoadCampaign(ctx, dbutil.FromPgtype(c.ID))
 		return campaignLoadedMsg{c: c, err: err}
+	}
+}
+
+func summarizeCampaignProfile(profile world.CampaignProfile) string {
+	parts := make([]string, 0, 5)
+	if profile.Tone != "" || profile.Genre != "" {
+		parts = append(parts, strings.TrimSpace(profile.Tone+" "+profile.Genre))
+	}
+	if len(profile.Themes) > 0 {
+		parts = append(parts, "themes of "+strings.Join(profile.Themes, ", "))
+	}
+	if profile.WorldType != "" {
+		parts = append(parts, "set in a "+profile.WorldType+" world")
+	}
+	if profile.DangerLevel != "" {
+		parts = append(parts, "with "+profile.DangerLevel+" danger")
+	}
+	if profile.PoliticalComplexity != "" {
+		parts = append(parts, "and "+profile.PoliticalComplexity+" politics")
+	}
+	if len(parts) == 0 {
+		return "A new adventure awaits."
+	}
+	return strings.TrimSpace(strings.Join(parts, " ")) + "."
+}
+
+func normalizeLauncherView(model tea.Model) View {
+	switch v := model.(type) {
+	case campaign.Picker:
+		return &v
+	case *campaign.Picker:
+		return v
+	case campaign.MethodModel:
+		return &v
+	case *campaign.MethodModel:
+		return v
+	case campaign.InterviewModel:
+		return &v
+	case *campaign.InterviewModel:
+		return v
+	case campaign.AttributesModel:
+		return &v
+	case *campaign.AttributesModel:
+		return v
+	case campaign.ProposalsModel:
+		return &v
+	case *campaign.ProposalsModel:
+		return v
+	case campaign.CharMethodModel:
+		return &v
+	case *campaign.CharMethodModel:
+		return v
+	case campaign.CharInterviewModel:
+		return &v
+	case *campaign.CharInterviewModel:
+		return v
+	case campaign.CharFormModel:
+		return &v
+	case *campaign.CharFormModel:
+		return v
+	case campaign.ConfirmationModel:
+		return &v
+	case *campaign.ConfirmationModel:
+		return v
+	case campaign.WorldBuildModel:
+		return &v
+	case *campaign.WorldBuildModel:
+		return v
+	default:
+		return nil
+	}
+}
+
+func creationMethodLabel(method campaign.CreationMethod) string {
+	switch method {
+	case campaign.MethodDescribe:
+		return "describe"
+	case campaign.MethodAttributes:
+		return "attributes"
+	default:
+		return "unknown"
 	}
 }

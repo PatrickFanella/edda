@@ -20,13 +20,13 @@ import (
 func main() {
 	filePath := flag.String("file", ".logs/game-master.jsonl", "path to JSONL log file")
 	levelStr := flag.String("level", "debug", "minimum log level: debug, info, warn, error")
-	serviceCSV := flag.String("service", "", "comma-separated service filter (empty = all)")
+	var serviceArgs multiValueFlag
+	flag.Var(&serviceArgs, "service", "service filter; repeat or comma-separate values (empty = all)")
 	history := flag.Int("history", 0, "number of historical lines to show before tailing (0 = skip to end)")
 	flag.Parse()
 
 	minLevel := parseLevel(*levelStr)
-	services := parseServices(*serviceCSV)
-
+	services := parseServices(serviceArgs)
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
@@ -168,17 +168,36 @@ func parseLevel(s string) slog.Level {
 	}
 }
 
-func parseServices(csv string) map[string]bool {
-	csv = strings.TrimSpace(csv)
-	if csv == "" {
+type multiValueFlag []string
+
+func (f *multiValueFlag) String() string {
+	if f == nil {
+		return ""
+	}
+	return strings.Join(*f, ",")
+}
+
+func (f *multiValueFlag) Set(value string) error {
+	*f = append(*f, value)
+	return nil
+}
+
+func parseServices(values []string) map[string]bool {
+	if len(values) == 0 {
 		return nil
 	}
 	m := make(map[string]bool)
-	for _, s := range strings.Split(csv, ",") {
-		s = strings.TrimSpace(s)
-		if s != "" {
-			m[s] = true
+	for _, value := range values {
+		for _, service := range strings.Split(value, ",") {
+			service = strings.ToLower(strings.TrimSpace(service))
+			if service == "" {
+				continue
+			}
+			m[service] = true
 		}
+	}
+	if len(m) == 0 {
+		return nil
 	}
 	return m
 }
@@ -187,7 +206,7 @@ func passesFilter(entry logging.LogEntry, minLevel slog.Level, services map[stri
 	if entry.Level < minLevel {
 		return false
 	}
-	if len(services) > 0 && !services[entry.Service] {
+	if len(services) > 0 && !services[strings.ToLower(entry.Service)] {
 		return false
 	}
 	return true

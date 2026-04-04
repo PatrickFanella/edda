@@ -15,9 +15,11 @@ import (
 // LLMProvider is an alias for the provider interface used by the game engine.
 type LLMProvider = Provider
 
-const ollamaTagsPath = "api/tags"
-const ollamaHealthCheckTimeout = 3 * time.Second
-const ollamaHealthCheckErrorBodyLimit = 512
+const (
+	ollamaTagsPath                  = "api/tags"
+	ollamaHealthCheckTimeout        = 3 * time.Second
+	ollamaHealthCheckErrorBodyLimit = 512
+)
 
 // NewLLMProvider constructs the configured LLM provider implementation.
 func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
@@ -26,7 +28,7 @@ func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
 		if err := validateOllamaEndpoint(cfg.LLM.Ollama.Endpoint); err != nil {
 			return nil, err
 		}
-		return NewOllamaClient(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model), nil
+		return NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()), nil
 	case "claude":
 		if strings.TrimSpace(cfg.LLM.Claude.APIKey) == "" {
 			return nil, errors.New("claude provider unavailable: missing api key (set llm.claude.apikey, GM_LLM_CLAUDE_APIKEY, GM_CLAUDE_API_KEY, or ANTHROPIC_API_KEY)")

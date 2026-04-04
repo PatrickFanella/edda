@@ -1,7 +1,4 @@
-// Package campaign provides the campaign-selection TUI view used during
-// Game Master start-up. It presents a list of existing campaigns plus a
-// "New campaign" option; when "New campaign" is selected, it shows a multi-step
-// Huh form that collects campaign name, genre, and difficulty before proceeding.
+// Package campaign provides the campaign-selection and creation wizard TUI views.
 package campaign
 
 import (
@@ -10,20 +7,12 @@ import (
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/huh"
-	"github.com/charmbracelet/lipgloss"
 
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
 	"github.com/PatrickFanella/game-master/tui/styles"
 )
 
 const newCampaignSentinel = "__new__"
-
-// SelectedMsg is sent when the player has chosen a campaign. Campaign
-// carries the full selected campaign record (including its ID, name, etc.).
-type SelectedMsg struct {
-	Campaign statedb.Campaign
-}
 
 // item wraps a campaign row for use in the bubbles list.
 type item struct {
@@ -36,19 +25,19 @@ func (i item) Title() string       { return i.name }
 func (i item) Description() string { return i.desc }
 func (i item) FilterValue() string { return i.name }
 
-// Model is the Bubble Tea model for campaign selection.
-type Model struct {
+// Picker is the Bubble Tea model for campaign selection. It shows existing
+// campaigns plus a "New Campaign" sentinel. It emits SelectedMsg when an
+// existing campaign is chosen or NewCampaignMsg for new creation.
+type Picker struct {
 	campaigns []statedb.Campaign
 	list      list.Model
-	form       *huh.Form          // non-nil when "New campaign" form is open
-	formResult CampaignFormResult  // values collected by the form
 	width     int
 	height    int
 }
 
-// New builds the campaign-selection model from the provided campaigns.
+// NewPicker builds the campaign-selection model from the provided campaigns.
 // The "New campaign" option is always appended to the end of the list.
-func New(campaigns []statedb.Campaign) Model {
+func NewPicker(campaigns []statedb.Campaign) Picker {
 	items := make([]list.Item, 0, len(campaigns)+1)
 	for _, c := range campaigns {
 		desc := formatCampaignDescription(c)
@@ -78,14 +67,14 @@ func New(campaigns []statedb.Campaign) Model {
 	l.SetShowStatusBar(false)
 	l.SetFilteringEnabled(false)
 
-	return Model{
+	return Picker{
 		campaigns: campaigns,
 		list:      l,
 	}
 }
 
 // SetSize implements tui.View.
-func (m *Model) SetSize(width, height int) {
+func (m *Picker) SetSize(width, height int) {
 	m.width = width
 	m.height = height
 	listWidth := width - 4
@@ -97,32 +86,13 @@ func (m *Model) SetSize(width, height int) {
 		listHeight = 0
 	}
 	m.list.SetSize(listWidth, listHeight)
-	if m.form != nil {
-		m.form = m.form.WithWidth(width)
-	}
 }
 
 // Init implements tea.Model.
-func (m Model) Init() tea.Cmd { return nil }
+func (m Picker) Init() tea.Cmd { return nil }
 
 // Update implements tea.Model.
-func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	if m.form != nil {
-		return m.updateForm(msg)
-	}
-	return m.updateList(msg)
-}
-
-// View implements tea.Model.
-func (m Model) View() string {
-	if m.form != nil {
-		return m.renderForm()
-	}
-	return m.renderList()
-}
-
-// updateList processes messages while the campaign list is visible.
-func (m Model) updateList(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m Picker) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		if msg.Type == tea.KeyEnter {
@@ -131,10 +101,8 @@ func (m Model) updateList(msg tea.Msg) (tea.Model, tea.Cmd) {
 				return m, nil
 			}
 			if selected.id == newCampaignSentinel {
-				m.form = buildCampaignForm(&m.formResult)
-				return m, m.form.Init()
+				return m, func() tea.Msg { return NewCampaignMsg{} }
 			}
-			// Find the matching campaign and emit SelectedMsg.
 			for _, c := range m.campaigns {
 				if c.ID.String() == selected.id {
 					return m, func() tea.Msg { return SelectedMsg{Campaign: c} }
@@ -149,57 +117,14 @@ func (m Model) updateList(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, cmd
 }
 
-// updateForm processes messages while the "new campaign" name form is open.
-func (m Model) updateForm(msg tea.Msg) (tea.Model, tea.Cmd) {
-	form, cmd := m.form.Update(msg)
-	if f, ok := form.(*huh.Form); ok {
-		m.form = f
-	}
-	if m.form.State == huh.StateCompleted {
-		result := m.formResult
-		result.Name = strings.TrimSpace(result.Name)
-		m.form = nil
-		return m, func() tea.Msg { return NewCampaignFormMsg{Result: result} }
-	}
-	if m.form.State == huh.StateAborted {
-		m.form = nil
-	}
-	return m, cmd
-}
-
-// renderList renders the campaign list.
-func (m Model) renderList() string {
+// View implements tea.Model.
+func (m Picker) View() string {
 	inner := m.list.View()
 	return styles.Container.
 		Width(m.width).
 		Height(m.height).
 		Render(inner)
 }
-
-// renderForm renders the new-campaign name form.
-func (m Model) renderForm() string {
-	title := styles.Header.Render("✦ New Campaign")
-	hint := styles.Muted.Render("Enter a name for your new adventure, then press Enter.")
-
-	formView := m.form.View()
-
-	content := styles.JoinVertical(title, "", hint, "", formView)
-
-	// Account for horizontal padding (2 on each side) and clamp to avoid
-	// negative widths in very small terminals.
-	innerWidth := m.width - 4
-	if innerWidth < 0 {
-		innerWidth = 0
-	}
-	return styles.FocusedContainer.
-		Width(m.width).
-		Height(m.height).
-		Render(lipgloss.NewStyle().
-			Padding(1, 2).
-			Width(innerWidth).
-			Render(content))
-}
-
 
 func formatCampaignDescription(c statedb.Campaign) string {
 	genre := "Unknown genre"

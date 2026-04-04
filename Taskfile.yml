@@ -6,17 +6,54 @@ vars:
 
 
 tasks:
-  dev:
-    desc: Start local Postgres, run migrations, then launch the TUI using .env settings
+  db:up:
+    desc: Start Postgres and run migrations
     cmds:
-      - set -a && . ./.env && set +a && export DATABASE_URL="${DATABASE_URL:-$GM_DB_URL}" && (docker start game-master-postgres || docker compose up -d postgres) && task migrate && go run ./cmd/tui
+      - docker start game-master-postgres || docker compose up -d postgres
+      - task migrate
+    env:
+      DATABASE_URL: '{{.DATABASE_URL}}'
 
-  dev:app-logs:
-    desc: Start local Postgres, run migrations, then launch the TUI with app stderr captured to a log file
+  dev:server:
+    desc: Start the API backend server
+    deps: [db:up]
+    cmds:
+      - set -a && . ./.env && set +a && go run ./cmd/server
+
+  dev:web:
+    desc: Start the API server and Vite frontend dev server
+    deps: [db:up]
+    cmds:
+      - set -a && . ./.env && set +a && go run ./cmd/server &
+      - pnpm --dir frontend dev
+
+  dev:tui:
+    desc: Start the TUI
+    deps: [db:up]
+    cmds:
+      - set -a && . ./.env && set +a && go run ./cmd/tui
+
+  dev:tui:app-logs:
+    desc: Start the TUI with app stderr captured to a log file
+    deps: [db:up]
     cmds:
       - mkdir -p .logs
       - rm -f '{{.APP_LOG_FILE}}' && touch '{{.APP_LOG_FILE}}'
-      - set -a && . ./.env && set +a && export DATABASE_URL="${DATABASE_URL:-$GM_DB_URL}" && (docker start game-master-postgres || docker compose up -d postgres) && task migrate && sh -c 'go run ./cmd/tui 2>> "{{.APP_LOG_FILE}}"'
+      - set -a && . ./.env && set +a && go run ./cmd/tui 2>> '{{.APP_LOG_FILE}}'
+
+  dev:tui:debug:
+    desc: Launch the TUI in debug mode with alt-screen disabled and combined output mirrored to a file
+    deps: [db:up]
+    cmds:
+      - mkdir -p .logs
+      - rm -f .logs/tui.debug.log && touch .logs/tui.debug.log
+      - set -a && . ./.env && set +a && GM_TUI_ALTSCREEN=0 GM_TUI_MOUSE=0 sh -c 'go run ./cmd/tui 2>&1 | tee -a .logs/tui.debug.log'
+
+  logs:debug:
+    desc: Tail combined debug TUI output
+    cmds:
+      - mkdir -p .logs && touch .logs/tui.debug.log
+      - tail -f .logs/tui.debug.log
 
   logs:app:
     desc: Tail captured TUI app logs
@@ -41,6 +78,16 @@ tasks:
           echo 'No game-master-ollama container or active system ollama service found.' >&2
           exit 1
         fi
+
+  logs:stream:
+    desc: Stream structured game logs with colors and `-service world,ollama` filtering
+    cmds:
+      - go run ./cmd/logs -history 20 {{.CLI_ARGS}}
+
+  logs:clean:
+    desc: Remove all structured log files
+    cmds:
+      - rm -f .logs/game-master.jsonl
 
   reset:first-boot:
     desc: Reset local Postgres data to first-boot state (destroys local game data)
@@ -93,13 +140,29 @@ tasks:
       - go build -o ./bin/server ./cmd/server
       - go build -o ./bin/logs ./cmd/logs
 
-
-  logs:stream:
-    desc: Stream structured game logs with colors and filtering
+  build:server:
+    desc: Rebuild and restart the API server
     cmds:
-      - go run ./cmd/logs {{.CLI_ARGS}}
+      - mkdir -p ./bin
+      - go build -o ./bin/server ./cmd/server
+      - set -a && . ./.env && set +a && ./bin/server
 
-  logs:clean:
-    desc: Remove all structured log files
+  frontend:dev:
+    desc: Start the Vite frontend dev server
     cmds:
-      - rm -f .logs/game-master.jsonl
+      - pnpm --dir frontend dev
+
+  frontend:build:
+    desc: Build the Vite frontend
+    cmds:
+      - pnpm --dir frontend build
+
+  frontend:lint:
+    desc: Lint the frontend
+    cmds:
+      - pnpm --dir frontend lint
+
+  frontend:typecheck:
+    desc: Type-check the frontend without emitting output
+    cmds:
+      - pnpm --dir frontend exec tsc --noEmit

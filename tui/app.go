@@ -5,6 +5,7 @@ package tui
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"strings"
 	"time"
 
@@ -17,6 +18,7 @@ import (
 	"github.com/PatrickFanella/game-master/internal/engine"
 	"github.com/PatrickFanella/game-master/internal/logging"
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"github.com/PatrickFanella/game-master/internal/world"
 	"github.com/PatrickFanella/game-master/tui/character"
 	"github.com/PatrickFanella/game-master/tui/inventory"
 	"github.com/PatrickFanella/game-master/tui/logpanel"
@@ -38,7 +40,7 @@ const (
 )
 
 const (
-	statusBarHints            = "1-5: switch view | tab/shift+tab/right/left/h/l: cycle | q: quit"
+	statusBarHints            = "tab/shift+tab: cycle | ctrl+c: quit | q/right/left/h/l/1-5: global unless typing"
 	statusBarSectionSeparator = "  ·  "
 	statusBarViewSeparator    = " | "
 	narrativeChunkSize        = 24 // small chunks keep the streamed narrative feeling responsive in the viewport
@@ -62,8 +64,8 @@ type narrativeStreamDoneMsg struct {
 
 // App is the root Bubble Tea model for Game Master. It tracks the active
 // ViewState and delegates Init/Update/View to the appropriate sub-model via
-// the embedded Router. Global key bindings (quit, view-switching) are handled
-// here before any message is forwarded to the active sub-model.
+// the embedded Router. Global key bindings are handled here, except when the
+// active view opts into receiving conflicting shortcuts directly.
 // Sub-view state is preserved across view switches because each view is stored
 // independently and only the active index changes.
 type App struct {
@@ -126,6 +128,38 @@ func NewAppWithEngine(cfg config.Config, campaign statedb.Campaign, ctx context.
 	}
 }
 
+func (a App) logger() *slog.Logger {
+	return slog.Default().WithGroup("tui")
+}
+
+// seedOpeningScene appends the generated opening scene to the narrative view.
+func (a *App) seedOpeningScene(scene *world.SceneResult) {
+	if scene == nil {
+		return
+	}
+	nv := a.narrativeView()
+	if nv == nil {
+		return
+	}
+	nv.AddEntry(narrative.Entry{
+		Kind:    narrative.KindNPC,
+		Speaker: "Game Master",
+		Text:    scene.Narrative,
+	})
+	if len(scene.Choices) == 0 {
+		nv.ClearChoices()
+		return
+	}
+	choices := make([]engine.Choice, 0, len(scene.Choices))
+	for i, choice := range scene.Choices {
+		choices = append(choices, engine.Choice{
+			ID:   fmt.Sprintf("opening-%d", i+1),
+			Text: choice,
+		})
+	}
+	nv.SetChoices(choices)
+}
+
 // ActiveViewState returns the currently active ViewState.
 func (a App) ActiveViewState() ViewState {
 	return ViewState(a.router.ActiveTab())
@@ -145,15 +179,33 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case tea.KeyMsg:
 		switch msg.String() {
-		case "ctrl+c", "q":
+		case "ctrl+c":
 			return a, tea.Quit
-		case "tab", "right", "l":
+		case "tab":
 			a.router.NextTab()
-		case "shift+tab", "left", "h":
+			return a, nil
+		case "shift+tab":
 			a.router.PrevTab()
+			return a, nil
+		}
+
+		if a.shouldSuppressConflictingGlobalShortcuts() && isConflictingGlobalShortcut(msg.String()) {
+			return a, a.router.Update(msg)
+		}
+
+		switch msg.String() {
+		case "q":
+			return a, tea.Quit
+		case "right", "l":
+			a.router.NextTab()
+			return a, nil
+		case "left", "h":
+			a.router.PrevTab()
+			return a, nil
 		case "1", "2", "3", "4", "5":
 			idx := int(msg.String()[0] - '1')
 			a.router.GoToTab(idx)
+			return a, nil
 		default:
 			cmd := a.router.Update(msg)
 			return a, cmd
@@ -176,6 +228,10 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return a, nil
 		}
 		if nv := a.narrativeView(); nv != nil {
+			a.logger().Info("processing player input",
+				"campaign_id", dbutil.FromPgtype(a.campaign.ID),
+				"input_len", len(msg.Input),
+			)
 			nv.AddEntry(narrative.Entry{Kind: narrative.KindPlayer, Text: msg.Input})
 			nv.ClearChoices()
 			if a.engine == nil {
@@ -201,6 +257,10 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		if msg.err != nil {
 			a.turnBusy = false
+			a.logger().Error("turn processing failed",
+				"campaign_id", dbutil.FromPgtype(a.campaign.ID),
+				"error", msg.err,
+			)
 			nv.AddEntry(narrative.Entry{
 				Kind: narrative.KindSystem,
 				Text: fmt.Sprintf("Error: %v", msg.err),
@@ -212,6 +272,13 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			a.turnBusy = false
 			return a, nil
 		}
+
+		a.logger().Info("turn processed",
+			"campaign_id", dbutil.FromPgtype(a.campaign.ID),
+			"narrative_len", len(msg.result.Narrative),
+			"choices", len(msg.result.Choices),
+			"tool_calls", len(msg.result.AppliedToolCalls),
+		)
 
 		if msg.result.Narrative == "" {
 			a.turnBusy = false
@@ -250,6 +317,24 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return a, cmd
 	}
 	return a, nil
+}
+
+func (a App) shouldSuppressConflictingGlobalShortcuts() bool {
+	view := a.router.ActiveView()
+	if view == nil {
+		return false
+	}
+	suppressor, ok := view.(GlobalShortcutSuppressor)
+	return ok && suppressor.SuppressGlobalShortcuts()
+}
+
+func isConflictingGlobalShortcut(key string) bool {
+	switch key {
+	case "q", "right", "l", "left", "h", "1", "2", "3", "4", "5":
+		return true
+	default:
+		return false
+	}
 }
 
 // View implements tea.Model and renders the full TUI chrome plus the active

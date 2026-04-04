@@ -293,6 +293,7 @@ func serializeState(state *game.GameState) string {
 
 	// Campaign
 	sb.WriteString("### Campaign\n")
+	fmt.Fprintf(&sb, "- ID: %s\n", state.Campaign.ID)
 	fmt.Fprintf(&sb, "- Name: %s\n", state.Campaign.Name)
 	if state.Campaign.Genre != "" {
 		fmt.Fprintf(&sb, "- Genre: %s\n", state.Campaign.Genre)
@@ -310,6 +311,7 @@ func serializeState(state *game.GameState) string {
 
 	// Player character
 	sb.WriteString("### Player Character\n")
+	fmt.Fprintf(&sb, "- ID: %s\n", state.Player.ID)
 	fmt.Fprintf(&sb, "- Name: %s\n", state.Player.Name)
 	fmt.Fprintf(&sb, "- Level: %d\n", state.Player.Level)
 	fmt.Fprintf(&sb, "- HP: %d/%d\n", state.Player.HP, state.Player.MaxHP)
@@ -323,6 +325,7 @@ func serializeState(state *game.GameState) string {
 
 	// Current location
 	sb.WriteString("### Current Location\n")
+	fmt.Fprintf(&sb, "- ID: %s\n", state.CurrentLocation.ID)
 	fmt.Fprintf(&sb, "- Name: %s\n", state.CurrentLocation.Name)
 	if state.CurrentLocation.Region != "" {
 		fmt.Fprintf(&sb, "- Region: %s\n", state.CurrentLocation.Region)
@@ -354,7 +357,7 @@ func serializeState(state *game.GameState) string {
 	if len(state.NearbyNPCs) > 0 {
 		sb.WriteString("### NPCs Present\n")
 		for _, npc := range state.NearbyNPCs {
-			line := fmt.Sprintf("- %s", npc.Name)
+			line := fmt.Sprintf("- %s (id: %s)", npc.Name, npc.ID)
 			if !npc.Alive {
 				line += " (dead)"
 			}

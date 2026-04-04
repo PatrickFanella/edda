@@ -54,8 +54,8 @@ func run(args []string) int {
 		logger.Errorf("initialize llm provider: %v", err)
 		return 1
 	}
-	logger.Infof("starting TUI (provider=%s)", cfg.LLM.Provider)
 
+	logger.Infof("starting TUI (provider=%s model=%s endpoint=%s timeout=%s altscreen=%t mouse=%t)", cfg.LLM.Provider, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.RequestTimeout(), tuiAltScreenEnabled(), tuiMouseEnabled())
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
@@ -78,11 +78,26 @@ func run(args []string) int {
 		return 1
 	}
 
-	p := tea.NewProgram(
-		tui.NewLauncherWithEngine(cfg, ctx, queries, gameEngine, tui.WithLogBuffer(logResult.RingBuffer)),
-		tea.WithAltScreen(),
-		tea.WithMouseCellMotion(),
+	programOptions := []tea.ProgramOption{
 		tea.WithContext(ctx),
+	}
+	if tuiAltScreenEnabled() {
+		programOptions = append(programOptions, tea.WithAltScreen())
+	}
+	if tuiMouseEnabled() {
+		programOptions = append(programOptions, tea.WithMouseCellMotion())
+	}
+
+	p := tea.NewProgram(
+		tui.NewLauncherWithEngine(
+			cfg,
+			ctx,
+			queries,
+			gameEngine,
+			tui.WithLLMProvider(provider),
+			tui.WithLogBuffer(logResult.RingBuffer),
+		),
+		programOptions...,
 	)
 
 	go func() {
@@ -121,8 +136,16 @@ func newLLMProvider(cfg config.Config) (llm.Provider, error) {
 	case "claude":
 		return llm.NewClaudeClient("", cfg.LLM.Claude.APIKey, cfg.LLM.Claude.Model), nil
 	case "ollama":
-		return llm.NewOllamaClient(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model), nil
+		return llm.NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()), nil
 	default:
 		return nil, fmt.Errorf("unknown llm provider: %q", cfg.LLM.Provider)
 	}
+}
+
+func tuiAltScreenEnabled() bool {
+	return os.Getenv("GM_TUI_ALTSCREEN") != "0"
+}
+
+func tuiMouseEnabled() bool {
+	return os.Getenv("GM_TUI_MOUSE") != "0"
 }

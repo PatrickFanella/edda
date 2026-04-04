@@ -21,6 +21,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"github.com/PatrickFanella/game-master/internal/auth"
+	"github.com/PatrickFanella/game-master/internal/bootstrap"
 	"github.com/PatrickFanella/game-master/internal/config"
 	"github.com/PatrickFanella/game-master/internal/engine"
 	"github.com/PatrickFanella/game-master/internal/handlers"
@@ -67,6 +68,14 @@ func run(args []string) int {
 	defer pool.Close()
 
 	queries := statedb.New(pool)
+
+	bootResult, err := bootstrap.Run(ctx, queries)
+	if err != nil {
+		logger.Errorf("bootstrap: %v", err)
+		return 1
+	}
+	defaultUserID := bootResult.User.ID.Bytes
+
 	provider, err := llm.NewLLMProvider(cfg)
 	if err != nil {
 		logger.Errorf("create llm provider: %v", err)
@@ -77,7 +86,7 @@ func run(args []string) int {
 		logger.Errorf("create engine: %v", err)
 		return 1
 	}
-	router := newRouter(logger, gameEngine, queries)
+	router := newRouterWithProvider(logger, gameEngine, queries, provider, defaultUserID)
 
 	addr := fmt.Sprintf(":%d", cfg.Server.Port)
 	server := &http.Server{
@@ -133,13 +142,13 @@ func parseConfigPath(args []string, defaultPath string) (string, error) {
 	return configPath, nil
 }
 
-func newRouter(logger *log.Logger, gameEngine engine.GameEngine, queries statedb.Querier) http.Handler {
+func newRouterWithProvider(logger *log.Logger, gameEngine engine.GameEngine, queries statedb.Querier, provider llm.Provider, defaultUserID uuid.UUID) http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(loggingMiddleware(logger))
 	r.Use(middleware.Recoverer)
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000", "http://localhost:5173"},
+		AllowedOrigins:   []string{"http://localhost:*", "http://127.0.0.1:*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"X-Request-Id"},
@@ -152,13 +161,13 @@ func newRouter(logger *log.Logger, gameEngine engine.GameEngine, queries statedb
 		_, _ = w.Write([]byte("ok"))
 	})
 
-	h := handlers.New(gameEngine, queries, logger)
-	registerAPIRoutes(logger, r, h)
+	h := handlers.New(gameEngine, queries, logger, provider)
+	registerAPIRoutes(logger, r, h, defaultUserID)
 	return r
 }
 
-func registerAPIRoutes(logger *log.Logger, r chi.Router, h *handlers.Handlers) {
-	authMW := auth.NewNoOpMiddleware(uuid.MustParse("00000000-0000-0000-0000-000000000001"))
+func registerAPIRoutes(logger *log.Logger, r chi.Router, h *handlers.Handlers, defaultUserID uuid.UUID) {
+	authMW := auth.NewNoOpMiddleware(defaultUserID)
 
 	r.Route("/api", func(r chi.Router) {
 		r.Get("/healthz", func(w http.ResponseWriter, _ *http.Request) {
@@ -174,10 +183,20 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, h *handlers.Handlers) {
 			r.Route("/campaigns", func(r chi.Router) {
 				r.Get("/", h.ListCampaigns)
 				r.Post("/", h.CreateCampaign)
+				r.Route("/start", func(r chi.Router) {
+					r.Post("/campaign-interview", h.StartCampaignInterview)
+					r.Post("/campaign-interview/{sessionID}", h.StepCampaignInterview)
+					r.Post("/proposals", h.GenerateCampaignProposals)
+					r.Post("/name", h.GenerateCampaignName)
+					r.Post("/character-interview", h.StartCharacterInterview)
+					r.Post("/character-interview/{sessionID}", h.StepCharacterInterview)
+					r.Post("/world", h.BuildWorld)
+				})
 				r.Route("/{id}", func(r chi.Router) {
 					r.Get("/", h.GetCampaign)
 					r.Put("/", h.UpdateCampaign)
 					r.Delete("/", h.DeleteCampaign)
+					r.Get("/history", h.GetSessionHistory)
 
 					r.Get("/character", h.GetCharacter)
 					r.Get("/character/inventory", h.GetCharacterInventory)

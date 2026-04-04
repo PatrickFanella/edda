@@ -96,51 +96,67 @@ func (s *stubQuerier) CreateLocation(ctx context.Context, arg statedb.CreateLoca
 func (s *stubQuerier) CompleteObjective(ctx context.Context, id pgtype.UUID) (statedb.QuestObjective, error) {
 	return statedb.QuestObjective{}, nil
 }
+
 func (s *stubQuerier) CreateBeliefSystem(ctx context.Context, arg statedb.CreateBeliefSystemParams) (statedb.BeliefSystem, error) {
 	return statedb.BeliefSystem{}, nil
 }
+
 func (s *stubQuerier) CreateConnection(ctx context.Context, arg statedb.CreateConnectionParams) (statedb.LocationConnection, error) {
 	return statedb.LocationConnection{}, nil
 }
+
 func (s *stubQuerier) CreateCulture(ctx context.Context, arg statedb.CreateCultureParams) (statedb.Culture, error) {
 	return statedb.Culture{}, nil
 }
+
 func (s *stubQuerier) CreateEconomicSystem(ctx context.Context, arg statedb.CreateEconomicSystemParams) (statedb.EconomicSystem, error) {
 	return statedb.EconomicSystem{}, nil
 }
+
 func (s *stubQuerier) CreateFact(ctx context.Context, arg statedb.CreateFactParams) (statedb.WorldFact, error) {
 	return statedb.WorldFact{}, nil
 }
+
 func (s *stubQuerier) CreateFaction(ctx context.Context, arg statedb.CreateFactionParams) (statedb.Faction, error) {
 	return statedb.Faction{}, nil
 }
+
 func (s *stubQuerier) CreateFactionRelationship(ctx context.Context, arg statedb.CreateFactionRelationshipParams) (statedb.FactionRelationship, error) {
 	return statedb.FactionRelationship{}, nil
 }
+
 func (s *stubQuerier) CreateItem(ctx context.Context, arg statedb.CreateItemParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (s *stubQuerier) CreateLanguage(ctx context.Context, arg statedb.CreateLanguageParams) (statedb.Language, error) {
 	return statedb.Language{}, nil
 }
+
 func (s *stubQuerier) CreateMemory(ctx context.Context, arg statedb.CreateMemoryParams) (statedb.Memory, error) {
 	return statedb.Memory{}, nil
 }
+
 func (s *stubQuerier) CreateNPC(ctx context.Context, arg statedb.CreateNPCParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (s *stubQuerier) CreateObjective(ctx context.Context, arg statedb.CreateObjectiveParams) (statedb.QuestObjective, error) {
 	return statedb.QuestObjective{}, nil
 }
+
 func (s *stubQuerier) CreatePlayerCharacter(ctx context.Context, arg statedb.CreatePlayerCharacterParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (s *stubQuerier) CreateQuest(ctx context.Context, arg statedb.CreateQuestParams) (statedb.Quest, error) {
 	return statedb.Quest{}, nil
 }
+
 func (s *stubQuerier) CreateRelationship(ctx context.Context, arg statedb.CreateRelationshipParams) (statedb.EntityRelationship, error) {
 	return statedb.EntityRelationship{}, nil
 }
+
 func (s *stubQuerier) CreateSessionLog(ctx context.Context, arg statedb.CreateSessionLogParams) (statedb.SessionLog, error) {
 	return statedb.SessionLog{}, nil
 }
@@ -160,153 +176,203 @@ func (s *stubQuerier) DeleteUser(ctx context.Context, id pgtype.UUID) error { re
 func (s *stubQuerier) GetBeliefSystemByCulture(ctx context.Context, cultureID pgtype.UUID) (statedb.BeliefSystem, error) {
 	return statedb.BeliefSystem{}, nil
 }
+
 func (s *stubQuerier) GetBeliefSystemByID(ctx context.Context, id pgtype.UUID) (statedb.BeliefSystem, error) {
 	return statedb.BeliefSystem{}, nil
 }
+
 func (s *stubQuerier) GetCampaignByID(ctx context.Context, id pgtype.UUID) (statedb.Campaign, error) {
 	return statedb.Campaign{}, nil
 }
+
 func (s *stubQuerier) GetConnectionsFromLocation(ctx context.Context, arg statedb.GetConnectionsFromLocationParams) ([]statedb.GetConnectionsFromLocationRow, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) GetCultureByID(ctx context.Context, id pgtype.UUID) (statedb.Culture, error) {
 	return statedb.Culture{}, nil
 }
+
 func (s *stubQuerier) GetEconomicSystemByID(ctx context.Context, id pgtype.UUID) (statedb.EconomicSystem, error) {
 	return statedb.EconomicSystem{}, nil
 }
+
 func (s *stubQuerier) GetFactByID(ctx context.Context, id pgtype.UUID) (statedb.WorldFact, error) {
 	return statedb.WorldFact{}, nil
 }
+
 func (s *stubQuerier) GetFactionByID(ctx context.Context, id pgtype.UUID) (statedb.Faction, error) {
 	return statedb.Faction{}, nil
 }
+
 func (s *stubQuerier) GetFactionRelationships(ctx context.Context, factionID pgtype.UUID) ([]statedb.FactionRelationship, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) GetItemByID(ctx context.Context, id pgtype.UUID) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (s *stubQuerier) GetLanguageByID(ctx context.Context, id pgtype.UUID) (statedb.Language, error) {
 	return statedb.Language{}, nil
 }
+
 func (s *stubQuerier) GetLocationByID(ctx context.Context, arg statedb.GetLocationByIDParams) (statedb.Location, error) {
 	return statedb.Location{}, nil
 }
+
 func (s *stubQuerier) GetMemoryByID(ctx context.Context, id pgtype.UUID) (statedb.Memory, error) {
 	return statedb.Memory{}, nil
 }
+
 func (s *stubQuerier) GetNPCByID(ctx context.Context, arg statedb.GetNPCByIDParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (s *stubQuerier) GetPlayerCharacterByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.PlayerCharacter, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) GetPlayerCharacterByID(ctx context.Context, id pgtype.UUID) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (s *stubQuerier) GetQuestByID(ctx context.Context, arg statedb.GetQuestByIDParams) (statedb.Quest, error) {
 	return statedb.Quest{}, nil
 }
+
 func (s *stubQuerier) GetRelationshipsBetween(ctx context.Context, arg statedb.GetRelationshipsBetweenParams) ([]statedb.EntityRelationship, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) GetRelationshipsByEntity(ctx context.Context, arg statedb.GetRelationshipsByEntityParams) ([]statedb.EntityRelationship, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) GetSessionLogByID(ctx context.Context, id pgtype.UUID) (statedb.SessionLog, error) {
 	return statedb.SessionLog{}, nil
 }
+
 func (s *stubQuerier) GetUserByID(ctx context.Context, id pgtype.UUID) (statedb.User, error) {
 	return statedb.User{}, nil
 }
+
 func (s *stubQuerier) KillNPC(ctx context.Context, id pgtype.UUID) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (s *stubQuerier) ListActiveFactsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.WorldFact, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListActiveQuests(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Quest, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListAliveNPCsByLocation(ctx context.Context, arg statedb.ListAliveNPCsByLocationParams) ([]statedb.Npc, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListBeliefSystemsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.BeliefSystem, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListCulturesByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Culture, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListCulturesByLanguage(ctx context.Context, languageID pgtype.UUID) ([]statedb.Culture, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListEconomicSystemsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.EconomicSystem, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListFactionsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Faction, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListFactsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.WorldFact, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListFactsByCategory(ctx context.Context, arg statedb.ListFactsByCategoryParams) ([]statedb.WorldFact, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListItemsByPlayer(ctx context.Context, arg statedb.ListItemsByPlayerParams) ([]statedb.Item, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListItemsByType(ctx context.Context, arg statedb.ListItemsByTypeParams) ([]statedb.Item, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListLanguagesByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Language, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListLanguagesByFaction(ctx context.Context, factionID pgtype.UUID) ([]statedb.Language, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListLocationsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Location, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListLocationsByRegion(ctx context.Context, arg statedb.ListLocationsByRegionParams) ([]statedb.Location, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListMemoriesByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Memory, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListNPCsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Npc, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListNPCsByFaction(ctx context.Context, arg statedb.ListNPCsByFactionParams) ([]statedb.Npc, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListNPCsByLocation(ctx context.Context, arg statedb.ListNPCsByLocationParams) ([]statedb.Npc, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListObjectivesByQuest(ctx context.Context, questID pgtype.UUID) ([]statedb.QuestObjective, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListObjectivesByQuests(ctx context.Context, questIds []pgtype.UUID) ([]statedb.QuestObjective, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListQuestsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Quest, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListQuestsByType(ctx context.Context, arg statedb.ListQuestsByTypeParams) ([]statedb.Quest, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListRecentSessionLogs(ctx context.Context, arg statedb.ListRecentSessionLogsParams) ([]statedb.SessionLog, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListRelationshipsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.EntityRelationship, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListSessionLogsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.SessionLog, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListSessionLogsByLocation(ctx context.Context, arg statedb.ListSessionLogsByLocationParams) ([]statedb.SessionLog, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) ListSubquestsByParentQuest(ctx context.Context, parentQuestID pgtype.UUID) ([]statedb.Quest, error) {
 	return nil, nil
 }
@@ -314,99 +380,131 @@ func (s *stubQuerier) Ping(ctx context.Context) (int32, error) { return 1, nil }
 func (s *stubQuerier) SearchMemoriesBySimilarity(ctx context.Context, arg statedb.SearchMemoriesBySimilarityParams) ([]statedb.SearchMemoriesBySimilarityRow, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) SearchMemoriesWithFilters(ctx context.Context, arg statedb.SearchMemoriesWithFiltersParams) ([]statedb.SearchMemoriesWithFiltersRow, error) {
 	return nil, nil
 }
+
 func (s *stubQuerier) SupersedeFact(ctx context.Context, arg statedb.SupersedeFactParams) (statedb.WorldFact, error) {
 	return statedb.WorldFact{}, nil
 }
+
 func (s *stubQuerier) TransferItem(ctx context.Context, arg statedb.TransferItemParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (s *stubQuerier) UpdateBeliefSystem(ctx context.Context, arg statedb.UpdateBeliefSystemParams) (statedb.BeliefSystem, error) {
 	return statedb.BeliefSystem{}, nil
 }
+
 func (s *stubQuerier) UpdateCampaign(ctx context.Context, arg statedb.UpdateCampaignParams) (statedb.Campaign, error) {
 	return statedb.Campaign{}, nil
 }
+
 func (s *stubQuerier) UpdateCampaignStatus(ctx context.Context, arg statedb.UpdateCampaignStatusParams) (statedb.Campaign, error) {
 	return statedb.Campaign{}, nil
 }
+
 func (s *stubQuerier) UpdateCulture(ctx context.Context, arg statedb.UpdateCultureParams) (statedb.Culture, error) {
 	return statedb.Culture{}, nil
 }
+
 func (s *stubQuerier) UpdateEconomicSystem(ctx context.Context, arg statedb.UpdateEconomicSystemParams) (statedb.EconomicSystem, error) {
 	return statedb.EconomicSystem{}, nil
 }
+
 func (s *stubQuerier) UpdateFaction(ctx context.Context, arg statedb.UpdateFactionParams) (statedb.Faction, error) {
 	return statedb.Faction{}, nil
 }
+
 func (s *stubQuerier) UpdateFactionRelationship(ctx context.Context, arg statedb.UpdateFactionRelationshipParams) (statedb.FactionRelationship, error) {
 	return statedb.FactionRelationship{}, nil
 }
+
 func (s *stubQuerier) UpdateItem(ctx context.Context, arg statedb.UpdateItemParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (s *stubQuerier) UpdateItemEquipped(ctx context.Context, arg statedb.UpdateItemEquippedParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (s *stubQuerier) UpdateItemProperties(ctx context.Context, arg statedb.UpdateItemPropertiesParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (s *stubQuerier) UpdateItemQuantity(ctx context.Context, arg statedb.UpdateItemQuantityParams) (statedb.Item, error) {
 	return statedb.Item{}, nil
 }
+
 func (s *stubQuerier) UpdateLanguage(ctx context.Context, arg statedb.UpdateLanguageParams) (statedb.Language, error) {
 	return statedb.Language{}, nil
 }
+
 func (s *stubQuerier) UpdateLocation(ctx context.Context, arg statedb.UpdateLocationParams) (statedb.Location, error) {
 	return statedb.Location{}, nil
 }
+
 func (s *stubQuerier) UpdateNPC(ctx context.Context, arg statedb.UpdateNPCParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (s *stubQuerier) UpdateNPCDisposition(ctx context.Context, arg statedb.UpdateNPCDispositionParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (s *stubQuerier) UpdateNPCLocation(ctx context.Context, arg statedb.UpdateNPCLocationParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
+
 func (s *stubQuerier) UpdateObjective(ctx context.Context, arg statedb.UpdateObjectiveParams) (statedb.QuestObjective, error) {
 	return statedb.QuestObjective{}, nil
 }
+
 func (s *stubQuerier) UpdatePlayerCharacter(ctx context.Context, arg statedb.UpdatePlayerCharacterParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (s *stubQuerier) UpdatePlayerExperience(ctx context.Context, arg statedb.UpdatePlayerExperienceParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (s *stubQuerier) UpdatePlayerLevel(ctx context.Context, arg statedb.UpdatePlayerLevelParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (s *stubQuerier) UpdatePlayerAbilities(ctx context.Context, arg statedb.UpdatePlayerAbilitiesParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (s *stubQuerier) UpdatePlayerHP(ctx context.Context, arg statedb.UpdatePlayerHPParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (s *stubQuerier) UpdatePlayerLocation(ctx context.Context, arg statedb.UpdatePlayerLocationParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (s *stubQuerier) UpdatePlayerStats(ctx context.Context, arg statedb.UpdatePlayerStatsParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (s *stubQuerier) UpdatePlayerStatus(ctx context.Context, arg statedb.UpdatePlayerStatusParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
+
 func (s *stubQuerier) UpdateQuest(ctx context.Context, arg statedb.UpdateQuestParams) (statedb.Quest, error) {
 	return statedb.Quest{}, nil
 }
+
 func (s *stubQuerier) UpdateQuestStatus(ctx context.Context, arg statedb.UpdateQuestStatusParams) (statedb.Quest, error) {
 	return statedb.Quest{}, nil
 }
+
 func (s *stubQuerier) UpdateRelationship(ctx context.Context, arg statedb.UpdateRelationshipParams) (statedb.EntityRelationship, error) {
 	return statedb.EntityRelationship{}, nil
 }
+
 func (s *stubQuerier) UpdateUser(ctx context.Context, arg statedb.UpdateUserParams) (statedb.User, error) {
 	return statedb.User{}, nil
 }
@@ -519,58 +617,5 @@ func TestRun_DoesNotCreateCampaignForNewUser(t *testing.T) {
 	}
 	if len(result.Campaigns) != 0 {
 		t.Fatalf("expected no campaigns for new user, got %d", len(result.Campaigns))
-	}
-}
-
-func TestCreateCampaign_CreatesLocationForCampaign(t *testing.T) {
-	userID := pgtype.UUID{Bytes: [16]byte{7}, Valid: true}
-	q := &stubQuerier{}
-
-	camp, err := bootstrap.CreateCampaign(context.Background(), q, userID, "My Campaign", "")
-	if err != nil {
-		t.Fatalf("CreateCampaign returned error: %v", err)
-	}
-
-	if camp.Name != "My Campaign" {
-		t.Errorf("expected campaign name %q, got %q", "My Campaign", camp.Name)
-	}
-	if len(q.locations) != 1 {
-		t.Fatalf("expected 1 location, got %d", len(q.locations))
-	}
-	if q.locations[0].CampaignID != camp.ID {
-		t.Errorf("expected location to belong to the new campaign")
-	}
-}
-
-func TestCreateCampaign_EmptyNameReturnsError(t *testing.T) {
-	userID := pgtype.UUID{Bytes: [16]byte{8}, Valid: true}
-	q := &stubQuerier{}
-
-	_, err := bootstrap.CreateCampaign(context.Background(), q, userID, "", "")
-	if err == nil {
-		t.Fatal("expected error for empty campaign name")
-	}
-}
-
-func TestCreateCampaign_WhitespaceOnlyNameReturnsError(t *testing.T) {
-	userID := pgtype.UUID{Bytes: [16]byte{9}, Valid: true}
-	q := &stubQuerier{}
-
-	_, err := bootstrap.CreateCampaign(context.Background(), q, userID, "   ", "")
-	if err == nil {
-		t.Fatal("expected error for whitespace-only campaign name")
-	}
-}
-
-func TestCreateCampaign_TrimsWhitespace(t *testing.T) {
-	userID := pgtype.UUID{Bytes: [16]byte{10}, Valid: true}
-	q := &stubQuerier{}
-
-	camp, err := bootstrap.CreateCampaign(context.Background(), q, userID, "  My Adventure  ", "")
-	if err != nil {
-		t.Fatalf("CreateCampaign returned error: %v", err)
-	}
-	if camp.Name != "My Adventure" {
-		t.Errorf("expected trimmed name %q, got %q", "My Adventure", camp.Name)
 	}
 }

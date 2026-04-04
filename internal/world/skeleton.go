@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -15,10 +16,10 @@ import (
 
 // WorldSkeleton is the initial world state generated from a CampaignProfile.
 type WorldSkeleton struct {
-	Factions           []SkeletonFaction
-	Locations          []SkeletonLocation
-	NPCs               []SkeletonNPC
-	WorldFacts         []SkeletonFact
+	Factions             []SkeletonFaction
+	Locations            []SkeletonLocation
+	NPCs                 []SkeletonNPC
+	WorldFacts           []SkeletonFact
 	StartingLocationName string // name of the starting location chosen by the LLM
 }
 
@@ -86,52 +87,79 @@ func NewSkeletonGenerator(provider llm.Provider, store SkeletonStore) *SkeletonG
 // profile, persists all entities through the store, and returns the populated
 // skeleton with resolved IDs.
 func (g *SkeletonGenerator) Generate(ctx context.Context, campaignID uuid.UUID, profile *CampaignProfile) (*WorldSkeleton, error) {
+	started := time.Now()
 	if profile == nil {
-		return nil, fmt.Errorf("generate skeleton: profile is nil")
+		err := fmt.Errorf("generate skeleton: profile is nil")
+		logger().Error("skeleton generation failed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
+		return nil, err
 	}
 
+	logger().Info("skeleton generation started",
+		"campaign_id", campaignID,
+		"genre", profile.Genre,
+		"tone", profile.Tone,
+		"themes", len(profile.Themes),
+	)
 	promptText := buildSkeletonPrompt(profile)
+	logger().Debug("skeleton prompt built", "campaign_id", campaignID, "prompt_len", len(promptText))
 
 	resp, err := g.llm.Complete(ctx, []llm.Message{
 		{Role: llm.RoleSystem, Content: promptText},
 	}, nil)
 	if err != nil {
+		logger().Error("skeleton generation failed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return nil, fmt.Errorf("generate skeleton: llm call: %w", err)
 	}
 
 	content := strings.TrimSpace(resp.Content)
 	if content == "" {
-		return nil, fmt.Errorf("generate skeleton: empty LLM response")
+		err := fmt.Errorf("generate skeleton: empty LLM response")
+		logger().Error("skeleton generation failed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
+		return nil, err
 	}
 
 	content = llmutil.StripMarkdownFences(content)
 
 	var parsed skeletonLLMResponse
 	if err := json.Unmarshal([]byte(content), &parsed); err != nil {
+		logger().Error("skeleton generation parse failed",
+			"campaign_id", campaignID,
+			"duration_ms", time.Since(started).Milliseconds(),
+			"response_len", len(content),
+			"error", err,
+		)
 		return nil, fmt.Errorf("generate skeleton: parse response: %w", err)
 	}
 
-	// Persist factions, build name→ID map.
+	logger().Info("skeleton response parsed",
+		"campaign_id", campaignID,
+		"factions", len(parsed.Factions),
+		"locations", len(parsed.Locations),
+		"npcs", len(parsed.NPCs),
+		"world_facts", len(parsed.WorldFacts),
+		"starting_location", parsed.StartingLocation,
+	)
+
 	factionIDs := make(map[string]uuid.UUID, len(parsed.Factions))
 	for _, f := range parsed.Factions {
 		id, err := g.store.CreateFaction(ctx, campaignID, f)
 		if err != nil {
+			logger().Error("skeleton faction persistence failed", "campaign_id", campaignID, "faction", f.Name, "error", err)
 			return nil, fmt.Errorf("generate skeleton: create faction %q: %w", f.Name, err)
 		}
 		factionIDs[f.Name] = id
 	}
 
-	// Persist locations, build name→ID map.
 	locationIDs := make(map[string]uuid.UUID, len(parsed.Locations))
 	for _, l := range parsed.Locations {
 		id, err := g.store.CreateLocation(ctx, campaignID, l)
 		if err != nil {
+			logger().Error("skeleton location persistence failed", "campaign_id", campaignID, "location", l.Name, "error", err)
 			return nil, fmt.Errorf("generate skeleton: create location %q: %w", l.Name, err)
 		}
 		locationIDs[l.Name] = id
 	}
 
-	// Persist NPCs, resolving faction/location references where possible.
 	for _, n := range parsed.NPCs {
 		var factionID, locationID *uuid.UUID
 		if fid, ok := factionIDs[n.Faction]; ok {
@@ -141,27 +169,35 @@ func (g *SkeletonGenerator) Generate(ctx context.Context, campaignID uuid.UUID, 
 			locationID = &lid
 		}
 		if _, err := g.store.CreateNPC(ctx, campaignID, n, factionID, locationID); err != nil {
+			logger().Error("skeleton npc persistence failed", "campaign_id", campaignID, "npc", n.Name, "error", err)
 			return nil, fmt.Errorf("generate skeleton: create npc %q: %w", n.Name, err)
 		}
 	}
 
-	// Persist world facts.
 	for _, f := range parsed.WorldFacts {
 		if _, err := g.store.CreateWorldFact(ctx, campaignID, f); err != nil {
+			logger().Error("skeleton fact persistence failed", "campaign_id", campaignID, "category", f.Category, "error", err)
 			return nil, fmt.Errorf("generate skeleton: create world fact: %w", err)
 		}
 	}
 
-	// Resolve starting location name.
-	startName := parsed.StartingLocation
-
-	return &WorldSkeleton{
+	result := &WorldSkeleton{
 		Factions:             parsed.Factions,
 		Locations:            parsed.Locations,
 		NPCs:                 parsed.NPCs,
 		WorldFacts:           parsed.WorldFacts,
-		StartingLocationName: startName,
-	}, nil
+		StartingLocationName: parsed.StartingLocation,
+	}
+
+	logger().Info("skeleton generation completed",
+		"campaign_id", campaignID,
+		"duration_ms", time.Since(started).Milliseconds(),
+		"factions", len(result.Factions),
+		"locations", len(result.Locations),
+		"npcs", len(result.NPCs),
+		"world_facts", len(result.WorldFacts),
+	)
+	return result, nil
 }
 
 func buildSkeletonPrompt(p *CampaignProfile) string {

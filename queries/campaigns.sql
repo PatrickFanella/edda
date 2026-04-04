@@ -5,6 +5,9 @@ INSERT INTO campaigns (
   genre,
   tone,
   themes,
+  world_type,
+  danger_level,
+  political_complexity,
   status,
   created_by
 ) VALUES (
@@ -13,18 +16,21 @@ INSERT INTO campaigns (
   sqlc.arg(genre),
   sqlc.arg(tone),
   COALESCE(sqlc.narg(themes)::text[], '{}'::text[]),
+  sqlc.arg(world_type),
+  sqlc.arg(danger_level),
+  sqlc.arg(political_complexity),
   sqlc.arg(status),
   sqlc.arg(created_by)
 )
-RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at;
+RETURNING *;
 
 -- name: GetCampaignByID :one
-SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at
+SELECT *
 FROM campaigns
 WHERE id = sqlc.arg(id);
 
 -- name: ListCampaignsByUser :many
-SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at
+SELECT *
 FROM campaigns
 WHERE created_by = sqlc.arg(created_by)
 ORDER BY created_at, id;
@@ -37,9 +43,12 @@ SET
   genre = sqlc.arg(genre),
   tone = sqlc.arg(tone),
   themes = COALESCE(sqlc.narg(themes)::text[], '{}'::text[]),
+  world_type = sqlc.arg(world_type),
+  danger_level = sqlc.arg(danger_level),
+  political_complexity = sqlc.arg(political_complexity),
   updated_at = now()
 WHERE id = sqlc.arg(id)
-RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at;
+RETURNING *;
 
 -- name: UpdateCampaignStatus :one
 UPDATE campaigns
@@ -47,7 +56,7 @@ SET
   status = sqlc.arg(status),
   updated_at = now()
 WHERE id = sqlc.arg(id)
-RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at;
+RETURNING *;
 
 -- name: DeleteCampaign :exec
 DELETE FROM campaigns

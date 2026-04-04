@@ -135,14 +135,90 @@ func TestAppUpdateQuitCtrlC(t *testing.T) {
 	}
 }
 
-func TestAppUpdateQuitQ(t *testing.T) {
+func TestAppUpdateQuitQOutsideSuppressedView(t *testing.T) {
 	app := NewApp(testCfg, testCampaign)
+	app.router.GoToTab(int(ViewCharacterSheet))
+
 	_, cmd := app.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune("q")})
 	if cmd == nil {
-		t.Fatal("expected quit command for q, got nil")
+		t.Fatal("expected quit command for q outside narrative input, got nil")
 	}
 	if _, ok := cmd().(tea.QuitMsg); !ok {
-		t.Fatal("expected tea.QuitMsg for q")
+		t.Fatal("expected tea.QuitMsg for q outside narrative input")
+	}
+}
+
+func TestAppUpdateFocusedNarrativeSuppressesConflictingRunes(t *testing.T) {
+	app := NewApp(testCfg, testCampaign)
+	sized, _ := app.Update(tea.WindowSizeMsg{Width: 100, Height: 30})
+	updated := sized.(App)
+
+	for _, r := range []rune{'h', '1', 'l', 'q', '5'} {
+		model, cmd := updated.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{r}})
+		if cmd != nil {
+			if _, ok := cmd().(tea.QuitMsg); ok {
+				t.Fatalf("expected %q to reach focused narrative input, got quit command", r)
+			}
+		}
+		updated = model.(App)
+		if updated.ActiveViewState() != ViewNarrative {
+			t.Fatalf("expected narrative to stay active after %q, got %d", r, updated.ActiveViewState())
+		}
+	}
+
+	if !strings.Contains(updated.View(), "h1lq5") {
+		t.Fatalf("expected focused narrative input to keep conflicting runes, view=%q", updated.View())
+	}
+}
+
+func TestAppUpdateFocusedNarrativeSuppressesArrowNavigation(t *testing.T) {
+	app := NewApp(testCfg, testCampaign)
+	sized, _ := app.Update(tea.WindowSizeMsg{Width: 100, Height: 30})
+	updated := sized.(App)
+
+	for _, r := range []rune{'a', 'b'} {
+		model, _ := updated.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{r}})
+		updated = model.(App)
+	}
+
+	model, _ := updated.Update(tea.KeyMsg{Type: tea.KeyLeft})
+	updated = model.(App)
+	if updated.ActiveViewState() != ViewNarrative {
+		t.Fatalf("expected narrative to stay active after left arrow, got %d", updated.ActiveViewState())
+	}
+
+	model, _ = updated.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{'c'}})
+	updated = model.(App)
+
+	model, _ = updated.Update(tea.KeyMsg{Type: tea.KeyRight})
+	updated = model.(App)
+	if updated.ActiveViewState() != ViewNarrative {
+		t.Fatalf("expected narrative to stay active after right arrow, got %d", updated.ActiveViewState())
+	}
+
+	model, _ = updated.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{'d'}})
+	updated = model.(App)
+
+	if !strings.Contains(updated.View(), "acbd") {
+		t.Fatalf("expected arrow keys to move the narrative cursor, view=%q", updated.View())
+	}
+}
+
+func TestAppUpdateTabStillCyclesWhenNarrativeInputFocused(t *testing.T) {
+	app := NewApp(testCfg, testCampaign)
+	sized, _ := app.Update(tea.WindowSizeMsg{Width: 100, Height: 30})
+	updated := sized.(App)
+
+	model, _ := updated.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{'x'}})
+	updated = model.(App)
+
+	model, cmd := updated.Update(tea.KeyMsg{Type: tea.KeyTab})
+	if cmd != nil {
+		t.Fatal("expected tab to remain a global shortcut")
+	}
+	updated = model.(App)
+	if updated.ActiveViewState() != ViewCharacterSheet {
+		t.Fatalf("expected tab to switch to character sheet, got %d", updated.ActiveViewState())
 	}
 }
 
@@ -186,7 +262,7 @@ func TestAppUpdateShiftTabPrevView(t *testing.T) {
 	}
 }
 
-func TestAppUpdateNumberKeys(t *testing.T) {
+func TestAppUpdateNumberKeysOutsideSuppressedView(t *testing.T) {
 	tests := []struct {
 		key      rune
 		expected ViewState
@@ -199,10 +275,11 @@ func TestAppUpdateNumberKeys(t *testing.T) {
 	}
 	for _, tt := range tests {
 		app := NewApp(testCfg, testCampaign)
+		app.router.GoToTab(int(ViewCharacterSheet))
 		m, _ := app.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{tt.key}})
 		updated := m.(App)
 		if updated.ActiveViewState() != tt.expected {
-			t.Errorf("key %q: expected ViewState %d, got %d", tt.key, tt.expected, updated.ActiveViewState())
+			t.Errorf("key %q from non-narrative view: expected ViewState %d, got %d", tt.key, tt.expected, updated.ActiveViewState())
 		}
 	}
 }
@@ -215,15 +292,14 @@ func TestAppUpdateViewSwitchingPreservesState(t *testing.T) {
 	// still holds those entries after switching away and back.
 	narrativeViewBefore := app.router.Tabs()[0].View
 
-	// Switch away to character sheet.
-	m, _ := app.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune("2")})
+	// Switch away to character sheet, then back to narrative, using the always-global tab bindings.
+	m, _ := app.Update(tea.KeyMsg{Type: tea.KeyTab})
 	updated := m.(App)
 	if updated.ActiveViewState() != ViewCharacterSheet {
 		t.Fatalf("expected ViewCharacterSheet, got %d", updated.ActiveViewState())
 	}
 
-	// Switch back to narrative.
-	m2, _ := updated.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune("1")})
+	m2, _ := updated.Update(tea.KeyMsg{Type: tea.KeyShiftTab})
 	backToNarrative := m2.(App)
 
 	narrativeViewAfter := backToNarrative.router.Tabs()[0].View
@@ -269,8 +345,17 @@ func TestStatusBarShowsViewsHintsAndActiveView(t *testing.T) {
 func TestStatusBarUpdatesImmediatelyOnViewSwitch(t *testing.T) {
 	app := NewApp(testCfg, testCampaign)
 	targetInventoryKey := keyForView(ViewInventory)
-	m, _ := app.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{targetInventoryKey}})
+
+	// Move off the focused narrative input first so the numeric shortcut is handled
+	// globally rather than being consumed by text entry.
+	m, _ := app.Update(tea.KeyMsg{Type: tea.KeyTab})
 	updated := m.(App)
+	if updated.ActiveViewState() != ViewCharacterSheet {
+		t.Fatalf("expected tab to move to character sheet first, got %d", updated.ActiveViewState())
+	}
+
+	m, _ = updated.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{targetInventoryKey}})
+	updated = m.(App)
 	_, statusBar := updated.chrome()
 
 	if !strings.Contains(statusBar, "[Inventory]") {

@@ -76,9 +76,8 @@ func TestTeatest_TextInputAppearsInViewport(t *testing.T) {
 		return bytes.Contains(bts, []byte("Narrative"))
 	}, waitDuration)
 
-	// Send each character individually via Send so everything goes through
-	// the message channel. Avoid characters that are global key bindings:
-	// h (prev-tab), l (next-tab), q (quit), 1-5 (view switch).
+	// Send plain runes one at a time through the message channel. Conflicting
+	// shortcut keys are covered by the dedicated regression tests below.
 	for _, r := range "see a cart" {
 		tm.Send(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{r}})
 	}
@@ -99,17 +98,120 @@ func TestTeatest_TextInputAppearsInViewport(t *testing.T) {
 	}
 }
 
+func TestTeatest_FocusedNarrativeInputSuppressesConflictingShortcuts(t *testing.T) {
+	tm := teatest.NewTestModel(
+		t,
+		testApp(),
+		teatest.WithInitialTermSize(100, 30),
+	)
+
+	teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
+		return bytes.Contains(bts, []byte("Narrative"))
+	}, waitDuration)
+
+	for _, msg := range []tea.KeyMsg{
+		{Type: tea.KeyRunes, Runes: []rune{'a'}},
+		{Type: tea.KeyRunes, Runes: []rune{'b'}},
+		{Type: tea.KeyLeft},
+		{Type: tea.KeyRunes, Runes: []rune{'c'}},
+		{Type: tea.KeyRight},
+		{Type: tea.KeyRunes, Runes: []rune{'h'}},
+		{Type: tea.KeyRunes, Runes: []rune{'1'}},
+		{Type: tea.KeyRunes, Runes: []rune{'l'}},
+		{Type: tea.KeyRunes, Runes: []rune{'q'}},
+		{Type: tea.KeyRunes, Runes: []rune{'5'}},
+	} {
+		tm.Send(msg)
+	}
+
+	teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
+		return bytes.Contains(bts, []byte("acbh1lq5"))
+	}, waitDuration)
+
+	tm.Send(tea.KeyMsg{Type: tea.KeyCtrlC})
+	fm := tm.FinalModel(t, finalTimeout)
+	app, ok := fm.(App)
+	if !ok {
+		t.Fatalf("expected App model, got %T", fm)
+	}
+	if app.ActiveViewState() != ViewNarrative {
+		t.Fatalf("expected ViewNarrative while typing conflicting shortcuts, got %d", app.ActiveViewState())
+	}
+	if !strings.Contains(app.View(), "acbh1lq5") {
+		t.Fatalf("expected focused narrative input to retain conflicting shortcuts, view=%q", app.View())
+	}
+}
+
+func TestTeatest_TabStillCyclesWithFocusedNarrativeInput(t *testing.T) {
+	tm := teatest.NewTestModel(
+		t,
+		testApp(),
+		teatest.WithInitialTermSize(100, 30),
+	)
+
+	teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
+		return bytes.Contains(bts, []byte("Narrative"))
+	}, waitDuration)
+
+	tm.Send(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{'x'}})
+	tm.Send(tea.KeyMsg{Type: tea.KeyTab})
+
+	teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
+		return bytes.Contains(bts, []byte("[Character]"))
+	}, waitDuration)
+
+	tm.Send(tea.KeyMsg{Type: tea.KeyCtrlC})
+	fm := tm.FinalModel(t, finalTimeout)
+	app, ok := fm.(App)
+	if !ok {
+		t.Fatalf("expected App model, got %T", fm)
+	}
+	if app.ActiveViewState() != ViewCharacterSheet {
+		t.Fatalf("expected ViewCharacterSheet after tab from focused narrative input, got %d", app.ActiveViewState())
+	}
+}
+
 func TestTeatest_NumberKeysSwitchToCorrectView(t *testing.T) {
 	tests := []struct {
-		name     string
-		key      string
-		expected ViewState
-		contains string
+		name         string
+		prepare      []tea.KeyMsg
+		readyMarker  string
+		key          string
+		expected     ViewState
+		resultMarker string
 	}{
-		{"press 2 → Character Sheet", "2", ViewCharacterSheet, "Character Sheet"},
-		{"press 3 → Inventory", "3", ViewInventory, "Inventory"},
-		{"press 4 → Quest Log", "4", ViewQuestLog, "Quest Log"},
-		{"press 5 → Logs", "5", ViewLogs, "[Logs]"},
+		{
+			name:         "press 2 → Character Sheet",
+			prepare:      []tea.KeyMsg{{Type: tea.KeyShiftTab}},
+			readyMarker:  "[Logs]",
+			key:          "2",
+			expected:     ViewCharacterSheet,
+			resultMarker: "[Character]",
+		},
+		{
+			name:         "press 3 → Inventory",
+			prepare:      []tea.KeyMsg{{Type: tea.KeyTab}},
+			readyMarker:  "[Character]",
+			key:          "3",
+			expected:     ViewInventory,
+			resultMarker: "Inventory",
+		},
+		{
+			name:         "press 4 → Quest Log",
+			prepare:      []tea.KeyMsg{{Type: tea.KeyTab}},
+			readyMarker:  "[Character]",
+			key:          "4",
+			expected:     ViewQuestLog,
+			resultMarker: "Quest Log",
+		},
+		{
+			name:         "press 5 → Logs",
+			prepare:      []tea.KeyMsg{{Type: tea.KeyTab}},
+			readyMarker:  "[Character]",
+			key:          "5",
+			expected:     ViewLogs,
+			resultMarker: "[Logs]",
+		},
 	}
 
 	for _, tt := range tests {
@@ -120,15 +222,22 @@ func TestTeatest_NumberKeysSwitchToCorrectView(t *testing.T) {
 				teatest.WithInitialTermSize(100, 30),
 			)
 
-			// Press the number key to switch views.
-			tm.Send(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune(tt.key)})
-
-			// Wait for the expected view content.
 			teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
-				return bytes.Contains(bts, []byte(tt.contains))
+				return bytes.Contains(bts, []byte("Narrative"))
 			}, waitDuration)
 
-			// Quit and verify final model state.
+			for _, msg := range tt.prepare {
+				tm.Send(msg)
+			}
+			teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
+				return bytes.Contains(bts, []byte(tt.readyMarker))
+			}, waitDuration)
+
+			tm.Send(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune(tt.key)})
+			teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
+				return bytes.Contains(bts, []byte(tt.resultMarker))
+			}, waitDuration)
+
 			tm.Send(tea.KeyMsg{Type: tea.KeyCtrlC})
 			fm := tm.FinalModel(t, finalTimeout)
 			app, ok := fm.(App)
@@ -149,10 +258,14 @@ func TestTeatest_NumberKeysSwitchToCorrectView(t *testing.T) {
 			teatest.WithInitialTermSize(100, 30),
 		)
 
-		// First switch to Character Sheet.
-		tm.Send(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune("2")})
 		teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
-			return bytes.Contains(bts, []byte("Character Sheet"))
+			return bytes.Contains(bts, []byte("Narrative"))
+		}, waitDuration)
+
+		// First switch to Character Sheet via the always-global Tab shortcut.
+		tm.Send(tea.KeyMsg{Type: tea.KeyTab})
+		teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
+			return bytes.Contains(bts, []byte("[Character]"))
 		}, waitDuration)
 
 		// Press 1 to go back to Narrative.
@@ -221,17 +334,22 @@ func TestTeatest_ViewSwitchingPreservesState(t *testing.T) {
 		return bytes.Contains(bts, []byte("Narrative"))
 	}, waitDuration)
 
-	// Send each character individually via Send so everything goes through
-	// the message channel. Avoid characters that are global key bindings:
-	// h (prev-tab), l (next-tab), q (quit), 1-5 (view switch).
+	// Send plain runes one at a time through the message channel. Conflicting
+	// shortcut keys are covered by the dedicated regression tests above.
 	for _, r := range "see a cart" {
 		tm.Send(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{r}})
 	}
 	tm.Send(tea.KeyMsg{Type: tea.KeyEnter})
 
-	// Switch to character sheet (2) then back to narrative (1).
-	tm.Send(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune("2")})
-	tm.Send(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune("1")})
+	// Switch away with Tab, then back with Shift+Tab, so the narrative view round-trips through the router.
+	tm.Send(tea.KeyMsg{Type: tea.KeyTab})
+	teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
+		return bytes.Contains(bts, []byte("[Character]"))
+	}, waitDuration)
+	tm.Send(tea.KeyMsg{Type: tea.KeyShiftTab})
+	teatest.WaitFor(t, tm.Output(), func(bts []byte) bool {
+		return bytes.Contains(bts, []byte("[Narrative]"))
+	}, waitDuration)
 
 	// Quit and use FinalModel to verify state was preserved.
 	tm.Send(tea.KeyMsg{Type: tea.KeyCtrlC})

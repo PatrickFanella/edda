@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -71,10 +72,17 @@ func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts .
 var _ GameEngine = (*Engine)(nil)
 
 func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerInput string) (*TurnResult, error) {
+	started := time.Now()
+	if e.logger == nil {
+		e.logger = slog.Default()
+	}
+	e.logger.Info("process turn started", "campaign_id", campaignID, "input_len", len(playerInput))
 	state, err := e.state.GatherState(ctx, campaignID)
 	if err != nil {
+		e.logger.Error("process turn failed during state gather", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return nil, fmt.Errorf("gather state: %w", err)
 	}
+	e.logger.Debug("state gathered", "campaign_id", campaignID, "player_id", state.Player.ID, "has_location", state.Player.CurrentLocationID != nil)
 	if state.Player.ID != uuid.Nil {
 		ctx = tools.WithCurrentPlayerCharacterID(ctx, state.Player.ID)
 	}
@@ -84,6 +92,7 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 
 	recentTurns, err := e.state.ListRecentSessionLogs(ctx, campaignID, recentTurnLimit)
 	if err != nil {
+		e.logger.Error("process turn failed during session-log fetch", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return nil, fmt.Errorf("list recent session logs: %w", err)
 	}
 	var retrievedMemories []string
@@ -92,17 +101,20 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 		retrievedMemories, tier3Err = e.tier3.Retrieve(ctx, campaignID, playerInput, state)
 		if tier3Err != nil {
 			e.logger.Warn("tier3 memory retrieval failed", "campaign_id", campaignID, "error", tier3Err)
+		} else {
+			e.logger.Debug("tier3 memories retrieved", "campaign_id", campaignID, "count", len(retrievedMemories))
 		}
 	}
 
 	messages := e.assembler.AssembleContext(state, recentTurns, playerInput, retrievedMemories...)
+	e.logger.Debug("context assembled", "campaign_id", campaignID, "messages", len(messages), "recent_turns", len(recentTurns), "memories", len(retrievedMemories), "tools", len(e.assembler.Tools()))
 	narrative, applied, err := e.processor.ProcessWithRecovery(ctx, messages, e.assembler.Tools())
 	if err != nil {
+		e.logger.Error("process turn failed during turn processor", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return nil, fmt.Errorf("process turn: %w", err)
 	}
 
 	narrative, choices := extractChoices(narrative)
-
 	result := &TurnResult{
 		Narrative:        narrative,
 		AppliedToolCalls: applied,
@@ -111,6 +123,7 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 
 	toolCallsJSON, err := marshalAppliedToolCalls(applied)
 	if err != nil {
+		e.logger.Error("process turn failed during tool-call marshal", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return nil, fmt.Errorf("marshal applied tool calls: %w", err)
 	}
 
@@ -124,9 +137,11 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 		LocationID:  state.Player.CurrentLocationID,
 	}
 	if err := e.state.SaveSessionLog(ctx, log); err != nil {
+		e.logger.Error("process turn failed during session-log save", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return nil, fmt.Errorf("save session log: %w", err)
 	}
 
+	e.logger.Info("process turn completed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "narrative_len", len(result.Narrative), "choices", len(result.Choices), "tool_calls", len(result.AppliedToolCalls))
 	return result, nil
 }
 
@@ -146,10 +161,16 @@ func (e *Engine) NewCampaign(ctx context.Context, userID uuid.UUID) (*domain.Cam
 }
 
 func (e *Engine) LoadCampaign(ctx context.Context, campaignID uuid.UUID) error {
+	if e.logger == nil {
+		e.logger = slog.Default()
+	}
+	e.logger.Info("load campaign started", "campaign_id", campaignID)
 	_, err := e.state.GetCampaignByID(ctx, campaignID)
 	if err != nil {
+		e.logger.Error("load campaign failed", "campaign_id", campaignID, "error", err)
 		return fmt.Errorf("load campaign: %w", err)
 	}
+	e.logger.Info("load campaign completed", "campaign_id", campaignID)
 	return nil
 }
 

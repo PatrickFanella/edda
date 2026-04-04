@@ -27,6 +27,9 @@ func TestLoadUsesDefaultsWhenFileIsMissing(t *testing.T) {
 	if cfg.LLM.Ollama.ContextTokenBudget != 8000 {
 		t.Fatalf("unexpected default ollama context token budget: %d", cfg.LLM.Ollama.ContextTokenBudget)
 	}
+	if cfg.LLM.Ollama.TimeoutSeconds != 180 {
+		t.Fatalf("unexpected default ollama timeout seconds: %d", cfg.LLM.Ollama.TimeoutSeconds)
+	}
 }
 
 func TestLoadMergesFileAndEnvironment(t *testing.T) {
@@ -124,6 +127,19 @@ func TestLoadContextTokenBudgetFromEnv(t *testing.T) {
 	}
 	if cfg.LLM.ContextTokenBudget() != 6400 {
 		t.Fatalf("expected active provider context token budget from env, got %d", cfg.LLM.ContextTokenBudget())
+	}
+}
+
+func TestLoadOllamaTimeoutFromEnv(t *testing.T) {
+	t.Setenv("GM_LLM_PROVIDER", "ollama")
+	t.Setenv("GM_LLM_OLLAMA_TIMEOUTSECONDS", "240")
+
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if cfg.LLM.Ollama.TimeoutSeconds != 240 {
+		t.Fatalf("expected ollama timeout seconds from env, got %d", cfg.LLM.Ollama.TimeoutSeconds)
 	}
 }
 

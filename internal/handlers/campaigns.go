@@ -133,6 +133,28 @@ func (h *Handlers) UpdateCampaign(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, campaignToResponse(campaign))
 }
 
+// GetSessionHistory returns the turn history for a campaign.
+func (h *Handlers) GetSessionHistory(w http.ResponseWriter, r *http.Request) {
+	id, err := campaignIDFromURL(r)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid campaign id: %v", err))
+		return
+	}
+
+	logs, err := h.Queries.ListSessionLogsByCampaign(r.Context(), dbutil.ToPgtype(id))
+	if err != nil {
+		h.Logger.Errorf("list session logs for campaign %s: %v", id, err)
+		writeError(w, http.StatusInternalServerError, "failed to list session history")
+		return
+	}
+
+	entries := make([]api.SessionLogEntry, 0, len(logs))
+	for _, sl := range logs {
+		entries = append(entries, sessionLogToEntry(sl))
+	}
+	writeJSON(w, http.StatusOK, api.SessionHistoryResponse{Entries: entries})
+}
+
 // DeleteCampaign deletes a campaign by ID.
 func (h *Handlers) DeleteCampaign(w http.ResponseWriter, r *http.Request) {
 	id, err := campaignIDFromURL(r)

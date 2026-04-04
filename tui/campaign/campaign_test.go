@@ -12,7 +12,6 @@ import (
 	"github.com/PatrickFanella/game-master/tui/campaign"
 )
 
-// makeUUID builds a deterministic pgtype.UUID for tests.
 func makeUUID(b byte) pgtype.UUID {
 	return pgtype.UUID{Bytes: [16]byte{b}, Valid: true}
 }
@@ -31,75 +30,61 @@ func makeCampaign(id byte, name, status string) statedb.Campaign {
 	}
 }
 
-// compile-time check: Model must satisfy tea.Model.
-var _ tea.Model = campaign.Model{}
+var _ tea.Model = campaign.Picker{}
 
-func TestNew_ListContainsAllCampaignsPlusNewOption(t *testing.T) {
-	campaigns := []statedb.Campaign{
+func TestNewPicker_RendersCampaignsPlusNewOption(t *testing.T) {
+	m := campaign.NewPicker([]statedb.Campaign{
 		makeCampaign(1, "Alpha", "active"),
-		makeCampaign(2, "Beta", "active"),
-	}
-	m := campaign.New(campaigns)
+		makeCampaign(2, "Beta", "paused"),
+	})
 	m.SetSize(120, 40)
 
 	view := m.View()
-	if view == "" {
-		t.Fatal("View() should return non-empty string")
-	}
-	// The model must include both campaign names and the new-campaign option.
-	for _, name := range []string{"Alpha", "Beta", "New Campaign"} {
-		if !containsSubstr(view, name) {
-			t.Errorf("expected %q to appear in the view", name)
+	for _, want := range []string{"Alpha", "Beta", "✦ New Campaign"} {
+		if !strings.Contains(view, want) {
+			t.Fatalf("view missing %q: %q", want, view)
 		}
 	}
 }
 
-func TestNew_EmptyListShowsNewCampaignOnly(t *testing.T) {
-	m := campaign.New(nil)
+func TestNewPicker_EmptyListStillShowsNewOption(t *testing.T) {
+	m := campaign.NewPicker(nil)
 	m.SetSize(120, 40)
+
 	view := m.View()
-	if !containsSubstr(view, "New Campaign") {
-		t.Error("expected 'New Campaign' in view with empty campaign list")
+	if !strings.Contains(view, "✦ New Campaign") {
+		t.Fatalf("view missing new campaign option: %q", view)
 	}
 }
 
-func TestNew_ListDescriptionIncludesGenreLastPlayedAndStatus(t *testing.T) {
-	m := campaign.New([]statedb.Campaign{
+func TestNewPicker_DescriptionIncludesGenreLastPlayedAndStatus(t *testing.T) {
+	m := campaign.NewPicker([]statedb.Campaign{
 		makeCampaign(1, "Alpha", "active"),
 	})
 	m.SetSize(120, 40)
+
 	view := m.View()
-	for _, sub := range []string{"Genre: Fantasy", "Last played: 2026-03-30", "Status: active"} {
-		if !containsSubstr(view, sub) {
-			t.Errorf("expected %q in campaign description", sub)
+	for _, want := range []string{"Genre: Fantasy", "Last played: 2026-03-30", "Status: active"} {
+		if !strings.Contains(view, want) {
+			t.Fatalf("view missing %q: %q", want, view)
 		}
 	}
 }
 
-func TestInit_ReturnsNil(t *testing.T) {
-	m := campaign.New(nil)
+func TestPicker_InitReturnsNil(t *testing.T) {
+	m := campaign.NewPicker(nil)
 	if m.Init() != nil {
 		t.Fatal("Init() should return nil")
 	}
 }
 
-func TestSetSize_DoesNotPanic(t *testing.T) {
-	m := campaign.New(nil)
-	m.SetSize(120, 40)
-	// Should not panic.
-}
-
-func TestUpdate_SelectExistingCampaign(t *testing.T) {
+func TestPicker_UpdateEnterOnExistingCampaignReturnsSelectedMsg(t *testing.T) {
 	c := makeCampaign(1, "My Campaign", "active")
-	m := campaign.New([]statedb.Campaign{c})
+	m := campaign.NewPicker([]statedb.Campaign{c})
 
-	// Press Enter to select the first item (the existing campaign).
-	model, cmd := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
-	if model == nil {
-		t.Fatal("Update returned nil model")
-	}
+	_, cmd := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
 	if cmd == nil {
-		t.Fatal("expected a command after selecting a campaign, got nil")
+		t.Fatal("expected selection command")
 	}
 
 	msg := cmd()
@@ -108,58 +93,39 @@ func TestUpdate_SelectExistingCampaign(t *testing.T) {
 		t.Fatalf("expected SelectedMsg, got %T", msg)
 	}
 	if sel.Campaign.ID != c.ID {
-		t.Errorf("expected campaign ID %v, got %v", c.ID, sel.Campaign.ID)
+		t.Fatalf("selected wrong campaign: got %v want %v", sel.Campaign.ID, c.ID)
 	}
 }
 
-func TestUpdate_WindowSizeMsg(t *testing.T) {
-	m := campaign.New(nil)
-	m2, cmd := m.Update(tea.WindowSizeMsg{Width: 80, Height: 24})
-	if m2 == nil {
-		t.Fatal("Update returned nil model for WindowSizeMsg")
-	}
-	_ = cmd
-}
+func TestPicker_UpdateEnterOnNewCampaignReturnsNewCampaignMsg(t *testing.T) {
+	m := campaign.NewPicker([]statedb.Campaign{makeCampaign(1, "Alpha", "active")})
 
-// containsSubstr reports whether sub is a substring of s.
-func containsSubstr(s, sub string) bool {
-	return strings.Contains(s, sub)
-}
+	next, cmd := m.Update(tea.KeyMsg{Type: tea.KeyDown})
+	if cmd != nil {
+		_ = cmd
+	}
 
+	picker, ok := next.(campaign.Picker)
+	if !ok {
+		t.Fatalf("expected Picker after moving selection, got %T", next)
+	}
 
-func TestBuildCampaignForm_ReturnsNonNil(t *testing.T) {
-	var result campaign.CampaignFormResult
-	f := campaign.ExportBuildCampaignForm(&result)
-	if f == nil {
-		t.Fatal("buildCampaignForm returned nil")
+	_, cmd = picker.Update(tea.KeyMsg{Type: tea.KeyEnter})
+	if cmd == nil {
+		t.Fatal("expected selection command")
 	}
-}
 
-func TestCampaignFormResult_PopulatedAfterFormCreation(t *testing.T) {
-	result := campaign.CampaignFormResult{
-		Name:       "Test Campaign",
-		Genre:      "Fantasy",
-		Difficulty: "Casual",
-	}
-	if result.Name != "Test Campaign" {
-		t.Errorf("Name = %q, want %q", result.Name, "Test Campaign")
-	}
-	if result.Genre != "Fantasy" {
-		t.Errorf("Genre = %q, want %q", result.Genre, "Fantasy")
-	}
-	if result.Difficulty != "Casual" {
-		t.Errorf("Difficulty = %q, want %q", result.Difficulty, "Casual")
+	msg := cmd()
+	if _, ok := msg.(campaign.NewCampaignMsg); !ok {
+		t.Fatalf("expected NewCampaignMsg, got %T", msg)
 	}
 }
 
-func TestGenreOptions_NotEmpty(t *testing.T) {
-	if len(campaign.GenreOptions) == 0 {
-		t.Fatal("GenreOptions should not be empty")
-	}
-}
+func TestPicker_SetSizeKeepsViewNonEmpty(t *testing.T) {
+	m := campaign.NewPicker(nil)
+	m.SetSize(80, 24)
 
-func TestDifficultyOptions_NotEmpty(t *testing.T) {
-	if len(campaign.DifficultyOptions) == 0 {
-		t.Fatal("DifficultyOptions should not be empty")
+	if view := m.View(); strings.TrimSpace(view) == "" {
+		t.Fatal("View() should remain non-empty after SetSize")
 	}
 }

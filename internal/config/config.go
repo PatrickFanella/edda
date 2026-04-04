@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/confmap"
@@ -23,6 +24,16 @@ type OllamaConfig struct {
 	Endpoint           string `koanf:"endpoint"`
 	Model              string `koanf:"model"`
 	ContextTokenBudget int    `koanf:"contexttokenbudget"`
+	TimeoutSeconds     int    `koanf:"timeoutseconds"`
+}
+
+// RequestTimeout returns the configured Ollama request timeout, defaulting to
+// three minutes when unset or invalid.
+func (c OllamaConfig) RequestTimeout() time.Duration {
+	if c.TimeoutSeconds <= 0 {
+		return 3 * time.Minute
+	}
+	return time.Duration(c.TimeoutSeconds) * time.Second
 }
 
 // ClaudeConfig holds Claude-specific LLM settings.
@@ -83,6 +94,7 @@ func Load(path string) (Config, error) {
 		"llm.ollama.endpoint":           "http://localhost:11434",
 		"llm.ollama.model":              "llama3.2",
 		"llm.ollama.contexttokenbudget": 8000,
+		"llm.ollama.timeoutseconds":     180,
 		"llm.claude.model":              "claude-sonnet-4-6",
 		"llm.claude.contexttokenbudget": 8000,
 		"server.port":                   8080,
