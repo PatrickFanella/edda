@@ -38,6 +38,7 @@ func (p GamePhase) String() string {
 // ToolFilter selects which tools to expose to the LLM on a given turn.
 type ToolFilter interface {
 	// Filter returns the subset of allTools that should be available to the
-	// LLM for the current turn given the provided game state.
-	Filter(state *game.GameState, allTools []llm.Tool) []llm.Tool
+	// LLM for the current turn given the provided internal/game game state
+	// snapshot used for LLM context and tool selection.
+	Filter(gameState *game.GameState, allTools []llm.Tool) []llm.Tool
 }
