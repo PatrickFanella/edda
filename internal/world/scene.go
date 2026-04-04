@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -47,39 +48,61 @@ type sceneLLMResponse struct {
 // Generate asks the LLM to produce an opening scene for the given campaign,
 // persists the narrative as a session log, and returns the scene result.
 func (g *SceneGenerator) Generate(ctx context.Context, campaignID uuid.UUID, profile *CampaignProfile, skeleton *WorldSkeleton) (*SceneResult, error) {
+	started := time.Now()
 	if profile == nil {
-		return nil, fmt.Errorf("generate scene: profile is nil")
+		err := fmt.Errorf("generate scene: profile is nil")
+		logger().Error("scene generation failed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
+		return nil, err
 	}
 	if skeleton == nil {
-		return nil, fmt.Errorf("generate scene: skeleton is nil")
+		err := fmt.Errorf("generate scene: skeleton is nil")
+		logger().Error("scene generation failed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
+		return nil, err
 	}
 
+	logger().Info("scene generation started",
+		"campaign_id", campaignID,
+		"starting_location", skeleton.StartingLocationName,
+		"npcs", len(skeleton.NPCs),
+		"world_facts", len(skeleton.WorldFacts),
+	)
 	promptText := buildScenePrompt(profile, skeleton)
+	logger().Debug("scene prompt built", "campaign_id", campaignID, "prompt_len", len(promptText))
 
 	resp, err := g.llm.Complete(ctx, []llm.Message{
 		{Role: llm.RoleSystem, Content: promptText},
 	}, nil)
 	if err != nil {
+		logger().Error("scene generation failed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return nil, fmt.Errorf("generate scene: llm call: %w", err)
 	}
 
 	content := strings.TrimSpace(resp.Content)
 	if content == "" {
-		return nil, fmt.Errorf("generate scene: empty LLM response")
+		err := fmt.Errorf("generate scene: empty LLM response")
+		logger().Error("scene generation failed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
+		return nil, err
 	}
 
 	content = llmutil.StripMarkdownFences(content)
 
 	var parsed sceneLLMResponse
 	if err := json.Unmarshal([]byte(content), &parsed); err != nil {
+		logger().Error("scene generation parse failed",
+			"campaign_id", campaignID,
+			"duration_ms", time.Since(started).Milliseconds(),
+			"response_len", len(content),
+			"error", err,
+		)
 		return nil, fmt.Errorf("generate scene: parse response: %w", err)
 	}
 
 	if strings.TrimSpace(parsed.Narrative) == "" {
-		return nil, fmt.Errorf("generate scene: narrative is empty")
+		err := fmt.Errorf("generate scene: narrative is empty")
+		logger().Error("scene generation failed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
+		return nil, err
 	}
 
-	// Persist the opening scene as the first session log entry.
 	log := domain.SessionLog{
 		ID:          uuid.New(),
 		CampaignID:  campaignID,
@@ -89,13 +112,21 @@ func (g *SceneGenerator) Generate(ctx context.Context, campaignID uuid.UUID, pro
 		LLMResponse: parsed.Narrative,
 	}
 	if err := g.store.SaveSessionLog(ctx, log); err != nil {
+		logger().Error("scene session log persistence failed", "campaign_id", campaignID, "error", err)
 		return nil, fmt.Errorf("generate scene: save session log: %w", err)
 	}
 
-	return &SceneResult{
+	result := &SceneResult{
 		Narrative: parsed.Narrative,
 		Choices:   parsed.Choices,
-	}, nil
+	}
+	logger().Info("scene generation completed",
+		"campaign_id", campaignID,
+		"duration_ms", time.Since(started).Milliseconds(),
+		"narrative_len", len(result.Narrative),
+		"choices", len(result.Choices),
+	)
+	return result, nil
 }
 
 // buildScenePrompt constructs the system prompt for opening scene generation.

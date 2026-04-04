@@ -10,6 +10,7 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/google/uuid"
 )
 
 func TestParseConfigPath(t *testing.T) {
@@ -46,7 +47,7 @@ func TestNewRouterHealthAndAPIGroups(t *testing.T) {
 	t.Parallel()
 
 	logger := log.New(io.Discard)
-	router := newRouter(logger, nil, nil)
+	router := newRouterWithProvider(logger, nil, nil, nil, uuid.Nil)
 
 	healthReq := httptest.NewRequest(http.MethodGet, "/healthz", nil)
 	healthRes := httptest.NewRecorder()
@@ -83,7 +84,7 @@ func TestNewRouterRecovererAndCORS(t *testing.T) {
 	t.Parallel()
 
 	logger := log.New(io.Discard)
-	router := newRouter(logger, nil, nil)
+	router := newRouterWithProvider(logger, nil, nil, nil, uuid.Nil)
 
 	mux, ok := router.(*chi.Mux)
 	if !ok {

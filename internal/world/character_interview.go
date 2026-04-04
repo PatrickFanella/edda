@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/PatrickFanella/game-master/internal/llm"
 )
@@ -17,7 +18,7 @@ const extractCharacterToolName = "extract_character_profile"
 // character-creation interview.
 type CharacterProfile struct {
 	Name        string   `json:"name"`
-	Concept     string   `json:"concept"`     // e.g. "elven ranger", "street samurai"
+	Concept     string   `json:"concept"` // e.g. "elven ranger", "street samurai"
 	Background  string   `json:"background"`
 	Personality string   `json:"personality"`
 	Motivations []string `json:"motivations"`
@@ -137,6 +138,7 @@ func (ci *CharacterInterviewer) Start(ctx context.Context) (*CharacterInterviewR
 // If the LLM calls extract_character_profile, the profile is parsed and
 // returned in [CharacterInterviewResult.Profile] along with Done set to true.
 func (ci *CharacterInterviewer) Step(ctx context.Context, playerInput string) (*CharacterInterviewResult, error) {
+	started := time.Now()
 	if ci.done {
 		return &CharacterInterviewResult{
 			Message: "The character interview is already complete.",
@@ -145,6 +147,7 @@ func (ci *CharacterInterviewer) Step(ctx context.Context, playerInput string) (*
 		}, nil
 	}
 
+	logger().Debug("character interview step", "history", len(ci.history), "input_len", len(playerInput), "done", ci.done)
 	if playerInput != "" {
 		ci.history = append(ci.history, llm.Message{
 			Role:    llm.RoleUser,
@@ -155,34 +158,33 @@ func (ci *CharacterInterviewer) Step(ctx context.Context, playerInput string) (*
 	tools := []llm.Tool{extractCharacterProfileTool()}
 	resp, err := ci.provider.Complete(ctx, ci.history, tools)
 	if err != nil {
+		logger().Error("character interview llm call failed", "duration_ms", time.Since(started).Milliseconds(), "history", len(ci.history), "error", err)
 		return nil, fmt.Errorf("character interview LLM call: %w", err)
 	}
+	logger().Debug("character interview llm response", "duration_ms", time.Since(started).Milliseconds(), "tool_calls", len(resp.ToolCalls), "message_len", len(resp.Content))
 
-	// Check for the extract_character_profile tool call.
 	for _, tc := range resp.ToolCalls {
 		if tc.Name != extractCharacterToolName {
 			continue
 		}
 		profile, parseErr := parseCharacterProfile(tc.Arguments)
 		if parseErr != nil {
+			logger().Error("character interview profile parse failed", "duration_ms", time.Since(started).Milliseconds(), "error", parseErr)
 			return nil, fmt.Errorf("parse character profile from tool call: %w", parseErr)
 		}
-		// Ensure the extracted profile is actually complete before
-		// marking the interview as done.
 		if !profile.Complete() {
-			return nil, fmt.Errorf("incomplete character profile extracted from tool call")
+			err := fmt.Errorf("incomplete character profile extracted from tool call")
+			logger().Error("character interview extracted incomplete profile", "duration_ms", time.Since(started).Milliseconds(), "error", err)
+			return nil, err
 		}
 		ci.profile = profile
 		ci.done = true
-
-		// Append the assistant message so the conversation history is
-		// well-formed if the caller wants to inspect it.
 		ci.history = append(ci.history, llm.Message{
 			Role:      llm.RoleAssistant,
 			Content:   resp.Content,
 			ToolCalls: resp.ToolCalls,
 		})
-
+		logger().Info("character interview completed", "duration_ms", time.Since(started).Milliseconds(), "character", profile.Name, "concept", profile.Concept)
 		return &CharacterInterviewResult{
 			Message: resp.Content,
 			Profile: profile,
@@ -190,13 +192,11 @@ func (ci *CharacterInterviewer) Step(ctx context.Context, playerInput string) (*
 		}, nil
 	}
 
-	// No profile-extraction tool call — ordinary interview turn.
 	ci.history = append(ci.history, llm.Message{
 		Role:      llm.RoleAssistant,
 		Content:   resp.Content,
 		ToolCalls: resp.ToolCalls,
 	})
-
 	return &CharacterInterviewResult{
 		Message: resp.Content,
 		Done:    false,

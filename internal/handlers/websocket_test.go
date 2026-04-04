@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
@@ -68,6 +69,11 @@ func newWSRouter(h *Handlers) *chi.Mux {
 // dialWS starts a test server and dials its WebSocket endpoint.
 func dialWS(t *testing.T, h *Handlers, campaignID string) (*websocket.Conn, *httptest.Server) {
 	t.Helper()
+	return dialWSWithOptions(t, h, campaignID, nil)
+}
+
+func dialWSWithOptions(t *testing.T, h *Handlers, campaignID string, opts *websocket.DialOptions) (*websocket.Conn, *httptest.Server) {
+	t.Helper()
 	srv := httptest.NewServer(newWSRouter(h))
 	t.Cleanup(srv.Close)
 
@@ -76,7 +82,7 @@ func dialWS(t *testing.T, h *Handlers, campaignID string) (*websocket.Conn, *htt
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	t.Cleanup(cancel)
 
-	conn, _, err := websocket.Dial(ctx, wsURL, nil)
+	conn, _, err := websocket.Dial(ctx, wsURL, opts)
 	if err != nil {
 		t.Fatalf("dial websocket: %v", err)
 	}
@@ -112,7 +118,16 @@ func TestHandleWebSocket_Success(t *testing.T) {
 	eng := &wsStubEngine{
 		streamEvents: []engine.StreamEvent{
 			{Type: "chunk", Text: "You see a dragon."},
-			{Type: "result", Result: &engine.TurnResult{Narrative: "You see a dragon."}},
+			{Type: "result", Result: &engine.TurnResult{
+				Narrative: "You see a dragon.",
+				StateChanges: []engine.StateChange{{
+					Entity:   "quest",
+					EntityID: uuid.New(),
+					Field:    "status",
+					OldValue: json.RawMessage(`"open"`),
+					NewValue: json.RawMessage(`"complete"`),
+				}},
+			}},
 		},
 	}
 	h := New(eng, nil, log.Default())
@@ -142,12 +157,34 @@ func TestHandleWebSocket_Success(t *testing.T) {
 	if env.Type != "result" {
 		t.Fatalf("expected type result, got %q", env.Type)
 	}
-	var result engine.TurnResult
+	if !strings.Contains(string(env.Payload), `"state_changes"`) {
+		t.Fatalf("expected snake_case state_changes key in payload: %s", string(env.Payload))
+	}
+	if strings.Contains(string(env.Payload), `"StateChanges"`) {
+		t.Fatalf("unexpected PascalCase StateChanges key in payload: %s", string(env.Payload))
+	}
+	var result api.TurnResponse
 	if err := json.Unmarshal(env.Payload, &result); err != nil {
 		t.Fatalf("unmarshal result payload: %v", err)
 	}
 	if result.Narrative != "You see a dragon." {
 		t.Errorf("expected narrative %q, got %q", "You see a dragon.", result.Narrative)
+	}
+	if len(result.StateChanges) != 1 || result.StateChanges[0].ChangeType != "status" {
+		t.Fatalf("expected converted state changes, got %+v", result.StateChanges)
+	}
+}
+
+func TestHandleWebSocket_AllowsFrontendDevOrigin(t *testing.T) {
+	h := New(&wsStubEngine{}, nil, log.Default())
+	conn, _ := dialWSWithOptions(t, h, uuid.New().String(), &websocket.DialOptions{
+		HTTPHeader: http.Header{
+			"Origin": []string{"http://127.0.0.1:5173"},
+		},
+	})
+
+	if conn == nil {
+		t.Fatal("expected websocket connection for allowed frontend origin")
 	}
 }
 
@@ -229,9 +266,7 @@ func TestHandleWebSocket_GracefulClose(t *testing.T) {
 	if err != nil {
 		t.Fatalf("close websocket: %v", err)
 	}
-
 }
-
 
 func TestHandleWebSocket_StreamErrorEvent(t *testing.T) {
 	t.Run("NilErr", func(t *testing.T) {

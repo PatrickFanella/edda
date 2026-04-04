@@ -43,7 +43,7 @@ func SkillCheckTool() llm.Tool {
 			"properties": map[string]any{
 				"character_id": map[string]any{
 					"type":        "string",
-					"description": "Character UUID performing the check.",
+					"description": "UUID of the character performing the check. Use the Player Character ID from the game state.",
 				},
 				"skill": map[string]any{
 					"type":        "string",

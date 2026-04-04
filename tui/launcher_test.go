@@ -11,7 +11,9 @@ import (
 
 	"github.com/PatrickFanella/game-master/internal/bootstrap"
 	"github.com/PatrickFanella/game-master/internal/config"
+	"github.com/PatrickFanella/game-master/internal/llm"
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"github.com/PatrickFanella/game-master/internal/world"
 	"github.com/PatrickFanella/game-master/tui/campaign"
 )
 
@@ -490,6 +492,85 @@ func makeTestCampaign(id byte, name string) statedb.Campaign {
 	}
 }
 
+type stubLLMProvider struct{}
+
+func (stubLLMProvider) Complete(context.Context, []llm.Message, []llm.Tool) (*llm.Response, error) {
+	return &llm.Response{}, nil
+}
+
+func (stubLLMProvider) Stream(context.Context, []llm.Message, []llm.Tool) (<-chan llm.StreamChunk, error) {
+	ch := make(chan llm.StreamChunk, 1)
+	ch <- llm.StreamChunk{Done: true}
+	close(ch)
+	return ch, nil
+}
+
+func newTestLauncherWithProvider(provider llm.Provider) Launcher {
+	return NewLauncherWithEngine(
+		config.Config{LLM: config.LLMConfig{Provider: "ollama"}},
+		context.Background(),
+		&noopQuerier{},
+		nil,
+		WithLLMProvider(provider),
+	)
+}
+
+func bootstrapToSelecting(t *testing.T, l Launcher) Launcher {
+	t.Helper()
+
+	m, _ := l.Update(bootstrapDoneMsg{result: bootstrap.Result{
+		User: statedb.User{
+			ID:   pgtype.UUID{Bytes: [16]byte{99}, Valid: true},
+			Name: "Player",
+		},
+		Campaigns: []statedb.Campaign{
+			makeTestCampaign(1, "A"),
+			makeTestCampaign(2, "B"),
+		},
+	}})
+
+	launcher, ok := m.(Launcher)
+	if !ok {
+		t.Fatalf("expected Launcher after bootstrap, got %T", m)
+	}
+	if launcher.state != launcherSelecting {
+		t.Fatalf("expected launcherSelecting after bootstrap, got %d", launcher.state)
+	}
+
+	return launcher
+}
+
+func testCampaignProfile() world.CampaignProfile {
+	return world.CampaignProfile{
+		Genre:               "Fantasy",
+		Tone:                "Hopeful",
+		Themes:              []string{"friendship"},
+		WorldType:           "frontier",
+		DangerLevel:         "moderate",
+		PoliticalComplexity: "simple",
+	}
+}
+
+func testCharacterProfile() world.CharacterProfile {
+	return world.CharacterProfile{
+		Name:        "Mira",
+		Concept:     "Ranger",
+		Background:  "Frontier scout",
+		Personality: "Steady",
+		Motivations: []string{"Protect the wilds"},
+		Strengths:   []string{"Tracking"},
+		Weaknesses:  []string{"Reckless"},
+	}
+}
+
+func testCampaignProposal() world.CampaignProposal {
+	return world.CampaignProposal{
+		Name:    "Skyreach",
+		Summary: "Defend a frontier city perched above a storm sea.",
+		Profile: testCampaignProfile(),
+	}
+}
+
 // ---------------------------------------------------------------------------
 // State transition tests
 // ---------------------------------------------------------------------------
@@ -648,45 +729,204 @@ func TestLauncherCampaignSelected_TransitionsToApp(t *testing.T) {
 	}
 }
 
-func TestLauncherCampaignSelected_LoadCampaignErrorReturnsToSelecting(t *testing.T) {
-	l := newTestLauncher()
-	m, _ := l.Update(bootstrapDoneMsg{
-		result: bootstrap.Result{
-			Campaigns: []statedb.Campaign{
-				makeTestCampaign(1, "A"),
-				makeTestCampaign(2, "B"),
-			},
-		},
-	})
-	launcher := m.(Launcher)
+func TestLauncherCampaignSelected_LoadCampaignErrorRefreshesPicker(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
 	c := makeTestCampaign(1, "A")
-	m2, _ := launcher.Update(campaign.SelectedMsg{Campaign: c})
-	launcher2 := m2.(Launcher)
-	m3, _ := launcher2.Update(campaignLoadedMsg{c: c, err: errForTest("load failed")})
-	launcher3 := m3.(Launcher)
-	if launcher3.state != launcherSelecting {
-		t.Fatalf("expected launcherSelecting after load error, got %d", launcher3.state)
+
+	m, _ := launcher.Update(campaign.SelectedMsg{Campaign: c})
+	loading := m.(Launcher)
+
+	m2, cmd := loading.Update(campaignLoadedMsg{c: c, err: errForTest("load failed")})
+	reloaded := m2.(Launcher)
+
+	if reloaded.state != launcherLoading {
+		t.Fatalf("expected launcherLoading after load error, got %d", reloaded.state)
 	}
-	if launcher3.errMsg == "" {
+	if cmd == nil {
+		t.Fatal("expected bootstrap refresh cmd after load error")
+	}
+	if reloaded.errMsg == "" {
 		t.Fatal("expected errMsg after load error")
 	}
 }
 
-func TestLauncherCampaignCreated_TransitionsToApp(t *testing.T) {
-	mockEngine := &mockGameEngine{}
-	l := newTestLauncherWithEngine(mockEngine)
-	c := makeTestCampaign(3, "New World")
-	m, cmd := l.Update(campaignCreatedMsg{c: c})
+func TestLauncherNewCampaignMsg_TransitionsToChooseMethod(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
+
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher2 := m.(Launcher)
+
+	if launcher2.state != launcherChooseMethod {
+		t.Fatalf("expected launcherChooseMethod, got %d", launcher2.state)
+	}
+}
+
+func TestLauncherMethodChosenDescribe_TransitionsToInterviewing(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncherWithProvider(stubLLMProvider{}))
+
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher = m.(Launcher)
+
+	m2, _ := launcher.Update(campaign.MethodChosenMsg{Method: campaign.MethodDescribe})
+	launcher2 := m2.(Launcher)
+
+	if launcher2.state != launcherInterviewing {
+		t.Fatalf("expected launcherInterviewing, got %d", launcher2.state)
+	}
+}
+
+func TestLauncherMethodChosenAttributes_TransitionsToAttributes(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
+
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher = m.(Launcher)
+
+	m2, _ := launcher.Update(campaign.MethodChosenMsg{Method: campaign.MethodAttributes})
+	launcher2 := m2.(Launcher)
+
+	if launcher2.state != launcherAttributes {
+		t.Fatalf("expected launcherAttributes, got %d", launcher2.state)
+	}
+}
+
+func TestLauncherProposalsGenerated_TransitionsToProposals(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncherWithProvider(stubLLMProvider{}))
+
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(campaign.MethodChosenMsg{Method: campaign.MethodAttributes})
+	launcher = m.(Launcher)
+
+	m, cmd := launcher.Update(campaign.AttributesReadyMsg{Genre: "Fantasy", SettingStyle: "Frontier", Tone: "Heroic"})
+	loading := m.(Launcher)
+	if loading.state != launcherGeneratingProposals {
+		t.Fatalf("expected launcherGeneratingProposals, got %d", loading.state)
+	}
 	if cmd == nil {
-		t.Fatal("expected load campaign cmd after campaignCreatedMsg")
+		t.Fatal("expected proposal generation cmd")
 	}
-	launcher, ok := m.(Launcher)
-	if !ok {
-		t.Fatalf("expected Launcher while loading created campaign, got %T", m)
+
+	m2, _ := loading.Update(proposalsGeneratedMsg{proposals: []world.CampaignProposal{testCampaignProposal()}})
+	launcher2 := m2.(Launcher)
+
+	if launcher2.state != launcherProposals {
+		t.Fatalf("expected launcherProposals, got %d", launcher2.state)
 	}
-	if launcher.state != launcherLoadingCampaign {
-		t.Fatalf("expected launcherLoadingCampaign, got %d", launcher.state)
+}
+
+func TestLauncherProposalsGenerated_ErrorReturnsPrefilledAttributes(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncherWithProvider(stubLLMProvider{}))
+
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(campaign.MethodChosenMsg{Method: campaign.MethodAttributes})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(campaign.AttributesReadyMsg{
+		Genre:        "Fantasy",
+		SettingStyle: "Open Wilderness",
+		Tone:         "Mysterious",
+	})
+	loading := m.(Launcher)
+
+	m2, _ := loading.Update(proposalsGeneratedMsg{err: errForTest("parse failure")})
+	launcher2 := m2.(Launcher)
+	if launcher2.state != launcherAttributes {
+		t.Fatalf("expected launcherAttributes, got %d", launcher2.state)
 	}
+	if launcher2.proposalAttrs.Genre != "Fantasy" || launcher2.proposalAttrs.SettingStyle != "Open Wilderness" || launcher2.proposalAttrs.Tone != "Mysterious" {
+		t.Fatalf("proposal attrs not preserved: %+v", launcher2.proposalAttrs)
+	}
+	if launcher2.errMsg == "" {
+		t.Fatal("expected error message after proposal generation failure")
+	}
+	if launcher2.view == nil {
+		t.Fatal("expected attributes view after proposal generation failure")
+	}
+	launcher2.width = 100
+	launcher2.height = 30
+	if view := launcher2.View(); !strings.Contains(view, "Generate proposals failed: parse failure") {
+		t.Fatalf("expected inline proposal error in view, got %q", view)
+	}
+}
+
+func TestLauncherProposalSelected_TransitionsToCharMethod(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
+
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(proposalsGeneratedMsg{proposals: []world.CampaignProposal{testCampaignProposal()}})
+	launcher = m.(Launcher)
+
+	m2, _ := launcher.Update(campaign.ProposalSelectedMsg{Proposal: testCampaignProposal()})
+	launcher2 := m2.(Launcher)
+
+	if launcher2.state != launcherCharMethod {
+		t.Fatalf("expected launcherCharMethod, got %d", launcher2.state)
+	}
+}
+
+func TestLauncherCharacterReady_TransitionsToConfirmation(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
+	proposal := testCampaignProposal()
+	character := testCharacterProfile()
+
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(campaign.ProposalSelectedMsg{Proposal: proposal})
+	launcher = m.(Launcher)
+
+	m2, _ := launcher.Update(campaign.CharacterReadyMsg{Profile: character})
+	launcher2 := m2.(Launcher)
+
+	if launcher2.state != launcherConfirmation {
+		t.Fatalf("expected launcherConfirmation, got %d", launcher2.state)
+	}
+}
+
+func TestLauncherConfirmed_TransitionsToWorldBuilding(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncherWithProvider(stubLLMProvider{}))
+	proposal := testCampaignProposal()
+	character := testCharacterProfile()
+
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(campaign.ProposalSelectedMsg{Proposal: proposal})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(campaign.CharacterReadyMsg{Profile: character})
+	launcher = m.(Launcher)
+
+	m2, _ := launcher.Update(campaign.ConfirmedMsg{
+		Name:             proposal.Name,
+		Summary:          proposal.Summary,
+		Profile:          proposal.Profile,
+		CharacterProfile: character,
+	})
+	launcher2 := m2.(Launcher)
+
+	if launcher2.state != launcherWorldBuilding {
+		t.Fatalf("expected launcherWorldBuilding, got %d", launcher2.state)
+	}
+}
+
+func TestLauncherWorldReady_TransitionsToApp(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
+	result := world.OrchestratorResult{
+		Campaign: makeTestCampaign(7, "Skyreach"),
+		Scene: &world.SceneResult{
+			Narrative: "Storm clouds gather over the harbor.",
+			Choices:   []string{"Investigate the docks", "Seek shelter"},
+		},
+	}
+
+	m, cmd := launcher.Update(campaign.WorldReadyMsg{Result: &result})
+	if cmd == nil {
+		t.Fatal("expected load campaign cmd after world ready")
+	}
+	loading := m.(Launcher)
+	if loading.state != launcherLoadingCampaign {
+		t.Fatalf("expected launcherLoadingCampaign, got %d", loading.state)
+	}
+
 	rawMsg := cmd()
 	batchMsg, ok := rawMsg.(tea.BatchMsg)
 	if !ok {
@@ -695,33 +935,16 @@ func TestLauncherCampaignCreated_TransitionsToApp(t *testing.T) {
 	if len(batchMsg) < 2 {
 		t.Fatalf("expected at least 2 commands in batch, got %d", len(batchMsg))
 	}
-	// Launcher batches spinner tick first, then runLoadCampaign.
+
 	loadMsgRaw := batchMsg[loadCampaignCmdBatchIndex]()
 	loadMsg, ok := loadMsgRaw.(campaignLoadedMsg)
 	if !ok {
 		t.Fatalf("expected campaignLoadedMsg from batch[1], got %T", loadMsgRaw)
 	}
-	m2, _ := launcher.Update(loadMsg)
-	if len(mockEngine.loadedCampaignIDs) != 1 {
-		t.Fatalf("expected engine.LoadCampaign to be called once, got %d", len(mockEngine.loadedCampaignIDs))
-	}
+
+	m2, _ := loading.Update(loadMsg)
 	if _, ok := m2.(App); !ok {
 		t.Fatalf("expected App after campaignLoadedMsg, got %T", m2)
-	}
-}
-
-func TestLauncherCampaignCreated_LoadErrorReturnsToSelecting(t *testing.T) {
-	l := newTestLauncher()
-	c := makeTestCampaign(3, "New World")
-	m, _ := l.Update(campaignCreatedMsg{c: c})
-	launcher := m.(Launcher)
-	m2, _ := launcher.Update(campaignLoadedMsg{c: c, err: errForTest("load failed")})
-	launcher2 := m2.(Launcher)
-	if launcher2.state != launcherSelecting {
-		t.Fatalf("expected launcherSelecting after load error, got %d", launcher2.state)
-	}
-	if launcher2.errMsg == "" {
-		t.Fatal("expected errMsg after load error")
 	}
 }
 
@@ -762,79 +985,120 @@ func TestLauncherCampaignSelected_NoEngineStillTransitionsToApp(t *testing.T) {
 	}
 }
 
-func TestLauncherNewCampaignFormMsg_TransitionsToCreating(t *testing.T) {
-	l := newTestLauncher()
-	m, cmd := l.Update(campaign.NewCampaignFormMsg{Result: campaign.CampaignFormResult{
-		Name:       "Brave New World",
-		Genre:      "Fantasy",
-		Difficulty: "Casual",
-	}})
-	launcher, ok := m.(Launcher)
-	if !ok {
-		t.Fatalf("expected Launcher after NewCampaignFormMsg, got %T", m)
-	}
-	if launcher.state != launcherCreating {
-		t.Fatalf("expected launcherCreating, got %d", launcher.state)
+func TestLauncherBackFromChooseMethod_ReloadsPicker(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
+
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher = m.(Launcher)
+
+	m2, cmd := launcher.Update(campaign.BackMsg{})
+	reloaded := m2.(Launcher)
+
+	if reloaded.state != launcherLoading {
+		t.Fatalf("expected launcherLoading after back, got %d", reloaded.state)
 	}
 	if cmd == nil {
-		t.Fatal("expected a DB command to be issued")
+		t.Fatal("expected bootstrap refresh cmd after back from choose method")
 	}
 }
 
-func TestLauncherCampaignCreated_ErrorReturnsToSelecting(t *testing.T) {
-	// Start in creating state.
-	l := newTestLauncher()
-	l.state = launcherCreating
+func TestLauncherBackFromCharForm_ReturnsToCharMethod(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
+	proposal := testCampaignProposal()
 
-	m, _ := l.Update(campaignCreatedMsg{err: errForTest("create failed")})
-	launcher, ok := m.(Launcher)
-	if !ok {
-		t.Fatalf("expected Launcher on campaignCreatedMsg error, got %T", m)
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(campaign.ProposalSelectedMsg{Proposal: proposal})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(campaign.CharMethodChosenMsg{Method: campaign.MethodAttributes})
+	launcher = m.(Launcher)
+
+	if launcher.state != launcherCharForm {
+		t.Fatalf("expected launcherCharForm, got %d", launcher.state)
 	}
-	if launcher.state != launcherSelecting {
-		t.Fatalf("expected launcherSelecting after create error, got %d", launcher.state)
-	}
-	if launcher.errMsg == "" {
-		t.Fatal("expected errMsg after create error")
+
+	m2, _ := launcher.Update(campaign.BackMsg{})
+	launcher2 := m2.(Launcher)
+
+	if launcher2.state != launcherCharMethod {
+		t.Fatalf("expected launcherCharMethod after back, got %d", launcher2.state)
 	}
 }
 
-func TestLauncherSpinnerTick_OnlyAdvancesInLoadingOrCreating(t *testing.T) {
+func TestLauncherChangeFromConfirmation_ReturnsToCharMethod(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
+	proposal := testCampaignProposal()
+
+	m, _ := launcher.Update(campaign.NewCampaignMsg{})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(campaign.ProposalSelectedMsg{Proposal: proposal})
+	launcher = m.(Launcher)
+	m, _ = launcher.Update(campaign.CharacterReadyMsg{Profile: testCharacterProfile()})
+	launcher = m.(Launcher)
+
+	if launcher.state != launcherConfirmation {
+		t.Fatalf("expected launcherConfirmation, got %d", launcher.state)
+	}
+
+	m2, _ := launcher.Update(campaign.ChangeMsg{})
+	launcher2 := m2.(Launcher)
+
+	if launcher2.state != launcherCharMethod {
+		t.Fatalf("expected launcherCharMethod after change, got %d", launcher2.state)
+	}
+}
+
+func TestLauncherWorldError_ReloadsPicker(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
+	launcher.state = launcherWorldBuilding
+
+	m, cmd := launcher.Update(campaign.WorldErrorMsg{Err: errForTest("world failed")})
+	reloaded := m.(Launcher)
+
+	if reloaded.state != launcherLoading {
+		t.Fatalf("expected launcherLoading after world error, got %d", reloaded.state)
+	}
+	if cmd == nil {
+		t.Fatal("expected bootstrap refresh cmd after world error")
+	}
+}
+
+func TestLauncherCampaignLoadedError_ReloadsPicker(t *testing.T) {
+	launcher := bootstrapToSelecting(t, newTestLauncher())
+	launcher.state = launcherLoadingCampaign
+
+	m, cmd := launcher.Update(campaignLoadedMsg{c: makeTestCampaign(9, "Broken Save"), err: errForTest("load failed")})
+	reloaded := m.(Launcher)
+
+	if reloaded.state != launcherLoading {
+		t.Fatalf("expected launcherLoading after campaignLoadedMsg error, got %d", reloaded.state)
+	}
+	if cmd == nil {
+		t.Fatal("expected bootstrap refresh cmd after campaignLoadedMsg error")
+	}
+}
+
+func TestLauncherSpinnerTick_OnlyAdvancesInRootSpinnerStates(t *testing.T) {
 	tickMsg := spinner.TickMsg{}
 
-	// In loading state: should return a cmd (next tick).
 	l := newTestLauncher()
 	_, cmd := l.Update(tickMsg)
 	if cmd == nil {
 		t.Fatal("expected tick cmd in loading state")
 	}
 
-	// In selecting state: should return nil (no perpetual tick loop).
-	m, _ := l.Update(bootstrapDoneMsg{
-		result: bootstrap.Result{
-			Campaigns: []statedb.Campaign{
-				makeTestCampaign(1, "A"),
-				makeTestCampaign(2, "B"),
-			},
-		},
-	})
-	launcher := m.(Launcher)
-	if launcher.state != launcherSelecting {
-		t.Skip("launcher not in selecting state, skipping spinner test")
-	}
+	launcher := bootstrapToSelecting(t, l)
 	_, cmd2 := launcher.Update(tickMsg)
 	if cmd2 != nil {
 		t.Fatal("expected nil tick cmd in selecting state to avoid infinite loop")
 	}
 
-	// In creating state: should return a cmd.
-	launcher.state = launcherCreating
+	launcher.state = launcherGeneratingProposals
 	_, cmd3 := launcher.Update(tickMsg)
 	if cmd3 == nil {
-		t.Fatal("expected tick cmd in creating state")
+		t.Fatal("expected tick cmd in generating-proposals state")
 	}
 
-	// In loading-campaign state: should return a cmd.
 	launcher.state = launcherLoadingCampaign
 	_, cmd4 := launcher.Update(tickMsg)
 	if cmd4 == nil {

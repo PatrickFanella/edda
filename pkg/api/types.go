@@ -3,6 +3,8 @@ package api
 import (
 	"encoding/json"
 	"time"
+
+	"github.com/PatrickFanella/game-master/internal/world"
 )
 
 // CampaignCreateRequest describes the payload used to create a campaign.
@@ -126,6 +128,20 @@ type ItemResponse struct {
 	Quantity          int            `json:"quantity"`
 }
 
+// SessionLogEntry describes a single turn in the campaign history.
+type SessionLogEntry struct {
+	TurnNumber  int       `json:"turn_number"`
+	PlayerInput string    `json:"player_input"`
+	InputType   string    `json:"input_type"`
+	LLMResponse string    `json:"llm_response"`
+	CreatedAt   time.Time `json:"created_at"`
+}
+
+// SessionHistoryResponse returns the turn history for a campaign.
+type SessionHistoryResponse struct {
+	Entries []SessionLogEntry `json:"entries"`
+}
+
 // ActionRequest describes player input submitted for a turn.
 type ActionRequest struct {
 	Input string `json:"input"`
@@ -153,4 +169,85 @@ type WebSocketMessageEnvelope struct {
 	Type      string          `json:"type"`
 	Payload   json.RawMessage `json:"payload"`
 	Timestamp time.Time       `json:"timestamp"`
+}
+
+// CampaignProfile mirrors the startup workflow's campaign profile payload.
+type CampaignProfile = world.CampaignProfile
+
+// CharacterProfile mirrors the startup workflow's character profile payload.
+type CharacterProfile = world.CharacterProfile
+
+// InterviewStepRequest submits one reply into an active startup interview session.
+type InterviewStepRequest struct {
+	Input string `json:"input"`
+}
+
+// CampaignInterviewResponse describes one campaign-interview turn.
+type CampaignInterviewResponse struct {
+	SessionID string           `json:"session_id"`
+	Message   string           `json:"message"`
+	Done      bool             `json:"done"`
+	Profile   *CampaignProfile `json:"profile,omitempty"`
+}
+
+// CampaignProposalsRequest asks the backend to generate campaign proposals.
+type CampaignProposalsRequest struct {
+	Genre        string `json:"genre"`
+	SettingStyle string `json:"setting_style"`
+	Tone         string `json:"tone"`
+}
+
+// CampaignProposal describes one generated startup proposal.
+type CampaignProposal struct {
+	Name    string          `json:"name"`
+	Summary string          `json:"summary"`
+	Profile CampaignProfile `json:"profile"`
+}
+
+// CampaignProposalsResponse returns generated campaign proposals.
+type CampaignProposalsResponse struct {
+	Proposals []CampaignProposal `json:"proposals"`
+}
+
+// CampaignNameRequest asks the backend to name a campaign from its profile.
+type CampaignNameRequest struct {
+	Profile *CampaignProfile `json:"profile"`
+}
+
+// CampaignNameResponse returns one generated campaign name.
+type CampaignNameResponse struct {
+	Name string `json:"name"`
+}
+
+// CharacterInterviewStartRequest starts a character interview for a campaign profile.
+type CharacterInterviewStartRequest struct {
+	CampaignProfile *CampaignProfile `json:"campaign_profile"`
+}
+
+// CharacterInterviewResponse describes one character-interview turn.
+type CharacterInterviewResponse struct {
+	SessionID string            `json:"session_id"`
+	Message   string            `json:"message"`
+	Done      bool              `json:"done"`
+	Profile   *CharacterProfile `json:"profile,omitempty"`
+}
+
+// OpeningSceneResponse contains the generated opening scene and initial choices.
+type OpeningSceneResponse struct {
+	Narrative string   `json:"narrative"`
+	Choices   []string `json:"choices"`
+}
+
+// WorldBuildRequest finalizes startup choices and creates the campaign world.
+type WorldBuildRequest struct {
+	Name             string            `json:"name"`
+	Summary          string            `json:"summary"`
+	Profile          *CampaignProfile  `json:"profile"`
+	CharacterProfile *CharacterProfile `json:"character_profile"`
+}
+
+// WorldBuildResponse returns the created campaign plus its opening scene.
+type WorldBuildResponse struct {
+	Campaign     CampaignResponse     `json:"campaign"`
+	OpeningScene OpeningSceneResponse `json:"opening_scene"`
 }

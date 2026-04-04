@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/PatrickFanella/game-master/internal/llm"
 	"github.com/PatrickFanella/game-master/internal/tools"
@@ -65,49 +66,46 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 	messages []llm.Message,
 	availableTools []llm.Tool,
 ) (narrative string, applied []AppliedToolCall, err error) {
-	// Initial LLM call.
+	started := time.Now()
+	tp.logger.Debug("turn processor started", "messages", len(messages), "tools", len(availableTools))
 	resp, err := tp.provider.Complete(ctx, messages, availableTools)
 	if err != nil {
+		tp.logger.Error("turn processor initial llm call failed", "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return "", nil, fmt.Errorf("initial LLM call failed: %w", err)
 	}
 
 	narrative = resp.Content
-
+	tp.logger.Debug("turn processor initial llm response", "tool_calls", len(resp.ToolCalls), "narrative_len", len(narrative))
 	if len(resp.ToolCalls) == 0 {
+		tp.logger.Debug("turn processor completed without tool calls", "duration_ms", time.Since(started).Milliseconds())
 		return narrative, nil, nil
 	}
 
-	// Build an allowlist from the tools actually advertised to the LLM so
-	// that hallucinated tool names are rejected before execution.
 	allowed := make(map[string]struct{}, len(availableTools))
 	for _, t := range availableTools {
 		allowed[t.Name] = struct{}{}
 	}
 
-	// Build the assistant message for retry context. When retrying a specific
-	// failed tool call we include only that call so the LLM can focus on
-	// correcting it without being confused by sibling calls.
 	assistantContent := resp.Content
-
 	for _, tc := range resp.ToolCalls {
+		tp.logger.Debug("attempting tool call", "tool", tc.Name, "tool_call_id", tc.ID)
 		result, execErr := tp.attemptToolCall(ctx, tc, allowed)
 		if execErr == nil {
 			if atc, encErr := buildAppliedToolCall(tc, result); encErr != nil {
-			tp.logger.Error("failed to encode applied tool call; skipping",
-				"tool", tc.Name,
-				"tool_call_id", tc.ID,
-				"error", encErr.Error(),
-			)
+				tp.logger.Error("failed to encode applied tool call; skipping",
+					"tool", tc.Name,
+					"tool_call_id", tc.ID,
+					"error", encErr.Error(),
+				)
 			} else {
 				applied = append(applied, atc)
+				tp.logger.Debug("tool call applied", "tool", tc.Name, "tool_call_id", tc.ID)
 			}
 			continue
 		}
 
-		// First attempt failed – request one retry from the LLM.
-		retryTC, retryLLMErr := tp.requestRetry(
-			ctx, tc, execErr, messages, assistantContent, availableTools,
-		)
+		tp.logger.Warn("tool call failed; requesting retry", "tool", tc.Name, "tool_call_id", tc.ID, "error", execErr.Error())
+		retryTC, retryLLMErr := tp.requestRetry(ctx, tc, execErr, messages, assistantContent, availableTools)
 		if retryLLMErr != nil {
 			tp.logger.Error("tool call failed and retry LLM call also failed; skipping",
 				"tool", tc.Name,
@@ -118,6 +116,7 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 			continue
 		}
 
+		tp.logger.Debug("retry tool call received", "tool", retryTC.Name, "tool_call_id", retryTC.ID)
 		retryResult, retryExecErr := tp.attemptToolCall(ctx, retryTC, allowed)
 		if retryExecErr != nil {
 			tp.logger.Error("tool call failed after retry; skipping",
@@ -139,9 +138,22 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 			)
 		} else {
 			applied = append(applied, atc)
+			tp.logger.Debug("tool call applied after retry", "tool", retryTC.Name, "tool_call_id", retryTC.ID)
 		}
 	}
 
+	// If the model returned tool calls but no narrative text, send the tool
+	// results back so it can generate the narrative based on outcomes.
+	if narrative == "" && len(applied) > 0 {
+		tp.logger.Debug("no narrative after tool calls; issuing continuation call", "applied_tool_calls", len(applied))
+		narrative, err = tp.requestContinuation(ctx, messages, resp, applied, availableTools)
+		if err != nil {
+			tp.logger.Error("continuation call failed", "error", err)
+			// Non-fatal: return what we have (empty narrative + applied tools).
+		}
+	}
+
+	tp.logger.Debug("turn processor completed", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "narrative_len", len(narrative))
 	return narrative, applied, nil
 }
 
@@ -161,6 +173,7 @@ func (tp *TurnProcessor) attemptToolCall(ctx context.Context, tc llm.ToolCall, a
 	if err != nil {
 		return nil, fmt.Errorf("execution: %w", err)
 	}
+	tp.logger.Debug("tool execution succeeded", "tool", tc.Name, "tool_call_id", tc.ID)
 	return result, nil
 }
 
@@ -179,35 +192,36 @@ func (tp *TurnProcessor) requestRetry(
 	assistantContent string,
 	availableTools []llm.Tool,
 ) (llm.ToolCall, error) {
+	retryStarted := time.Now()
 	retryMessages := make([]llm.Message, len(originalMessages), len(originalMessages)+2)
 	copy(retryMessages, originalMessages)
 
-	// Assistant message with only the single failed tool call.
 	retryMessages = append(retryMessages, llm.Message{
 		Role:      llm.RoleAssistant,
 		Content:   assistantContent,
 		ToolCalls: []llm.ToolCall{failedTC},
 	})
-
-	// Tool-result message carrying the error so the LLM can correct it.
 	retryMessages = append(retryMessages, llm.Message{
 		Role:       llm.RoleTool,
 		Content:    fmt.Sprintf("Error: %s. Please retry with corrected arguments.", execErr.Error()),
 		ToolCallID: failedTC.ID,
 	})
 
+	tp.logger.Debug("issuing retry llm call", "tool", failedTC.Name, "tool_call_id", failedTC.ID, "messages", len(retryMessages))
 	retryResp, err := tp.provider.Complete(ctx, retryMessages, availableTools)
 	if err != nil {
+		tp.logger.Error("retry llm call failed", "tool", failedTC.Name, "tool_call_id", failedTC.ID, "duration_ms", time.Since(retryStarted).Milliseconds(), "error", err)
 		return llm.ToolCall{}, fmt.Errorf("retry LLM call: %w", err)
 	}
 
-	// Prefer a tool call with the same name; fall back to the first available.
 	for _, tc := range retryResp.ToolCalls {
 		if tc.Name == failedTC.Name {
+			tp.logger.Debug("retry llm call completed", "tool", failedTC.Name, "tool_call_id", failedTC.ID, "duration_ms", time.Since(retryStarted).Milliseconds(), "returned_tool_calls", len(retryResp.ToolCalls))
 			return tc, nil
 		}
 	}
 	if len(retryResp.ToolCalls) > 0 {
+		tp.logger.Debug("retry llm call completed with fallback tool", "tool", failedTC.Name, "tool_call_id", failedTC.ID, "duration_ms", time.Since(retryStarted).Milliseconds(), "returned_tool_calls", len(retryResp.ToolCalls))
 		return retryResp.ToolCalls[0], nil
 	}
 
@@ -216,6 +230,43 @@ func (tp *TurnProcessor) requestRetry(
 		failedTC.Name,
 		failedTC.ID,
 	)
+}
+
+// requestContinuation sends tool results back to the LLM so it can produce
+// narrative text based on the outcomes. This handles models (like Gemma) that
+// emit tool calls without accompanying text.
+func (tp *TurnProcessor) requestContinuation(
+	ctx context.Context,
+	originalMessages []llm.Message,
+	initialResp *llm.Response,
+	applied []AppliedToolCall,
+	availableTools []llm.Tool,
+) (string, error) {
+	contMessages := make([]llm.Message, len(originalMessages), len(originalMessages)+1+len(applied))
+	copy(contMessages, originalMessages)
+
+	// Add the assistant message with tool calls.
+	contMessages = append(contMessages, llm.Message{
+		Role:      llm.RoleAssistant,
+		Content:   initialResp.Content,
+		ToolCalls: initialResp.ToolCalls,
+	})
+
+	// Add a tool-result message for each applied tool call.
+	for _, atc := range applied {
+		contMessages = append(contMessages, llm.Message{
+			Role:       llm.RoleTool,
+			Content:    string(atc.Result),
+			ToolCallID: atc.Tool, // use tool name as fallback ID when ID is empty
+		})
+	}
+
+	resp, err := tp.provider.Complete(ctx, contMessages, availableTools)
+	if err != nil {
+		return "", fmt.Errorf("continuation LLM call: %w", err)
+	}
+	tp.logger.Debug("continuation call completed", "narrative_len", len(resp.Content), "tool_calls", len(resp.ToolCalls))
+	return resp.Content, nil
 }
 
 // buildAppliedToolCall converts a raw tool call and its result into the

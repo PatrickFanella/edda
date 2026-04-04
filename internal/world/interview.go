@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/PatrickFanella/game-master/internal/llm"
 )
@@ -101,6 +102,7 @@ func (iv *Interviewer) Start(ctx context.Context) (*InterviewResult, error) {
 // If the LLM calls extract_campaign_profile, the profile is parsed and
 // returned in [InterviewResult.Profile] along with Done set to true.
 func (iv *Interviewer) Step(ctx context.Context, playerInput string) (*InterviewResult, error) {
+	started := time.Now()
 	if iv.done {
 		return &InterviewResult{
 			Message: "The interview is already complete.",
@@ -109,6 +111,7 @@ func (iv *Interviewer) Step(ctx context.Context, playerInput string) (*Interview
 		}, nil
 	}
 
+	logger().Debug("campaign interview step", "history", len(iv.history), "input_len", len(playerInput), "done", iv.done)
 	if playerInput != "" {
 		iv.history = append(iv.history, llm.Message{
 			Role:    llm.RoleUser,
@@ -119,34 +122,33 @@ func (iv *Interviewer) Step(ctx context.Context, playerInput string) (*Interview
 	tools := []llm.Tool{extractProfileTool()}
 	resp, err := iv.provider.Complete(ctx, iv.history, tools)
 	if err != nil {
+		logger().Error("campaign interview llm call failed", "duration_ms", time.Since(started).Milliseconds(), "history", len(iv.history), "error", err)
 		return nil, fmt.Errorf("interview LLM call: %w", err)
 	}
+	logger().Debug("campaign interview llm response", "duration_ms", time.Since(started).Milliseconds(), "tool_calls", len(resp.ToolCalls), "message_len", len(resp.Content))
 
-	// Check for the extract_campaign_profile tool call.
 	for _, tc := range resp.ToolCalls {
 		if tc.Name != extractToolName {
 			continue
 		}
 		profile, parseErr := parseProfile(tc.Arguments)
 		if parseErr != nil {
+			logger().Error("campaign interview profile parse failed", "duration_ms", time.Since(started).Milliseconds(), "error", parseErr)
 			return nil, fmt.Errorf("parse campaign profile from tool call: %w", parseErr)
 		}
-		// Ensure the extracted profile is actually complete before
-		// marking the interview as done.
 		if !profile.Complete() {
-			return nil, fmt.Errorf("incomplete campaign profile extracted from tool call")
+			err := fmt.Errorf("incomplete campaign profile extracted from tool call")
+			logger().Error("campaign interview extracted incomplete profile", "duration_ms", time.Since(started).Milliseconds(), "error", err)
+			return nil, err
 		}
 		iv.profile = profile
 		iv.done = true
-
-		// Append the assistant message so the conversation history is
-		// well-formed if the caller wants to inspect it.
 		iv.history = append(iv.history, llm.Message{
 			Role:      llm.RoleAssistant,
 			Content:   resp.Content,
 			ToolCalls: resp.ToolCalls,
 		})
-
+		logger().Info("campaign interview completed", "duration_ms", time.Since(started).Milliseconds(), "genre", profile.Genre, "tone", profile.Tone, "themes", len(profile.Themes))
 		return &InterviewResult{
 			Message: resp.Content,
 			Profile: profile,
@@ -154,13 +156,11 @@ func (iv *Interviewer) Step(ctx context.Context, playerInput string) (*Interview
 		}, nil
 	}
 
-	// No profile-extraction tool call — ordinary interview turn.
 	iv.history = append(iv.history, llm.Message{
 		Role:      llm.RoleAssistant,
 		Content:   resp.Content,
 		ToolCalls: resp.ToolCalls,
 	})
-
 	return &InterviewResult{
 		Message: resp.Content,
 		Done:    false,

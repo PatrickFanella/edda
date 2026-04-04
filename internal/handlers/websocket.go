@@ -24,6 +24,13 @@ type wsActionPayload struct {
 	Input string `json:"input"`
 }
 
+var websocketAcceptOptions = &websocket.AcceptOptions{
+	OriginPatterns: []string{
+		"localhost:*",
+		"127.0.0.1:*",
+	},
+}
+
 // HandleWebSocket upgrades to WebSocket and streams game events to the client.
 func (h *Handlers) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	campaignID, err := campaignIDFromURL(r)
@@ -32,7 +39,7 @@ func (h *Handlers) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	conn, err := websocket.Accept(w, r, nil)
+	conn, err := websocket.Accept(w, r, websocketAcceptOptions)
 	if err != nil {
 		h.Logger.Errorf("websocket accept for campaign %s: %v", campaignID, err)
 		return
@@ -88,7 +95,19 @@ func (h *Handlers) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 				envelope.Payload, _ = json.Marshal(map[string]string{"text": event.Text})
 			case "result":
 				envelope.Type = "result"
-				envelope.Payload, _ = json.Marshal(event.Result)
+				if event.Result == nil {
+					envelope.Type = "error"
+					envelope.Payload, _ = json.Marshal(map[string]string{"error": "an internal error occurred"})
+					break
+				}
+				resultPayload, err := json.Marshal(engineTurnResultToAPI(event.Result))
+				if err != nil {
+					h.Logger.Errorf("marshal turn result for campaign %s: %v", campaignID, err)
+					envelope.Type = "error"
+					envelope.Payload, _ = json.Marshal(map[string]string{"error": "an internal error occurred"})
+					break
+				}
+				envelope.Payload = resultPayload
 			case "error":
 				envelope.Type = "error"
 				errMsg := "an internal error occurred"

@@ -183,6 +183,16 @@ func engineTurnResultToAPI(tr *engine.TurnResult) api.TurnResponse {
 	}
 }
 
+func sessionLogToEntry(sl statedb.SessionLog) api.SessionLogEntry {
+	return api.SessionLogEntry{
+		TurnNumber:  int(sl.TurnNumber),
+		PlayerInput: sl.PlayerInput,
+		InputType:   sl.InputType,
+		LLMResponse: sl.LlmResponse,
+		CreatedAt:   sl.CreatedAt.Time,
+	}
+}
+
 // unmarshalJSONMap decodes raw JSON bytes into a map; returns empty map on
 // nil/empty input or decode failure.
 func unmarshalJSONMap(data []byte) map[string]any {

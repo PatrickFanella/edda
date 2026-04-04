@@ -155,6 +155,12 @@ func (m *Model) SetLoading(loading bool) tea.Cmd {
 // Init implements tea.Model.
 func (m Model) Init() tea.Cmd { return nil }
 
+// SuppressGlobalShortcuts reports whether the root app should let conflicting
+// shortcuts flow to the narrative input instead of handling them globally.
+func (m Model) SuppressGlobalShortcuts() bool {
+	return m.input.Focused()
+}
+
 // Update implements tea.Model.
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {

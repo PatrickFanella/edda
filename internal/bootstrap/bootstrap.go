@@ -7,10 +7,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgtype"
 
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
 )
@@ -22,15 +20,6 @@ const (
 	// DefaultCampaignName is the default name used when creating a campaign
 	// through engine-level flows.
 	DefaultCampaignName = "The Beginning"
-
-	// DefaultLocationName is the name of the starter campaign's first location.
-	DefaultLocationName = "The Crossroads Tavern"
-
-	// DefaultLocationDesc is the description of the starter location.
-	DefaultLocationDesc = "A warm tavern at the crossroads of adventure. Every journey starts somewhere."
-
-	// DefaultLocationType is the type tag for the starter location.
-	DefaultLocationType = "tavern"
 )
 
 // Result holds the user and available campaigns returned by Run.
@@ -54,41 +43,6 @@ func Run(ctx context.Context, q statedb.Querier) (Result, error) {
 	}
 
 	return Result{User: user, Campaigns: campaigns}, nil
-}
-
-// CreateCampaign creates a new campaign with the given name and genre for the
-// user and adds a default starting location. It is used when the player
-// selects "New campaign" from the campaign selection list. The name is trimmed
-// of whitespace; an empty or whitespace-only name returns an error. Genre is
-// optional; an empty string is stored as SQL NULL via invalid pgtype.Text.
-func CreateCampaign(ctx context.Context, q statedb.Querier, userID pgtype.UUID, name, genre string) (statedb.Campaign, error) {
-	name = strings.TrimSpace(name)
-	if name == "" {
-		return statedb.Campaign{}, errors.New("campaign name cannot be empty")
-	}
-
-	campaign, err := q.CreateCampaign(ctx, statedb.CreateCampaignParams{
-		Name:        name,
-		Genre:       pgtype.Text{String: genre, Valid: genre != ""},
-		Description: pgtype.Text{},
-		Status:      "active",
-		CreatedBy:   userID,
-	})
-	if err != nil {
-		return statedb.Campaign{}, fmt.Errorf("create campaign: %w", err)
-	}
-
-	_, err = q.CreateLocation(ctx, statedb.CreateLocationParams{
-		CampaignID:   campaign.ID,
-		Name:         DefaultLocationName,
-		Description:  pgtype.Text{String: DefaultLocationDesc, Valid: true},
-		LocationType: pgtype.Text{String: DefaultLocationType, Valid: true},
-	})
-	if err != nil {
-		return statedb.Campaign{}, fmt.Errorf("create starting location: %w", err)
-	}
-
-	return campaign, nil
 }
 
 // findOrCreateUser returns the user matching name, or creates one.

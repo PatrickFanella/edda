@@ -9,22 +9,35 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/PatrickFanella/game-master/internal/engine"
+	"github.com/PatrickFanella/game-master/internal/llm"
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
 )
 
 // Handlers holds shared dependencies for all HTTP handlers.
 type Handlers struct {
-	Engine  engine.GameEngine
-	Queries statedb.Querier
-	Logger  *log.Logger
+	Engine          engine.GameEngine
+	Queries         statedb.Querier
+	Logger          *log.Logger
+	Provider        llm.Provider
+	startupSessions *startupSessionStore
 }
 
 // New creates a Handlers with the given dependencies.
-func New(eng engine.GameEngine, queries statedb.Querier, logger *log.Logger) *Handlers {
+func New(eng engine.GameEngine, queries statedb.Querier, logger *log.Logger, providers ...llm.Provider) *Handlers {
 	if logger == nil {
 		logger = log.Default()
 	}
-	return &Handlers{Engine: eng, Queries: queries, Logger: logger}
+	var provider llm.Provider
+	if len(providers) > 0 {
+		provider = providers[0]
+	}
+	return &Handlers{
+		Engine:          eng,
+		Queries:         queries,
+		Logger:          logger,
+		Provider:        provider,
+		startupSessions: newStartupSessionStore(),
+	}
 }
 
 // writeJSON writes a JSON response with the given status code.

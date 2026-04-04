@@ -19,16 +19,19 @@ type BeliefSystem struct {
 }
 
 type Campaign struct {
-	ID          pgtype.UUID
-	Name        string
-	Description pgtype.Text
-	Genre       pgtype.Text
-	Tone        pgtype.Text
-	Themes      []string
-	Status      string
-	CreatedBy   pgtype.UUID
-	CreatedAt   pgtype.Timestamptz
-	UpdatedAt   pgtype.Timestamptz
+	ID                  pgtype.UUID
+	Name                string
+	Description         pgtype.Text
+	Genre               pgtype.Text
+	Tone                pgtype.Text
+	Themes              []string
+	Status              string
+	CreatedBy           pgtype.UUID
+	CreatedAt           pgtype.Timestamptz
+	UpdatedAt           pgtype.Timestamptz
+	WorldType           pgtype.Text
+	DangerLevel         pgtype.Text
+	PoliticalComplexity pgtype.Text
 }
 
 type Culture struct {

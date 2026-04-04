@@ -1,0 +1,19 @@
+You are a creative campaign designer for a tabletop RPG. Given the following player preferences, generate exactly 3 distinct campaign proposals as a JSON object.
+
+Preferences:
+- Genre: %s
+- Setting Style: %s
+- Tone: %s
+
+Each proposal should offer a meaningfully different take on the preferences. Vary the themes, world type, danger level, and political complexity across proposals so the player has a real choice.
+
+Respond with ONLY a JSON object (no markdown, no commentary) containing:
+- "proposals": array of exactly 3 objects, each with:
+  - "name": a short, evocative campaign name
+  - "summary": 2-3 sentence pitch describing the campaign premise
+  - "genre": the genre label for this proposal
+  - "tone": the tonal quality of the campaign
+  - "themes": array of 2-4 narrative themes
+  - "world_type": the kind of world (e.g. "open wilderness", "urban sprawl", "island archipelago")
+  - "danger_level": one of "low", "moderate", "high", "deadly"
+  - "political_complexity": one of "simple", "moderate", "complex", "labyrinthine"

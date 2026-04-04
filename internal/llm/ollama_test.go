@@ -27,6 +27,16 @@ func TestNewOllamaClientDefaults(t *testing.T) {
 	if client.client == nil {
 		t.Fatal("http client must be configured")
 	}
+	if client.client.Timeout != defaultOllamaTimeout {
+		t.Fatalf("timeout = %v, want %v", client.client.Timeout, defaultOllamaTimeout)
+	}
+}
+
+func TestNewOllamaClientWithTimeout(t *testing.T) {
+	client := NewOllamaClientWithTimeout("http://example.com", "model-x", 90*time.Second)
+	if client.client.Timeout != 90*time.Second {
+		t.Fatalf("timeout = %v, want %v", client.client.Timeout, 90*time.Second)
+	}
 }
 
 func TestOllamaClientCompleteRequestResponse(t *testing.T) {
