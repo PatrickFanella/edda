@@ -23,6 +23,7 @@ type DBConfig struct {
 type OllamaConfig struct {
 	Endpoint           string `koanf:"endpoint"`
 	Model              string `koanf:"model"`
+	EmbeddingModel     string `koanf:"embeddingmodel"`
 	ContextTokenBudget int    `koanf:"contexttokenbudget"`
 	TimeoutSeconds     int    `koanf:"timeoutseconds"`
 }
@@ -93,6 +94,7 @@ func Load(path string) (Config, error) {
 		"llm.provider":                  "ollama",
 		"llm.ollama.endpoint":           "http://localhost:11434",
 		"llm.ollama.model":              "llama3.2",
+		"llm.ollama.embeddingmodel":     "nomic-embed-text",
 		"llm.ollama.contexttokenbudget": 8000,
 		"llm.ollama.timeoutseconds":     180,
 		"llm.claude.model":              "claude-sonnet-4-6",

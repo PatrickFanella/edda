@@ -3,135 +3,272 @@ package engine
 import (
 	"testing"
 
+	"github.com/google/uuid"
+
+	"github.com/PatrickFanella/game-master/internal/domain"
 	"github.com/PatrickFanella/game-master/internal/game"
 	"github.com/PatrickFanella/game-master/internal/llm"
 )
 
-// ---------------------------------------------------------------------------
-// Mock implementation – compile-time interface check
-// ---------------------------------------------------------------------------
-
-// mockToolFilter is a minimal stub used to verify that the ToolFilter
-// interface can be satisfied.
-type mockToolFilter struct{}
-
-var _ ToolFilter = (*mockToolFilter)(nil)
-
-func (f *mockToolFilter) Filter(_ *game.GameState, allTools []llm.Tool) []llm.Tool {
-	return allTools
+// allTestTools returns a superset of tool names to simulate the full registry.
+func allTestTools() []llm.Tool {
+	names := []string{
+		// base
+		"skill_check", "roll_dice", "move_player", "describe_scene",
+		"present_choices", "npc_dialogue", "establish_fact", "revise_fact",
+		"update_npc", "add_item", "remove_item", "modify_item", "create_item",
+		"generate_name", "search_memory",
+		// combat
+		"initiate_combat", "combat_round", "apply_damage", "apply_condition",
+		"resolve_combat", "add_ability", "remove_ability",
+		// exploration
+		"create_npc", "create_location", "create_city", "create_faction",
+		"create_language", "create_culture", "create_belief_system",
+		"create_economic_system", "create_lore", "establish_relationship",
+		// quest
+		"create_quest", "create_subquest", "update_quest", "complete_objective",
+		"branch_quest", "link_quest_entity",
+		// progression
+		"add_experience", "level_up", "update_player_stats", "update_player_status",
+	}
+	tools := make([]llm.Tool, len(names))
+	for i, n := range names {
+		tools[i] = llm.Tool{Name: n}
+	}
+	return tools
 }
 
-// ---------------------------------------------------------------------------
-// ToolFilter interface tests
-// ---------------------------------------------------------------------------
-
-func TestToolFilter_MockSatisfiesInterface(t *testing.T) {
-	filter := &mockToolFilter{}
-
-	state := &game.GameState{}
-	tools := []llm.Tool{
-		{Name: "move", Description: "Move to a location"},
-		{Name: "attack", Description: "Attack a target"},
+func toolNames(tools []llm.Tool) map[string]struct{} {
+	m := make(map[string]struct{}, len(tools))
+	for _, t := range tools {
+		m[t.Name] = struct{}{}
 	}
+	return m
+}
 
-	got := filter.Filter(state, tools)
-	if len(got) != len(tools) {
-		t.Errorf("expected %d tools, got %d", len(tools), len(got))
-	}
-	for i, tool := range got {
-		if tool.Name != tools[i].Name {
-			t.Errorf("tool[%d] name mismatch: got %q, want %q", i, tool.Name, tools[i].Name)
+func hasAll(t *testing.T, tools []llm.Tool, names ...string) {
+	t.Helper()
+	m := toolNames(tools)
+	for _, name := range names {
+		if _, ok := m[name]; !ok {
+			t.Errorf("expected tool %q in filtered set, not found (got %d tools)", name, len(tools))
 		}
 	}
 }
 
-func TestToolFilter_FilterCanReturnSubset(t *testing.T) {
-	combatFilter := &combatOnlyFilter{}
-	state := &game.GameState{}
-	allTools := []llm.Tool{
-		{Name: "move"},
-		{Name: "attack"},
-		{Name: "rest"},
-	}
-
-	got := combatFilter.Filter(state, allTools)
-	if len(got) != 1 {
-		t.Fatalf("expected 1 tool, got %d", len(got))
-	}
-	if got[0].Name != "attack" {
-		t.Errorf("expected tool 'attack', got %q", got[0].Name)
-	}
-}
-
-// combatOnlyFilter is a second mock that only passes through the "attack" tool.
-type combatOnlyFilter struct{}
-
-func (f *combatOnlyFilter) Filter(_ *game.GameState, allTools []llm.Tool) []llm.Tool {
-	var out []llm.Tool
-	for _, t := range allTools {
-		if t.Name == "attack" {
-			out = append(out, t)
-		}
-	}
-	return out
-}
-
-// ---------------------------------------------------------------------------
-// GamePhase enum tests
-// ---------------------------------------------------------------------------
-
-func TestGamePhase_Values(t *testing.T) {
-	tests := []struct {
-		phase    GamePhase
-		expected int
-	}{
-		{PhaseExploration, 0},
-		{PhaseCombat, 1},
-		{PhaseSocial, 2},
-		{PhaseRest, 3},
-	}
-
-	for _, tt := range tests {
-		if int(tt.phase) != tt.expected {
-			t.Errorf("phase %v: expected integer value %d, got %d", tt.phase, tt.expected, int(tt.phase))
+func hasNone(t *testing.T, tools []llm.Tool, names ...string) {
+	t.Helper()
+	m := toolNames(tools)
+	for _, name := range names {
+		if _, ok := m[name]; ok {
+			t.Errorf("tool %q should NOT be in filtered set", name)
 		}
 	}
 }
 
-func TestGamePhase_Distinct(t *testing.T) {
-	phases := []GamePhase{PhaseExploration, PhaseCombat, PhaseSocial, PhaseRest}
-	seen := make(map[GamePhase]struct{}, len(phases))
-	for _, p := range phases {
-		if _, dup := seen[p]; dup {
-			t.Errorf("duplicate GamePhase value: %d", int(p))
-		}
-		seen[p] = struct{}{}
-	}
-}
+// --- Interface compliance ---
+
+var _ ToolFilter = (*PhaseToolFilter)(nil)
+
+// --- GamePhase ---
 
 func TestGamePhase_String(t *testing.T) {
-	tests := []struct {
-		phase    GamePhase
-		expected string
-	}{
-		{PhaseExploration, "Exploration"},
-		{PhaseCombat, "Combat"},
-		{PhaseSocial, "Social"},
-		{PhaseRest, "Rest"},
+	if PhaseExploration.String() != "exploration" {
+		t.Errorf("got %q", PhaseExploration.String())
 	}
-
-	for _, tt := range tests {
-		got := tt.phase.String()
-		if got != tt.expected {
-			t.Errorf("GamePhase(%d).String() = %q, want %q", int(tt.phase), got, tt.expected)
-		}
+	if PhaseCombat.String() != "combat" {
+		t.Errorf("got %q", PhaseCombat.String())
+	}
+	if GamePhase(99).String() != "unknown" {
+		t.Errorf("got %q", GamePhase(99).String())
 	}
 }
 
-func TestGamePhase_String_Unknown(t *testing.T) {
-	unknown := GamePhase(99)
-	got := unknown.String()
-	if got != "Unknown" {
-		t.Errorf("unexpected String() for unknown phase: got %q, want %q", got, "Unknown")
+// --- DetectPhase ---
+
+func TestDetectPhase_NilState(t *testing.T) {
+	if got := DetectPhase(nil); got != PhaseExploration {
+		t.Errorf("nil state: got %v, want exploration", got)
+	}
+}
+
+func TestDetectPhase_Exploration(t *testing.T) {
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "active"}}
+	if got := DetectPhase(state); got != PhaseExploration {
+		t.Errorf("got %v, want exploration", got)
+	}
+}
+
+func TestDetectPhase_Combat(t *testing.T) {
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "in_combat"}}
+	if got := DetectPhase(state); got != PhaseCombat {
+		t.Errorf("got %v, want combat", got)
+	}
+}
+
+// --- FilterTools: nil state returns all ---
+
+func TestFilter_NilState_ReturnsAll(t *testing.T) {
+	f := &PhaseToolFilter{}
+	all := allTestTools()
+	got := f.Filter(nil, all)
+	if len(got) != len(all) {
+		t.Errorf("nil state: got %d tools, want %d", len(got), len(all))
+	}
+}
+
+// --- FilterTools: base tools always present ---
+
+func TestFilter_BaseToolsAlwaysPresent(t *testing.T) {
+	f := &PhaseToolFilter{}
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "active"}}
+	got := f.Filter(state, allTestTools())
+
+	hasAll(t, got,
+		"skill_check", "roll_dice", "move_player", "describe_scene",
+		"present_choices", "npc_dialogue", "establish_fact", "update_npc",
+		"add_item", "remove_item",
+	)
+}
+
+// --- FilterTools: combat phase ---
+
+func TestFilter_CombatPhase_HasCombatTools(t *testing.T) {
+	f := &PhaseToolFilter{}
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "in_combat"}}
+	got := f.Filter(state, allTestTools())
+
+	hasAll(t, got, "combat_round", "apply_damage", "apply_condition", "resolve_combat")
+}
+
+func TestFilter_CombatPhase_NoExplorationTools(t *testing.T) {
+	f := &PhaseToolFilter{}
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "in_combat"}}
+	got := f.Filter(state, allTestTools())
+
+	hasNone(t, got, "create_npc", "create_location", "create_faction", "create_language")
+}
+
+// --- FilterTools: exploration phase ---
+
+func TestFilter_Exploration_HasWorldBuildingTools(t *testing.T) {
+	f := &PhaseToolFilter{}
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "active"}}
+	got := f.Filter(state, allTestTools())
+
+	hasAll(t, got, "create_npc", "create_location", "create_faction",
+		"create_language", "initiate_combat")
+}
+
+func TestFilter_Exploration_NoCombatRoundTools(t *testing.T) {
+	f := &PhaseToolFilter{}
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "active"}}
+	got := f.Filter(state, allTestTools())
+
+	hasNone(t, got, "combat_round", "apply_damage", "resolve_combat")
+}
+
+// --- FilterTools: quest tools ---
+
+func TestFilter_QuestToolsWhenActiveQuests(t *testing.T) {
+	f := &PhaseToolFilter{}
+	state := &game.GameState{
+		Player:       domain.PlayerCharacter{Status: "active"},
+		ActiveQuests: []domain.Quest{{ID: uuid.New(), Title: "Find the sword"}},
+	}
+	got := f.Filter(state, allTestTools())
+
+	hasAll(t, got, "create_quest", "update_quest", "complete_objective", "branch_quest")
+}
+
+func TestFilter_QuestToolsWhenNPCsPresent(t *testing.T) {
+	f := &PhaseToolFilter{}
+	state := &game.GameState{
+		Player:     domain.PlayerCharacter{Status: "active"},
+		NearbyNPCs: []domain.NPC{{ID: uuid.New(), Name: "Bartender"}},
+	}
+	got := f.Filter(state, allTestTools())
+
+	hasAll(t, got, "create_quest", "update_quest")
+}
+
+func TestFilter_NoQuestToolsWhenNoQuestsOrNPCs(t *testing.T) {
+	f := &PhaseToolFilter{}
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "active"}}
+	got := f.Filter(state, allTestTools())
+
+	hasNone(t, got, "create_quest", "update_quest", "complete_objective")
+}
+
+// --- FilterTools: progression tools ---
+
+func TestFilter_AddExperienceAlwaysPresent(t *testing.T) {
+	f := &PhaseToolFilter{}
+	state := &game.GameState{
+		Player: domain.PlayerCharacter{Status: "active", Level: 1, Experience: 0},
+	}
+	got := f.Filter(state, allTestTools())
+
+	hasAll(t, got, "add_experience")
+}
+
+func TestFilter_ProgressionToolsNearLevelUp(t *testing.T) {
+	f := &PhaseToolFilter{}
+	// Level 1 threshold is 100, 50% = 50 XP
+	state := &game.GameState{
+		Player: domain.PlayerCharacter{Status: "active", Level: 1, Experience: 60},
+	}
+	got := f.Filter(state, allTestTools())
+
+	hasAll(t, got, "level_up", "update_player_stats")
+}
+
+func TestFilter_NoProgressionToolsFarFromLevelUp(t *testing.T) {
+	f := &PhaseToolFilter{}
+	// Level 1 needs 100 XP, player has 10 (well below 50%)
+	state := &game.GameState{
+		Player: domain.PlayerCharacter{Status: "active", Level: 1, Experience: 10},
+	}
+	got := f.Filter(state, allTestTools())
+
+	hasNone(t, got, "level_up", "update_player_stats")
+}
+
+// --- FilterTools: tool count reduction ---
+
+func TestFilter_ReducesToolCount(t *testing.T) {
+	f := &PhaseToolFilter{}
+	all := allTestTools()
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "active"}}
+	got := f.Filter(state, all)
+
+	if len(got) >= len(all) {
+		t.Errorf("filtering should reduce tools: got %d, total %d", len(got), len(all))
+	}
+	if len(got) > 30 {
+		t.Errorf("filtered set too large: %d (target ~15-25)", len(got))
+	}
+}
+
+// --- nearLevelThreshold ---
+
+func TestNearLevelThreshold_AtHalfway(t *testing.T) {
+	state := &game.GameState{Player: domain.PlayerCharacter{Level: 1, Experience: 50}}
+	if !nearLevelThreshold(state) {
+		t.Error("should be near threshold at 50% (50/100)")
+	}
+}
+
+func TestNearLevelThreshold_BelowHalfway(t *testing.T) {
+	state := &game.GameState{Player: domain.PlayerCharacter{Level: 1, Experience: 10}}
+	if nearLevelThreshold(state) {
+		t.Error("should NOT be near threshold at 10% (10/100)")
+	}
+}
+
+func TestNearLevelThreshold_MaxLevel(t *testing.T) {
+	state := &game.GameState{Player: domain.PlayerCharacter{Level: 99, Experience: 9999}}
+	if !nearLevelThreshold(state) {
+		t.Error("max level should always return true")
 	}
 }

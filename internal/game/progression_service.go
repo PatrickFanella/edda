@@ -57,5 +57,14 @@ func (s *progressionService) UpdatePlayerAbilities(ctx context.Context, playerCh
 	return err
 }
 
+func (s *progressionService) UpdatePlayerHP(ctx context.Context, playerCharacterID uuid.UUID, hp, maxHP int) error {
+	_, err := s.queries.UpdatePlayerHP(ctx, statedb.UpdatePlayerHPParams{
+		ID:    dbutil.ToPgtype(playerCharacterID),
+		Hp:    int32(hp),
+		MaxHp: int32(maxHP),
+	})
+	return err
+}
+
 var _ tools.AddExperienceStore = (*progressionService)(nil)
 var _ tools.LevelUpStore = (*progressionService)(nil)

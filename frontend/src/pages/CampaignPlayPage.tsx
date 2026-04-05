@@ -17,6 +17,7 @@ import { QuestPanel } from '../components/quests/QuestPanel';
 import { CampaignContext, useCampaignState } from '../context/CampaignContext';
 import { useCampaign } from '../hooks/useCampaign';
 import { useNarrative, type UseNarrativeResult } from '../hooks/useNarrative';
+import { useRefreshAfterTurn } from '../hooks/useRefreshAfterTurn';
 import type { StartupPlaySeed } from '../lib/startupWorkflow';
 
 const playTabs = [
@@ -153,10 +154,21 @@ function CampaignPlayContent({
 }) {
   const narrative = useNarrative();
   const seededNarrative = useMemo(() => buildSeededNarrativeState(campaign, startupSeed, narrative.entries), [campaign, narrative.entries, startupSeed]);
+  useRefreshAfterTurn(campaignId, narrative.latestResult);
+
+  const levelUpMessage = useMemo(() => {
+    const changes = narrative.latestResult?.state_changes;
+    if (!changes) return null;
+    const levelChange = changes.find((c) => c.entity_type === 'player_character' && c.change_type === 'level');
+    if (!levelChange) return null;
+    const newLevel = levelChange.details?.new_value;
+    return `Level Up! You reached level ${newLevel ?? '??'}`;
+  }, [narrative.latestResult]);
 
   return (
     <AppShell title={campaign.name} description={campaign.description || 'Live narrative play for this campaign.'} actions={<BackToCampaignsLink />}>
       <div className="space-y-6">
+        {levelUpMessage ? <LevelUpBanner message={levelUpMessage} /> : null}
         <CampaignSummary campaign={campaign} campaignSummary={startupSeed?.campaignSummary ?? null} />
         <TabBar tabs={playTabs} activeTab={activeTab} onChange={onTabChange} />
         <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} />
@@ -283,6 +295,14 @@ function NarrativeTab({
           </ul>
         </section>
       </aside>
+    </div>
+  );
+}
+
+function LevelUpBanner({ message }: { readonly message: string }) {
+  return (
+    <div className="animate-pulse border-2 border-gold/50 bg-gold/10 px-6 py-4 text-center shadow-gold">
+      <p className="font-heading text-lg font-semibold uppercase tracking-[0.15em] text-gold">{message}</p>
     </div>
   );
 }

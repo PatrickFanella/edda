@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 import { cn } from '../../lib/cn';
 import { NarrativeEntry, type NarrativeEntryItem, type NarrativeEntryKind } from './NarrativeEntry';
@@ -18,6 +18,8 @@ interface NarrativePanelProps {
   readonly emptyState?: ReactNode;
 }
 
+const NEAR_BOTTOM_THRESHOLD = 80;
+
 export function NarrativePanel({
   entries,
   streamingEntry = null,
@@ -26,6 +28,10 @@ export function NarrativePanel({
   emptyState,
 }: NarrativePanelProps) {
   const endRef = useRef<HTMLDivElement | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  // When non-null, the user has scrolled away from the bottom.
+  // The value records the entry count at the moment they scrolled away.
+  const [scrolledAwayAt, setScrolledAwayAt] = useState<number | null>(null);
 
   const activeStreamingEntry = useMemo<NarrativeEntryItem | null>(() => {
     if (streamingEntry) {
@@ -53,16 +59,36 @@ export function NarrativePanel({
     };
   }, [isLoading, streamingEntry]);
 
+  const handleScroll = useCallback(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - NEAR_BOTTOM_THRESHOLD;
+    if (nearBottom) {
+      setScrolledAwayAt(null);
+    } else {
+      setScrolledAwayAt((prev) => prev ?? entries.length);
+    }
+  }, [entries.length]);
+
   useEffect(() => {
+    if (scrolledAwayAt === null) {
+      endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [entries, activeStreamingEntry, scrolledAwayAt]);
+
+  const scrollToBottom = useCallback(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, [entries, activeStreamingEntry]);
+    setScrolledAwayAt(null);
+  }, []);
+
+  const hasUnread = scrolledAwayAt !== null && entries.length > scrolledAwayAt;
 
   const hasEntries = entries.length > 0 || activeStreamingEntry !== null;
 
   return (
     <section
       className={cn(
-        'deco-corners deco-pattern border-2 border-gold/20 bg-charcoal',
+        'deco-corners deco-pattern relative border-2 border-gold/20 bg-charcoal',
         className,
       )}
     >
@@ -74,6 +100,8 @@ export function NarrativePanel({
       </div>
 
       <div
+        ref={scrollContainerRef}
+        onScroll={handleScroll}
         role="log"
         aria-live="polite"
         aria-busy={activeStreamingEntry ? 'true' : 'false'}
@@ -98,6 +126,16 @@ export function NarrativePanel({
         )}
         <div ref={endRef} aria-hidden="true" />
       </div>
+
+      {hasUnread ? (
+        <button
+          type="button"
+          onClick={scrollToBottom}
+          className="absolute bottom-16 left-1/2 z-10 -translate-x-1/2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-gold shadow-gold-sm backdrop-blur-sm transition-all hover:bg-gold/20"
+        >
+          New response ↓
+        </button>
+      ) : null}
     </section>
   );
 }

@@ -65,7 +65,7 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             <MetricCard label="HP" value={`${character.hp} / ${character.max_hp}`} accent="text-jade" />
             <MetricCard label="Level" value={String(character.level)} accent="text-gold" />
-            <MetricCard label="Experience" value={String(character.experience)} accent="text-sapphire" />
+            <XPProgressCard level={character.level} experience={character.experience} />
           </div>
         </section>
 
@@ -88,6 +88,35 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
 
         <AbilityList abilities={character.abilities} />
       </div>
+    </div>
+  );
+}
+
+/** Returns cumulative XP needed to reach the next level. Mirrors progression/leveling.go. */
+function nextLevelThreshold(level: number): number {
+  return 1000 * level * (level + 1) / 2;
+}
+
+function XPProgressCard({ level, experience }: { readonly level: number; readonly experience: number }) {
+  const threshold = nextLevelThreshold(level);
+  const prevThreshold = level > 1 ? nextLevelThreshold(level - 1) : 0;
+  const xpInLevel = experience - prevThreshold;
+  const xpNeeded = threshold - prevThreshold;
+  const pct = xpNeeded > 0 ? Math.min(100, Math.round((xpInLevel / xpNeeded) * 100)) : 100;
+
+  return (
+    <div className="rounded-none border border-jade/20 bg-charcoal/80 p-4 transition-all duration-200 hover:border-jade/40">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-pewter/80">Experience</p>
+      <p className="mt-2 text-lg font-semibold tracking-tight text-sapphire">
+        {experience} <span className="text-sm text-pewter">/ {threshold}</span>
+      </p>
+      <div className="mt-2 h-2 w-full overflow-hidden bg-midnight/50">
+        <div
+          className="h-full bg-sapphire transition-all duration-500"
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+      <p className="mt-1 text-[10px] uppercase tracking-[0.15em] text-pewter/70">{pct}% to level {level + 1}</p>
     </div>
   );
 }

@@ -22,7 +22,11 @@ type LevelUpStore interface {
 	UpdatePlayerLevel(ctx context.Context, playerCharacterID uuid.UUID, level int) error
 	UpdatePlayerStats(ctx context.Context, playerCharacterID uuid.UUID, stats json.RawMessage) error
 	UpdatePlayerAbilities(ctx context.Context, playerCharacterID uuid.UUID, abilities json.RawMessage) error
+	UpdatePlayerHP(ctx context.Context, playerCharacterID uuid.UUID, hp, maxHP int) error
 }
+
+// hpGainPerLevel is the fixed HP increase applied on each level-up.
+const hpGainPerLevel = 5
 
 // LevelUpTool returns the level_up tool definition and JSON schema.
 func LevelUpTool() llm.Tool {
@@ -179,6 +183,10 @@ func (h *LevelUpHandler) Handle(ctx context.Context, args map[string]any) (*Tool
 	if err := h.store.UpdatePlayerLevel(ctx, playerCharacterID, newLevel); err != nil {
 		return nil, fmt.Errorf("update player level: %w", err)
 	}
+	newMaxHP := playerCharacter.MaxHP + hpGainPerLevel
+	if err := h.store.UpdatePlayerHP(ctx, playerCharacterID, newMaxHP, newMaxHP); err != nil {
+		return nil, fmt.Errorf("update player hp: %w", err)
+	}
 	if len(updatedStatsJSON) > 0 {
 		if err := h.store.UpdatePlayerStats(ctx, playerCharacterID, updatedStatsJSON); err != nil {
 			return nil, fmt.Errorf("update player stats: %w", err)
@@ -198,10 +206,12 @@ func (h *LevelUpHandler) Handle(ctx context.Context, args map[string]any) (*Tool
 			"player_character_id": playerCharacterID.String(),
 			"old_level":           currentLevel,
 			"new_level":           newLevel,
+			"hp_gain":             hpGainPerLevel,
+			"new_max_hp":          newMaxHP,
 			"updated_stats":       updatedStats,
 			"new_abilities_added": addedAbilities,
 		},
-		Narrative: fmt.Sprintf("You reached level %d.", newLevel),
+		Narrative: fmt.Sprintf("You reached level %d. Maximum hit points increased to %d.", newLevel, newMaxHP),
 	}, nil
 }
 

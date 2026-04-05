@@ -1,7 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router';
 
-import { listCampaigns } from '../api/campaigns';
+import { deleteCampaign, listCampaigns } from '../api/campaigns';
+import { ConfirmationDialog } from '../components/layout/ConfirmationDialog';
 import { AppShell } from '../components/layout/AppShell';
 
 function queryErrorMessage(error: unknown): string {
@@ -9,10 +11,23 @@ function queryErrorMessage(error: unknown): string {
 }
 
 export function CampaignListPage() {
+  const queryClient = useQueryClient();
   const campaignsQuery = useQuery({
     queryKey: ['campaigns'],
     queryFn: listCampaigns,
   });
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+
+  const handleDeleteConfirm = useCallback(async () => {
+    if (!deleteTarget) return;
+    try {
+      await deleteCampaign(deleteTarget.id);
+      await queryClient.invalidateQueries({ queryKey: ['campaigns'] });
+    } catch {
+      // Silently handle — user will see the campaign remains
+    }
+    setDeleteTarget(null);
+  }, [deleteTarget, queryClient]);
 
   const actions = (
     <Link
@@ -81,18 +96,35 @@ export function CampaignListPage() {
                   </div>
                 </dl>
               </div>
-              <div className="pt-6">
+              <div className="flex items-center gap-3 pt-6">
                 <Link
                   to={`/play/${campaign.id}`}
                   className="inline-flex items-center justify-center border-2 border-ruby/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-ruby hover:bg-ruby hover:text-champagne focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian"
                 >
                   Open campaign
                 </Link>
+                <button
+                  type="button"
+                  onClick={() => setDeleteTarget({ id: campaign.id, name: campaign.name })}
+                  className="inline-flex items-center justify-center border border-pewter/20 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-pewter transition-all duration-200 hover:border-ruby/40 hover:text-ruby focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian"
+                >
+                  Delete
+                </button>
               </div>
             </article>
           ))}
         </div>
       )}
+
+      <ConfirmationDialog
+        open={deleteTarget !== null}
+        title="Delete campaign"
+        message={`Are you sure you want to delete "${deleteTarget?.name ?? ''}"? This action cannot be undone.`}
+        confirmLabel="Delete"
+        destructive
+        onConfirm={() => void handleDeleteConfirm()}
+        onCancel={() => setDeleteTarget(null)}
+      />
     </AppShell>
   );
 }

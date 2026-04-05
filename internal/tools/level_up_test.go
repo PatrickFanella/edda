@@ -13,18 +13,22 @@ import (
 )
 
 type stubLevelUpStore struct {
-	player                *domain.PlayerCharacter
-	getErr                error
-	updateLevelErr        error
-	updateStatsErr        error
-	updateAbilitiesErr    error
-	lastPlayerID          uuid.UUID
-	lastLevel             int
-	lastStats             json.RawMessage
-	lastAbilities         json.RawMessage
-	updateLevelCallCount  int
-	updateStatsCallCount  int
+	player                 *domain.PlayerCharacter
+	getErr                 error
+	updateLevelErr         error
+	updateStatsErr         error
+	updateAbilitiesErr     error
+	updateHPErr            error
+	lastPlayerID           uuid.UUID
+	lastLevel              int
+	lastStats              json.RawMessage
+	lastAbilities          json.RawMessage
+	lastHP                 int
+	lastMaxHP              int
+	updateLevelCallCount   int
+	updateStatsCallCount   int
 	updateAbilityCallCount int
+	updateHPCallCount      int
 }
 
 func (s *stubLevelUpStore) GetPlayerCharacterByID(_ context.Context, _ uuid.UUID) (*domain.PlayerCharacter, error) {
@@ -62,6 +66,16 @@ func (s *stubLevelUpStore) UpdatePlayerAbilities(_ context.Context, _ uuid.UUID,
 	return nil
 }
 
+func (s *stubLevelUpStore) UpdatePlayerHP(_ context.Context, _ uuid.UUID, hp, maxHP int) error {
+	if s.updateHPErr != nil {
+		return s.updateHPErr
+	}
+	s.lastHP = hp
+	s.lastMaxHP = maxHP
+	s.updateHPCallCount++
+	return nil
+}
+
 func TestRegisterLevelUp(t *testing.T) {
 	reg := NewRegistry()
 	if err := RegisterLevelUp(reg, &stubLevelUpStore{}); err != nil {
@@ -84,6 +98,8 @@ func TestLevelUpHandleAppliesLevelStatsAndAbilities(t *testing.T) {
 			ID:         playerID,
 			Experience: 1000,
 			Level:      1,
+			HP:         20,
+			MaxHP:      20,
 			Stats:      []byte(`{"strength":10,"dexterity":12}`),
 			Abilities:  []byte(`["Parry"]`),
 		},
@@ -106,6 +122,12 @@ func TestLevelUpHandleAppliesLevelStatsAndAbilities(t *testing.T) {
 	}
 	if store.updateLevelCallCount != 1 {
 		t.Fatalf("update level call count = %d, want 1", store.updateLevelCallCount)
+	}
+	if store.updateHPCallCount != 1 {
+		t.Fatalf("update hp call count = %d, want 1", store.updateHPCallCount)
+	}
+	if store.lastMaxHP != 25 {
+		t.Fatalf("new max hp = %d, want 25", store.lastMaxHP)
 	}
 	if store.updateStatsCallCount != 1 {
 		t.Fatalf("update stats call count = %d, want 1", store.updateStatsCallCount)
@@ -132,6 +154,12 @@ func TestLevelUpHandleAppliesLevelStatsAndAbilities(t *testing.T) {
 	if got.Data["new_level"] != 2 {
 		t.Fatalf("new_level = %v, want 2", got.Data["new_level"])
 	}
+	if got.Data["hp_gain"] != hpGainPerLevel {
+		t.Fatalf("hp_gain = %v, want %d", got.Data["hp_gain"], hpGainPerLevel)
+	}
+	if got.Data["new_max_hp"] != 25 {
+		t.Fatalf("new_max_hp = %v, want 25", got.Data["new_max_hp"])
+	}
 	if _, ok := got.Data["stat_boosts_applied"]; ok {
 		t.Fatalf("unexpected stat_boosts_applied field in response")
 	}
@@ -142,8 +170,9 @@ func TestLevelUpHandleAppliesLevelStatsAndAbilities(t *testing.T) {
 	if updatedStats["strength"] != 12 {
 		t.Fatalf("updated_stats[strength] = %d, want 12", updatedStats["strength"])
 	}
-	if got.Narrative != "You reached level 2." {
-		t.Fatalf("narrative = %q", got.Narrative)
+	wantNarrative := "You reached level 2. Maximum hit points increased to 25."
+	if got.Narrative != wantNarrative {
+		t.Fatalf("narrative = %q, want %q", got.Narrative, wantNarrative)
 	}
 }
 

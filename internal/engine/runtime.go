@@ -21,11 +21,14 @@ import (
 
 // Engine is the concrete GameEngine implementation used by the TUI.
 type Engine struct {
-	logger    *slog.Logger
-	state     game.StateManager
-	assembler *assembly.ContextAssembler
-	processor *TurnProcessor
-	tier3     *assembly.Tier3Retriever
+	logger     *slog.Logger
+	state      game.StateManager
+	assembler  *assembly.ContextAssembler
+	processor  *TurnProcessor
+	tier3      *assembly.Tier3Retriever
+	toolFilter ToolFilter
+	embedder   tools.Embedder
+	searcher   tools.SearchMemorySearcher
 }
 
 const recentTurnLimit = 10
@@ -41,6 +44,17 @@ func WithTier3Retriever(t *assembly.Tier3Retriever) Option {
 	}
 }
 
+// WithEmbedder attaches a vector embedder to the engine. When set,
+// world-building tools automatically embed created entities as memories.
+func WithEmbedder(emb tools.Embedder) Option {
+	return func(e *Engine) { e.embedder = emb }
+}
+
+// WithSearcher attaches a memory searcher for the search_memory tool.
+func WithSearcher(s tools.SearchMemorySearcher) Option {
+	return func(e *Engine) { e.searcher = s }
+}
+
 // WithLogger sets the structured logger for the engine and its subsystems.
 func WithLogger(l *slog.Logger) Option {
 	return func(e *Engine) { e.logger = l }
@@ -49,15 +63,9 @@ func WithLogger(l *slog.Logger) Option {
 // New creates a concrete GameEngine backed by the shared game and llm packages.
 func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts ...Option) (*Engine, error) {
 	queries := statedb.New(db)
-	registry := tools.NewRegistry()
-
-	if err := registerAllTools(registry, queries); err != nil {
-		return nil, fmt.Errorf("register tools: %w", err)
-	}
 
 	e := &Engine{
-		state:     game.NewStateManager(db),
-		assembler: assembly.NewContextAssembler(registry, assembly.WithTokenBudget(llmCfg.ContextTokenBudget())),
+		state: game.NewStateManager(db),
 	}
 	for _, opt := range opts {
 		opt(e)
@@ -65,6 +73,16 @@ func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts .
 	if e.logger == nil {
 		e.logger = slog.Default()
 	}
+	if e.toolFilter == nil {
+		e.toolFilter = &PhaseToolFilter{}
+	}
+
+	registry := tools.NewRegistry()
+	if err := registerAllTools(registry, queries, e.embedder, e.searcher); err != nil {
+		return nil, fmt.Errorf("register tools: %w", err)
+	}
+
+	e.assembler = assembly.NewContextAssembler(registry, assembly.WithTokenBudget(llmCfg.ContextTokenBudget()))
 	e.processor = NewTurnProcessor(provider, registry, tools.NewValidator(registry), e.logger.WithGroup("turns"))
 	return e, nil
 }
@@ -83,6 +101,7 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 		return nil, fmt.Errorf("gather state: %w", err)
 	}
 	e.logger.Debug("state gathered", "campaign_id", campaignID, "player_id", state.Player.ID, "has_location", state.Player.CurrentLocationID != nil)
+	ctx = tools.WithCurrentCampaignID(ctx, campaignID)
 	if state.Player.ID != uuid.Nil {
 		ctx = tools.WithCurrentPlayerCharacterID(ctx, state.Player.ID)
 	}
@@ -107,8 +126,14 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 	}
 
 	messages := e.assembler.AssembleContext(state, recentTurns, playerInput, retrievedMemories...)
-	e.logger.Debug("context assembled", "campaign_id", campaignID, "messages", len(messages), "recent_turns", len(recentTurns), "memories", len(retrievedMemories), "tools", len(e.assembler.Tools()))
-	narrative, applied, err := e.processor.ProcessWithRecovery(ctx, messages, e.assembler.Tools())
+	allTools := e.assembler.Tools()
+	filteredTools := allTools
+	if e.toolFilter != nil {
+		filteredTools = e.toolFilter.Filter(state, allTools)
+	}
+	phase := DetectPhase(state)
+	e.logger.Debug("context assembled", "campaign_id", campaignID, "messages", len(messages), "recent_turns", len(recentTurns), "memories", len(retrievedMemories), "all_tools", len(allTools), "filtered_tools", len(filteredTools), "phase", phase.String())
+	narrative, applied, err := e.processor.ProcessWithRecovery(ctx, messages, filteredTools)
 	if err != nil {
 		e.logger.Error("process turn failed during turn processor", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return nil, fmt.Errorf("process turn: %w", err)
