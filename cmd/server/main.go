@@ -225,11 +225,25 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, h *handlers.Handlers, d
 					r.Get("/locations", h.ListLocations)
 					r.Get("/locations/{lid}", h.GetLocation)
 
+					r.Get("/npcs/encountered", h.ListEncounteredNPCs)
 					r.Get("/npcs", h.ListNPCs)
+					r.Get("/npcs/{nid}/dialogue", h.GetNPCDialogue)
 					r.Get("/npcs/{nid}", h.GetNPC)
 
 					r.Get("/quests", h.ListQuests)
 					r.Get("/quests/{qid}", h.GetQuest)
+					r.Get("/quests/{qid}/notes", h.ListQuestNotes)
+					r.Post("/quests/{qid}/notes", h.CreateQuestNote)
+					r.Delete("/quests/{qid}/notes/{noteID}", h.DeleteQuestNote)
+					r.Get("/quests/{qid}/history", h.ListQuestHistory)
+
+					r.Get("/facts", h.ListKnownFacts)
+					r.Get("/relationships", h.ListAwareRelationships)
+					r.Get("/codex/languages", h.ListKnownLanguages)
+					r.Get("/codex/cultures", h.ListKnownCultures)
+					r.Get("/codex/beliefs", h.ListKnownBeliefSystems)
+					r.Get("/codex/economies", h.ListKnownEconomicSystems)
+					r.Get("/map", h.GetMapData)
 
 					r.Post("/action", h.ProcessAction)
 					r.Get("/ws", h.HandleWebSocket)

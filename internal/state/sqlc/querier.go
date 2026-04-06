@@ -28,6 +28,8 @@ type Querier interface {
 	CreateObjective(ctx context.Context, arg CreateObjectiveParams) (QuestObjective, error)
 	CreatePlayerCharacter(ctx context.Context, arg CreatePlayerCharacterParams) (PlayerCharacter, error)
 	CreateQuest(ctx context.Context, arg CreateQuestParams) (Quest, error)
+	CreateQuestHistoryEntry(ctx context.Context, arg CreateQuestHistoryEntryParams) (QuestHistory, error)
+	CreateQuestNote(ctx context.Context, arg CreateQuestNoteParams) (QuestNote, error)
 	CreateRelationship(ctx context.Context, arg CreateRelationshipParams) (EntityRelationship, error)
 	CreateSessionLog(ctx context.Context, arg CreateSessionLogParams) (SessionLog, error)
 	CreateUser(ctx context.Context, name string) (User, error)
@@ -38,6 +40,7 @@ type Querier interface {
 	DeleteEconomicSystem(ctx context.Context, id pgtype.UUID) error
 	DeleteItem(ctx context.Context, id pgtype.UUID) error
 	DeleteLanguage(ctx context.Context, id pgtype.UUID) error
+	DeleteQuestNote(ctx context.Context, arg DeleteQuestNoteParams) error
 	DeleteRelationship(ctx context.Context, arg DeleteRelationshipParams) error
 	DeleteUser(ctx context.Context, id pgtype.UUID) error
 	GetBeliefSystemByCulture(ctx context.Context, cultureID pgtype.UUID) (BeliefSystem, error)
@@ -95,6 +98,8 @@ type Querier interface {
 	ListPlayerKnownLanguages(ctx context.Context, campaignID pgtype.UUID) ([]Language, error)
 	ListPlayerKnownLocations(ctx context.Context, campaignID pgtype.UUID) ([]Location, error)
 	ListPlayerVisitedLocations(ctx context.Context, campaignID pgtype.UUID) ([]Location, error)
+	ListQuestHistory(ctx context.Context, questID pgtype.UUID) ([]QuestHistory, error)
+	ListQuestNotes(ctx context.Context, questID pgtype.UUID) ([]QuestNote, error)
 	ListQuestsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]Quest, error)
 	ListQuestsByType(ctx context.Context, arg ListQuestsByTypeParams) ([]Quest, error)
 	ListRecentSessionLogs(ctx context.Context, arg ListRecentSessionLogsParams) ([]SessionLog, error)

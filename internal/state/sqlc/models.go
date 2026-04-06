@@ -208,6 +208,21 @@ type Quest struct {
 	UpdatedAt     pgtype.Timestamptz
 }
 
+type QuestHistory struct {
+	ID        pgtype.UUID
+	QuestID   pgtype.UUID
+	Snapshot  string
+	CreatedAt pgtype.Timestamptz
+}
+
+type QuestNote struct {
+	ID        pgtype.UUID
+	QuestID   pgtype.UUID
+	Content   string
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
+}
+
 type QuestObjective struct {
 	ID          pgtype.UUID
 	QuestID     pgtype.UUID

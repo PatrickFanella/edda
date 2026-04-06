@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/PatrickFanella/game-master/internal/dbutil"
 	"github.com/PatrickFanella/game-master/internal/engine"
@@ -216,4 +217,108 @@ func parseAbilities(data []byte) []api.CharacterAbility {
 		return []api.CharacterAbility{}
 	}
 	return abs
+}
+
+func factToResponse(f statedb.WorldFact) api.FactResponse {
+	var supersededBy *string
+	if f.SupersededBy.Valid {
+		s := dbutil.FromPgtype(f.SupersededBy).String()
+		supersededBy = &s
+	}
+	return api.FactResponse{
+		ID:           dbutil.FromPgtype(f.ID).String(),
+		CampaignID:   dbutil.FromPgtype(f.CampaignID).String(),
+		Fact:         f.Fact,
+		Category:     f.Category,
+		Source:       f.Source,
+		SupersededBy: supersededBy,
+		PlayerKnown:  f.PlayerKnown,
+		CreatedAt:    f.CreatedAt.Time.Format(time.RFC3339),
+	}
+}
+
+func relationshipToResponse(r statedb.EntityRelationship) api.RelationshipResponse {
+	var strength *int
+	if r.Strength.Valid {
+		v := int(r.Strength.Int32)
+		strength = &v
+	}
+	return api.RelationshipResponse{
+		ID:               dbutil.FromPgtype(r.ID).String(),
+		CampaignID:       dbutil.FromPgtype(r.CampaignID).String(),
+		SourceEntityType: r.SourceEntityType,
+		SourceEntityID:   dbutil.FromPgtype(r.SourceEntityID).String(),
+		TargetEntityType: r.TargetEntityType,
+		TargetEntityID:   dbutil.FromPgtype(r.TargetEntityID).String(),
+		RelationshipType: r.RelationshipType,
+		Description:      r.Description.String,
+		Strength:         strength,
+		PlayerAware:      r.PlayerAware,
+		CreatedAt:        r.CreatedAt.Time.Format(time.RFC3339),
+	}
+}
+
+func languageToResponse(l statedb.Language) api.LanguageResponse {
+	return api.LanguageResponse{
+		ID:          dbutil.FromPgtype(l.ID).String(),
+		CampaignID:  dbutil.FromPgtype(l.CampaignID).String(),
+		Name:        l.Name,
+		Description: l.Description,
+		PlayerKnown: l.PlayerKnown,
+		CreatedAt:   l.CreatedAt.Time.Format(time.RFC3339),
+	}
+}
+
+func cultureToResponse(c statedb.Culture) api.CultureResponse {
+	var langID, beliefID *string
+	if c.LanguageID.Valid {
+		s := dbutil.FromPgtype(c.LanguageID).String()
+		langID = &s
+	}
+	if c.BeliefSystemID.Valid {
+		s := dbutil.FromPgtype(c.BeliefSystemID).String()
+		beliefID = &s
+	}
+	return api.CultureResponse{
+		ID:             dbutil.FromPgtype(c.ID).String(),
+		CampaignID:     dbutil.FromPgtype(c.CampaignID).String(),
+		Name:           c.Name,
+		LanguageID:     langID,
+		BeliefSystemID: beliefID,
+		PlayerKnown:    c.PlayerKnown,
+		CreatedAt:      c.CreatedAt.Time.Format(time.RFC3339),
+	}
+}
+
+func beliefSystemToResponse(b statedb.BeliefSystem) api.BeliefSystemResponse {
+	return api.BeliefSystemResponse{
+		ID:          dbutil.FromPgtype(b.ID).String(),
+		CampaignID:  dbutil.FromPgtype(b.CampaignID).String(),
+		Name:        b.Name,
+		PlayerKnown: b.PlayerKnown,
+		CreatedAt:   b.CreatedAt.Time.Format(time.RFC3339),
+	}
+}
+
+func economicSystemToResponse(e statedb.EconomicSystem) api.EconomicSystemResponse {
+	return api.EconomicSystemResponse{
+		ID:          dbutil.FromPgtype(e.ID).String(),
+		CampaignID:  dbutil.FromPgtype(e.CampaignID).String(),
+		Name:        e.Name,
+		PlayerKnown: e.PlayerKnown,
+		CreatedAt:   e.CreatedAt.Time.Format(time.RFC3339),
+	}
+}
+
+func mapLocationToResponse(l statedb.Location) api.MapLocationResponse {
+	return api.MapLocationResponse{
+		ID:            dbutil.FromPgtype(l.ID).String(),
+		CampaignID:    dbutil.FromPgtype(l.CampaignID).String(),
+		Name:          l.Name,
+		Description:   l.Description.String,
+		Region:        l.Region.String,
+		LocationType:  l.LocationType.String,
+		PlayerVisited: l.PlayerVisited,
+		PlayerKnown:   l.PlayerKnown,
+	}
 }
