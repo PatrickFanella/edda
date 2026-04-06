@@ -10,6 +10,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/PatrickFanella/game-master/internal/assembly"
+	"github.com/PatrickFanella/game-master/internal/dbutil"
 	"github.com/PatrickFanella/game-master/internal/bootstrap"
 	"github.com/PatrickFanella/game-master/internal/config"
 	"github.com/PatrickFanella/game-master/internal/domain"
@@ -23,6 +24,7 @@ import (
 type Engine struct {
 	logger     *slog.Logger
 	state      game.StateManager
+	queries    statedb.Querier
 	assembler  *assembly.ContextAssembler
 	processor  *TurnProcessor
 	tier3      *assembly.Tier3Retriever
@@ -65,7 +67,8 @@ func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts .
 	queries := statedb.New(db)
 
 	e := &Engine{
-		state: game.NewStateManager(db),
+		state:   game.NewStateManager(db),
+		queries: queries,
 	}
 	for _, opt := range opts {
 		opt(e)
@@ -166,6 +169,8 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 		return nil, fmt.Errorf("save session log: %w", err)
 	}
 
+	e.snapshotQuestsIfNeeded(ctx, campaignID, applied)
+
 	e.logger.Info("process turn completed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "narrative_len", len(result.Narrative), "choices", len(result.Choices), "tool_calls", len(result.AppliedToolCalls))
 	return result, nil
 }
@@ -241,4 +246,47 @@ func marshalAppliedToolCalls(applied []AppliedToolCall) (json.RawMessage, error)
 		return nil, err
 	}
 	return json.RawMessage(data), nil
+}
+
+// questToolNames are tools that modify quest state, triggering a history snapshot.
+var questToolNames = map[string]struct{}{
+	"create_quest":       {},
+	"create_subquest":    {},
+	"update_quest":       {},
+	"complete_objective": {},
+	"branch_quest":       {},
+	"link_quest_entity":  {},
+}
+
+// snapshotQuestsIfNeeded creates quest history entries when quest tools were invoked.
+func (e *Engine) snapshotQuestsIfNeeded(ctx context.Context, campaignID uuid.UUID, applied []AppliedToolCall) {
+	if e.queries == nil {
+		return
+	}
+	hasQuestTool := false
+	for _, atc := range applied {
+		if _, ok := questToolNames[atc.Tool]; ok {
+			hasQuestTool = true
+			break
+		}
+	}
+	if !hasQuestTool {
+		return
+	}
+
+	pgCampaignID := dbutil.ToPgtype(campaignID)
+	quests, err := e.queries.ListActiveQuests(ctx, pgCampaignID)
+	if err != nil {
+		e.logger.Warn("quest snapshot: failed to list quests", "error", err)
+		return
+	}
+	for _, q := range quests {
+		snapshot := fmt.Sprintf("Status: %s | Title: %s", q.Status, q.Title)
+		if _, err := e.queries.CreateQuestHistoryEntry(ctx, statedb.CreateQuestHistoryEntryParams{
+			QuestID:  q.ID,
+			Snapshot: snapshot,
+		}); err != nil {
+			e.logger.Warn("quest snapshot: failed to create history entry", "quest_id", q.ID, "error", err)
+		}
+	}
 }

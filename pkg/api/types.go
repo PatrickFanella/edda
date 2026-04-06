@@ -251,3 +251,123 @@ type WorldBuildResponse struct {
 	Campaign     CampaignResponse     `json:"campaign"`
 	OpeningScene OpeningSceneResponse `json:"opening_scene"`
 }
+
+// FactResponse represents a world fact visible to the API consumer.
+type FactResponse struct {
+	ID           string  `json:"id"`
+	CampaignID   string  `json:"campaign_id"`
+	Fact         string  `json:"fact"`
+	Category     string  `json:"category"`
+	Source       string  `json:"source"`
+	SupersededBy *string `json:"superseded_by,omitempty"`
+	PlayerKnown  bool    `json:"player_known"`
+	CreatedAt    string  `json:"created_at"`
+}
+
+// RelationshipResponse represents an entity relationship.
+type RelationshipResponse struct {
+	ID               string `json:"id"`
+	CampaignID       string `json:"campaign_id"`
+	SourceEntityType string `json:"source_entity_type"`
+	SourceEntityID   string `json:"source_entity_id"`
+	TargetEntityType string `json:"target_entity_type"`
+	TargetEntityID   string `json:"target_entity_id"`
+	RelationshipType string `json:"relationship_type"`
+	Description      string `json:"description"`
+	Strength         *int   `json:"strength,omitempty"`
+	PlayerAware      bool   `json:"player_aware"`
+	CreatedAt        string `json:"created_at"`
+}
+
+// LanguageResponse represents a player-known language.
+type LanguageResponse struct {
+	ID          string `json:"id"`
+	CampaignID  string `json:"campaign_id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	PlayerKnown bool   `json:"player_known"`
+	CreatedAt   string `json:"created_at"`
+}
+
+// CultureResponse represents a player-known culture.
+type CultureResponse struct {
+	ID             string  `json:"id"`
+	CampaignID     string  `json:"campaign_id"`
+	Name           string  `json:"name"`
+	LanguageID     *string `json:"language_id,omitempty"`
+	BeliefSystemID *string `json:"belief_system_id,omitempty"`
+	PlayerKnown    bool    `json:"player_known"`
+	CreatedAt      string  `json:"created_at"`
+}
+
+// BeliefSystemResponse represents a player-known belief system.
+type BeliefSystemResponse struct {
+	ID          string `json:"id"`
+	CampaignID  string `json:"campaign_id"`
+	Name        string `json:"name"`
+	PlayerKnown bool   `json:"player_known"`
+	CreatedAt   string `json:"created_at"`
+}
+
+// EconomicSystemResponse represents a player-known economic system.
+type EconomicSystemResponse struct {
+	ID          string `json:"id"`
+	CampaignID  string `json:"campaign_id"`
+	Name        string `json:"name"`
+	PlayerKnown bool   `json:"player_known"`
+	CreatedAt   string `json:"created_at"`
+}
+
+// MapLocationResponse represents a location on the player's map.
+type MapLocationResponse struct {
+	ID            string `json:"id"`
+	CampaignID    string `json:"campaign_id"`
+	Name          string `json:"name"`
+	Description   string `json:"description"`
+	Region        string `json:"region"`
+	LocationType  string `json:"location_type"`
+	PlayerVisited bool   `json:"player_visited"`
+	PlayerKnown   bool   `json:"player_known"`
+}
+
+// MapDataResponse is the consolidated map data for a campaign.
+type MapDataResponse struct {
+	Locations   []MapLocationResponse        `json:"locations"`
+	Connections []LocationConnectionResponse `json:"connections"`
+}
+
+// EncounteredNPCResponse represents an NPC the player has encountered.
+type EncounteredNPCResponse struct {
+	ID          string  `json:"id"`
+	CampaignID  string  `json:"campaign_id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Disposition *int    `json:"disposition,omitempty"`
+	Alive       bool    `json:"alive"`
+	FactionID   *string `json:"faction_id,omitempty"`
+}
+
+// DialogueEntry represents one turn of dialogue involving an NPC.
+type DialogueEntry struct {
+	TurnNumber  int    `json:"turn_number"`
+	PlayerInput string `json:"player_input"`
+	LLMResponse string `json:"llm_response"`
+	CreatedAt   string `json:"created_at"`
+}
+
+// QuestNoteResponse represents a player note on a quest.
+type QuestNoteResponse struct {
+	ID        string `json:"id"`
+	QuestID   string `json:"quest_id"`
+	Content   string `json:"content"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
+}
+
+// QuestHistoryEntry represents a snapshot of quest state at a point in time.
+type QuestHistoryEntry struct {
+	ID        string `json:"id"`
+	QuestID   string `json:"quest_id"`
+	Snapshot  string `json:"snapshot"`
+	CreatedAt string `json:"created_at"`
+}
