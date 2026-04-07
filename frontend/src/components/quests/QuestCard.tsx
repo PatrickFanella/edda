@@ -1,11 +1,18 @@
+import { useState } from 'react';
+
 import type { QuestResponse } from '../../api/types';
 import { cn } from '../../lib/cn';
 import { ObjectiveList } from './ObjectiveList';
+import { QuestHistory } from './QuestHistory';
+import { QuestNotes } from './QuestNotes';
 
 interface QuestCardProps {
   readonly quest: QuestResponse;
+  readonly campaignId?: string;
   readonly className?: string;
 }
+
+type ExpandedSection = 'notes' | 'history' | null;
 
 const questTypeLabels: Record<string, string> = {
   short_term: 'Short term',
@@ -46,7 +53,13 @@ function progressLabel(quest: QuestResponse): string {
   return `${completedCount}/${quest.objectives.length} objectives complete`;
 }
 
-export function QuestCard({ quest, className }: QuestCardProps) {
+export function QuestCard({ quest, campaignId, className }: QuestCardProps) {
+  const [expandedSection, setExpandedSection] = useState<ExpandedSection>(null);
+
+  function toggleSection(section: ExpandedSection) {
+    setExpandedSection((prev) => (prev === section ? null : section));
+  }
+
   return (
     <article className={cn('deco-corners deco-corners-sapphire deco-pattern border-2 border-sapphire/25 bg-charcoal p-5 transition-all duration-200 hover:border-sapphire/45 hover:-translate-y-0.5', className)}>
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -95,6 +108,40 @@ export function QuestCard({ quest, className }: QuestCardProps) {
         </div>
         <ObjectiveList objectives={quest.objectives} />
       </div>
+
+      {campaignId ? (
+        <div className="mt-5 border-t-2 border-sapphire/15 pt-4">
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => toggleSection('notes')}
+              className={cn(
+                'border px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] transition',
+                expandedSection === 'notes'
+                  ? 'border-sapphire bg-sapphire/15 text-sapphire'
+                  : 'border-sapphire/20 text-champagne/60 hover:border-sapphire hover:text-sapphire',
+              )}
+            >
+              Notes
+            </button>
+            <button
+              type="button"
+              onClick={() => toggleSection('history')}
+              className={cn(
+                'border px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] transition',
+                expandedSection === 'history'
+                  ? 'border-sapphire bg-sapphire/15 text-sapphire'
+                  : 'border-sapphire/20 text-champagne/60 hover:border-sapphire hover:text-sapphire',
+              )}
+            >
+              History
+            </button>
+          </div>
+
+          {expandedSection === 'notes' ? <QuestNotes campaignId={campaignId} questId={quest.id} /> : null}
+          {expandedSection === 'history' ? <QuestHistory campaignId={campaignId} questId={quest.id} /> : null}
+        </div>
+      ) : null}
     </article>
   );
 }

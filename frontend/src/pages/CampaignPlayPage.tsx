@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router';
 
 import { getCampaign } from '../api/campaigns';
+import { listCampaignQuests } from '../api/quests';
 import type { CampaignResponse, OpeningSceneResponse } from '../api/types';
 import { CharacterSheet } from '../components/character/CharacterSheet';
 import { InventoryPanel } from '../components/inventory/InventoryPanel';
@@ -14,6 +15,8 @@ import { NarrativePanel } from '../components/narrative/NarrativePanel';
 import type { NarrativeEntryItem } from '../components/narrative/NarrativeEntry';
 import { PlayerInput } from '../components/narrative/PlayerInput';
 import { NPCPanel } from '../components/npcs/NPCPanel';
+import { TurnNotifications } from '../components/layout/TurnNotifications';
+import { PinnedObjectives } from '../components/quests/PinnedObjectives';
 import { QuestPanel } from '../components/quests/QuestPanel';
 import { WorldPanel } from '../components/world/WorldPanel';
 import { CampaignContext, useCampaignState } from '../context/CampaignContext';
@@ -170,6 +173,12 @@ function CampaignPlayContent({
   const seededNarrative = useMemo(() => buildSeededNarrativeState(campaign, startupSeed, narrative.entries), [campaign, narrative.entries, startupSeed]);
   useRefreshAfterTurn(campaignId, narrative.latestResult);
 
+  const questsQuery = useQuery({
+    queryKey: ['campaign', campaignId, 'quests'],
+    queryFn: () => listCampaignQuests(campaignId),
+    enabled: campaignId.length > 0,
+  });
+
   const levelUpMessage = useMemo(() => {
     const changes = narrative.latestResult?.state_changes;
     if (!changes) return null;
@@ -183,9 +192,11 @@ function CampaignPlayContent({
     <AppShell title={campaign.name} description={campaign.description || 'Live narrative play for this campaign.'} actions={<BackToCampaignsLink />}>
       <div className="space-y-6">
         {levelUpMessage ? <LevelUpBanner message={levelUpMessage} /> : null}
+        <PinnedObjectives quests={questsQuery.data ?? []} />
         <CampaignSummary campaign={campaign} campaignSummary={startupSeed?.campaignSummary ?? null} />
         <TabBar tabs={playTabs} activeTab={activeTab} onChange={onTabChange} />
         <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} />
+        <TurnNotifications stateChanges={narrative.latestResult?.state_changes ?? []} />
       </div>
     </AppShell>
   );

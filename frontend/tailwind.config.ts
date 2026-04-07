@@ -31,6 +31,15 @@ export default {
         heading: ['Marcellus', 'serif'],
         sans: ['Josefin Sans', 'sans-serif'],
       },
+      keyframes: {
+        'slide-in-right': {
+          '0%': { transform: 'translateX(2rem)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+      },
+      animation: {
+        'slide-in-right': 'slide-in-right 0.3s ease-out',
+      },
       boxShadow: {
         'gold-sm': '0 0 10px rgba(212, 175, 55, 0.1)',
         'gold': '0 0 20px rgba(212, 175, 55, 0.15)',
