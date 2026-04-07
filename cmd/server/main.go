@@ -29,6 +29,7 @@ import (
 	"github.com/PatrickFanella/game-master/internal/llm"
 	"github.com/PatrickFanella/game-master/internal/logging"
 	"github.com/PatrickFanella/game-master/internal/memory"
+	"github.com/PatrickFanella/game-master/internal/saves"
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
 )
 
@@ -84,8 +85,11 @@ func run(args []string) int {
 		return 1
 	}
 
+	saveStore := saves.NewStore(pool)
+
 	engineOpts := []engine.Option{
 		engine.WithLogger(slog.Default().WithGroup("engine")),
+		engine.WithSaveStore(saveStore),
 	}
 	if cfg.LLM.Provider == "ollama" {
 		embedEndpoint := cfg.LLM.Ollama.EmbeddingEndpoint
@@ -110,7 +114,7 @@ func run(args []string) int {
 		logger.Errorf("create engine: %v", err)
 		return 1
 	}
-	router := newRouterWithProvider(logger, gameEngine, queries, provider, pool, defaultUserID, cfg)
+	router := newRouterWithProvider(logger, gameEngine, queries, provider, pool, defaultUserID, cfg, saveStore)
 
 	addr := fmt.Sprintf(":%d", cfg.Server.Port)
 	server := &http.Server{
@@ -166,7 +170,7 @@ func parseConfigPath(args []string, defaultPath string) (string, error) {
 	return configPath, nil
 }
 
-func newRouterWithProvider(logger *log.Logger, gameEngine engine.GameEngine, queries statedb.Querier, provider llm.Provider, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config) http.Handler {
+func newRouterWithProvider(logger *log.Logger, gameEngine engine.GameEngine, queries statedb.Querier, provider llm.Provider, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store) http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(loggingMiddleware(logger))
@@ -186,11 +190,11 @@ func newRouterWithProvider(logger *log.Logger, gameEngine engine.GameEngine, que
 	})
 
 	h := handlers.New(gameEngine, queries, logger, provider)
-	registerAPIRoutes(logger, r, h, pool, defaultUserID, cfg)
+	registerAPIRoutes(logger, r, h, pool, defaultUserID, cfg, saveStore)
 	return r
 }
 
-func registerAPIRoutes(logger *log.Logger, r chi.Router, h *handlers.Handlers, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config) {
+func registerAPIRoutes(logger *log.Logger, r chi.Router, h *handlers.Handlers, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store) {
 	// Choose auth middleware: JWT if a secret is configured, NoOp otherwise (TUI).
 	var authMW auth.AuthMiddleware
 	if cfg.Server.JWTSecret != "" {
@@ -277,6 +281,12 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, h *handlers.Handlers, p
 
 					r.Post("/action", h.ProcessAction)
 					r.Get("/ws", h.HandleWebSocket)
+
+					savesH := saves.NewHandlers(saveStore)
+					r.Post("/saves", savesH.ManualSave)
+					r.Get("/saves", savesH.ListSaves)
+					r.Post("/start-over", savesH.StartOver)
+					r.Get("/time", savesH.GetTime)
 				})
 			})
 			})

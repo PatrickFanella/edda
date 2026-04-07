@@ -16,6 +16,7 @@ import (
 	"github.com/PatrickFanella/game-master/internal/domain"
 	"github.com/PatrickFanella/game-master/internal/game"
 	"github.com/PatrickFanella/game-master/internal/llm"
+	"github.com/PatrickFanella/game-master/internal/saves"
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
 	"github.com/PatrickFanella/game-master/internal/tools"
 )
@@ -31,6 +32,7 @@ type Engine struct {
 	toolFilter ToolFilter
 	embedder   tools.Embedder
 	searcher   tools.SearchMemorySearcher
+	saveStore  *saves.Store
 }
 
 const recentTurnLimit = 10
@@ -57,6 +59,11 @@ func WithSearcher(s tools.SearchMemorySearcher) Option {
 	return func(e *Engine) { e.searcher = s }
 }
 
+// WithSaveStore attaches a saves.Store for auto-save after each turn.
+func WithSaveStore(s *saves.Store) Option {
+	return func(e *Engine) { e.saveStore = s }
+}
+
 // WithLogger sets the structured logger for the engine and its subsystems.
 func WithLogger(l *slog.Logger) Option {
 	return func(e *Engine) { e.logger = l }
@@ -81,7 +88,8 @@ func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts .
 	}
 
 	registry := tools.NewRegistry()
-	if err := registerAllTools(registry, queries, e.embedder, e.searcher); err != nil {
+	// Pass db as TimeStore for the advance_time tool (DBTX satisfies TimeStore).
+	if err := registerAllTools(registry, queries, e.embedder, e.searcher, db); err != nil {
 		return nil, fmt.Errorf("register tools: %w", err)
 	}
 
@@ -170,9 +178,25 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 	}
 
 	e.snapshotQuestsIfNeeded(ctx, campaignID, applied)
+	e.autoSaveIfNeeded(ctx, campaignID, log.TurnNumber)
 
 	e.logger.Info("process turn completed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "narrative_len", len(result.Narrative), "choices", len(result.Choices), "tool_calls", len(result.AppliedToolCalls))
 	return result, nil
+}
+
+// autoSaveIfNeeded creates an auto-save point after each turn and cleans up old ones.
+func (e *Engine) autoSaveIfNeeded(ctx context.Context, campaignID uuid.UUID, turnNumber int) {
+	if e.saveStore == nil {
+		return
+	}
+	name := fmt.Sprintf("Auto-save (turn %d)", turnNumber)
+	if _, err := e.saveStore.CreateSavePoint(ctx, campaignID, name, turnNumber, true); err != nil {
+		e.logger.Warn("auto-save: failed to create save point", "campaign_id", campaignID, "error", err)
+		return
+	}
+	if err := e.saveStore.DeleteOldAutoSaves(ctx, campaignID); err != nil {
+		e.logger.Warn("auto-save: failed to clean up old auto-saves", "campaign_id", campaignID, "error", err)
+	}
 }
 
 func (e *Engine) GetGameState(ctx context.Context, campaignID uuid.UUID) (*GameState, error) {

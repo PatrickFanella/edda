@@ -215,7 +215,27 @@ func (sm *pgStateManager) GatherState(ctx context.Context, campaignID uuid.UUID)
 		}
 	}
 
+	// Campaign time — read via raw SQL since campaign_time is not in sqlc yet.
+	if sm.db != nil {
+		ct, err := loadCampaignTime(ctx, sm.db, pgCampaignID)
+		if err == nil {
+			state.Time = ct
+		}
+		// Ignore errors (table might not exist during migration rollout).
+	}
+
 	return state, nil
+}
+
+const loadCampaignTimeSQL = `SELECT day, hour, minute FROM campaign_time WHERE campaign_id = $1`
+
+func loadCampaignTime(ctx context.Context, db statedb.DBTX, campaignID pgtype.UUID) (*CampaignTime, error) {
+	var ct CampaignTime
+	err := db.QueryRow(ctx, loadCampaignTimeSQL, campaignID).Scan(&ct.Day, &ct.Hour, &ct.Minute)
+	if err != nil {
+		return nil, err
+	}
+	return &ct, nil
 }
 
 func (sm *pgStateManager) SaveSessionLog(ctx context.Context, log domain.SessionLog) error {

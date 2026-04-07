@@ -358,3 +358,18 @@ export interface MapDataResponse {
   locations: MapLocationResponse[];
   connections: LocationConnectionResponse[];
 }
+
+export interface SavePointResponse {
+  id: string;
+  campaign_id: string;
+  name: string;
+  turn_number: number;
+  is_auto: boolean;
+  created_at: string;
+}
+
+export interface CampaignTimeResponse {
+  day: number;
+  hour: number;
+  minute: number;
+}

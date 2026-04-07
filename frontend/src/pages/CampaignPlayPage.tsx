@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router';
 
-import { getCampaign } from '../api/campaigns';
+import { getCampaign, startOverCampaign } from '../api/campaigns';
 import { listCampaignQuests } from '../api/quests';
 import type { CampaignResponse, OpeningSceneResponse } from '../api/types';
 import { CharacterSheet } from '../components/character/CharacterSheet';
+import { ConfirmationDialog } from '../components/layout/ConfirmationDialog';
 import { InventoryPanel } from '../components/inventory/InventoryPanel';
 import { AppShell } from '../components/layout/AppShell';
 import { TabBar } from '../components/layout/TabBar';
@@ -208,8 +209,29 @@ function CampaignPlayContent({
     return `Level Up! You reached level ${newLevel ?? '??'}`;
   }, [narrative.latestResult]);
 
+  const [showStartOverDialog, setShowStartOverDialog] = useState(false);
+  const queryClient = useQueryClient();
+  const startOverMutation = useMutation({
+    mutationFn: () => startOverCampaign(campaignId),
+    onSuccess: () => {
+      setShowStartOverDialog(false);
+      queryClient.invalidateQueries({ queryKey: ['campaign', campaignId] });
+      window.location.reload();
+    },
+  });
+
   return (
-    <AppShell title={campaign.name} description={campaign.description || 'Live narrative play for this campaign.'} actions={<BackToCampaignsLink />}>
+    <AppShell title={campaign.name} description={campaign.description || 'Live narrative play for this campaign.'} actions={<CampaignPlayActions onStartOver={() => setShowStartOverDialog(true)} />}>
+      <ConfirmationDialog
+        open={showStartOverDialog}
+        title="Start Over"
+        message="This will delete all session history, save points, and campaign time. Your world data (NPCs, locations, quests, etc.) will be preserved. This action cannot be undone."
+        confirmLabel="Start Over"
+        cancelLabel="Cancel"
+        destructive
+        onConfirm={() => startOverMutation.mutate()}
+        onCancel={() => setShowStartOverDialog(false)}
+      />
       <div className="space-y-6">
         {levelUpMessage ? <LevelUpBanner message={levelUpMessage} /> : null}
         <PinnedObjectives quests={questsQuery.data ?? []} />
@@ -430,6 +452,21 @@ function LoadingPanel({ message }: { readonly message: string }) {
 
 function ErrorPanel({ message }: { readonly message: string }) {
   return <div className="border border-ruby/40 bg-ruby/10 p-6 text-sm text-ruby">{message}</div>;
+}
+
+function CampaignPlayActions({ onStartOver }: { readonly onStartOver: () => void }) {
+  return (
+    <div className="flex items-center gap-3">
+      <button
+        type="button"
+        onClick={onStartOver}
+        className="inline-flex items-center justify-center border-2 border-ruby/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-ruby transition-all duration-200 hover:border-ruby hover:bg-ruby/10 focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian"
+      >
+        Start Over
+      </button>
+      <BackToCampaignsLink />
+    </div>
+  );
 }
 
 function BackToCampaignsLink() {
