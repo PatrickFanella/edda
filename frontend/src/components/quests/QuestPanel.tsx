@@ -135,7 +135,7 @@ export function QuestPanel({ campaignId, className }: QuestPanelProps) {
       ) : (
         <div className="space-y-4">
           {filteredQuests.map((quest) => (
-            <QuestCard key={quest.id} quest={quest} />
+            <QuestCard key={quest.id} quest={quest} campaignId={campaignId} />
           ))}
         </div>
       )}

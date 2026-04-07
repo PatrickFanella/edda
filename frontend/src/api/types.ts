@@ -325,3 +325,18 @@ export interface RelationshipResponse {
   player_aware: boolean;
   created_at: string;
 }
+
+export interface QuestNoteResponse {
+  id: string;
+  quest_id: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface QuestHistoryEntry {
+  id: string;
+  quest_id: string;
+  snapshot: string;
+  created_at: string;
+}
