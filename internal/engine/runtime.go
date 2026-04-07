@@ -109,100 +109,45 @@ func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts .
 var _ GameEngine = (*Engine)(nil)
 
 func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerInput string) (*TurnResult, error) {
-	started := time.Now()
 	if e.logger == nil {
 		e.logger = slog.Default()
 	}
-	e.logger.Info("process turn started", "campaign_id", campaignID, "input_len", len(playerInput))
-	state, err := e.state.GatherState(ctx, campaignID)
-	if err != nil {
-		e.logger.Error("process turn failed during state gather", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
-		return nil, fmt.Errorf("gather state: %w", err)
-	}
-	e.logger.Debug("state gathered", "campaign_id", campaignID, "player_id", state.Player.ID, "has_location", state.Player.CurrentLocationID != nil)
-	ctx = tools.WithCurrentCampaignID(ctx, campaignID)
-	if state.Player.ID != uuid.Nil {
-		ctx = tools.WithCurrentPlayerCharacterID(ctx, state.Player.ID)
-	}
-	if state.Player.CurrentLocationID != nil {
-		ctx = tools.WithCurrentLocationID(ctx, *state.Player.CurrentLocationID)
+
+	tc := &TurnContext{
+		CampaignID:  campaignID,
+		PlayerInput: playerInput,
+		Logger:      e.logger,
+		Started:     time.Now(),
 	}
 
-	recentTurns, err := e.state.ListRecentSessionLogs(ctx, campaignID, recentTurnLimit)
-	if err != nil {
-		e.logger.Error("process turn failed during session-log fetch", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
-		return nil, fmt.Errorf("list recent session logs: %w", err)
-	}
-	var retrievedMemories []string
-	if e.tier3 != nil {
-		var tier3Err error
-		retrievedMemories, tier3Err = e.tier3.Retrieve(ctx, campaignID, playerInput, state)
-		if tier3Err != nil {
-			e.logger.Warn("tier3 memory retrieval failed", "campaign_id", campaignID, "error", tier3Err)
-		} else {
-			e.logger.Debug("tier3 memories retrieved", "campaign_id", campaignID, "count", len(retrievedMemories))
-		}
-	}
+	tc.Logger.Info("process turn started", "campaign_id", campaignID, "input_len", len(playerInput))
 
-	messages := e.assembler.AssembleContext(state, recentTurns, playerInput, retrievedMemories...)
-	allTools := e.assembler.Tools()
-	filteredTools := allTools
-	if e.toolFilter != nil {
-		filteredTools = e.toolFilter.Filter(state, allTools)
-	}
-	phase := DetectPhase(state)
-	e.logger.Debug("context assembled", "campaign_id", campaignID, "messages", len(messages), "recent_turns", len(recentTurns), "memories", len(retrievedMemories), "all_tools", len(allTools), "filtered_tools", len(filteredTools), "phase", phase.String())
-	narrative, applied, err := e.processor.ProcessWithRecovery(ctx, messages, filteredTools)
-	if err != nil {
-		e.logger.Error("process turn failed during turn processor", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
-		return nil, fmt.Errorf("process turn: %w", err)
-	}
+	pipeline := NewPipeline(
+		e.gatherStage(),
+		e.memoryStage(),
+		e.assembleStage(),
+		e.processStage(),
+		e.persistStage(),
+	)
 
-	narrative, choices := extractChoices(narrative)
-
-	// Derive combat state: start with pre-turn state, then adjust based on tools used.
-	combatActive := state.CombatActive
-	for _, atc := range applied {
-		switch atc.Tool {
-		case "initiate_combat":
-			combatActive = true
-		case "resolve_combat":
-			combatActive = false
-		}
+	if err := pipeline.Execute(ctx, tc); err != nil {
+		return nil, err
 	}
 
 	result := &TurnResult{
-		Narrative:        narrative,
-		AppliedToolCalls: applied,
-		Choices:          choices,
-		CombatActive:     combatActive,
+		Narrative:        tc.Narrative,
+		AppliedToolCalls: tc.Applied,
+		Choices:          tc.Choices,
+		CombatActive:     tc.CombatActive,
 	}
 
-	toolCallsJSON, err := marshalAppliedToolCalls(applied)
-	if err != nil {
-		e.logger.Error("process turn failed during tool-call marshal", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
-		return nil, fmt.Errorf("marshal applied tool calls: %w", err)
-	}
-
-	log := domain.SessionLog{
-		CampaignID:  campaignID,
-		TurnNumber:  nextTurnNumber(recentTurns),
-		PlayerInput: playerInput,
-		InputType:   domain.Classify(playerInput),
-		LLMResponse: narrative,
-		ToolCalls:   toolCallsJSON,
-		LocationID:  state.Player.CurrentLocationID,
-	}
-	if err := e.state.SaveSessionLog(ctx, log); err != nil {
-		e.logger.Error("process turn failed during session-log save", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
-		return nil, fmt.Errorf("save session log: %w", err)
-	}
-
-	e.snapshotQuestsIfNeeded(ctx, campaignID, applied)
-	e.autoSaveIfNeeded(ctx, campaignID, log.TurnNumber)
-	e.autoSummarizeIfNeeded(ctx, campaignID, log.TurnNumber)
-
-	e.logger.Info("process turn completed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "narrative_len", len(result.Narrative), "choices", len(result.Choices), "tool_calls", len(result.AppliedToolCalls))
+	tc.Logger.Info("process turn completed",
+		"campaign_id", campaignID,
+		"duration_ms", time.Since(tc.Started).Milliseconds(),
+		"narrative_len", len(result.Narrative),
+		"choices", len(result.Choices),
+		"tool_calls", len(result.AppliedToolCalls),
+	)
 	return result, nil
 }
 
