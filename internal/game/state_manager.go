@@ -88,6 +88,10 @@ func (sm *pgStateManager) GatherState(ctx context.Context, campaignID uuid.UUID)
 		return nil, fmt.Errorf("gather state campaign: %w", err)
 	}
 	state.Campaign = campaignToDomain(campaign)
+	state.RulesMode = string(state.Campaign.RulesMode)
+	if state.RulesMode == "" {
+		state.RulesMode = string(domain.RulesModeNarrative)
+	}
 
 	// Round 1: fan out independent queries that only need campaign ID.
 	g, gCtx := errgroup.WithContext(ctx)

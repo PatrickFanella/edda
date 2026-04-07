@@ -33,6 +33,7 @@ type Campaign struct {
 	WorldType           pgtype.Text
 	DangerLevel         pgtype.Text
 	PoliticalComplexity pgtype.Text
+	RulesMode           pgtype.Text
 }
 
 type Culture struct {

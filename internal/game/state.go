@@ -27,6 +27,7 @@ type GameState struct {
 	PlayerInventory            []domain.Item
 	WorldFacts                 []domain.WorldFact
 	Time                       *CampaignTime
+	RulesMode                  string
 }
 
 // CreateCampaignParams holds parameters for creating a new campaign.

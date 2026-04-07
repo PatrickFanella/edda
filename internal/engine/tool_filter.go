@@ -130,6 +130,23 @@ func nearLevelThreshold(state *game.GameState) bool {
 	return xp >= nextThreshold/2
 }
 
+// narrativeExclude lists tools removed in narrative mode.
+var narrativeExclude = map[string]struct{}{
+	"initiate_combat": {},
+	"combat_round":    {},
+	"apply_damage":    {},
+	"apply_condition": {},
+	"resolve_combat":  {},
+	"add_experience":  {},
+	"level_up":        {},
+}
+
+// crunchExtra lists additional tools available in crunch mode.
+var crunchExtra = map[string]struct{}{
+	"grant_feat":     {},
+	"allocate_skill": {},
+}
+
 // Filter returns tools appropriate for the current game state.
 func (f *PhaseToolFilter) Filter(state *game.GameState, allTools []llm.Tool) []llm.Tool {
 	if state == nil {
@@ -169,6 +186,26 @@ func (f *PhaseToolFilter) Filter(state *game.GameState, allTools []llm.Tool) []l
 			allowed[name] = struct{}{}
 		}
 	}
+
+	// Apply rules_mode filtering.
+	rulesMode := state.RulesMode
+	if rulesMode == "" {
+		rulesMode = "narrative"
+	}
+
+	switch rulesMode {
+	case "narrative":
+		// Remove combat and progression tools in narrative mode.
+		for name := range narrativeExclude {
+			delete(allowed, name)
+		}
+	case "crunch":
+		// Add feat/skill tools in crunch mode.
+		for name := range crunchExtra {
+			allowed[name] = struct{}{}
+		}
+	}
+	// "light" mode keeps the default phase-based behavior.
 
 	filtered := make([]llm.Tool, 0, len(allowed))
 	for _, tool := range allTools {

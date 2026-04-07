@@ -18,6 +18,10 @@ func userToDomain(u statedb.User) *domain.User {
 }
 
 func campaignToDomain(c statedb.Campaign) domain.Campaign {
+	rulesMode := domain.RulesMode(c.RulesMode.String)
+	if rulesMode == "" {
+		rulesMode = domain.RulesModeNarrative
+	}
 	return domain.Campaign{
 		ID:          dbutil.FromPgtype(c.ID),
 		Name:        c.Name,
@@ -26,6 +30,7 @@ func campaignToDomain(c statedb.Campaign) domain.Campaign {
 		Tone:        c.Tone.String,
 		Themes:      c.Themes,
 		Status:      domain.CampaignStatus(c.Status),
+		RulesMode:   rulesMode,
 		CreatedBy:   dbutil.FromPgtype(c.CreatedBy),
 		CreatedAt:   c.CreatedAt.Time,
 		UpdatedAt:   c.UpdatedAt.Time,

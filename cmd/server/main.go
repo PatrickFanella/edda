@@ -25,6 +25,7 @@ import (
 	"github.com/PatrickFanella/game-master/internal/bootstrap"
 	"github.com/PatrickFanella/game-master/internal/config"
 	"github.com/PatrickFanella/game-master/internal/engine"
+	"github.com/PatrickFanella/game-master/internal/export"
 	"github.com/PatrickFanella/game-master/internal/handlers"
 	"github.com/PatrickFanella/game-master/internal/journal"
 	"github.com/PatrickFanella/game-master/internal/llm"
@@ -288,6 +289,11 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, h *handlers.Handlers, p
 					r.Get("/saves", savesH.ListSaves)
 					r.Post("/start-over", savesH.StartOver)
 					r.Get("/time", savesH.GetTime)
+
+					exportH := export.NewHandlers(export.NewStore(pool))
+					r.Get("/export/json", exportH.ExportJSON)
+					r.Get("/export/transcript", exportH.ExportTranscript)
+					r.Get("/export/character", exportH.ExportCharacterSheet)
 
 					journalStore := journal.NewStore(pool)
 					journalH := journal.NewHandlersWithSummarizer(journalStore, journal.NewSummarizer(h.Provider, journalStore))

@@ -6,6 +6,7 @@ import { createManualSave, getCampaign, startOverCampaign } from '../api/campaig
 import { listCampaignQuests } from '../api/quests';
 import type { CampaignResponse, OpeningSceneResponse } from '../api/types';
 import { CharacterSheet } from '../components/character/CharacterSheet';
+import { ExportDialog } from '../components/export/ExportDialog';
 import { ConfirmationDialog } from '../components/layout/ConfirmationDialog';
 import { InventoryPanel } from '../components/inventory/InventoryPanel';
 import { JournalPanel } from '../components/journal/JournalPanel';
@@ -220,6 +221,7 @@ function CampaignPlayContent({
   }, [narrative.latestResult]);
 
   const [showStartOverDialog, setShowStartOverDialog] = useState(false);
+  const [showExportDialog, setShowExportDialog] = useState(false);
   const [showSaves, setShowSaves] = useState(false);
   const queryClient = useQueryClient();
   const startOverMutation = useMutation({
@@ -232,7 +234,8 @@ function CampaignPlayContent({
   });
 
   return (
-    <AppShell title={campaign.name} description={campaign.description || 'Live narrative play for this campaign.'} actions={<CampaignPlayActions campaignId={campaignId} onStartOver={() => setShowStartOverDialog(true)} />}>
+    <AppShell title={campaign.name} description={campaign.description || 'Live narrative play for this campaign.'} actions={<CampaignPlayActions campaignId={campaignId} onStartOver={() => setShowStartOverDialog(true)} onExport={() => setShowExportDialog(true)} />}>
+      <ExportDialog open={showExportDialog} campaignId={campaignId} onClose={() => setShowExportDialog(false)} />
       <ConfirmationDialog
         open={showStartOverDialog}
         title="Start Over"
@@ -479,7 +482,7 @@ function ErrorPanel({ message }: { readonly message: string }) {
   return <div className="border border-ruby/40 bg-ruby/10 p-6 text-sm text-ruby">{message}</div>;
 }
 
-function CampaignPlayActions({ campaignId, onStartOver }: { readonly campaignId: string; readonly onStartOver: () => void }) {
+function CampaignPlayActions({ campaignId, onStartOver, onExport }: { readonly campaignId: string; readonly onStartOver: () => void; readonly onExport: () => void }) {
   const queryClient = useQueryClient();
   const saveMutation = useMutation({
     mutationFn: (name: string) => createManualSave(campaignId, name),
@@ -505,6 +508,13 @@ function CampaignPlayActions({ campaignId, onStartOver }: { readonly campaignId:
         className="inline-flex items-center justify-center border-2 border-gold/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian disabled:opacity-50"
       >
         {saveMutation.isPending ? 'Saving...' : 'Save'}
+      </button>
+      <button
+        type="button"
+        onClick={onExport}
+        className="inline-flex items-center justify-center border-2 border-sapphire/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-sapphire hover:text-sapphire focus:outline-none focus:ring-2 focus:ring-sapphire focus:ring-offset-2 focus:ring-offset-obsidian"
+      >
+        Export
       </button>
       <button
         type="button"
