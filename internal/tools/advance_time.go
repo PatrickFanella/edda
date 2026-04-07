@@ -5,22 +5,16 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgconn"
-	"github.com/jackc/pgx/v5/pgtype"
 
+	"github.com/PatrickFanella/game-master/internal/db"
 	"github.com/PatrickFanella/game-master/internal/llm"
 )
 
 const advanceTimeToolName = "advance_time"
 
-// TimeStore provides direct campaign_time operations using raw SQL.
-type TimeStore interface {
-	Exec(context.Context, string, ...interface{}) (pgconn.CommandTag, error)
-	Query(context.Context, string, ...interface{}) (pgx.Rows, error)
-	QueryRow(context.Context, string, ...interface{}) pgx.Row
-}
+// TimeStore is the database interface used by time-related tools.
+type TimeStore = db.DBTX
 
 // AdvanceTimeTool returns the advance_time tool definition and JSON schema.
 func AdvanceTimeTool() llm.Tool {
@@ -109,7 +103,7 @@ func (h *AdvanceTimeHandler) Handle(ctx context.Context, args map[string]any) (*
 		return nil, errors.New("advance_time requires current campaign id in context")
 	}
 
-	pgCID := pgtype.UUID{Bytes: campaignID, Valid: campaignID != uuid.Nil}
+	pgCID := db.ToPgUUID(campaignID)
 
 	// Read current time (defaults if not set).
 	var day, hour, minute int

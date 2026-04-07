@@ -7,17 +7,10 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgtype"
-)
 
-// DBTX is the database interface satisfied by *pgxpool.Pool, pgx.Conn, and pgx.Tx.
-type DBTX interface {
-	Exec(context.Context, string, ...interface{}) (pgconn.CommandTag, error)
-	Query(context.Context, string, ...interface{}) (pgx.Rows, error)
-	QueryRow(context.Context, string, ...interface{}) pgx.Row
-}
+	"github.com/PatrickFanella/game-master/internal/db"
+)
 
 // Summary represents a row in the session_summaries table.
 type Summary struct {
@@ -41,12 +34,12 @@ type Entry struct {
 
 // Store provides direct session_summaries and player_journal_entries operations using raw SQL.
 type Store struct {
-	db DBTX
+	db db.DBTX
 }
 
 // NewStore creates a Store backed by the given database connection.
-func NewStore(db DBTX) *Store {
-	return &Store{db: db}
+func NewStore(conn db.DBTX) *Store {
+	return &Store{db: conn}
 }
 
 const listSummariesSQL = `
@@ -58,7 +51,7 @@ ORDER BY created_at DESC
 
 // ListSummaries returns all session summaries for a campaign, newest first.
 func (s *Store) ListSummaries(ctx context.Context, campaignID uuid.UUID) ([]Summary, error) {
-	pgCID := pgtype.UUID{Bytes: campaignID, Valid: campaignID != uuid.Nil}
+	pgCID := db.ToPgUUID(campaignID)
 	rows, err := s.db.Query(ctx, listSummariesSQL, pgCID)
 	if err != nil {
 		return nil, err
@@ -73,8 +66,8 @@ func (s *Store) ListSummaries(ctx context.Context, campaignID uuid.UUID) ([]Summ
 		if err := rows.Scan(&pgID, &pgCampaignID, &sm.FromTurn, &sm.ToTurn, &sm.Summary, &pgCreatedAt); err != nil {
 			return nil, err
 		}
-		sm.ID = uuid.UUID(pgID.Bytes)
-		sm.CampaignID = uuid.UUID(pgCampaignID.Bytes)
+		sm.ID = db.FromPgUUID(pgID)
+		sm.CampaignID = db.FromPgUUID(pgCampaignID)
 		if pgCreatedAt.Valid {
 			sm.CreatedAt = pgCreatedAt.Time
 		}
@@ -91,7 +84,7 @@ RETURNING id, campaign_id, from_turn, to_turn, summary, created_at
 
 // CreateSummary inserts a new session summary and returns it.
 func (s *Store) CreateSummary(ctx context.Context, campaignID uuid.UUID, fromTurn, toTurn int, summaryText string) (Summary, error) {
-	pgCID := pgtype.UUID{Bytes: campaignID, Valid: campaignID != uuid.Nil}
+	pgCID := db.ToPgUUID(campaignID)
 	row := s.db.QueryRow(ctx, createSummarySQL, pgCID, fromTurn, toTurn, summaryText)
 	var sm Summary
 	var pgID, pgCampaignID pgtype.UUID
@@ -100,8 +93,8 @@ func (s *Store) CreateSummary(ctx context.Context, campaignID uuid.UUID, fromTur
 	if err != nil {
 		return Summary{}, err
 	}
-	sm.ID = uuid.UUID(pgID.Bytes)
-	sm.CampaignID = uuid.UUID(pgCampaignID.Bytes)
+	sm.ID = db.FromPgUUID(pgID)
+	sm.CampaignID = db.FromPgUUID(pgCampaignID)
 	if pgCreatedAt.Valid {
 		sm.CreatedAt = pgCreatedAt.Time
 	}
@@ -126,7 +119,7 @@ type SessionLogRow struct {
 
 // ListSessionLogsByRange returns session logs within the given turn range.
 func (s *Store) ListSessionLogsByRange(ctx context.Context, campaignID uuid.UUID, fromTurn, toTurn int) ([]SessionLogRow, error) {
-	pgCID := pgtype.UUID{Bytes: campaignID, Valid: campaignID != uuid.Nil}
+	pgCID := db.ToPgUUID(campaignID)
 	rows, err := s.db.Query(ctx, listSessionLogsByRangeSQL, pgCID, fromTurn, toTurn)
 	if err != nil {
 		return nil, err
@@ -150,7 +143,7 @@ func (s *Store) ListSessionLogsByRange(ctx context.Context, campaignID uuid.UUID
 
 // MaxSummarizedTurn returns the highest to_turn value in session_summaries, or 0 if none exist.
 func (s *Store) MaxSummarizedTurn(ctx context.Context, campaignID uuid.UUID) (int, error) {
-	pgCID := pgtype.UUID{Bytes: campaignID, Valid: campaignID != uuid.Nil}
+	pgCID := db.ToPgUUID(campaignID)
 	var maxTurn *int
 	err := s.db.QueryRow(ctx, `SELECT MAX(to_turn) FROM session_summaries WHERE campaign_id = $1`, pgCID).Scan(&maxTurn)
 	if err != nil {
@@ -171,7 +164,7 @@ ORDER BY created_at DESC
 
 // ListEntries returns all journal entries for a campaign, newest first.
 func (s *Store) ListEntries(ctx context.Context, campaignID uuid.UUID) ([]Entry, error) {
-	pgCID := pgtype.UUID{Bytes: campaignID, Valid: campaignID != uuid.Nil}
+	pgCID := db.ToPgUUID(campaignID)
 	rows, err := s.db.Query(ctx, listEntriesSQL, pgCID)
 	if err != nil {
 		return nil, err
@@ -186,8 +179,8 @@ func (s *Store) ListEntries(ctx context.Context, campaignID uuid.UUID) ([]Entry,
 		if err := rows.Scan(&pgID, &pgCampaignID, &e.Title, &e.Content, &pgCreatedAt, &pgUpdatedAt); err != nil {
 			return nil, err
 		}
-		e.ID = uuid.UUID(pgID.Bytes)
-		e.CampaignID = uuid.UUID(pgCampaignID.Bytes)
+		e.ID = db.FromPgUUID(pgID)
+		e.CampaignID = db.FromPgUUID(pgCampaignID)
 		if pgCreatedAt.Valid {
 			e.CreatedAt = pgCreatedAt.Time
 		}
@@ -207,7 +200,7 @@ RETURNING id, campaign_id, title, content, created_at, updated_at
 
 // CreateEntry inserts a new journal entry and returns it.
 func (s *Store) CreateEntry(ctx context.Context, campaignID uuid.UUID, title, content string) (Entry, error) {
-	pgCID := pgtype.UUID{Bytes: campaignID, Valid: campaignID != uuid.Nil}
+	pgCID := db.ToPgUUID(campaignID)
 	row := s.db.QueryRow(ctx, createEntrySQL, pgCID, title, content)
 	var e Entry
 	var pgID, pgCampaignID pgtype.UUID
@@ -216,8 +209,8 @@ func (s *Store) CreateEntry(ctx context.Context, campaignID uuid.UUID, title, co
 	if err != nil {
 		return Entry{}, err
 	}
-	e.ID = uuid.UUID(pgID.Bytes)
-	e.CampaignID = uuid.UUID(pgCampaignID.Bytes)
+	e.ID = db.FromPgUUID(pgID)
+	e.CampaignID = db.FromPgUUID(pgCampaignID)
 	if pgCreatedAt.Valid {
 		e.CreatedAt = pgCreatedAt.Time
 	}
@@ -231,7 +224,7 @@ const deleteEntrySQL = `DELETE FROM player_journal_entries WHERE id = $1`
 
 // DeleteEntry removes a journal entry by ID.
 func (s *Store) DeleteEntry(ctx context.Context, entryID uuid.UUID) error {
-	pgID := pgtype.UUID{Bytes: entryID, Valid: entryID != uuid.Nil}
+	pgID := db.ToPgUUID(entryID)
 	_, err := s.db.Exec(ctx, deleteEntrySQL, pgID)
 	return err
 }

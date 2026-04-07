@@ -5,16 +5,9 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgconn"
-)
 
-// DBTX is the minimal database interface used by the rules package.
-type DBTX interface {
-	Exec(context.Context, string, ...interface{}) (pgconn.CommandTag, error)
-	Query(context.Context, string, ...interface{}) (pgx.Rows, error)
-	QueryRow(context.Context, string, ...interface{}) pgx.Row
-}
+	"github.com/PatrickFanella/game-master/internal/db"
+)
 
 // FeatDefinition describes a feat that can be granted to a character.
 type FeatDefinition struct {
@@ -42,13 +35,13 @@ var DefaultFeats = []FeatDefinition{
 }
 
 // SeedDefaultFeats inserts the standard feat definitions for a crunch mode campaign.
-func SeedDefaultFeats(ctx context.Context, db DBTX, campaignID uuid.UUID) error {
+func SeedDefaultFeats(ctx context.Context, d db.DBTX, campaignID uuid.UUID) error {
 	const insertSQL = `INSERT INTO feat_definitions (campaign_id, name, description, prerequisites, bonus_type, bonus_value)
 VALUES ($1, $2, $3, $4, $5, $6)
 ON CONFLICT DO NOTHING`
 
 	for _, feat := range DefaultFeats {
-		if _, err := db.Exec(ctx, insertSQL,
+		if _, err := d.Exec(ctx, insertSQL,
 			campaignID, feat.Name, feat.Description, feat.Prerequisites, feat.BonusType, feat.BonusValue,
 		); err != nil {
 			return fmt.Errorf("seed feat %q: %w", feat.Name, err)

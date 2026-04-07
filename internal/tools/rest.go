@@ -5,10 +5,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgtype"
 
+	"github.com/PatrickFanella/game-master/internal/db"
 	"github.com/PatrickFanella/game-master/internal/llm"
 )
 
@@ -89,7 +88,7 @@ func (h *RestHandler) Handle(ctx context.Context, args map[string]any) (*ToolRes
 		return nil, errors.New("rest requires current campaign id in context")
 	}
 
-	pgCID := pgtype.UUID{Bytes: campaignID, Valid: campaignID != uuid.Nil}
+	pgCID := db.ToPgUUID(campaignID)
 
 	// Read current HP.
 	var hp, maxHP int

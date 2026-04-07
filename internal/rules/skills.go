@@ -5,6 +5,8 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
+
+	"github.com/PatrickFanella/game-master/internal/db"
 )
 
 // SkillDefinition describes a skill that can be allocated to a character.
@@ -37,13 +39,13 @@ var DefaultSkills = []SkillDefinition{
 }
 
 // SeedDefaultSkills inserts the standard skill definitions for a crunch mode campaign.
-func SeedDefaultSkills(ctx context.Context, db DBTX, campaignID uuid.UUID) error {
+func SeedDefaultSkills(ctx context.Context, d db.DBTX, campaignID uuid.UUID) error {
 	const insertSQL = `INSERT INTO skill_definitions (campaign_id, name, description, base_ability)
 VALUES ($1, $2, $3, $4)
 ON CONFLICT DO NOTHING`
 
 	for _, skill := range DefaultSkills {
-		if _, err := db.Exec(ctx, insertSQL,
+		if _, err := d.Exec(ctx, insertSQL,
 			campaignID, skill.Name, skill.Description, skill.BaseAbility,
 		); err != nil {
 			return fmt.Errorf("seed skill %q: %w", skill.Name, err)
