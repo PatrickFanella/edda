@@ -144,9 +144,31 @@ func (a *ContextAssembler) Tools() []llm.Tool {
 func buildSystemContent(state *game.GameState) string {
 	var sb strings.Builder
 	sb.WriteString(prompt.GameMaster)
+	sb.WriteString("\n\n")
+	sb.WriteString(rulesModeSectionFor(state))
 	sb.WriteString("\n\n## Current Game State\n\n")
 	sb.WriteString(serializeState(state))
 	return sb.String()
+}
+
+// rulesModeSectionFor returns the rules-mode guidance block for the system prompt.
+func rulesModeSectionFor(state *game.GameState) string {
+	mode := "narrative"
+	if state != nil && state.RulesMode != "" {
+		mode = state.RulesMode
+	}
+
+	var guidance string
+	switch mode {
+	case "light":
+		guidance = "This campaign uses light rules. Use dice rolls and HP tracking when dramatically appropriate, but keep the focus on narrative. Skill checks add tension without overwhelming the story."
+	case "crunch":
+		guidance = "This campaign uses crunch mode. Apply D&D 5e-style mechanics rigorously: track HP precisely, use skill checks with modifiers, reference feats and skills, manage combat with initiative and actions. Players expect tactical depth."
+	default:
+		guidance = "This campaign uses narrative mode. Focus purely on storytelling. Avoid mechanical details like exact HP numbers, dice rolls, or stat checks unless the player explicitly asks. Describe outcomes in narrative terms."
+	}
+
+	return fmt.Sprintf("## Rules Mode: %s\n%s", mode, guidance)
 }
 
 func buildRetrievedMemoryBlock(retrievedMemories []string) *retrievedMemoryBlock {

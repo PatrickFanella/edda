@@ -35,7 +35,7 @@ INSERT INTO campaigns (
   $9,
   $10
 )
-RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity
+RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode
 `
 
 type CreateCampaignParams struct {
@@ -79,6 +79,7 @@ func (q *Queries) CreateCampaign(ctx context.Context, arg CreateCampaignParams) 
 		&i.WorldType,
 		&i.DangerLevel,
 		&i.PoliticalComplexity,
+		&i.RulesMode,
 	)
 	return i, err
 }
@@ -94,7 +95,7 @@ func (q *Queries) DeleteCampaign(ctx context.Context, id pgtype.UUID) error {
 }
 
 const getCampaignByID = `-- name: GetCampaignByID :one
-SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity
+SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode
 FROM campaigns
 WHERE id = $1
 `
@@ -116,12 +117,13 @@ func (q *Queries) GetCampaignByID(ctx context.Context, id pgtype.UUID) (Campaign
 		&i.WorldType,
 		&i.DangerLevel,
 		&i.PoliticalComplexity,
+		&i.RulesMode,
 	)
 	return i, err
 }
 
 const listCampaignsByUser = `-- name: ListCampaignsByUser :many
-SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity
+SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode
 FROM campaigns
 WHERE created_by = $1
 ORDER BY created_at, id
@@ -150,6 +152,7 @@ func (q *Queries) ListCampaignsByUser(ctx context.Context, createdBy pgtype.UUID
 			&i.WorldType,
 			&i.DangerLevel,
 			&i.PoliticalComplexity,
+			&i.RulesMode,
 		); err != nil {
 			return nil, err
 		}
@@ -174,7 +177,7 @@ SET
   political_complexity = $8,
   updated_at = now()
 WHERE id = $9
-RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity
+RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode
 `
 
 type UpdateCampaignParams struct {
@@ -216,6 +219,7 @@ func (q *Queries) UpdateCampaign(ctx context.Context, arg UpdateCampaignParams) 
 		&i.WorldType,
 		&i.DangerLevel,
 		&i.PoliticalComplexity,
+		&i.RulesMode,
 	)
 	return i, err
 }
@@ -226,7 +230,7 @@ SET
   status = $1,
   updated_at = now()
 WHERE id = $2
-RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity
+RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode
 `
 
 type UpdateCampaignStatusParams struct {
@@ -251,6 +255,7 @@ func (q *Queries) UpdateCampaignStatus(ctx context.Context, arg UpdateCampaignSt
 		&i.WorldType,
 		&i.DangerLevel,
 		&i.PoliticalComplexity,
+		&i.RulesMode,
 	)
 	return i, err
 }

@@ -15,6 +15,15 @@ const (
 	CampaignStatusCompleted CampaignStatus = "completed"
 )
 
+// RulesMode controls the level of mechanical detail in gameplay.
+type RulesMode string
+
+const (
+	RulesModeNarrative RulesMode = "narrative"
+	RulesModeLight     RulesMode = "light"
+	RulesModeCrunch    RulesMode = "crunch"
+)
+
 type Campaign struct {
 	ID          uuid.UUID
 	Name        string
@@ -23,6 +32,7 @@ type Campaign struct {
 	Tone        string
 	Themes      []string
 	Status      CampaignStatus
+	RulesMode   RulesMode
 	CreatedBy   uuid.UUID
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
