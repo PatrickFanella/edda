@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router';
 
@@ -21,6 +21,7 @@ import { QuestPanel } from '../components/quests/QuestPanel';
 import { WorldPanel } from '../components/world/WorldPanel';
 import { CampaignContext, useCampaignState } from '../context/CampaignContext';
 import { useCampaign } from '../hooks/useCampaign';
+import { useDiscoveryBadge } from '../hooks/useDiscoveryBadge';
 import { useNarrative, type UseNarrativeResult } from '../hooks/useNarrative';
 import { useRefreshAfterTurn } from '../hooks/useRefreshAfterTurn';
 import type { StartupPlaySeed } from '../lib/startupWorkflow';
@@ -173,6 +174,25 @@ function CampaignPlayContent({
   const seededNarrative = useMemo(() => buildSeededNarrativeState(campaign, startupSeed, narrative.entries), [campaign, narrative.entries, startupSeed]);
   useRefreshAfterTurn(campaignId, narrative.latestResult);
 
+  const { hasUnread: worldHasUnread, clearUnread: clearWorldUnread } = useDiscoveryBadge({
+    latestResult: narrative.latestResult,
+  });
+
+  const badgedTabs = useMemo(
+    () => playTabs.map((tab) => (tab.key === 'world' ? { ...tab, badge: worldHasUnread } : tab)),
+    [worldHasUnread],
+  );
+
+  const handleTabChange = useCallback(
+    (tab: CampaignPlayTab) => {
+      if (tab === 'world') {
+        clearWorldUnread();
+      }
+      onTabChange(tab);
+    },
+    [clearWorldUnread, onTabChange],
+  );
+
   const questsQuery = useQuery({
     queryKey: ['campaign', campaignId, 'quests'],
     queryFn: () => listCampaignQuests(campaignId),
@@ -194,7 +214,7 @@ function CampaignPlayContent({
         {levelUpMessage ? <LevelUpBanner message={levelUpMessage} /> : null}
         <PinnedObjectives quests={questsQuery.data ?? []} />
         <CampaignSummary campaign={campaign} campaignSummary={startupSeed?.campaignSummary ?? null} />
-        <TabBar tabs={playTabs} activeTab={activeTab} onChange={onTabChange} />
+        <TabBar tabs={badgedTabs} activeTab={activeTab} onChange={handleTabChange} />
         <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} />
         <TurnNotifications stateChanges={narrative.latestResult?.state_changes ?? []} />
       </div>

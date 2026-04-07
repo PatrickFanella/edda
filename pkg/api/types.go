@@ -60,10 +60,11 @@ type CharacterResponse struct {
 
 // LocationConnectionResponse describes a traversable connection from a location.
 type LocationConnectionResponse struct {
-	ToLocationID  string `json:"to_location_id"`
-	Description   string `json:"description"`
-	Bidirectional bool   `json:"bidirectional"`
-	TravelTime    string `json:"travel_time"`
+	FromLocationID string `json:"from_location_id,omitempty"`
+	ToLocationID   string `json:"to_location_id"`
+	Description    string `json:"description"`
+	Bidirectional  bool   `json:"bidirectional"`
+	TravelTime     string `json:"travel_time"`
 }
 
 // LocationResponse describes a location returned by the API.

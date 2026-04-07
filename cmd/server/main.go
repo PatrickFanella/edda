@@ -214,6 +214,9 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, h *handlers.Handlers, p
 					authH := auth.NewAuthHandlers(auth.NewDBAuthQuerier(pool), cfg.Server.JWTSecret)
 					r.Post("/register", authH.Register)
 					r.Post("/login", authH.Login)
+					r.Post("/logout", func(w http.ResponseWriter, _ *http.Request) {
+						w.WriteHeader(http.StatusNoContent)
+					})
 				})
 			}
 

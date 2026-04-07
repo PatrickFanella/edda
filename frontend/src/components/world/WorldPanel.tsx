@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { cn } from '../../lib/cn';
 import { CodexPanel } from '../codex/CodexPanel';
 import { FactsPanel } from '../facts/FactsPanel';
+import { MapPanel } from '../map/MapPanel';
 import { RelationshipsPanel } from '../relationships/RelationshipsPanel';
 
 interface WorldPanelProps {
@@ -10,16 +11,17 @@ interface WorldPanelProps {
   readonly className?: string;
 }
 
-type WorldSection = 'facts' | 'codex' | 'relationships';
+type WorldSection = 'map' | 'facts' | 'codex' | 'relationships';
 
 const worldSections: readonly { key: WorldSection; label: string }[] = [
+  { key: 'map', label: 'Map' },
   { key: 'facts', label: 'Facts' },
   { key: 'codex', label: 'Codex' },
   { key: 'relationships', label: 'Relationships' },
 ] as const;
 
 export function WorldPanel({ campaignId, className }: WorldPanelProps) {
-  const [activeSection, setActiveSection] = useState<WorldSection>('facts');
+  const [activeSection, setActiveSection] = useState<WorldSection>('map');
 
   return (
     <div className={cn('space-y-5', className)}>
@@ -41,6 +43,7 @@ export function WorldPanel({ campaignId, className }: WorldPanelProps) {
         ))}
       </div>
 
+      {activeSection === 'map' && <MapPanel campaignId={campaignId} />}
       {activeSection === 'facts' && <FactsPanel campaignId={campaignId} />}
       {activeSection === 'codex' && <CodexPanel campaignId={campaignId} />}
       {activeSection === 'relationships' && <RelationshipsPanel campaignId={campaignId} />}

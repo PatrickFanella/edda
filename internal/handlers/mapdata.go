@@ -64,10 +64,11 @@ func (h *Handlers) GetMapData(w http.ResponseWriter, r *http.Request) {
 			targetID := dbutil.FromPgtype(c.ConnectedLocationID)
 			if _, ok := seen[targetID]; ok {
 				conns = append(conns, api.LocationConnectionResponse{
-					ToLocationID:  targetID.String(),
-					Description:   c.Description.String,
-					Bidirectional: c.Bidirectional,
-					TravelTime:    c.TravelTime.String,
+					FromLocationID: loc.ID,
+					ToLocationID:   targetID.String(),
+					Description:    c.Description.String,
+					Bidirectional:  c.Bidirectional,
+					TravelTime:     c.TravelTime.String,
 				})
 			}
 		}
