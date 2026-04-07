@@ -6,6 +6,7 @@ import { CampaignListPage } from './pages/CampaignListPage';
 import { CampaignPlayPage } from './pages/CampaignPlayPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { ReplayPage } from './pages/ReplayPage';
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -44,6 +45,7 @@ function App() {
       <Route path="/" element={<RequireAuth><CampaignListPage /></RequireAuth>} />
       <Route path="/new" element={<RequireAuth><CampaignCreatePage /></RequireAuth>} />
       <Route path="/play/:id" element={<RequireAuth><CampaignPlayPage /></RequireAuth>} />
+      <Route path="/replay/:id" element={<RequireAuth><ReplayPage /></RequireAuth>} />
     </Routes>
   );
 }

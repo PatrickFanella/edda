@@ -5,6 +5,7 @@ import { Link, useLocation, useParams } from 'react-router';
 import { createManualSave, getCampaign, startOverCampaign } from '../api/campaigns';
 import { listCampaignQuests } from '../api/quests';
 import type { CampaignResponse, OpeningSceneResponse } from '../api/types';
+import { AudioControls } from '../components/audio/AudioControls';
 import { CharacterSheet } from '../components/character/CharacterSheet';
 import { CombatView } from '../components/combat/CombatView';
 import { ExportDialog } from '../components/export/ExportDialog';
@@ -27,6 +28,8 @@ import { PinnedObjectives } from '../components/quests/PinnedObjectives';
 import { QuestPanel } from '../components/quests/QuestPanel';
 import { WorldPanel } from '../components/world/WorldPanel';
 import { CampaignContext, useCampaignState } from '../context/CampaignContext';
+import { useAudio } from '../hooks/useAudio';
+import { useAudioEffects } from '../hooks/useAudioEffects';
 import { useCampaign } from '../hooks/useCampaign';
 import { useDiscoveryBadge } from '../hooks/useDiscoveryBadge';
 import { useNarrative, type UseNarrativeResult } from '../hooks/useNarrative';
@@ -184,6 +187,8 @@ function CampaignPlayContent({
   readonly startupSeed: StartupPlaySeed | null;
 }) {
   const narrative = useNarrative();
+  const audio = useAudio();
+  useAudioEffects(narrative.latestResult, narrative.combatActive, audio);
   const seededNarrative = useMemo(() => buildSeededNarrativeState(campaign, startupSeed, narrative.entries), [campaign, narrative.entries, startupSeed]);
   useRefreshAfterTurn(campaignId, narrative.latestResult);
 
@@ -253,13 +258,16 @@ function CampaignPlayContent({
         <CampaignSummary campaign={campaign} campaignSummary={startupSeed?.campaignSummary ?? null} />
         <div className="flex items-center justify-between">
           <TabBar tabs={badgedTabs} activeTab={activeTab} onChange={handleTabChange} />
-          <button
-            type="button"
-            onClick={() => setShowSaves((v) => !v)}
-            className="inline-flex items-center justify-center border-2 border-gold/30 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
-          >
-            {showSaves ? 'Hide Saves' : 'Saves'}
-          </button>
+          <div className="flex items-center gap-2">
+            <AudioControls {...audio} />
+            <button
+              type="button"
+              onClick={() => setShowSaves((v) => !v)}
+              className="inline-flex items-center justify-center border-2 border-gold/30 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
+            >
+              {showSaves ? 'Hide Saves' : 'Saves'}
+            </button>
+          </div>
         </div>
         {showSaves ? <SavesList campaignId={campaignId} /> : null}
         <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} />
