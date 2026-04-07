@@ -1,23 +1,17 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer } from 'react';
 
 import { getSessionHistory } from '../api/campaigns';
-import type { StateChange } from '../api/types';
 import type { WebSocketStatusPayload } from '../api/types';
 import { useCampaign } from './useCampaign';
 import { useWebSocket, type ConnectionStatus, type NarrativeChoice, type TurnResponseWithChoices } from './useWebSocket';
+import {
+  narrativeReducer,
+  initialNarrativeState,
+  type NarrativeEntry,
+  type NarrativeEntryKind,
+} from './narrativeReducer';
 
-export type NarrativeEntryKind = 'player' | 'gm' | 'system';
-
-export interface NarrativeEntry {
-  id: string;
-  kind: NarrativeEntryKind;
-  text: string;
-  timestamp: string;
-  speaker?: string;
-  stateChanges?: StateChange[];
-  choices?: NarrativeChoice[];
-  isStreaming?: boolean;
-}
+export type { NarrativeEntry, NarrativeEntryKind };
 
 export interface UseNarrativeResult {
   campaignId: string | null;
@@ -36,22 +30,11 @@ export interface UseNarrativeResult {
 export function useNarrative(): UseNarrativeResult {
   const { campaignId } = useCampaign();
   const { connectionStatus, error: socketError, events, isLoading, currentStatus, combatActive, sendAction: sendSocketAction } = useWebSocket(campaignId);
-  const [entries, setEntries] = useState<NarrativeEntry[]>([]);
-  const [streamingChunks, setStreamingChunks] = useState<string[]>([]);
-  const [pendingTimestamp, setPendingTimestamp] = useState<string | null>(null);
-  const [latestResult, setLatestResult] = useState<TurnResponseWithChoices | null>(null);
-  const [suggestedChoices, setSuggestedChoices] = useState<NarrativeChoice[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const processedEventCountRef = useRef(0);
+  const [state, dispatch] = useReducer(narrativeReducer, initialNarrativeState);
 
+  // Effect 1: campaign change + history load
   useEffect(() => {
-    processedEventCountRef.current = 0;
-    setEntries([]);
-    setStreamingChunks([]);
-    setPendingTimestamp(null);
-    setLatestResult(null);
-    setSuggestedChoices([]);
-    setError(null);
+    dispatch({ type: 'RESET' });
 
     if (!campaignId) return;
 
@@ -78,85 +61,52 @@ export function useNarrative(): UseNarrativeResult {
             });
           }
         }
-        setEntries(restored);
+        dispatch({ type: 'HISTORY_LOADED', entries: restored });
       })
       .catch((err) => {
         console.warn('Failed to load session history:', err);
+        dispatch({ type: 'HISTORY_FAILED', error: 'Failed to load history' });
       });
   }, [campaignId]);
 
+  // Effect 2: propagate socket-level error
   useEffect(() => {
-    setError(socketError);
-
     if (socketError !== null) {
-      setPendingTimestamp(null);
+      dispatch({ type: 'SOCKET_ERROR', error: socketError });
+    } else {
+      dispatch({ type: 'SOCKET_ERROR_CLEARED' });
     }
   }, [socketError]);
 
+  // Effect 3: connection lost
   useEffect(() => {
     if (connectionStatus === 'closed' || connectionStatus === 'error') {
-      setPendingTimestamp(null);
+      dispatch({ type: 'CONNECTION_LOST' });
     }
   }, [connectionStatus]);
 
+  // Effect 4: process new events
   useEffect(() => {
-    const nextEvents = events.slice(processedEventCountRef.current);
-    if (nextEvents.length === 0) {
-      return;
+    const newEvents = events.slice(state.processedEventCount);
+    if (newEvents.length === 0) return;
+
+    for (const event of newEvents) {
+      switch (event.kind) {
+        case 'chunk':
+          dispatch({ type: 'CHUNK_RECEIVED', text: event.payload.text, timestamp: event.envelope.timestamp });
+          break;
+        case 'result':
+          dispatch({ type: 'RESULT_RECEIVED', payload: event.payload, timestamp: event.envelope.timestamp, entryCount: state.entries.length });
+          break;
+        case 'error':
+          dispatch({ type: 'ERROR_RECEIVED', error: event.payload.error, timestamp: event.envelope.timestamp, entryCount: state.entries.length });
+          break;
+        case 'status':
+          break;
+      }
     }
-
-    processedEventCountRef.current = events.length;
-
-    for (const event of nextEvents) {
-      if (event.kind === 'chunk') {
-        setStreamingChunks((current) => [...current, event.payload.text]);
-        setError(null);
-        continue;
-      }
-
-      if (event.kind === 'result') {
-        const choices = event.payload.choices ?? [];
-
-        setEntries((current) => [
-          ...current,
-          {
-            id: `${event.envelope.timestamp}-gm-${current.length}`,
-            kind: 'gm',
-            text: event.payload.narrative,
-            timestamp: event.envelope.timestamp,
-            speaker: 'Game Master',
-            stateChanges: event.payload.state_changes,
-            choices,
-          },
-        ]);
-        setStreamingChunks([]);
-        setPendingTimestamp(null);
-        setLatestResult(event.payload);
-        setSuggestedChoices(choices);
-        setError(null);
-        continue;
-      }
-
-      if (event.kind === 'status') {
-        continue;
-      }
-
-      setStreamingChunks([]);
-      setPendingTimestamp(null);
-      setSuggestedChoices([]);
-      setError(event.payload.error);
-      setEntries((current) => [
-        ...current,
-        {
-          id: `${event.envelope.timestamp}-system-${current.length}`,
-          kind: 'system',
-          text: event.payload.error,
-          timestamp: event.envelope.timestamp,
-          speaker: 'System',
-        },
-      ]);
-    }
-  }, [events]);
+    dispatch({ type: 'EVENTS_PROCESSED', count: events.length });
+  }, [events, state.processedEventCount, state.entries.length]);
 
   const sendAction = useCallback(
     (input: string): boolean => {
@@ -172,53 +122,44 @@ export function useNarrative(): UseNarrativeResult {
 
       const timestamp = new Date().toISOString();
 
-      setEntries((current) => [
-        ...current,
-        {
-          id: `${timestamp}-player-${current.length}`,
-          kind: 'player',
-          text: trimmedInput,
-          timestamp,
-          speaker: 'You',
-        },
-      ]);
-      setStreamingChunks([]);
-      setPendingTimestamp(timestamp);
-      setLatestResult(null);
-      setSuggestedChoices([]);
-      setError(null);
+      dispatch({
+        type: 'ACTION_SENT',
+        input: trimmedInput,
+        timestamp,
+        entryCount: state.entries.length,
+      });
 
       return true;
     },
-    [sendSocketAction],
+    [sendSocketAction, state.entries.length],
   );
 
   const streamingEntry = useMemo<NarrativeEntry | null>(() => {
-    if (!pendingTimestamp || !isLoading) {
+    if (!state.pendingTimestamp || !isLoading) {
       return null;
     }
 
     return {
-      id: `${pendingTimestamp}-streaming`,
+      id: `${state.pendingTimestamp}-streaming`,
       kind: 'gm',
-      text: streamingChunks.join('') || 'Game Master is thinking…',
-      timestamp: pendingTimestamp,
+      text: state.streamingChunks.join('') || 'Game Master is thinking\u2026',
+      timestamp: state.pendingTimestamp,
       speaker: 'Game Master',
       isStreaming: true,
     };
-  }, [isLoading, pendingTimestamp, streamingChunks]);
+  }, [isLoading, state.pendingTimestamp, state.streamingChunks]);
 
   return {
     campaignId,
     connectionStatus,
-    entries,
+    entries: state.entries,
     streamingEntry,
-    latestResult,
-    suggestedChoices,
+    latestResult: state.latestResult,
+    suggestedChoices: state.suggestedChoices,
     currentStatus,
     combatActive,
     isLoading,
-    error,
+    error: state.error,
     sendAction,
   };
 }
