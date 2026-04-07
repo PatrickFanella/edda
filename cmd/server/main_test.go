@@ -49,7 +49,7 @@ func TestNewRouterHealthAndAPIGroups(t *testing.T) {
 	t.Parallel()
 
 	logger := log.New(io.Discard)
-	router := newRouterWithProvider(logger, nil, nil, nil, nil, uuid.Nil, config.Config{})
+	router := newRouterWithProvider(logger, nil, nil, nil, nil, uuid.Nil, config.Config{}, nil)
 
 	healthReq := httptest.NewRequest(http.MethodGet, "/healthz", nil)
 	healthRes := httptest.NewRecorder()
@@ -86,7 +86,7 @@ func TestNewRouterRecovererAndCORS(t *testing.T) {
 	t.Parallel()
 
 	logger := log.New(io.Discard)
-	router := newRouterWithProvider(logger, nil, nil, nil, nil, uuid.Nil, config.Config{})
+	router := newRouterWithProvider(logger, nil, nil, nil, nil, uuid.Nil, config.Config{}, nil)
 
 	mux, ok := router.(*chi.Mux)
 	if !ok {

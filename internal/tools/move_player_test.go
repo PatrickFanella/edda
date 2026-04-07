@@ -53,6 +53,10 @@ func (s *stubMovePlayerStore) SetLocationPlayerVisited(_ context.Context, _ uuid
 	return nil
 }
 
+func (s *stubMovePlayerStore) GetConnectionTravelTime(_ context.Context, _, _ uuid.UUID) (string, error) {
+	return "", nil
+}
+
 func TestRegisterMovePlayer(t *testing.T) {
 	reg := NewRegistry()
 	if err := RegisterMovePlayer(reg, &stubMovePlayerStore{}); err != nil {
@@ -92,7 +96,7 @@ func TestMovePlayerHandleConnectedLocation(t *testing.T) {
 			},
 		},
 	}
-	h := NewMovePlayerHandler(store)
+	h := NewMovePlayerHandler(store, nil)
 	ctx := WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerID)
 
 	got, err := h.Handle(ctx, map[string]any{
@@ -131,7 +135,7 @@ func TestMovePlayerHandleUnconnectedLocation(t *testing.T) {
 			currentLocationID: {},
 		},
 	}
-	h := NewMovePlayerHandler(store)
+	h := NewMovePlayerHandler(store, nil)
 	ctx := WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerID)
 
 	_, err := h.Handle(ctx, map[string]any{
@@ -161,7 +165,7 @@ func TestMovePlayerHandleNonexistentLocation(t *testing.T) {
 			},
 		},
 	}
-	h := NewMovePlayerHandler(store)
+	h := NewMovePlayerHandler(store, nil)
 	ctx := WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerID)
 
 	_, err := h.Handle(ctx, map[string]any{

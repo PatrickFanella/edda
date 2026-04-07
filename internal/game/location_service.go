@@ -72,6 +72,28 @@ func (s *locationService) SetLocationPlayerKnown(ctx context.Context, locationID
 	return s.queries.SetLocationPlayerKnown(ctx, dbutil.ToPgtype(locationID))
 }
 
+func (s *locationService) GetConnectionTravelTime(ctx context.Context, fromLocationID, toLocationID uuid.UUID) (string, error) {
+	fromLocation, err := s.queries.GetLocationByID(ctx, statedb.GetLocationByIDParams{ID: dbutil.ToPgtype(fromLocationID)})
+	if err != nil {
+		return "", fmt.Errorf("get location: %w", err)
+	}
+
+	connections, err := s.queries.GetConnectionsFromLocation(ctx, statedb.GetConnectionsFromLocationParams{
+		CampaignID: fromLocation.CampaignID,
+		LocationID: dbutil.ToPgtype(fromLocationID),
+	})
+	if err != nil {
+		return "", fmt.Errorf("get connections: %w", err)
+	}
+
+	for _, connection := range connections {
+		if dbutil.FromPgtype(connection.ConnectedLocationID) == toLocationID {
+			return connection.TravelTime.String, nil
+		}
+	}
+	return "", nil
+}
+
 // --- tools.DescribeSceneStore methods ---
 
 func (s *locationService) UpdateScene(ctx context.Context, locationID uuid.UUID, description string, mood, timeOfDay *string) error {

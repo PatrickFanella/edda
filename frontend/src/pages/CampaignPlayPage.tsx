@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router';
 
-import { getCampaign, startOverCampaign } from '../api/campaigns';
+import { createManualSave, getCampaign, startOverCampaign } from '../api/campaigns';
 import { listCampaignQuests } from '../api/quests';
 import type { CampaignResponse, OpeningSceneResponse } from '../api/types';
 import { CharacterSheet } from '../components/character/CharacterSheet';
@@ -16,7 +16,9 @@ import { NarrativePanel } from '../components/narrative/NarrativePanel';
 import type { NarrativeEntryItem } from '../components/narrative/NarrativeEntry';
 import { PlayerInput } from '../components/narrative/PlayerInput';
 import { NPCPanel } from '../components/npcs/NPCPanel';
+import { TimeWidget } from '../components/layout/TimeWidget';
 import { TurnNotifications } from '../components/layout/TurnNotifications';
+import { SavesList } from '../components/saves/SavesList';
 import { PinnedObjectives } from '../components/quests/PinnedObjectives';
 import { QuestPanel } from '../components/quests/QuestPanel';
 import { WorldPanel } from '../components/world/WorldPanel';
@@ -210,6 +212,7 @@ function CampaignPlayContent({
   }, [narrative.latestResult]);
 
   const [showStartOverDialog, setShowStartOverDialog] = useState(false);
+  const [showSaves, setShowSaves] = useState(false);
   const queryClient = useQueryClient();
   const startOverMutation = useMutation({
     mutationFn: () => startOverCampaign(campaignId),
@@ -221,7 +224,7 @@ function CampaignPlayContent({
   });
 
   return (
-    <AppShell title={campaign.name} description={campaign.description || 'Live narrative play for this campaign.'} actions={<CampaignPlayActions onStartOver={() => setShowStartOverDialog(true)} />}>
+    <AppShell title={campaign.name} description={campaign.description || 'Live narrative play for this campaign.'} actions={<CampaignPlayActions campaignId={campaignId} onStartOver={() => setShowStartOverDialog(true)} />}>
       <ConfirmationDialog
         open={showStartOverDialog}
         title="Start Over"
@@ -236,7 +239,17 @@ function CampaignPlayContent({
         {levelUpMessage ? <LevelUpBanner message={levelUpMessage} /> : null}
         <PinnedObjectives quests={questsQuery.data ?? []} />
         <CampaignSummary campaign={campaign} campaignSummary={startupSeed?.campaignSummary ?? null} />
-        <TabBar tabs={badgedTabs} activeTab={activeTab} onChange={handleTabChange} />
+        <div className="flex items-center justify-between">
+          <TabBar tabs={badgedTabs} activeTab={activeTab} onChange={handleTabChange} />
+          <button
+            type="button"
+            onClick={() => setShowSaves((v) => !v)}
+            className="inline-flex items-center justify-center border-2 border-gold/30 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
+          >
+            {showSaves ? 'Hide Saves' : 'Saves'}
+          </button>
+        </div>
+        {showSaves ? <SavesList campaignId={campaignId} /> : null}
         <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} />
         <TurnNotifications stateChanges={narrative.latestResult?.state_changes ?? []} />
       </div>
@@ -454,9 +467,33 @@ function ErrorPanel({ message }: { readonly message: string }) {
   return <div className="border border-ruby/40 bg-ruby/10 p-6 text-sm text-ruby">{message}</div>;
 }
 
-function CampaignPlayActions({ onStartOver }: { readonly onStartOver: () => void }) {
+function CampaignPlayActions({ campaignId, onStartOver }: { readonly campaignId: string; readonly onStartOver: () => void }) {
+  const queryClient = useQueryClient();
+  const saveMutation = useMutation({
+    mutationFn: (name: string) => createManualSave(campaignId, name),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['campaign', campaignId, 'saves'] });
+    },
+  });
+
+  const handleSave = () => {
+    const name = window.prompt('Save name:', `Save ${new Date().toLocaleString()}`);
+    if (name !== null && name.trim() !== '') {
+      saveMutation.mutate(name.trim());
+    }
+  };
+
   return (
     <div className="flex items-center gap-3">
+      <TimeWidget campaignId={campaignId} />
+      <button
+        type="button"
+        onClick={handleSave}
+        disabled={saveMutation.isPending}
+        className="inline-flex items-center justify-center border-2 border-gold/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian disabled:opacity-50"
+      >
+        {saveMutation.isPending ? 'Saving...' : 'Save'}
+      </button>
       <button
         type="button"
         onClick={onStartOver}
