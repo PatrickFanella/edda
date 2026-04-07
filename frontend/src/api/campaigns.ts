@@ -1,6 +1,6 @@
 import { apiFetch, apiFetchVoid } from './client';
 import { buildCampaignPath, buildCampaignsPath } from './routes';
-import type { CampaignCreateRequest, CampaignListResponse, CampaignResponse, SessionHistoryResponse } from './types';
+import type { CampaignCreateRequest, CampaignListResponse, CampaignResponse, CampaignTimeResponse, SavePointResponse, SessionHistoryResponse } from './types';
 
 export function listCampaigns(): Promise<CampaignListResponse> {
   return apiFetch<CampaignListResponse>(buildCampaignsPath());
@@ -32,4 +32,23 @@ export function deleteCampaign(campaignId: string): Promise<void> {
 
 export function getSessionHistory(campaignId: string): Promise<SessionHistoryResponse> {
   return apiFetch<SessionHistoryResponse>(buildCampaignPath(campaignId, 'history'));
+}
+
+export function startOverCampaign(campaignId: string): Promise<void> {
+  return apiFetchVoid(buildCampaignPath(campaignId, 'start-over'), { method: 'POST' });
+}
+
+export function listSavePoints(campaignId: string): Promise<SavePointResponse[]> {
+  return apiFetch<SavePointResponse[]>(buildCampaignPath(campaignId, 'saves'));
+}
+
+export function createManualSave(campaignId: string, name: string): Promise<SavePointResponse> {
+  return apiFetch<SavePointResponse>(buildCampaignPath(campaignId, 'saves'), {
+    method: 'POST',
+    body: { name },
+  });
+}
+
+export function getCampaignTime(campaignId: string): Promise<CampaignTimeResponse> {
+  return apiFetch<CampaignTimeResponse>(buildCampaignPath(campaignId, 'time'));
 }

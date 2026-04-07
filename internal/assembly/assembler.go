@@ -309,6 +309,12 @@ func serializeState(state *game.GameState) string {
 	}
 	sb.WriteString("\n")
 
+	// Campaign time
+	if state.Time != nil {
+		fmt.Fprintf(&sb, "- Time: Day %d, %02d:%02d\n", state.Time.Day, state.Time.Hour, state.Time.Minute)
+	}
+	sb.WriteString("\n")
+
 	// Player character
 	sb.WriteString("### Player Character\n")
 	fmt.Fprintf(&sb, "- ID: %s\n", state.Player.ID)

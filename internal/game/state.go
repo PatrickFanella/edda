@@ -8,6 +8,13 @@ import (
 	"github.com/PatrickFanella/game-master/internal/domain"
 )
 
+// CampaignTime represents the in-game clock for a campaign.
+type CampaignTime struct {
+	Day    int
+	Hour   int
+	Minute int
+}
+
 // GameState is a snapshot of campaign data needed for the LLM context window.
 type GameState struct {
 	Campaign                   domain.Campaign
@@ -19,6 +26,7 @@ type GameState struct {
 	ActiveQuestObjectives      map[uuid.UUID][]domain.QuestObjective
 	PlayerInventory            []domain.Item
 	WorldFacts                 []domain.WorldFact
+	Time                       *CampaignTime
 }
 
 // CreateCampaignParams holds parameters for creating a new campaign.
