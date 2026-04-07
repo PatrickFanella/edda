@@ -47,6 +47,8 @@ export function useRefreshAfterTurn(campaignId: string | null, latestResult: Tur
       }
       // Always refresh character sheet (HP, XP, level may change)
       segments.add('character');
+      // Always refresh campaign time (tools may advance time)
+      segments.add('campaign_time');
 
       for (const segment of segments) {
         void queryClient.invalidateQueries({ queryKey: ['campaign', campaignId, segment] });

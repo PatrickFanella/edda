@@ -26,6 +26,7 @@ import (
 	"github.com/PatrickFanella/game-master/internal/config"
 	"github.com/PatrickFanella/game-master/internal/engine"
 	"github.com/PatrickFanella/game-master/internal/handlers"
+	"github.com/PatrickFanella/game-master/internal/journal"
 	"github.com/PatrickFanella/game-master/internal/llm"
 	"github.com/PatrickFanella/game-master/internal/logging"
 	"github.com/PatrickFanella/game-master/internal/memory"
@@ -189,7 +190,7 @@ func newRouterWithProvider(logger *log.Logger, gameEngine engine.GameEngine, que
 		_, _ = w.Write([]byte("ok"))
 	})
 
-	h := handlers.New(gameEngine, queries, logger, provider)
+	h := handlers.NewWithPool(gameEngine, queries, logger, pool, provider)
 	registerAPIRoutes(logger, r, h, pool, defaultUserID, cfg, saveStore)
 	return r
 }
@@ -287,6 +288,14 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, h *handlers.Handlers, p
 					r.Get("/saves", savesH.ListSaves)
 					r.Post("/start-over", savesH.StartOver)
 					r.Get("/time", savesH.GetTime)
+
+					journalH := journal.NewHandlers(journal.NewStore(pool))
+					r.Route("/journal", func(r chi.Router) {
+						r.Get("/summaries", journalH.ListSummaries)
+						r.Get("/entries", journalH.ListEntries)
+						r.Post("/entries", journalH.CreateEntry)
+						r.Delete("/entries/{eid}", journalH.DeleteEntry)
+					})
 				})
 			})
 			})

@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getMapData } from '../../api/map';
-import type { MapLocationResponse, LocationConnectionResponse } from '../../api/types';
+import type { MapDataResponse, MapLocationResponse, LocationConnectionResponse } from '../../api/types';
 import { cn } from '../../lib/cn';
 
 interface MapPanelProps {
@@ -100,7 +100,40 @@ export function MapPanel({ campaignId, className }: MapPanelProps) {
   }
 
   return (
+    <MapPanelContent regionGroups={regionGroups} data={data} className={className} />
+  );
+}
+
+function MapPanelContent({
+  regionGroups,
+  data,
+  className,
+}: {
+  readonly regionGroups: RegionGroup[];
+  readonly data: MapDataResponse;
+  readonly className?: string;
+}) {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const selectedLocation = useMemo(() => {
+    if (!selectedId) return null;
+    return data.locations.find((l) => l.id === selectedId) ?? null;
+  }, [selectedId, data.locations]);
+
+  const selectedConnections = useMemo(() => {
+    if (!selectedId) return [];
+    return findConnectionsForLocation(selectedId, data.connections, data.locations);
+  }, [selectedId, data.connections, data.locations]);
+
+  return (
     <div className={cn('space-y-6', className)}>
+      {selectedLocation ? (
+        <LocationDetail
+          location={selectedLocation}
+          connections={selectedConnections}
+          onClose={() => setSelectedId(null)}
+        />
+      ) : null}
       {regionGroups.map((group) => (
         <section key={group.region} className="space-y-3">
           <h3 className="border-b border-jade/20 pb-2 font-heading text-sm font-semibold uppercase tracking-[0.2em] text-jade">
@@ -112,6 +145,8 @@ export function MapPanel({ campaignId, className }: MapPanelProps) {
                 key={location.id}
                 location={location}
                 connections={findConnectionsForLocation(location.id, data.connections, data.locations)}
+                isSelected={location.id === selectedId}
+                onClick={() => setSelectedId(location.id === selectedId ? null : location.id)}
               />
             ))}
           </div>
@@ -121,15 +156,94 @@ export function MapPanel({ campaignId, className }: MapPanelProps) {
   );
 }
 
-function LocationCard({
+function LocationDetail({
   location,
   connections,
+  onClose,
 }: {
   readonly location: MapLocationResponse;
   readonly connections: { targetName: string; description: string; travelTime: string }[];
+  readonly onClose: () => void;
 }) {
   return (
-    <div className="border-2 border-jade/20 bg-midnight/20 p-4 transition-all duration-200 hover:border-jade/40">
+    <div className="border-2 border-jade/40 bg-midnight/30 p-5">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h3 className="font-heading text-lg font-semibold text-champagne">{location.name}</h3>
+          <p className="mt-0.5 text-xs font-medium uppercase tracking-[0.15em] text-jade/80">{location.location_type}</p>
+          {location.region ? (
+            <p className="mt-0.5 text-xs text-pewter">Region: {location.region}</p>
+          ) : null}
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="text-xs font-semibold uppercase tracking-wide text-pewter transition-colors hover:text-champagne"
+        >
+          Close
+        </button>
+      </div>
+
+      {location.description ? (
+        <p className="mt-3 text-sm leading-6 text-champagne/80">{location.description}</p>
+      ) : null}
+
+      <div className="mt-2 flex gap-1.5">
+        {location.player_visited ? (
+          <span className="rounded-sm border border-jade/30 bg-jade/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-jade">
+            Visited
+          </span>
+        ) : null}
+        {location.player_known && !location.player_visited ? (
+          <span className="rounded-sm border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
+            Known
+          </span>
+        ) : null}
+      </div>
+
+      {connections.length > 0 ? (
+        <div className="mt-4 border-t border-jade/15 pt-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-jade/60">Connections</p>
+          <ul className="mt-2 space-y-1.5">
+            {connections.map((conn) => (
+              <li key={conn.targetName} className="text-sm text-champagne/70">
+                <span className="text-jade/60">&rarr;</span>{' '}
+                <span className="font-medium text-champagne">{conn.targetName}</span>
+                {conn.description ? <span className="text-pewter"> &mdash; {conn.description}</span> : null}
+                {conn.travelTime ? (
+                  <span className="ml-2 text-xs text-pewter/60">({conn.travelTime})</span>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function LocationCard({
+  location,
+  connections,
+  isSelected,
+  onClick,
+}: {
+  readonly location: MapLocationResponse;
+  readonly connections: { targetName: string; description: string; travelTime: string }[];
+  readonly isSelected?: boolean;
+  readonly onClick?: () => void;
+}) {
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(); }}
+      className={cn(
+        'cursor-pointer border-2 bg-midnight/20 p-4 transition-all duration-200 hover:border-jade/40',
+        isSelected ? 'border-jade/60 bg-jade/5' : 'border-jade/20',
+      )}
+    >
       <div className="flex items-start justify-between gap-2">
         <h4 className="text-sm font-semibold text-champagne">{location.name}</h4>
         <div className="flex gap-1.5">

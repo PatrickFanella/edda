@@ -1,17 +1,27 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 
 	"github.com/charmbracelet/log"
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 
 	"github.com/PatrickFanella/game-master/internal/engine"
 	"github.com/PatrickFanella/game-master/internal/llm"
 	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
 )
+
+// DBTX is a minimal database interface for raw SQL execution.
+type DBTX interface {
+	Exec(ctx context.Context, sql string, arguments ...interface{}) (pgconn.CommandTag, error)
+	Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error)
+	QueryRow(ctx context.Context, sql string, args ...interface{}) pgx.Row
+}
 
 // Handlers holds shared dependencies for all HTTP handlers.
 type Handlers struct {
@@ -19,6 +29,7 @@ type Handlers struct {
 	Queries         statedb.Querier
 	Logger          *log.Logger
 	Provider        llm.Provider
+	Pool            DBTX
 	startupSessions *startupSessionStore
 }
 
@@ -38,6 +49,13 @@ func New(eng engine.GameEngine, queries statedb.Querier, logger *log.Logger, pro
 		Provider:        provider,
 		startupSessions: newStartupSessionStore(),
 	}
+}
+
+// NewWithPool creates a Handlers with a database pool for raw SQL operations.
+func NewWithPool(eng engine.GameEngine, queries statedb.Querier, logger *log.Logger, pool DBTX, providers ...llm.Provider) *Handlers {
+	h := New(eng, queries, logger, providers...)
+	h.Pool = pool
+	return h
 }
 
 // writeJSON writes a JSON response with the given status code.

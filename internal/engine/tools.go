@@ -12,7 +12,7 @@ import (
 // registers every tool with the supplied registry. Returns a joined error
 // if any registration fails. The embedder may be nil; tools that support
 // auto-embedding will skip it when nil.
-func registerAllTools(registry *tools.Registry, queries statedb.Querier, embedder tools.Embedder, searcher tools.SearchMemorySearcher) error {
+func registerAllTools(registry *tools.Registry, queries statedb.Querier, embedder tools.Embedder, searcher tools.SearchMemorySearcher, timeDB ...tools.TimeStore) error {
 	locSvc := game.NewLocationService(queries)
 	invSvc := game.NewInventoryService(queries)
 	npcSvc := game.NewNPCService(queries)
@@ -22,7 +22,11 @@ func registerAllTools(registry *tools.Registry, queries statedb.Querier, embedde
 	statResolver := game.NewStatModifierResolver(queries)
 
 	var errs []error
-	errs = appendErr(errs, tools.RegisterMovePlayer(registry, locSvc))
+	if len(timeDB) > 0 && timeDB[0] != nil {
+		errs = appendErr(errs, tools.RegisterMovePlayer(registry, locSvc, timeDB[0]))
+	} else {
+		errs = appendErr(errs, tools.RegisterMovePlayer(registry, locSvc))
+	}
 	errs = appendErr(errs, tools.RegisterAddItem(registry, invSvc))
 	errs = appendErr(errs, tools.RegisterRemoveItem(registry, invSvc))
 	errs = appendErr(errs, tools.RegisterModifyItem(registry, invSvc))
@@ -66,6 +70,10 @@ func registerAllTools(registry *tools.Registry, queries statedb.Querier, embedde
 	errs = appendErr(errs, tools.RegisterLinkQuestEntity(registry, worldSvc))
 	if searcher != nil {
 		errs = appendErr(errs, tools.RegisterSearchMemory(registry, searcher))
+	}
+	if len(timeDB) > 0 && timeDB[0] != nil {
+		errs = appendErr(errs, tools.RegisterAdvanceTime(registry, timeDB[0]))
+		errs = appendErr(errs, tools.RegisterRest(registry, timeDB[0]))
 	}
 	return errors.Join(errs...)
 }

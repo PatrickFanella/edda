@@ -311,6 +311,14 @@ func (h *Handlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Initialize campaign time to Day 1, 08:00.
+	if h.Pool != nil {
+		_, _ = h.Pool.Exec(r.Context(),
+			"INSERT INTO campaign_time (campaign_id, day, hour, minute) VALUES ($1, 1, 8, 0) ON CONFLICT (campaign_id) DO NOTHING",
+			result.Campaign.ID,
+		)
+	}
+
 	writeJSON(w, http.StatusOK, api.WorldBuildResponse{
 		Campaign: campaignToResponse(result.Campaign),
 		OpeningScene: api.OpeningSceneResponse{
