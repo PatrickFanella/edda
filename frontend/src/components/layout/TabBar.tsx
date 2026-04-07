@@ -3,6 +3,7 @@ interface TabBarTab<TTab extends string> {
   readonly label: string;
   readonly activeTone?: string;
   readonly hoverTone?: string;
+  readonly badge?: boolean;
 }
 
 interface TabBarProps<TTab extends string> {
@@ -32,13 +33,16 @@ export function TabBar<TTab extends string>({ tabs, activeTab, onChange }: TabBa
             aria-selected={isActive}
             onClick={() => onChange(tab.key)}
             className={[
-              'px-4 py-2 text-sm font-semibold uppercase tracking-[0.15em] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian',
+              'relative px-4 py-2 text-sm font-semibold uppercase tracking-[0.15em] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian',
               isActive
                 ? (tab.activeTone ?? DEFAULT_ACTIVE)
                 : (tab.hoverTone ?? DEFAULT_HOVER),
             ].join(' ')}
           >
             {tab.label}
+            {tab.badge && !isActive ? (
+              <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full border border-charcoal bg-jade animate-pulse" aria-label="New discovery" />
+            ) : null}
           </button>
         );
       })}

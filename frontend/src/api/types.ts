@@ -45,6 +45,7 @@ export interface CharacterResponse {
 }
 
 export interface LocationConnectionResponse {
+  from_location_id?: string;
   to_location_id: string;
   description: string;
   bidirectional: boolean;
@@ -339,4 +340,21 @@ export interface QuestHistoryEntry {
   quest_id: string;
   snapshot: string;
   created_at: string;
+}
+
+// Map types
+export interface MapLocationResponse {
+  id: string;
+  campaign_id: string;
+  name: string;
+  description: string;
+  region: string;
+  location_type: string;
+  player_visited: boolean;
+  player_known: boolean;
+}
+
+export interface MapDataResponse {
+  locations: MapLocationResponse[];
+  connections: LocationConnectionResponse[];
 }
