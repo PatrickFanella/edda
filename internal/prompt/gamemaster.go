@@ -1,4 +1,4 @@
-// Package prompt provides embedded system prompts for the game-master LLM.
+// Package prompt provides embedded system prompts for the edda LLM.
 package prompt
 
 import _ "embed"

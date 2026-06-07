@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 // extractToolName is the tool the LLM calls to signal that the interview is

@@ -6,10 +6,10 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/PatrickFanella/game-master/internal/assembly"
-	"github.com/PatrickFanella/game-master/internal/config"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/memory"
+	"git.subcult.tv/subculture-collective/edda/internal/assembly"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/memory"
 	"github.com/google/uuid"
 )
 

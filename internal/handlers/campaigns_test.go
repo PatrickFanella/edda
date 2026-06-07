@@ -13,10 +13,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/auth"
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/internal/auth"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // stubQuerier implements the subset of statedb.Querier used by campaign handlers.

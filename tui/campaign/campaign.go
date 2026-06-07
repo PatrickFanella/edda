@@ -8,8 +8,8 @@ import (
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/tui/styles"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
 const newCampaignSentinel = "__new__"

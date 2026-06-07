@@ -9,8 +9,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 func characterLogger() *slog.Logger {

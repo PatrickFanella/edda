@@ -32,8 +32,8 @@ require_var() {
 
 parse_db_url() {
   local regex='^postgres(ql)?://([^:/?#]+)(:([^@/?#]*))?@([^/?#:]+|\[[^]]+\])(:([0-9]+))?/([^?]+)'
-  if [[ ! "$GM_DB_URL" =~ $regex ]]; then
-    die "GM_DB_URL must be a postgres:// URL with explicit user, host, port, and database name"
+  if [[ ! "$EDDA_DB_URL" =~ $regex ]]; then
+    die "EDDA_DB_URL must be a postgres:// URL with explicit user, host, port, and database name"
   fi
 
   DB_HOST=${BASH_REMATCH[5]}
@@ -53,7 +53,7 @@ resolve_db_client() {
 
   case "$DB_HOST" in
     localhost|127.0.0.1|::1|[::1])
-      die "GM_DB_URL host '$DB_HOST' is not container-addressable; use the existing Postgres container hostname for production extension checks"
+      die "EDDA_DB_URL host '$DB_HOST' is not container-addressable; use the existing Postgres container hostname for production extension checks"
       ;;
   esac
 
@@ -62,11 +62,11 @@ resolve_db_client() {
 
 run_psql() {
   if [[ -n "$DB_CONTAINER" ]]; then
-    docker exec -i "$DB_CONTAINER" psql "$GM_DB_URL" -v ON_ERROR_STOP=1 -X -qAt
+    docker exec -i "$DB_CONTAINER" psql "$EDDA_DB_URL" -v ON_ERROR_STOP=1 -X -qAt
     return 0
   fi
 
-  docker run --rm -i --network projects "$DB_IMAGE" psql "$GM_DB_URL" -v ON_ERROR_STOP=1 -X -qAt
+  docker run --rm -i --network projects "$DB_IMAGE" psql "$EDDA_DB_URL" -v ON_ERROR_STOP=1 -X -qAt
 }
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
@@ -92,7 +92,7 @@ set -a
 . "$ENV_FILE"
 set +a
 
-require_var GM_DB_URL
+require_var EDDA_DB_URL
 parse_db_url
 resolve_db_client
 

@@ -1,4 +1,4 @@
-module github.com/PatrickFanella/game-master
+module git.subcult.tv/subculture-collective/edda
 
 go 1.25.0
 

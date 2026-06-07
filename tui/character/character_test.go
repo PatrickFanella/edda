@@ -6,7 +6,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/PatrickFanella/game-master/tui/msgs"
+	"git.subcult.tv/subculture-collective/edda/tui/msgs"
 )
 
 // Compile-time checks: *Model must satisfy tea.Model and the sub-model

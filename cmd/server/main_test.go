@@ -12,7 +12,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
 )
 
 func TestParseConfigPath(t *testing.T) {

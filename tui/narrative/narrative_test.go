@@ -6,7 +6,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/PatrickFanella/game-master/internal/engine"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
 )
 
 // Compile-time check: Model must implement tea.Model.

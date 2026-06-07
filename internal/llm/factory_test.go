@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/PatrickFanella/game-master/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
 )
 
 func TestNewLLMProviderOllama(t *testing.T) {

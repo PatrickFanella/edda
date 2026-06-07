@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // --- spy stubs ---

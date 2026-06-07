@@ -8,8 +8,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/memory"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/memory"
 )
 
 // SearchMemorySearcher is the narrow interface required by the search_memory

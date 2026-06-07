@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/engine"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 func campaignToResponse(c statedb.Campaign) api.CampaignResponse {

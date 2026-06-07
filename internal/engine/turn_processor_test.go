@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 // ---------------------------------------------------------------------------

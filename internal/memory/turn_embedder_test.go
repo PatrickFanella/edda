@@ -8,9 +8,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/memory"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/memory"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // --- stubs -----------------------------------------------------------

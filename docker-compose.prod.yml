@@ -5,11 +5,11 @@ networks:
 
 services:
   api:
-    image: gm-api:${GM_RELEASE_TAG:-latest}
+    image: edda-api:${EDDA_RELEASE_TAG:-latest}
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: ${GM_API_CONTAINER_NAME:-gm-api}
+    container_name: ${EDDA_API_CONTAINER_NAME:-edda-api}
     restart: unless-stopped
     env_file: .env
     networks:
@@ -22,11 +22,11 @@ services:
       retries: 3
 
   web:
-    image: gm-web:${GM_RELEASE_TAG:-latest}
+    image: edda-web:${EDDA_RELEASE_TAG:-latest}
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: ${GM_WEB_CONTAINER_NAME:-gm-web}
+    container_name: ${EDDA_WEB_CONTAINER_NAME:-edda-web}
     restart: unless-stopped
     depends_on:
       api:

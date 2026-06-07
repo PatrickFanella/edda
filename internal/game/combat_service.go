@@ -9,11 +9,11 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/progression"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/progression"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 type combatService struct {

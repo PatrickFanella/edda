@@ -13,8 +13,8 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/PatrickFanella/game-master/internal/engine"
-	"github.com/PatrickFanella/game-master/tui/styles"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
 // EntryKind classifies a log entry for styling purposes.
@@ -110,7 +110,7 @@ func (m *Model) AddEntry(e Entry) {
 
 // BeginStreamingNPCEntry appends a new NPC / GM entry ready for incremental text.
 func (m *Model) BeginStreamingNPCEntry() {
-	m.AddEntry(Entry{Kind: KindNPC, Speaker: "Game Master"})
+	m.AddEntry(Entry{Kind: KindNPC, Speaker: "Edda"})
 }
 
 // AppendToLastEntry appends text to the most recent narrative entry.

@@ -1,5 +1,5 @@
 // Package tui provides the root Bubble Tea application model and shared TUI
-// infrastructure (router, view interface) for the game-master terminal UI.
+// infrastructure (router, view interface) for the edda terminal UI.
 package tui
 
 import (
@@ -13,19 +13,19 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/PatrickFanella/game-master/internal/config"
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/engine"
-	"github.com/PatrickFanella/game-master/internal/logging"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/world"
-	"github.com/PatrickFanella/game-master/tui/character"
-	"github.com/PatrickFanella/game-master/tui/inventory"
-	"github.com/PatrickFanella/game-master/tui/logpanel"
-	"github.com/PatrickFanella/game-master/tui/msgs"
-	"github.com/PatrickFanella/game-master/tui/narrative"
-	"github.com/PatrickFanella/game-master/tui/quest"
-	"github.com/PatrickFanella/game-master/tui/styles"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/world"
+	"git.subcult.tv/subculture-collective/edda/tui/character"
+	"git.subcult.tv/subculture-collective/edda/tui/inventory"
+	"git.subcult.tv/subculture-collective/edda/tui/logpanel"
+	"git.subcult.tv/subculture-collective/edda/tui/msgs"
+	"git.subcult.tv/subculture-collective/edda/tui/narrative"
+	"git.subcult.tv/subculture-collective/edda/tui/quest"
+	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
 // ViewState identifies which sub-view is currently active.
@@ -62,7 +62,7 @@ type narrativeStreamDoneMsg struct {
 	choices []engine.Choice
 }
 
-// App is the root Bubble Tea model for Game Master. It tracks the active
+// App is the root Bubble Tea model for Edda. It tracks the active
 // ViewState and delegates Init/Update/View to the appropriate sub-model via
 // the embedded Router. Global key bindings are handled here, except when the
 // active view opts into receiving conflicting shortcuts directly.
@@ -110,7 +110,7 @@ func NewAppWithEngine(cfg config.Config, campaign statedb.Campaign, ctx context.
 	// Seed the narrative log with a welcome message for the selected campaign.
 	nv.AddEntry(narrative.Entry{
 		Kind: narrative.KindSystem,
-		Text: fmt.Sprintf("Welcome to Game Master  ·  Provider: %s", cfg.LLM.Provider),
+		Text: fmt.Sprintf("Welcome to Edda  ·  Provider: %s", cfg.LLM.Provider),
 	})
 	if campaign.Name != "" {
 		nv.AddEntry(narrative.Entry{
@@ -143,7 +143,7 @@ func (a *App) seedOpeningScene(scene *world.SceneResult) {
 	}
 	nv.AddEntry(narrative.Entry{
 		Kind:    narrative.KindNPC,
-		Speaker: "Game Master",
+		Speaker: "Edda",
 		Text:    scene.Narrative,
 	})
 	if len(scene.Choices) == 0 {
@@ -347,7 +347,7 @@ func (a App) View() string {
 
 // chrome renders the title bar and status bar at the current width.
 func (a App) chrome() (titleBar, statusBar string) {
-	title := "⚔  Game Master"
+	title := "⚔  Edda"
 	if a.campaign.Name != "" {
 		title += "  ·  " + a.campaign.Name
 	}

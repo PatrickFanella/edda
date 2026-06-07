@@ -8,8 +8,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // OrchestratorResult holds everything the TUI needs after world creation

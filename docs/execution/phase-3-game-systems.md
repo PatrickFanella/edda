@@ -43,16 +43,16 @@ tags: [tracking, phase-3, execution, game-systems]
 
 | #   | Issue                                                            | Title                                        | Size | Blocker    | Status  | Model             | Notes                         |
 | --- | ---------------------------------------------------------------- | -------------------------------------------- | :--: | ---------- | ------- | ----------------- | ----------------------------- |
-| 1   | [#139](https://github.com/PatrickFanella/game-master/issues/139) | Define CombatResolver interface              |  M   | Track D    | BLOCKED | Claude Opus 4.6   |                               |
-| 2   | [#144](https://github.com/PatrickFanella/game-master/issues/144) | Implement skill_check tool                   |  S   | Phase 2    | READY   | gpt-5.3-codex     | Pure logic, no track dep      |
-| 3   | [#140](https://github.com/PatrickFanella/game-master/issues/140) | Implement initiative ordering system         |  M   | #139       | BLOCKED | gpt-5.3-codex     |                               |
-| 4   | [#141](https://github.com/PatrickFanella/game-master/issues/141) | Implement combatant state management         |  M   | #139       | BLOCKED | Claude Sonnet 4.6 |                               |
-| 5   | [#142](https://github.com/PatrickFanella/game-master/issues/142) | Implement initiate_combat tool               |  M   | #139       | BLOCKED | gpt-5.3-codex     |                               |
-| 6   | [#143](https://github.com/PatrickFanella/game-master/issues/143) | Implement combat_round tool                  |  L   | #140, #141 | BLOCKED | Claude Opus 4.6   |                               |
-| 7   | [#145](https://github.com/PatrickFanella/game-master/issues/145) | Implement apply_damage/apply_condition tools |  M   | #141       | BLOCKED | gpt-5.3-codex     |                               |
-| 8   | [#146](https://github.com/PatrickFanella/game-master/issues/146) | Implement resolve_combat tool                |  M   | #141       | BLOCKED | Claude Sonnet 4.6 |                               |
-| 9   | [#147](https://github.com/PatrickFanella/game-master/issues/147) | Implement default narrative CombatResolver   |  L   | #140-#146  | BLOCKED | Claude Opus 4.6   | Ties everything together      |
-| 10  | [#148](https://github.com/PatrickFanella/game-master/issues/148) | Interface contract tests for CombatResolver  |  L   | #147       | BLOCKED | Claude Opus 4.6   | Reusable for future rule sets |
+| 1   | [#139](https://git.subcult.tv/subculture-collective/edda/issues/139) | Define CombatResolver interface              |  M   | Track D    | BLOCKED | Claude Opus 4.6   |                               |
+| 2   | [#144](https://git.subcult.tv/subculture-collective/edda/issues/144) | Implement skill_check tool                   |  S   | Phase 2    | READY   | gpt-5.3-codex     | Pure logic, no track dep      |
+| 3   | [#140](https://git.subcult.tv/subculture-collective/edda/issues/140) | Implement initiative ordering system         |  M   | #139       | BLOCKED | gpt-5.3-codex     |                               |
+| 4   | [#141](https://git.subcult.tv/subculture-collective/edda/issues/141) | Implement combatant state management         |  M   | #139       | BLOCKED | Claude Sonnet 4.6 |                               |
+| 5   | [#142](https://git.subcult.tv/subculture-collective/edda/issues/142) | Implement initiate_combat tool               |  M   | #139       | BLOCKED | gpt-5.3-codex     |                               |
+| 6   | [#143](https://git.subcult.tv/subculture-collective/edda/issues/143) | Implement combat_round tool                  |  L   | #140, #141 | BLOCKED | Claude Opus 4.6   |                               |
+| 7   | [#145](https://git.subcult.tv/subculture-collective/edda/issues/145) | Implement apply_damage/apply_condition tools |  M   | #141       | BLOCKED | gpt-5.3-codex     |                               |
+| 8   | [#146](https://git.subcult.tv/subculture-collective/edda/issues/146) | Implement resolve_combat tool                |  M   | #141       | BLOCKED | Claude Sonnet 4.6 |                               |
+| 9   | [#147](https://git.subcult.tv/subculture-collective/edda/issues/147) | Implement default narrative CombatResolver   |  L   | #140-#146  | BLOCKED | Claude Opus 4.6   | Ties everything together      |
+| 10  | [#148](https://git.subcult.tv/subculture-collective/edda/issues/148) | Interface contract tests for CombatResolver  |  L   | #147       | BLOCKED | Claude Opus 4.6   | Reusable for future rule sets |
 
 ```mermaid
 graph TD
@@ -96,15 +96,15 @@ graph TD
 
 | #   | Issue                                                            | Title                                       | Size | Blocker   | Status  | Model             | Notes                   |
 | --- | ---------------------------------------------------------------- | ------------------------------------------- | :--: | --------- | ------- | ----------------- | ----------------------- |
-| 1   | [#155](https://github.com/PatrickFanella/game-master/issues/155) | Migration: create expanded world tables     |  S   | Phase 1   | READY   | gpt-5.3-codex     | Can start early         |
-| 2   | [#156](https://github.com/PatrickFanella/game-master/issues/156) | sqlc queries: expanded world tables         |  S   | #155      | BLOCKED | gpt-5.3-codex     |                         |
-| 3   | [#149](https://github.com/PatrickFanella/game-master/issues/149) | Implement create_language tool              |  M   | Track E   | BLOCKED | gpt-5.3-codex     |                         |
-| 4   | [#150](https://github.com/PatrickFanella/game-master/issues/150) | Implement create_belief_system tool         |  M   | Track E   | BLOCKED | gpt-5.3-codex     |                         |
-| 5   | [#151](https://github.com/PatrickFanella/game-master/issues/151) | Implement create_economic_system tool       |  M   | Track E   | BLOCKED | gpt-5.3-codex     |                         |
-| 6   | [#152](https://github.com/PatrickFanella/game-master/issues/152) | Implement create_culture tool               |  M   | Track E   | BLOCKED | gpt-5.3-codex     |                         |
-| 7   | [#153](https://github.com/PatrickFanella/game-master/issues/153) | Implement create_city tool                  |  M   | Track E   | BLOCKED | gpt-5.3-codex     |                         |
-| 8   | [#154](https://github.com/PatrickFanella/game-master/issues/154) | Implement language naming integration       |  M   | #149      | BLOCKED | Claude Sonnet 4.6 | Uses language phonology |
-| 9   | [#157](https://github.com/PatrickFanella/game-master/issues/157) | Unit tests: expanded world generation tools |  L   | #149-#153 | BLOCKED | gpt-5.3-codex     |                         |
+| 1   | [#155](https://git.subcult.tv/subculture-collective/edda/issues/155) | Migration: create expanded world tables     |  S   | Phase 1   | READY   | gpt-5.3-codex     | Can start early         |
+| 2   | [#156](https://git.subcult.tv/subculture-collective/edda/issues/156) | sqlc queries: expanded world tables         |  S   | #155      | BLOCKED | gpt-5.3-codex     |                         |
+| 3   | [#149](https://git.subcult.tv/subculture-collective/edda/issues/149) | Implement create_language tool              |  M   | Track E   | BLOCKED | gpt-5.3-codex     |                         |
+| 4   | [#150](https://git.subcult.tv/subculture-collective/edda/issues/150) | Implement create_belief_system tool         |  M   | Track E   | BLOCKED | gpt-5.3-codex     |                         |
+| 5   | [#151](https://git.subcult.tv/subculture-collective/edda/issues/151) | Implement create_economic_system tool       |  M   | Track E   | BLOCKED | gpt-5.3-codex     |                         |
+| 6   | [#152](https://git.subcult.tv/subculture-collective/edda/issues/152) | Implement create_culture tool               |  M   | Track E   | BLOCKED | gpt-5.3-codex     |                         |
+| 7   | [#153](https://git.subcult.tv/subculture-collective/edda/issues/153) | Implement create_city tool                  |  M   | Track E   | BLOCKED | gpt-5.3-codex     |                         |
+| 8   | [#154](https://git.subcult.tv/subculture-collective/edda/issues/154) | Implement language naming integration       |  M   | #149      | BLOCKED | Claude Sonnet 4.6 | Uses language phonology |
+| 9   | [#157](https://git.subcult.tv/subculture-collective/edda/issues/157) | Unit tests: expanded world generation tools |  L   | #149-#153 | BLOCKED | gpt-5.3-codex     |                         |
 
 ```mermaid
 graph TD
@@ -146,16 +146,16 @@ graph TD
 
 | #   | Issue                                                            | Title                                       | Size | Blocker    | Status  | Model             | Notes                  |
 | --- | ---------------------------------------------------------------- | ------------------------------------------- | :--: | ---------- | ------- | ----------------- | ---------------------- |
-| 1   | [#159](https://github.com/PatrickFanella/game-master/issues/159) | Define shared API types in pkg/api          |  M   | Phase 2    | READY   | gpt-5.3-codex     |                        |
-| 2   | [#158](https://github.com/PatrickFanella/game-master/issues/158) | Create cmd/server entry point + chi router  |  M   | Phase 2    | READY   | gpt-5.3-codex     |                        |
-| 3   | [#166](https://github.com/PatrickFanella/game-master/issues/166) | Implement auth middleware interface (no-op) |  S   | Phase 2    | READY   | gpt-5.3-codex     |                        |
-| 4   | [#160](https://github.com/PatrickFanella/game-master/issues/160) | Implement campaign REST endpoints           |  M   | #158, #159 | BLOCKED | gpt-5.3-codex     |                        |
-| 5   | [#161](https://github.com/PatrickFanella/game-master/issues/161) | Implement character REST endpoints          |  S   | #158, #159 | BLOCKED | gpt-5.3-codex     |                        |
-| 6   | [#162](https://github.com/PatrickFanella/game-master/issues/162) | Implement location and NPC REST endpoints   |  M   | #158, #159 | BLOCKED | gpt-5.3-codex     |                        |
-| 7   | [#163](https://github.com/PatrickFanella/game-master/issues/163) | Implement quest REST endpoints              |  S   | #158, #159 | BLOCKED | gpt-5.3-codex     |                        |
-| 8   | [#164](https://github.com/PatrickFanella/game-master/issues/164) | Implement POST /action endpoint             |  M   | #158       | BLOCKED | Claude Sonnet 4.6 | Core gameplay endpoint |
-| 9   | [#165](https://github.com/PatrickFanella/game-master/issues/165) | Implement WebSocket streaming endpoint      |  L   | #158       | BLOCKED | Claude Sonnet 4.6 |                        |
-| 10  | [#167](https://github.com/PatrickFanella/game-master/issues/167) | HTTP integration tests for API              |  L   | #160-#165  | BLOCKED | Claude Sonnet 4.6 | testcontainers         |
+| 1   | [#159](https://git.subcult.tv/subculture-collective/edda/issues/159) | Define shared API types in pkg/api          |  M   | Phase 2    | READY   | gpt-5.3-codex     |                        |
+| 2   | [#158](https://git.subcult.tv/subculture-collective/edda/issues/158) | Create cmd/server entry point + chi router  |  M   | Phase 2    | READY   | gpt-5.3-codex     |                        |
+| 3   | [#166](https://git.subcult.tv/subculture-collective/edda/issues/166) | Implement auth middleware interface (no-op) |  S   | Phase 2    | READY   | gpt-5.3-codex     |                        |
+| 4   | [#160](https://git.subcult.tv/subculture-collective/edda/issues/160) | Implement campaign REST endpoints           |  M   | #158, #159 | BLOCKED | gpt-5.3-codex     |                        |
+| 5   | [#161](https://git.subcult.tv/subculture-collective/edda/issues/161) | Implement character REST endpoints          |  S   | #158, #159 | BLOCKED | gpt-5.3-codex     |                        |
+| 6   | [#162](https://git.subcult.tv/subculture-collective/edda/issues/162) | Implement location and NPC REST endpoints   |  M   | #158, #159 | BLOCKED | gpt-5.3-codex     |                        |
+| 7   | [#163](https://git.subcult.tv/subculture-collective/edda/issues/163) | Implement quest REST endpoints              |  S   | #158, #159 | BLOCKED | gpt-5.3-codex     |                        |
+| 8   | [#164](https://git.subcult.tv/subculture-collective/edda/issues/164) | Implement POST /action endpoint             |  M   | #158       | BLOCKED | Claude Sonnet 4.6 | Core gameplay endpoint |
+| 9   | [#165](https://git.subcult.tv/subculture-collective/edda/issues/165) | Implement WebSocket streaming endpoint      |  L   | #158       | BLOCKED | Claude Sonnet 4.6 |                        |
+| 10  | [#167](https://git.subcult.tv/subculture-collective/edda/issues/167) | HTTP integration tests for API              |  L   | #160-#165  | BLOCKED | Claude Sonnet 4.6 | testcontainers         |
 
 ```mermaid
 graph TD

@@ -1,5 +1,5 @@
 // Package db provides the shared DBTX interface and pgtype conversion helpers
-// used across the game-master codebase.
+// used across the edda codebase.
 package db
 
 import (

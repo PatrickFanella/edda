@@ -11,16 +11,16 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/PatrickFanella/game-master/internal/bootstrap"
-	"github.com/PatrickFanella/game-master/internal/config"
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/engine"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/logging"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/world"
-	"github.com/PatrickFanella/game-master/tui/campaign"
-	"github.com/PatrickFanella/game-master/tui/styles"
+	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/world"
+	"git.subcult.tv/subculture-collective/edda/tui/campaign"
+	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
 // bootstrapDoneMsg carries the result of the DB bootstrap step.

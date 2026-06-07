@@ -1,4 +1,4 @@
-// Package tools defines LLM tool handlers for the game-master engine.
+// Package tools defines LLM tool handlers for the edda engine.
 //
 // # Tool Inventory
 //

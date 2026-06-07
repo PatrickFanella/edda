@@ -1,6 +1,6 @@
 package tools
 
-import "github.com/PatrickFanella/game-master/internal/progression"
+import "git.subcult.tv/subculture-collective/edda/internal/progression"
 
 type experienceThresholdFunc func(level int) int
 

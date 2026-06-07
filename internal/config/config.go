@@ -83,7 +83,7 @@ func (c *Config) Validate() error {
 		return fmt.Errorf("unknown llm provider: %q", c.LLM.Provider)
 	}
 	if c.LLM.Provider == "claude" && c.LLM.Claude.APIKey == "" {
-		return errors.New("claude provider requires api key (set llm.claude.apikey, GM_LLM_CLAUDE_APIKEY, GM_CLAUDE_API_KEY, or ANTHROPIC_API_KEY)")
+		return errors.New("claude provider requires api key (set llm.claude.apikey, EDDA_LLM_CLAUDE_APIKEY, or ANTHROPIC_API_KEY)")
 	}
 	return nil
 }
@@ -92,7 +92,7 @@ func Load(path string) (Config, error) {
 	k := koanf.New(".")
 
 	defaults := map[string]any{
-		"db.url":                        "postgres://game_master:game_master@localhost:5432/game_master?sslmode=disable",
+		"db.url":                        "postgres://edda:edda@localhost:5432/edda?sslmode=disable",
 		"llm.provider":                  "ollama",
 		"llm.ollama.endpoint":           "http://localhost:11434",
 		"llm.ollama.model":              "qwen3:14b",
@@ -128,16 +128,9 @@ func Load(path string) (Config, error) {
 		}
 	}
 
-	// Support GM_CLAUDE_API_KEY as an alternative env var (overrides ANTHROPIC_API_KEY).
-	if apiKey := os.Getenv("GM_CLAUDE_API_KEY"); apiKey != "" {
-		if err := k.Load(confmap.Provider(map[string]any{"llm.claude.apikey": apiKey}, "."), nil); err != nil {
-			return Config{}, err
-		}
-	}
-
-	// GM_-prefixed env vars have the highest priority (includes GM_LLM_CLAUDE_APIKEY).
-	if err := k.Load(env.Provider("GM_", ".", func(key string) string {
-		trimmed := strings.TrimPrefix(key, "GM_")
+	// EDDA_-prefixed env vars have the highest priority (includes EDDA_LLM_CLAUDE_APIKEY).
+	if err := k.Load(env.Provider("EDDA_", ".", func(key string) string {
+		trimmed := strings.TrimPrefix(key, "EDDA_")
 		return strings.ToLower(strings.ReplaceAll(trimmed, "_", "."))
 	}), nil); err != nil {
 		return Config{}, err

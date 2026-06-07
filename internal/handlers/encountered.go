@@ -8,9 +8,9 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/pkg/api"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // ListEncounteredNPCs returns NPCs that appear in session logs (npcs_involved).

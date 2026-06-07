@@ -254,8 +254,8 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)
 REPO_ROOT=$(cd "$SCRIPT_DIR/.." && pwd -P)
 EVIDENCE_DIR="$REPO_ROOT/.sisyphus/evidence"
 HELPER_SCRIPT="$SCRIPT_DIR/smoke_prod_deploy_helper.mjs"
-ROLLBACK_MANIFEST_PATH=${GM_SMOKE_ROLLBACK_MANIFEST:-$EVIDENCE_DIR/rollback-manifest.env}
-REPO_ENV_PATH=${GM_SMOKE_REPO_ENV_PATH:-$REPO_ROOT/.env}
+ROLLBACK_MANIFEST_PATH=${EDDA_SMOKE_ROLLBACK_MANIFEST:-$EVIDENCE_DIR/rollback-manifest.env}
+REPO_ENV_PATH=${EDDA_SMOKE_REPO_ENV_PATH:-$REPO_ROOT/.env}
 [[ -f "$HELPER_SCRIPT" ]] || die "helper script '$HELPER_SCRIPT' does not exist"
 
 mapfile -t URL_PARTS < <(extract_url_parts) || die "base URL '$BASE_URL' is invalid"

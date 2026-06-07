@@ -9,18 +9,18 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/assembly"
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/bootstrap"
-	"github.com/PatrickFanella/game-master/internal/config"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/game"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/journal"
-	"github.com/PatrickFanella/game-master/internal/saves"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/internal/assembly"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/journal"
+	"git.subcult.tv/subculture-collective/edda/internal/saves"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // Engine is the concrete GameEngine implementation used by the TUI.

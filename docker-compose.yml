@@ -1,24 +1,24 @@
 services:
   postgres:
     image: pgvector/pgvector:pg16
-    container_name: game-master-postgres
+    container_name: edda-postgres
     environment:
-      POSTGRES_DB: game_master
-      POSTGRES_USER: game_master
-      POSTGRES_PASSWORD: game_master
+      POSTGRES_DB: edda
+      POSTGRES_USER: edda
+      POSTGRES_PASSWORD: edda
     ports:
       - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U game_master -d game_master"]
+      test: ["CMD-SHELL", "pg_isready -U edda -d edda"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   ollama:
     image: ollama/ollama:latest
-    container_name: game-master-ollama
+    container_name: edda-ollama
     ports:
       - "11434:11434"
     volumes:

@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/PatrickFanella/game-master/internal/combat"
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/combat"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const applyConditionToolName = "apply_condition"

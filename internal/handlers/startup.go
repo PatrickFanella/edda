@@ -9,11 +9,11 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/auth"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/rules"
-	"github.com/PatrickFanella/game-master/internal/world"
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/internal/auth"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/rules"
+	"git.subcult.tv/subculture-collective/edda/internal/world"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 type startupSessionStore struct {

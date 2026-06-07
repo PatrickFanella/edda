@@ -11,9 +11,9 @@ import (
 	"github.com/charmbracelet/x/exp/teatest"
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/engine"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // testApp returns a minimal App suitable for teatest integration tests.

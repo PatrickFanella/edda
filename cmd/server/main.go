@@ -20,19 +20,19 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/PatrickFanella/game-master/internal/assembly"
-	"github.com/PatrickFanella/game-master/internal/auth"
-	"github.com/PatrickFanella/game-master/internal/bootstrap"
-	"github.com/PatrickFanella/game-master/internal/config"
-	"github.com/PatrickFanella/game-master/internal/engine"
-	"github.com/PatrickFanella/game-master/internal/export"
-	"github.com/PatrickFanella/game-master/internal/handlers"
-	"github.com/PatrickFanella/game-master/internal/journal"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/logging"
-	"github.com/PatrickFanella/game-master/internal/memory"
-	"github.com/PatrickFanella/game-master/internal/saves"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/assembly"
+	"git.subcult.tv/subculture-collective/edda/internal/auth"
+	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	"git.subcult.tv/subculture-collective/edda/internal/export"
+	"git.subcult.tv/subculture-collective/edda/internal/handlers"
+	"git.subcult.tv/subculture-collective/edda/internal/journal"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
+	"git.subcult.tv/subculture-collective/edda/internal/memory"
+	"git.subcult.tv/subculture-collective/edda/internal/saves"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 func main() {
@@ -40,13 +40,13 @@ func main() {
 }
 
 func run(args []string) int {
-	configPath, err := parseConfigPath(args, os.Getenv("GM_CONFIG"))
+	configPath, err := parseConfigPath(args, os.Getenv("EDDA_CONFIG"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "parse flags: %v\n", err)
 		return 2
 	}
 
-	logResult, err := logging.Setup(".logs/game-master.jsonl", slog.LevelDebug)
+	logResult, err := logging.Setup(".logs/edda.jsonl", slog.LevelDebug)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "init logging: %v\n", err)
 		return 1

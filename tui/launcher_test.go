@@ -9,12 +9,12 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/bootstrap"
-	"github.com/PatrickFanella/game-master/internal/config"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/world"
-	"github.com/PatrickFanella/game-master/tui/campaign"
+	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/world"
+	"git.subcult.tv/subculture-collective/edda/tui/campaign"
 )
 
 // compile-time check: Launcher must implement tea.Model.

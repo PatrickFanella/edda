@@ -7,8 +7,8 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/PatrickFanella/game-master/internal/world"
-	"github.com/PatrickFanella/game-master/tui/styles"
+	"git.subcult.tv/subculture-collective/edda/internal/world"
+	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
 // ConfirmationModel shows campaign + character details for final review.

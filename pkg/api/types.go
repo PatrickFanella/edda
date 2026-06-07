@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/world"
+	"git.subcult.tv/subculture-collective/edda/internal/world"
 )
 
 // CampaignCreateRequest describes the payload used to create a campaign.

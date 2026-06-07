@@ -8,14 +8,14 @@ import (
 )
 
 func TestLoadUsesDefaultsWhenFileIsMissing(t *testing.T) {
-	unsetenv(t, "GM_DB_URL", "GM_LLM_PROVIDER", "GM_LLM_OLLAMA_ENDPOINT", "GM_LLM_OLLAMA_MODEL")
+	unsetenv(t, "EDDA_DB_URL", "EDDA_LLM_PROVIDER", "EDDA_LLM_OLLAMA_ENDPOINT", "EDDA_LLM_OLLAMA_MODEL")
 
 	cfg, err := Load(filepath.Join(t.TempDir(), "missing.yaml"))
 	if err != nil {
 		t.Fatalf("Load() error = %v", err)
 	}
 
-	if cfg.DB.URL != "postgres://game_master:game_master@localhost:5432/game_master?sslmode=disable" {
+	if cfg.DB.URL != "postgres://edda:edda@localhost:5432/edda?sslmode=disable" {
 		t.Fatalf("unexpected default db url: %q", cfg.DB.URL)
 	}
 	if cfg.LLM.Provider != "ollama" {
@@ -49,10 +49,10 @@ llm:
 		t.Fatalf("WriteFile() error = %v", err)
 	}
 
-	t.Setenv("GM_LLM_PROVIDER", "ollama")
-	t.Setenv("GM_LLM_OLLAMA_ENDPOINT", "http://from-env:11434")
+	t.Setenv("EDDA_LLM_PROVIDER", "ollama")
+	t.Setenv("EDDA_LLM_OLLAMA_ENDPOINT", "http://from-env:11434")
 
-	unsetenv(t, "GM_DB_URL", "GM_LLM_OLLAMA_MODEL")
+	unsetenv(t, "EDDA_DB_URL", "EDDA_LLM_OLLAMA_MODEL")
 
 	cfg, err := Load(configPath)
 	if err != nil {
@@ -74,9 +74,9 @@ llm:
 }
 
 func TestLoadClaudeConfigFromEnv(t *testing.T) {
-	t.Setenv("GM_LLM_PROVIDER", "claude")
-	t.Setenv("GM_LLM_CLAUDE_APIKEY", "sk-ant-test-key")
-	t.Setenv("GM_LLM_CLAUDE_MODEL", "claude-opus-4-6")
+	t.Setenv("EDDA_LLM_PROVIDER", "claude")
+	t.Setenv("EDDA_LLM_CLAUDE_APIKEY", "sk-ant-test-key")
+	t.Setenv("EDDA_LLM_CLAUDE_MODEL", "claude-opus-4-6")
 
 	cfg, err := Load("")
 	if err != nil {
@@ -117,9 +117,9 @@ func TestLoadClaudeModelDefault(t *testing.T) {
 }
 
 func TestLoadContextTokenBudgetFromEnv(t *testing.T) {
-	t.Setenv("GM_LLM_PROVIDER", "claude")
-	t.Setenv("GM_LLM_CLAUDE_APIKEY", "sk-ant-test-key")
-	t.Setenv("GM_LLM_CLAUDE_CONTEXTTOKENBUDGET", "6400")
+	t.Setenv("EDDA_LLM_PROVIDER", "claude")
+	t.Setenv("EDDA_LLM_CLAUDE_APIKEY", "sk-ant-test-key")
+	t.Setenv("EDDA_LLM_CLAUDE_CONTEXTTOKENBUDGET", "6400")
 
 	cfg, err := Load("")
 	if err != nil {
@@ -131,8 +131,8 @@ func TestLoadContextTokenBudgetFromEnv(t *testing.T) {
 }
 
 func TestLoadOllamaTimeoutFromEnv(t *testing.T) {
-	t.Setenv("GM_LLM_PROVIDER", "ollama")
-	t.Setenv("GM_LLM_OLLAMA_TIMEOUTSECONDS", "240")
+	t.Setenv("EDDA_LLM_PROVIDER", "ollama")
+	t.Setenv("EDDA_LLM_OLLAMA_TIMEOUTSECONDS", "240")
 
 	cfg, err := Load("")
 	if err != nil {
@@ -144,7 +144,7 @@ func TestLoadOllamaTimeoutFromEnv(t *testing.T) {
 }
 
 func TestLoadRejectsInvalidProvider(t *testing.T) {
-	t.Setenv("GM_LLM_PROVIDER", "invalid")
+	t.Setenv("EDDA_LLM_PROVIDER", "invalid")
 
 	_, err := Load("")
 	if err == nil {
@@ -156,9 +156,9 @@ func TestLoadRejectsInvalidProvider(t *testing.T) {
 }
 
 func TestLoadRejectsClaudeWithoutAPIKey(t *testing.T) {
-	t.Setenv("GM_LLM_PROVIDER", "claude")
+	t.Setenv("EDDA_LLM_PROVIDER", "claude")
 	// Explicitly clear all API key env vars to ensure the test is deterministic.
-	unsetenv(t, "GM_LLM_CLAUDE_APIKEY", "GM_CLAUDE_API_KEY", "ANTHROPIC_API_KEY")
+	unsetenv(t, "EDDA_LLM_CLAUDE_APIKEY", "ANTHROPIC_API_KEY")
 
 	_, err := Load("")
 	if err == nil {
@@ -170,7 +170,7 @@ func TestLoadRejectsClaudeWithoutAPIKey(t *testing.T) {
 }
 
 func TestLoadClaudeAPIKeyFromAnthropicEnv(t *testing.T) {
-	t.Setenv("GM_LLM_PROVIDER", "claude")
+	t.Setenv("EDDA_LLM_PROVIDER", "claude")
 	t.Setenv("ANTHROPIC_API_KEY", "sk-ant-anthropic-key")
 
 	cfg, err := Load("")
@@ -182,44 +182,42 @@ func TestLoadClaudeAPIKeyFromAnthropicEnv(t *testing.T) {
 	}
 }
 
-func TestLoadClaudeAPIKeyFromGMClaudeAPIKeyEnv(t *testing.T) {
-	t.Setenv("GM_LLM_PROVIDER", "claude")
-	t.Setenv("GM_CLAUDE_API_KEY", "sk-ant-gm-claude-key")
+func TestLoadClaudeAPIKeyFromEDDALLMEnv(t *testing.T) {
+	t.Setenv("EDDA_LLM_PROVIDER", "claude")
+	t.Setenv("EDDA_LLM_CLAUDE_APIKEY", "sk-ant-edda-claude-key")
 
 	cfg, err := Load("")
 	if err != nil {
 		t.Fatalf("Load() error = %v", err)
 	}
-	if cfg.LLM.Claude.APIKey != "sk-ant-gm-claude-key" {
-		t.Fatalf("expected api key from GM_CLAUDE_API_KEY, got %q", cfg.LLM.Claude.APIKey)
+	if cfg.LLM.Claude.APIKey != "sk-ant-edda-claude-key" {
+		t.Fatalf("expected api key from EDDA_LLM_CLAUDE_APIKEY, got %q", cfg.LLM.Claude.APIKey)
 	}
 }
-
-func TestGMClaudeAPIKeyOverridesAnthropicAPIKey(t *testing.T) {
-	t.Setenv("GM_LLM_PROVIDER", "claude")
+func TestEDDALLMClaudeAPIKeyOverridesAnthropicAPIKey(t *testing.T) {
+	t.Setenv("EDDA_LLM_PROVIDER", "claude")
 	t.Setenv("ANTHROPIC_API_KEY", "sk-ant-lower-priority")
-	t.Setenv("GM_CLAUDE_API_KEY", "sk-ant-higher-priority")
+	t.Setenv("EDDA_LLM_CLAUDE_APIKEY", "sk-ant-higher-priority")
 
 	cfg, err := Load("")
 	if err != nil {
 		t.Fatalf("Load() error = %v", err)
 	}
 	if cfg.LLM.Claude.APIKey != "sk-ant-higher-priority" {
-		t.Fatalf("expected GM_CLAUDE_API_KEY to override ANTHROPIC_API_KEY, got %q", cfg.LLM.Claude.APIKey)
+		t.Fatalf("expected EDDA_LLM_CLAUDE_APIKEY to override ANTHROPIC_API_KEY, got %q", cfg.LLM.Claude.APIKey)
 	}
 }
 
-func TestGMLLMClaudeAPIKeyOverridesGMClaudeAPIKey(t *testing.T) {
-	t.Setenv("GM_LLM_PROVIDER", "claude")
-	t.Setenv("GM_CLAUDE_API_KEY", "sk-ant-lower-priority")
-	t.Setenv("GM_LLM_CLAUDE_APIKEY", "sk-ant-highest-priority")
+func TestEDDALLMClaudeAPIKeyHighestPriority(t *testing.T) {
+	t.Setenv("EDDA_LLM_PROVIDER", "claude")
+	t.Setenv("EDDA_LLM_CLAUDE_APIKEY", "sk-ant-highest-priority")
 
 	cfg, err := Load("")
 	if err != nil {
 		t.Fatalf("Load() error = %v", err)
 	}
 	if cfg.LLM.Claude.APIKey != "sk-ant-highest-priority" {
-		t.Fatalf("expected GM_LLM_CLAUDE_APIKEY to have highest priority, got %q", cfg.LLM.Claude.APIKey)
+		t.Fatalf("expected EDDA_LLM_CLAUDE_APIKEY to have highest priority, got %q", cfg.LLM.Claude.APIKey)
 	}
 }
 
@@ -251,7 +249,7 @@ func TestClaudeAPIKeyPrecedenceFileVsEnv(t *testing.T) {
 
 	// Verify file key is used when no env vars are set.
 	t.Run("file_key_used_when_no_env", func(t *testing.T) {
-		unsetenv(t, "GM_LLM_CLAUDE_APIKEY", "GM_CLAUDE_API_KEY", "ANTHROPIC_API_KEY")
+		unsetenv(t, "EDDA_LLM_CLAUDE_APIKEY", "ANTHROPIC_API_KEY")
 		cfg, err := Load(configPath)
 		if err != nil {
 			t.Fatalf("Load() error = %v", err)
@@ -263,7 +261,7 @@ func TestClaudeAPIKeyPrecedenceFileVsEnv(t *testing.T) {
 
 	// Verify ANTHROPIC_API_KEY overrides file key.
 	t.Run("anthropic_env_overrides_file", func(t *testing.T) {
-		unsetenv(t, "GM_LLM_CLAUDE_APIKEY", "GM_CLAUDE_API_KEY")
+		unsetenv(t, "EDDA_LLM_CLAUDE_APIKEY")
 		t.Setenv("ANTHROPIC_API_KEY", "sk-ant-anthropic-override")
 		cfg, err := Load(configPath)
 		if err != nil {
@@ -274,31 +272,16 @@ func TestClaudeAPIKeyPrecedenceFileVsEnv(t *testing.T) {
 		}
 	})
 
-	// Verify GM_CLAUDE_API_KEY overrides ANTHROPIC_API_KEY and file key.
-	t.Run("gm_claude_api_key_overrides_anthropic_and_file", func(t *testing.T) {
-		unsetenv(t, "GM_LLM_CLAUDE_APIKEY")
-		t.Setenv("GM_CLAUDE_API_KEY", "sk-ant-gm-override")
+	// Verify EDDA_LLM_CLAUDE_APIKEY has highest priority over all others.
+	t.Run("edda_llm_claude_apikey_highest_priority", func(t *testing.T) {
+		t.Setenv("EDDA_LLM_CLAUDE_APIKEY", "sk-ant-edda-llm-highest")
 		t.Setenv("ANTHROPIC_API_KEY", "sk-ant-anthropic-override")
 		cfg, err := Load(configPath)
 		if err != nil {
 			t.Fatalf("Load() error = %v", err)
 		}
-		if cfg.LLM.Claude.APIKey != "sk-ant-gm-override" {
-			t.Fatalf("expected GM_CLAUDE_API_KEY to win, got %q", cfg.LLM.Claude.APIKey)
-		}
-	})
-
-	// Verify GM_LLM_CLAUDE_APIKEY has highest priority over all others.
-	t.Run("gm_llm_claude_apikey_highest_priority", func(t *testing.T) {
-		t.Setenv("GM_LLM_CLAUDE_APIKEY", "sk-ant-gm-llm-highest")
-		t.Setenv("GM_CLAUDE_API_KEY", "sk-ant-gm-override")
-		t.Setenv("ANTHROPIC_API_KEY", "sk-ant-anthropic-override")
-		cfg, err := Load(configPath)
-		if err != nil {
-			t.Fatalf("Load() error = %v", err)
-		}
-		if cfg.LLM.Claude.APIKey != "sk-ant-gm-llm-highest" {
-			t.Fatalf("expected GM_LLM_CLAUDE_APIKEY to have highest priority, got %q", cfg.LLM.Claude.APIKey)
+		if cfg.LLM.Claude.APIKey != "sk-ant-edda-llm-highest" {
+			t.Fatalf("expected EDDA_LLM_CLAUDE_APIKEY to have highest priority, got %q", cfg.LLM.Claude.APIKey)
 		}
 	})
 }

@@ -1,9 +1,9 @@
 package engine
 
 import (
-	"github.com/PatrickFanella/game-master/internal/game"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 // GamePhase represents the current phase of gameplay, used to select which

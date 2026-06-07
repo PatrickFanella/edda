@@ -6,7 +6,7 @@ usage() {
   cat >&2 <<'EOF'
 Usage: bash scripts/capture_prod_release.sh <release-tag> <artifact-path>
 
-Captures the current gm-api and gm-web image tags before cutover and records the next release tag.
+Captures the current edda-api and edda-web image tags before cutover and records the next release tag.
 EOF
 }
 
@@ -66,8 +66,8 @@ fi
   exit 1
 }
 
-API_CONTAINER_NAME=${GM_API_CONTAINER_NAME:-gm-api}
-WEB_CONTAINER_NAME=${GM_WEB_CONTAINER_NAME:-gm-web}
+API_CONTAINER_NAME=${EDDA_API_CONTAINER_NAME:-edda-api}
+WEB_CONTAINER_NAME=${EDDA_WEB_CONTAINER_NAME:-edda-web}
 
 RELEASE_TAG=$1
 ARTIFACT_PATH=$2
@@ -79,27 +79,27 @@ require_cmd docker
 require_cmd grep
 
 validate_release_tag
-validate_container_name "$API_CONTAINER_NAME" "GM_API_CONTAINER_NAME"
-validate_container_name "$WEB_CONTAINER_NAME" "GM_WEB_CONTAINER_NAME"
+validate_container_name "$API_CONTAINER_NAME" "EDDA_API_CONTAINER_NAME"
+validate_container_name "$WEB_CONTAINER_NAME" "EDDA_WEB_CONTAINER_NAME"
 validate_target_container "$API_CONTAINER_NAME" api
 validate_target_container "$WEB_CONTAINER_NAME" web
 
-API_CURRENT_IMAGE=${GM_API_CURRENT_IMAGE:-$(image_ref "$API_CONTAINER_NAME")}
-WEB_CURRENT_IMAGE=${GM_WEB_CURRENT_IMAGE:-$(image_ref "$WEB_CONTAINER_NAME")}
+API_CURRENT_IMAGE=${EDDA_API_CURRENT_IMAGE:-$(image_ref "$API_CONTAINER_NAME")}
+WEB_CURRENT_IMAGE=${EDDA_WEB_CURRENT_IMAGE:-$(image_ref "$WEB_CONTAINER_NAME")}
 
-[[ -n "$API_CURRENT_IMAGE" ]] || die "API current image is missing; set GM_API_CURRENT_IMAGE or ensure container '$API_CONTAINER_NAME' is running"
-[[ -n "$WEB_CURRENT_IMAGE" ]] || die "web current image is missing; set GM_WEB_CURRENT_IMAGE or ensure container '$WEB_CONTAINER_NAME' is running"
+[[ -n "$API_CURRENT_IMAGE" ]] || die "API current image is missing; set EDDA_API_CURRENT_IMAGE or ensure container '$API_CONTAINER_NAME' is running"
+[[ -n "$WEB_CURRENT_IMAGE" ]] || die "web current image is missing; set EDDA_WEB_CURRENT_IMAGE or ensure container '$WEB_CONTAINER_NAME' is running"
 
 mkdir -p "$(dirname "$ARTIFACT_PATH")"
 
 cat >"$ARTIFACT_PATH" <<EOF
-GM_RELEASE_TAG=$RELEASE_TAG
-GM_API_PREVIOUS_IMAGE=$API_CURRENT_IMAGE
-GM_WEB_PREVIOUS_IMAGE=$WEB_CURRENT_IMAGE
-GM_API_TARGET_IMAGE=gm-api:$RELEASE_TAG
-GM_WEB_TARGET_IMAGE=gm-web:$RELEASE_TAG
+EDDA_RELEASE_TAG=$RELEASE_TAG
+EDDA_API_PREVIOUS_IMAGE=$API_CURRENT_IMAGE
+EDDA_WEB_PREVIOUS_IMAGE=$WEB_CURRENT_IMAGE
+EDDA_API_TARGET_IMAGE=edda-api:$RELEASE_TAG
+EDDA_WEB_TARGET_IMAGE=edda-web:$RELEASE_TAG
 EOF
 
 log "captured rollback manifest at '$ARTIFACT_PATH'"
 log "previous: api=$API_CURRENT_IMAGE web=$WEB_CURRENT_IMAGE"
-log "target: api=gm-api:$RELEASE_TAG web=gm-web:$RELEASE_TAG"
+log "target: api=edda-api:$RELEASE_TAG web=edda-web:$RELEASE_TAG"

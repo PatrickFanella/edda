@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const skillCheckToolName = "skill_check"

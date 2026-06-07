@@ -6,7 +6,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 )
 
 // FeatDefinition describes a feat that can be granted to a character.

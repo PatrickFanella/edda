@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 // EntityLookup provides read-only access to existing campaign entities

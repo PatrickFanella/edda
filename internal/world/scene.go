@@ -9,10 +9,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/llmutil"
-	"github.com/PatrickFanella/game-master/internal/prompt"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llmutil"
+	"git.subcult.tv/subculture-collective/edda/internal/prompt"
 )
 
 // SceneResult holds the opening scene narrative and initial player choices

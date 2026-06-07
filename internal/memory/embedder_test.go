@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/memory"
+	"git.subcult.tv/subculture-collective/edda/internal/memory"
 )
 
 // --- stub implementation ------------------------------------------------

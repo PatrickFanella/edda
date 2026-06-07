@@ -3,8 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // ListKnownLanguages returns player-known languages.

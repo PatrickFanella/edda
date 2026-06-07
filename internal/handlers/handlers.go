@@ -8,10 +8,10 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/db"
-	"github.com/PatrickFanella/game-master/internal/engine"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // CampaignHandlers handles campaign CRUD and session history.

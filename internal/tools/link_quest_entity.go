@@ -10,10 +10,10 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 const linkQuestEntityToolName = "link_quest_entity"

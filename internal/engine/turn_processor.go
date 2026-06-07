@@ -7,9 +7,9 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/tools"
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // TurnProcessor handles the tool-call portion of the turn pipeline with

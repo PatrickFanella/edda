@@ -32,8 +32,8 @@ require_var() {
 
 parse_db_url() {
   local regex='^postgres(ql)?://([^:/?#]+)(:([^@/?#]*))?@([^/?#:]+|\[[^]]+\])(:([0-9]+))?/([^?]+)'
-  if [[ ! "$GM_DB_URL" =~ $regex ]]; then
-    die "GM_DB_URL must be a postgres:// URL with explicit user, host, port, and database name"
+  if [[ ! "$EDDA_DB_URL" =~ $regex ]]; then
+    die "EDDA_DB_URL must be a postgres:// URL with explicit user, host, port, and database name"
   fi
 
   DB_HOST=${BASH_REMATCH[5]}
@@ -61,7 +61,7 @@ run_goose_flow() {
 
   docker run --rm \
     --network "$DB_NETWORK" \
-    -e GOOSE_DB_URL="$GM_DB_URL" \
+    -e GOOSE_DB_URL="$EDDA_DB_URL" \
     -e STATUS_BASENAME="$status_basename" \
     -v "$MIGRATIONS_DIR:/migrations:ro" \
     -v "$status_dir:/statusdir" \
@@ -105,7 +105,7 @@ set -a
 . "$ENV_FILE"
 set +a
 
-require_var GM_DB_URL
+require_var EDDA_DB_URL
 parse_db_url
 resolve_network
 

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 // stubLLMProvider is a test double for llm.Provider that returns canned

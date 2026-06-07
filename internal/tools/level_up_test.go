@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 )
 
 type stubLevelUpStore struct {

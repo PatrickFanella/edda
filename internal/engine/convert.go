@@ -1,6 +1,6 @@
 package engine
 
-import "github.com/PatrickFanella/game-master/internal/game"
+import "git.subcult.tv/subculture-collective/edda/internal/game"
 
 // GameStateFromFull projects a full game.GameState (used for LLM context)
 // into the slimmer engine.GameState (used by the TUI and API).

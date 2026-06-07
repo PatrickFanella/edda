@@ -6,7 +6,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/combat"
+	"git.subcult.tv/subculture-collective/edda/internal/combat"
 )
 
 type combatStateJSON struct {

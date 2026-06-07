@@ -6,8 +6,8 @@ package character
 import (
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/PatrickFanella/game-master/tui/msgs"
-	"github.com/PatrickFanella/game-master/tui/styles"
+	"git.subcult.tv/subculture-collective/edda/tui/msgs"
+	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
 

@@ -3,9 +3,9 @@ package engine
 import (
 	"errors"
 
-	"github.com/PatrickFanella/game-master/internal/game"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 // toolMetas defines the category and rules-mode metadata for every tool,

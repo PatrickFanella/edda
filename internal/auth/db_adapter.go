@@ -5,7 +5,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 )
 
 // dbAuthQuerier implements AuthQuerier using raw SQL against a DBTX.

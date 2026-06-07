@@ -31,14 +31,14 @@ Phase 8 complete: journal view with session summaries working, auth functional, 
 
 | #   | Issue                                                            | Title                                      | Size | Blocker | Model  | Notes                              |
 | --- | ---------------------------------------------------------------- | ------------------------------------------ | :--: | ------- | ------ | ---------------------------------- |
-| 1   | [#439](https://github.com/PatrickFanella/game-master/issues/439) | Create replay page route                   |  S   | None    | Sonnet | React Router + stub page           |
-| 2   | [#444](https://github.com/PatrickFanella/game-master/issues/444) | Build replay playback engine               |  L   | #439    | Opus   | Timer state machine, speed control |
-| 3   | [#445](https://github.com/PatrickFanella/game-master/issues/445) | Build replay controls component            |  M   | #444    | Sonnet | Play/pause, speed, skip            |
-| 4   | [#448](https://github.com/PatrickFanella/game-master/issues/448) | Build replay timeline scrubber             |  M   | #444    | Sonnet | Draggable progress bar             |
-| 5   | [#461](https://github.com/PatrickFanella/game-master/issues/461) | Implement typewriter rendering in replay   |  M   | #444    | Sonnet | Animated text at playback speed    |
-| 6   | [#469](https://github.com/PatrickFanella/game-master/issues/469) | Replay sidebar with point-in-time state    |  L   | #444    | Opus   | Reconstruct state per turn         |
-| 7   | [#474](https://github.com/PatrickFanella/game-master/issues/474) | Add "Watch Replay" button to campaign list |  S   | #439    | Sonnet | Navigation button                  |
-| 8   | [#482](https://github.com/PatrickFanella/game-master/issues/482) | Optional: Replay sharing with URL          |  M   | #439    | Sonnet | Shareable link (if auth exists)    |
+| 1   | [#439](https://git.subcult.tv/subculture-collective/edda/issues/439) | Create replay page route                   |  S   | None    | Sonnet | React Router + stub page           |
+| 2   | [#444](https://git.subcult.tv/subculture-collective/edda/issues/444) | Build replay playback engine               |  L   | #439    | Opus   | Timer state machine, speed control |
+| 3   | [#445](https://git.subcult.tv/subculture-collective/edda/issues/445) | Build replay controls component            |  M   | #444    | Sonnet | Play/pause, speed, skip            |
+| 4   | [#448](https://git.subcult.tv/subculture-collective/edda/issues/448) | Build replay timeline scrubber             |  M   | #444    | Sonnet | Draggable progress bar             |
+| 5   | [#461](https://git.subcult.tv/subculture-collective/edda/issues/461) | Implement typewriter rendering in replay   |  M   | #444    | Sonnet | Animated text at playback speed    |
+| 6   | [#469](https://git.subcult.tv/subculture-collective/edda/issues/469) | Replay sidebar with point-in-time state    |  L   | #444    | Opus   | Reconstruct state per turn         |
+| 7   | [#474](https://git.subcult.tv/subculture-collective/edda/issues/474) | Add "Watch Replay" button to campaign list |  S   | #439    | Sonnet | Navigation button                  |
+| 8   | [#482](https://git.subcult.tv/subculture-collective/edda/issues/482) | Optional: Replay sharing with URL          |  M   | #439    | Sonnet | Shareable link (if auth exists)    |
 
 **#439 first. Then #444 (core engine). Then #445, #448, #461 in parallel (UI components). Then #469 (state reconstruction — complex). #474 anytime after #439. #482 last (stretch goal).**
 
@@ -53,12 +53,12 @@ Phase 8 complete: journal view with session summaries working, auth functional, 
 
 | #   | Issue                                                            | Title                                          | Size | Blocker   | Model  | Notes                            |
 | --- | ---------------------------------------------------------------- | ---------------------------------------------- | :--: | --------- | ------ | -------------------------------- |
-| 1   | [#486](https://github.com/PatrickFanella/game-master/issues/486) | Implement JSON export endpoint                 |  M   | None      | Sonnet | Aggregate all campaign tables    |
-| 2   | [#488](https://github.com/PatrickFanella/game-master/issues/488) | Implement markdown transcript export           |  M   | None      | Sonnet | Template-based, turn-by-turn     |
-| 3   | [#489](https://github.com/PatrickFanella/game-master/issues/489) | Implement markdown character sheet export      |  S   | None      | Sonnet | Single character document        |
-| 4   | [#490](https://github.com/PatrickFanella/game-master/issues/490) | Implement PDF export endpoint                  |  L   | None      | Opus   | Go PDF library, Art Deco styling |
-| 5   | [#491](https://github.com/PatrickFanella/game-master/issues/491) | Add export button with format selection dialog |  M   | #486-#490 | Sonnet | Frontend modal + download        |
-| 6   | [#492](https://github.com/PatrickFanella/game-master/issues/492) | Add loading indicator for PDF export           |  S   | #491      | Sonnet | Progress during generation       |
+| 1   | [#486](https://git.subcult.tv/subculture-collective/edda/issues/486) | Implement JSON export endpoint                 |  M   | None      | Sonnet | Aggregate all campaign tables    |
+| 2   | [#488](https://git.subcult.tv/subculture-collective/edda/issues/488) | Implement markdown transcript export           |  M   | None      | Sonnet | Template-based, turn-by-turn     |
+| 3   | [#489](https://git.subcult.tv/subculture-collective/edda/issues/489) | Implement markdown character sheet export      |  S   | None      | Sonnet | Single character document        |
+| 4   | [#490](https://git.subcult.tv/subculture-collective/edda/issues/490) | Implement PDF export endpoint                  |  L   | None      | Opus   | Go PDF library, Art Deco styling |
+| 5   | [#491](https://git.subcult.tv/subculture-collective/edda/issues/491) | Add export button with format selection dialog |  M   | #486-#490 | Sonnet | Frontend modal + download        |
+| 6   | [#492](https://git.subcult.tv/subculture-collective/edda/issues/492) | Add loading indicator for PDF export           |  S   | #491      | Sonnet | Progress during generation       |
 
 **#486, #488, #489, #490 all in parallel (each is an independent endpoint). Then #491 (frontend). Then #492.**
 

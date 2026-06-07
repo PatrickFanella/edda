@@ -6,8 +6,8 @@ usage() {
   cat >&2 <<'EOF'
 Usage: bash scripts/rollback_prod.sh <env-file> <rollback-manifest> <db-dump>
 
-Default mode is simulation (`GM_ROLLBACK_MODE=simulate`).
-Set `GM_ROLLBACK_MODE=apply` to perform the rollback on a staging-safe target.
+Default mode is simulation (`EDDA_ROLLBACK_MODE=simulate`).
+Set `EDDA_ROLLBACK_MODE=apply` to perform the rollback on a staging-safe target.
 
 Simulation validates the manifest, dump, compose env/Caddy restore plan, and exact Docker/DB commands without mutating the running deployment.
 EOF
@@ -81,7 +81,7 @@ load_manifest_file() {
     value=${line#*=}
 
     case "$key" in
-      GM_RELEASE_TAG|GM_API_PREVIOUS_IMAGE|GM_WEB_PREVIOUS_IMAGE|GM_API_TARGET_IMAGE|GM_WEB_TARGET_IMAGE|DEPLOY_ENV_FILE|DEPLOY_COMPOSE_FILE|DEPLOY_RUN_DIR|DEPLOY_IMAGE_SOURCE|DEPLOY_BACKUP_ARTIFACT|DEPLOY_CADDY_SOURCE_CONFIG|DEPLOY_PUBLIC_HOSTNAME|DEPLOY_COMPOSE_ENV_PATH|CADDY_CONTAINER_NAME|CADDY_SITE_CONFIG_PATH|CADDY_RUN_CONFIG_PATH|CADDY_RUN_CONFIG_ADAPTER|DEPLOY_PRE_CUTOVER_STATE|DEPLOY_COMPOSE_ENV_STAGED_FROM|DEPLOY_COMPOSE_ENV_BACKUP|DEPLOY_POST_CUTOVER_STATE|DEPLOY_POST_COMPOSE_INSPECT|CADDY_BACKUP_METADATA)
+      EDDA_RELEASE_TAG|EDDA_API_PREVIOUS_IMAGE|EDDA_WEB_PREVIOUS_IMAGE|EDDA_API_TARGET_IMAGE|EDDA_WEB_TARGET_IMAGE|DEPLOY_ENV_FILE|DEPLOY_COMPOSE_FILE|DEPLOY_RUN_DIR|DEPLOY_IMAGE_SOURCE|DEPLOY_BACKUP_ARTIFACT|DEPLOY_CADDY_SOURCE_CONFIG|DEPLOY_PUBLIC_HOSTNAME|DEPLOY_COMPOSE_ENV_PATH|CADDY_CONTAINER_NAME|CADDY_SITE_CONFIG_PATH|CADDY_RUN_CONFIG_PATH|CADDY_RUN_CONFIG_ADAPTER|DEPLOY_PRE_CUTOVER_STATE|DEPLOY_COMPOSE_ENV_STAGED_FROM|DEPLOY_COMPOSE_ENV_BACKUP|DEPLOY_POST_CUTOVER_STATE|DEPLOY_POST_COMPOSE_INSPECT|CADDY_BACKUP_METADATA)
         printf -v "$key" '%s' "$value"
         ;;
       *)
@@ -93,8 +93,8 @@ load_manifest_file() {
 
 parse_db_url() {
   local regex='^postgres(ql)?://([^:/?#]+)(:([^@/?#]*))?@([^/?#:]+|\[[^]]+\])(:([0-9]+))?/([^?]+)'
-  if [[ ! "$GM_DB_URL" =~ $regex ]]; then
-    die "GM_DB_URL must be a postgres:// URL with explicit user, host, port, and database name"
+  if [[ ! "$EDDA_DB_URL" =~ $regex ]]; then
+    die "EDDA_DB_URL must be a postgres:// URL with explicit user, host, port, and database name"
   fi
 
   DB_USER=${BASH_REMATCH[2]}
@@ -159,19 +159,19 @@ stage_compose_env_for_rollback() {
     log "compose env backup unavailable; staged current env '$ENV_FILE' -> '$COMPOSE_ENV_PATH'"
   fi
 
-  set_or_append_env_key "$COMPOSE_ENV_PATH" GM_RELEASE_TAG "$ROLLBACK_RELEASE_TAG"
+  set_or_append_env_key "$COMPOSE_ENV_PATH" EDDA_RELEASE_TAG "$ROLLBACK_RELEASE_TAG"
   chmod 600 "$COMPOSE_ENV_PATH"
 }
 
 tag_previous_images_for_compose() {
   require_previous_images_present
-  docker tag "$GM_API_PREVIOUS_IMAGE" "gm-api:$ROLLBACK_RELEASE_TAG"
-  docker tag "$GM_WEB_PREVIOUS_IMAGE" "gm-web:$ROLLBACK_RELEASE_TAG"
+  docker tag "$EDDA_API_PREVIOUS_IMAGE" "edda-api:$ROLLBACK_RELEASE_TAG"
+  docker tag "$EDDA_WEB_PREVIOUS_IMAGE" "edda-web:$ROLLBACK_RELEASE_TAG"
 }
 
 require_previous_images_present() {
-  docker image inspect "$GM_API_PREVIOUS_IMAGE" >/dev/null 2>&1 || die "previous API image '$GM_API_PREVIOUS_IMAGE' is not present locally"
-  docker image inspect "$GM_WEB_PREVIOUS_IMAGE" >/dev/null 2>&1 || die "previous web image '$GM_WEB_PREVIOUS_IMAGE' is not present locally"
+  docker image inspect "$EDDA_API_PREVIOUS_IMAGE" >/dev/null 2>&1 || die "previous API image '$EDDA_API_PREVIOUS_IMAGE' is not present locally"
+  docker image inspect "$EDDA_WEB_PREVIOUS_IMAGE" >/dev/null 2>&1 || die "previous web image '$EDDA_WEB_PREVIOUS_IMAGE' is not present locally"
 }
 
 restore_caddy_snapshot() {
@@ -223,7 +223,7 @@ restore_db_dump() {
       --no-owner \
       --no-privileges \
       --exit-on-error \
-      --dbname="$GM_DB_URL" < "$DUMP_FILE"
+      --dbname="$EDDA_DB_URL" < "$DUMP_FILE"
     return 0
   fi
 
@@ -233,7 +233,7 @@ restore_db_dump() {
     --no-owner \
     --no-privileges \
     --exit-on-error \
-    --dbname="$GM_DB_URL" < "$DUMP_FILE"
+    --dbname="$EDDA_DB_URL" < "$DUMP_FILE"
 }
 
 wait_for_container_state() {
@@ -264,10 +264,10 @@ remove_target_container_if_present() {
 }
 
 quiesce_application_containers() {
-  validate_existing_target_container "$GM_API_CONTAINER_NAME" api
-  validate_existing_target_container "$GM_WEB_CONTAINER_NAME" web
-  remove_target_container_if_present "$GM_API_CONTAINER_NAME"
-  remove_target_container_if_present "$GM_WEB_CONTAINER_NAME"
+  validate_existing_target_container "$EDDA_API_CONTAINER_NAME" api
+  validate_existing_target_container "$EDDA_WEB_CONTAINER_NAME" web
+  remove_target_container_if_present "$EDDA_API_CONTAINER_NAME"
+  remove_target_container_if_present "$EDDA_WEB_CONTAINER_NAME"
 }
 
 simulate_plan() {
@@ -275,12 +275,12 @@ simulate_plan() {
 
   require_previous_images_present
 
-  if docker image inspect "$GM_API_PREVIOUS_IMAGE" >/dev/null 2>&1; then
+  if docker image inspect "$EDDA_API_PREVIOUS_IMAGE" >/dev/null 2>&1; then
     api_image_present=yes
   else
     api_image_present=no
   fi
-  if docker image inspect "$GM_WEB_PREVIOUS_IMAGE" >/dev/null 2>&1; then
+  if docker image inspect "$EDDA_WEB_PREVIOUS_IMAGE" >/dev/null 2>&1; then
     web_image_present=yes
   else
     web_image_present=no
@@ -291,22 +291,22 @@ Rollback mode: simulate
 Compose file: $COMPOSE_FILE
 Compose env path: $COMPOSE_ENV_PATH
 Compose env backup: ${DEPLOY_COMPOSE_ENV_BACKUP:-none}
-API container name: $GM_API_CONTAINER_NAME
-Web container name: $GM_WEB_CONTAINER_NAME
+API container name: $EDDA_API_CONTAINER_NAME
+Web container name: $EDDA_WEB_CONTAINER_NAME
 Rollback release tag: $ROLLBACK_RELEASE_TAG
-Previous API image: $GM_API_PREVIOUS_IMAGE (present locally: $api_image_present)
-Previous web image: $GM_WEB_PREVIOUS_IMAGE (present locally: $web_image_present)
+Previous API image: $EDDA_API_PREVIOUS_IMAGE (present locally: $api_image_present)
+Previous web image: $EDDA_WEB_PREVIOUS_IMAGE (present locally: $web_image_present)
 DB dump: $DUMP_FILE
-DB target: $GM_DB_URL
+DB target: $EDDA_DB_URL
 DB restore strategy: pg_restore --clean --if-exists --no-owner --no-privileges --exit-on-error
 Caddy metadata: ${CADDY_BACKUP_METADATA_FILE:-none}
 
 Planned apply sequence:
   1. Validate dump with pg_restore --list
-  2. docker tag "$GM_API_PREVIOUS_IMAGE" "gm-api:$ROLLBACK_RELEASE_TAG"
-  3. docker tag "$GM_WEB_PREVIOUS_IMAGE" "gm-web:$ROLLBACK_RELEASE_TAG"
-  4. Restore compose env backup to '$COMPOSE_ENV_PATH' and force GM_RELEASE_TAG=$ROLLBACK_RELEASE_TAG
-  5. docker rm -f $GM_API_CONTAINER_NAME $GM_WEB_CONTAINER_NAME (when present) to quiesce app containers before DB restore
+  2. docker tag "$EDDA_API_PREVIOUS_IMAGE" "edda-api:$ROLLBACK_RELEASE_TAG"
+  3. docker tag "$EDDA_WEB_PREVIOUS_IMAGE" "edda-web:$ROLLBACK_RELEASE_TAG"
+  4. Restore compose env backup to '$COMPOSE_ENV_PATH' and force EDDA_RELEASE_TAG=$ROLLBACK_RELEASE_TAG
+  5. docker rm -f $EDDA_API_CONTAINER_NAME $EDDA_WEB_CONTAINER_NAME (when present) to quiesce app containers before DB restore
   6. Restore DB from '$DUMP_FILE' with pg_restore; do not run goose down or reverse migrations
   7. docker compose -f "$COMPOSE_FILE" --env-file "$COMPOSE_ENV_PATH" up -d --no-build --force-recreate api web
   8. Restore Caddy snapshot when metadata is present
@@ -338,8 +338,8 @@ apply_rollback() {
 
   log "restoring previous application images via docker compose"
   docker compose -f "$COMPOSE_FILE" --env-file "$COMPOSE_ENV_PATH" up -d --no-build --force-recreate api web
-  wait_for_container_state "$GM_API_CONTAINER_NAME" running
-  wait_for_container_state "$GM_WEB_CONTAINER_NAME" running
+  wait_for_container_state "$EDDA_API_CONTAINER_NAME" running
+  wait_for_container_state "$EDDA_WEB_CONTAINER_NAME" running
 
   log "restoring prior Caddy snapshot when present"
   restore_caddy_snapshot
@@ -368,7 +368,7 @@ fi
 ENV_FILE=$1
 MANIFEST_FILE=$2
 DUMP_FILE=$3
-ROLLBACK_MODE=${GM_ROLLBACK_MODE:-simulate}
+ROLLBACK_MODE=${EDDA_ROLLBACK_MODE:-simulate}
 
 require_file "$ENV_FILE"
 require_file "$MANIFEST_FILE"
@@ -398,22 +398,22 @@ set +a
 
 load_manifest_file "$MANIFEST_FILE"
 
-require_var GM_DB_URL
-require_var GM_RELEASE_TAG
-require_var GM_API_PREVIOUS_IMAGE
-require_var GM_WEB_PREVIOUS_IMAGE
+require_var EDDA_DB_URL
+require_var EDDA_RELEASE_TAG
+require_var EDDA_API_PREVIOUS_IMAGE
+require_var EDDA_WEB_PREVIOUS_IMAGE
 
 COMPOSE_FILE=${DEPLOY_COMPOSE_FILE:-$REPO_ROOT/docker-compose.prod.yml}
 COMPOSE_ENV_PATH=${DEPLOY_COMPOSE_ENV_PATH:-$REPO_ROOT/.env}
 CADDY_BACKUP_METADATA_FILE=${CADDY_BACKUP_METADATA:-}
 ROLLBACK_RELEASE_TAG="rollback-previous"
-GM_API_CONTAINER_NAME=${GM_API_CONTAINER_NAME:-gm-api}
-GM_WEB_CONTAINER_NAME=${GM_WEB_CONTAINER_NAME:-gm-web}
+EDDA_API_CONTAINER_NAME=${EDDA_API_CONTAINER_NAME:-edda-api}
+EDDA_WEB_CONTAINER_NAME=${EDDA_WEB_CONTAINER_NAME:-edda-web}
 
-validate_release_tag "$GM_RELEASE_TAG"
+validate_release_tag "$EDDA_RELEASE_TAG"
 validate_release_tag "$ROLLBACK_RELEASE_TAG"
-validate_container_name "$GM_API_CONTAINER_NAME" "GM_API_CONTAINER_NAME"
-validate_container_name "$GM_WEB_CONTAINER_NAME" "GM_WEB_CONTAINER_NAME"
+validate_container_name "$EDDA_API_CONTAINER_NAME" "EDDA_API_CONTAINER_NAME"
+validate_container_name "$EDDA_WEB_CONTAINER_NAME" "EDDA_WEB_CONTAINER_NAME"
 
 require_file "$COMPOSE_FILE"
 
@@ -429,7 +429,7 @@ case "$ROLLBACK_MODE" in
     apply_rollback
     ;;
   *)
-    die "GM_ROLLBACK_MODE must be 'simulate' or 'apply'"
+    die "EDDA_ROLLBACK_MODE must be 'simulate' or 'apply'"
     ;;
 esac
 

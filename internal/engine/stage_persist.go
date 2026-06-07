@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 )
 
 // persistStage saves the session log, snapshots quests, triggers auto-save,

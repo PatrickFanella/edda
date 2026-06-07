@@ -6,7 +6,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 )
 
 // SkillDefinition describes a skill that can be allocated to a character.

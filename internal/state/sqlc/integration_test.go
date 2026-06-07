@@ -21,13 +21,13 @@ import (
 	"github.com/pressly/goose/v3"
 	tcpostgres "github.com/testcontainers/testcontainers-go/modules/postgres"
 
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 const (
-	testDBName    = "game_master_test"
-	testDBUser    = "game_master"
-	testDBPass    = "game_master"
+	testDBName    = "edda_test"
+	testDBUser    = "edda"
+	testDBPass    = "edda"
 	migrationsDir = "../../../migrations"
 	vectorDim     = 1536
 )
@@ -251,7 +251,7 @@ func TestIntegrationMigrationsDown(t *testing.T) {
 	}
 	defer conn.Release()
 
-	const downDB = "game_master_down_test"
+	const downDB = "edda_down_test"
 	if _, err := conn.Exec(ctx, fmt.Sprintf("CREATE DATABASE %q", downDB)); err != nil {
 		t.Fatalf("CREATE DATABASE: %v", err)
 	}

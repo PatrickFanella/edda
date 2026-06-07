@@ -10,7 +10,7 @@ import (
 	"github.com/coder/websocket"
 	"github.com/coder/websocket/wsjson"
 
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // wsActionMessage is the client-to-server message envelope.

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
 )
 
 // LLMProvider is an alias for the provider interface used by the game engine.
@@ -31,7 +31,7 @@ func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
 		return NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()), nil
 	case "claude":
 		if strings.TrimSpace(cfg.LLM.Claude.APIKey) == "" {
-			return nil, errors.New("claude provider unavailable: missing api key (set llm.claude.apikey, GM_LLM_CLAUDE_APIKEY, GM_CLAUDE_API_KEY, or ANTHROPIC_API_KEY)")
+			return nil, errors.New("claude provider unavailable: missing api key (set llm.claude.apikey, EDDA_LLM_CLAUDE_APIKEY, or ANTHROPIC_API_KEY)")
 		}
 		return NewClaudeClient("", cfg.LLM.Claude.APIKey, cfg.LLM.Claude.Model), nil
 	default:
