@@ -136,7 +136,8 @@ func newLLMProvider(cfg config.Config) (llm.Provider, error) {
 	case "claude":
 		return llm.NewClaudeClient("", cfg.LLM.Claude.APIKey, cfg.LLM.Claude.Model), nil
 	case "ollama":
-		return llm.NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()), nil
+		return llm.NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()).
+			WithAPIKey(cfg.LLM.Ollama.APIKey), nil
 	default:
 		return nil, fmt.Errorf("unknown llm provider: %q", cfg.LLM.Provider)
 	}

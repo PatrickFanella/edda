@@ -19,12 +19,16 @@ type DBConfig struct {
 	URL string `koanf:"url"`
 }
 
-// OllamaConfig holds Ollama-specific LLM settings.
+// OllamaConfig holds Ollama-specific LLM settings. APIKey is optional and is
+// only required when the configured endpoint points at a llama-line broker
+// fronting ollama (which requires a Bearer token on inference/passthrough
+// requests). When empty, requests are sent to a vanilla ollama server.
 type OllamaConfig struct {
 	Endpoint           string `koanf:"endpoint"`
 	EmbeddingEndpoint  string `koanf:"embeddingendpoint"`
 	Model              string `koanf:"model"`
 	EmbeddingModel     string `koanf:"embeddingmodel"`
+	APIKey             string `koanf:"apikey"`
 	ContextTokenBudget int    `koanf:"contexttokenbudget"`
 	TimeoutSeconds     int    `koanf:"timeoutseconds"`
 }
@@ -98,6 +102,7 @@ func Load(path string) (Config, error) {
 		"llm.ollama.model":              "qwen3:14b",
 		"llm.ollama.embeddingendpoint": "",
 		"llm.ollama.embeddingmodel":     "nomic-embed-text",
+		"llm.ollama.apikey":             "",
 		"llm.ollama.contexttokenbudget": 8000,
 		"llm.ollama.timeoutseconds":     180,
 		"llm.claude.model":              "claude-sonnet-4-6",

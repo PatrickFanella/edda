@@ -101,6 +101,7 @@ func run(args []string) int {
 		embedder := memory.NewOllamaEmbedder(
 			embedEndpoint, cfg.LLM.Ollama.EmbeddingModel,
 			memory.WithOllamaEmbedderTimeout(cfg.LLM.Ollama.RequestTimeout()),
+			memory.WithOllamaEmbedderAPIKey(cfg.LLM.Ollama.APIKey),
 		)
 		searcher := memory.NewSearcher(embedder, queries)
 		tier3 := assembly.NewTier3Retriever(searcher, 5, slog.Default().WithGroup("tier3"))

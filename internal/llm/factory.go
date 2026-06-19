@@ -25,10 +25,11 @@ const (
 func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
 	switch cfg.LLM.Provider {
 	case "ollama":
-		if err := validateOllamaEndpoint(cfg.LLM.Ollama.Endpoint); err != nil {
+		if err := validateOllamaEndpoint(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.APIKey); err != nil {
 			return nil, err
 		}
-		return NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()), nil
+		return NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()).
+			WithAPIKey(cfg.LLM.Ollama.APIKey), nil
 	case "claude":
 		if strings.TrimSpace(cfg.LLM.Claude.APIKey) == "" {
 			return nil, errors.New("claude provider unavailable: missing api key (set llm.claude.apikey, EDDA_LLM_CLAUDE_APIKEY, or ANTHROPIC_API_KEY)")
@@ -39,7 +40,7 @@ func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
 	}
 }
 
-func validateOllamaEndpoint(baseURL string) error {
+func validateOllamaEndpoint(baseURL, apiKey string) error {
 	if baseURL == "" {
 		baseURL = defaultOllamaBaseURL
 	}
@@ -63,6 +64,11 @@ func validateOllamaEndpoint(baseURL string) error {
 	req, err := http.NewRequest(http.MethodGet, tagsURL, nil)
 	if err != nil {
 		return fmt.Errorf("ollama provider unavailable: failed to build health-check request: %w", err)
+	}
+	// /api/tags is a passthrough endpoint on the llama-line broker but still
+	// requires the Bearer token. Vanilla ollama ignores the header.
+	if key := strings.TrimSpace(apiKey); key != "" {
+		req.Header.Set("Authorization", "Bearer "+key)
 	}
 
 	resp, err := client.Do(req)

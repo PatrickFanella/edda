@@ -5,11 +5,11 @@ networks:
 
 services:
   api:
-    image: edda-api:${EDDA_RELEASE_TAG:-latest}
+    image: gm-api:${GM_RELEASE_TAG:-latest}
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: ${EDDA_API_CONTAINER_NAME:-edda-api}
+    container_name: ${GM_API_CONTAINER_NAME:-gm-api}
     restart: unless-stopped
     env_file: .env
     ports:
@@ -18,17 +18,17 @@ services:
       - projects
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/healthz"]
-      interval: 60s
+      interval: 15s
       timeout: 3s
       start_period: 10s
       retries: 3
 
   web:
-    image: edda-web:${EDDA_RELEASE_TAG:-latest}
+    image: gm-web:${GM_RELEASE_TAG:-latest}
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: ${EDDA_WEB_CONTAINER_NAME:-edda-web}
+    container_name: ${GM_WEB_CONTAINER_NAME:-gm-web}
     restart: unless-stopped
     ports:
       - "10.0.0.56:${GM_WEB_HOST_PORT:-3035}:80"
