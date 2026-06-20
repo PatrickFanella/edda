@@ -1,0 +1,7 @@
+Negative auth smoke succeeded.
+Target: https://edda.subcult.tv/api/v1/auth/me
+Resolved mode: public
+Resolve IP: none
+HTTP status: 401
+Headers: /srv/server/projects/edda/.sisyphus/evidence/task-8-smoke-20260620T055253Z/auth-me-unauthorized-headers.txt
+Body: /srv/server/projects/edda/.sisyphus/evidence/task-8-smoke-20260620T055253Z/auth-me-unauthorized-body.txt
