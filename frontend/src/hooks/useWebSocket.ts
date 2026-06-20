@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import type { ActionRequest, WebSocketStatusPayload } from '../api/types';
 import { buildCampaignWebSocketURL, decodeWebSocketEvent, type ParsedWebSocketEvent } from '../api/websocket';
+export type { NarrativeChoice, TurnResponseWithChoices } from '../api/websocketParser';
 
 export type ConnectionStatus = 'idle' | 'connecting' | 'open' | 'closed' | 'error';
 
