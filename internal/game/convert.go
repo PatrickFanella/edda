@@ -18,7 +18,7 @@ func userToDomain(u statedb.User) *domain.User {
 }
 
 func campaignToDomain(c statedb.Campaign) domain.Campaign {
-	rulesMode := domain.RulesMode(c.RulesMode.String)
+	rulesMode := domain.RulesMode(c.RulesMode)
 	if rulesMode == "" {
 		rulesMode = domain.RulesModeNarrative
 	}

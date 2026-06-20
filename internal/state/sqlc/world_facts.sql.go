@@ -16,21 +16,24 @@ INSERT INTO world_facts (
   campaign_id,
   fact,
   category,
-  source
+  source,
+  player_known
 ) VALUES (
   $1,
   $2,
   $3,
-  $4
+  $4,
+  $5
 )
 RETURNING id, campaign_id, fact, category, source, superseded_by, created_at, player_known
 `
 
 type CreateFactParams struct {
-	CampaignID pgtype.UUID
-	Fact       string
-	Category   string
-	Source     string
+	CampaignID  pgtype.UUID
+	Fact        string
+	Category    string
+	Source      string
+	PlayerKnown bool
 }
 
 func (q *Queries) CreateFact(ctx context.Context, arg CreateFactParams) (WorldFact, error) {
@@ -39,6 +42,7 @@ func (q *Queries) CreateFact(ctx context.Context, arg CreateFactParams) (WorldFa
 		arg.Fact,
 		arg.Category,
 		arg.Source,
+		arg.PlayerKnown,
 	)
 	var i WorldFact
 	err := row.Scan(

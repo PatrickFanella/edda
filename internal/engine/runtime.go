@@ -137,6 +137,7 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 	result := &TurnResult{
 		Narrative:        tc.Narrative,
 		AppliedToolCalls: tc.Applied,
+		StateChanges:     StateChangesFromAppliedToolCalls(tc.Applied),
 		Choices:          tc.Choices,
 		CombatActive:     tc.CombatActive,
 	}

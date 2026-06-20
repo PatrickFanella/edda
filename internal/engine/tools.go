@@ -22,6 +22,7 @@ var toolMetas = []tools.ToolMeta{
 	{Name: "establish_fact", Category: tools.CategoryBase},
 	{Name: "revise_fact", Category: tools.CategoryBase},
 	{Name: "update_npc", Category: tools.CategoryBase},
+	{Name: "update_player_hp", Category: tools.CategoryExploration},
 	{Name: "add_item", Category: tools.CategoryBase},
 	{Name: "remove_item", Category: tools.CategoryBase},
 	{Name: "modify_item", Category: tools.CategoryBase},
@@ -129,6 +130,7 @@ func registerAllTools(registry *tools.Registry, queries statedb.Querier, embedde
 	errs = appendErr(errs, tools.RegisterCombatRound(registry, nil))
 	errs = appendErr(errs, tools.RegisterApplyDamage(registry))
 	errs = appendErr(errs, tools.RegisterApplyCondition(registry))
+	errs = appendErr(errs, tools.RegisterUpdatePlayerHP(registry, combatSvc))
 	errs = appendErr(errs, tools.RegisterUpdatePlayerStats(registry, combatSvc))
 	errs = appendErr(errs, tools.RegisterUpdatePlayerStatus(registry, combatSvc))
 	errs = appendErr(errs, tools.RegisterAddExperience(registry, progressionSvc))

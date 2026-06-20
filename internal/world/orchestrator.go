@@ -9,6 +9,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/rules"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
@@ -204,7 +205,7 @@ func resolveStartingLocation(ctx context.Context, q statedb.Querier, campaignPgI
 	var match uuid.UUID
 	count := 0
 	for _, loc := range locations {
-		if loc.Name == name {
+		if domain.SameCanonicalLocationName(loc.Name, name) {
 			if loc.ID.Valid {
 				match = loc.ID.Bytes
 				count++

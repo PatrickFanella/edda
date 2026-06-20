@@ -30,6 +30,9 @@ func TestLoadUsesDefaultsWhenFileIsMissing(t *testing.T) {
 	if cfg.LLM.Ollama.TimeoutSeconds != 600 {
 		t.Fatalf("unexpected default ollama timeout seconds: %d", cfg.LLM.Ollama.TimeoutSeconds)
 	}
+	if cfg.LLM.Ollama.EmbeddingDimension != 768 {
+		t.Fatalf("unexpected default ollama embedding dimension: %d", cfg.LLM.Ollama.EmbeddingDimension)
+	}
 }
 
 func TestLoadMergesFileAndEnvironment(t *testing.T) {
@@ -70,6 +73,9 @@ llm:
 	}
 	if cfg.LLM.Ollama.Model != "file-model" {
 		t.Fatalf("expected model from file, got %q", cfg.LLM.Ollama.Model)
+	}
+	if cfg.LLM.Ollama.EmbeddingDimension != 768 {
+		t.Fatalf("expected embedding dimension default, got %d", cfg.LLM.Ollama.EmbeddingDimension)
 	}
 }
 
@@ -140,6 +146,19 @@ func TestLoadOllamaTimeoutFromEnv(t *testing.T) {
 	}
 	if cfg.LLM.Ollama.TimeoutSeconds != 240 {
 		t.Fatalf("expected ollama timeout seconds from env, got %d", cfg.LLM.Ollama.TimeoutSeconds)
+	}
+}
+
+func TestLoadOllamaEmbeddingDimensionFromEnv(t *testing.T) {
+	t.Setenv("EDDA_LLM_PROVIDER", "ollama")
+	t.Setenv("EDDA_LLM_OLLAMA_EMBEDDINGDIMENSION", "1024")
+
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if cfg.LLM.Ollama.EmbeddingDimension != 1024 {
+		t.Fatalf("expected ollama embedding dimension from env, got %d", cfg.LLM.Ollama.EmbeddingDimension)
 	}
 }
 
@@ -290,6 +309,9 @@ func TestValidateAcceptsValidProviders(t *testing.T) {
 	for _, provider := range []string{"ollama", "claude"} {
 		t.Run(provider, func(t *testing.T) {
 			cfg := Config{LLM: LLMConfig{Provider: provider}}
+			if provider == "ollama" {
+				cfg.LLM.Ollama.EmbeddingDimension = 768
+			}
 			if provider == "claude" {
 				cfg.LLM.Claude.APIKey = "sk-ant-test"
 			}

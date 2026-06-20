@@ -53,6 +53,7 @@ func TestMovePlayerHandleConnectedLocation(t *testing.T) {
 		result: &domain.MovePlayerResult{
 			ToLocationName:        "Ancient Gate",
 			ToLocationDescription: "A ruined gate covered in glowing runes.",
+			ToLocationType:        "ruins",
 			TravelTime:            "1 hour",
 			Day:                   1,
 			Hour:                  9,
@@ -77,6 +78,9 @@ func TestMovePlayerHandleConnectedLocation(t *testing.T) {
 	}
 	if got.Data["description"] != "A ruined gate covered in glowing runes." {
 		t.Fatalf("result description = %v, want expected description", got.Data["description"])
+	}
+	if got.Data["location_type"] != "ruins" {
+		t.Fatalf("result location_type = %v, want ruins", got.Data["location_type"])
 	}
 }
 

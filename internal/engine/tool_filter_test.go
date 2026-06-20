@@ -31,6 +31,7 @@ func testRegistry() *tools.Registry {
 		{Name: "establish_fact", Category: tools.CategoryBase},
 		{Name: "revise_fact", Category: tools.CategoryBase},
 		{Name: "update_npc", Category: tools.CategoryBase},
+		{Name: "update_player_hp", Category: tools.CategoryExploration},
 		{Name: "add_item", Category: tools.CategoryBase},
 		{Name: "remove_item", Category: tools.CategoryBase},
 		{Name: "modify_item", Category: tools.CategoryBase},
@@ -98,7 +99,7 @@ func allTestTools() []llm.Tool {
 		"create_quest", "create_subquest", "update_quest", "complete_objective",
 		"branch_quest", "link_quest_entity",
 		// progression
-		"add_experience", "level_up", "update_player_stats", "update_player_status",
+		"add_experience", "level_up", "update_player_stats", "update_player_status", "update_player_hp",
 	}
 	tools := make([]llm.Tool, len(names))
 	for i, n := range names {
@@ -235,7 +236,7 @@ func TestFilter_Exploration_HasWorldBuildingTools(t *testing.T) {
 	got := f.Filter(state, allTestTools())
 
 	hasAll(t, got, "create_npc", "create_location", "create_faction",
-		"create_language", "initiate_combat")
+		"create_language", "initiate_combat", "update_player_hp")
 }
 
 func TestFilter_Exploration_NoCombatRoundTools(t *testing.T) {
@@ -270,12 +271,54 @@ func TestFilter_QuestToolsWhenNPCsPresent(t *testing.T) {
 	hasAll(t, got, "create_quest", "update_quest")
 }
 
-func TestFilter_NoQuestToolsWhenNoQuestsOrNPCs(t *testing.T) {
+func TestFilter_QuestCreationAvailableWithoutExistingQuestOrNPC(t *testing.T) {
 	f := NewPhaseToolFilter(testRegistry())
-	state := &game.GameState{Player: domain.PlayerCharacter{Status: "active"}}
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "active"}, RulesMode: "light"}
 	got := f.Filter(state, allTestTools())
 
-	hasNone(t, got, "create_quest", "update_quest", "complete_objective")
+	hasAll(t, got, "create_quest")
+	hasNone(t, got, "update_quest", "complete_objective", "branch_quest", "link_quest_entity")
+}
+
+func TestFilter_CombatDoesNotExposeFirstQuestCreation(t *testing.T) {
+	f := NewPhaseToolFilter(testRegistry())
+	state := &game.GameState{Player: domain.PlayerCharacter{Status: "in_combat"}, RulesMode: "light"}
+	got := f.Filter(state, allTestTools())
+
+	hasNone(t, got, "create_quest")
+}
+
+func TestFilter_PlayerStatusAvailableDuringExploration(t *testing.T) {
+	f := NewPhaseToolFilter(testRegistry())
+	state := &game.GameState{
+		Player:    domain.PlayerCharacter{Status: "active", Level: 1, Experience: 0},
+		RulesMode: "light",
+	}
+	got := f.Filter(state, allTestTools())
+
+	hasAll(t, got, "update_player_status")
+}
+
+func TestFilter_PlayerHPUpdateAvailableDuringExploration(t *testing.T) {
+	f := NewPhaseToolFilter(testRegistry())
+	state := &game.GameState{
+		Player:    domain.PlayerCharacter{Status: "active", Level: 1, Experience: 0},
+		RulesMode: "light",
+	}
+	got := f.Filter(state, allTestTools())
+
+	hasAll(t, got, "update_player_hp")
+}
+
+func TestFilter_PlayerHPUpdateNotAvailableDuringCombat(t *testing.T) {
+	f := NewPhaseToolFilter(testRegistry())
+	state := &game.GameState{
+		Player:    domain.PlayerCharacter{Status: "in_combat", Level: 1, Experience: 0},
+		RulesMode: "light",
+	}
+	got := f.Filter(state, allTestTools())
+
+	hasNone(t, got, "update_player_hp")
 }
 
 // --- FilterTools: progression tools ---

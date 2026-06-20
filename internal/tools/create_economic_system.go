@@ -262,25 +262,33 @@ func (h *CreateEconomicSystemHandler) Handle(ctx context.Context, args map[strin
 		return nil, fmt.Errorf("create economic system: %w", err)
 	}
 
-	revealToPlayer, _ := parseBoolArg(args, "reveal_to_player")
+	revealToPlayer := false
+	if _, exists := args["reveal_to_player"]; exists {
+		parsedRevealToPlayer, err := parseBoolArg(args, "reveal_to_player")
+		if err != nil {
+			return nil, err
+		}
+		revealToPlayer = parsedRevealToPlayer
+	}
 	if revealToPlayer {
 		_ = h.economicStore.SetEconomicSystemPlayerKnown(ctx, economicSystem.ID)
 	}
 
 	for i, fact := range buildEconomicSystemFacts(name, currencyName, currencyDenominations, primaryResources, economicType, tradeRoutePayload) {
 		if _, err := h.economicStore.CreateFact(ctx, statedb.CreateFactParams{
-			CampaignID: dbCampaignID,
-			Fact:       fact,
-			Category:   "economic_system",
-			Source:     fmt.Sprintf("create_economic_system:%s", dbutil.FromPgtype(economicSystem.ID).String()),
+			CampaignID:  dbCampaignID,
+			Fact:        fact,
+			Category:    "economic_system",
+			Source:      fmt.Sprintf("create_economic_system:%s", dbutil.FromPgtype(economicSystem.ID).String()),
+			PlayerKnown: revealToPlayer,
 		}); err != nil {
-			return nil, fmt.Errorf("create economic system world_fact[%d]: %w", i, err)
+			return &ToolResult{Success: true, Data: map[string]any{"id": dbutil.FromPgtype(economicSystem.ID).String(), "campaign_id": dbutil.FromPgtype(economicSystem.CampaignID).String(), "name": economicSystem.Name, "currency": details["currency"], "primary_resources": primaryResources, "trade_routes": tradeRoutePayload, "class_structure": classStructure, "economic_type": economicType, "scope": map[string]any{"faction_ids": dbutil.PgUUIDsToStrings(scopeFactionIDs), "region_names": regionNames}, "fact_warning": fmt.Errorf("create economic system world_fact[%d]: %w", i, err).Error()}, Narrative: fmt.Sprintf("Economic system %q created, but world fact creation failed: %v", economicSystem.Name, err)}, nil
 		}
 	}
 
 	if h.embedder != nil && h.memoryStore != nil {
 		if err := h.embedEconomicSystemMemory(ctx, campaignID, dbutil.FromPgtype(economicSystem.ID), name, details, dbutil.PgUUIDsToStrings(scopeFactionIDs), regionNames); err != nil {
-			return nil, err
+			return &ToolResult{Success: true, Data: map[string]any{"id": dbutil.FromPgtype(economicSystem.ID).String(), "campaign_id": dbutil.FromPgtype(economicSystem.CampaignID).String(), "name": economicSystem.Name, "currency": details["currency"], "primary_resources": primaryResources, "trade_routes": tradeRoutePayload, "class_structure": classStructure, "economic_type": economicType, "scope": map[string]any{"faction_ids": dbutil.PgUUIDsToStrings(scopeFactionIDs), "region_names": regionNames}, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("Economic system %q created. Memory embedding failed: %v", economicSystem.Name, err)}, nil
 		}
 	}
 

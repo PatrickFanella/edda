@@ -320,9 +320,12 @@ func TestCreateCultureValidationAndErrors(t *testing.T) {
 			&stubMemoryStore{},
 			&stubEmbedder{err: errors.New("embed failed")},
 		)
-		_, err := h.Handle(context.Background(), copyArgs(baseArgs))
-		if err == nil || !strings.Contains(err.Error(), "embed culture memory") {
-			t.Fatalf("error = %v, want embed context", err)
+		result, err := h.Handle(context.Background(), copyArgs(baseArgs))
+		if err != nil {
+			t.Fatalf("expected best-effort success, got error: %v", err)
+		}
+		if result == nil || !result.Success || result.Data["memory_warning"] == nil {
+			t.Fatalf("expected success with memory_warning, got %+v", result)
 		}
 	})
 }

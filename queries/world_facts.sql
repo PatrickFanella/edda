@@ -3,12 +3,14 @@ INSERT INTO world_facts (
   campaign_id,
   fact,
   category,
-  source
+  source,
+  player_known
 ) VALUES (
   sqlc.arg(campaign_id),
   sqlc.arg(fact),
   sqlc.arg(category),
-  sqlc.arg(source)
+  sqlc.arg(source),
+  sqlc.arg(player_known)
 )
 RETURNING id, campaign_id, fact, category, source, superseded_by, created_at, player_known;
 

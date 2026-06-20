@@ -157,6 +157,14 @@ func (s *combatService) UpdatePlayerHP(ctx context.Context, playerCharacterID uu
 	return err
 }
 
+func (s *combatService) UpdatePlayerCurrentHP(ctx context.Context, playerCharacterID uuid.UUID, hp int) error {
+	_, err := s.queries.UpdatePlayerCurrentHP(ctx, statedb.UpdatePlayerCurrentHPParams{
+		ID: dbutil.ToPgtype(playerCharacterID),
+		Hp: int32(hp),
+	})
+	return err
+}
+
 func (s *combatService) UpdatePlayerLocation(ctx context.Context, playerCharacterID uuid.UUID, locationID uuid.UUID) error {
 	_, err := s.queries.UpdatePlayerLocation(ctx, statedb.UpdatePlayerLocationParams{
 		ID:                dbutil.ToPgtype(playerCharacterID),

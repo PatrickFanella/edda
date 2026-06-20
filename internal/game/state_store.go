@@ -211,7 +211,7 @@ func (s *StateStore) MovePlayer(ctx context.Context, cmd MovePlayerCommand) (*Mo
 		return nil, fmt.Errorf("update player location: %w", err)
 	}
 
-	result := &MovePlayerResult{PlayerCharacterID: cmd.PlayerCharacterID, FromLocationID: cmd.CurrentLocationID, ToLocationID: cmd.TargetLocationID, ToLocationName: targetLocation.Name, ToLocationDescription: targetLocation.Description.String, TravelTime: travelTime, VisitedMarked: true}
+	result := &MovePlayerResult{PlayerCharacterID: cmd.PlayerCharacterID, FromLocationID: cmd.CurrentLocationID, ToLocationID: cmd.TargetLocationID, ToLocationName: targetLocation.Name, ToLocationDescription: targetLocation.Description.String, ToLocationType: targetLocation.LocationType.String, TravelTime: travelTime, VisitedMarked: true}
 	if err := s.queries.SetLocationPlayerVisited(ctx, dbutil.ToPgtype(cmd.TargetLocationID)); err != nil {
 		result.VisitedMarked = false
 		result.VisitedWarning = err.Error()

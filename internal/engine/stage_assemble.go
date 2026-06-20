@@ -17,13 +17,14 @@ func (e *Engine) assembleStage() Stage {
 		}
 
 		phase := DetectPhase(tc.State)
-		tc.Logger.Debug("context assembled",
+		tc.Logger.Info("context assembled",
 			"campaign_id", tc.CampaignID,
 			"messages", len(tc.Messages),
 			"recent_turns", len(tc.RecentLogs),
 			"memories", len(tc.Memories),
 			"all_tools", len(tc.AllTools),
 			"filtered_tools", len(tc.FilteredTools),
+			"filtered_tool_names", advertisedToolNames(tc.FilteredTools),
 			"phase", phase.String(),
 		)
 		return nil

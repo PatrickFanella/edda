@@ -157,10 +157,11 @@ func (h *CreateLoreHandler) Handle(ctx context.Context, args map[string]any) (*T
 	}
 
 	worldFact, err := h.loreStore.CreateFact(ctx, statedb.CreateFactParams{
-		CampaignID: currentLocation.CampaignID,
-		Fact:       trimmedContent,
-		Category:   category,
-		Source:     loreSource,
+		CampaignID:  currentLocation.CampaignID,
+		Fact:        trimmedContent,
+		Category:    category,
+		Source:      loreSource,
+		PlayerKnown: true,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("create lore world fact: %w", err)
@@ -170,12 +171,36 @@ func (h *CreateLoreHandler) Handle(ctx context.Context, args map[string]any) (*T
 
 	createdRelationships, err := h.createLoreRelationships(ctx, currentLocation.CampaignID, worldFact.ID, relatedEntities)
 	if err != nil {
-		return nil, err
+		return &ToolResult{
+			Success: true,
+			Data: map[string]any{
+				"id":                   factID.String(),
+				"campaign_id":          campaignID.String(),
+				"content":              trimmedContent,
+				"category":             category,
+				"source":               loreSource,
+				"related_entities":     []map[string]any{},
+				"relationship_warning": err.Error(),
+			},
+			Narrative: fmt.Sprintf("Lore recorded, but related entity links failed: %v", err),
+		}, nil
 	}
 
 	if h.embedder != nil && h.memoryStore != nil {
 		if err := h.embedLoreMemory(ctx, campaignID, factID, trimmedContent, category, createdRelationships); err != nil {
-			return nil, err
+			return &ToolResult{
+				Success: true,
+				Data: map[string]any{
+					"id":               factID.String(),
+					"campaign_id":      campaignID.String(),
+					"content":          trimmedContent,
+					"category":         category,
+					"source":           loreSource,
+					"related_entities": createdRelationships,
+					"memory_warning":   err.Error(),
+				},
+				Narrative: fmt.Sprintf("Lore recorded, but memory sync failed: %v", err),
+			}, nil
 		}
 	}
 

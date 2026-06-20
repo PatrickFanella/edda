@@ -611,6 +611,25 @@ func TestResolveStartingLocation_StrictMatchRequired(t *testing.T) {
 	}
 }
 
+func TestResolveStartingLocationUsesCanonicalName(t *testing.T) {
+	ctx := context.Background()
+	campaignID := pgUUID(uuid.New())
+	locationID := uuid.New()
+	q := &stubQuerier{
+		listLocationsByCampaignFn: func(_ context.Context, _ pgtype.UUID) ([]statedb.Location, error) {
+			return []statedb.Location{{ID: pgUUID(locationID), CampaignID: campaignID, Name: "The Core Reactor"}}, nil
+		},
+	}
+
+	got, err := resolveStartingLocation(ctx, q, campaignID, "Core Reactor")
+	if err != nil {
+		t.Fatalf("resolveStartingLocation returned error: %v", err)
+	}
+	if got != locationID {
+		t.Fatalf("got %s, want %s", got, locationID)
+	}
+}
+
 func jsonArrayToStrings(v any) ([]string, error) {
 	items, ok := v.([]any)
 	if !ok {

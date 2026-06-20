@@ -37,6 +37,48 @@ func TestMarshalAppliedToolCallsPreservesEntries(t *testing.T) {
 	}
 }
 
+func TestFinalLocationIDFromApplied_DefaultLocationRemains(t *testing.T) {
+	locationID := uuid.New()
+	if got := finalLocationIDFromApplied(&locationID, nil); got == nil || *got != locationID {
+		t.Fatalf("finalLocationIDFromApplied(nil) = %v, want %v", got, locationID)
+	}
+}
+
+func TestFinalLocationIDFromApplied_MovePlayerOverridesDefault(t *testing.T) {
+	defaultLocationID := uuid.New()
+	newLocationID := uuid.New()
+	got := finalLocationIDFromApplied(&defaultLocationID, []AppliedToolCall{{
+		Tool:   "move_player",
+		Result: json.RawMessage(`{"location_id":"` + newLocationID.String() + `"}`),
+	}})
+	if got == nil || *got != newLocationID {
+		t.Fatalf("finalLocationIDFromApplied(move_player) = %v, want %v", got, newLocationID)
+	}
+}
+
+func TestFinalLocationIDFromApplied_CreateLocationMoveHereOverridesDefault(t *testing.T) {
+	defaultLocationID := uuid.New()
+	newLocationID := uuid.New()
+	got := finalLocationIDFromApplied(&defaultLocationID, []AppliedToolCall{{
+		Tool:   "create_location",
+		Result: json.RawMessage(`{"move_player_here":true,"location_id":"` + newLocationID.String() + `"}`),
+	}})
+	if got == nil || *got != newLocationID {
+		t.Fatalf("finalLocationIDFromApplied(create_location move) = %v, want %v", got, newLocationID)
+	}
+}
+
+func TestFinalLocationIDFromApplied_CreateLocationWithoutMoveKeepsDefault(t *testing.T) {
+	defaultLocationID := uuid.New()
+	newLocationID := uuid.New()
+	got := finalLocationIDFromApplied(&defaultLocationID, []AppliedToolCall{{
+		Tool:   "create_location",
+		Result: json.RawMessage(`{"move_player_here":false,"location_id":"` + newLocationID.String() + `"}`),
+	}})
+	if got == nil || *got != defaultLocationID {
+		t.Fatalf("finalLocationIDFromApplied(create_location no move) = %v, want %v", got, defaultLocationID)
+	}
+}
 
 type testProvider struct{}
 
@@ -137,7 +179,6 @@ func TestNewRegistersExpectedTools(t *testing.T) {
 		}
 	}
 }
-
 
 func TestProcessTurnStream_Error(t *testing.T) {
 	e, err := New(nil, &testProvider{}, config.LLMConfig{Provider: "ollama", Ollama: config.OllamaConfig{ContextTokenBudget: 8000}})

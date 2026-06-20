@@ -131,7 +131,7 @@ func (h *ReviseFactHandler) Handle(ctx context.Context, args map[string]any) (*T
 
 	if h.embedder != nil && h.memoryStore != nil {
 		if err := h.embedRevisedFactMemory(ctx, resultCampaignID, factID, newFactID, newFactText, result.NewFact.Category); err != nil {
-			return &ToolResult{Success: true, Data: map[string]any{"new_fact_id": newFactID.String(), "old_fact_id": factID.String(), "campaign_id": resultCampaignID.String(), "new_fact": newFactText, "category": result.NewFact.Category, "source": reviseFactToolName, "supersedes": factID.String(), "player_known": result.PlayerKnownPropagated, "warning": err.Error()}, Narrative: fmt.Sprintf("World fact revised: %q supersedes fact %s. Memory embedding failed: %v", newFactText, factID, err)}, nil
+			return &ToolResult{Success: true, Data: map[string]any{"new_fact_id": newFactID.String(), "old_fact_id": factID.String(), "campaign_id": resultCampaignID.String(), "new_fact": newFactText, "category": result.NewFact.Category, "source": reviseFactToolName, "supersedes": factID.String(), "player_known": result.PlayerKnownPropagated, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("World fact revised: %q supersedes fact %s. Memory embedding failed: %v", newFactText, factID, err)}, nil
 		}
 	}
 

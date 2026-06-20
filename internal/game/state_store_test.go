@@ -141,7 +141,7 @@ func TestMovePlayerBestEffortWarnings(t *testing.T) {
 	targetID := uuid.New()
 	playerID := uuid.New()
 	stub := &stateFactStoreStub{
-		location:    statedb.Location{ID: dbutil.ToPgtype(targetID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Harbor", Description: pgtype.Text{String: "Busy docks", Valid: true}},
+		location:    statedb.Location{ID: dbutil.ToPgtype(targetID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Harbor", Description: pgtype.Text{String: "Busy docks", Valid: true}, LocationType: pgtype.Text{String: "port", Valid: true}},
 		player:      statedb.PlayerCharacter{ID: dbutil.ToPgtype(playerID), CampaignID: dbutil.ToPgtype(campaignID)},
 		connections: []statedb.GetConnectionsFromLocationRow{{ConnectedLocationID: dbutil.ToPgtype(targetID), TravelTime: pgtype.Text{String: "30 minutes", Valid: true}}},
 		visitedErr:  errors.New("visited failed"),
@@ -156,5 +156,8 @@ func TestMovePlayerBestEffortWarnings(t *testing.T) {
 	}
 	if res.VisitedWarning == "" {
 		t.Fatal("expected visited warning text")
+	}
+	if res.ToLocationType != "port" {
+		t.Fatalf("ToLocationType = %q, want port", res.ToLocationType)
 	}
 }

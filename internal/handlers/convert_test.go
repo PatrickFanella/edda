@@ -27,7 +27,7 @@ func TestConvertResponsesGoldenShapes(t *testing.T) {
 	factSupersededBy := uuid.MustParse("66666666-6666-6666-6666-666666666666")
 	now := time.Date(2026, 6, 19, 12, 34, 56, 0, time.UTC)
 	conv := map[string]any{
-		"campaign":  campaignToResponse(statedb.Campaign{ID: dbutil.ToPgtype(campID), Name: "The Iron Road", Description: pgtype.Text{String: "A frontier campaign", Valid: true}, Genre: pgtype.Text{String: "fantasy", Valid: true}, Tone: pgtype.Text{String: "gritty", Valid: true}, Themes: []string{"exploration", "survival"}, Status: "active", CreatedBy: dbutil.ToPgtype(userID), CreatedAt: pgtype.Timestamptz{Time: now, Valid: true}, UpdatedAt: pgtype.Timestamptz{Time: now.Add(time.Hour), Valid: true}, RulesMode: pgtype.Text{String: "narrative", Valid: true}}),
+		"campaign":  campaignToResponse(statedb.Campaign{ID: dbutil.ToPgtype(campID), Name: "The Iron Road", Description: pgtype.Text{String: "A frontier campaign", Valid: true}, Genre: pgtype.Text{String: "fantasy", Valid: true}, Tone: pgtype.Text{String: "gritty", Valid: true}, Themes: []string{"exploration", "survival"}, Status: "active", CreatedBy: dbutil.ToPgtype(userID), CreatedAt: pgtype.Timestamptz{Time: now, Valid: true}, UpdatedAt: pgtype.Timestamptz{Time: now.Add(time.Hour), Valid: true}, RulesMode: "narrative"}),
 		"character": playerCharacterToResponse(statedb.PlayerCharacter{ID: dbutil.ToPgtype(uuid.MustParse("77777777-7777-7777-7777-777777777777")), CampaignID: dbutil.ToPgtype(campID), UserID: dbutil.ToPgtype(userID), Name: "Vera", Description: pgtype.Text{String: "Scout", Valid: true}, Stats: mustJSON(t, map[string]any{"strength": 12, "agility": 14}), Hp: 20, MaxHp: 25, Experience: 120, Level: 3, Status: "healthy", Abilities: mustJSON(t, []api.CharacterAbility{{Name: "Track", Description: "Follow signs"}}), CurrentLocationID: dbutil.ToPgtype(locID)}),
 		"quest":     questToResponse(statedb.Quest{ID: dbutil.ToPgtype(questID), CampaignID: dbutil.ToPgtype(campID), ParentQuestID: dbutil.ToPgtype(uuid.MustParse("88888888-8888-8888-8888-888888888888")), Title: "Secure the pass", Description: pgtype.Text{String: "Defeat raiders", Valid: true}, QuestType: "short_term", Status: "active"}, []statedb.QuestObjective{{ID: dbutil.ToPgtype(uuid.MustParse("99999999-9999-9999-9999-999999999999")), Description: "Scout the pass", Completed: false, OrderIndex: 1}}),
 		"fact":      factToResponse(statedb.WorldFact{ID: dbutil.ToPgtype(uuid.MustParse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")), CampaignID: dbutil.ToPgtype(campID), Fact: "The road is cursed.", Category: "lore", Source: "gm", SupersededBy: dbutil.ToPgtype(factSupersededBy), PlayerKnown: true, CreatedAt: pgtype.Timestamptz{Time: now, Valid: true}}),
@@ -79,6 +79,31 @@ func TestConversionHelpersDefaulting(t *testing.T) {
 	}
 	if got := optionalInt32Value(pgtype.Int4{}); got != nil {
 		t.Fatalf("optionalInt32Value() = %v, want nil", got)
+	}
+}
+
+func TestEngineStateChangesToAPIMergesObjectNewValueIntoDetails(t *testing.T) {
+	t.Parallel()
+
+	locID := uuid.New()
+	changes := engineStateChangesToAPI([]engine.StateChange{{
+		Entity:   "location",
+		EntityID: locID,
+		Field:    "updated",
+		NewValue: json.RawMessage(`{"location_id":"loc-1","name":"Old Road","location_type":"wilderness"}`),
+	}})
+
+	if len(changes) != 1 {
+		t.Fatalf("len(changes) = %d, want 1", len(changes))
+	}
+	if got := changes[0].Details["location_type"]; got != "wilderness" {
+		t.Fatalf("details.location_type = %v, want wilderness", got)
+	}
+	if got := changes[0].Details["name"]; got != "Old Road" {
+		t.Fatalf("details.name = %v, want Old Road", got)
+	}
+	if _, ok := changes[0].Details["new_value"]; !ok {
+		t.Fatalf("details.new_value missing: %#v", changes[0].Details)
 	}
 }
 

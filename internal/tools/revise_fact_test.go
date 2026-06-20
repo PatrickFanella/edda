@@ -106,7 +106,7 @@ func TestReviseFactHandleEmbeddingFailureDoesNotFailMutation(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Handle() error = %v", err)
 	}
-	if !result.Success || result.Data["warning"] == nil {
+	if !result.Success || result.Data["memory_warning"] == nil {
 		t.Fatalf("expected success with warning, got %+v", result)
 	}
 }

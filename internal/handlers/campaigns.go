@@ -82,7 +82,7 @@ func (h *CampaignHandlers) CreateCampaign(w http.ResponseWriter, r *http.Request
 			"UPDATE campaigns SET rules_mode = $1 WHERE id = $2",
 			rulesMode, campaign.ID,
 		)
-		campaign.RulesMode = pgtype.Text{String: rulesMode, Valid: true}
+		campaign.RulesMode = rulesMode
 	}
 
 	writeJSON(w, http.StatusCreated, campaignToResponse(campaign))

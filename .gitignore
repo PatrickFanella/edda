@@ -21,3 +21,8 @@ dist/
 /logs
 frontend/node_modules/
 frontend/dist/
+
+# BEGIN Blacktower worktrees
+.blacktower/worktrees/
+.blacktower/worktrees.json
+# END Blacktower worktrees

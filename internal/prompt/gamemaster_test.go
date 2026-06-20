@@ -36,10 +36,26 @@ func TestGameMasterPromptSections(t *testing.T) {
 }
 
 func TestGameMasterPromptToolReferences(t *testing.T) {
-	tools := []string{"skill_check", "create_language", "roll_dice"}
+	tools := []string{"skill_check", "create_language", "roll_dice", "create_quest", "update_player_hp"}
 	for _, tool := range tools {
 		if !strings.Contains(GameMaster, tool) {
 			t.Fatalf("GameMaster prompt must reference tool %q", tool)
+		}
+	}
+}
+
+func TestGameMasterPromptDurableStateClaims(t *testing.T) {
+	phrases := []string{
+		"Durable state claims",
+		"must call the matching state tool before claiming it in prose",
+		"create_location with move_player_here=true",
+		"Revealing or creating a location without movement is not enough",
+		"If the needed tool is unavailable",
+		"provisional",
+	}
+	for _, phrase := range phrases {
+		if !strings.Contains(GameMaster, phrase) {
+			t.Fatalf("GameMaster prompt must include durable-state guidance phrase %q", phrase)
 		}
 	}
 }

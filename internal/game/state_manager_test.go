@@ -695,6 +695,10 @@ func (m *mockQuerier) UpdatePlayerHP(_ context.Context, _ statedb.UpdatePlayerHP
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
 }
 
+func (m *mockQuerier) UpdatePlayerCurrentHP(_ context.Context, _ statedb.UpdatePlayerCurrentHPParams) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
 func (m *mockQuerier) UpdatePlayerExperience(_ context.Context, _ statedb.UpdatePlayerExperienceParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
 }
@@ -713,6 +717,58 @@ func (m *mockQuerier) UpdatePlayerLocation(_ context.Context, arg statedb.Update
 
 func (m *mockQuerier) UpdatePlayerStatus(_ context.Context, _ statedb.UpdatePlayerStatusParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) CreateJournalEntry(_ context.Context, _ statedb.CreateJournalEntryParams) (statedb.PlayerJournalEntry, error) {
+	return statedb.PlayerJournalEntry{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) DeleteJournalEntry(_ context.Context, _ pgtype.UUID) error {
+	return pgx.ErrNoRows
+}
+
+func (m *mockQuerier) ListJournalEntries(_ context.Context, _ pgtype.UUID) ([]statedb.PlayerJournalEntry, error) {
+	return nil, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) CreateSavePoint(_ context.Context, _ statedb.CreateSavePointParams) (statedb.SavePoint, error) {
+	return statedb.SavePoint{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) DeleteOldAutoSaves(_ context.Context, _ pgtype.UUID) error {
+	return pgx.ErrNoRows
+}
+
+func (m *mockQuerier) DeleteSavePoint(_ context.Context, _ pgtype.UUID) error {
+	return pgx.ErrNoRows
+}
+
+func (m *mockQuerier) ListSavePointsByCampaign(_ context.Context, _ pgtype.UUID) ([]statedb.SavePoint, error) {
+	return nil, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) CreateSessionSummary(_ context.Context, _ statedb.CreateSessionSummaryParams) (statedb.SessionSummary, error) {
+	return statedb.SessionSummary{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) ListSessionSummaries(_ context.Context, _ pgtype.UUID) ([]statedb.SessionSummary, error) {
+	return nil, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) CreateUserWithAuth(_ context.Context, _ statedb.CreateUserWithAuthParams) (statedb.CreateUserWithAuthRow, error) {
+	return statedb.CreateUserWithAuthRow{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) GetUserByEmail(_ context.Context, _ pgtype.Text) (statedb.GetUserByEmailRow, error) {
+	return statedb.GetUserByEmailRow{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) GetCampaignTime(_ context.Context, _ pgtype.UUID) (statedb.CampaignTime, error) {
+	return statedb.CampaignTime{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpsertCampaignTime(_ context.Context, _ statedb.UpsertCampaignTimeParams) (statedb.CampaignTime, error) {
+	return statedb.CampaignTime{}, pgx.ErrNoRows
 }
 
 func (m *mockQuerier) UpdateQuest(_ context.Context, arg statedb.UpdateQuestParams) (statedb.Quest, error) {

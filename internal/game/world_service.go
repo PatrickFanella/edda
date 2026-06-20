@@ -173,6 +173,14 @@ func (s *worldService) ListLocationsByCampaign(ctx context.Context, campaignID p
 	return s.queries.ListLocationsByCampaign(ctx, campaignID)
 }
 
+func (s *worldService) UpdatePlayerLocation(ctx context.Context, arg statedb.UpdatePlayerLocationParams) (statedb.PlayerCharacter, error) {
+	return s.queries.UpdatePlayerLocation(ctx, arg)
+}
+
+func (s *worldService) SetLocationPlayerVisited(ctx context.Context, id pgtype.UUID) error {
+	return s.queries.SetLocationPlayerVisited(ctx, id)
+}
+
 func (s *worldService) CreateConnection(ctx context.Context, arg statedb.CreateConnectionParams) (statedb.LocationConnection, error) {
 	return s.queries.CreateConnection(ctx, arg)
 }

@@ -33,7 +33,29 @@ type Campaign struct {
 	WorldType           pgtype.Text
 	DangerLevel         pgtype.Text
 	PoliticalComplexity pgtype.Text
-	RulesMode           pgtype.Text
+	RulesMode           string
+}
+
+type CampaignTime struct {
+	CampaignID pgtype.UUID
+	Day        int32
+	Hour       int32
+	Minute     int32
+	UpdatedAt  pgtype.Timestamptz
+}
+
+type CharacterFeat struct {
+	ID          pgtype.UUID
+	CharacterID pgtype.UUID
+	FeatID      pgtype.UUID
+	GrantedAt   pgtype.Timestamptz
+}
+
+type CharacterSkill struct {
+	ID          pgtype.UUID
+	CharacterID pgtype.UUID
+	SkillID     pgtype.UUID
+	Points      int32
 }
 
 type Culture struct {
@@ -93,6 +115,17 @@ type FactionRelationship struct {
 	Description      pgtype.Text
 	CreatedAt        pgtype.Timestamptz
 	UpdatedAt        pgtype.Timestamptz
+}
+
+type FeatDefinition struct {
+	ID            pgtype.UUID
+	CampaignID    pgtype.UUID
+	Name          string
+	Description   string
+	Prerequisites string
+	BonusType     string
+	BonusValue    int32
+	CreatedAt     pgtype.Timestamptz
 }
 
 type Item struct {
@@ -197,6 +230,15 @@ type PlayerCharacter struct {
 	UpdatedAt         pgtype.Timestamptz
 }
 
+type PlayerJournalEntry struct {
+	ID         pgtype.UUID
+	CampaignID pgtype.UUID
+	Title      string
+	Content    string
+	CreatedAt  pgtype.Timestamptz
+	UpdatedAt  pgtype.Timestamptz
+}
+
 type Quest struct {
 	ID            pgtype.UUID
 	CampaignID    pgtype.UUID
@@ -232,6 +274,15 @@ type QuestObjective struct {
 	OrderIndex  int32
 }
 
+type SavePoint struct {
+	ID         pgtype.UUID
+	CampaignID pgtype.UUID
+	Name       string
+	TurnNumber int32
+	IsAuto     bool
+	CreatedAt  pgtype.Timestamptz
+}
+
 type SessionLog struct {
 	ID           pgtype.UUID
 	CampaignID   pgtype.UUID
@@ -245,11 +296,31 @@ type SessionLog struct {
 	CreatedAt    pgtype.Timestamptz
 }
 
+type SessionSummary struct {
+	ID         pgtype.UUID
+	CampaignID pgtype.UUID
+	FromTurn   int32
+	ToTurn     int32
+	Summary    string
+	CreatedAt  pgtype.Timestamptz
+}
+
+type SkillDefinition struct {
+	ID          pgtype.UUID
+	CampaignID  pgtype.UUID
+	Name        string
+	Description string
+	BaseAbility string
+	CreatedAt   pgtype.Timestamptz
+}
+
 type User struct {
-	ID        pgtype.UUID
-	Name      string
-	CreatedAt pgtype.Timestamptz
-	UpdatedAt pgtype.Timestamptz
+	ID           pgtype.UUID
+	Name         string
+	CreatedAt    pgtype.Timestamptz
+	UpdatedAt    pgtype.Timestamptz
+	Email        pgtype.Text
+	PasswordHash pgtype.Text
 }
 
 type WorldFact struct {

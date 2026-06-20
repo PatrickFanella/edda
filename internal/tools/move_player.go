@@ -105,6 +105,7 @@ func (h *MovePlayerHandler) Handle(ctx context.Context, args map[string]any) (*T
 			"player_character_id": playerCharacterID.String(),
 			"name":                result.ToLocationName,
 			"description":         result.ToLocationDescription,
+			"location_type":       result.ToLocationType,
 			"travel_time":         result.TravelTime,
 			"day":                 result.Day,
 			"hour":                result.Hour,

@@ -271,7 +271,7 @@ func (h *CreateCultureHandler) Handle(ctx context.Context, args map[string]any) 
 			beliefSystemID,
 			associatedFactions,
 		); err != nil {
-			return nil, err
+			return &ToolResult{Success: true, Data: map[string]any{"id": cultureID.String(), "campaign_id": campaignID.String(), "language_id": languageID.String(), "belief_system_id": beliefSystemID.String(), "name": name, "description": description, "values": values, "customs": customs, "social_norms": socialNorms, "art_forms": artForms, "taboos": taboos, "greeting_customs": greetingCustoms, "associated_factions": associatedFactions, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("Culture %q created. Memory embedding failed: %v", name, err)}, nil
 		}
 	}
 

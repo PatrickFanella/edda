@@ -16,7 +16,7 @@ func campaignToResponse(c statedb.Campaign) api.CampaignResponse {
 	if themes == nil {
 		themes = []string{}
 	}
-	rulesMode := c.RulesMode.String
+	rulesMode := c.RulesMode
 	if rulesMode == "" {
 		rulesMode = "narrative"
 	}
@@ -144,6 +144,11 @@ func engineStateChangesToAPI(changes []engine.StateChange) []api.StateChange {
 		if sc.NewValue != nil {
 			var nv any
 			if json.Unmarshal(sc.NewValue, &nv) == nil {
+				if fields, ok := nv.(map[string]any); ok {
+					for key, value := range fields {
+						details[key] = value
+					}
+				}
 				details["new_value"] = nv
 			}
 		}

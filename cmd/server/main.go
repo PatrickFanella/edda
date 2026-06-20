@@ -86,12 +86,17 @@ func run(args []string) int {
 		engine.WithSaveStore(saveStore),
 	}
 	if cfg.LLM.Provider == "ollama" {
+		if err := memory.ValidateMemoryEmbeddingDimension(ctx, pool, cfg.LLM.Ollama.EmbeddingDimension); err != nil {
+			logger.Errorf("validate memory embedding dimension: %v", err)
+			return 1
+		}
 		embedEndpoint := cfg.LLM.Ollama.EmbeddingEndpoint
 		if embedEndpoint == "" {
 			embedEndpoint = cfg.LLM.Ollama.Endpoint
 		}
 		embedder := memory.NewOllamaEmbedder(
 			embedEndpoint, cfg.LLM.Ollama.EmbeddingModel,
+			memory.WithOllamaEmbedderDimension(cfg.LLM.Ollama.EmbeddingDimension),
 			memory.WithOllamaEmbedderTimeout(cfg.LLM.Ollama.RequestTimeout()),
 			memory.WithOllamaEmbedderAPIKey(cfg.LLM.Ollama.APIKey),
 		)

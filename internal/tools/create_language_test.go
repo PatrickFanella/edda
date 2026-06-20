@@ -319,12 +319,12 @@ func TestCreateLanguageValidationAndErrors(t *testing.T) {
 		args := copyArgs(baseArgs)
 		args["spoken_by_faction_ids"] = []any{factionID.String()}
 		args["spoken_by_culture_ids"] = []any{cultureID.String()}
-		_, err := h.Handle(context.Background(), args)
-		if err == nil {
-			t.Fatal("expected embedder error")
+		result, err := h.Handle(context.Background(), args)
+		if err != nil {
+			t.Fatalf("expected best-effort success, got error: %v", err)
 		}
-		if !strings.Contains(err.Error(), "embed language memory") {
-			t.Fatalf("error = %v, want embed context", err)
+		if result == nil || !result.Success || result.Data["memory_warning"] == nil {
+			t.Fatalf("expected success with memory_warning, got %+v", result)
 		}
 	})
 
@@ -349,12 +349,12 @@ func TestCreateLanguageValidationAndErrors(t *testing.T) {
 		args["spoken_by_faction_ids"] = []any{factionID.String()}
 		args["spoken_by_culture_ids"] = []any{cultureID.String()}
 
-		_, err := h.Handle(context.Background(), args)
-		if err == nil {
-			t.Fatal("expected memory store error")
+		result, err := h.Handle(context.Background(), args)
+		if err != nil {
+			t.Fatalf("expected best-effort success, got error: %v", err)
 		}
-		if !strings.Contains(err.Error(), "create language memory") {
-			t.Fatalf("error = %v, want create-language-memory context", err)
+		if result == nil || !result.Success || result.Data["memory_warning"] == nil {
+			t.Fatalf("expected success with memory_warning, got %+v", result)
 		}
 	})
 

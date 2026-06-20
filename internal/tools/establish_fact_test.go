@@ -28,11 +28,12 @@ func (s *stubEstablishFactStore) CreateFact(_ context.Context, arg statedb.Creat
 	}
 	s.lastCreateFact = arg
 	return statedb.WorldFact{
-		ID:         dbutil.ToPgtype(uuid.New()),
-		CampaignID: arg.CampaignID,
-		Fact:       arg.Fact,
-		Category:   arg.Category,
-		Source:     arg.Source,
+		ID:          dbutil.ToPgtype(uuid.New()),
+		CampaignID:  arg.CampaignID,
+		Fact:        arg.Fact,
+		Category:    arg.Category,
+		Source:      arg.Source,
+		PlayerKnown: arg.PlayerKnown,
 	}, nil
 }
 
@@ -43,7 +44,9 @@ func (s *stubEstablishFactStore) GetLocationByID(_ context.Context, _ pgtype.UUI
 	return s.currentLocation, nil
 }
 
-func (s *stubEstablishFactStore) SetFactPlayerKnown(_ context.Context, _ pgtype.UUID) error { return nil }
+func (s *stubEstablishFactStore) SetFactPlayerKnown(_ context.Context, _ pgtype.UUID) error {
+	return nil
+}
 
 func TestRegisterEstablishFact(t *testing.T) {
 	reg := NewRegistry()
@@ -111,6 +114,9 @@ func TestEstablishFactHandleSuccess(t *testing.T) {
 	if store.lastCreateFact.Source != establishedSource {
 		t.Fatalf("CreateFact.Source = %q, want %q", store.lastCreateFact.Source, establishedSource)
 	}
+	if !store.lastCreateFact.PlayerKnown {
+		t.Fatal("CreateFact.PlayerKnown = false, want true")
+	}
 	if store.lastCreateFact.CampaignID != dbutil.ToPgtype(campaignID) {
 		t.Fatal("CreateFact.CampaignID does not match campaign")
 	}
@@ -121,6 +127,9 @@ func TestEstablishFactHandleSuccess(t *testing.T) {
 	}
 	if result.Data["source"] != establishedSource {
 		t.Fatalf("result.Data[source] = %v, want %q", result.Data["source"], establishedSource)
+	}
+	if result.Data["player_known"] != true {
+		t.Fatalf("result.Data[player_known] = %v, want true", result.Data["player_known"])
 	}
 
 	// Check memory was embedded.
@@ -245,9 +254,70 @@ func TestEstablishFactHandleEmbedError(t *testing.T) {
 	embedder := &stubEmbedder{err: errors.New("embed error")}
 	h := NewEstablishFactHandler(store, &stubMemoryStore{}, embedder)
 	ctx := WithCurrentLocationID(context.Background(), locationID)
-	_, err := h.Handle(ctx, map[string]any{"fact": "Some fact.", "category": "history"})
-	if err == nil {
-		t.Fatal("expected error when Embed fails")
+	result, err := h.Handle(ctx, map[string]any{"fact": "Some fact.", "category": "history"})
+	if err != nil {
+		t.Fatalf("expected best-effort success, got error: %v", err)
+	}
+	if result == nil || !result.Success || result.Data["memory_warning"] == nil {
+		t.Fatalf("expected success with memory_warning, got %+v", result)
+	}
+	if result.Data["player_known"] != true {
+		t.Fatalf("result.Data[player_known] = %v, want true", result.Data["player_known"])
+	}
+}
+
+func TestEstablishFactHandleEmbedErrorIsBestEffort(t *testing.T) {
+	campaignID := uuid.New()
+	locationID := uuid.New()
+	store := &stubEstablishFactStore{
+		currentLocation: statedb.Location{
+			ID:         dbutil.ToPgtype(locationID),
+			CampaignID: dbutil.ToPgtype(campaignID),
+		},
+	}
+	embedder := &stubEmbedder{err: errors.New("embed error")}
+	h := NewEstablishFactHandler(store, &stubMemoryStore{}, embedder)
+	ctx := WithCurrentLocationID(context.Background(), locationID)
+
+	result, err := h.Handle(ctx, map[string]any{"fact": "Some fact.", "category": "history"})
+	if err != nil {
+		t.Fatalf("Handle returned error after fact persisted: %v", err)
+	}
+	if result == nil || !result.Success {
+		t.Fatalf("result = %#v, want success", result)
+	}
+	if _, ok := result.Data["memory_warning"]; !ok {
+		t.Fatalf("memory_warning missing from result data: %#v", result.Data)
+	}
+	if result.Data["player_known"] != true {
+		t.Fatalf("result.Data[player_known] = %v, want true", result.Data["player_known"])
+	}
+}
+
+func TestEstablishFactHandleRevealToPlayerFalseKeepsHidden(t *testing.T) {
+	campaignID := uuid.New()
+	locationID := uuid.New()
+	store := &stubEstablishFactStore{
+		currentLocation: statedb.Location{
+			ID:         dbutil.ToPgtype(locationID),
+			CampaignID: dbutil.ToPgtype(campaignID),
+		},
+	}
+	h := NewEstablishFactHandler(store, nil, nil)
+	ctx := WithCurrentLocationID(context.Background(), locationID)
+	result, err := h.Handle(ctx, map[string]any{
+		"fact":             "The duke is missing.",
+		"category":         "politics",
+		"reveal_to_player": false,
+	})
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if result.Data["player_known"] != false {
+		t.Fatalf("result.Data[player_known] = %v, want false", result.Data["player_known"])
+	}
+	if store.lastCreateFact.PlayerKnown != false {
+		t.Fatalf("CreateFact.PlayerKnown = %v, want false", store.lastCreateFact.PlayerKnown)
 	}
 }
 
@@ -280,7 +350,6 @@ func TestEstablishFactHandleNilFactStore(t *testing.T) {
 		t.Fatal("expected error for nil factStore")
 	}
 }
-
 
 func TestEstablishFactHandleEmptyFact(t *testing.T) {
 	campaignID := uuid.New()
@@ -344,14 +413,14 @@ func TestEstablishFactHandleMemoryStoreError(t *testing.T) {
 	embedder := &stubEmbedder{vector: []float32{0.1, 0.2}}
 	h := NewEstablishFactHandler(store, memStore, embedder)
 	ctx := WithCurrentLocationID(context.Background(), locationID)
-	_, err := h.Handle(ctx, map[string]any{
+	result, err := h.Handle(ctx, map[string]any{
 		"fact":     "The forge is ancient.",
 		"category": "history",
 	})
-	if err == nil {
-		t.Fatal("expected error when memory store CreateMemory fails")
+	if err != nil {
+		t.Fatalf("expected best-effort success, got error: %v", err)
 	}
-	if !strings.Contains(err.Error(), "mem error") {
-		t.Fatalf("error = %q, want to contain %q", err.Error(), "mem error")
+	if result == nil || !result.Success || result.Data["memory_warning"] == nil {
+		t.Fatalf("expected success with memory_warning, got %+v", result)
 	}
 }

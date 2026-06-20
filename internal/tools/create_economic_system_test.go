@@ -65,7 +65,9 @@ func (s *stubEconomicSystemStore) GetLocationByID(_ context.Context, id pgtype.U
 	return location, nil
 }
 
-func (s *stubEconomicSystemStore) SetEconomicSystemPlayerKnown(_ context.Context, _ pgtype.UUID) error { return nil }
+func (s *stubEconomicSystemStore) SetEconomicSystemPlayerKnown(_ context.Context, _ pgtype.UUID) error {
+	return nil
+}
 
 func TestRegisterCreateEconomicSystem(t *testing.T) {
 	reg := NewRegistry()
@@ -171,6 +173,27 @@ func TestCreateEconomicSystemHandleSuccess(t *testing.T) {
 	}
 	if got.Data["id"] != economicID.String() {
 		t.Fatalf("result id = %v, want %s", got.Data["id"], economicID.String())
+	}
+}
+
+func TestCreateEconomicSystemHandleFactWarning(t *testing.T) {
+	campaignID := uuid.New()
+	economicID := uuid.New()
+	factionID := uuid.New()
+	fromLocationID := uuid.New()
+	toLocationID := uuid.New()
+
+	store := &stubEconomicSystemStore{createdEconomic: statedb.EconomicSystem{ID: dbutil.ToPgtype(economicID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Guild Ledger"}, factions: map[[16]byte]statedb.Faction{dbutil.ToPgtype(factionID).Bytes: {ID: dbutil.ToPgtype(factionID), CampaignID: dbutil.ToPgtype(campaignID)}}, locations: map[[16]byte]statedb.Location{dbutil.ToPgtype(fromLocationID).Bytes: {ID: dbutil.ToPgtype(fromLocationID), CampaignID: dbutil.ToPgtype(campaignID)}, dbutil.ToPgtype(toLocationID).Bytes: {ID: dbutil.ToPgtype(toLocationID), CampaignID: dbutil.ToPgtype(campaignID)}}, createFactErr: errors.New("fact write failed")}
+	h := NewCreateEconomicSystemHandler(store, nil, nil)
+	result, err := h.Handle(context.Background(), map[string]any{"campaign_id": campaignID.String(), "name": "Guild Ledger", "currency": map[string]any{"name": "Crown", "denominations": []any{"copper", "silver"}}, "primary_resources": []any{"iron"}, "trade_routes": []any{map[string]any{"from_location_id": fromLocationID.String(), "to_location_id": toLocationID.String(), "goods": []any{"iron"}}}, "class_structure": map[string]any{}, "economic_type": "mercantile", "scope": map[string]any{"faction_ids": []any{factionID.String()}, "region_names": []any{"North"}}})
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if !result.Success {
+		t.Fatal("expected success")
+	}
+	if result.Data["fact_warning"] == nil {
+		t.Fatalf("expected fact_warning in result data, got %+v", result.Data)
 	}
 }
 
@@ -306,9 +329,15 @@ func TestCreateEconomicSystemValidationAndErrors(t *testing.T) {
 				"to_location_id":   toLocationID.String(),
 			},
 		}
-		_, err := h.Handle(context.Background(), args)
-		if err == nil || !strings.Contains(err.Error(), "create economic system world_fact") {
-			t.Fatalf("error = %v, want world_fact context", err)
+		result, err := h.Handle(context.Background(), args)
+		if err != nil {
+			t.Fatalf("Handle returned error: %v", err)
+		}
+		if !result.Success {
+			t.Fatal("expected success")
+		}
+		if result.Data["fact_warning"] == nil {
+			t.Fatalf("expected fact_warning in result data, got %+v", result.Data)
 		}
 	})
 }

@@ -106,10 +106,11 @@ func (a *SkeletonStoreAdapter) CreateNPC(ctx context.Context, campaignID uuid.UU
 // CreateWorldFact persists a skeleton world fact and returns its generated ID.
 func (a *SkeletonStoreAdapter) CreateWorldFact(ctx context.Context, campaignID uuid.UUID, f SkeletonFact) (uuid.UUID, error) {
 	row, err := a.q.CreateFact(ctx, statedb.CreateFactParams{
-		CampaignID: dbutil.ToPgtype(campaignID),
-		Fact:       f.Fact,
-		Category:   f.Category,
-		Source:     worldGenerationSource,
+		CampaignID:  dbutil.ToPgtype(campaignID),
+		Fact:        f.Fact,
+		Category:    f.Category,
+		Source:      worldGenerationSource,
+		PlayerKnown: false,
 	})
 	if err != nil {
 		logger().Error("create world fact failed", "campaign_id", campaignID, "category", f.Category, "error", err)

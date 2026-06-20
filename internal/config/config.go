@@ -28,6 +28,7 @@ type OllamaConfig struct {
 	EmbeddingEndpoint  string `koanf:"embeddingendpoint"`
 	Model              string `koanf:"model"`
 	EmbeddingModel     string `koanf:"embeddingmodel"`
+	EmbeddingDimension int    `koanf:"embeddingdimension"`
 	APIKey             string `koanf:"apikey"`
 	ContextTokenBudget int    `koanf:"contexttokenbudget"`
 	TimeoutSeconds     int    `koanf:"timeoutseconds"`
@@ -89,6 +90,9 @@ func (c *Config) Validate() error {
 	if c.LLM.Provider == "claude" && c.LLM.Claude.APIKey == "" {
 		return errors.New("claude provider requires api key (set llm.claude.apikey, EDDA_LLM_CLAUDE_APIKEY, or ANTHROPIC_API_KEY)")
 	}
+	if c.LLM.Provider == "ollama" && c.LLM.Ollama.EmbeddingDimension <= 0 {
+		return errors.New("ollama embedding dimension must be positive")
+	}
 	return nil
 }
 
@@ -102,6 +106,7 @@ func Load(path string) (Config, error) {
 		"llm.ollama.model":              "qwen3:14b",
 		"llm.ollama.embeddingendpoint":  "",
 		"llm.ollama.embeddingmodel":     "nomic-embed-text",
+		"llm.ollama.embeddingdimension": 768,
 		"llm.ollama.apikey":             "",
 		"llm.ollama.contexttokenbudget": 8000,
 		"llm.ollama.timeoutseconds":     600,

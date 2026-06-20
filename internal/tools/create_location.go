@@ -22,7 +22,10 @@ const createLocationToolName = "create_location"
 type LocationStore interface {
 	CreateLocation(ctx context.Context, arg statedb.CreateLocationParams) (statedb.Location, error)
 	GetLocationByID(ctx context.Context, id pgtype.UUID) (statedb.Location, error)
+	ListLocationsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Location, error)
 	CreateConnection(ctx context.Context, arg statedb.CreateConnectionParams) (statedb.LocationConnection, error)
+	UpdatePlayerLocation(ctx context.Context, arg statedb.UpdatePlayerLocationParams) (statedb.PlayerCharacter, error)
+	SetLocationPlayerVisited(ctx context.Context, id pgtype.UUID) error
 }
 
 // CreateLocationTool returns the create_location tool definition and JSON schema.
@@ -75,6 +78,10 @@ func CreateLocationTool() llm.Tool {
 						"required":             []string{"location_id", "description", "bidirectional"},
 						"additionalProperties": false,
 					},
+				},
+				"move_player_here": map[string]any{
+					"type":        "boolean",
+					"description": "When true, move the current player character into this location after creating or reusing it. Use this when the narrative says the player actually enters or arrives at the new location.",
 				},
 			},
 			"required":             []string{"name", "description", "region", "location_type"},
@@ -146,6 +153,10 @@ func (h *CreateLocationHandler) Handle(ctx context.Context, args map[string]any)
 	if err != nil {
 		return nil, err
 	}
+	movePlayerHere, err := parseBoolArg(args, "move_player_here")
+	if err != nil {
+		return nil, err
+	}
 
 	currentLocationID, ok := CurrentLocationIDFromContext(ctx)
 	if !ok {
@@ -155,17 +166,100 @@ func (h *CreateLocationHandler) Handle(ctx context.Context, args map[string]any)
 	if err != nil {
 		return nil, fmt.Errorf("resolve campaign from current location: %w", err)
 	}
+	var playerCharacterID uuid.UUID
+	if movePlayerHere {
+		var ok bool
+		playerCharacterID, ok = CurrentPlayerCharacterIDFromContext(ctx)
+		if !ok {
+			return nil, errors.New("create_location with move_player_here requires current player character id in context")
+		}
+	}
 	if err := h.validateConnectionTargets(ctx, currentLocation.CampaignID, connections); err != nil {
 		return nil, err
 	}
 
-	propertiesJSON, err := json.Marshal(properties)
+	createdLocation, reused, err := h.createOrReuseLocation(ctx, currentLocation.CampaignID, name, description, region, locationType, properties)
 	if err != nil {
-		return nil, fmt.Errorf("marshal location properties: %w", err)
+		return nil, err
+	}
+	campaignID := dbutil.FromPgtype(createdLocation.CampaignID)
+	locationID := dbutil.FromPgtype(createdLocation.ID)
+	resultProperties := properties
+	if reused {
+		resultProperties = propertiesFromLocation(createdLocation)
 	}
 
+	movementData, movementWarning, err := h.movePlayerHere(ctx, movePlayerHere, playerCharacterID, locationID)
+	if err != nil {
+		return nil, err
+	}
+
+	createdConnections := []map[string]any{}
+	if !reused {
+		createdConnections, err = h.createConnections(ctx, createdLocation, connections)
+	}
+	if err != nil {
+		data := locationResultData(createdLocation, campaignID, locationID, resultProperties, []map[string]any{}, reused)
+		data["connection_warning"] = err.Error()
+		mergeLocationResultData(data, movementData)
+		if movementWarning != "" {
+			data["movement_warning"] = movementWarning
+		}
+		return &ToolResult{
+			Success:   true,
+			Data:      data,
+			Narrative: fmt.Sprintf("Location %q created, but connection creation failed: %v", createdLocation.Name, err),
+		}, nil
+	}
+
+	if !reused && h.embedder != nil && h.memoryStore != nil {
+		if err := h.embedLocationMemory(ctx, campaignID, locationID, name, description, region, locationType, properties, len(createdConnections)); err != nil {
+			data := locationResultData(createdLocation, campaignID, locationID, resultProperties, createdConnections, reused)
+			data["memory_warning"] = err.Error()
+			mergeLocationResultData(data, movementData)
+			if movementWarning != "" {
+				data["movement_warning"] = movementWarning
+			}
+			return &ToolResult{Success: true, Data: data, Narrative: fmt.Sprintf("Location %q created. Memory embedding failed: %v", createdLocation.Name, err)}, nil
+		}
+	}
+
+	data := locationResultData(createdLocation, campaignID, locationID, resultProperties, createdConnections, reused)
+	mergeLocationResultData(data, movementData)
+	if movementWarning != "" {
+		data["movement_warning"] = movementWarning
+	}
+	narrative := fmt.Sprintf("Location %q created successfully.", createdLocation.Name)
+	if reused {
+		narrative = fmt.Sprintf("Location %q already existed and was reused.", createdLocation.Name)
+	}
+	if movePlayerHere && movementWarning == "" {
+		narrative += " Player moved there."
+	}
+	return &ToolResult{
+		Success:   true,
+		Data:      data,
+		Narrative: narrative,
+	}, nil
+}
+
+func (h *CreateLocationHandler) createOrReuseLocation(ctx context.Context, campaignID pgtype.UUID, name, description, region, locationType string, properties map[string]any) (statedb.Location, bool, error) {
+	existing, err := h.locationStore.ListLocationsByCampaign(ctx, campaignID)
+	if err != nil {
+		return statedb.Location{}, false, fmt.Errorf("list campaign locations: %w", err)
+	}
+	for _, location := range existing {
+		if domain.SameCanonicalLocationName(location.Name, name) {
+			return location, true, nil
+		}
+	}
+
+	propertiesJSON, err := json.Marshal(properties)
+	if err != nil {
+		return statedb.Location{}, false, fmt.Errorf("marshal location properties: %w", err)
+	}
 	createdLocation, err := h.locationStore.CreateLocation(ctx, statedb.CreateLocationParams{
-		CampaignID:   currentLocation.CampaignID,
+		CampaignID:   campaignID,
 		Name:         name,
 		Description:  pgtype.Text{String: description, Valid: true},
 		Region:       pgtype.Text{String: region, Valid: true},
@@ -173,36 +267,65 @@ func (h *CreateLocationHandler) Handle(ctx context.Context, args map[string]any)
 		Properties:   propertiesJSON,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("create location: %w", err)
+		return statedb.Location{}, false, fmt.Errorf("create location: %w", err)
 	}
+	return createdLocation, false, nil
+}
 
-	createdConnections, err := h.createConnections(ctx, createdLocation, connections)
-	if err != nil {
-		return nil, err
+func (h *CreateLocationHandler) movePlayerHere(ctx context.Context, shouldMove bool, playerCharacterID, locationID uuid.UUID) (map[string]any, string, error) {
+	if !shouldMove {
+		return nil, "", nil
 	}
-
-	campaignID := dbutil.FromPgtype(createdLocation.CampaignID)
-	locationID := dbutil.FromPgtype(createdLocation.ID)
-	if h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedLocationMemory(ctx, campaignID, locationID, name, description, region, locationType, properties, len(createdConnections)); err != nil {
-			return nil, err
-		}
+	if _, err := h.locationStore.UpdatePlayerLocation(ctx, statedb.UpdatePlayerLocationParams{CurrentLocationID: dbutil.ToPgtype(locationID), ID: dbutil.ToPgtype(playerCharacterID)}); err != nil {
+		return nil, "", fmt.Errorf("move player to created location: %w", err)
 	}
+	visitedMarked := true
+	visitedWarning := ""
+	if err := h.locationStore.SetLocationPlayerVisited(ctx, dbutil.ToPgtype(locationID)); err != nil {
+		visitedMarked = false
+		visitedWarning = err.Error()
+	}
+	data := map[string]any{
+		"move_player_here":    true,
+		"player_character_id": playerCharacterID.String(),
+		"location_id":         locationID.String(),
+		"visited_marked":      visitedMarked,
+	}
+	if visitedWarning != "" {
+		data["visited_warning"] = visitedWarning
+	}
+	return data, "", nil
+}
 
-	return &ToolResult{
-		Success: true,
-		Data: map[string]any{
-			"id":            locationID.String(),
-			"campaign_id":   campaignID.String(),
-			"name":          createdLocation.Name,
-			"description":   createdLocation.Description.String,
-			"region":        createdLocation.Region.String,
-			"location_type": createdLocation.LocationType.String,
-			"properties":    properties,
-			"connections":   createdConnections,
-		},
-		Narrative: fmt.Sprintf("Location %q created successfully.", createdLocation.Name),
-	}, nil
+func locationResultData(location statedb.Location, campaignID, locationID uuid.UUID, properties map[string]any, connections []map[string]any, reused bool) map[string]any {
+	return map[string]any{
+		"id":            locationID.String(),
+		"campaign_id":   campaignID.String(),
+		"name":          location.Name,
+		"description":   location.Description.String,
+		"region":        location.Region.String,
+		"location_type": location.LocationType.String,
+		"properties":    properties,
+		"connections":   connections,
+		"reused":        reused,
+	}
+}
+
+func propertiesFromLocation(location statedb.Location) map[string]any {
+	if len(location.Properties) == 0 {
+		return map[string]any{}
+	}
+	var properties map[string]any
+	if err := json.Unmarshal(location.Properties, &properties); err != nil || properties == nil {
+		return map[string]any{}
+	}
+	return properties
+}
+
+func mergeLocationResultData(dst map[string]any, src map[string]any) {
+	for k, v := range src {
+		dst[k] = v
+	}
 }
 
 func (h *CreateLocationHandler) validateConnectionTargets(ctx context.Context, campaignID pgtype.UUID, connections []locationConnectionInput) error {
@@ -289,7 +412,6 @@ func (h *CreateLocationHandler) embedLocationMemory(
 
 	return nil
 }
-
 
 func parseLocationConnectionsArg(args map[string]any, key string) ([]locationConnectionInput, error) {
 	raw, ok := args[key]

@@ -16,17 +16,17 @@ import (
 )
 
 type stubFactionStore struct {
-	currentLocation        statedb.Location
-	factionsByID           map[[16]byte]statedb.Faction
-	lastCreateFaction      statedb.CreateFactionParams
-	createFactionCalls     int
-	createFactionResult    statedb.Faction
-	lastRelationships      []statedb.CreateFactionRelationshipParams
-	relationshipResults    []statedb.FactionRelationship
-	getLocationErr         error
-	getFactionErr          error
-	createFactionErr       error
-	createRelationshipErr  error
+	currentLocation       statedb.Location
+	factionsByID          map[[16]byte]statedb.Faction
+	lastCreateFaction     statedb.CreateFactionParams
+	createFactionCalls    int
+	createFactionResult   statedb.Faction
+	lastRelationships     []statedb.CreateFactionRelationshipParams
+	relationshipResults   []statedb.FactionRelationship
+	getLocationErr        error
+	getFactionErr         error
+	createFactionErr      error
+	createRelationshipErr error
 }
 
 func (s *stubFactionStore) CreateFaction(_ context.Context, arg statedb.CreateFactionParams) (statedb.Faction, error) {
@@ -188,6 +188,26 @@ func TestCreateFactionHandleSuccessWithRelationships(t *testing.T) {
 	}
 	if embedder.lastInput == "" {
 		t.Fatal("expected embedder input to be populated")
+	}
+}
+
+func TestCreateFactionHandleRelationshipWarning(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+	newFactionID := uuid.New()
+	relatedFactionID := uuid.New()
+
+	store := &stubFactionStore{currentLocation: statedb.Location{ID: dbutil.ToPgtype(currentLocationID), CampaignID: dbutil.ToPgtype(campaignID)}, factionsByID: map[[16]byte]statedb.Faction{dbutil.ToPgtype(relatedFactionID).Bytes: {ID: dbutil.ToPgtype(relatedFactionID), CampaignID: dbutil.ToPgtype(campaignID)}}, createFactionResult: statedb.Faction{ID: dbutil.ToPgtype(newFactionID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Iron Accord"}, createRelationshipErr: errors.New("relationship write failed")}
+	h := NewCreateFactionHandler(store, nil, nil)
+	result, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{"name": "Iron Accord", "description": "A federation.", "agenda": "Secure the passes.", "territory": "Northern peaks", "properties": map[string]any{}, "relationships": []any{map[string]any{"faction_id": relatedFactionID.String(), "type": "allied", "description": "Pact"}}})
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if !result.Success {
+		t.Fatal("expected success")
+	}
+	if result.Data["relationship_warning"] == nil {
+		t.Fatalf("expected relationship_warning in result data, got %+v", result.Data)
 	}
 }
 
@@ -385,7 +405,7 @@ func TestCreateFactionHandleCreateFactionStoreError(t *testing.T) {
 			ID:         dbutil.ToPgtype(currentLocationID),
 			CampaignID: dbutil.ToPgtype(campaignID),
 		},
-		factionsByID:   map[[16]byte]statedb.Faction{},
+		factionsByID:     map[[16]byte]statedb.Faction{},
 		createFactionErr: errors.New("db down"),
 	}
 	h := NewCreateFactionHandler(store, nil, nil)
@@ -429,7 +449,7 @@ func TestCreateFactionHandleCreateRelationshipStoreError(t *testing.T) {
 		createRelationshipErr: errors.New("rel error"),
 	}
 	h := NewCreateFactionHandler(store, nil, nil)
-	_, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{
+	result, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{
 		"name":        "Faction With Rel",
 		"description": "desc",
 		"agenda":      "agenda",
@@ -443,8 +463,14 @@ func TestCreateFactionHandleCreateRelationshipStoreError(t *testing.T) {
 			},
 		},
 	})
-	if err == nil || !strings.Contains(err.Error(), "create relationships") {
-		t.Fatalf("error = %v, want \"create relationships\" in message", err)
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if !result.Success {
+		t.Fatal("expected success")
+	}
+	if result.Data["relationship_warning"] == nil {
+		t.Fatalf("expected relationship_warning in result data, got %+v", result.Data)
 	}
 }
 

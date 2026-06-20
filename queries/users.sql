@@ -4,20 +4,20 @@ INSERT INTO users (
 ) VALUES (
   $1
 )
-RETURNING id, name, created_at, updated_at;
+RETURNING *;
 
 -- name: GetUserByID :one
-SELECT id, name, created_at, updated_at
+SELECT *
 FROM users
 WHERE id = $1;
 
 -- name: GetUserByName :one
-SELECT id, name, created_at, updated_at
+SELECT *
 FROM users
 WHERE name = $1;
 
 -- name: ListUsers :many
-SELECT id, name, created_at, updated_at
+SELECT *
 FROM users
 ORDER BY created_at, id;
 
@@ -27,7 +27,7 @@ SET
   name = $2,
   updated_at = now()
 WHERE id = $1
-RETURNING id, name, created_at, updated_at;
+RETURNING *;
 
 -- name: CreateUserWithAuth :one
 INSERT INTO users (name, email, password_hash)

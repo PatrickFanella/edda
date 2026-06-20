@@ -29,6 +29,7 @@ type MovePlayerResult struct {
 	ToLocationID          uuid.UUID
 	ToLocationName        string
 	ToLocationDescription string
+	ToLocationType        string
 	TravelTime            string
 	Day                   int
 	Hour                  int

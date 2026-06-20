@@ -109,6 +109,7 @@
         "entity_id": "33333333-3333-3333-3333-333333333333",
         "change_type": "location_updated",
         "details": {
+          "location_id": "loc-1",
           "new_value": {
             "location_id": "loc-1"
           }

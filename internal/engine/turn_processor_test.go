@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 	"testing"
 
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
@@ -505,6 +506,397 @@ func TestTurnProcessor_NoToolCalls(t *testing.T) {
 	}
 	if provider.callCount != 1 {
 		t.Errorf("provider.callCount = %d, want 1", provider.callCount)
+	}
+}
+
+func TestTurnProcessor_DurableClaimRepairRewritesProvisionalNarrative(t *testing.T) {
+	reg, _ := buildProcessorTestRegistry(t, 0)
+	validator := tools.NewValidator(reg)
+
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "You arrive at the Lower Tier Corridor.", ToolCalls: nil},
+			err:  nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "What follows is provisional: the scene remains unsettled until the world-state tools confirm it.", ToolCalls: nil},
+			err:  nil,
+		},
+	)
+
+	tp := NewTurnProcessor(provider, reg, validator, nil)
+	messages := []llm.Message{{Role: llm.RoleUser, Content: "Go there"}}
+
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), messages, reg.List())
+
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	}
+	if len(applied) != 0 {
+		t.Fatalf("len(applied) = %d, want 0", len(applied))
+	}
+	if strings.Contains(strings.ToLower(narrative), "you arrive") {
+		t.Fatalf("narrative still contains durable movement claim: %q", narrative)
+	}
+	if !strings.Contains(narrative, "provisional") {
+		t.Fatalf("narrative = %q, want provisional fallback", narrative)
+	}
+	if provider.callCount != 1 {
+		t.Fatalf("provider.callCount = %d, want 1", provider.callCount)
+	}
+	if narrative == "" {
+		t.Fatal("expected repaired narrative to be returned")
+	}
+}
+
+func TestTurnProcessor_DurableClaimRepairAppliesMissingTool(t *testing.T) {
+	reg := tools.NewRegistry()
+	var calls int
+	if err := reg.Register(llm.Tool{
+		Name: "create_quest",
+		Parameters: map[string]any{
+			"type": "object",
+			"properties": map[string]any{
+				"title": map[string]any{"type": "string"},
+			},
+			"required": []any{"title"},
+		},
+	}, func(_ context.Context, args map[string]any) (*tools.ToolResult, error) {
+		calls++
+		return &tools.ToolResult{Success: true, Data: map[string]any{"title": args["title"]}}, nil
+	}); err != nil {
+		t.Fatalf("Register create_quest: %v", err)
+	}
+	validator := tools.NewValidator(reg)
+
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "A new quest is added to your journal: Find the Core.", ToolCalls: nil},
+			err:  nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "A new quest is added to your journal: Find the Core.", ToolCalls: []llm.ToolCall{{ID: "repair-1", Name: "create_quest", Arguments: map[string]any{"title": "Find the Core"}}}},
+			err:  nil,
+		},
+	)
+
+	tp := NewTurnProcessor(provider, reg, validator, nil)
+	messages := []llm.Message{{Role: llm.RoleUser, Content: "Start the quest"}}
+
+	_, applied, err := tp.ProcessWithRecovery(context.Background(), messages, reg.List())
+
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	}
+	if len(applied) != 1 {
+		t.Fatalf("len(applied) = %d, want 1", len(applied))
+	}
+	if applied[0].Tool != "create_quest" {
+		t.Fatalf("applied[0].Tool = %q, want create_quest", applied[0].Tool)
+	}
+	if calls != 1 {
+		t.Fatalf("calls = %d, want 1", calls)
+	}
+	if provider.callCount != 2 {
+		t.Fatalf("provider.callCount = %d, want 2", provider.callCount)
+	}
+}
+
+func TestTurnProcessor_FailedMovementToolProvisionalizesNarrativeEvenWithoutPhraseMatch(t *testing.T) {
+	reg := tools.NewRegistry()
+	var calls int
+	if err := reg.Register(llm.Tool{
+		Name: "create_location",
+		Parameters: map[string]any{
+			"type": "object",
+			"properties": map[string]any{
+				"move_player_here": map[string]any{"type": "boolean"},
+			},
+		},
+	}, func(_ context.Context, _ map[string]any) (*tools.ToolResult, error) {
+		calls++
+		return nil, errors.New("move player to created location: simulated persistence failure")
+	}); err != nil {
+		t.Fatalf("Register create_location: %v", err)
+	}
+	validator := tools.NewValidator(reg)
+
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{
+				Content: "You cross the threshold into the Needle Room.",
+				ToolCalls: []llm.ToolCall{{
+					ID:        "move-1",
+					Name:      "create_location",
+					Arguments: map[string]any{"move_player_here": true},
+				}},
+			},
+			err: nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "", ToolCalls: nil},
+			err:  nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "What follows is provisional: the threshold remains unresolved until movement is confirmed.", ToolCalls: nil},
+			err:  nil,
+		},
+	)
+
+	tp := NewTurnProcessor(provider, reg, validator, nil)
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Go there"}}, reg.List())
+
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	}
+	if len(applied) != 0 {
+		t.Fatalf("len(applied) = %d, want 0", len(applied))
+	}
+	if !strings.Contains(strings.ToLower(narrative), "provisional") {
+		t.Fatalf("narrative = %q, want provisional narrative", narrative)
+	}
+	if strings.Contains(strings.ToLower(narrative), "cross the threshold") {
+		t.Fatalf("narrative still contains unconfirmed movement claim: %q", narrative)
+	}
+	if calls != 1 {
+		t.Fatalf("calls = %d, want 1", calls)
+	}
+	if provider.callCount != 3 {
+		t.Fatalf("provider.callCount = %d, want 3", provider.callCount)
+	}
+}
+
+func TestTurnProcessor_FailedMovementToolRejectsUnsupportedRepairNarrative(t *testing.T) {
+	reg := tools.NewRegistry()
+	if err := reg.Register(llm.Tool{
+		Name: "create_location",
+		Parameters: map[string]any{
+			"type": "object",
+			"properties": map[string]any{
+				"move_player_here": map[string]any{"type": "boolean"},
+			},
+		},
+	}, func(_ context.Context, _ map[string]any) (*tools.ToolResult, error) {
+		return nil, errors.New("move player to created location: simulated persistence failure")
+	}); err != nil {
+		t.Fatalf("Register create_location: %v", err)
+	}
+	validator := tools.NewValidator(reg)
+
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{
+				Content: "You cross the threshold into the Needle Room.",
+				ToolCalls: []llm.ToolCall{{
+					ID:        "move-1",
+					Name:      "create_location",
+					Arguments: map[string]any{"move_player_here": true},
+				}},
+			},
+			err: nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "", ToolCalls: nil},
+			err:  nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "You cross the threshold into the Needle Room.", ToolCalls: nil},
+			err:  nil,
+		},
+	)
+
+	tp := NewTurnProcessor(provider, reg, validator, nil)
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Go there"}}, reg.List())
+
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	}
+	if len(applied) != 0 {
+		t.Fatalf("len(applied) = %d, want 0", len(applied))
+	}
+	if strings.Contains(strings.ToLower(narrative), "cross the threshold") {
+		t.Fatalf("narrative still contains unconfirmed movement claim: %q", narrative)
+	}
+	if !strings.Contains(strings.ToLower(narrative), "provisional") {
+		t.Fatalf("narrative = %q, want forced provisional fallback", narrative)
+	}
+	if provider.callCount != 3 {
+		t.Fatalf("provider.callCount = %d, want 3", provider.callCount)
+	}
+}
+
+func TestTurnProcessor_LaterFailedMovementRequiresNewRepairMovement(t *testing.T) {
+	reg := tools.NewRegistry()
+	if err := reg.Register(llm.Tool{
+		Name:       "move_player",
+		Parameters: map[string]any{"type": "object"},
+	}, func(_ context.Context, _ map[string]any) (*tools.ToolResult, error) {
+		return &tools.ToolResult{Success: true, Data: map[string]any{"location_id": "00000000-0000-0000-0000-000000000001"}}, nil
+	}); err != nil {
+		t.Fatalf("Register move_player: %v", err)
+	}
+	if err := reg.Register(llm.Tool{
+		Name: "create_location",
+		Parameters: map[string]any{
+			"type": "object",
+			"properties": map[string]any{
+				"move_player_here": map[string]any{"type": "boolean"},
+			},
+		},
+	}, func(_ context.Context, _ map[string]any) (*tools.ToolResult, error) {
+		return nil, errors.New("move player to created location: simulated persistence failure")
+	}); err != nil {
+		t.Fatalf("Register create_location: %v", err)
+	}
+	validator := tools.NewValidator(reg)
+
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{
+				Content: "You cross the threshold into the Needle Room.",
+				ToolCalls: []llm.ToolCall{
+					{ID: "move-ok", Name: "move_player", Arguments: map[string]any{}},
+					{ID: "move-fail", Name: "create_location", Arguments: map[string]any{"move_player_here": true}},
+				},
+			},
+			err: nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "", ToolCalls: nil},
+			err:  nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "You cross the threshold into the Needle Room.", ToolCalls: nil},
+			err:  nil,
+		},
+	)
+
+	tp := NewTurnProcessor(provider, reg, validator, nil)
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Go there"}}, reg.List())
+
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	}
+	if len(applied) != 1 || applied[0].Tool != "move_player" {
+		t.Fatalf("applied = %#v, want only initial move_player", applied)
+	}
+	if strings.Contains(strings.ToLower(narrative), "cross the threshold") {
+		t.Fatalf("narrative still contains later unconfirmed movement claim: %q", narrative)
+	}
+	if !strings.Contains(strings.ToLower(narrative), "provisional") {
+		t.Fatalf("narrative = %q, want forced provisional fallback", narrative)
+	}
+}
+
+func TestTurnProcessor_TwoFailedMovementObligationsRequireTwoRepairMovements(t *testing.T) {
+	reg := tools.NewRegistry()
+	var calls int
+	if err := reg.Register(llm.Tool{
+		Name: "create_location",
+		Parameters: map[string]any{
+			"type": "object",
+			"properties": map[string]any{
+				"move_player_here": map[string]any{"type": "boolean"},
+			},
+		},
+	}, func(_ context.Context, _ map[string]any) (*tools.ToolResult, error) {
+		calls++
+		if calls <= 2 {
+			return nil, errors.New("move player to created location: simulated persistence failure")
+		}
+		return &tools.ToolResult{Success: true, Data: map[string]any{"move_player_here": true, "location_id": "00000000-0000-0000-0000-000000000001"}}, nil
+	}); err != nil {
+		t.Fatalf("Register create_location: %v", err)
+	}
+	validator := tools.NewValidator(reg)
+
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{
+				Content: "You cross into the Needle Room, then cross into the Salt Lift.",
+				ToolCalls: []llm.ToolCall{
+					{ID: "move-fail-1", Name: "create_location", Arguments: map[string]any{"move_player_here": true}},
+					{ID: "move-fail-2", Name: "create_location", Arguments: map[string]any{"move_player_here": true}},
+				},
+			},
+			err: nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: "", ToolCalls: nil}, err: nil},
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: "", ToolCalls: nil}, err: nil},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{
+				Content:   "You cross into the Salt Lift.",
+				ToolCalls: []llm.ToolCall{{ID: "repair-one", Name: "create_location", Arguments: map[string]any{"move_player_here": true}}},
+			},
+			err: nil,
+		},
+	)
+
+	tp := NewTurnProcessor(provider, reg, validator, nil)
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Go twice"}}, reg.List())
+
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	}
+	if len(applied) != 1 {
+		t.Fatalf("len(applied) = %d, want one repair movement", len(applied))
+	}
+	if strings.Contains(strings.ToLower(narrative), "cross into") {
+		t.Fatalf("narrative still accepts one repair movement for two failed obligations: %q", narrative)
+	}
+	if !strings.Contains(strings.ToLower(narrative), "provisional") {
+		t.Fatalf("narrative = %q, want forced provisional fallback", narrative)
 	}
 }
 
