@@ -9,14 +9,14 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
-	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 func TestCombatService_CreateNPC_MalformedAbilities(t *testing.T) {
 	svc := NewCombatService(newMockQuerier())
 
-	_, err := svc.CreateNPC(context.Background(), tools.InitiateCombatNPCParams{
+	_, err := svc.CreateNPC(context.Background(), domain.InitiateCombatNPCParams{
 		Name:      "Goblin",
 		Abilities: json.RawMessage("not valid json"),
 	})
@@ -31,7 +31,7 @@ func TestCombatService_CreateNPC_MalformedAbilities(t *testing.T) {
 func TestCombatService_CreateNPC_ValidAbilities(t *testing.T) {
 	svc := NewCombatService(newMockQuerier())
 
-	_, err := svc.CreateNPC(context.Background(), tools.InitiateCombatNPCParams{
+	_, err := svc.CreateNPC(context.Background(), domain.InitiateCombatNPCParams{
 		Name:      "Mage",
 		Abilities: json.RawMessage(`[{"name":"fireball"}]`),
 	})
@@ -45,7 +45,7 @@ func TestCombatService_CreateNPC_ValidAbilities(t *testing.T) {
 func TestCombatService_CreateNPC_NoAbilities(t *testing.T) {
 	svc := NewCombatService(newMockQuerier())
 
-	_, err := svc.CreateNPC(context.Background(), tools.InitiateCombatNPCParams{
+	_, err := svc.CreateNPC(context.Background(), domain.InitiateCombatNPCParams{
 		Name:      "Bandit",
 		Abilities: nil,
 	})

@@ -46,18 +46,7 @@ var supportedItemPropertyKeys = map[string]struct{}{
 	"weight":  {},
 }
 
-// PlayerItem represents a player's item stack.
-type PlayerItem struct {
-	ID                uuid.UUID
-	PlayerCharacterID uuid.UUID
-	Name              string
-	Description       string
-	ItemType          string
-	Rarity            string
-	Properties        map[string]any
-	Equipped          bool
-	Quantity          int
-}
+type PlayerItem = domain.PlayerItem
 
 // AddItemStore persists item creation for player characters.
 type AddItemStore interface {

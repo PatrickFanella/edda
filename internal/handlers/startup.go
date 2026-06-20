@@ -11,7 +11,6 @@ import (
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
-	"git.subcult.tv/subculture-collective/edda/internal/rules"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
@@ -299,6 +298,8 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 		Summary:          strings.TrimSpace(req.Summary),
 		Profile:          req.Profile,
 		CharacterProfile: req.CharacterProfile,
+		RulesMode:        strings.TrimSpace(req.RulesMode),
+		Pool:             h.Pool,
 		UserID:           userID,
 	}, nil)
 	if err != nil {
@@ -310,36 +311,6 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 		h.Logger.Errorf("build startup world: orchestrator returned nil scene")
 		writeError(w, http.StatusInternalServerError, "failed to build world")
 		return
-	}
-
-	campaignUUID := result.Campaign.ID
-
-	// Initialize campaign time to Day 1, 08:00.
-	if h.Pool != nil {
-		_, _ = h.Pool.Exec(r.Context(),
-			"INSERT INTO campaign_time (campaign_id, day, hour, minute) VALUES ($1, 1, 8, 0) ON CONFLICT (campaign_id) DO NOTHING",
-			campaignUUID,
-		)
-	}
-
-	// Apply rules_mode if provided in the request.
-	rulesMode := strings.TrimSpace(req.RulesMode)
-	if rulesMode != "" && h.Pool != nil {
-		_, _ = h.Pool.Exec(r.Context(),
-			"UPDATE campaigns SET rules_mode = $1 WHERE id = $2",
-			rulesMode, campaignUUID,
-		)
-
-		// Seed default feats and skills for crunch mode.
-		if rulesMode == "crunch" {
-			cID := campaignUUID.Bytes
-			if err := rules.SeedDefaultFeats(r.Context(), h.Pool, cID); err != nil {
-				h.Logger.Errorf("seed default feats for %s: %v", cID, err)
-			}
-			if err := rules.SeedDefaultSkills(r.Context(), h.Pool, cID); err != nil {
-				h.Logger.Errorf("seed default skills for %s: %v", cID, err)
-			}
-		}
 	}
 
 	writeJSON(w, http.StatusOK, api.WorldBuildResponse{

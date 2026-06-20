@@ -13,11 +13,43 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/progression"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
-	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 type combatService struct {
 	queries statedb.Querier
+}
+
+type InitiateCombatStore interface {
+	GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error)
+	ListNPCsByCampaign(ctx context.Context, campaignID uuid.UUID) ([]domain.NPC, error)
+	CreateNPC(ctx context.Context, params domain.InitiateCombatNPCParams) (*domain.NPC, error)
+	UpdatePlayerStatus(ctx context.Context, playerCharacterID uuid.UUID, status string) error
+	LogCombatStart(ctx context.Context, entry domain.InitiateCombatLogEntry) error
+}
+
+type ResolveCombatStore interface {
+	UpdatePlayerHP(ctx context.Context, playerCharacterID uuid.UUID, hp, maxHP int) error
+	UpdatePlayerLocation(ctx context.Context, playerCharacterID uuid.UUID, locationID uuid.UUID) error
+	UpdatePlayerStats(ctx context.Context, playerCharacterID uuid.UUID, stats json.RawMessage) error
+	UpdatePlayerAbilities(ctx context.Context, playerCharacterID uuid.UUID, abilities json.RawMessage) error
+	AddPlayerExperience(ctx context.Context, playerCharacterID uuid.UUID, xpAmount int) error
+	CreatePlayerItem(ctx context.Context, playerCharacterID uuid.UUID, name, description, itemType, rarity string, quantity int) (uuid.UUID, error)
+	MarkNPCDead(ctx context.Context, npcID uuid.UUID) error
+	GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error)
+	UpdateNPCDisposition(ctx context.Context, npcID uuid.UUID, newDisposition int) error
+}
+
+type UpdatePlayerStatsStore interface {
+	UpdatePlayerStats(ctx context.Context, playerCharacterID uuid.UUID, stats json.RawMessage) error
+	UpdatePlayerAbilities(ctx context.Context, playerCharacterID uuid.UUID, abilities json.RawMessage) error
+}
+
+type AddAbilityStore interface {
+	UpdatePlayerAbilities(ctx context.Context, playerCharacterID uuid.UUID, abilities json.RawMessage) error
+}
+
+type RemoveAbilityStore interface {
+	UpdatePlayerAbilities(ctx context.Context, playerCharacterID uuid.UUID, abilities json.RawMessage) error
 }
 
 // NewCombatService creates a service that satisfies tools.InitiateCombatStore.
@@ -33,7 +65,7 @@ func (s *combatService) ListNPCsByCampaign(ctx context.Context, campaignID uuid.
 	return listNPCsByCampaign(ctx, s.queries, campaignID)
 }
 
-func (s *combatService) CreateNPC(ctx context.Context, params tools.InitiateCombatNPCParams) (*domain.NPC, error) {
+func (s *combatService) CreateNPC(ctx context.Context, params domain.InitiateCombatNPCParams) (*domain.NPC, error) {
 	properties := map[string]any{}
 	if len(params.Abilities) > 0 {
 		var abilities []any
@@ -76,7 +108,7 @@ func (s *combatService) UpdatePlayerStatus(ctx context.Context, playerCharacterI
 	return err
 }
 
-func (s *combatService) LogCombatStart(ctx context.Context, entry tools.InitiateCombatLogEntry) error {
+func (s *combatService) LogCombatStart(ctx context.Context, entry domain.InitiateCombatLogEntry) error {
 	recentLogs, err := s.queries.ListRecentSessionLogs(ctx, statedb.ListRecentSessionLogsParams{
 		CampaignID: dbutil.ToPgtype(entry.CampaignID),
 		LimitCount: 1,
@@ -108,11 +140,11 @@ func (s *combatService) LogCombatStart(ctx context.Context, entry tools.Initiate
 	return nil
 }
 
-var _ tools.InitiateCombatStore = (*combatService)(nil)
-var _ tools.ResolveCombatStore = (*combatService)(nil)
-var _ tools.UpdatePlayerStatsStore = (*combatService)(nil)
-var _ tools.AddAbilityStore = (*combatService)(nil)
-var _ tools.RemoveAbilityStore = (*combatService)(nil)
+var _ InitiateCombatStore = (*combatService)(nil)
+var _ ResolveCombatStore = (*combatService)(nil)
+var _ UpdatePlayerStatsStore = (*combatService)(nil)
+var _ AddAbilityStore = (*combatService)(nil)
+var _ RemoveAbilityStore = (*combatService)(nil)
 
 // --- tools.ResolveCombatStore methods ---
 

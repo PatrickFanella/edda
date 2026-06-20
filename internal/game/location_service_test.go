@@ -11,11 +11,11 @@ import (
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
-	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
-var _ tools.MovePlayerStore = (*locationService)(nil)
-var _ tools.DescribeSceneStore = (*locationService)(nil)
+var _ interface {
+	GetLocation(context.Context, uuid.UUID) (string, string, error)
+} = (*locationService)(nil)
 
 func TestLocationServiceGetLocation(t *testing.T) {
 	q := newMockQuerier()

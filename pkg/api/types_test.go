@@ -2,6 +2,8 @@ package api
 
 import (
 	"encoding/json"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 )
@@ -151,6 +153,19 @@ func TestActionTurnAndEnvelopeTypesJSONShape(t *testing.T) {
 	assertJSONKeys(t, envelope, "type", "payload", "timestamp")
 }
 
+func TestSessionLogEntryOmitsChoicesWhenEmpty(t *testing.T) {
+	t.Parallel()
+
+	entry := SessionLogEntry{
+		TurnNumber:  1,
+		PlayerInput: "look around",
+		InputType:   "narrative",
+		LLMResponse: "You stand in a hall.",
+		CreatedAt:   time.Unix(100, 0).UTC(),
+	}
+	assertJSONKeys(t, entry, "turn_number", "player_input", "input_type", "llm_response", "created_at")
+}
+
 func TestOmitEmptyPointerFieldsJSONShape(t *testing.T) {
 	t.Parallel()
 
@@ -213,6 +228,124 @@ func TestOmitEmptyPointerFieldsJSONShape(t *testing.T) {
 	assertJSONKeys(t, item, "id", "campaign_id", "name", "description", "item_type", "rarity", "properties", "equipped", "quantity")
 }
 
+func TestAPIResponseGoldenShapes(t *testing.T) {
+	t.Parallel()
+
+	locationID := "loc-1"
+	parentQuestID := "quest-parent"
+	team := "faction-1"
+	createdAt := time.Date(2026, 6, 19, 12, 34, 56, 0, time.UTC)
+	updatedAt := time.Date(2026, 6, 19, 13, 0, 0, 0, time.UTC)
+
+	got := map[string]any{
+		"campaign": CampaignResponse{
+			ID:          "camp-1",
+			Name:        "The Iron Road",
+			Description: "A frontier campaign",
+			Genre:       "fantasy",
+			Tone:        "gritty",
+			Themes:      []string{"exploration", "survival"},
+			Status:      "active",
+			RulesMode:   "narrative",
+			CreatedBy:   "user-1",
+			CreatedAt:   createdAt,
+			UpdatedAt:   updatedAt,
+		},
+		"character": CharacterResponse{
+			ID:                "pc-1",
+			CampaignID:        "camp-1",
+			UserID:            "user-1",
+			Name:              "Vera",
+			Description:       "Scout",
+			Stats:             map[string]any{"strength": 12, "agility": 14},
+			HP:                20,
+			MaxHP:             25,
+			Experience:        120,
+			Level:             3,
+			Status:            "healthy",
+			Abilities:         []CharacterAbility{{Name: "Track", Description: "Follow signs"}},
+			CurrentLocationID: &locationID,
+		},
+		"quest": QuestResponse{
+			ID:            "quest-1",
+			CampaignID:    "camp-1",
+			ParentQuestID: &parentQuestID,
+			Title:         "Secure the pass",
+			Description:   "Defeat raiders",
+			QuestType:     "short_term",
+			Status:        "active",
+			Objectives: []QuestObjectiveResponse{{
+				ID:          "obj-1",
+				Description: "Scout the pass",
+				Completed:   false,
+				OrderIndex:  1,
+			}},
+		},
+		"fact": FactResponse{
+			ID:           "fact-1",
+			CampaignID:   "camp-1",
+			Fact:         "The road is cursed.",
+			Category:     "lore",
+			Source:       "gm",
+			SupersededBy: &parentQuestID,
+			PlayerKnown:  true,
+			CreatedAt:    "2026-06-19T12:34:56Z",
+		},
+		"location": LocationResponse{
+			ID:           "loc-1",
+			CampaignID:   "camp-1",
+			Name:         "Gatehouse",
+			Description:  "Stone fort",
+			Region:       "North",
+			LocationType: "city",
+			Properties:   map[string]any{"danger": "low"},
+			Connections: []LocationConnectionResponse{{
+				ToLocationID:  "loc-2",
+				Description:   "Road east",
+				Bidirectional: true,
+				TravelTime:    "15m",
+			}},
+		},
+		"npc": NPCResponse{
+			ID:          "npc-1",
+			CampaignID:  "camp-1",
+			Name:        "Captain Rowan",
+			Description: "Guard commander",
+			Personality: "stern",
+			Disposition: 40,
+			FactionID:   &team,
+			Faction:     "City Watch",
+			Alive:       true,
+			HP:          ptrInt(22),
+			Stats:       map[string]any{"intelligence": 14},
+			Properties:  map[string]any{"rank": "captain"},
+		},
+		"turn": TurnResponse{
+			Narrative: "You arrive at the gatehouse.",
+			StateChanges: []StateChange{{
+				EntityType: "character",
+				EntityID:   "pc-1",
+				ChangeType: "location_updated",
+				Details:    map[string]any{"location_id": "loc-1"},
+			}},
+			CombatActive: false,
+		},
+	}
+
+	want, err := os.ReadFile(filepath.Join("testdata", "api_response_shapes.golden.json"))
+	if err != nil {
+		t.Fatalf("read golden: %v", err)
+	}
+	gotJSON, err := json.MarshalIndent(got, "", "  ")
+	if err != nil {
+		t.Fatalf("marshal: %v", err)
+	}
+	gotJSON = append(gotJSON, '\n')
+	if string(gotJSON) != string(want) {
+		t.Fatalf("golden mismatch\nwant:\n%s\ngot:\n%s", string(want), string(gotJSON))
+	}
+}
+
 func assertJSONKeys(t *testing.T, v any, keys ...string) {
 	t.Helper()
 
@@ -247,3 +380,5 @@ func assertJSONKeys(t *testing.T, v any, keys ...string) {
 func ptr(v string) *string {
 	return &v
 }
+
+func ptrInt(v int) *int { return &v }

@@ -2,437 +2,63 @@ package tools
 
 import (
 	"context"
-	"errors"
-	"strings"
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgtype"
 
-	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
-	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 type stubCompleteObjectiveStore struct {
-	questsByID             map[[16]byte]statedb.Quest
-	objectivesByQuestID    map[[16]byte][]statedb.QuestObjective
-	getQuestErr            error
-	listObjectivesErr      error
-	completeObjectiveErr   error
-	updateQuestStatusErr   error
-	completeObjectiveCalls []pgtype.UUID
-	updateQuestStatusCalls []statedb.UpdateQuestStatusParams
+	result *domain.CompleteObjectiveMutationResult
+	cmds   []domain.CompleteObjectiveMutationCommand
+	err    error
 }
 
-func (s *stubCompleteObjectiveStore) GetQuestByID(_ context.Context, id pgtype.UUID) (statedb.Quest, error) {
-	if s.getQuestErr != nil {
-		return statedb.Quest{}, s.getQuestErr
+func (s *stubCompleteObjectiveStore) CompleteObjective(_ context.Context, cmd domain.CompleteObjectiveMutationCommand) (*domain.CompleteObjectiveMutationResult, error) {
+	s.cmds = append(s.cmds, cmd)
+	if s.err != nil {
+		return nil, s.err
 	}
-	quest, ok := s.questsByID[id.Bytes]
-	if !ok {
-		return statedb.Quest{}, errors.New("quest not found")
-	}
-	return quest, nil
+	return s.result, nil
 }
 
-func (s *stubCompleteObjectiveStore) ListObjectivesByQuest(_ context.Context, questID pgtype.UUID) ([]statedb.QuestObjective, error) {
-	if s.listObjectivesErr != nil {
-		return nil, s.listObjectivesErr
-	}
-	return append([]statedb.QuestObjective(nil), s.objectivesByQuestID[questID.Bytes]...), nil
-}
-
-func (s *stubCompleteObjectiveStore) CompleteObjective(_ context.Context, id pgtype.UUID) (statedb.QuestObjective, error) {
-	if s.completeObjectiveErr != nil {
-		return statedb.QuestObjective{}, s.completeObjectiveErr
-	}
-	s.completeObjectiveCalls = append(s.completeObjectiveCalls, id)
-	for questID, objectives := range s.objectivesByQuestID {
-		for i := range objectives {
-			if objectives[i].ID == id {
-				objectives[i].Completed = true
-				s.objectivesByQuestID[questID] = objectives
-				return objectives[i], nil
-			}
-		}
-	}
-	return statedb.QuestObjective{}, errors.New("objective not found")
-}
-
-func (s *stubCompleteObjectiveStore) UpdateQuestStatus(_ context.Context, arg statedb.UpdateQuestStatusParams) (statedb.Quest, error) {
-	if s.updateQuestStatusErr != nil {
-		return statedb.Quest{}, s.updateQuestStatusErr
-	}
-	s.updateQuestStatusCalls = append(s.updateQuestStatusCalls, arg)
-	quest := s.questsByID[arg.ID.Bytes]
-	quest.Status = arg.Status
-	s.questsByID[arg.ID.Bytes] = quest
-	return quest, nil
-}
-
-func TestRegisterCompleteObjective(t *testing.T) {
-	reg := NewRegistry()
-	store := &stubCompleteObjectiveStore{}
-
-	if err := RegisterCompleteObjective(reg, store); err != nil {
-		t.Fatalf("register complete_objective: %v", err)
-	}
-
-	tools := reg.List()
-	if len(tools) != 1 {
-		t.Fatalf("registered tool count = %d, want 1", len(tools))
-	}
-	if tools[0].Name != completeObjectiveToolName {
-		t.Fatalf("tool name = %q, want %q", tools[0].Name, completeObjectiveToolName)
+func TestCompleteObjectiveRequiresCampaignContext(t *testing.T) {
+	h := NewCompleteObjectiveHandler(&stubCompleteObjectiveStore{})
+	_, err := h.Handle(context.Background(), map[string]any{"quest_id": uuid.New().String(), "objective_id": uuid.New().String()})
+	if err == nil || err.Error() != "current campaign context is required" {
+		t.Fatalf("err=%v", err)
 	}
 }
 
-func TestCompleteObjectiveByIDPartialProgress(t *testing.T) {
+func TestCompleteObjectivePassesDomainCommand(t *testing.T) {
+	campaignID := uuid.New()
 	questID := uuid.New()
-	obj1ID := uuid.New()
-	obj2ID := uuid.New()
-	store := &stubCompleteObjectiveStore{
-		questsByID: map[[16]byte]statedb.Quest{
-			dbutil.ToPgtype(questID).Bytes: {
-				ID:     dbutil.ToPgtype(questID),
-				Title:  "Find the Relic",
-				Status: string(domain.QuestStatusActive),
-			},
-		},
-		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
-			dbutil.ToPgtype(questID).Bytes: {
-				{
-					ID:          dbutil.ToPgtype(obj1ID),
-					QuestID:     dbutil.ToPgtype(questID),
-					Description: "Search the ruins",
-					Completed:   false,
-					OrderIndex:  0,
-				},
-				{
-					ID:          dbutil.ToPgtype(obj2ID),
-					QuestID:     dbutil.ToPgtype(questID),
-					Description: "Return to camp",
-					Completed:   false,
-					OrderIndex:  1,
-				},
-			},
-		},
-	}
-
+	objectiveID := uuid.New()
+	desc := "find it"
+	result := &domain.CompleteObjectiveMutationResult{Quest: domain.QuestSummary{ID: questID, CampaignID: campaignID, Title: "Quest", Status: domain.QuestStatusCompleted}, Objective: domain.QuestObjective{ID: objectiveID, Description: desc, Completed: true}, ObjectivesCompleted: 1, ObjectivesTotal: 1, Progress: "1/1", AllObjectivesComplete: true, QuestAutoCompleted: true, Narrative: "ok"}
+	store := &stubCompleteObjectiveStore{result: result}
 	h := NewCompleteObjectiveHandler(store)
-	got, err := h.Handle(context.Background(), map[string]any{
-		"quest_id":     questID.String(),
-		"objective_id": obj1ID.String(),
-	})
+	got, err := h.Handle(campaignCtx(campaignID), map[string]any{"quest_id": questID.String(), "objective_id": objectiveID.String(), "auto_complete_quest": true})
 	if err != nil {
 		t.Fatalf("Handle: %v", err)
 	}
-
-	if len(store.completeObjectiveCalls) != 1 {
-		t.Fatalf("CompleteObjective call count = %d, want 1", len(store.completeObjectiveCalls))
+	if len(store.cmds) != 1 {
+		t.Fatalf("cmd count=%d", len(store.cmds))
 	}
-	if got.Data["progress"] != "1/2" {
-		t.Fatalf("progress = %v, want 1/2", got.Data["progress"])
+	if store.cmds[0].CampaignID != campaignID || store.cmds[0].QuestID != questID {
+		t.Fatalf("ids mismatch: %#v", store.cmds[0])
 	}
-	if got.Data["all_objectives_complete"] != false {
-		t.Fatalf("all_objectives_complete = %v, want false", got.Data["all_objectives_complete"])
+	if store.cmds[0].ObjectiveID == nil || *store.cmds[0].ObjectiveID != objectiveID {
+		t.Fatalf("objective id mismatch: %#v", store.cmds[0].ObjectiveID)
 	}
-	if got.Data["quest_auto_completed"] != false {
-		t.Fatalf("quest_auto_completed = %v, want false", got.Data["quest_auto_completed"])
+	if !store.cmds[0].AutoCompleteQuest {
+		t.Fatalf("auto-complete flag not passed")
 	}
-}
-
-func TestCompleteObjectiveByDescriptionAutoCompleteQuest(t *testing.T) {
-	questID := uuid.New()
-	objID := uuid.New()
-	store := &stubCompleteObjectiveStore{
-		questsByID: map[[16]byte]statedb.Quest{
-			dbutil.ToPgtype(questID).Bytes: {
-				ID:     dbutil.ToPgtype(questID),
-				Title:  "Seal the Gate",
-				Status: string(domain.QuestStatusActive),
-			},
-		},
-		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
-			dbutil.ToPgtype(questID).Bytes: {
-				{
-					ID:          dbutil.ToPgtype(objID),
-					QuestID:     dbutil.ToPgtype(questID),
-					Description: "Defeat gate guardian",
-					Completed:   false,
-					OrderIndex:  0,
-				},
-			},
-		},
+	if got.Data["quest_id"] != questID.String() {
+		t.Fatalf("quest_id=%v", got.Data["quest_id"])
 	}
-
-	h := NewCompleteObjectiveHandler(store)
-	got, err := h.Handle(context.Background(), map[string]any{
-		"quest_id":              questID.String(),
-		"objective_description": "gate guardian",
-		"auto_complete_quest":   true,
-	})
-	if err != nil {
-		t.Fatalf("Handle: %v", err)
-	}
-
-	if len(store.updateQuestStatusCalls) != 1 {
-		t.Fatalf("UpdateQuestStatus call count = %d, want 1", len(store.updateQuestStatusCalls))
-	}
-	if store.updateQuestStatusCalls[0].Status != string(domain.QuestStatusCompleted) {
-		t.Fatalf("updated status = %q, want completed", store.updateQuestStatusCalls[0].Status)
-	}
-	if got.Data["quest_status"] != string(domain.QuestStatusCompleted) {
-		t.Fatalf("quest_status = %v, want completed", got.Data["quest_status"])
-	}
-	if got.Data["all_objectives_complete"] != true {
-		t.Fatalf("all_objectives_complete = %v, want true", got.Data["all_objectives_complete"])
-	}
-}
-
-func TestCompleteObjectiveAllCompleteReadyWithoutAutoComplete(t *testing.T) {
-	questID := uuid.New()
-	objID := uuid.New()
-	store := &stubCompleteObjectiveStore{
-		questsByID: map[[16]byte]statedb.Quest{
-			dbutil.ToPgtype(questID).Bytes: {
-				ID:     dbutil.ToPgtype(questID),
-				Title:  "Rekindle Beacon",
-				Status: string(domain.QuestStatusActive),
-			},
-		},
-		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
-			dbutil.ToPgtype(questID).Bytes: {
-				{
-					ID:          dbutil.ToPgtype(objID),
-					QuestID:     dbutil.ToPgtype(questID),
-					Description: "Light the beacon",
-					Completed:   false,
-					OrderIndex:  0,
-				},
-			},
-		},
-	}
-
-	h := NewCompleteObjectiveHandler(store)
-	got, err := h.Handle(context.Background(), map[string]any{
-		"quest_id":     questID.String(),
-		"objective_id": objID.String(),
-	})
-	if err != nil {
-		t.Fatalf("Handle: %v", err)
-	}
-
-	if len(store.updateQuestStatusCalls) != 0 {
-		t.Fatalf("UpdateQuestStatus call count = %d, want 0", len(store.updateQuestStatusCalls))
-	}
-	if got.Data["quest_ready_for_completion"] != true {
-		t.Fatalf("quest_ready_for_completion = %v, want true", got.Data["quest_ready_for_completion"])
-	}
-	if !strings.Contains(got.Narrative, "ready for completion") {
-		t.Fatalf("narrative = %q, want ready for completion message", got.Narrative)
-	}
-}
-
-func TestCompleteObjectiveValidationErrors(t *testing.T) {
-	questID := uuid.New()
-	objID := uuid.New()
-	obj2ID := uuid.New()
-	store := &stubCompleteObjectiveStore{
-		questsByID: map[[16]byte]statedb.Quest{
-			dbutil.ToPgtype(questID).Bytes: {
-				ID:     dbutil.ToPgtype(questID),
-				Title:  "Validation Test Quest",
-				Status: string(domain.QuestStatusActive),
-			},
-		},
-		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
-			dbutil.ToPgtype(questID).Bytes: {
-				{
-					ID:          dbutil.ToPgtype(objID),
-					QuestID:     dbutil.ToPgtype(questID),
-					Description: "First objective",
-					Completed:   false,
-					OrderIndex:  0,
-				},
-				{
-					ID:          dbutil.ToPgtype(obj2ID),
-					QuestID:     dbutil.ToPgtype(questID),
-					Description: "Second objective",
-					Completed:   false,
-					OrderIndex:  1,
-				},
-			},
-		},
-	}
-	h := NewCompleteObjectiveHandler(store)
-
-	_, err := h.Handle(context.Background(), map[string]any{
-		"quest_id":              questID.String(),
-		"objective_id":          objID.String(),
-		"objective_description": "First objective",
-	})
-	if err == nil || !strings.Contains(err.Error(), "exactly one of objective_id or objective_description must be provided") {
-		t.Fatalf("error = %v, want mutual exclusivity error", err)
-	}
-
-	_, err = h.Handle(context.Background(), map[string]any{
-		"quest_id":              questID.String(),
-		"objective_description": "objective",
-	})
-	if err == nil || !strings.Contains(err.Error(), "matches multiple objectives") {
-		t.Fatalf("error = %v, want ambiguous description error", err)
-	}
-}
-
-
-func TestCompleteObjectiveAlreadyCompleted(t *testing.T) {
-	questID := uuid.New()
-	objID := uuid.New()
-	store := &stubCompleteObjectiveStore{
-		questsByID: map[[16]byte]statedb.Quest{
-			dbutil.ToPgtype(questID).Bytes: {
-				ID:     dbutil.ToPgtype(questID),
-				Title:  "Already Done Quest",
-				Status: string(domain.QuestStatusActive),
-			},
-		},
-		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
-			dbutil.ToPgtype(questID).Bytes: {
-				{
-					ID:          dbutil.ToPgtype(objID),
-					QuestID:     dbutil.ToPgtype(questID),
-					Description: "Already finished task",
-					Completed:   true,
-					OrderIndex:  0,
-				},
-			},
-		},
-	}
-
-	h := NewCompleteObjectiveHandler(store)
-	got, err := h.Handle(context.Background(), map[string]any{
-		"quest_id":     questID.String(),
-		"objective_id": objID.String(),
-	})
-	if err != nil {
-		t.Fatalf("Handle: %v", err)
-	}
-
-	if len(store.completeObjectiveCalls) != 0 {
-		t.Fatalf("CompleteObjective call count = %d, want 0", len(store.completeObjectiveCalls))
-	}
-	if !strings.Contains(got.Narrative, "was already complete") {
-		t.Fatalf("narrative = %q, want 'was already complete' message", got.Narrative)
-	}
-	if got.Data["objective_completed"] != true {
-		t.Fatalf("objective_completed = %v, want true", got.Data["objective_completed"])
-	}
-}
-
-func TestCompleteObjectiveNotFoundByID(t *testing.T) {
-	questID := uuid.New()
-	objID := uuid.New()
-	unrelatedObjID := uuid.New()
-	store := &stubCompleteObjectiveStore{
-		questsByID: map[[16]byte]statedb.Quest{
-			dbutil.ToPgtype(questID).Bytes: {
-				ID:     dbutil.ToPgtype(questID),
-				Title:  "Mismatch Quest",
-				Status: string(domain.QuestStatusActive),
-			},
-		},
-		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
-			dbutil.ToPgtype(questID).Bytes: {
-				{
-					ID:          dbutil.ToPgtype(objID),
-					QuestID:     dbutil.ToPgtype(questID),
-					Description: "Real objective",
-					Completed:   false,
-					OrderIndex:  0,
-				},
-			},
-		},
-	}
-
-	h := NewCompleteObjectiveHandler(store)
-	_, err := h.Handle(context.Background(), map[string]any{
-		"quest_id":     questID.String(),
-		"objective_id": unrelatedObjID.String(),
-	})
-	if err == nil || !strings.Contains(err.Error(), "objective_id does not belong to the specified quest") {
-		t.Fatalf("error = %v, want objective_id does not belong error", err)
-	}
-}
-
-func TestCompleteObjectiveInvalidObjectiveIDFormat(t *testing.T) {
-	questID := uuid.New()
-	store := &stubCompleteObjectiveStore{
-		questsByID: map[[16]byte]statedb.Quest{
-			dbutil.ToPgtype(questID).Bytes: {
-				ID:     dbutil.ToPgtype(questID),
-				Title:  "UUID Test Quest",
-				Status: string(domain.QuestStatusActive),
-			},
-		},
-	}
-
-	h := NewCompleteObjectiveHandler(store)
-	_, err := h.Handle(context.Background(), map[string]any{
-		"quest_id":     questID.String(),
-		"objective_id": "not-a-uuid",
-	})
-	if err == nil {
-		t.Fatal("expected error for invalid objective_id UUID, got nil")
-	}
-}
-
-func TestCompleteObjectiveQuestNotFound(t *testing.T) {
-	store := &stubCompleteObjectiveStore{
-		questsByID: map[[16]byte]statedb.Quest{},
-	}
-
-	h := NewCompleteObjectiveHandler(store)
-	_, err := h.Handle(context.Background(), map[string]any{
-		"quest_id":     uuid.New().String(),
-		"objective_id": uuid.New().String(),
-	})
-	if err == nil || !strings.Contains(err.Error(), "get quest") {
-		t.Fatalf("error = %v, want error containing 'get quest'", err)
-	}
-}
-
-func TestCompleteObjectiveDescriptionNoMatch(t *testing.T) {
-	questID := uuid.New()
-	objID := uuid.New()
-	store := &stubCompleteObjectiveStore{
-		questsByID: map[[16]byte]statedb.Quest{
-			dbutil.ToPgtype(questID).Bytes: {
-				ID:     dbutil.ToPgtype(questID),
-				Title:  "No Match Quest",
-				Status: string(domain.QuestStatusActive),
-			},
-		},
-		objectivesByQuestID: map[[16]byte][]statedb.QuestObjective{
-			dbutil.ToPgtype(questID).Bytes: {
-				{
-					ID:          dbutil.ToPgtype(objID),
-					QuestID:     dbutil.ToPgtype(questID),
-					Description: "Find the hidden gem",
-					Completed:   false,
-					OrderIndex:  0,
-				},
-			},
-		},
-	}
-
-	h := NewCompleteObjectiveHandler(store)
-	_, err := h.Handle(context.Background(), map[string]any{
-		"quest_id":              questID.String(),
-		"objective_description": "something completely different",
-	})
-	if err == nil || !strings.Contains(err.Error(), "objective_description did not match any objective") {
-		t.Fatalf("error = %v, want objective_description did not match error", err)
+	if got.Narrative != "ok" {
+		t.Fatalf("narrative=%q", got.Narrative)
 	}
 }

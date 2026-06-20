@@ -9,7 +9,6 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
-	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 type progressionService struct {
@@ -66,5 +65,5 @@ func (s *progressionService) UpdatePlayerHP(ctx context.Context, playerCharacter
 	return err
 }
 
-var _ tools.AddExperienceStore = (*progressionService)(nil)
-var _ tools.LevelUpStore = (*progressionService)(nil)
+var _ domain.AddExperienceStore = (*progressionService)(nil)
+var _ domain.LevelUpStore = (*progressionService)(nil)

@@ -5,17 +5,15 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/google/uuid"
-
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const revealLocationToolName = "reveal_location"
 
-// RevealLocationStore provides persistence for revealing locations.
+// RevealLocationStore persists campaign-scoped location reveals.
 type RevealLocationStore interface {
-	GetLocation(ctx context.Context, locationID uuid.UUID) (name, description string, err error)
-	SetLocationPlayerKnown(ctx context.Context, locationID uuid.UUID) error
+	RevealLocation(ctx context.Context, cmd domain.RevealLocationCommand) (*domain.RevealLocationResult, error)
 }
 
 // RevealLocationTool returns the reveal_location tool definition.
@@ -61,13 +59,13 @@ func (h *RevealLocationHandler) Handle(ctx context.Context, args map[string]any)
 	if err != nil {
 		return nil, err
 	}
-
-	locationName, _, err := h.store.GetLocation(ctx, locationID)
-	if err != nil {
-		return nil, fmt.Errorf("get location: %w", err)
+	campaignID, ok := CurrentCampaignIDFromContext(ctx)
+	if !ok {
+		return nil, errors.New("reveal_location requires current campaign id in context")
 	}
 
-	if err := h.store.SetLocationPlayerKnown(ctx, locationID); err != nil {
+	result, err := h.store.RevealLocation(ctx, domain.RevealLocationCommand{CampaignID: campaignID, LocationID: locationID})
+	if err != nil {
 		return nil, fmt.Errorf("reveal location: %w", err)
 	}
 
@@ -75,8 +73,9 @@ func (h *RevealLocationHandler) Handle(ctx context.Context, args map[string]any)
 		Success: true,
 		Data: map[string]any{
 			"location_id": locationID.String(),
-			"name":        locationName,
+			"name":        result.LocationName,
+			"campaign_id": campaignID.String(),
 		},
-		Narrative: fmt.Sprintf("Location revealed: %s.", locationName),
+		Narrative: fmt.Sprintf("Location revealed: %s.", result.LocationName),
 	}, nil
 }

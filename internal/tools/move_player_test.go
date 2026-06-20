@@ -7,54 +7,19 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 )
 
 type stubMovePlayerStore struct {
-	locationNames        map[uuid.UUID]string
-	locationDescriptions map[uuid.UUID]string
-	connected            map[uuid.UUID]map[uuid.UUID]bool
-
-	lastUpdatedPlayerID   uuid.UUID
-	lastUpdatedLocationID uuid.UUID
-
-	getLocationErr error
-	connectionErr  error
-	updateErr      error
+	result  *domain.MovePlayerResult
+	err     error
+	lastCmd domain.MovePlayerCommand
 }
 
-func (s *stubMovePlayerStore) GetLocation(_ context.Context, locationID uuid.UUID) (string, string, error) {
-	if s.getLocationErr != nil {
-		return "", "", s.getLocationErr
-	}
-	name, ok := s.locationNames[locationID]
-	if !ok {
-		return "", "", errors.New("location not found")
-	}
-	return name, s.locationDescriptions[locationID], nil
-}
-
-func (s *stubMovePlayerStore) IsLocationConnected(_ context.Context, fromLocationID, toLocationID uuid.UUID) (bool, error) {
-	if s.connectionErr != nil {
-		return false, s.connectionErr
-	}
-	return s.connected[fromLocationID][toLocationID], nil
-}
-
-func (s *stubMovePlayerStore) UpdatePlayerLocation(_ context.Context, playerCharacterID, locationID uuid.UUID) error {
-	if s.updateErr != nil {
-		return s.updateErr
-	}
-	s.lastUpdatedPlayerID = playerCharacterID
-	s.lastUpdatedLocationID = locationID
-	return nil
-}
-
-func (s *stubMovePlayerStore) SetLocationPlayerVisited(_ context.Context, _ uuid.UUID) error {
-	return nil
-}
-
-func (s *stubMovePlayerStore) GetConnectionTravelTime(_ context.Context, _, _ uuid.UUID) (string, error) {
-	return "", nil
+func (s *stubMovePlayerStore) MovePlayer(_ context.Context, cmd domain.MovePlayerCommand) (*domain.MovePlayerResult, error) {
+	s.lastCmd = cmd
+	return s.result, s.err
 }
 
 func TestRegisterMovePlayer(t *testing.T) {
@@ -83,21 +48,19 @@ func TestMovePlayerHandleConnectedLocation(t *testing.T) {
 	currentLocationID := uuid.New()
 	targetLocationID := uuid.New()
 	playerID := uuid.New()
+	campaignID := uuid.New()
 	store := &stubMovePlayerStore{
-		locationNames: map[uuid.UUID]string{
-			targetLocationID: "Ancient Gate",
-		},
-		locationDescriptions: map[uuid.UUID]string{
-			targetLocationID: "A ruined gate covered in glowing runes.",
-		},
-		connected: map[uuid.UUID]map[uuid.UUID]bool{
-			currentLocationID: {
-				targetLocationID: true,
-			},
+		result: &domain.MovePlayerResult{
+			ToLocationName:        "Ancient Gate",
+			ToLocationDescription: "A ruined gate covered in glowing runes.",
+			TravelTime:            "1 hour",
+			Day:                   1,
+			Hour:                  9,
+			Minute:                0,
 		},
 	}
-	h := NewMovePlayerHandler(store, nil)
-	ctx := WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerID)
+	h := NewMovePlayerHandler(store)
+	ctx := WithCurrentCampaignID(WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerID), campaignID)
 
 	got, err := h.Handle(ctx, map[string]any{
 		"location_id": targetLocationID.String(),
@@ -106,11 +69,8 @@ func TestMovePlayerHandleConnectedLocation(t *testing.T) {
 		t.Fatalf("Handle: %v", err)
 	}
 
-	if store.lastUpdatedPlayerID != playerID {
-		t.Fatalf("updated player_id = %s, want %s", store.lastUpdatedPlayerID, playerID)
-	}
-	if store.lastUpdatedLocationID != targetLocationID {
-		t.Fatalf("updated location_id = %s, want %s", store.lastUpdatedLocationID, targetLocationID)
+	if store.lastCmd.PlayerCharacterID != playerID || store.lastCmd.TargetLocationID != targetLocationID || store.lastCmd.CurrentLocationID != currentLocationID || store.lastCmd.CampaignID != campaignID {
+		t.Fatalf("unexpected command: %+v", store.lastCmd)
 	}
 	if got.Data["name"] != "Ancient Gate" {
 		t.Fatalf("result name = %v, want Ancient Gate", got.Data["name"])
@@ -120,23 +80,23 @@ func TestMovePlayerHandleConnectedLocation(t *testing.T) {
 	}
 }
 
+func TestMovePlayerHandleMissingContext(t *testing.T) {
+	store := &stubMovePlayerStore{result: &domain.MovePlayerResult{ToLocationName: "Ancient Gate"}}
+	h := NewMovePlayerHandler(store)
+	_, err := h.Handle(context.Background(), map[string]any{"location_id": uuid.New().String()})
+	if err == nil || !strings.Contains(err.Error(), "current location id") {
+		t.Fatalf("err = %v, want missing-context error", err)
+	}
+}
+
 func TestMovePlayerHandleUnconnectedLocation(t *testing.T) {
 	currentLocationID := uuid.New()
 	targetLocationID := uuid.New()
 	playerID := uuid.New()
-	store := &stubMovePlayerStore{
-		locationNames: map[uuid.UUID]string{
-			targetLocationID: "Frost Bridge",
-		},
-		locationDescriptions: map[uuid.UUID]string{
-			targetLocationID: "A narrow bridge suspended above a frozen chasm.",
-		},
-		connected: map[uuid.UUID]map[uuid.UUID]bool{
-			currentLocationID: {},
-		},
-	}
-	h := NewMovePlayerHandler(store, nil)
-	ctx := WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerID)
+	campaignID := uuid.New()
+	store := &stubMovePlayerStore{err: errors.New("target location is not connected to current location")}
+	h := NewMovePlayerHandler(store)
+	ctx := WithCurrentCampaignID(WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerID), campaignID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"location_id": targetLocationID.String(),
@@ -147,8 +107,22 @@ func TestMovePlayerHandleUnconnectedLocation(t *testing.T) {
 	if !strings.Contains(err.Error(), "not connected") {
 		t.Fatalf("error = %v, want unconnected-location message", err)
 	}
-	if store.lastUpdatedLocationID != uuid.Nil {
-		t.Fatalf("unexpected location update to %s", store.lastUpdatedLocationID)
+}
+
+func TestMovePlayerHandleToleratedWarnings(t *testing.T) {
+	currentLocationID := uuid.New()
+	targetLocationID := uuid.New()
+	playerID := uuid.New()
+	campaignID := uuid.New()
+	store := &stubMovePlayerStore{result: &domain.MovePlayerResult{ToLocationName: "Frost Bridge", ToLocationDescription: "A narrow bridge", VisitedWarning: "visited failed", TimeWarning: "time skipped"}}
+	h := NewMovePlayerHandler(store)
+	ctx := WithCurrentCampaignID(WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerID), campaignID)
+	got, err := h.Handle(ctx, map[string]any{"location_id": targetLocationID.String()})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if !strings.Contains(got.Narrative, "warning") {
+		t.Fatalf("narrative = %q, want warnings", got.Narrative)
 	}
 }
 
@@ -156,17 +130,10 @@ func TestMovePlayerHandleNonexistentLocation(t *testing.T) {
 	currentLocationID := uuid.New()
 	targetLocationID := uuid.New()
 	playerID := uuid.New()
-	store := &stubMovePlayerStore{
-		locationNames:        map[uuid.UUID]string{},
-		locationDescriptions: map[uuid.UUID]string{},
-		connected: map[uuid.UUID]map[uuid.UUID]bool{
-			currentLocationID: {
-				targetLocationID: true,
-			},
-		},
-	}
-	h := NewMovePlayerHandler(store, nil)
-	ctx := WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerID)
+	campaignID := uuid.New()
+	store := &stubMovePlayerStore{err: errors.New("target location not found in campaign")}
+	h := NewMovePlayerHandler(store)
+	ctx := WithCurrentCampaignID(WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerID), campaignID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"location_id": targetLocationID.String(),
@@ -174,11 +141,8 @@ func TestMovePlayerHandleNonexistentLocation(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected nonexistent location error")
 	}
-	if !strings.Contains(err.Error(), "get target location") {
-		t.Fatalf("error = %v, want get-target-location message", err)
-	}
-	if store.lastUpdatedLocationID != uuid.Nil {
-		t.Fatalf("unexpected location update to %s", store.lastUpdatedLocationID)
+	if !strings.Contains(err.Error(), "target location not found in campaign") {
+		t.Fatalf("error = %v, want campaign-scoped not-found message", err)
 	}
 }
 

@@ -480,6 +480,8 @@ func TestOrchestrator_RunSuccess(t *testing.T) {
 		Summary:          "A frontier on the brink.",
 		Profile:          profile,
 		CharacterProfile: character,
+		Pool:             nil,
+		RulesMode:        "",
 		UserID:           userID,
 	}, func(stage string) {
 		stages = append(stages, stage)
@@ -574,6 +576,38 @@ func TestOrchestrator_RunCreateCampaignError(t *testing.T) {
 	}
 	if !strings.Contains(err.Error(), "orchestrator: create campaign") {
 		t.Fatalf("error: got %q, want create campaign context", err.Error())
+	}
+}
+
+func TestResolveStartingLocation_StrictMatchRequired(t *testing.T) {
+	ctx := context.Background()
+	campaignID := pgUUID(uuid.New())
+	tests := []struct {
+		name      string
+		locations []statedb.Location
+		wantErr   bool
+	}{
+		{name: "missing", locations: []statedb.Location{{ID: pgUUID(uuid.New()), Name: "Elsewhere"}}, wantErr: true},
+		{name: "duplicate", locations: []statedb.Location{{ID: pgUUID(uuid.New()), Name: "Ironhold"}, {ID: pgUUID(uuid.New()), Name: "Ironhold"}}, wantErr: true},
+		{name: "exact", locations: []statedb.Location{{ID: pgUUID(uuid.New()), Name: "Ironhold"}}, wantErr: false},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			q := &stubQuerier{listLocationsByCampaignFn: func(context.Context, pgtype.UUID) ([]statedb.Location, error) { return tc.locations, nil }}
+			got, err := resolveStartingLocation(ctx, q, campaignID, "Ironhold")
+			if tc.wantErr {
+				if err == nil {
+					t.Fatal("expected error")
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if got == uuid.Nil {
+				t.Fatal("expected location id")
+			}
+		})
 	}
 }
 

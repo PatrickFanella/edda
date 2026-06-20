@@ -15,18 +15,7 @@ import (
 
 const createNPCToolName = "create_npc"
 
-// CreateNPCParams holds the parameters for creating an NPC.
-type CreateNPCParams struct {
-	CampaignID  uuid.UUID
-	Name        string
-	Description string
-	Personality string
-	Disposition int
-	LocationID  *uuid.UUID
-	FactionID   *uuid.UUID
-	Stats       json.RawMessage
-	Properties  json.RawMessage
-}
+type CreateNPCParams = domain.CreateNPCParams
 
 // CreateNPCStore persists and retrieves NPC records and supporting entities.
 type CreateNPCStore interface {
@@ -292,7 +281,6 @@ func (h *CreateNPCHandler) embedNPCMemory(ctx context.Context, npc *domain.NPC, 
 	}
 	return nil
 }
-
 
 func marshalOptionalJSONObject(obj map[string]any, set bool, key string) (json.RawMessage, error) {
 	if !set {

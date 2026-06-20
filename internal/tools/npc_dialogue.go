@@ -13,15 +13,7 @@ import (
 
 const npcDialogueToolName = "npc_dialogue"
 
-// NPCDialogueLogEntry captures the dialogue event to persist in the session log.
-type NPCDialogueLogEntry struct {
-	CampaignID        uuid.UUID
-	LocationID        uuid.UUID
-	NPCID             uuid.UUID
-	Dialogue          string
-	Emotion           *string
-	FormattedDialogue string
-}
+type NPCDialogueLogEntry = domain.NPCDialogueLogEntry
 
 // NPCDialogueStore loads NPCs and logs NPC dialogue events.
 type NPCDialogueStore interface {

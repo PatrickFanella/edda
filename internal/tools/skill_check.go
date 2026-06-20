@@ -7,23 +7,16 @@ import (
 	"math/rand/v2"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5"
 
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const skillCheckToolName = "skill_check"
 
-// StatModifierResolver resolves a character's modifier for a given skill/stat.
-type StatModifierResolver interface {
-	GetStatModifier(ctx context.Context, characterID uuid.UUID, skill string) (int, error)
-}
+type StatModifierResolver = domain.StatModifierResolver
 
-// FeatBonusDB is an optional database interface for looking up feat bonuses
-// during skill checks. When nil, feat bonuses are skipped.
-type FeatBonusDB interface {
-	QueryRow(ctx context.Context, sql string, args ...interface{}) pgx.Row
-}
+type FeatBonusDB = domain.FeatBonusDB
 
 // DiceRoller provides pseudo-random integer generation.
 type DiceRoller interface {
@@ -229,4 +222,3 @@ WHERE cf.character_id = $1 AND LOWER(fd.bonus_type) = LOWER($2) AND fd.bonus_val
 	}
 	return bonus
 }
-

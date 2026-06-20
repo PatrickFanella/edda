@@ -12,7 +12,6 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
-	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 // npcService consolidates NPC-related persistence for both the update_npc and
@@ -79,7 +78,7 @@ func (s *npcService) GetPlayerCharacterByID(ctx context.Context, playerCharacter
 	return getPlayerCharacterByID(ctx, s.queries, playerCharacterID)
 }
 
-func (s *npcService) CreateNPC(ctx context.Context, params tools.CreateNPCParams) (*domain.NPC, error) {
+func (s *npcService) CreateNPC(ctx context.Context, params domain.CreateNPCParams) (*domain.NPC, error) {
 	created, err := s.queries.CreateNPC(ctx, statedb.CreateNPCParams{
 		CampaignID:  dbutil.ToPgtype(params.CampaignID),
 		Name:        params.Name,
@@ -105,7 +104,7 @@ func (s *npcService) ListNPCsByCampaign(ctx context.Context, campaignID uuid.UUI
 
 // --- tools.NPCDialogueStore methods ---
 
-func (s *npcService) LogNPCDialogue(ctx context.Context, entry tools.NPCDialogueLogEntry) error {
+func (s *npcService) LogNPCDialogue(ctx context.Context, entry domain.NPCDialogueLogEntry) error {
 	recentLogs, err := s.queries.ListRecentSessionLogs(ctx, statedb.ListRecentSessionLogsParams{
 		CampaignID: dbutil.ToPgtype(entry.CampaignID),
 		LimitCount: 1,

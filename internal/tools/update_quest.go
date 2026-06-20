@@ -6,25 +6,16 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgtype"
-
-	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
-	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"github.com/google/uuid"
 )
 
 const updateQuestToolName = "update_quest"
 
 // UpdateQuestStore provides quest lookup and persistence for update_quest.
 type UpdateQuestStore interface {
-	GetQuestByID(ctx context.Context, id pgtype.UUID) (statedb.Quest, error)
-	UpdateQuest(ctx context.Context, arg statedb.UpdateQuestParams) (statedb.Quest, error)
-	UpdateQuestStatus(ctx context.Context, arg statedb.UpdateQuestStatusParams) (statedb.Quest, error)
-	ListObjectivesByQuest(ctx context.Context, questID pgtype.UUID) ([]statedb.QuestObjective, error)
-	CreateObjective(ctx context.Context, arg statedb.CreateObjectiveParams) (statedb.QuestObjective, error)
-	ListQuestsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Quest, error)
+	UpdateQuest(ctx context.Context, cmd domain.UpdateQuestMutationCommand) (*domain.UpdateQuestMutationResult, error)
 }
 
 // UpdateQuestTool returns the update_quest tool definition and JSON schema.
@@ -93,18 +84,14 @@ func (h *UpdateQuestHandler) Handle(ctx context.Context, args map[string]any) (*
 	if h.store == nil {
 		return nil, errors.New("update_quest store is required")
 	}
+	campaignID, ok := CurrentCampaignIDFromContext(ctx)
+	if !ok {
+		return nil, errors.New("current campaign context is required")
+	}
 
 	questID, err := parseUUIDArg(args, "quest_id")
 	if err != nil {
 		return nil, err
-	}
-
-	quest, err := h.store.GetQuestByID(ctx, dbutil.ToPgtype(questID))
-	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, errors.New("quest_id does not reference an existing quest")
-		}
-		return nil, fmt.Errorf("get quest: %w", err)
 	}
 
 	statusUpdate, hasStatus, err := parseQuestStatusUpdateArg(args, "status")
@@ -122,163 +109,31 @@ func (h *UpdateQuestHandler) Handle(ctx context.Context, args map[string]any) (*
 	if !hasStatus && !hasDescriptionUpdate && !hasNewObjectives {
 		return nil, errors.New("at least one of status, description_update, or new_objectives is required")
 	}
-
-	if hasDescriptionUpdate {
-		quest, err = h.store.UpdateQuest(ctx, statedb.UpdateQuestParams{
-			ParentQuestID: quest.ParentQuestID,
-			Title:         quest.Title,
-			Description:   pgtype.Text{String: descriptionUpdate, Valid: true},
-			QuestType:     quest.QuestType,
-			Status:        quest.Status,
-			ID:            quest.ID,
-		})
-		if err != nil {
-			return nil, fmt.Errorf("update quest description: %w", err)
-		}
-	}
-
-	originalStatus := quest.Status
-	statusChanged := hasStatus && statusUpdate != originalStatus
-	if statusChanged {
-		quest, err = h.store.UpdateQuestStatus(ctx, statedb.UpdateQuestStatusParams{
-			Status: statusUpdate,
-			ID:     quest.ID,
-		})
-		if err != nil {
-			return nil, fmt.Errorf("update quest status: %w", err)
-		}
-	}
-
-	cascadedSubquests := make([]map[string]any, 0)
-	if statusChanged && (statusUpdate == string(domain.QuestStatusCompleted) || statusUpdate == string(domain.QuestStatusFailed)) {
-		cascadedSubquests, err = h.cascadeSubquestStatus(ctx, quest, statusUpdate)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	appendedObjectives := make([]map[string]any, 0, len(newObjectives))
-	if hasNewObjectives {
-		objectives, err := h.store.ListObjectivesByQuest(ctx, quest.ID)
-		if err != nil {
-			return nil, fmt.Errorf("list quest objectives: %w", err)
-		}
-		maxOrderIndex := int32(-1)
-		for _, objective := range objectives {
-			if objective.OrderIndex > maxOrderIndex {
-				maxOrderIndex = objective.OrderIndex
-			}
-		}
-		nextOrderIndex := maxOrderIndex + 1
-		for i, objectiveDescription := range newObjectives {
-			createdObjective, err := h.store.CreateObjective(ctx, statedb.CreateObjectiveParams{
-				QuestID:     quest.ID,
-				Description: objectiveDescription,
-				Completed:   false,
-				OrderIndex:  nextOrderIndex + int32(i),
-			})
-			if err != nil {
-				return nil, fmt.Errorf("create new_objectives[%d]: %w", i, err)
-			}
-			appendedObjectives = append(appendedObjectives, map[string]any{
-				"id":          dbutil.FromPgtype(createdObjective.ID).String(),
-				"description": createdObjective.Description,
-				"completed":   createdObjective.Completed,
-				"order_index": createdObjective.OrderIndex,
-			})
-		}
-	}
-
-	updatedObjectives, err := h.store.ListObjectivesByQuest(ctx, quest.ID)
-	if err != nil {
-		return nil, fmt.Errorf("list updated quest objectives: %w", err)
-	}
-
-	objectiveData := make([]map[string]any, 0, len(updatedObjectives))
-	for _, objective := range updatedObjectives {
-		objectiveData = append(objectiveData, map[string]any{
-			"id":          dbutil.FromPgtype(objective.ID).String(),
-			"description": objective.Description,
-			"completed":   objective.Completed,
-			"order_index": objective.OrderIndex,
-		})
-	}
-
-	narrativeParts := []string{fmt.Sprintf("Quest %q updated", quest.Title)}
+	cmd := domain.UpdateQuestMutationCommand{CampaignID: campaignID, QuestID: questID, Objectives: newObjectives}
 	if hasStatus {
-		narrativeParts = append(narrativeParts, fmt.Sprintf("status is now %q", quest.Status))
+		status := domain.QuestStatus(statusUpdate)
+		cmd.Status = &status
 	}
 	if hasDescriptionUpdate {
-		narrativeParts = append(narrativeParts, "description updated")
+		cmd.Description = &descriptionUpdate
 	}
-	if len(appendedObjectives) > 0 {
-		narrativeParts = append(narrativeParts, fmt.Sprintf("%d new objective(s) added", len(appendedObjectives)))
-	}
-	if len(cascadedSubquests) > 0 {
-		narrativeParts = append(narrativeParts, fmt.Sprintf("%d subquest(s) cascaded", len(cascadedSubquests)))
-	}
-
-	return &ToolResult{
-		Success: true,
-		Data: map[string]any{
-			"id":                dbutil.FromPgtype(quest.ID).String(),
-			"campaign_id":       dbutil.FromPgtype(quest.CampaignID).String(),
-			"parent_quest_id":   optionalQuestIDString(quest.ParentQuestID),
-			"title":             quest.Title,
-			"description":       quest.Description.String,
-			"quest_type":        quest.QuestType,
-			"status":            quest.Status,
-			"added_objectives":  appendedObjectives,
-			"objectives":        objectiveData,
-			"cascaded_subquests": cascadedSubquests,
-		},
-		Narrative: strings.Join(narrativeParts, ". ") + ".",
-	}, nil
-}
-
-func (h *UpdateQuestHandler) cascadeSubquestStatus(ctx context.Context, parentQuest statedb.Quest, parentStatus string) ([]map[string]any, error) {
-	quests, err := h.store.ListQuestsByCampaign(ctx, parentQuest.CampaignID)
+	result, err := h.store.UpdateQuest(ctx, cmd)
 	if err != nil {
-		return nil, fmt.Errorf("list quests by campaign: %w", err)
+		return nil, err
 	}
-
-	cascadeStatus := string(domain.QuestStatusFailed)
-	if parentStatus == string(domain.QuestStatusCompleted) {
-		cascadeStatus = string(domain.QuestStatusAbandoned)
+	addedObjectives := make([]map[string]any, 0, len(result.AddedObjectives))
+	for _, objective := range result.AddedObjectives {
+		addedObjectives = append(addedObjectives, map[string]any{"id": objective.ID.String(), "description": objective.Description, "completed": objective.Completed, "order_index": objective.OrderIndex})
 	}
-
-	childrenByParent := make(map[[16]byte][]statedb.Quest)
-	for _, quest := range quests {
-		if !quest.ParentQuestID.Valid {
-			continue
-		}
-		childrenByParent[quest.ParentQuestID.Bytes] = append(childrenByParent[quest.ParentQuestID.Bytes], quest)
+	objectives := make([]map[string]any, 0, len(result.Objectives))
+	for _, objective := range result.Objectives {
+		objectives = append(objectives, map[string]any{"id": objective.ID.String(), "description": objective.Description, "completed": objective.Completed, "order_index": objective.OrderIndex})
 	}
-
-	queue := append([]statedb.Quest(nil), childrenByParent[parentQuest.ID.Bytes]...)
-	cascaded := make([]map[string]any, 0)
-	for len(queue) > 0 {
-		subquest := queue[0]
-		queue = queue[1:]
-		if subquest.Status == string(domain.QuestStatusActive) {
-			updatedSubquest, err := h.store.UpdateQuestStatus(ctx, statedb.UpdateQuestStatusParams{
-				Status: cascadeStatus,
-				ID:     subquest.ID,
-			})
-			if err != nil {
-				return nil, fmt.Errorf("cascade subquest status for %s: %w", dbutil.FromPgtype(subquest.ID).String(), err)
-			}
-			cascaded = append(cascaded, map[string]any{
-				"id":         dbutil.FromPgtype(updatedSubquest.ID).String(),
-				"title":      updatedSubquest.Title,
-				"old_status": subquest.Status,
-				"new_status": updatedSubquest.Status,
-			})
-		}
-		queue = append(queue, childrenByParent[subquest.ID.Bytes]...)
+	cascadedSubquests := make([]map[string]any, 0, len(result.CascadedQuests))
+	for _, subquest := range result.CascadedQuests {
+		cascadedSubquests = append(cascadedSubquests, map[string]any{"id": subquest.ID.String(), "title": subquest.Title, "old_status": subquest.OldStatus, "new_status": subquest.NewStatus})
 	}
-
-	return cascaded, nil
+	return &ToolResult{Success: true, Data: map[string]any{"id": result.Quest.ID.String(), "campaign_id": result.Quest.CampaignID.String(), "parent_quest_id": optionalUUIDString(result.Quest.ParentQuestID), "title": result.Quest.Title, "description": result.Quest.Description, "quest_type": result.Quest.QuestType, "status": result.Quest.Status, "added_objectives": addedObjectives, "objectives": objectives, "cascaded_subquests": cascadedSubquests}, Narrative: result.Narrative}, nil
 }
 
 func parseQuestStatusUpdateArg(args map[string]any, key string) (string, bool, error) {
@@ -340,9 +195,9 @@ func parseOptionalObjectiveDescriptionsArg(args map[string]any, key string) ([]s
 	return out, true, nil
 }
 
-func optionalQuestIDString(id pgtype.UUID) any {
-	if !id.Valid {
+func optionalUUIDString(id *uuid.UUID) any {
+	if id == nil {
 		return nil
 	}
-	return dbutil.FromPgtype(id).String()
+	return id.String()
 }

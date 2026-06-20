@@ -7,11 +7,11 @@ import (
 	"github.com/google/uuid"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
-	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
-var _ tools.StatModifierResolver = (*statModifierResolver)(nil)
+var _ domain.StatModifierResolver = (*statModifierResolver)(nil)
 
 func TestStatModifierResolverReturnsModifier(t *testing.T) {
 	q := newMockQuerier()

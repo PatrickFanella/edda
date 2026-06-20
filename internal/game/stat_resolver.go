@@ -9,8 +9,8 @@ import (
 	"github.com/google/uuid"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
-	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 // statModifierResolver resolves stat modifiers by reading the player
@@ -19,9 +19,9 @@ type statModifierResolver struct {
 	queries statedb.Querier
 }
 
-// NewStatModifierResolver creates a tools.StatModifierResolver backed by the
+// NewStatModifierResolver creates a domain.StatModifierResolver backed by the
 // given Querier.
-func NewStatModifierResolver(q statedb.Querier) tools.StatModifierResolver {
+func NewStatModifierResolver(q statedb.Querier) domain.StatModifierResolver {
 	return &statModifierResolver{queries: q}
 }
 

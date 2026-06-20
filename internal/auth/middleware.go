@@ -1,15 +1,11 @@
 package auth
 
 import (
-	"context"
 	"errors"
 	"net/http"
-	"strings"
 
 	"github.com/google/uuid"
 )
-
-type userIDContextKey struct{}
 
 const AuthCookieName = "gm_token"
 
@@ -37,7 +33,7 @@ func NewNoOpMiddleware(defaultUserID uuid.UUID) AuthMiddleware {
 // Authenticate sets the default user ID in request context and passes through.
 func (m *NoOpMiddleware) Authenticate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.WithValue(r.Context(), userIDContextKey{}, m.defaultUserID)
+		ctx := WithUser(r.Context(), m.defaultUserID)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -77,55 +73,11 @@ func (m *JWTMiddleware) Authenticate(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), userIDContextKey{}, userID)
+		ctx := WithUser(r.Context(), userID)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
 func tokenFromRequest(r *http.Request) (string, error) {
-	authHeader := strings.TrimSpace(r.Header.Get("Authorization"))
-	if authHeader != "" {
-		token, found := strings.CutPrefix(authHeader, "Bearer ")
-		if !found || token == "" {
-			return "", errInvalidAuthorizationHeader
-		}
-		return token, nil
-	}
-
-	if !isWebSocketUpgradeRequest(r) {
-		return "", http.ErrNoCookie
-	}
-
-	cookie, err := r.Cookie(AuthCookieName)
-	if err != nil {
-		return "", err
-	}
-
-	token := strings.TrimSpace(cookie.Value)
-	if token == "" {
-		return "", http.ErrNoCookie
-	}
-
-	return token, nil
-}
-
-func isWebSocketUpgradeRequest(r *http.Request) bool {
-	return strings.EqualFold(strings.TrimSpace(r.Header.Get("Upgrade")), "websocket")
-}
-
-// ---------------------------------------------------------------------------
-// Context helpers
-// ---------------------------------------------------------------------------
-
-// UserFromContext extracts an authenticated user ID from context.
-// A uuid.Nil value is treated as unauthenticated and returns ok=false.
-func UserFromContext(ctx context.Context) (uuid.UUID, bool) {
-	if ctx == nil {
-		return uuid.Nil, false
-	}
-	userID, ok := ctx.Value(userIDContextKey{}).(uuid.UUID)
-	if !ok || userID == uuid.Nil {
-		return uuid.Nil, false
-	}
-	return userID, true
+	return TokenFromRequest(r)
 }

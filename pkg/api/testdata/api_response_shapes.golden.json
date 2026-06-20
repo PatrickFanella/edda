@@ -1,0 +1,119 @@
+{
+  "campaign": {
+    "id": "camp-1",
+    "name": "The Iron Road",
+    "description": "A frontier campaign",
+    "genre": "fantasy",
+    "tone": "gritty",
+    "themes": [
+      "exploration",
+      "survival"
+    ],
+    "status": "active",
+    "rules_mode": "narrative",
+    "created_by": "user-1",
+    "created_at": "2026-06-19T12:34:56Z",
+    "updated_at": "2026-06-19T13:00:00Z"
+  },
+  "character": {
+    "id": "pc-1",
+    "campaign_id": "camp-1",
+    "user_id": "user-1",
+    "name": "Vera",
+    "description": "Scout",
+    "stats": {
+      "agility": 14,
+      "strength": 12
+    },
+    "hp": 20,
+    "max_hp": 25,
+    "experience": 120,
+    "level": 3,
+    "status": "healthy",
+    "abilities": [
+      {
+        "name": "Track",
+        "description": "Follow signs"
+      }
+    ],
+    "current_location_id": "loc-1"
+  },
+  "fact": {
+    "id": "fact-1",
+    "campaign_id": "camp-1",
+    "fact": "The road is cursed.",
+    "category": "lore",
+    "source": "gm",
+    "superseded_by": "quest-parent",
+    "player_known": true,
+    "created_at": "2026-06-19T12:34:56Z"
+  },
+  "location": {
+    "id": "loc-1",
+    "campaign_id": "camp-1",
+    "name": "Gatehouse",
+    "description": "Stone fort",
+    "region": "North",
+    "location_type": "city",
+    "properties": {
+      "danger": "low"
+    },
+    "connections": [
+      {
+        "to_location_id": "loc-2",
+        "description": "Road east",
+        "bidirectional": true,
+        "travel_time": "15m"
+      }
+    ]
+  },
+  "npc": {
+    "id": "npc-1",
+    "campaign_id": "camp-1",
+    "name": "Captain Rowan",
+    "description": "Guard commander",
+    "personality": "stern",
+    "disposition": 40,
+    "faction_id": "faction-1",
+    "faction": "City Watch",
+    "alive": true,
+    "hp": 22,
+    "stats": {
+      "intelligence": 14
+    },
+    "properties": {
+      "rank": "captain"
+    }
+  },
+  "quest": {
+    "id": "quest-1",
+    "campaign_id": "camp-1",
+    "parent_quest_id": "quest-parent",
+    "title": "Secure the pass",
+    "description": "Defeat raiders",
+    "quest_type": "short_term",
+    "status": "active",
+    "objectives": [
+      {
+        "id": "obj-1",
+        "description": "Scout the pass",
+        "completed": false,
+        "order_index": 1
+      }
+    ]
+  },
+  "turn": {
+    "narrative": "You arrive at the gatehouse.",
+    "state_changes": [
+      {
+        "entity_type": "character",
+        "entity_id": "pc-1",
+        "change_type": "location_updated",
+        "details": {
+          "location_id": "loc-1"
+        }
+      }
+    ],
+    "combat_active": false
+  }
+}

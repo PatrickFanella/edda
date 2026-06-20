@@ -67,27 +67,16 @@ EDDA_ROLLBACK_MODE=simulate bash scripts/rollback_prod.sh .env .sisyphus/evidenc
 
 ## Configuration
 
-<<<<<<< Updated upstream
-Configuration is loaded with koanf from a YAML file and then overridden by environment variables prefixed with `EDDA_`.
-=======
 Configuration is loaded by koanf in this order (later overrides earlier):
->>>>>>> Stashed changes
 
 1. Built-in defaults (see `internal/config/config.go`).
 2. Optional YAML file passed to `config.Load(path)` (advanced; unused by default).
 3. `ANTHROPIC_API_KEY`, then `GM_CLAUDE_API_KEY` (Claude key fallbacks).
 4. `GM_`-prefixed env vars — the canonical surface.
 
-<<<<<<< Updated upstream
-- `EDDA_DB_URL`
-- `EDDA_LLM_PROVIDER`
-- `EDDA_LLM_OLLAMA_ENDPOINT`
-- `EDDA_LLM_OLLAMA_MODEL`
-=======
 The env contract is fully documented in two files:
 
 - [`.env.example`](.env.example) — every supported `GM_*` knob with comments. Copy to `.env` for local dev.
 - [`.env.production.example`](.env.production.example) — production overlay; documents only what differs from `.env.example` (release tag, container names, Caddy, Cloudflare, locked LLM endpoints).
 
 Naming rule: `GM_<UPPER_SECTION>_<UPPER_KEY>` maps to `<section>.<key>` in the koanf tree. For example, `GM_LLM_OLLAMA_APIKEY` → `llm.ollama.apikey`.
->>>>>>> Stashed changes
