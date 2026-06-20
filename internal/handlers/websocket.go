@@ -79,8 +79,10 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 			continue
 		}
 
-		ch, err := h.Engine.ProcessTurnStream(ctx, campaignID, payload.Input)
+		turnCtx, cancelTurn := h.turnContext(ctx)
+		ch, err := h.Engine.ProcessTurnStream(turnCtx, campaignID, payload.Input)
 		if err != nil {
+			cancelTurn()
 			h.Logger.Errorf("process turn stream for campaign %s: %v", campaignID, err)
 			sendErrorEnvelope(ctx, conn, "failed to process turn")
 			continue
@@ -128,10 +130,12 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 			}
 
 			if err := wsjson.Write(ctx, conn, envelope); err != nil {
+				cancelTurn()
 				h.Logger.Errorf("websocket write for campaign %s: %v", campaignID, err)
 				return
 			}
 		}
+		cancelTurn()
 	}
 }
 

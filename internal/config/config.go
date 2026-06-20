@@ -19,10 +19,10 @@ type DBConfig struct {
 	URL string `koanf:"url"`
 }
 
-// OllamaConfig holds Ollama-specific LLM settings. APIKey is optional and is
-// only required when the configured endpoint points at a llama-line broker
-// fronting ollama (which requires a Bearer token on inference/passthrough
-// requests). When empty, requests are sent to a vanilla ollama server.
+// OllamaConfig holds Ollama-compatible LLM settings. APIKey is optional and is
+// only required when the configured endpoint points at the Switchyard model
+// broker or another authenticated Ollama-compatible broker. When empty,
+// requests are sent to a vanilla ollama server.
 type OllamaConfig struct {
 	Endpoint           string `koanf:"endpoint"`
 	EmbeddingEndpoint  string `koanf:"embeddingendpoint"`
@@ -100,11 +100,11 @@ func Load(path string) (Config, error) {
 		"llm.provider":                  "ollama",
 		"llm.ollama.endpoint":           "http://localhost:11434",
 		"llm.ollama.model":              "qwen3:14b",
-		"llm.ollama.embeddingendpoint": "",
+		"llm.ollama.embeddingendpoint":  "",
 		"llm.ollama.embeddingmodel":     "nomic-embed-text",
 		"llm.ollama.apikey":             "",
 		"llm.ollama.contexttokenbudget": 8000,
-		"llm.ollama.timeoutseconds":     180,
+		"llm.ollama.timeoutseconds":     600,
 		"llm.claude.model":              "claude-sonnet-4-6",
 		"llm.claude.contexttokenbudget": 8000,
 		"server.port":                   8080,

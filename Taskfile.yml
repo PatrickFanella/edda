@@ -117,6 +117,12 @@ tasks:
     cmds:
       - go test ./...
 
+  verify:
+    desc: Run backend tests and production frontend build
+    cmds:
+      - go test ./...
+      - pnpm --dir frontend build
+
   test:unit:
     desc: Run unit tests only (exclude integration)
     cmds:

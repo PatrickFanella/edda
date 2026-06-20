@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/charmbracelet/log"
 	"github.com/go-chi/chi/v5"
@@ -21,11 +22,18 @@ import (
 
 // stubEngine implements engine.GameEngine for testing.
 type stubEngine struct {
-	turnResult *engine.TurnResult
-	turnErr    error
+	turnResult        *engine.TurnResult
+	turnErr           error
+	seenCtx           context.Context
+	ctxErrAtCall      error
+	ctxHadDeadline    bool
+	ctxDeadlineAtCall time.Time
 }
 
-func (s *stubEngine) ProcessTurn(_ context.Context, _ uuid.UUID, _ string) (*engine.TurnResult, error) {
+func (s *stubEngine) ProcessTurn(ctx context.Context, _ uuid.UUID, _ string) (*engine.TurnResult, error) {
+	s.seenCtx = ctx
+	s.ctxErrAtCall = ctx.Err()
+	s.ctxDeadlineAtCall, s.ctxHadDeadline = ctx.Deadline()
 	if s.turnErr != nil {
 		return nil, s.turnErr
 	}
@@ -142,5 +150,38 @@ func TestProcessAction_EngineError(t *testing.T) {
 
 	if rec.Code != http.StatusInternalServerError {
 		t.Fatalf("expected status 500, got %d", rec.Code)
+	}
+}
+
+func TestProcessAction_UsesServerTurnContextWhenClientContextCanceled(t *testing.T) {
+	eng := &stubEngine{turnResult: &engine.TurnResult{Narrative: "You wait."}}
+	h := &ActionHandlers{Engine: eng, Logger: log.Default(), TurnTimeout: time.Minute}
+	router := newActionRouter(h)
+
+	campaignID := uuid.New().String()
+	body, _ := json.Marshal(api.ActionRequest{Input: "wait"})
+	req := httptest.NewRequest(http.MethodPost, "/campaigns/"+campaignID+"/action", bytes.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	canceledCtx, cancel := context.WithCancel(req.Context())
+	cancel()
+	req = req.WithContext(canceledCtx)
+
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected status 200, got %d; body: %s", rec.Code, rec.Body.String())
+	}
+	if eng.seenCtx == nil {
+		t.Fatal("engine did not receive a context")
+	}
+	if eng.ctxErrAtCall != nil {
+		t.Fatalf("turn context should not inherit client cancellation: %v", eng.ctxErrAtCall)
+	}
+	if !eng.ctxHadDeadline {
+		t.Fatal("turn context should retain a server-side deadline")
+	}
+	if time.Until(eng.ctxDeadlineAtCall) <= 0 {
+		t.Fatal("turn context deadline should be in the future at call time")
 	}
 }

@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/charmbracelet/log"
 	"github.com/go-chi/chi/v5"
@@ -37,10 +38,11 @@ type WorldHandlers struct {
 
 // ActionHandlers handles turn processing and WebSocket connections.
 type ActionHandlers struct {
-	Engine   engine.GameEngine
-	Queries  statedb.Querier
-	Provider llm.Provider
-	Logger   *log.Logger
+	Engine      engine.GameEngine
+	Queries     statedb.Querier
+	Provider    llm.Provider
+	Logger      *log.Logger
+	TurnTimeout time.Duration
 }
 
 // StartupHandlers handles campaign creation wizard (interviews, proposals, world build).

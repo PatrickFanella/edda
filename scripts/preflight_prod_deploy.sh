@@ -100,8 +100,8 @@ reject_localhost_defaults() {
   esac
 
   if [[ "${EDDA_LLM_PROVIDER:-}" == "ollama" ]]; then
-    [[ "$EDDA_LLM_OLLAMA_ENDPOINT" == "http://10.0.0.10:11434" ]] || die "EDDA_LLM_OLLAMA_ENDPOINT must be exactly 'http://10.0.0.10:11434' for production"
-    [[ "$EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT" == "http://ollama:11434" ]] || die "EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT must be exactly 'http://ollama:11434' for production"
+    [[ "$EDDA_LLM_OLLAMA_ENDPOINT" == "http://10.0.0.50:11434" ]] || die "EDDA_LLM_OLLAMA_ENDPOINT must be exactly 'http://10.0.0.50:11434' for production"
+    [[ "$EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT" == "http://10.0.0.50:11434" ]] || die "EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT must be exactly 'http://10.0.0.50:11434' for production"
   fi
 }
 

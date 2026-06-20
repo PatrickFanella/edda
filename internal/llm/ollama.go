@@ -22,12 +22,12 @@ const (
 	defaultOllamaTimeout = 3 * time.Minute
 	ollamaChatPath       = "/api/chat"
 
-	// Broker-specific SSE terminal statuses (see llama-line skill).
-	brokerStatusQueued           = "queued"
-	brokerStatusOllamaUnavail    = "ollama_unavailable"
-	brokerStatusDroppedByAdmin   = "dropped_by_admin"
-	brokerHeaderResponse         = "X-Ollama-Broker"
-	brokerHeaderCache            = "X-Llama-Line-Cache"
+	// Broker-specific SSE terminal statuses emitted by Switchyard-compatible model brokers.
+	brokerStatusQueued         = "queued"
+	brokerStatusOllamaUnavail  = "ollama_unavailable"
+	brokerStatusDroppedByAdmin = "dropped_by_admin"
+	brokerHeaderResponse       = "X-Ollama-Broker"
+	brokerHeaderCache          = "X-Llama-Line-Cache"
 )
 
 func ollamaLogger() *slog.Logger {
@@ -35,10 +35,10 @@ func ollamaLogger() *slog.Logger {
 }
 
 // OllamaClient implements Provider via Ollama's HTTP API. It also speaks the
-// llama-line broker dialect (Bearer auth + SSE-wrapped responses with
+// Switchyard model-broker dialect (Bearer auth + SSE-wrapped responses with
 // pre-pended queue status events). The broker dialect is auto-detected from
 // the response Content-Type / body framing, so a single client can talk to
-// either a vanilla ollama server or a llama-line broker.
+// either a vanilla ollama server or a Switchyard-compatible broker.
 type OllamaClient struct {
 	baseURL string
 	model   string
@@ -92,7 +92,7 @@ func NewOllamaClientWithTimeout(baseURL, model string, timeout time.Duration) *O
 }
 
 // WithAPIKey attaches a Bearer token to all chat requests. Required when the
-// configured endpoint is a llama-line broker; ignored by vanilla ollama. The
+// configured endpoint is an authenticated broker; ignored by vanilla ollama. The
 // receiver is returned to support chaining at construction time.
 func (o *OllamaClient) WithAPIKey(key string) *OllamaClient {
 	o.apiKey = strings.TrimSpace(key)
@@ -138,7 +138,7 @@ func (o *OllamaClient) Complete(ctx context.Context, messages []Message, tools [
 }
 
 // readNonStreamingResponse reads a non-streaming chat response, transparently
-// handling both raw ollama JSON bodies and llama-line broker SSE-wrapped
+// handling both raw ollama JSON bodies and Switchyard broker SSE-wrapped
 // bodies (with optional leading status events).
 func (o *OllamaClient) readNonStreamingResponse(resp *http.Response) (*ollamaChatResponse, error) {
 	bodyBytes, err := io.ReadAll(resp.Body)
@@ -381,7 +381,7 @@ func (o *OllamaClient) chatURL() (string, error) {
 // --- SSE / broker helpers ---------------------------------------------------
 
 // brokerStatusEvent matches both the heartbeat queue status event and the
-// terminal broker error/dropped events emitted by llama-line.
+// terminal broker error/dropped events emitted by Switchyard-compatible brokers.
 type brokerStatusEvent struct {
 	RequestID   string `json:"request_id"`
 	Status      string `json:"status"`
@@ -467,15 +467,9 @@ func brokerTerminalError(endpoint string, evt brokerStatusEvent) error {
 		if msg == "" {
 			msg = "ollama unavailable"
 		}
-		return &ErrConnection{
-			URL: endpoint,
-			Err: fmt.Errorf("llama-line broker reported ollama_unavailable (request_id=%s): %s", evt.RequestID, msg),
-		}
+		return &ErrConnection{URL: endpoint, Err: fmt.Errorf("model broker reported ollama_unavailable (request_id=%s): %s", evt.RequestID, msg)}
 	case brokerStatusDroppedByAdmin:
-		return &ErrConnection{
-			URL: endpoint,
-			Err: fmt.Errorf("llama-line broker dropped request by admin (request_id=%s)", evt.RequestID),
-		}
+		return &ErrConnection{URL: endpoint, Err: fmt.Errorf("model broker dropped request by admin (request_id=%s)", evt.RequestID)}
 	}
 	return nil
 }
@@ -546,22 +540,22 @@ func classifyHTTPError(endpoint, model string, statusCode int, body string) erro
 			Err:        baseErr,
 		}
 	case http.StatusServiceUnavailable:
-		// llama-line returns 503 when the queue is at capacity. Treat as a
+		// Switchyard-compatible brokers return 503 when the queue is at capacity. Treat as a
 		// retryable rate-limit so upstream backoff/throttling kicks in.
 		return &ErrRateLimit{
 			URL:        endpoint,
 			StatusCode: statusCode,
-			Err:        fmt.Errorf("llama-line broker queue full: %w", baseErr),
+			Err:        fmt.Errorf("model broker queue full: %w", baseErr),
 		}
 	case http.StatusGatewayTimeout:
 		return &ErrTimeout{
 			URL: endpoint,
-			Err: fmt.Errorf("llama-line broker timeout: %w", baseErr),
+			Err: fmt.Errorf("model broker timeout: %w", baseErr),
 		}
 	case http.StatusBadGateway:
 		return &ErrConnection{
 			URL: endpoint,
-			Err: fmt.Errorf("llama-line broker bad gateway (ollama unreachable): %w", baseErr),
+			Err: fmt.Errorf("model broker bad gateway (ollama unreachable): %w", baseErr),
 		}
 	case http.StatusNotFound:
 		if isModelNotFoundMessage(body) {

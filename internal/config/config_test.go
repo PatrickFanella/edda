@@ -27,7 +27,7 @@ func TestLoadUsesDefaultsWhenFileIsMissing(t *testing.T) {
 	if cfg.LLM.Ollama.ContextTokenBudget != 8000 {
 		t.Fatalf("unexpected default ollama context token budget: %d", cfg.LLM.Ollama.ContextTokenBudget)
 	}
-	if cfg.LLM.Ollama.TimeoutSeconds != 180 {
+	if cfg.LLM.Ollama.TimeoutSeconds != 600 {
 		t.Fatalf("unexpected default ollama timeout seconds: %d", cfg.LLM.Ollama.TimeoutSeconds)
 	}
 }

@@ -24,9 +24,9 @@ const (
 
 // OllamaEmbedder implements Embedder using Ollama's /api/embed endpoint.
 // When APIKey is set, requests are authenticated as Bearer tokens against a
-// llama-line broker fronting ollama; the broker wraps the embed response in
-// SSE framing (with optional pre-pended queue status events), which this
-// embedder auto-detects and unwraps.
+// Switchyard-compatible model broker; the broker wraps the embed response in
+// SSE framing (with optional pre-pended queue status events), which this embedder
+// auto-detects and unwraps.
 type OllamaEmbedder struct {
 	baseURL   string
 	model     string
@@ -61,7 +61,7 @@ func WithOllamaEmbedderDimension(dimension int) OllamaEmbedderOption {
 }
 
 // WithOllamaEmbedderAPIKey attaches a Bearer token to embed requests. Required
-// when the embedding endpoint is served by the llama-line broker; safely
+// when the embedding endpoint is served by an authenticated broker; safely
 // ignored by vanilla ollama.
 func WithOllamaEmbedderAPIKey(key string) OllamaEmbedderOption {
 	return func(o *OllamaEmbedder) {
@@ -243,7 +243,7 @@ func (o *OllamaEmbedder) embed(ctx context.Context, input any) (*ollamaEmbedResp
 }
 
 // unwrapBrokerSSE returns the raw JSON payload from either a vanilla ollama
-// response body or a llama-line broker SSE body. Broker status events with
+// response body or a Switchyard broker SSE body. Broker status events with
 // status="queued" are skipped; terminal status events surface as errors.
 func unwrapBrokerSSE(resp *http.Response, body []byte) ([]byte, error) {
 	if !isEmbedSSEResponse(resp, body) {
@@ -279,9 +279,9 @@ func unwrapBrokerSSE(resp *http.Response, body []byte) ([]byte, error) {
 				if msg == "" {
 					msg = "ollama unavailable"
 				}
-				return nil, fmt.Errorf("llama-line broker reported ollama_unavailable (request_id=%s): %s", probe.RequestID, msg)
+				return nil, fmt.Errorf("model broker reported ollama_unavailable (request_id=%s): %s", probe.RequestID, msg)
 			case "dropped_by_admin":
-				return nil, fmt.Errorf("llama-line broker dropped embed request by admin (request_id=%s)", probe.RequestID)
+				return nil, fmt.Errorf("model broker dropped embed request by admin (request_id=%s)", probe.RequestID)
 			}
 		}
 		return append([]byte(nil), raw...), nil

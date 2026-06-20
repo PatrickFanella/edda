@@ -45,7 +45,7 @@ func NewRouterWithProvider(logger *log.Logger, gameEngine engine.GameEngine, que
 	campaignH := &handlers.CampaignHandlers{Engine: gameEngine, Queries: queries, Logger: logger, Pool: pool}
 	charH := &handlers.CharacterHandlers{Queries: queries, Logger: logger, Pool: pool}
 	worldH := &handlers.WorldHandlers{Queries: queries, Logger: logger}
-	actionH := &handlers.ActionHandlers{Engine: gameEngine, Queries: queries, Provider: provider, Logger: logger}
+	actionH := &handlers.ActionHandlers{Engine: gameEngine, Queries: queries, Provider: provider, Logger: logger, TurnTimeout: cfg.LLM.Ollama.RequestTimeout()}
 	startupH := handlers.NewStartupHandlers(provider, queries, logger, pool)
 	registerAPIRoutes(logger, r, campaignH, charH, worldH, actionH, startupH, pool, defaultUserID, cfg, saveStore, provider)
 	return r
