@@ -6,27 +6,41 @@ interface AppShellProps {
   readonly title: string;
   readonly description: string;
   readonly actions?: ReactNode;
+  readonly userMenuActions?: ReactNode;
   readonly children: ReactNode;
+  readonly variant?: 'default' | 'game';
 }
 
-export function AppShell({ title, description, actions, children }: AppShellProps) {
+export function AppShell({ title, description, actions, userMenuActions, children, variant = 'default' }: AppShellProps) {
+  const isGame = variant === 'game';
+
   return (
-    <main className="min-h-screen bg-obsidian px-6 py-16 text-champagne">
-      <div className="deco-corners deco-pattern mx-auto flex w-full max-w-5xl flex-col gap-8 border-2 border-gold/20 bg-charcoal p-8">
-        <header className="flex flex-col gap-6 border-b-2 border-gold/20 pb-6">
-          <div className="flex items-center justify-between">
-            <p className="font-heading text-sm font-semibold uppercase tracking-[0.32em] text-gold">Game Master</p>
-            <UserMenu />
+    <main className={`${isGame ? 'h-screen overflow-hidden bg-obsidian px-2 py-2 text-[17px]' : 'min-h-screen bg-obsidian px-6 py-16'} text-champagne`}>
+      <div
+        className={[
+          'mx-auto flex w-full flex-col border-2 border-pewter/20 bg-charcoal',
+          isGame
+            ? 'h-[calc(100vh-1rem)] max-w-[min(calc(100vw-1rem),calc((100vh-1rem)*16/9))] gap-2 overflow-hidden p-2'
+            : 'deco-corners deco-pattern max-w-5xl gap-8 p-8',
+        ].join(' ')}
+      >
+        <header className={`flex shrink-0 flex-col border-b border-pewter/20 ${isGame ? 'gap-2 bg-obsidian/80 px-3 py-2' : 'gap-6 pb-6'}`}>
+          <div className="flex items-center justify-between gap-3">
+            <p className={`${isGame ? 'text-[1rem] leading-none' : 'text-sm'} font-heading font-semibold uppercase tracking-[0.24em] text-pewter`}>edda - game master</p>
+            <div className="flex items-center gap-2">
+              {isGame && actions ? <div className="flex items-center gap-2">{actions}</div> : null}
+              <UserMenu actions={userMenuActions} />
+            </div>
           </div>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className={`flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between ${isGame ? 'hidden' : ''}`}>
             <div className="space-y-2">
-              <h1 className="font-heading text-3xl font-semibold uppercase tracking-[0.12em] text-champagne sm:text-4xl">{title}</h1>
-              <p className="max-w-2xl text-sm leading-7 text-champagne/70 sm:text-base">{description}</p>
+              <h1 className={`font-heading font-semibold uppercase tracking-[0.12em] text-champagne ${isGame ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-4xl'}`}>{title}</h1>
+              <p className={`${isGame ? 'max-w-4xl text-xs leading-5' : 'max-w-2xl text-sm leading-7 sm:text-base'} text-champagne/70`}>{description}</p>
             </div>
             {actions ? <div className="flex shrink-0 items-center gap-3">{actions}</div> : null}
           </div>
         </header>
-        <section>{children}</section>
+        <section className={isGame ? 'min-h-0 flex-1' : undefined}>{children}</section>
       </div>
     </main>
   );

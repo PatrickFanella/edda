@@ -64,7 +64,7 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
     >
       <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
-          <span className={cn('inline-flex rounded-sm px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]', styles.badge)}>
+          <span className={cn('inline-flex rounded-sm px-2 pt-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.2em]', styles.badge)}>
             {entry.kind}
           </span>
           <p className={cn('text-sm font-semibold', styles.accent)}>{speaker}</p>
@@ -76,7 +76,7 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
         {showStreamingState ? <LoadingIndicator label={`${speaker} is responding`} detail="Streaming the next beat…" /> : null}
 
         {hasText ? (
-          <p className="whitespace-pre-wrap break-words text-sm leading-7 text-inherit">
+          <p className="whitespace-pre-wrap wrap-break-word text-md leading-3 text-inherit">
             {entry.text}
             {entry.isStreaming ? <span className="ml-2 inline-block h-4 w-2 animate-pulse bg-gold/80 align-middle" /> : null}
           </p>

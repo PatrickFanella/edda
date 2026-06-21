@@ -15,6 +15,7 @@ interface NarrativePanelProps {
   readonly streamingEntry?: StreamingNarrativeEntry | null;
   readonly isLoading?: boolean;
   readonly className?: string;
+  readonly contentClassName?: string;
   readonly emptyState?: ReactNode;
 }
 
@@ -25,6 +26,7 @@ export function NarrativePanel({
   streamingEntry = null,
   isLoading = false,
   className,
+  contentClassName,
   emptyState,
 }: NarrativePanelProps) {
   const endRef = useRef<HTMLDivElement | null>(null);
@@ -54,7 +56,7 @@ export function NarrativePanel({
       kind: 'gm',
       text: '',
       timestamp: new Date().toISOString(),
-      speaker: 'Game Master',
+      speaker: 'Edda',
       isStreaming: true,
     };
   }, [isLoading, streamingEntry]);
@@ -88,16 +90,10 @@ export function NarrativePanel({
   return (
     <section
       className={cn(
-        'deco-corners deco-pattern relative border-2 border-gold/20 bg-charcoal',
+        'deco-corners deco-pattern relative border-2 border-pewter/20 bg-charcoal',
         className,
       )}
     >
-      <div className="flex items-center justify-between border-b-2 border-gold/20 px-5 py-4">
-        <div>
-          <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">Narrative</p>
-          <p className="mt-1 text-sm text-pewter">Live scene log with player actions and GM responses.</p>
-        </div>
-      </div>
 
       <div
         ref={scrollContainerRef}
@@ -105,7 +101,7 @@ export function NarrativePanel({
         role="log"
         aria-live="polite"
         aria-busy={activeStreamingEntry ? 'true' : 'false'}
-        className="flex max-h-[34rem] min-h-80 flex-col gap-4 overflow-y-auto px-4 py-4 sm:px-5"
+        className={cn('flex max-h-136 min-h-80 flex-col gap-4 overflow-y-auto px-4 py-4 sm:px-5', contentClassName)}
       >
         {hasEntries ? (
           <>
@@ -116,8 +112,8 @@ export function NarrativePanel({
           </>
         ) : (
           emptyState ?? (
-            <div className="flex min-h-64 flex-1 flex-col items-center justify-center border border-dashed border-gold/15 bg-charcoal/50 px-6 text-center">
-              <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-pewter/80">Awaiting first move</p>
+            <div className="flex min-h-64 flex-1 flex-col items-center justify-center border border-dashed border-pewter/15 bg-charcoal/50 px-6 text-center">
+              <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-pewter/80">Awaiting first move</p>
               <p className="mt-3 max-w-md text-sm leading-7 text-pewter">
                 Send an action to start the scene. New beats, system notices, and suggested choices will collect here.
               </p>
@@ -131,7 +127,7 @@ export function NarrativePanel({
         <button
           type="button"
           onClick={scrollToBottom}
-          className="absolute bottom-16 left-1/2 z-10 -translate-x-1/2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-gold shadow-gold-sm backdrop-blur-sm transition-all hover:bg-gold/20"
+          className="absolute bottom-16 left-1/2 z-10 -translate-x-1/2 rounded-full border border-pewter/40 bg-pewter/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-pewter shadow-lg backdrop-blur-sm transition-all hover:bg-pewter/20"
         >
           New response ↓
         </button>
