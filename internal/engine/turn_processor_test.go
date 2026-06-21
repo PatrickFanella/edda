@@ -4,11 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"strings"
 	"testing"
 
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // ---------------------------------------------------------------------------
@@ -174,6 +176,33 @@ func TestTurnProcessor_RetrySucceeds(t *testing.T) {
 	}
 	if *callCount != 2 {
 		t.Errorf("handler call count = %d, want 2 (initial failure + retry success)", *callCount)
+	}
+}
+
+func TestTurnProcessor_PreservesReceiverStatusCallback(t *testing.T) {
+	reg := tools.NewRegistry()
+	if err := reg.Register(llm.Tool{Name: "mock_tool", Description: "test", Parameters: map[string]any{"type": "object", "properties": map[string]any{}, "additionalProperties": false}}, func(context.Context, map[string]any) (*tools.ToolResult, error) {
+		return &tools.ToolResult{Success: true}, nil
+	}); err != nil {
+		t.Fatalf("register tool: %v", err)
+	}
+	seen := make([]string, 0, 2)
+	tp := &TurnProcessor{
+		logger: slog.Default(),
+		provider: newMockProvider(t, struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: "done"}}),
+		registry:       reg,
+		validator:      tools.NewValidator(reg),
+		StatusCallback: func(s api.StatusPayload) { seen = append(seen, s.Stage) },
+	}
+	_, _, err := tp.ProcessWithRecovery(context.Background(), nil, reg.List())
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery() error = %v", err)
+	}
+	if len(seen) == 0 || seen[0] != "thinking" {
+		t.Fatalf("expected receiver status callback to be preserved, got %v", seen)
 	}
 }
 
@@ -611,6 +640,43 @@ func TestTurnProcessor_DurableClaimRepairAppliesMissingTool(t *testing.T) {
 	}
 	if provider.callCount != 2 {
 		t.Fatalf("provider.callCount = %d, want 2", provider.callCount)
+	}
+}
+
+func TestDurableRepairToolsWhitelistsNarrowInventoryAndCombat(t *testing.T) {
+	available := []llm.Tool{
+		{Name: "add_item"},
+		{Name: "create_item"},
+		{Name: "modify_item"},
+		{Name: "update_item"},
+		{Name: "remove_item"},
+		{Name: "initiate_combat"},
+		{Name: "resolve_combat"},
+		{Name: "move_player"},
+	}
+	toolsForInventoryCreate := durableRepairTools(available, []DurableClaimIssue{{Kind: DurableClaimInventoryCreated}})
+	if got, want := len(toolsForInventoryCreate), 2; got != want {
+		t.Fatalf("inventory repair tools len = %d, want %d", got, want)
+	}
+	toolsForInventoryRemove := durableRepairTools(available, []DurableClaimIssue{{Kind: DurableClaimInventoryRemoved}})
+	if got, want := len(toolsForInventoryRemove), 1; got != want {
+		t.Fatalf("inventory remove repair tools len = %d, want %d", got, want)
+	}
+	toolsForInventoryUpdate := durableRepairTools(available, []DurableClaimIssue{{Kind: DurableClaimInventoryUpdated}})
+	if got, want := len(toolsForInventoryUpdate), 2; got != want {
+		t.Fatalf("inventory update repair tools len = %d, want %d", got, want)
+	}
+	toolsForCombatStart := durableRepairTools(available, []DurableClaimIssue{{Kind: DurableClaimCombatStarted}})
+	if got, want := len(toolsForCombatStart), 1; got != want {
+		t.Fatalf("combat repair tools len = %d, want %d", got, want)
+	}
+	toolsForCombatResolve := durableRepairTools(available, []DurableClaimIssue{{Kind: DurableClaimCombatResolved}})
+	if got, want := len(toolsForCombatResolve), 1; got != want {
+		t.Fatalf("combat resolve repair tools len = %d, want %d", got, want)
+	}
+	toolsForBoth := durableRepairTools(available, []DurableClaimIssue{{Kind: DurableClaimInventoryCreated}, {Kind: DurableClaimCombatStarted}})
+	if got, want := len(toolsForBoth), 3; got != want {
+		t.Fatalf("combined repair tools len = %d, want %d", got, want)
 	}
 }
 

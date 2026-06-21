@@ -117,32 +117,46 @@ func readEnvelope(t *testing.T, ctx context.Context, conn *websocket.Conn) api.W
 }
 
 func TestHandleWebSocket_Success(t *testing.T) {
+	campaignID := uuid.New()
+	playerID := uuid.New()
+	locationID := uuid.New()
+	combatStateID := uuid.New()
+	moveApplied := engine.AppliedToolCall{Tool: "move_player", Result: mustJSON(t, map[string]any{"location_id": locationID.String(), "campaign_id": campaignID.String(), "player_character_id": playerID.String(), "name": "Old Road", "description": "A weathered road", "location_type": "wilderness", "travel_time": "1 hour", "day": 1, "hour": 9, "minute": 0, "visited_marked": true, "visited_warning": "", "time_warning": ""})}
+	combatApplied := engine.AppliedToolCall{Tool: "resolve_combat", Result: mustJSON(t, map[string]any{"xp_earned": 150, "loot": []any{}, "dead_npc_ids": []any{}, "combat_state": map[string]any{"id": combatStateID.String(), "campaign_id": campaignID.String(), "round_number": 2, "status": "completed", "narrative": "", "initiative_order": []any{}, "environment": map[string]any{"description": "trail"}, "combatants": []any{}}, "outcome_type": "victory"})}
 	eng := &wsStubEngine{
 		streamEvents: []engine.StreamEvent{
+			{Type: "status", Status: &api.StatusPayload{Stage: "thinking", Description: "Generating response..."}},
 			{Type: "chunk", Text: "You see a dragon."},
 			{Type: "result", Result: &engine.TurnResult{
-				Narrative: "You see a dragon.",
-				StateChanges: []engine.StateChange{{
-					Entity:   "quest",
-					EntityID: uuid.New(),
-					Field:    "status",
-					OldValue: json.RawMessage(`"open"`),
-					NewValue: json.RawMessage(`"complete"`),
-				}},
+				Narrative:    "You see a dragon.",
+				StateChanges: append(engine.StateChangesFromAppliedToolCalls([]engine.AppliedToolCall{moveApplied}), engine.StateChangesFromAppliedToolCalls([]engine.AppliedToolCall{combatApplied})...),
 			}},
 		},
 	}
 	h := &ActionHandlers{Engine: eng, Logger: log.Default()}
-	campaignID := uuid.New().String()
-	conn, _ := dialWS(t, h, campaignID)
+	campaignIDStr := campaignID.String()
+	conn, _ := dialWS(t, h, campaignIDStr)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	sendAction(t, ctx, conn, "look around")
 
-	// Expect chunk envelope.
+	// Expect status envelope.
 	env := readEnvelope(t, ctx, conn)
+	if env.Type != "status" {
+		t.Fatalf("expected type status, got %q", env.Type)
+	}
+	var statusPayload api.StatusPayload
+	if err := json.Unmarshal(env.Payload, &statusPayload); err != nil {
+		t.Fatalf("unmarshal status payload: %v", err)
+	}
+	if statusPayload.Stage != "thinking" {
+		t.Fatalf("expected thinking stage, got %q", statusPayload.Stage)
+	}
+
+	// Expect chunk envelope.
+	env = readEnvelope(t, ctx, conn)
 	if env.Type != "chunk" {
 		t.Fatalf("expected type chunk, got %q", env.Type)
 	}
@@ -172,8 +186,11 @@ func TestHandleWebSocket_Success(t *testing.T) {
 	if result.Narrative != "You see a dragon." {
 		t.Errorf("expected narrative %q, got %q", "You see a dragon.", result.Narrative)
 	}
-	if len(result.StateChanges) != 1 || result.StateChanges[0].ChangeType != "status" {
+	if len(result.StateChanges) != 4 || result.StateChanges[0].EntityType != "player_character" || result.StateChanges[0].ChangeType != "location_updated" || result.StateChanges[1].EntityType != "location" || result.StateChanges[1].ChangeType != "updated" || result.StateChanges[2].EntityType != "location" || result.StateChanges[2].ChangeType != "moved" || result.StateChanges[3].EntityType != "combat" || result.StateChanges[3].ChangeType != "resolved" {
 		t.Fatalf("expected converted state changes, got %+v", result.StateChanges)
+	}
+	if _, ok := result.StateChanges[3].Details["outcome_type"]; ok {
+		t.Fatalf("did not expect outcome_type to be projected, got %+v", result.StateChanges[3].Details)
 	}
 }
 

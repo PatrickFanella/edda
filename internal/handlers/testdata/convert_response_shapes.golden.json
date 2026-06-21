@@ -105,14 +105,137 @@
     "narrative": "You arrive at the gatehouse.",
     "state_changes": [
       {
-        "entity_type": "character",
-        "entity_id": "33333333-3333-3333-3333-333333333333",
+        "entity_type": "player_character",
+        "entity_id": "77777777-7777-7777-7777-777777777777",
         "change_type": "location_updated",
         "details": {
-          "location_id": "loc-1",
+          "campaign_id": "11111111-1111-1111-1111-111111111111",
+          "day": 1,
+          "description": "A weathered road",
+          "hour": 9,
+          "location_id": "99999999-9999-9999-9999-999999999999",
+          "location_type": "wilderness",
+          "minute": 0,
+          "name": "Old Road",
           "new_value": {
-            "location_id": "loc-1"
-          }
+            "campaign_id": "11111111-1111-1111-1111-111111111111",
+            "day": 1,
+            "description": "A weathered road",
+            "hour": 9,
+            "location_id": "99999999-9999-9999-9999-999999999999",
+            "location_type": "wilderness",
+            "minute": 0,
+            "name": "Old Road",
+            "player_character_id": "77777777-7777-7777-7777-777777777777",
+            "time_warning": "",
+            "travel_time": "1 hour",
+            "visited_marked": true,
+            "visited_warning": ""
+          },
+          "player_character_id": "77777777-7777-7777-7777-777777777777",
+          "time_warning": "",
+          "travel_time": "1 hour",
+          "visited_marked": true,
+          "visited_warning": ""
+        }
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "99999999-9999-9999-9999-999999999999",
+        "change_type": "updated",
+        "details": {
+          "campaign_id": "11111111-1111-1111-1111-111111111111",
+          "day": 1,
+          "description": "A weathered road",
+          "hour": 9,
+          "location_id": "99999999-9999-9999-9999-999999999999",
+          "location_type": "wilderness",
+          "minute": 0,
+          "name": "Old Road",
+          "new_value": {
+            "campaign_id": "11111111-1111-1111-1111-111111111111",
+            "day": 1,
+            "description": "A weathered road",
+            "hour": 9,
+            "location_id": "99999999-9999-9999-9999-999999999999",
+            "location_type": "wilderness",
+            "minute": 0,
+            "name": "Old Road",
+            "player_character_id": "77777777-7777-7777-7777-777777777777",
+            "time_warning": "",
+            "travel_time": "1 hour",
+            "visited_marked": true,
+            "visited_warning": ""
+          },
+          "player_character_id": "77777777-7777-7777-7777-777777777777",
+          "time_warning": "",
+          "travel_time": "1 hour",
+          "visited_marked": true,
+          "visited_warning": ""
+        }
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "99999999-9999-9999-9999-999999999999",
+        "change_type": "moved",
+        "details": {
+          "campaign_id": "11111111-1111-1111-1111-111111111111",
+          "day": 1,
+          "description": "A weathered road",
+          "hour": 9,
+          "location_id": "99999999-9999-9999-9999-999999999999",
+          "location_type": "wilderness",
+          "minute": 0,
+          "name": "Old Road",
+          "new_value": {
+            "campaign_id": "11111111-1111-1111-1111-111111111111",
+            "day": 1,
+            "description": "A weathered road",
+            "hour": 9,
+            "location_id": "99999999-9999-9999-9999-999999999999",
+            "location_type": "wilderness",
+            "minute": 0,
+            "name": "Old Road",
+            "player_character_id": "77777777-7777-7777-7777-777777777777",
+            "time_warning": "",
+            "travel_time": "1 hour",
+            "visited_marked": true,
+            "visited_warning": ""
+          },
+          "player_character_id": "77777777-7777-7777-7777-777777777777",
+          "time_warning": "",
+          "travel_time": "1 hour",
+          "visited_marked": true,
+          "visited_warning": ""
+        }
+      },
+      {
+        "entity_type": "combat",
+        "entity_id": "88888888-8888-8888-8888-888888888888",
+        "change_type": "resolved",
+        "details": {
+          "campaign_id": "11111111-1111-1111-1111-111111111111",
+          "combatants": [],
+          "environment": {
+            "description": "trail"
+          },
+          "id": "88888888-8888-8888-8888-888888888888",
+          "initiative_order": [],
+          "narrative": "",
+          "new_value": {
+            "campaign_id": "11111111-1111-1111-1111-111111111111",
+            "combatants": [],
+            "environment": {
+              "description": "trail"
+            },
+            "id": "88888888-8888-8888-8888-888888888888",
+            "initiative_order": [],
+            "narrative": "",
+            "round_number": 2,
+            "status": "completed"
+          },
+          "round_number": 2,
+          "status": "completed"
         }
       }
     ],

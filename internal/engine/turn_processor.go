@@ -3,8 +3,10 @@ package engine
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log/slog"
+	"strings"
 	"time"
 
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
@@ -28,6 +30,11 @@ type TurnProcessor struct {
 	provider       llm.Provider
 	registry       *tools.Registry
 	validator      *tools.Validator
+	StatusCallback StatusCallback
+}
+
+// TurnProcessorOptions configures per-call processor behavior.
+type TurnProcessorOptions struct {
 	StatusCallback StatusCallback
 }
 
@@ -74,10 +81,25 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 	messages []llm.Message,
 	availableTools []llm.Tool,
 ) (narrative string, applied []AppliedToolCall, err error) {
+	return tp.ProcessWithRecoveryWithOptions(ctx, messages, availableTools, TurnProcessorOptions{StatusCallback: tp.StatusCallback})
+}
+
+// ProcessWithRecoveryWithOptions runs ProcessWithRecovery with request-local options.
+func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
+	ctx context.Context,
+	messages []llm.Message,
+	availableTools []llm.Tool,
+	opts TurnProcessorOptions,
+) (narrative string, applied []AppliedToolCall, err error) {
+	local := *tp
+	if opts.StatusCallback != nil {
+		local.StatusCallback = opts.StatusCallback
+	}
+	tp = &local
 	started := time.Now()
 	tp.logger.Info("turn processor started", "messages", len(messages), "tools", len(availableTools), "tool_names", advertisedToolNames(availableTools))
 	tp.emitStatus(api.StatusPayload{Stage: "thinking", Description: "Generating response..."})
-	resp, err := tp.provider.Complete(ctx, messages, availableTools)
+	resp, err := tp.completeInitialWithRetry(ctx, messages, availableTools)
 	if err != nil {
 		tp.logger.Error("turn processor initial llm call failed", "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return "", nil, fmt.Errorf("initial LLM call failed: %w", err)
@@ -188,6 +210,82 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 
 	tp.logger.Info("turn processor completed", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied), "narrative_len", len(narrative))
 	return narrative, applied, nil
+}
+
+func (tp *TurnProcessor) completeInitialWithRetry(ctx context.Context, messages []llm.Message, availableTools []llm.Tool) (*llm.Response, error) {
+	const maxAttempts = 2
+	var lastErr error
+	for attempt := 1; attempt <= maxAttempts; attempt++ {
+		if ctx.Err() != nil {
+			return nil, ctx.Err()
+		}
+		resp, err := tp.provider.Complete(ctx, messages, availableTools)
+		if err == nil {
+			return resp, nil
+		}
+		lastErr = err
+		if ctx.Err() != nil {
+			return nil, ctx.Err()
+		}
+		if attempt == maxAttempts || !isRetryableInitialLLMError(ctx, err) {
+			return nil, err
+		}
+		tp.emitStatus(api.StatusPayload{Stage: "retrying", Description: "Retrying initial response after transient provider failure..."})
+		if err := waitForRetryDelay(ctx, err); err != nil {
+			return nil, err
+		}
+	}
+	return nil, lastErr
+}
+
+const maxInitialRetryAfter = 2 * time.Second
+
+func waitForRetryDelay(ctx context.Context, err error) error {
+	if delay := retryDelayForInitialError(err); delay > 0 {
+		select {
+		case <-time.After(delay):
+			return nil
+		case <-ctx.Done():
+			return ctx.Err()
+		}
+	}
+	return nil
+}
+
+func retryDelayForInitialError(err error) time.Duration {
+	var rl *llm.ErrRateLimit
+	if errors.As(err, &rl) && rl.HasRetryAfter && rl.RetryAfter > 0 {
+		if rl.RetryAfter > maxInitialRetryAfter {
+			return maxInitialRetryAfter
+		}
+		return rl.RetryAfter
+	}
+	return 25 * time.Millisecond
+}
+
+func isRetryableInitialLLMError(ctx context.Context, err error) bool {
+	var (
+		transient *llm.ErrTransient
+		timeout   *llm.ErrTimeout
+		rateLimit *llm.ErrRateLimit
+		conn      *llm.ErrConnection
+	)
+	switch {
+	case errors.As(err, &transient):
+		return true
+	case errors.As(err, &timeout):
+		return ctx.Err() == nil
+	case errors.As(err, &rateLimit):
+		return true
+	case errors.As(err, &conn):
+		msg := strings.ToLower(err.Error())
+		for _, fragment := range []string{"transport", "timeout", "timed out", "reset", "refused", "temporar", "connection refused", "connection reset", "bad gateway", "ollama_unavailable", "ollama unreachable", "unreachable", "502", "503", "504"} {
+			if strings.Contains(msg, fragment) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func appendFailedDurableIssue(issues []DurableClaimIssue, tc llm.ToolCall) []DurableClaimIssue {
@@ -367,6 +465,18 @@ func durableRepairTools(availableTools []llm.Tool, issues []DurableClaimIssue) [
 		case DurableClaimFact:
 			wanted["establish_fact"] = struct{}{}
 			wanted["revise_fact"] = struct{}{}
+		case DurableClaimInventoryCreated:
+			wanted["add_item"] = struct{}{}
+			wanted["create_item"] = struct{}{}
+		case DurableClaimInventoryRemoved:
+			wanted["remove_item"] = struct{}{}
+		case DurableClaimInventoryUpdated:
+			wanted["modify_item"] = struct{}{}
+			wanted["update_item"] = struct{}{}
+		case DurableClaimCombatStarted:
+			wanted["initiate_combat"] = struct{}{}
+		case DurableClaimCombatResolved:
+			wanted["resolve_combat"] = struct{}{}
 		}
 	}
 	filtered := make([]llm.Tool, 0, len(availableTools))
