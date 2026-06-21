@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getCampaignCharacter } from '../../api/characters';
 import { CampaignContext } from '../../context/CampaignContext';
 import { cn } from '../../lib/cn';
+import { HudPanel } from '../layout/HudPanel';
 import { AbilityList } from './AbilityList';
 import { FeatBrowser } from './FeatBrowser';
 import { SkillTree } from './SkillTree';
@@ -26,21 +27,26 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
 
   if (!activeCampaignId) {
     return (
-      <PanelState
-        className={className}
-        title="Character unavailable"
-        message="Open a campaign before loading the character sheet."
-        tone="empty"
-      />
+      <HudPanel title="Character" accent="empty" className={className}>
+        <p className="text-sm leading-6 text-pewter">Open a campaign before loading the character sheet.</p>
+      </HudPanel>
     );
   }
 
   if (characterQuery.isPending) {
-    return <PanelState className={className} title="Loading character" message="Fetching the latest character sheet…" tone="loading" />;
+    return (
+      <HudPanel title="Character" accent="loading" className={className}>
+        <p className="text-sm leading-6 text-pewter">Fetching the latest character sheet…</p>
+      </HudPanel>
+    );
   }
 
   if (characterQuery.isError) {
-    return <PanelState className={className} title="Character failed to load" message={queryErrorMessage(characterQuery.error)} tone="error" />;
+    return (
+      <HudPanel title="Character" accent="error" className={className}>
+        <p className="text-sm leading-6 text-ruby">{queryErrorMessage(characterQuery.error)}</p>
+      </HudPanel>
+    );
   }
 
   const character = characterQuery.data;
@@ -48,7 +54,7 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
   return (
     <div className={cn('grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.95fr)]', className)}>
       <div className="space-y-6">
-        <section className="deco-corners deco-corners-jade deco-pattern border-2 border-jade/25 bg-charcoal p-6">
+        <HudPanel title="Character" accent="vitals" className="deco-corners deco-corners-jade deco-pattern" bodyClassName="p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="space-y-3">
               <div>
@@ -69,14 +75,13 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
             <MetricCard label="Level" value={String(character.level)} accent="text-gold" />
             <XPProgressCard level={character.level} experience={character.experience} />
           </div>
-        </section>
+        </HudPanel>
 
         <StatsBlock stats={character.stats} />
       </div>
 
       <div className="space-y-6">
-        <section className="border-2 border-jade/20 bg-charcoal p-6">
-          <h3 className="font-heading text-lg font-semibold uppercase tracking-[0.1em] text-champagne">Current standing</h3>
+        <HudPanel title="Current standing" accent="vitals" bodyClassName="p-6">
           <dl className="mt-4 space-y-3 text-sm text-champagne/70">
             <SummaryRow label="Status" value={humanizeInlineValue(character.status)} />
             <SummaryRow label="Character ID" value={character.id} mono />
@@ -86,7 +91,7 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
               mono={Boolean(character.current_location_id)}
             />
           </dl>
-        </section>
+        </HudPanel>
 
         <AbilityList abilities={character.abilities} />
 
@@ -161,30 +166,6 @@ function SummaryRow({
       <dt className="text-pewter">{label}</dt>
       <dd className={cn('max-w-[60%] text-right text-champagne/80', mono ? 'font-mono text-xs leading-6 text-champagne/60' : '')}>{value}</dd>
     </div>
-  );
-}
-
-function PanelState({
-  title,
-  message,
-  tone,
-  className,
-}: {
-  readonly title: string;
-  readonly message: string;
-  readonly tone: 'loading' | 'error' | 'empty';
-  readonly className?: string;
-}) {
-  const toneClasses =
-    tone === 'error'
-      ? 'border-ruby/40 bg-ruby/10 text-ruby'
-      : 'border-gold/20 bg-charcoal text-champagne/80';
-
-  return (
-    <section className={cn('border p-6', toneClasses, className)}>
-      <h2 className="font-heading text-lg font-semibold uppercase tracking-[0.1em] text-champagne">{title}</h2>
-      <p className="mt-2 text-sm leading-6 text-inherit">{message}</p>
-    </section>
   );
 }
 

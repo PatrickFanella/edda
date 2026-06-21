@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { listEncounteredNPCs, getNPCDialogue } from '../../api/encountered';
 import type { EncounteredNPCResponse, DialogueEntry } from '../../api/types';
 import { cn } from '../../lib/cn';
+import { HudPanel } from '../layout/HudPanel';
 
 interface NPCPanelProps {
   readonly campaignId: string;
@@ -24,25 +25,25 @@ export function NPCPanel({ campaignId, className }: NPCPanelProps) {
   });
 
   if (campaignId.trim().length === 0) {
-    return <PanelMessage className={className} tone="error" title="Missing campaign" message="Select a campaign before viewing NPCs." />;
+    return <PanelMessage className={className} accent="error" title="Missing campaign" message="Select a campaign before viewing NPCs." />;
   }
 
   if (npcsQuery.isPending) {
-    return <PanelMessage className={className} tone="default" title="Loading NPCs" message="Gathering encountered NPCs for this campaign." />;
+    return <PanelMessage className={className} accent="loading" title="Loading NPCs" message="Gathering encountered NPCs for this campaign." />;
   }
 
   if (npcsQuery.isError) {
-    return <PanelMessage className={className} tone="error" title="NPCs unavailable" message={queryErrorMessage(npcsQuery.error)} />;
+    return <PanelMessage className={className} accent="error" title="NPCs unavailable" message={queryErrorMessage(npcsQuery.error)} />;
   }
 
   const npcs = npcsQuery.data;
 
   if (npcs.length === 0) {
-    return <PanelMessage className={className} tone="default" title="No NPCs encountered" message="NPCs you meet during the campaign will appear here with their dialogue history." />;
+    return <PanelMessage className={className} accent="empty" title="No NPCs encountered" message="NPCs you meet during the campaign will appear here with their dialogue history." />;
   }
 
   return (
-    <section className={cn('space-y-5 border-2 border-gold/20 bg-charcoal p-5', className)}>
+    <HudPanel title="NPCs" accent="dialogue" className={className} bodyClassName="space-y-5">
       <div className="border-b-2 border-gold/20 pb-5">
         <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">NPCs</p>
         <h2 className="font-heading mt-2 text-xl font-semibold uppercase tracking-[0.1em] text-champagne">Encountered characters</h2>
@@ -62,7 +63,7 @@ export function NPCPanel({ campaignId, className }: NPCPanelProps) {
           />
         ))}
       </div>
-    </section>
+    </HudPanel>
   );
 }
 
@@ -132,15 +133,17 @@ function NPCDialogueSection({ campaignId, npcId }: NPCDialogueSectionProps) {
 
   if (dialogueQuery.isPending) {
     return (
-      <div className="border-t border-gold/15 px-5 py-4 text-sm text-champagne/70">Loading dialogue...</div>
+      <HudPanel accent="loading" bodyClassName="border-t border-gold/15 px-5 py-4">
+        <p className="text-sm leading-6 text-pewter">Loading dialogue...</p>
+      </HudPanel>
     );
   }
 
   if (dialogueQuery.isError) {
     return (
-      <div className="border-t border-ruby/30 px-5 py-4 text-sm text-ruby">
-        {queryErrorMessage(dialogueQuery.error)}
-      </div>
+      <HudPanel accent="error" bodyClassName="border-t border-ruby/30 px-5 py-4">
+        <p className="text-sm leading-6 text-ruby">{queryErrorMessage(dialogueQuery.error)}</p>
+      </HudPanel>
     );
   }
 
@@ -148,19 +151,21 @@ function NPCDialogueSection({ campaignId, npcId }: NPCDialogueSectionProps) {
 
   if (entries.length === 0) {
     return (
-      <div className="border-t border-gold/15 px-5 py-4 text-sm text-pewter">No dialogue recorded yet.</div>
+      <HudPanel accent="empty" bodyClassName="border-t border-gold/15 px-5 py-4">
+        <p className="text-sm leading-6 text-pewter">No dialogue recorded yet.</p>
+      </HudPanel>
     );
   }
 
   return (
-    <div className="border-t border-gold/15 px-5 py-4">
+    <HudPanel accent="dialogue" bodyClassName="border-t border-gold/15 px-5 py-4">
       <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gold/70">Dialogue history</p>
       <div className="space-y-3">
         {entries.map((entry) => (
           <DialogueEntryCard key={entry.turn_number} entry={entry} />
         ))}
       </div>
-    </div>
+    </HudPanel>
   );
 }
 
@@ -181,23 +186,14 @@ function DialogueEntryCard({ entry }: { readonly entry: DialogueEntry }) {
 interface PanelMessageProps {
   readonly title: string;
   readonly message: string;
-  readonly tone: 'default' | 'error';
+  readonly accent: 'loading' | 'error' | 'empty';
   readonly className?: string;
 }
 
-function PanelMessage({ title, message, tone, className }: PanelMessageProps) {
+function PanelMessage({ title, message, accent, className }: PanelMessageProps) {
   return (
-    <section
-      className={cn(
-        'border p-6',
-        tone === 'error'
-          ? 'border-ruby/40 bg-ruby/10 text-ruby'
-          : 'border-gold/20 bg-charcoal text-champagne/70',
-        className,
-      )}
-    >
-      <h2 className="font-heading text-lg font-semibold uppercase tracking-[0.1em] text-champagne">{title}</h2>
-      <p className="mt-3 text-sm leading-6">{message}</p>
-    </section>
+    <HudPanel title={title} accent={accent} className={className}>
+      <p className={cn('text-sm leading-6', accent === 'error' ? 'text-ruby' : 'text-pewter')}>{message}</p>
+    </HudPanel>
   );
 }

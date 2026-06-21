@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getCampaignQuest, listCampaignQuests } from '../../api/quests';
 import type { QuestResponse } from '../../api/types';
 import { cn } from '../../lib/cn';
+import { HudPanel } from '../layout/HudPanel';
 import { QuestCard } from './QuestCard';
 
 interface QuestPanelProps {
@@ -72,26 +73,26 @@ export function QuestPanel({ campaignId, className }: QuestPanelProps) {
   }, [questsQuery.data, statusFilter, typeFilter]);
 
   if (campaignId.trim().length === 0) {
-    return <QuestPanelMessage className={className} tone="error" title="Missing campaign" message="Select a campaign before opening the quest board." />;
+    return <QuestPanelMessage className={className} accent="error" title="Missing campaign" message="Select a campaign before opening the quest board." />;
   }
 
   if (questsQuery.isPending) {
-    return <QuestPanelMessage className={className} tone="default" title="Loading quests" message="Gathering active, completed, and archived quest threads for this campaign." />;
+    return <QuestPanelMessage className={className} accent="loading" title="Loading quests" message="Gathering active, completed, and archived quest threads for this campaign." />;
   }
 
   if (questsQuery.isError) {
-    return <QuestPanelMessage className={className} tone="error" title="Quest board unavailable" message={queryErrorMessage(questsQuery.error)} />;
+    return <QuestPanelMessage className={className} accent="error" title="Quest board unavailable" message={queryErrorMessage(questsQuery.error)} />;
   }
 
   const quests = questsQuery.data;
   const hasFilters = typeFilter !== '' || statusFilter !== '';
 
   if (quests.length === 0) {
-    return <QuestPanelMessage className={className} tone="default" title="No quests yet" message="Quest hooks, long-term arcs, and subquests will appear here once the campaign creates them." />;
+    return <QuestPanelMessage className={className} accent="empty" title="No quests yet" message="Quest hooks, long-term arcs, and subquests will appear here once the campaign creates them." />;
   }
 
   return (
-    <section className={cn('space-y-5 border-2 border-sapphire/20 bg-charcoal p-5', className)}>
+    <HudPanel title="Quests" accent="objective" className={className} bodyClassName="space-y-5">
       <div className="flex flex-col gap-4 border-b-2 border-sapphire/20 pb-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">Quests</p>
@@ -128,7 +129,7 @@ export function QuestPanel({ campaignId, className }: QuestPanelProps) {
 
       {filteredQuests.length === 0 ? (
         <QuestPanelMessage
-          tone="default"
+          accent="empty"
           title="No matching quests"
           message="No quest currently matches the selected filters. Clear a filter to see the full campaign board."
         />
@@ -139,7 +140,7 @@ export function QuestPanel({ campaignId, className }: QuestPanelProps) {
           ))}
         </div>
       )}
-    </section>
+    </HudPanel>
   );
 }
 
@@ -174,23 +175,14 @@ function FilterField({ label, value, options, onChange }: FilterFieldProps) {
 interface QuestPanelMessageProps {
   readonly title: string;
   readonly message: string;
-  readonly tone: 'default' | 'error';
+  readonly accent: 'loading' | 'error' | 'empty';
   readonly className?: string;
 }
 
-function QuestPanelMessage({ title, message, tone, className }: QuestPanelMessageProps) {
+function QuestPanelMessage({ title, message, accent, className }: QuestPanelMessageProps) {
   return (
-    <section
-      className={cn(
-        'border p-6',
-        tone === 'error'
-          ? 'border-ruby/40 bg-ruby/10 text-ruby'
-          : 'border-sapphire/20 bg-charcoal text-champagne/70',
-        className,
-      )}
-    >
-      <h2 className="font-heading text-lg font-semibold uppercase tracking-[0.1em] text-champagne">{title}</h2>
-      <p className="mt-3 text-sm leading-6">{message}</p>
-    </section>
+    <HudPanel title={title} accent={accent} className={className}>
+      <p className={cn('text-sm leading-6', accent === 'error' ? 'text-ruby' : 'text-pewter')}>{message}</p>
+    </HudPanel>
   );
 }

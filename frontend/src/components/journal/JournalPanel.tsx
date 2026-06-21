@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { createEntry, deleteEntry, listEntries, listSummaries, triggerSummarize } from '../../api/journal';
 import type { JournalEntryResponse, SessionSummaryResponse } from '../../api/types';
+import { HudPanel } from '../layout/HudPanel';
 
 interface JournalPanelProps {
   readonly campaignId: string;
@@ -12,7 +13,7 @@ export function JournalPanel({ campaignId }: JournalPanelProps) {
   const [activeSection, setActiveSection] = useState<'chronicle' | 'notes'>('chronicle');
 
   return (
-    <div className="space-y-4">
+    <HudPanel title="Journal" accent="scene" bodyClassName="space-y-4">
       <div className="flex flex-wrap items-center gap-3 border-2 border-gold/20 bg-charcoal px-5 py-4">
         <h2 className="font-heading text-lg font-semibold uppercase tracking-wide text-champagne">Journal</h2>
         <div className="ml-auto flex gap-2">
@@ -26,7 +27,7 @@ export function JournalPanel({ campaignId }: JournalPanelProps) {
       ) : (
         <NotesSection campaignId={campaignId} />
       )}
-    </div>
+    </HudPanel>
   );
 }
 
@@ -84,14 +85,16 @@ function ChronicleSection({ campaignId }: { readonly campaignId: string }) {
       ) : null}
 
       {summariesQuery.isPending ? (
-        <div className="border border-gold/20 bg-charcoal p-6 text-sm text-champagne/70">Loading chronicle...</div>
+        <HudPanel accent="loading">
+          <p className="text-sm leading-6 text-pewter">Loading chronicle...</p>
+        </HudPanel>
       ) : sorted.length === 0 ? (
-        <div className="flex min-h-32 flex-col items-center justify-center border border-dashed border-gold/15 bg-charcoal/50 px-6 text-center">
+        <HudPanel accent="empty" bodyClassName="flex min-h-32 flex-col items-center justify-center px-6 text-center">
           <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-pewter/80">No summaries yet</p>
           <p className="mt-2 max-w-md text-sm leading-7 text-pewter">
             Summaries are auto-generated every 10 turns, or you can trigger one manually.
           </p>
-        </div>
+        </HudPanel>
       ) : (
         <div className="space-y-3">
           {sorted.map((summary) => (
@@ -188,14 +191,16 @@ function NotesSection({ campaignId }: { readonly campaignId: string }) {
       </div>
 
       {entriesQuery.isPending ? (
-        <div className="border border-gold/20 bg-charcoal p-6 text-sm text-champagne/70">Loading notes...</div>
+        <HudPanel accent="loading">
+          <p className="text-sm leading-6 text-pewter">Loading notes...</p>
+        </HudPanel>
       ) : sorted.length === 0 ? (
-        <div className="flex min-h-32 flex-col items-center justify-center border border-dashed border-gold/15 bg-charcoal/50 px-6 text-center">
+        <HudPanel accent="empty" bodyClassName="flex min-h-32 flex-col items-center justify-center px-6 text-center">
           <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-pewter/80">No notes yet</p>
           <p className="mt-2 max-w-md text-sm leading-7 text-pewter">
             Add personal notes about quests, NPCs, or anything you want to remember.
           </p>
-        </div>
+        </HudPanel>
       ) : (
         <div className="space-y-3">
           {sorted.map((entry) => (
