@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router';
 
@@ -283,7 +284,11 @@ function CampaignPlayContent({
         <WidescreenNotice />
         {levelUpMessage ? <LevelUpBanner message={levelUpMessage} /> : null}
         <GameHudTopBar campaign={campaign} campaignId={campaignId} hudMode={hudMode} />
-        {showSaves ? <SavesList campaignId={campaignId} /> : null}
+        {showSaves ? (
+          <div className="max-h-40 shrink-0 overflow-y-auto pr-1">
+            <SavesList campaignId={campaignId} />
+          </div>
+        ) : null}
         <div className="game-hud-frame grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-hidden xl:grid-cols-[minmax(0,1fr)_18rem] xl:grid-rows-[minmax(0,1fr)_auto]">
           <div className="grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden xl:col-start-1 xl:row-start-1">
             <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />
@@ -325,33 +330,71 @@ function PlayTabContent({
 }) {
   switch (activeTab) {
     case 'narrative':
-      return <NarrativeTab narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />;
+      return (
+        <div className="h-full min-h-0 overflow-hidden">
+          <NarrativeTab narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />
+        </div>
+      );
     case 'character':
-      return <CharacterSheet campaignId={campaignId} />;
+      return (
+        <ContainedTabPanel>
+          <CharacterSheet campaignId={campaignId} />
+        </ContainedTabPanel>
+      );
     case 'inventory':
-      return <InventoryPanel />;
+      return (
+        <ContainedTabPanel>
+          <InventoryPanel />
+        </ContainedTabPanel>
+      );
     case 'quests':
-      return <QuestPanel campaignId={campaignId} />;
+      return (
+        <ContainedTabPanel>
+          <QuestPanel campaignId={campaignId} />
+        </ContainedTabPanel>
+      );
     case 'npcs':
-      return <NPCPanel campaignId={campaignId} />;
+      return (
+        <ContainedTabPanel>
+          <NPCPanel campaignId={campaignId} />
+        </ContainedTabPanel>
+      );
     case 'world':
-      return <WorldPanel campaignId={campaignId} />;
+      return (
+        <ContainedTabPanel>
+          <WorldPanel campaignId={campaignId} />
+        </ContainedTabPanel>
+      );
     case 'journal':
-      return <JournalPanel campaignId={campaignId} />;
+      return (
+        <ContainedTabPanel>
+          <JournalPanel campaignId={campaignId} />
+        </ContainedTabPanel>
+      );
     case 'logs':
       return (
-        <LogPanel
-          entries={seededNarrative.entries}
-          streamingEntry={narrative.streamingEntry}
-          isLoading={narrative.isLoading}
-          error={narrative.error}
-        />
+        <ContainedTabPanel>
+          <LogPanel
+            entries={seededNarrative.entries}
+            streamingEntry={narrative.streamingEntry}
+            isLoading={narrative.isLoading}
+            error={narrative.error}
+          />
+        </ContainedTabPanel>
       );
     default: {
       const exhaustiveTab: never = activeTab;
       return exhaustiveTab;
     }
   }
+}
+
+function ContainedTabPanel({ children }: { readonly children: ReactNode }) {
+  return (
+    <div className="h-full min-h-0 overflow-y-auto overflow-x-hidden pr-1">
+      {children}
+    </div>
+  );
 }
 
 function NarrativeTab({
