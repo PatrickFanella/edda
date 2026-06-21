@@ -85,7 +85,7 @@ export function ReplayNarrative({ visibleEntries, currentTurnIndex }: ReplayNarr
                 <div className="max-w-[80%] border border-sapphire/25 bg-sapphire/5 px-4 py-3">
                   <div className="mb-1 flex items-center justify-end gap-2">
                     <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-sapphire">You</span>
-                    <span className="inline-flex rounded-sm border border-sapphire/20 bg-sapphire/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-sapphire">
+                    <span className="hud-baseline-badge inline-flex rounded-sm border border-sapphire/20 bg-sapphire/10 px-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-sapphire">
                       player
                     </span>
                   </div>
@@ -98,7 +98,7 @@ export function ReplayNarrative({ visibleEntries, currentTurnIndex }: ReplayNarr
             {gmText && (
               <div className="border border-pewter/25 bg-pewter/5 px-4 py-3">
                 <div className="mb-1 flex items-center gap-2">
-                  <span className="inline-flex rounded-sm border border-pewter/20 bg-pewter/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-pewter">
+                  <span className="hud-baseline-badge inline-flex rounded-sm border border-pewter/20 bg-pewter/10 px-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-pewter">
                     gm
                   </span>
                   <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-pewter">Game Master</span>

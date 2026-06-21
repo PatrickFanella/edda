@@ -98,7 +98,7 @@ export function ReplayTimeline({ currentTurnIndex, totalTurns, seekTo }: ReplayT
         {/* Hover tooltip */}
         {hoveredTurn !== null && (
           <div
-            className="pointer-events-none absolute -top-8 -translate-x-1/2 rounded-sm border border-sapphire/30 bg-obsidian px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-sapphire"
+            className="hud-baseline-badge pointer-events-none absolute -top-8 -translate-x-1/2 rounded-sm border border-sapphire/30 bg-obsidian px-2 text-[10px] font-semibold uppercase tracking-wide text-sapphire"
             style={{ left: `${hoverX}px` }}
           >
             Turn {hoveredTurn + 1}
