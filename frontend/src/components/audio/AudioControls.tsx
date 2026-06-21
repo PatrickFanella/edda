@@ -49,7 +49,7 @@ function LayerRow({ label, muted, volume, onToggleMute, onVolumeChange }: LayerR
       <button
         type="button"
         onClick={onToggleMute}
-        className={`flex h-7 w-7 shrink-0 items-center justify-center border transition-colors ${
+        className={`hud-btn hud-icon-btn shrink-0 border transition-colors ${
           muted
             ? 'border-pewter/30 text-pewter hover:border-pewter hover:text-pewter'
             : 'border-gold/40 text-gold hover:border-gold'
@@ -97,7 +97,7 @@ export function AudioControls(props: AudioControlsProps) {
             <button
               type="button"
               onClick={props.requestInteraction}
-              className="mb-3 w-full border border-gold/40 bg-gold/5 px-3 py-2 text-xs text-gold transition-colors hover:bg-gold/10"
+              className="hud-btn hud-text-button mb-3 w-full border-gold/40 bg-gold/5 text-xs text-gold transition-colors hover:bg-gold/10"
             >
               Click to enable audio
             </button>

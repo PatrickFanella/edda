@@ -260,6 +260,36 @@ button {
   border-color: rgba(136, 136, 136, 0.28);
 }
 
+.game-hud-panel-setup {
+  color: #5B8FB9;
+  border-color: rgba(91, 143, 185, 0.28);
+}
+
+.game-hud-panel-replay {
+  color: #888888;
+  border-color: rgba(136, 136, 136, 0.28);
+}
+
+.game-hud-panel-auth {
+  color: #D4AF37;
+  border-color: rgba(212, 175, 55, 0.24);
+}
+
+.game-hud-panel-error {
+  color: #AB2346;
+  border-color: rgba(171, 35, 70, 0.42);
+}
+
+.game-hud-panel-loading {
+  color: #5B8FB9;
+  border-color: rgba(91, 143, 185, 0.24);
+}
+
+.game-hud-panel-empty {
+  color: #888888;
+  border-color: rgba(136, 136, 136, 0.22);
+}
+
 .game-hud-mode {
   display: inline-flex;
   align-items: center;
@@ -354,6 +384,7 @@ button {
 }
 
 .hud-icon-btn {
+  flex: none;
   height: 2rem;
   width: 2rem;
   padding: 0;
