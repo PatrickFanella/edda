@@ -10,13 +10,13 @@ import (
 	"github.com/google/uuid"
 
 	"git.subcult.tv/subculture-collective/edda/internal/assembly"
-	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
 	"git.subcult.tv/subculture-collective/edda/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
-	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/journal"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/saves"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/internal/tools"
@@ -25,17 +25,17 @@ import (
 
 // Engine is the concrete GameEngine implementation used by the TUI.
 type Engine struct {
-	logger      *slog.Logger
-	state       game.StateManager
-	queries     statedb.Querier
-	assembler   *assembly.ContextAssembler
-	processor   *TurnProcessor
-	tier3       *assembly.Tier3Retriever
-	toolFilter  ToolFilter
-	embedder    tools.Embedder
-	searcher    tools.SearchMemorySearcher
-	saveStore   *saves.Store
-	summarizer  *journal.Summarizer
+	logger     *slog.Logger
+	state      game.StateManager
+	queries    statedb.Querier
+	assembler  *assembly.ContextAssembler
+	processor  *TurnProcessor
+	tier3      *assembly.Tier3Retriever
+	toolFilter ToolFilter
+	embedder   tools.Embedder
+	searcher   tools.SearchMemorySearcher
+	saveStore  *saves.Store
+	summarizer *journal.Summarizer
 }
 
 const recentTurnLimit = 10
@@ -212,23 +212,74 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 			}
 		}()
 
-		// Emit gathering status.
-		ch <- StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: "gathering", Description: "Gathering world state..."}}
-
-		// Wire the turn processor's status callback to forward events.
-		origCallback := e.processor.StatusCallback
-		e.processor.StatusCallback = func(s api.StatusPayload) {
-			ch <- StreamEvent{Type: "status", Status: &s}
+		tc := &TurnContext{CampaignID: campaignID, PlayerInput: playerInput, Logger: e.logger, Started: time.Now()}
+		emitStatus := func(stage, description string) {
+			ch <- StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: stage, Description: description}}
 		}
-		defer func() { e.processor.StatusCallback = origCallback }()
+		emitPhase := func(stage, description string, started time.Time) {
+			e.emitTimedStatus(ch, stage, description, started)
+		}
 
-		result, err := e.ProcessTurn(ctx, campaignID, playerInput)
+		gatherStarted := time.Now()
+		emitStatus("gathering", "Gathering world state...")
+		if err := e.gatherStage()(ctx, tc); err != nil {
+			ch <- StreamEvent{Type: "error", Err: err}
+			return
+		}
+		if tc.Ctx == nil {
+			tc.Ctx = ctx
+		}
+		emitPhase("gathering", "Gathering world state complete.", gatherStarted)
+
+		memoryStarted := time.Now()
+		emitStatus("memory_retrieval", "Retrieving relevant memories...")
+		if err := e.memoryStage()(tc.Ctx, tc); err != nil {
+			ch <- StreamEvent{Type: "error", Err: err}
+			return
+		}
+		emitPhase("memory_retrieval", "Relevant memories retrieved.", memoryStarted)
+
+		assembleStarted := time.Now()
+		emitStatus("context_assembly", "Assembling turn context...")
+		if err := e.assembleStage()(tc.Ctx, tc); err != nil {
+			ch <- StreamEvent{Type: "error", Err: err}
+			return
+		}
+		emitPhase("context_assembly", "Turn context assembled.", assembleStarted)
+
+		thinkingStarted := time.Now()
+		emitStatus("thinking", "Generating response...")
+		localProcessor := *e.processor
+		localProcessor.StatusCallback = func(s api.StatusPayload) { ch <- StreamEvent{Type: "status", Status: &s} }
+		narrative, applied, err := localProcessor.ProcessWithRecoveryWithOptions(tc.Ctx, tc.Messages, tc.FilteredTools, TurnProcessorOptions{})
 		if err != nil {
 			ch <- StreamEvent{Type: "error", Err: err}
 			return
 		}
+		emitPhase("thinking", "Response generated.", thinkingStarted)
+
+		tc.Narrative, tc.Choices = extractChoices(narrative)
+		tc.Applied = applied
+		tc.CombatActive = tc.State.CombatActive
+		for _, atc := range applied {
+			switch atc.Tool {
+			case "initiate_combat":
+				tc.CombatActive = true
+			case "resolve_combat":
+				tc.CombatActive = false
+			}
+		}
+
+		persistStarted := time.Now()
+		emitStatus("finalizing", "Finalizing and persisting turn...")
+		if err := e.persistStage()(tc.Ctx, tc); err != nil {
+			ch <- StreamEvent{Type: "error", Err: err}
+			return
+		}
+		emitPhase("finalizing", "Turn persisted.", persistStarted)
 
 		// Emit combat lifecycle status events based on applied tool calls.
+		result := &TurnResult{Narrative: tc.Narrative, AppliedToolCalls: tc.Applied, StateChanges: StateChangesFromAppliedToolCalls(tc.Applied), Choices: tc.Choices, CombatActive: tc.CombatActive}
 		for _, atc := range result.AppliedToolCalls {
 			switch atc.Tool {
 			case "initiate_combat":
@@ -238,11 +289,17 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 			}
 		}
 
-		ch <- StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: "finalizing", Description: "Finalizing turn..."}}
 		ch <- StreamEvent{Type: "chunk", Text: result.Narrative}
 		ch <- StreamEvent{Type: "result", Result: result}
 	}()
 	return ch, nil
+}
+
+func (e *Engine) emitTimedStatus(ch chan<- StreamEvent, stage, description string, started time.Time) {
+	ch <- StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: stage, Description: description}}
+	if e != nil && e.logger != nil {
+		e.logger.Info("turn phase completed", "stage", stage, "duration_ms", time.Since(started).Milliseconds())
+	}
 }
 
 // autoSummarizeIfNeeded triggers async summarization every 10 turns.

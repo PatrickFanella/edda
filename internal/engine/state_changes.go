@@ -22,12 +22,29 @@ func stateChangesFromAppliedToolCall(call AppliedToolCall) []StateChange {
 	}
 
 	switch call.Tool {
+	case "add_item", "create_item":
+		return one(entityStateChange("inventory_item", data, "item_id", "created"))
+	case "modify_item":
+		return one(entityStateChange("inventory_item", data, "item_id", "updated"))
+	case "remove_item":
+		return one(entityStateChange("inventory_item", data, "item_id", "removed"))
 	case "create_npc":
 		return one(entityCreatedStateChange("npc", data))
 	case "establish_fact":
 		return one(entityCreatedStateChange("world_fact", data))
 	case "create_quest":
 		return one(entityCreatedStateChange("quest", data))
+	case "update_quest":
+		return one(entityStateChange("quest", data, "id", "updated"))
+	case "complete_objective":
+		changes := make([]StateChange, 0, 2)
+		if change, ok := entityStateChange("objective", data, "objective_id", "completed"); ok {
+			changes = append(changes, change)
+		}
+		if change, ok := entityStateChange("quest", data, "quest_id", "updated"); ok {
+			changes = append(changes, change)
+		}
+		return changes
 	case "create_location":
 		changes := make([]StateChange, 0, 4)
 		if reused, _ := data["reused"].(bool); !reused {
@@ -65,8 +82,23 @@ func stateChangesFromAppliedToolCall(call AppliedToolCall) []StateChange {
 		return one(entityStateChange("player_character", data, "player_character_id", "status_updated"))
 	case "update_player_hp":
 		return one(entityStateChange("player_character", data, "player_character_id", "hp_updated"))
+	case "add_experience":
+		return one(entityStateChange("player_character", data, "player_character_id", "experience_updated"))
+	case "level_up":
+		return one(entityStateChange("player_character", data, "player_character_id", "level_updated"))
+	case "update_npc":
+		return one(entityStateChange("npc", data, "npc_id", "updated"))
 	case "initiate_combat":
 		return one(entityStateChange("combat", data, "combat_state_id", "started"))
+	case "resolve_combat":
+		if change, ok := nestedEntityStateChange("combat", data, "combat_state", "id", "resolved"); ok {
+			return []StateChange{change}
+		}
+		return nil
+	case "advance_time":
+		// No campaign_id is present in the current tool result shape, so there is
+		// no stable projection target for a campaign_time state change.
+		return nil
 	default:
 		return nil
 	}
@@ -92,6 +124,18 @@ func entityStateChange(entity string, data map[string]any, idKey, changeName str
 		return StateChange{}, false
 	}
 	return StateChange{Entity: entity, EntityID: id, Field: changeName, NewValue: mustJSON(data)}, true
+}
+
+func nestedEntityStateChange(entity string, data map[string]any, nestedKey, idKey, changeName string) (StateChange, bool) {
+	raw, ok := data[nestedKey]
+	if !ok {
+		return StateChange{}, false
+	}
+	nested, ok := raw.(map[string]any)
+	if !ok {
+		return StateChange{}, false
+	}
+	return entityStateChange(entity, nested, idKey, changeName)
 }
 
 func uuidField(data map[string]any, key string) (uuid.UUID, bool) {
