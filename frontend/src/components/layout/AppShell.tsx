@@ -15,12 +15,12 @@ export function AppShell({ title, description, actions, userMenuActions, childre
   const isGame = variant === 'game';
 
   return (
-    <main className={`${isGame ? 'h-screen overflow-hidden bg-obsidian px-2 py-2 text-[17px]' : 'min-h-screen bg-obsidian px-6 py-16'} text-champagne`}>
+    <main className={`${isGame ? 'min-h-screen overflow-x-hidden bg-obsidian px-2 py-2 text-[17px] xl:h-screen xl:overflow-hidden' : 'min-h-screen bg-obsidian px-6 py-16'} text-champagne`}>
       <div
         className={[
           'mx-auto flex w-full flex-col border-2 border-pewter/20 bg-charcoal',
           isGame
-            ? 'h-[calc(100vh-1rem)] max-w-[min(calc(100vw-1rem),calc((100vh-1rem)*16/9))] gap-2 overflow-hidden p-2'
+            ? 'min-h-[calc(100vh-1rem)] gap-2 p-2 xl:h-[calc(100vh-1rem)] xl:max-w-[min(calc(100vw-1rem),calc((100vh-1rem)*16/9))] xl:overflow-hidden'
             : 'deco-corners deco-pattern max-w-5xl gap-8 p-8',
         ].join(' ')}
       >
