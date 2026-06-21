@@ -35,7 +35,7 @@ function SectionButton({ label, active, onClick }: { readonly label: string; rea
     <button
       type="button"
       onClick={onClick}
-      className={`px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition-all duration-200 ${
+      className={`hud-tab-button px-3 text-xs font-semibold uppercase tracking-wide transition-all duration-200 ${
         active
           ? 'border-2 border-gold bg-gold/10 text-gold'
           : 'border-2 border-gold/20 bg-charcoal text-champagne/70 hover:border-gold hover:text-gold'
@@ -73,7 +73,7 @@ function ChronicleSection({ campaignId }: { readonly campaignId: string }) {
           type="button"
           onClick={() => summarizeMutation.mutate()}
           disabled={summarizeMutation.isPending}
-          className="inline-flex items-center justify-center border-2 border-gold/30 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian disabled:opacity-50"
+          className="hud-btn hud-text-button inline-flex items-center justify-center border-2 border-gold/30 px-3 text-xs font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian disabled:opacity-50"
         >
           {summarizeMutation.isPending ? 'Summarizing...' : 'Summarize'}
         </button>
@@ -177,7 +177,7 @@ function NotesSection({ campaignId }: { readonly campaignId: string }) {
             type="button"
             onClick={handleCreate}
             disabled={newContent.trim().length === 0 || createMutation.isPending}
-            className="inline-flex items-center justify-center bg-gold/90 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-obsidian transition hover:bg-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
+            className="hud-btn hud-text-button inline-flex items-center justify-center bg-gold/90 px-4 text-sm font-semibold uppercase tracking-wide text-obsidian transition hover:bg-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
           >
             {createMutation.isPending ? 'Saving...' : 'Save entry'}
           </button>
@@ -235,7 +235,7 @@ function EntryCard({
             type="button"
             onClick={onDelete}
             disabled={isDeleting}
-            className="text-xs font-semibold uppercase tracking-wide text-ruby/70 transition hover:text-ruby disabled:opacity-50"
+            className="hud-text-button text-xs font-semibold uppercase tracking-wide text-ruby/70 transition hover:text-ruby disabled:opacity-50"
           >
             Delete
           </button>

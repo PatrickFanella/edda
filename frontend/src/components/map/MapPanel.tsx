@@ -178,7 +178,7 @@ function LocationDetail({
         <button
           type="button"
           onClick={onClose}
-          className="text-xs font-semibold uppercase tracking-wide text-pewter transition-colors hover:text-champagne"
+          className="hud-text-button text-xs font-semibold uppercase tracking-wide text-pewter transition-colors hover:text-champagne"
         >
           Close
         </button>
@@ -190,12 +190,12 @@ function LocationDetail({
 
       <div className="mt-2 flex gap-1.5">
         {location.player_visited ? (
-          <span className="rounded-sm border border-jade/30 bg-jade/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-jade">
+          <span className="hud-baseline-badge rounded-sm border border-jade/30 bg-jade/10 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-jade">
             Visited
           </span>
         ) : null}
         {location.player_known && !location.player_visited ? (
-          <span className="rounded-sm border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
+          <span className="hud-baseline-badge rounded-sm border border-gold/30 bg-gold/10 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
             Known
           </span>
         ) : null}
@@ -248,12 +248,12 @@ function LocationCard({
         <h4 className="text-sm font-semibold text-champagne">{location.name}</h4>
         <div className="flex gap-1.5">
           {location.player_visited && (
-            <span className="rounded-sm border border-jade/30 bg-jade/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-jade">
+            <span className="hud-baseline-badge rounded-sm border border-jade/30 bg-jade/10 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-jade">
               Visited
             </span>
           )}
           {location.player_known && !location.player_visited && (
-            <span className="rounded-sm border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
+            <span className="hud-baseline-badge rounded-sm border border-gold/30 bg-gold/10 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
               Known
             </span>
           )}

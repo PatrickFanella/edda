@@ -73,7 +73,7 @@ export function CodexPanel({ campaignId, className }: CodexPanelProps) {
             type="button"
             onClick={() => setActiveSection(section.key)}
             className={cn(
-              'px-4 py-2 text-sm font-semibold uppercase tracking-[0.15em] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-jade focus:ring-offset-2 focus:ring-offset-obsidian',
+              'hud-tab-button px-4 text-sm font-semibold uppercase tracking-[0.15em] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-jade focus:ring-offset-2 focus:ring-offset-obsidian',
               activeSection === section.key
                 ? 'bg-jade text-obsidian'
                 : 'border border-jade/20 bg-charcoal text-champagne/70 hover:border-jade hover:text-jade hover:bg-jade/5',
