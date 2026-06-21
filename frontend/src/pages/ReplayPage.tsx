@@ -1,6 +1,7 @@
 import { useParams } from 'react-router';
 
 import { AppShell } from '../components/layout/AppShell';
+import { HudPanel } from '../components/layout/HudPanel';
 import { ReplayControls } from '../components/replay/ReplayControls';
 import { ReplayNarrative } from '../components/replay/ReplayNarrative';
 import { ReplaySidebar } from '../components/replay/ReplaySidebar';
@@ -15,17 +16,19 @@ export function ReplayPage() {
   return (
     <AppShell title="Campaign Replay" description="Watch your adventure unfold.">
       <div className="space-y-6">
-        <ReplayControls
-          isPlaying={replay.isPlaying}
-          playbackSpeed={replay.playbackSpeed}
-          currentTurnIndex={replay.currentTurnIndex}
-          totalTurns={replay.totalTurns}
-          play={replay.play}
-          pause={replay.pause}
-          setSpeed={replay.setSpeed}
-          nextTurn={replay.nextTurn}
-          prevTurn={replay.prevTurn}
-        />
+        <HudPanel accent="replay" title="Archive Playback">
+          <ReplayControls
+            isPlaying={replay.isPlaying}
+            playbackSpeed={replay.playbackSpeed}
+            currentTurnIndex={replay.currentTurnIndex}
+            totalTurns={replay.totalTurns}
+            play={replay.play}
+            pause={replay.pause}
+            setSpeed={replay.setSpeed}
+            nextTurn={replay.nextTurn}
+            prevTurn={replay.prevTurn}
+          />
+        </HudPanel>
         <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
           <ReplayNarrative
             visibleEntries={replay.visibleEntries}

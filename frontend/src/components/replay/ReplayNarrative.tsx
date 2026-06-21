@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import type { SessionLogEntry } from '../../api/types';
+import { HudPanel } from '../layout/HudPanel';
 import { cn } from '../../lib/cn';
 
 interface ReplayNarrativeProps {
@@ -63,17 +64,15 @@ export function ReplayNarrative({ visibleEntries, currentTurnIndex }: ReplayNarr
 
   if (visibleEntries.length === 0) {
     return (
-      <div className="border-2 border-gold/20 bg-charcoal p-8 text-center">
+      <HudPanel accent="empty" title="Archive Log" bodyClassName="text-center">
         <p className="text-sm text-champagne/50">No turns to display. Press Play to begin the replay.</p>
-      </div>
+      </HudPanel>
     );
   }
 
   return (
-    <div
-      ref={scrollRef}
-      className="max-h-[600px] space-y-4 overflow-y-auto border-2 border-gold/20 bg-charcoal p-5"
-    >
+    <HudPanel accent="replay" title="Narrative Feed" bodyClassName="max-h-[600px] overflow-y-auto pr-1">
+      <div ref={scrollRef} className="space-y-4">
       {visibleEntries.map((entry, index) => {
         const isLatest = index === visibleEntries.length - 1;
         const gmText = isLatest && isTyping ? typedText : entry.llm_response;
@@ -83,10 +82,10 @@ export function ReplayNarrative({ visibleEntries, currentTurnIndex }: ReplayNarr
             {/* Player input */}
             {entry.player_input && (
               <div className="flex justify-end">
-                <div className="max-w-[80%] border-2 border-jade/30 bg-jade/5 px-4 py-3">
+                <div className="max-w-[80%] border border-sapphire/25 bg-sapphire/5 px-4 py-3">
                   <div className="mb-1 flex items-center justify-end gap-2">
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-jade">You</span>
-                    <span className="inline-flex rounded-sm border border-jade/20 bg-jade/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-jade">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-sapphire">You</span>
+                    <span className="inline-flex rounded-sm border border-sapphire/20 bg-sapphire/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-sapphire">
                       player
                     </span>
                   </div>
@@ -97,12 +96,12 @@ export function ReplayNarrative({ visibleEntries, currentTurnIndex }: ReplayNarr
 
             {/* GM response */}
             {gmText && (
-              <div className="border-2 border-gold/30 bg-gold/5 px-4 py-3">
+              <div className="border border-pewter/25 bg-pewter/5 px-4 py-3">
                 <div className="mb-1 flex items-center gap-2">
-                  <span className="inline-flex rounded-sm border border-gold/20 bg-gold/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold">
+                  <span className="inline-flex rounded-sm border border-pewter/20 bg-pewter/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-pewter">
                     gm
                   </span>
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">Game Master</span>
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-pewter">Game Master</span>
                   <span className="ml-auto text-[10px] uppercase tracking-[0.2em] text-pewter">
                     Turn {entry.turn_number}
                   </span>
@@ -110,7 +109,7 @@ export function ReplayNarrative({ visibleEntries, currentTurnIndex }: ReplayNarr
                 <p className={cn('whitespace-pre-wrap text-sm leading-7 text-champagne')}>
                   {gmText}
                   {isLatest && isTyping && (
-                    <span className="ml-1 inline-block h-4 w-2 animate-pulse bg-gold/80 align-middle" />
+                    <span className="ml-1 inline-block h-4 w-2 animate-pulse bg-sapphire/80 align-middle" />
                   )}
                 </p>
               </div>
@@ -118,6 +117,7 @@ export function ReplayNarrative({ visibleEntries, currentTurnIndex }: ReplayNarr
           </div>
         );
       })}
-    </div>
+      </div>
+    </HudPanel>
   );
 }
