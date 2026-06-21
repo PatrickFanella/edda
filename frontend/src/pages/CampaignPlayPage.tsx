@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router';
 
@@ -14,6 +14,7 @@ import { ConfirmationDialog } from '../components/layout/ConfirmationDialog';
 import { InventoryPanel } from '../components/inventory/InventoryPanel';
 import { JournalPanel } from '../components/journal/JournalPanel';
 import { AppShell } from '../components/layout/AppShell';
+import { HudPanel } from '../components/layout/HudPanel';
 import { TabBar } from '../components/layout/TabBar';
 import { LogPanel } from '../components/logs/LogPanel';
 import { ChoiceList } from '../components/narrative/ChoiceList';
@@ -489,7 +490,7 @@ function GameHudSidebar({
   return (
     <aside className="flex min-h-0 flex-col gap-2 overflow-hidden xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:self-stretch">
       <div className="min-h-0 space-y-2 overflow-y-auto pr-1">
-        <HudSection title="Vitals" accent="vitals">
+        <HudPanel title="Vitals" accent="vitals">
           {character ? (
             <>
               <div className="flex items-start justify-between gap-3">
@@ -505,9 +506,9 @@ function GameHudSidebar({
           ) : (
             <p className="text-sm leading-6 text-pewter">Character telemetry not loaded yet.</p>
           )}
-        </HudSection>
+        </HudPanel>
 
-        <HudSection title="Active objective" accent="objective">
+        <HudPanel title="Active objective" accent="objective">
           {activeQuest ? (
             <div className="space-y-2">
               <p className="font-heading text-xs font-semibold uppercase tracking-[0.12em] text-champagne">{activeQuest.title}</p>
@@ -516,9 +517,9 @@ function GameHudSidebar({
           ) : (
             <p className="text-sm leading-6 text-pewter">No tracked objective yet.</p>
           )}
-        </HudSection>
+        </HudPanel>
 
-        <HudSection title="Quick inventory" accent="inventory">
+        <HudPanel title="Quick inventory" accent="inventory">
           {quickItems.length > 0 ? (
             <div className="grid grid-cols-5 gap-1.5">
               {quickItems.map((item) => (
@@ -530,11 +531,11 @@ function GameHudSidebar({
           ) : (
             <p className="text-sm leading-6 text-pewter">No quick items detected.</p>
           )}
-        </HudSection>
+        </HudPanel>
       </div>
 
       <div className="mt-auto">
-        <HudSection title="Scene scan" accent="scene">
+        <HudPanel title="Scene scan" accent="scene">
           <dl className="space-y-2 text-sm text-champagne/70">
             <SummaryRow label="Mode" value={humanizeInlineValue(hudMode)} />
             <SummaryRow label="Rules" value={humanizeInlineValue(campaign.rules_mode)} />
@@ -543,30 +544,9 @@ function GameHudSidebar({
             <SummaryRow label="Choices" value={String(suggestedChoiceCount)} />
             <SummaryRow label="Tone" value={campaign.tone || 'Unspecified'} />
           </dl>
-        </HudSection>
+        </HudPanel>
       </div>
     </aside>
-  );
-}
-
-function HudSection({ title, accent, children }: { readonly title: string; readonly accent: 'vitals' | 'objective' | 'inventory' | 'scene' | HudMode; readonly children: ReactNode }) {
-  const panelClass = accent === 'vitals' ? 'game-hud-panel-vitals' 
-    : accent === 'objective' ? 'game-hud-panel-objective'
-    : accent === 'inventory' ? 'game-hud-panel-inventory'
-    : accent === 'scene' ? 'game-hud-panel-scene'
-    : `game-hud-panel-${accent}`;
-  
-  const labelClass = accent === 'vitals' ? 'hud-label-jade'
-    : accent === 'objective' ? 'hud-label-sapphire'
-    : accent === 'inventory' ? 'hud-label-gold'
-    : accent === 'scene' ? 'hud-label-pewter'
-    : 'hud-label-gold';
-
-  return (
-    <section className={`game-hud-panel ${panelClass} border-2 bg-obsidian/65 p-3.5`}>
-      <h3 className={`font-heading hud-label ${labelClass}`}>{title}</h3>
-      <div className="mt-2.5">{children}</div>
-    </section>
   );
 }
 
