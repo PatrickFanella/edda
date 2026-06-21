@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { listKnownFacts } from '../../api/facts';
 import type { FactResponse } from '../../api/types';
 import { cn } from '../../lib/cn';
+import { HudPanel } from '../layout/HudPanel';
 
 interface FactsPanelProps {
   readonly campaignId: string;
@@ -35,35 +36,27 @@ export function FactsPanel({ campaignId, className }: FactsPanelProps) {
   }, [factsQuery.data]);
 
   if (campaignId.trim().length === 0) {
-    return <PanelMessage className={className} tone="error" title="Missing campaign" message="Select a campaign before viewing facts." />;
+    return <PanelMessage className={className} title="Missing campaign" message="Select a campaign before viewing facts." />;
   }
 
   if (factsQuery.isPending) {
-    return <PanelMessage className={className} tone="default" title="Loading facts" message="Gathering known facts and lore for this campaign." />;
+    return <PanelMessage className={className} title="Loading" message="Gathering known facts and lore for this campaign." />;
   }
 
   if (factsQuery.isError) {
-    return <PanelMessage className={className} tone="error" title="Facts unavailable" message={queryErrorMessage(factsQuery.error)} />;
+    return <PanelMessage className={className} title="Unavailable" message={queryErrorMessage(factsQuery.error)} />;
   }
 
   const facts = factsQuery.data;
 
   if (facts.length === 0) {
-    return <PanelMessage className={className} tone="default" title="No facts discovered" message="World facts and lore your character has learned will appear here." />;
+    return <PanelMessage className={className} title="No records" message="World facts and lore your character has learned will appear here." />;
   }
 
   const categories = Object.keys(groupedFacts).sort();
 
   return (
-    <section className={cn('space-y-5 border-2 border-sapphire/20 bg-charcoal p-5', className)}>
-      <div className="border-b-2 border-sapphire/20 pb-5">
-        <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">Facts & Lore</p>
-        <h2 className="font-heading mt-2 text-xl font-semibold uppercase tracking-[0.1em] text-champagne">Known world facts</h2>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-pewter">
-          Facts and lore discovered during the campaign, grouped by category.
-        </p>
-      </div>
-
+    <HudPanel title="World facts" accent="objective" className={cn(className)} bodyClassName="space-y-6">
       <div className="space-y-6">
         {categories.map((category) => (
           <div key={category}>
@@ -82,30 +75,20 @@ export function FactsPanel({ campaignId, className }: FactsPanelProps) {
           </div>
         ))}
       </div>
-    </section>
+    </HudPanel>
   );
 }
 
 interface PanelMessageProps {
   readonly title: string;
   readonly message: string;
-  readonly tone: 'default' | 'error';
   readonly className?: string;
 }
 
-function PanelMessage({ title, message, tone, className }: PanelMessageProps) {
+function PanelMessage({ title, message, className }: PanelMessageProps) {
   return (
-    <section
-      className={cn(
-        'border p-6',
-        tone === 'error'
-          ? 'border-ruby/40 bg-ruby/10 text-ruby'
-          : 'border-sapphire/20 bg-charcoal text-champagne/70',
-        className,
-      )}
-    >
-      <h2 className="font-heading text-lg font-semibold uppercase tracking-[0.1em] text-champagne">{title}</h2>
-      <p className="mt-3 text-sm leading-6">{message}</p>
-    </section>
+    <HudPanel title={title} accent={title === 'Loading' ? 'loading' : title === 'Unavailable' ? 'error' : 'empty'} className={cn(className)}>
+      <p className="text-sm leading-6">{message}</p>
+    </HudPanel>
   );
 }
