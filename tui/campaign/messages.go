@@ -1,8 +1,8 @@
 package campaign
 
 import (
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/world"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/world"
 )
 
 // --- Messages emitted by campaign wizard sub-models ---

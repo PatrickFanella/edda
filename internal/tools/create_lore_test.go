@@ -10,9 +10,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 type stubLoreStore struct {
@@ -235,6 +235,33 @@ func TestCreateLoreHandleSuccess(t *testing.T) {
 	}
 }
 
+func TestCreateLoreHandleRelationshipWarning(t *testing.T) {
+	campaignID := uuid.New()
+	locationID := uuid.New()
+	factID := uuid.New()
+	relatedNPCID := uuid.New()
+
+	store := &stubLoreStore{
+		currentLocation:       statedb.Location{ID: dbutil.ToPgtype(locationID), CampaignID: dbutil.ToPgtype(campaignID)},
+		createdFact:           statedb.WorldFact{ID: dbutil.ToPgtype(factID), CampaignID: dbutil.ToPgtype(campaignID), Fact: "Lore", Category: "legend", Source: loreSource},
+		createRelationshipErr: errors.New("relationship write failed"),
+	}
+	h := NewCreateLoreHandler(store, nil, nil)
+	result, err := h.Handle(WithCurrentLocationID(context.Background(), locationID), map[string]any{"content": "Lore", "category": "legend", "related_entities": []any{map[string]any{"entity_type": "npc", "entity_id": relatedNPCID.String()}}})
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if !result.Success {
+		t.Fatal("expected success")
+	}
+	if result.Data["relationship_warning"] == nil {
+		t.Fatalf("expected relationship_warning in result data, got %+v", result.Data)
+	}
+	if _, ok := result.Data["memory_warning"]; ok {
+		t.Fatalf("did not expect memory_warning, got %+v", result.Data)
+	}
+}
+
 func TestCreateLoreHandleAcceptsAllCategories(t *testing.T) {
 	for _, category := range []string{"history", "legend", "cultural", "political", "magical", "religious"} {
 		t.Run(category, func(t *testing.T) {
@@ -377,15 +404,21 @@ func TestCreateLoreValidationAndErrors(t *testing.T) {
 			createRelationshipErr: errors.New("db error"),
 		}
 		h := NewCreateLoreHandler(store, nil, nil)
-		_, err := h.Handle(WithCurrentLocationID(context.Background(), locationID), map[string]any{
+		result, err := h.Handle(WithCurrentLocationID(context.Background(), locationID), map[string]any{
 			"content":  "Lore",
 			"category": "history",
 			"related_entities": []any{
 				map[string]any{"entity_type": "npc", "entity_id": uuid.New().String()},
 			},
 		})
-		if err == nil {
-			t.Fatal("expected error when CreateRelationship fails")
+		if err != nil {
+			t.Fatalf("Handle returned error: %v", err)
+		}
+		if !result.Success {
+			t.Fatal("expected success")
+		}
+		if result.Data["relationship_warning"] == nil {
+			t.Fatalf("expected relationship_warning in result data, got %+v", result.Data)
 		}
 	})
 
@@ -402,12 +435,18 @@ func TestCreateLoreValidationAndErrors(t *testing.T) {
 			},
 		}
 		h := NewCreateLoreHandler(store, &stubMemoryStore{}, &stubEmbedder{err: errors.New("embed error")})
-		_, err := h.Handle(WithCurrentLocationID(context.Background(), locationID), map[string]any{
+		result, err := h.Handle(WithCurrentLocationID(context.Background(), locationID), map[string]any{
 			"content":  "Lore",
 			"category": "history",
 		})
-		if err == nil {
-			t.Fatal("expected error when Embed fails")
+		if err != nil {
+			t.Fatalf("Handle returned error: %v", err)
+		}
+		if !result.Success {
+			t.Fatal("expected success when Embed fails")
+		}
+		if result.Data["memory_warning"] == nil {
+			t.Fatalf("expected memory_warning in result data, got %+v", result.Data)
 		}
 	})
 }
@@ -440,7 +479,6 @@ func TestCreateLoreHandleNilStore(t *testing.T) {
 		t.Fatal("expected error for nil loreStore")
 	}
 }
-
 
 func TestCreateLoreHandleEmptyContent(t *testing.T) {
 	campaignID := uuid.New()
@@ -508,11 +546,20 @@ func TestCreateLoreHandleMemoryStoreError(t *testing.T) {
 	memStore := &stubMemoryStore{err: errors.New("mem error")}
 	embedder := &stubEmbedder{vector: []float32{0.1, 0.2}}
 	h := NewCreateLoreHandler(store, memStore, embedder)
-	_, err := h.Handle(WithCurrentLocationID(context.Background(), locationID), map[string]any{
+	result, err := h.Handle(WithCurrentLocationID(context.Background(), locationID), map[string]any{
 		"content":  "Ancient pact sealed beneath the mountain.",
 		"category": "history",
 	})
-	if err == nil {
-		t.Fatal("expected error when memory store CreateMemory fails")
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if !result.Success {
+		t.Fatal("expected success when memory store CreateMemory fails")
+	}
+	if result.Data["memory_warning"] == nil {
+		t.Fatalf("expected memory_warning in result data, got %+v", result.Data)
+	}
+	if !strings.Contains(result.Narrative, "memory sync failed") {
+		t.Fatalf("Narrative = %q, want memory sync warning", result.Narrative)
 	}
 }

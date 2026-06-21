@@ -35,16 +35,16 @@ tags: [tracking, phase-1, execution, foundation]
 
 | #   | Issue                                                          | Title                                         | Size | Blocker | Status | Model         | Notes                                   |
 | --- | -------------------------------------------------------------- | --------------------------------------------- | :--: | ------- | ------ | ------------- | --------------------------------------- |
-| 1   | [#19](https://github.com/PatrickFanella/game-master/issues/19) | Initialize Go module and directory structure  |  S   | None    | READY  | gpt-5.4 mini  | Do first — everything imports from this |
-| 2   | [#20](https://github.com/PatrickFanella/game-master/issues/20) | Create Docker Compose: Postgres with pgvector |  S   | None    | READY  | gpt-5.4 mini  |                                         |
-| 3   | [#21](https://github.com/PatrickFanella/game-master/issues/21) | Add Ollama service to Docker Compose          |  XS  | None    | READY  | gpt-5.4 mini  |                                         |
-| 4   | [#22](https://github.com/PatrickFanella/game-master/issues/22) | Create Taskfile with core tasks               |  S   | None    | READY  | gpt-5.4 mini  |                                         |
-| 5   | [#23](https://github.com/PatrickFanella/game-master/issues/23) | Configure goose for database migrations       |  S   | None    | READY  | gpt-5.4 mini  |                                         |
-| 6   | [#24](https://github.com/PatrickFanella/game-master/issues/24) | Configure sqlc for code generation            |  S   | None    | READY  | gpt-5.4 mini  |                                         |
-| 7   | [#25](https://github.com/PatrickFanella/game-master/issues/25) | Set up koanf configuration loading            |  M   | None    | READY  | gpt-5.3-codex |                                         |
-| 8   | [#26](https://github.com/PatrickFanella/game-master/issues/26) | Create GitHub Actions CI workflow             |  M   | None    | READY  | gpt-5.4 mini  |                                         |
-| 9   | [#27](https://github.com/PatrickFanella/game-master/issues/27) | Create .gitignore and .env.example            |  XS  | None    | READY  | Claude Haiku 4.5 |                                      |
-| 10  | [#28](https://github.com/PatrickFanella/game-master/issues/28) | Create README with setup instructions         |  S   | None    | READY  | Claude Sonnet 4.6 |                                    |
+| 1   | [#19](https://git.subcult.tv/subculture-collective/edda/issues/19) | Initialize Go module and directory structure  |  S   | None    | READY  | gpt-5.4 mini  | Do first — everything imports from this |
+| 2   | [#20](https://git.subcult.tv/subculture-collective/edda/issues/20) | Create Docker Compose: Postgres with pgvector |  S   | None    | READY  | gpt-5.4 mini  |                                         |
+| 3   | [#21](https://git.subcult.tv/subculture-collective/edda/issues/21) | Add Ollama service to Docker Compose          |  XS  | None    | READY  | gpt-5.4 mini  |                                         |
+| 4   | [#22](https://git.subcult.tv/subculture-collective/edda/issues/22) | Create Taskfile with core tasks               |  S   | None    | READY  | gpt-5.4 mini  |                                         |
+| 5   | [#23](https://git.subcult.tv/subculture-collective/edda/issues/23) | Configure goose for database migrations       |  S   | None    | READY  | gpt-5.4 mini  |                                         |
+| 6   | [#24](https://git.subcult.tv/subculture-collective/edda/issues/24) | Configure sqlc for code generation            |  S   | None    | READY  | gpt-5.4 mini  |                                         |
+| 7   | [#25](https://git.subcult.tv/subculture-collective/edda/issues/25) | Set up koanf configuration loading            |  M   | None    | READY  | gpt-5.3-codex |                                         |
+| 8   | [#26](https://git.subcult.tv/subculture-collective/edda/issues/26) | Create GitHub Actions CI workflow             |  M   | None    | READY  | gpt-5.4 mini  |                                         |
+| 9   | [#27](https://git.subcult.tv/subculture-collective/edda/issues/27) | Create .gitignore and .env.example            |  XS  | None    | READY  | Claude Haiku 4.5 |                                      |
+| 10  | [#28](https://git.subcult.tv/subculture-collective/edda/issues/28) | Create README with setup instructions         |  S   | None    | READY  | Claude Sonnet 4.6 |                                    |
 -->
 ```mermaid
 graph LR
@@ -85,20 +85,20 @@ graph LR
 
 | #   | Issue                                                          | Title                                        | Size | Blocker  | Status  | Model         | Notes                     |
 | --- | -------------------------------------------------------------- | -------------------------------------------- | :--: | -------- | ------- | ------------- | ------------------------- |
-| 1   | [#29](https://github.com/PatrickFanella/game-master/issues/29) | Migration: enable pgvector extension         |  XS  | Track A  | BLOCKED | gpt-5.3-codex | Must be first migration   |
-| 2   | [#30](https://github.com/PatrickFanella/game-master/issues/30) | Migration: create users table                |  XS  | #29      | BLOCKED | gpt-5.3-codex |                           |
-| 3   | [#31](https://github.com/PatrickFanella/game-master/issues/31) | Migration: create campaigns table            |  XS  | #30      | BLOCKED | gpt-5.3-codex | FK → users                |
-| 4   | [#33](https://github.com/PatrickFanella/game-master/issues/33) | Migration: create locations table            |  XS  | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
-| 5   | [#36](https://github.com/PatrickFanella/game-master/issues/36) | Migration: create factions table             |  S   | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
-| 6   | [#34](https://github.com/PatrickFanella/game-master/issues/34) | Migration: create location_connections table |  XS  | #33      | BLOCKED | gpt-5.3-codex | FK → locations            |
-| 7   | [#35](https://github.com/PatrickFanella/game-master/issues/35) | Migration: create npcs table                 |  S   | #33, #36 | BLOCKED | gpt-5.3-codex | FK → locations, factions  |
-| 8   | [#32](https://github.com/PatrickFanella/game-master/issues/32) | Migration: create player_characters table    |  S   | #31, #33 | BLOCKED | gpt-5.3-codex | FK → campaigns, locations |
-| 9   | [#37](https://github.com/PatrickFanella/game-master/issues/37) | Migration: create items table                |  S   | #32      | BLOCKED | gpt-5.3-codex | FK → player_characters    |
-| 10  | [#38](https://github.com/PatrickFanella/game-master/issues/38) | Migration: create quests table               |  S   | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
-| 11  | [#39](https://github.com/PatrickFanella/game-master/issues/39) | Migration: create world_facts table          |  XS  | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
-| 12  | [#40](https://github.com/PatrickFanella/game-master/issues/40) | Migration: create session_logs table         |  S   | #31, #33 | BLOCKED | gpt-5.3-codex | FK → campaigns, locations |
-| 13  | [#41](https://github.com/PatrickFanella/game-master/issues/41) | Migration: create memories table (vector)    |  S   | #29, #31 | BLOCKED | gpt-5.3-codex | Needs pgvector extension  |
-| 14  | [#42](https://github.com/PatrickFanella/game-master/issues/42) | Migration: create entity_relationships table |  XS  | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
+| 1   | [#29](https://git.subcult.tv/subculture-collective/edda/issues/29) | Migration: enable pgvector extension         |  XS  | Track A  | BLOCKED | gpt-5.3-codex | Must be first migration   |
+| 2   | [#30](https://git.subcult.tv/subculture-collective/edda/issues/30) | Migration: create users table                |  XS  | #29      | BLOCKED | gpt-5.3-codex |                           |
+| 3   | [#31](https://git.subcult.tv/subculture-collective/edda/issues/31) | Migration: create campaigns table            |  XS  | #30      | BLOCKED | gpt-5.3-codex | FK → users                |
+| 4   | [#33](https://git.subcult.tv/subculture-collective/edda/issues/33) | Migration: create locations table            |  XS  | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
+| 5   | [#36](https://git.subcult.tv/subculture-collective/edda/issues/36) | Migration: create factions table             |  S   | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
+| 6   | [#34](https://git.subcult.tv/subculture-collective/edda/issues/34) | Migration: create location_connections table |  XS  | #33      | BLOCKED | gpt-5.3-codex | FK → locations            |
+| 7   | [#35](https://git.subcult.tv/subculture-collective/edda/issues/35) | Migration: create npcs table                 |  S   | #33, #36 | BLOCKED | gpt-5.3-codex | FK → locations, factions  |
+| 8   | [#32](https://git.subcult.tv/subculture-collective/edda/issues/32) | Migration: create player_characters table    |  S   | #31, #33 | BLOCKED | gpt-5.3-codex | FK → campaigns, locations |
+| 9   | [#37](https://git.subcult.tv/subculture-collective/edda/issues/37) | Migration: create items table                |  S   | #32      | BLOCKED | gpt-5.3-codex | FK → player_characters    |
+| 10  | [#38](https://git.subcult.tv/subculture-collective/edda/issues/38) | Migration: create quests table               |  S   | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
+| 11  | [#39](https://git.subcult.tv/subculture-collective/edda/issues/39) | Migration: create world_facts table          |  XS  | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
+| 12  | [#40](https://git.subcult.tv/subculture-collective/edda/issues/40) | Migration: create session_logs table         |  S   | #31, #33 | BLOCKED | gpt-5.3-codex | FK → campaigns, locations |
+| 13  | [#41](https://git.subcult.tv/subculture-collective/edda/issues/41) | Migration: create memories table (vector)    |  S   | #29, #31 | BLOCKED | gpt-5.3-codex | Needs pgvector extension  |
+| 14  | [#42](https://git.subcult.tv/subculture-collective/edda/issues/42) | Migration: create entity_relationships table |  XS  | #31      | BLOCKED | gpt-5.3-codex | FK → campaigns            |
 -->
 ```mermaid
 graph TD
@@ -148,18 +148,18 @@ graph TD
 
 | #   | Issue                                                          | Title                                         | Size | Blocker  | Status  | Model           | Notes                           |
 | --- | -------------------------------------------------------------- | --------------------------------------------- | :--: | -------- | ------- | --------------- | ------------------------------- |
-| 1   | [#43](https://github.com/PatrickFanella/game-master/issues/43) | sqlc queries: users CRUD                      |  S   | #30      | BLOCKED | gpt-5.3-codex   |                                 |
-| 2   | [#44](https://github.com/PatrickFanella/game-master/issues/44) | sqlc queries: campaigns CRUD                  |  S   | #31      | BLOCKED | gpt-5.3-codex   |                                 |
-| 3   | [#45](https://github.com/PatrickFanella/game-master/issues/45) | sqlc queries: player_characters CRUD          |  S   | #32      | BLOCKED | gpt-5.3-codex   |                                 |
-| 4   | [#46](https://github.com/PatrickFanella/game-master/issues/46) | sqlc queries: locations and connections CRUD  |  S   | #33, #34 | BLOCKED | gpt-5.3-codex   |                                 |
-| 5   | [#47](https://github.com/PatrickFanella/game-master/issues/47) | sqlc queries: npcs CRUD                       |  S   | #35      | BLOCKED | gpt-5.3-codex   |                                 |
-| 6   | [#48](https://github.com/PatrickFanella/game-master/issues/48) | sqlc queries: factions and relationships CRUD |  S   | #36      | BLOCKED | gpt-5.3-codex   |                                 |
-| 7   | [#49](https://github.com/PatrickFanella/game-master/issues/49) | sqlc queries: items CRUD                      |  S   | #37      | BLOCKED | gpt-5.3-codex   |                                 |
-| 8   | [#50](https://github.com/PatrickFanella/game-master/issues/50) | sqlc queries: quests and objectives CRUD      |  S   | #38      | BLOCKED | gpt-5.3-codex   |                                 |
-| 9   | [#51](https://github.com/PatrickFanella/game-master/issues/51) | sqlc queries: world_facts CRUD                |  S   | #39      | BLOCKED | gpt-5.3-codex   |                                 |
-| 10  | [#52](https://github.com/PatrickFanella/game-master/issues/52) | sqlc queries: session_logs CRUD               |  S   | #40      | BLOCKED | gpt-5.3-codex   |                                 |
-| 11  | [#53](https://github.com/PatrickFanella/game-master/issues/53) | sqlc queries: memories with vector search     |  M   | #41      | BLOCKED | Claude Sonnet 4.6 | Critical for semantic retrieval |
-| 12  | [#54](https://github.com/PatrickFanella/game-master/issues/54) | sqlc queries: entity_relationships CRUD       |  S   | #42      | BLOCKED | gpt-5.3-codex   |                                 |
+| 1   | [#43](https://git.subcult.tv/subculture-collective/edda/issues/43) | sqlc queries: users CRUD                      |  S   | #30      | BLOCKED | gpt-5.3-codex   |                                 |
+| 2   | [#44](https://git.subcult.tv/subculture-collective/edda/issues/44) | sqlc queries: campaigns CRUD                  |  S   | #31      | BLOCKED | gpt-5.3-codex   |                                 |
+| 3   | [#45](https://git.subcult.tv/subculture-collective/edda/issues/45) | sqlc queries: player_characters CRUD          |  S   | #32      | BLOCKED | gpt-5.3-codex   |                                 |
+| 4   | [#46](https://git.subcult.tv/subculture-collective/edda/issues/46) | sqlc queries: locations and connections CRUD  |  S   | #33, #34 | BLOCKED | gpt-5.3-codex   |                                 |
+| 5   | [#47](https://git.subcult.tv/subculture-collective/edda/issues/47) | sqlc queries: npcs CRUD                       |  S   | #35      | BLOCKED | gpt-5.3-codex   |                                 |
+| 6   | [#48](https://git.subcult.tv/subculture-collective/edda/issues/48) | sqlc queries: factions and relationships CRUD |  S   | #36      | BLOCKED | gpt-5.3-codex   |                                 |
+| 7   | [#49](https://git.subcult.tv/subculture-collective/edda/issues/49) | sqlc queries: items CRUD                      |  S   | #37      | BLOCKED | gpt-5.3-codex   |                                 |
+| 8   | [#50](https://git.subcult.tv/subculture-collective/edda/issues/50) | sqlc queries: quests and objectives CRUD      |  S   | #38      | BLOCKED | gpt-5.3-codex   |                                 |
+| 9   | [#51](https://git.subcult.tv/subculture-collective/edda/issues/51) | sqlc queries: world_facts CRUD                |  S   | #39      | BLOCKED | gpt-5.3-codex   |                                 |
+| 10  | [#52](https://git.subcult.tv/subculture-collective/edda/issues/52) | sqlc queries: session_logs CRUD               |  S   | #40      | BLOCKED | gpt-5.3-codex   |                                 |
+| 11  | [#53](https://git.subcult.tv/subculture-collective/edda/issues/53) | sqlc queries: memories with vector search     |  M   | #41      | BLOCKED | Claude Sonnet 4.6 | Critical for semantic retrieval |
+| 12  | [#54](https://git.subcult.tv/subculture-collective/edda/issues/54) | sqlc queries: entity_relationships CRUD       |  S   | #42      | BLOCKED | gpt-5.3-codex   |                                 |
 
 **Parallelizable:** All 12 query files can be written simultaneously once their corresponding migrations exist. Each is independent.
 
@@ -172,7 +172,7 @@ graph TD
 
 | #   | Issue                                                          | Title                                          | Size | Blocker    | Status  | Model           | Notes             |
 | --- | -------------------------------------------------------------- | ---------------------------------------------- | :--: | ---------- | ------- | --------------- | ----------------- |
-| 1   | [#55](https://github.com/PatrickFanella/game-master/issues/55) | Integration tests: migrations and sqlc queries |  L   | Track B, C | BLOCKED | Claude Sonnet 4.6 | testcontainers-go |
+| 1   | [#55](https://git.subcult.tv/subculture-collective/edda/issues/55) | Integration tests: migrations and sqlc queries |  L   | Track B, C | BLOCKED | Claude Sonnet 4.6 | testcontainers-go |
 
 ---
 
@@ -183,13 +183,13 @@ graph TD
 
 | #   | Issue                                                          | Title                                          | Size | Blocker | Status  | Model             | Notes                  |
 | --- | -------------------------------------------------------------- | ---------------------------------------------- | :--: | ------- | ------- | ----------------- | ---------------------- |
-| 1   | [#56](https://github.com/PatrickFanella/game-master/issues/56) | Define LLMProvider interface and core types    |  S   | Track A | BLOCKED | Claude Opus 4.6   | Do first in this track |
-| 2   | [#57](https://github.com/PatrickFanella/game-master/issues/57) | Implement Ollama HTTP client                   |  M   | #56     | BLOCKED | gpt-5.3-codex     |                        |
-| 3   | [#58](https://github.com/PatrickFanella/game-master/issues/58) | Implement Ollama tool definition serialization |  S   | #56     | BLOCKED | gpt-5.3-codex     |                        |
-| 4   | [#59](https://github.com/PatrickFanella/game-master/issues/59) | Implement Ollama tool call parsing             |  S   | #57     | BLOCKED | gpt-5.3-codex     |                        |
-| 5   | [#60](https://github.com/PatrickFanella/game-master/issues/60) | Implement Ollama streaming support             |  M   | #57     | BLOCKED | Claude Sonnet 4.6 |                        |
-| 6   | [#61](https://github.com/PatrickFanella/game-master/issues/61) | Implement LLM provider error handling          |  S   | #56     | BLOCKED | gpt-5.3-codex     |                        |
-| 7   | [#62](https://github.com/PatrickFanella/game-master/issues/62) | Unit tests: LLM provider with fixtures         |  M   | #57-#61 | BLOCKED | gpt-5.3-codex     |                        |
+| 1   | [#56](https://git.subcult.tv/subculture-collective/edda/issues/56) | Define LLMProvider interface and core types    |  S   | Track A | BLOCKED | Claude Opus 4.6   | Do first in this track |
+| 2   | [#57](https://git.subcult.tv/subculture-collective/edda/issues/57) | Implement Ollama HTTP client                   |  M   | #56     | BLOCKED | gpt-5.3-codex     |                        |
+| 3   | [#58](https://git.subcult.tv/subculture-collective/edda/issues/58) | Implement Ollama tool definition serialization |  S   | #56     | BLOCKED | gpt-5.3-codex     |                        |
+| 4   | [#59](https://git.subcult.tv/subculture-collective/edda/issues/59) | Implement Ollama tool call parsing             |  S   | #57     | BLOCKED | gpt-5.3-codex     |                        |
+| 5   | [#60](https://git.subcult.tv/subculture-collective/edda/issues/60) | Implement Ollama streaming support             |  M   | #57     | BLOCKED | Claude Sonnet 4.6 |                        |
+| 6   | [#61](https://git.subcult.tv/subculture-collective/edda/issues/61) | Implement LLM provider error handling          |  S   | #56     | BLOCKED | gpt-5.3-codex     |                        |
+| 7   | [#62](https://git.subcult.tv/subculture-collective/edda/issues/62) | Unit tests: LLM provider with fixtures         |  M   | #57-#61 | BLOCKED | gpt-5.3-codex     |                        |
 
 ```mermaid
 graph TD
@@ -225,16 +225,16 @@ graph TD
 
 | #   | Issue                                                          | Title                                       | Size | Blocker  | Status  | Model             | Notes                                   |
 | --- | -------------------------------------------------------------- | ------------------------------------------- | :--: | -------- | ------- | ----------------- | --------------------------------------- |
-| 1   | [#70](https://github.com/PatrickFanella/game-master/issues/70) | Implement Lip Gloss styling and layout      |  M   | Track A  | BLOCKED | Claude Sonnet 4.6 | Do first — other views depend on styles |
-| 2   | [#63](https://github.com/PatrickFanella/game-master/issues/63) | Create cmd/tui entry point and app init     |  S   | Track A  | BLOCKED | gpt-5.3-codex     |                                         |
-| 3   | [#64](https://github.com/PatrickFanella/game-master/issues/64) | Create root Bubble Tea model                |  M   | #63, #70 | BLOCKED | Claude Sonnet 4.6 |                                         |
-| 4   | [#65](https://github.com/PatrickFanella/game-master/issues/65) | Create narrative view: scrolling viewport   |  M   | #64, #70 | BLOCKED | Claude Sonnet 4.6 |                                         |
-| 5   | [#66](https://github.com/PatrickFanella/game-master/issues/66) | Create narrative view: text input component |  S   | #64, #70 | BLOCKED | gpt-5.3-codex     |                                         |
-| 6   | [#67](https://github.com/PatrickFanella/game-master/issues/67) | Create character sheet placeholder view     |  XS  | #64, #70 | BLOCKED | gpt-5.4 mini      |                                         |
-| 7   | [#68](https://github.com/PatrickFanella/game-master/issues/68) | Create inventory placeholder view           |  XS  | #64, #70 | BLOCKED | gpt-5.4 mini      |                                         |
-| 8   | [#69](https://github.com/PatrickFanella/game-master/issues/69) | Create quest log placeholder view           |  XS  | #64, #70 | BLOCKED | gpt-5.4 mini      |                                         |
-| 9   | [#71](https://github.com/PatrickFanella/game-master/issues/71) | Implement tab switching with status bar     |  S   | #64-#69  | BLOCKED | gpt-5.3-codex     | Needs all views                         |
-| 10  | [#72](https://github.com/PatrickFanella/game-master/issues/72) | teatest tests for TUI shell                 |  M   | #71      | BLOCKED | Claude Sonnet 4.6 |                                         |
+| 1   | [#70](https://git.subcult.tv/subculture-collective/edda/issues/70) | Implement Lip Gloss styling and layout      |  M   | Track A  | BLOCKED | Claude Sonnet 4.6 | Do first — other views depend on styles |
+| 2   | [#63](https://git.subcult.tv/subculture-collective/edda/issues/63) | Create cmd/tui entry point and app init     |  S   | Track A  | BLOCKED | gpt-5.3-codex     |                                         |
+| 3   | [#64](https://git.subcult.tv/subculture-collective/edda/issues/64) | Create root Bubble Tea model                |  M   | #63, #70 | BLOCKED | Claude Sonnet 4.6 |                                         |
+| 4   | [#65](https://git.subcult.tv/subculture-collective/edda/issues/65) | Create narrative view: scrolling viewport   |  M   | #64, #70 | BLOCKED | Claude Sonnet 4.6 |                                         |
+| 5   | [#66](https://git.subcult.tv/subculture-collective/edda/issues/66) | Create narrative view: text input component |  S   | #64, #70 | BLOCKED | gpt-5.3-codex     |                                         |
+| 6   | [#67](https://git.subcult.tv/subculture-collective/edda/issues/67) | Create character sheet placeholder view     |  XS  | #64, #70 | BLOCKED | gpt-5.4 mini      |                                         |
+| 7   | [#68](https://git.subcult.tv/subculture-collective/edda/issues/68) | Create inventory placeholder view           |  XS  | #64, #70 | BLOCKED | gpt-5.4 mini      |                                         |
+| 8   | [#69](https://git.subcult.tv/subculture-collective/edda/issues/69) | Create quest log placeholder view           |  XS  | #64, #70 | BLOCKED | gpt-5.4 mini      |                                         |
+| 9   | [#71](https://git.subcult.tv/subculture-collective/edda/issues/71) | Implement tab switching with status bar     |  S   | #64-#69  | BLOCKED | gpt-5.3-codex     | Needs all views                         |
+| 10  | [#72](https://git.subcult.tv/subculture-collective/edda/issues/72) | teatest tests for TUI shell                 |  M   | #71      | BLOCKED | Claude Sonnet 4.6 |                                         |
 
 ```mermaid
 graph TD

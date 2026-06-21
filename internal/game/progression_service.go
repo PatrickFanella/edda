@@ -6,10 +6,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 type progressionService struct {
@@ -66,5 +65,5 @@ func (s *progressionService) UpdatePlayerHP(ctx context.Context, playerCharacter
 	return err
 }
 
-var _ tools.AddExperienceStore = (*progressionService)(nil)
-var _ tools.LevelUpStore = (*progressionService)(nil)
+var _ domain.AddExperienceStore = (*progressionService)(nil)
+var _ domain.LevelUpStore = (*progressionService)(nil)

@@ -1,0 +1,35 @@
+2026/06/20 04:28:44     Applied At                  Migration
+2026/06/20 04:28:44     =======================================
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00001_enable_pgvector.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00002_create_users_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00003_create_campaigns_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00004_create_locations_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00005_create_factions_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00006_create_location_connections_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00007_create_npcs_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00008_create_player_characters_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00009_create_quests_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00010_create_items_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00011_create_entity_relationships_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00012_create_memories_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00013_create_world_facts_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00014_create_session_logs_table.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00015_add_faction_indexes.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00016_add_world_facts_indexes.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00017_add_session_logs_indexes.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00018_create_expanded_world_tables.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00020_add_language_spoken_by_columns.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00021_add_language_description.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00022_add_campaign_profile_columns.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00023_add_spoiler_columns.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00024_create_quest_notes_and_history.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00025_add_user_auth_fields.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00026_create_save_points.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00027_create_campaign_time.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00028_create_session_summaries.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00029_create_player_journal_entries.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00030_add_rules_mode_to_campaigns.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00031_create_feat_definitions.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00032_create_character_feats.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00033_create_skill_definitions.sql
+2026/06/20 04:28:44     Tue Apr 21 21:20:29 2026 -- 00034_create_character_skills.sql

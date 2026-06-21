@@ -10,9 +10,9 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 const (
@@ -90,7 +90,7 @@ func (s *inventoryService) CreateGeneratedItem(ctx context.Context, playerCharac
 
 // --- tools.RemoveItemStore methods ---
 
-func (s *inventoryService) GetPlayerItemByID(ctx context.Context, itemID uuid.UUID) (*tools.PlayerItem, error) {
+func (s *inventoryService) GetPlayerItemByID(ctx context.Context, itemID uuid.UUID) (*domain.PlayerItem, error) {
 	item, err := s.queries.GetItemByID(ctx, dbutil.ToPgtype(itemID))
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
@@ -109,7 +109,7 @@ func (s *inventoryService) GetPlayerItemByID(ctx context.Context, itemID uuid.UU
 		}
 	}
 
-	return &tools.PlayerItem{
+	return &domain.PlayerItem{
 		ID:                dbutil.FromPgtype(item.ID),
 		PlayerCharacterID: dbutil.FromPgtype(item.PlayerCharacterID),
 		Name:              item.Name,

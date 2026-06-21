@@ -5,19 +5,13 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/google/uuid"
-
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const addExperienceToolName = "add_experience"
 
-// AddExperienceStore provides persistence required for add_experience.
-type AddExperienceStore interface {
-	GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error)
-	UpdatePlayerExperience(ctx context.Context, playerCharacterID uuid.UUID, experience, level int) error
-}
+type AddExperienceStore = domain.AddExperienceStore
 
 // AddExperienceTool returns the add_experience tool definition and JSON schema.
 func AddExperienceTool() llm.Tool {
@@ -123,15 +117,15 @@ func (h *AddExperienceHandler) Handle(ctx context.Context, args map[string]any) 
 	return &ToolResult{
 		Success: true,
 		Data: map[string]any{
-			"player_character_id":  playerCharacterID.String(),
-			"amount":               amount,
-			"reason":               reason,
-			"old_experience":       oldExperience,
-			"new_experience":       newExperience,
-			"current_level":        currentLevel,
-			"level_up_threshold":   levelUpThreshold,
-			"level_up_available":   levelUpAvailable,
-			"experience_to_next":   maxInt(levelUpThreshold-newExperience, 0),
+			"player_character_id": playerCharacterID.String(),
+			"amount":              amount,
+			"reason":              reason,
+			"old_experience":      oldExperience,
+			"new_experience":      newExperience,
+			"current_level":       currentLevel,
+			"level_up_threshold":  levelUpThreshold,
+			"level_up_available":  levelUpAvailable,
+			"experience_to_next":  maxInt(levelUpThreshold-newExperience, 0),
 		},
 		Narrative: fmt.Sprintf("You gained %d XP for %s.", amount, reason),
 	}, nil

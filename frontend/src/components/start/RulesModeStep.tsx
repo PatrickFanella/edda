@@ -46,8 +46,8 @@ export function RulesModeStep({
   isLoading = false,
 }: RulesModeStepProps) {
   return (
-    <section className="deco-corners deco-pattern space-y-6 border-2 border-gold/20 bg-charcoal p-6">
-      <header className="space-y-3 border-b-2 border-gold/20 pb-5">
+    <section className="deco-corners deco-pattern game-hud-panel game-hud-panel-setup space-y-6 border-2 border-sapphire/20 bg-charcoal p-6">
+      <header className="space-y-3 border-b-2 border-sapphire/20 pb-5">
         <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">
           Rules mode
         </p>
@@ -73,10 +73,10 @@ export function RulesModeStep({
               onClick={() => onSelectMode(option.value)}
               aria-pressed={isSelected}
               className={[
-                'border-2 px-5 py-6 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold/60',
+                'border-2 px-5 py-6 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sapphire/60',
                 isSelected
                   ? 'border-gold bg-gold/10'
-                  : 'border-charcoal bg-obsidian hover:border-gold/40 hover:bg-charcoal hover:-translate-y-0.5',
+                  : 'border-sapphire/20 bg-obsidian hover:border-sapphire/40 hover:bg-charcoal hover:-translate-y-0.5',
               ].join(' ')}
             >
               <div className="space-y-3">
@@ -90,7 +90,7 @@ export function RulesModeStep({
                       'inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-semibold',
                       isSelected
                         ? 'border-gold bg-gold text-obsidian'
-                        : 'border-gold/30 bg-obsidian text-pewter',
+                        : 'border-sapphire/30 bg-obsidian text-pewter',
                     ].join(' ')}
                   >
                     {isSelected ? '\u2713' : ''}
@@ -118,12 +118,12 @@ export function RulesModeStep({
         </div>
       )}
 
-      <div className="flex flex-col-reverse gap-3 border-t-2 border-gold/20 pt-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col-reverse gap-3 border-t-2 border-sapphire/20 pt-5 sm:flex-row sm:items-center sm:justify-between">
         {onBack ? (
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center justify-center border border-gold/30 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-gold hover:text-champagne focus:outline-none focus:ring-2 focus:ring-gold/60"
+            className="hud-btn hud-text-button inline-flex items-center justify-center border border-sapphire/30 px-4 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-sapphire hover:text-champagne focus:outline-none focus:ring-2 focus:ring-sapphire/60"
           >
             Back
           </button>
@@ -134,7 +134,7 @@ export function RulesModeStep({
           type="button"
           onClick={onContinue}
           disabled={!selectedMode || isLoading}
-          className="inline-flex items-center justify-center bg-ruby px-5 py-3 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
+          className="hud-btn hud-text-button inline-flex items-center justify-center bg-ruby px-5 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
         >
           {isLoading ? 'Continuing\u2026' : 'Continue'}
         </button>

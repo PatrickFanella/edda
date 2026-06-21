@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getCampaignCharacterInventory } from '../../api/characters';
 import type { ItemResponse } from '../../api/types';
 import { useCampaign } from '../../hooks/useCampaign';
+import { HudPanel } from '../layout/HudPanel';
 import { ItemCard } from './ItemCard';
 
 export function InventoryPanel() {
@@ -21,41 +22,41 @@ export function InventoryPanel() {
 
   if (!activeCampaignId) {
     return (
-      <section className="border border-ruby/40 bg-ruby/10 p-6 text-sm text-ruby">
-        No active campaign is selected, so inventory cannot load.
-      </section>
+      <HudPanel title="Inventory" accent="empty">
+        <p className="text-sm leading-6 text-pewter">No active campaign is selected, so inventory cannot load.</p>
+      </HudPanel>
     );
   }
 
   if (inventoryQuery.isPending) {
     return (
-      <section className="border border-gold/20 bg-charcoal p-6 text-sm text-champagne/70">
-        Loading inventory…
-      </section>
+      <HudPanel title="Inventory" accent="loading">
+        <p className="text-sm leading-6 text-pewter">Loading inventory…</p>
+      </HudPanel>
     );
   }
 
   if (inventoryQuery.isError) {
     return (
-      <section className="border border-ruby/40 bg-ruby/10 p-6 text-sm text-ruby">
-        {queryErrorMessage(inventoryQuery.error)}
-      </section>
+      <HudPanel title="Inventory" accent="error">
+        <p className="text-sm leading-6 text-ruby">{queryErrorMessage(inventoryQuery.error)}</p>
+      </HudPanel>
     );
   }
 
   if (items.length === 0) {
     return (
-      <section className="border border-dashed border-pewter/15 bg-charcoal p-8 text-center text-champagne/70">
+      <HudPanel title="Inventory" accent="empty" bodyClassName="p-8 text-center">
         <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-pewter/80">Inventory empty</p>
         <p className="mt-3 text-sm leading-6 text-pewter">
           {campaign?.name ?? 'This campaign'} has no items yet. Loot, rewards, and equipped gear will appear here.
         </p>
-      </section>
+      </HudPanel>
     );
   }
 
   return (
-    <section className="space-y-5">
+    <HudPanel title="Inventory" accent="inventory" bodyClassName="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-4 border-2 border-gold/20 bg-charcoal px-5 py-4">
         <div>
           <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">Inventory</p>
@@ -73,7 +74,7 @@ export function InventoryPanel() {
           <ItemCard key={item.id} item={item} />
         ))}
       </div>
-    </section>
+    </HudPanel>
   );
 }
 

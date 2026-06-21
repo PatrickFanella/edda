@@ -10,9 +10,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 type stubCultureStore struct {
@@ -320,9 +320,12 @@ func TestCreateCultureValidationAndErrors(t *testing.T) {
 			&stubMemoryStore{},
 			&stubEmbedder{err: errors.New("embed failed")},
 		)
-		_, err := h.Handle(context.Background(), copyArgs(baseArgs))
-		if err == nil || !strings.Contains(err.Error(), "embed culture memory") {
-			t.Fatalf("error = %v, want embed context", err)
+		result, err := h.Handle(context.Background(), copyArgs(baseArgs))
+		if err != nil {
+			t.Fatalf("expected best-effort success, got error: %v", err)
+		}
+		if result == nil || !result.Success || result.Data["memory_warning"] == nil {
+			t.Fatalf("expected success with memory_warning, got %+v", result)
 		}
 	})
 }

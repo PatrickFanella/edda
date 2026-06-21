@@ -6,12 +6,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
-var _ tools.StatModifierResolver = (*statModifierResolver)(nil)
+var _ domain.StatModifierResolver = (*statModifierResolver)(nil)
 
 func TestStatModifierResolverReturnsModifier(t *testing.T) {
 	q := newMockQuerier()

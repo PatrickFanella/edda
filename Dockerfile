@@ -11,7 +11,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o game-master-server ./cmd/server
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o edda-server ./cmd/server
 
 # =============================================================================
 # Stage 2: Runtime
@@ -24,7 +24,7 @@ RUN apk add --no-cache ca-certificates tzdata \
 
 WORKDIR /app
 
-COPY --from=builder /build/game-master-server .
+COPY --from=builder /build/edda-server .
 COPY --from=builder /build/migrations ./migrations
 RUN mkdir -p .logs && chown appuser:appgroup .logs
 
@@ -35,4 +35,4 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD ["wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/healthz"]
 
-ENTRYPOINT ["./game-master-server"]
+ENTRYPOINT ["./edda-server"]

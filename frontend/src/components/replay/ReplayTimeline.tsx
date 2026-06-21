@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react';
 
+import { HudPanel } from '../layout/HudPanel';
+
 interface ReplayTimelineProps {
   readonly currentTurnIndex: number;
   readonly totalTurns: number;
@@ -42,7 +44,7 @@ export function ReplayTimeline({ currentTurnIndex, totalTurns, seekTo }: ReplayT
   const progressPercent = totalTurns > 1 ? (currentTurnIndex / (totalTurns - 1)) * 100 : 0;
 
   return (
-    <div className="border-2 border-gold/20 bg-charcoal px-5 py-4">
+    <HudPanel accent="replay" title="Timeline" bodyClassName="px-0">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-pewter">Timeline</span>
         <span className="text-[11px] uppercase tracking-[0.2em] text-pewter">
@@ -63,11 +65,11 @@ export function ReplayTimeline({ currentTurnIndex, totalTurns, seekTo }: ReplayT
         tabIndex={0}
       >
         {/* Track background */}
-        <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 bg-obsidian/60 border border-gold/10" />
+        <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 border border-pewter/10 bg-obsidian/60" />
 
         {/* Filled track */}
         <div
-          className="absolute top-1/2 left-0 h-1 -translate-y-1/2 bg-gold/40"
+          className="absolute top-1/2 left-0 h-1 -translate-y-1/2 bg-sapphire/40"
           style={{ width: `${progressPercent}%` }}
         />
 
@@ -88,7 +90,7 @@ export function ReplayTimeline({ currentTurnIndex, totalTurns, seekTo }: ReplayT
         {/* Current position marker */}
         {totalTurns > 0 && (
           <div
-            className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-gold bg-gold/80 shadow-[0_0_8px_rgba(212,175,55,0.4)] transition-[left] duration-150"
+            className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-sapphire bg-sapphire/80 shadow-[0_0_8px_rgba(56,120,255,0.35)] transition-[left] duration-150"
             style={{ left: `${progressPercent}%` }}
           />
         )}
@@ -96,13 +98,13 @@ export function ReplayTimeline({ currentTurnIndex, totalTurns, seekTo }: ReplayT
         {/* Hover tooltip */}
         {hoveredTurn !== null && (
           <div
-            className="pointer-events-none absolute -top-8 -translate-x-1/2 rounded-sm border border-gold/30 bg-obsidian px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-gold"
+            className="hud-baseline-badge pointer-events-none absolute -top-8 -translate-x-1/2 rounded-sm border border-sapphire/30 bg-obsidian px-2 text-[10px] font-semibold uppercase tracking-wide text-sapphire"
             style={{ left: `${hoverX}px` }}
           >
             Turn {hoveredTurn + 1}
           </div>
         )}
       </div>
-    </div>
+    </HudPanel>
   );
 }

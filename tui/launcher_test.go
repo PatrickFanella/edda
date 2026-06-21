@@ -9,12 +9,12 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/bootstrap"
-	"github.com/PatrickFanella/game-master/internal/config"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/world"
-	"github.com/PatrickFanella/game-master/tui/campaign"
+	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/world"
+	"git.subcult.tv/subculture-collective/edda/tui/campaign"
 )
 
 // compile-time check: Launcher must implement tea.Model.
@@ -394,7 +394,7 @@ func (n *noopQuerier) ListQuestHistory(_ context.Context, _ pgtype.UUID) ([]stat
 func (n *noopQuerier) ListQuestNotes(_ context.Context, _ pgtype.UUID) ([]statedb.QuestNote, error) {
 	return nil, nil
 }
-func (n *noopQuerier) SetLocationPlayerKnown(_ context.Context, _ pgtype.UUID) error  { return nil }
+func (n *noopQuerier) SetLocationPlayerKnown(_ context.Context, _ pgtype.UUID) error   { return nil }
 func (n *noopQuerier) SetLocationPlayerVisited(_ context.Context, _ pgtype.UUID) error { return nil }
 
 func (n *noopQuerier) TransferItem(ctx context.Context, arg statedb.TransferItemParams) (statedb.Item, error) {
@@ -489,6 +489,10 @@ func (n *noopQuerier) UpdatePlayerHP(ctx context.Context, arg statedb.UpdatePlay
 	return statedb.PlayerCharacter{}, nil
 }
 
+func (n *noopQuerier) UpdatePlayerCurrentHP(ctx context.Context, arg statedb.UpdatePlayerCurrentHPParams) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, nil
+}
+
 func (n *noopQuerier) UpdatePlayerLocation(ctx context.Context, arg statedb.UpdatePlayerLocationParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
@@ -499,6 +503,58 @@ func (n *noopQuerier) UpdatePlayerStats(ctx context.Context, arg statedb.UpdateP
 
 func (n *noopQuerier) UpdatePlayerStatus(ctx context.Context, arg statedb.UpdatePlayerStatusParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
+}
+
+func (n *noopQuerier) CreateJournalEntry(ctx context.Context, arg statedb.CreateJournalEntryParams) (statedb.PlayerJournalEntry, error) {
+	return statedb.PlayerJournalEntry{}, nil
+}
+
+func (n *noopQuerier) DeleteJournalEntry(ctx context.Context, id pgtype.UUID) error {
+	return nil
+}
+
+func (n *noopQuerier) ListJournalEntries(ctx context.Context, campaignID pgtype.UUID) ([]statedb.PlayerJournalEntry, error) {
+	return nil, nil
+}
+
+func (n *noopQuerier) CreateSavePoint(ctx context.Context, arg statedb.CreateSavePointParams) (statedb.SavePoint, error) {
+	return statedb.SavePoint{}, nil
+}
+
+func (n *noopQuerier) DeleteOldAutoSaves(ctx context.Context, campaignID pgtype.UUID) error {
+	return nil
+}
+
+func (n *noopQuerier) DeleteSavePoint(ctx context.Context, id pgtype.UUID) error {
+	return nil
+}
+
+func (n *noopQuerier) ListSavePointsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.SavePoint, error) {
+	return nil, nil
+}
+
+func (n *noopQuerier) CreateSessionSummary(ctx context.Context, arg statedb.CreateSessionSummaryParams) (statedb.SessionSummary, error) {
+	return statedb.SessionSummary{}, nil
+}
+
+func (n *noopQuerier) ListSessionSummaries(ctx context.Context, campaignID pgtype.UUID) ([]statedb.SessionSummary, error) {
+	return nil, nil
+}
+
+func (n *noopQuerier) CreateUserWithAuth(ctx context.Context, arg statedb.CreateUserWithAuthParams) (statedb.CreateUserWithAuthRow, error) {
+	return statedb.CreateUserWithAuthRow{}, nil
+}
+
+func (n *noopQuerier) GetUserByEmail(ctx context.Context, email pgtype.Text) (statedb.GetUserByEmailRow, error) {
+	return statedb.GetUserByEmailRow{}, nil
+}
+
+func (n *noopQuerier) GetCampaignTime(ctx context.Context, campaignID pgtype.UUID) (statedb.CampaignTime, error) {
+	return statedb.CampaignTime{}, nil
+}
+
+func (n *noopQuerier) UpsertCampaignTime(ctx context.Context, arg statedb.UpsertCampaignTimeParams) (statedb.CampaignTime, error) {
+	return statedb.CampaignTime{}, nil
 }
 
 func (n *noopQuerier) UpdateQuest(ctx context.Context, arg statedb.UpdateQuestParams) (statedb.Quest, error) {

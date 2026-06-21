@@ -645,7 +645,7 @@ export function CampaignCreatePage() {
       actions={
         <Link
           to="/"
-          className="inline-flex items-center justify-center border border-gold/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
+          className="hud-btn hud-text-button inline-flex items-center justify-center border border-sapphire/30 px-4 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:border-sapphire hover:text-sapphire focus:outline-none focus:ring-2 focus:ring-sapphire focus:ring-offset-2 focus:ring-offset-obsidian"
         >
           Back to campaigns
         </Link>
@@ -694,14 +694,14 @@ function WizardProgress({ currentStep }: { readonly currentStep: WizardStep }) {
   ];
 
   return (
-    <section className="border-2 border-gold/20 bg-charcoal p-5">
+    <section className="game-hud-panel game-hud-panel-setup border-2 border-sapphire/20 bg-charcoal p-5">
       <div className="flex flex-wrap gap-3">
         {steps.map((step, index) => {
           const tone = step.isActive
             ? 'border-gold bg-gold/10 text-gold'
             : step.isComplete
               ? 'border-jade/30 bg-jade/10 text-jade'
-              : 'border-gold/15 bg-obsidian text-champagne/70';
+              : 'border-sapphire/15 bg-obsidian text-champagne/70';
 
           return (
             <div key={step.key} className={`inline-flex items-center gap-3 border-2 px-4 py-3 text-sm transition-all duration-200 ${tone}`}>
@@ -725,14 +725,14 @@ function LoadingStageCard({
   readonly description: string;
 }) {
   return (
-    <section className="border-2 border-gold/20 bg-charcoal p-6">
-      <div className="space-y-3 border-b-2 border-gold/20 pb-5">
-        <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">{eyebrow}</p>
+    <section className="game-hud-panel game-hud-panel-setup border-2 border-sapphire/20 bg-charcoal p-6">
+      <div className="space-y-3 border-b-2 border-sapphire/20 pb-5">
+        <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">{eyebrow}</p>
         <h2 className="font-heading text-2xl font-semibold uppercase tracking-wide text-champagne">{title}</h2>
         <p className="max-w-2xl text-sm leading-7 text-champagne/70">{description}</p>
       </div>
       <div className="flex min-h-64 items-center justify-center">
-        <div className="border border-gold/20 bg-obsidian px-6 py-5 text-sm text-champagne/70">Working…</div>
+        <div className="border border-sapphire/20 bg-obsidian px-6 py-5 text-sm text-champagne/70">Working…</div>
       </div>
     </section>
   );

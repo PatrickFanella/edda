@@ -13,8 +13,8 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/PatrickFanella/game-master/internal/logging"
-	"github.com/PatrickFanella/game-master/tui/styles"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
+	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
 // tickMsg drives periodic polling of the ring buffer.

@@ -10,9 +10,9 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // mockQuerier implements statedb.Querier for testing.
@@ -86,6 +86,11 @@ type mockQuerier struct {
 	lastCreateLanguageParams *statedb.CreateLanguageParams
 	createMemoryErr          error
 	lastCreateMemoryParams   *statedb.CreateMemoryParams
+
+	lastUpdateQuestParams     *statedb.UpdateQuestParams
+	updateQuestStatusCalls    []statedb.UpdateQuestStatusParams
+	lastCreateObjectiveParams *statedb.CreateObjectiveParams
+	completeObjectiveCalls    []pgtype.UUID
 }
 
 func newMockQuerier() *mockQuerier {
@@ -384,8 +389,17 @@ func (m *mockQuerier) CreateNPC(_ context.Context, _ statedb.CreateNPCParams) (s
 	return statedb.Npc{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) CreateObjective(_ context.Context, _ statedb.CreateObjectiveParams) (statedb.QuestObjective, error) {
-	return statedb.QuestObjective{}, pgx.ErrNoRows
+func (m *mockQuerier) CreateObjective(_ context.Context, arg statedb.CreateObjectiveParams) (statedb.QuestObjective, error) {
+	m.lastCreateObjectiveParams = &arg
+	created := statedb.QuestObjective{
+		ID:          dbutil.ToPgtype(uuid.New()),
+		QuestID:     arg.QuestID,
+		Description: arg.Description,
+		Completed:   arg.Completed,
+		OrderIndex:  arg.OrderIndex,
+	}
+	m.objectivesByQuest[arg.QuestID.Bytes] = append(m.objectivesByQuest[arg.QuestID.Bytes], created)
+	return created, nil
 }
 
 func (m *mockQuerier) CreateQuest(_ context.Context, _ statedb.CreateQuestParams) (statedb.Quest, error) {
@@ -489,8 +503,17 @@ func (m *mockQuerier) ListObjectivesByQuests(_ context.Context, _ []pgtype.UUID)
 	return m.objectivesByQuests, nil
 }
 
-func (m *mockQuerier) ListQuestsByCampaign(_ context.Context, _ pgtype.UUID) ([]statedb.Quest, error) {
-	return nil, nil
+func (m *mockQuerier) ListQuestsByCampaign(_ context.Context, campaignID pgtype.UUID) ([]statedb.Quest, error) {
+	if m.getQuestsErr != nil {
+		return nil, m.getQuestsErr
+	}
+	out := make([]statedb.Quest, 0, len(m.quests))
+	for _, quest := range m.quests {
+		if quest.CampaignID == campaignID {
+			out = append(out, quest)
+		}
+	}
+	return out, nil
 }
 
 func (m *mockQuerier) ListActiveQuests(_ context.Context, _ pgtype.UUID) ([]statedb.Quest, error) {
@@ -593,7 +616,17 @@ func (m *mockQuerier) KillNPC(_ context.Context, _ pgtype.UUID) (statedb.Npc, er
 	return statedb.Npc{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) CompleteObjective(_ context.Context, _ pgtype.UUID) (statedb.QuestObjective, error) {
+func (m *mockQuerier) CompleteObjective(_ context.Context, id pgtype.UUID) (statedb.QuestObjective, error) {
+	m.completeObjectiveCalls = append(m.completeObjectiveCalls, id)
+	for questID, objectives := range m.objectivesByQuest {
+		for i := range objectives {
+			if objectives[i].ID == id {
+				objectives[i].Completed = true
+				m.objectivesByQuest[questID] = objectives
+				return objectives[i], nil
+			}
+		}
+	}
 	return statedb.QuestObjective{}, pgx.ErrNoRows
 }
 
@@ -627,6 +660,11 @@ func (m *mockQuerier) GetPlayerCharacterByID(_ context.Context, _ pgtype.UUID) (
 }
 
 func (m *mockQuerier) GetQuestByID(_ context.Context, arg statedb.GetQuestByIDParams) (statedb.Quest, error) {
+	for _, quest := range m.quests {
+		if quest.ID == arg.ID {
+			return quest, nil
+		}
+	}
 	return statedb.Quest{}, pgx.ErrNoRows
 }
 
@@ -657,6 +695,10 @@ func (m *mockQuerier) UpdatePlayerHP(_ context.Context, _ statedb.UpdatePlayerHP
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
 }
 
+func (m *mockQuerier) UpdatePlayerCurrentHP(_ context.Context, _ statedb.UpdatePlayerCurrentHPParams) (statedb.PlayerCharacter, error) {
+	return statedb.PlayerCharacter{}, pgx.ErrNoRows
+}
+
 func (m *mockQuerier) UpdatePlayerExperience(_ context.Context, _ statedb.UpdatePlayerExperienceParams) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
 }
@@ -677,11 +719,81 @@ func (m *mockQuerier) UpdatePlayerStatus(_ context.Context, _ statedb.UpdatePlay
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) UpdateQuest(_ context.Context, _ statedb.UpdateQuestParams) (statedb.Quest, error) {
+func (m *mockQuerier) CreateJournalEntry(_ context.Context, _ statedb.CreateJournalEntryParams) (statedb.PlayerJournalEntry, error) {
+	return statedb.PlayerJournalEntry{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) DeleteJournalEntry(_ context.Context, _ pgtype.UUID) error {
+	return pgx.ErrNoRows
+}
+
+func (m *mockQuerier) ListJournalEntries(_ context.Context, _ pgtype.UUID) ([]statedb.PlayerJournalEntry, error) {
+	return nil, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) CreateSavePoint(_ context.Context, _ statedb.CreateSavePointParams) (statedb.SavePoint, error) {
+	return statedb.SavePoint{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) DeleteOldAutoSaves(_ context.Context, _ pgtype.UUID) error {
+	return pgx.ErrNoRows
+}
+
+func (m *mockQuerier) DeleteSavePoint(_ context.Context, _ pgtype.UUID) error {
+	return pgx.ErrNoRows
+}
+
+func (m *mockQuerier) ListSavePointsByCampaign(_ context.Context, _ pgtype.UUID) ([]statedb.SavePoint, error) {
+	return nil, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) CreateSessionSummary(_ context.Context, _ statedb.CreateSessionSummaryParams) (statedb.SessionSummary, error) {
+	return statedb.SessionSummary{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) ListSessionSummaries(_ context.Context, _ pgtype.UUID) ([]statedb.SessionSummary, error) {
+	return nil, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) CreateUserWithAuth(_ context.Context, _ statedb.CreateUserWithAuthParams) (statedb.CreateUserWithAuthRow, error) {
+	return statedb.CreateUserWithAuthRow{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) GetUserByEmail(_ context.Context, _ pgtype.Text) (statedb.GetUserByEmailRow, error) {
+	return statedb.GetUserByEmailRow{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) GetCampaignTime(_ context.Context, _ pgtype.UUID) (statedb.CampaignTime, error) {
+	return statedb.CampaignTime{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpsertCampaignTime(_ context.Context, _ statedb.UpsertCampaignTimeParams) (statedb.CampaignTime, error) {
+	return statedb.CampaignTime{}, pgx.ErrNoRows
+}
+
+func (m *mockQuerier) UpdateQuest(_ context.Context, arg statedb.UpdateQuestParams) (statedb.Quest, error) {
+	m.lastUpdateQuestParams = &arg
+	for i := range m.quests {
+		if m.quests[i].ID == arg.ID {
+			m.quests[i].ParentQuestID = arg.ParentQuestID
+			m.quests[i].Title = arg.Title
+			m.quests[i].Description = arg.Description
+			m.quests[i].QuestType = arg.QuestType
+			m.quests[i].Status = arg.Status
+			return m.quests[i], nil
+		}
+	}
 	return statedb.Quest{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) UpdateQuestStatus(_ context.Context, _ statedb.UpdateQuestStatusParams) (statedb.Quest, error) {
+func (m *mockQuerier) UpdateQuestStatus(_ context.Context, arg statedb.UpdateQuestStatusParams) (statedb.Quest, error) {
+	m.updateQuestStatusCalls = append(m.updateQuestStatusCalls, arg)
+	for i := range m.quests {
+		if m.quests[i].ID == arg.ID {
+			m.quests[i].Status = arg.Status
+			return m.quests[i], nil
+		}
+	}
 	return statedb.Quest{}, pgx.ErrNoRows
 }
 
@@ -743,7 +855,7 @@ func (m *mockQuerier) ListPlayerKnownLocations(_ context.Context, _ pgtype.UUID)
 func (m *mockQuerier) ListPlayerVisitedLocations(_ context.Context, _ pgtype.UUID) ([]statedb.Location, error) {
 	return nil, nil
 }
-func (m *mockQuerier) SetLocationPlayerKnown(_ context.Context, _ pgtype.UUID) error  { return nil }
+func (m *mockQuerier) SetLocationPlayerKnown(_ context.Context, _ pgtype.UUID) error   { return nil }
 func (m *mockQuerier) SetLocationPlayerVisited(_ context.Context, _ pgtype.UUID) error { return nil }
 
 func (m *mockQuerier) ListActiveFactsByCampaign(_ context.Context, _ pgtype.UUID) ([]statedb.WorldFact, error) {

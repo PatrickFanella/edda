@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router';
 
 import { deleteCampaign, listCampaigns } from '../api/campaigns';
+import { HudPanel } from '../components/layout/HudPanel';
 import { ConfirmationDialog } from '../components/layout/ConfirmationDialog';
 import { AppShell } from '../components/layout/AppShell';
 
@@ -32,7 +33,7 @@ export function CampaignListPage() {
   const actions = (
     <Link
       to="/new"
-      className="inline-flex items-center justify-center bg-ruby px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:bg-ruby-light hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian"
+      className="hud-btn hud-text-button inline-flex items-center justify-center bg-gold px-4 text-sm font-semibold uppercase tracking-wide text-obsidian transition-all duration-200 hover:bg-gold-light focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
     >
       New campaign
     </Link>
@@ -45,13 +46,13 @@ export function CampaignListPage() {
       actions={actions}
     >
       {campaignsQuery.isPending ? (
-        <div className="border border-gold/20 bg-charcoal p-6 text-sm text-champagne/70">Loading campaigns…</div>
+        <HudPanel accent="loading" bodyClassName="p-6 text-sm text-champagne/70">Loading campaigns…</HudPanel>
       ) : campaignsQuery.isError ? (
-        <div className="border border-ruby/40 bg-ruby/10 p-6 text-sm text-ruby">
+        <HudPanel accent="error" bodyClassName="p-6 text-sm text-ruby">
           {queryErrorMessage(campaignsQuery.error)}
-        </div>
+        </HudPanel>
       ) : campaignsQuery.data.campaigns.length === 0 ? (
-        <div className="flex flex-col gap-4 border border-dashed border-gold/15 bg-charcoal p-8 text-champagne/70">
+        <HudPanel accent="empty" bodyClassName="flex flex-col gap-4 p-8 text-champagne/70">
           <div className="space-y-2">
             <h2 className="font-heading text-xl font-semibold uppercase tracking-wide text-champagne">No campaigns yet</h2>
             <p className="text-sm leading-6">Create your first campaign to start building a world.</p>
@@ -59,18 +60,20 @@ export function CampaignListPage() {
           <div>
             <Link
               to="/new"
-              className="inline-flex items-center justify-center border border-gold/40 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-gold transition hover:border-gold hover:text-gold-light focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
+              className="hud-btn hud-text-button inline-flex items-center justify-center border border-gold/40 px-4 text-sm font-semibold uppercase tracking-wide text-gold transition hover:border-gold hover:text-gold-light focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
             >
               Create a campaign
             </Link>
           </div>
-        </div>
+        </HudPanel>
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
           {campaignsQuery.data.campaigns.map((campaign) => (
-            <article
+            <HudPanel
               key={campaign.id}
-              className="deco-corners deco-pattern flex h-full flex-col justify-between border-2 border-gold/20 bg-charcoal p-6 transition-all duration-200 hover:border-gold/40 hover:-translate-y-0.5"
+              accent="scene"
+              className="h-full transition-all duration-200 hover:-translate-y-0.5"
+              bodyClassName="flex h-full flex-col justify-between gap-6 px-0"
             >
               <div className="space-y-4">
                 <div className="flex items-start justify-between gap-4">
@@ -78,7 +81,7 @@ export function CampaignListPage() {
                     <h2 className="font-heading text-xl font-semibold uppercase tracking-wide text-champagne">{campaign.name}</h2>
                     <p className="text-sm uppercase tracking-[0.2em] text-pewter">{campaign.status}</p>
                   </div>
-                  <div className="rounded-sm border border-sapphire/30 px-3 py-1 text-xs font-medium text-sapphire">
+                  <div className="hud-baseline-badge rounded-sm border border-sapphire/30 px-3 text-xs font-medium uppercase tracking-[0.18em] text-sapphire">
                     {campaign.genre || 'Unspecified genre'}
                   </div>
                 </div>
@@ -96,28 +99,28 @@ export function CampaignListPage() {
                   </div>
                 </dl>
               </div>
-              <div className="flex items-center gap-3 pt-6">
+              <div className="flex flex-wrap items-center gap-3 pt-2">
                 <Link
                   to={`/play/${campaign.id}`}
-                  className="inline-flex items-center justify-center border-2 border-ruby/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-ruby hover:bg-ruby hover:text-champagne focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian"
+                  className="hud-btn hud-text-button inline-flex items-center justify-center border-2 border-gold/30 bg-gold/10 px-4 text-sm font-semibold uppercase tracking-wide text-gold transition-all duration-200 hover:border-gold hover:bg-gold/15 hover:text-gold-light focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
                 >
                   Open campaign
                 </Link>
                 <Link
                   to={`/replay/${campaign.id}`}
-                  className="inline-flex items-center justify-center border border-gold/20 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-gold transition-all duration-200 hover:border-gold hover:text-gold-light focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
+                  className="hud-btn hud-text-button inline-flex items-center justify-center border border-pewter/30 px-3 text-xs font-semibold uppercase tracking-wide text-pewter transition-all duration-200 hover:border-sapphire hover:text-sapphire focus:outline-none focus:ring-2 focus:ring-sapphire focus:ring-offset-2 focus:ring-offset-obsidian"
                 >
                   Replay
                 </Link>
                 <button
                   type="button"
                   onClick={() => setDeleteTarget({ id: campaign.id, name: campaign.name })}
-                  className="inline-flex items-center justify-center border border-pewter/20 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-pewter transition-all duration-200 hover:border-ruby/40 hover:text-ruby focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian"
+                  className="hud-btn hud-text-button inline-flex items-center justify-center border border-ruby/30 px-3 text-xs font-semibold uppercase tracking-wide text-ruby transition-all duration-200 hover:border-ruby hover:bg-ruby/10 hover:text-champagne focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian"
                 >
                   Delete
                 </button>
               </div>
-            </article>
+            </HudPanel>
           ))}
         </div>
       )}

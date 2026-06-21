@@ -7,8 +7,8 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/PatrickFanella/game-master/internal/db"
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const restToolName = "rest"

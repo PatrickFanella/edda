@@ -82,8 +82,8 @@ check_file_permissions() {
 
 parse_db_url() {
   local regex='^postgres(ql)?://([^:/?#]+)(:([^@/?#]*))?@([^/?#:]+|\[[^]]+\])(:([0-9]+))?/([^?]+)'
-  if [[ ! "$GM_DB_URL" =~ $regex ]]; then
-    die "GM_DB_URL must be a postgres:// URL with explicit user, host, port, and database name"
+  if [[ ! "$EDDA_DB_URL" =~ $regex ]]; then
+    die "EDDA_DB_URL must be a postgres:// URL with explicit user, host, port, and database name"
   fi
 
   DB_USER=${BASH_REMATCH[2]}
@@ -95,35 +95,35 @@ parse_db_url() {
 reject_localhost_defaults() {
   case "$DB_HOST" in
     localhost|127.0.0.1|::1|[::1])
-      die "GM_DB_URL must not point at localhost for container deployment; use the existing Postgres container hostname instead"
+      die "EDDA_DB_URL must not point at localhost for container deployment; use the existing Postgres container hostname instead"
       ;;
   esac
 
-  if [[ "${GM_LLM_PROVIDER:-}" == "ollama" ]]; then
-    [[ "$GM_LLM_OLLAMA_ENDPOINT" == "http://10.0.0.10:11434" ]] || die "GM_LLM_OLLAMA_ENDPOINT must be exactly 'http://10.0.0.10:11434' for production"
-    [[ "$GM_LLM_OLLAMA_EMBEDDINGENDPOINT" == "http://ollama:11434" ]] || die "GM_LLM_OLLAMA_EMBEDDINGENDPOINT must be exactly 'http://ollama:11434' for production"
+  if [[ "${EDDA_LLM_PROVIDER:-}" == "ollama" ]]; then
+    [[ "$EDDA_LLM_OLLAMA_ENDPOINT" == "http://10.0.0.50:11434" ]] || die "EDDA_LLM_OLLAMA_ENDPOINT must be exactly 'http://10.0.0.50:11434' for production"
+    [[ "$EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT" == "http://10.0.0.50:11434" ]] || die "EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT must be exactly 'http://10.0.0.50:11434' for production"
   fi
 }
 
 check_provider_contract() {
-  case "${GM_LLM_PROVIDER:-}" in
+  case "${EDDA_LLM_PROVIDER:-}" in
     claude)
-      if [[ -z "${GM_LLM_CLAUDE_APIKEY:-}" && -z "${GM_CLAUDE_API_KEY:-}" && -z "${ANTHROPIC_API_KEY:-}" ]]; then
-        die "claude mode requires one of GM_LLM_CLAUDE_APIKEY, GM_CLAUDE_API_KEY, or ANTHROPIC_API_KEY"
+      if [[ -z "${EDDA_LLM_CLAUDE_APIKEY:-}" && -z "${ANTHROPIC_API_KEY:-}" ]]; then
+        die "claude mode requires one of EDDA_LLM_CLAUDE_APIKEY or ANTHROPIC_API_KEY"
       fi
-      require_var GM_LLM_CLAUDE_MODEL
-      require_var GM_LLM_CLAUDE_CONTEXTTOKENBUDGET
+      require_var EDDA_LLM_CLAUDE_MODEL
+      require_var EDDA_LLM_CLAUDE_CONTEXTTOKENBUDGET
       ;;
     ollama)
-      require_var GM_LLM_OLLAMA_ENDPOINT
-      require_var GM_LLM_OLLAMA_MODEL
-      require_var GM_LLM_OLLAMA_EMBEDDINGENDPOINT
-      require_var GM_LLM_OLLAMA_EMBEDDINGMODEL
-      require_var GM_LLM_OLLAMA_CONTEXTTOKENBUDGET
-      require_var GM_LLM_OLLAMA_TIMEOUTSECONDS
+      require_var EDDA_LLM_OLLAMA_ENDPOINT
+      require_var EDDA_LLM_OLLAMA_MODEL
+      require_var EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT
+      require_var EDDA_LLM_OLLAMA_EMBEDDINGMODEL
+      require_var EDDA_LLM_OLLAMA_CONTEXTTOKENBUDGET
+      require_var EDDA_LLM_OLLAMA_TIMEOUTSECONDS
       ;;
     *)
-      die "GM_LLM_PROVIDER must be exactly 'claude' or 'ollama'"
+      die "EDDA_LLM_PROVIDER must be exactly 'claude' or 'ollama'"
       ;;
   esac
 }
@@ -186,19 +186,19 @@ set -a
 . "$ENV_FILE"
 set +a
 
-API_CONTAINER_NAME=${GM_API_CONTAINER_NAME:-gm-api}
-WEB_CONTAINER_NAME=${GM_WEB_CONTAINER_NAME:-gm-web}
+API_CONTAINER_NAME=${EDDA_API_CONTAINER_NAME:-edda-api}
+WEB_CONTAINER_NAME=${EDDA_WEB_CONTAINER_NAME:-edda-web}
 
-require_var GM_DB_URL
-require_var GM_SERVER_PORT
-require_var GM_SERVER_JWTSECRET
+require_var EDDA_DB_URL
+require_var EDDA_SERVER_PORT
+require_var EDDA_SERVER_JWTSECRET
 require_var CADDY_CONTAINER_NAME
 require_var CADDY_SITE_CONFIG_PATH
 require_var CLOUDFLARE_ZONE_ID
 require_var CLOUDFLARE_API_TOKEN
 require_var CLOUDFLARE_RECORD_TARGET
 
-[[ "$GM_SERVER_PORT" =~ ^[0-9]+$ ]] || die "GM_SERVER_PORT must be numeric"
+[[ "$EDDA_SERVER_PORT" =~ ^[0-9]+$ ]] || die "EDDA_SERVER_PORT must be numeric"
 
 parse_db_url
 check_provider_contract

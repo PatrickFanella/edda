@@ -36,10 +36,83 @@ func TestGameMasterPromptSections(t *testing.T) {
 }
 
 func TestGameMasterPromptToolReferences(t *testing.T) {
-	tools := []string{"skill_check", "create_language", "roll_dice"}
+	tools := []string{"skill_check", "create_language", "roll_dice", "create_quest", "update_player_hp"}
 	for _, tool := range tools {
 		if !strings.Contains(GameMaster, tool) {
 			t.Fatalf("GameMaster prompt must reference tool %q", tool)
+		}
+	}
+}
+
+func TestGameMasterPromptDurableStateClaims(t *testing.T) {
+	phrases := []string{
+		"Durable state claims",
+		"must call the matching state tool before claiming it in prose",
+		"create_location with move_player_here=true",
+		"Revealing or creating a location without movement is not enough",
+		"Do not claim an item was added unless you called add_item or create_item",
+		"Do not claim an item was removed unless you called remove_item",
+		"Do not say combat has begun unless you called initiate_combat",
+		"do not say combat is over unless you called resolve_combat",
+		"If the needed tool is unavailable",
+		"provisional",
+	}
+	for _, phrase := range phrases {
+		if !strings.Contains(GameMaster, phrase) {
+			t.Fatalf("GameMaster prompt must include durable-state guidance phrase %q", phrase)
+		}
+	}
+}
+
+func TestGameMasterPromptQuestProgressGuidance(t *testing.T) {
+	phrases := []string{
+		"If an active quest already exists",
+		"use update_quest or complete_objective",
+		"Do not create a duplicate quest",
+	}
+	for _, phrase := range phrases {
+		if !strings.Contains(GameMaster, phrase) {
+			t.Fatalf("GameMaster prompt must include quest progress guidance phrase %q", phrase)
+		}
+	}
+}
+
+func TestGameMasterPromptNoRepeatDurableMutations(t *testing.T) {
+	phrases := []string{
+		"Only call durable mutation tools for the current player input",
+		"Do not reapply the same prior event or tool result",
+		"ongoing effect",
+		"poison, bleeding, burning, timers, pursuit, or forced movement",
+	}
+	for _, phrase := range phrases {
+		if !strings.Contains(GameMaster, phrase) {
+			t.Fatalf("GameMaster prompt must include no-repeat guidance phrase %q", phrase)
+		}
+	}
+}
+
+func TestGameMasterPromptExplicitCombatGuidance(t *testing.T) {
+	phrases := []string{
+		"hostile creature or drone actively blocks the route",
+		"call initiate_combat before narrating that combat has begun",
+	}
+	for _, phrase := range phrases {
+		if !strings.Contains(GameMaster, phrase) {
+			t.Fatalf("GameMaster prompt must include explicit combat guidance phrase %q", phrase)
+		}
+	}
+}
+
+func TestGameMasterPromptCombatStartGuidance(t *testing.T) {
+	phrases := []string{
+		"hostile creature or drone",
+		"locks onto you",
+		"call initiate_combat before narrating that combat has begun",
+		"keep it as tension rather than starting combat",
+	}
+	for _, phrase := range phrases {
+		if !strings.Contains(GameMaster, phrase) {
+			t.Fatalf("GameMaster prompt must include combat guidance phrase %q", phrase)
 		}
 	}
 }

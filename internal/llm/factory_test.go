@@ -6,12 +6,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/PatrickFanella/game-master/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
 )
 
 func TestNewLLMProviderOllama(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/api/tags" {
+		if r.URL.Path != "/api/models" {
 			t.Fatalf("unexpected path: %s", r.URL.Path)
 		}
 		w.WriteHeader(http.StatusOK)
@@ -48,7 +48,7 @@ func TestNewLLMProviderOllama(t *testing.T) {
 
 func TestNewLLMProviderOllamaEndpointBuildsHealthCheckURLFromParsedBase(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/ollama/api/tags" {
+		if r.URL.Path != "/ollama/api/models" {
 			t.Fatalf("unexpected path: %s", r.URL.Path)
 		}
 		if r.URL.RawQuery != "" {
@@ -140,7 +140,7 @@ func TestNewLLMProviderRejectsUnreachableOllama(t *testing.T) {
 func TestNewLLMProviderRejectsOllamaNon2xxWithTrimmedBody(t *testing.T) {
 	body := strings.Repeat("x", ollamaHealthCheckErrorBodyLimit+20)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/api/tags" {
+		if r.URL.Path != "/api/models" {
 			t.Fatalf("unexpected path: %s", r.URL.Path)
 		}
 		w.WriteHeader(http.StatusInternalServerError)
@@ -169,6 +169,71 @@ func TestNewLLMProviderRejectsOllamaNon2xxWithTrimmedBody(t *testing.T) {
 	}
 	if strings.Contains(err.Error(), body) {
 		t.Fatalf("error should not include full response body of length %d", len(body))
+	}
+}
+
+func TestNewLLMProviderOllamaFallsBackToTagsWhenModelsNotFound(t *testing.T) {
+	paths := []string{}
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		paths = append(paths, r.URL.Path)
+		switch r.URL.Path {
+		case "/api/models":
+			http.NotFound(w, r)
+		case "/api/tags":
+			w.WriteHeader(http.StatusOK)
+		default:
+			t.Fatalf("unexpected path: %s", r.URL.Path)
+		}
+	}))
+	t.Cleanup(server.Close)
+
+	cfg := config.Config{LLM: config.LLMConfig{Provider: "ollama", Ollama: config.OllamaConfig{Endpoint: server.URL}}}
+	_, err := NewLLMProvider(cfg)
+	if err != nil {
+		t.Fatalf("NewLLMProvider() error = %v", err)
+	}
+	if got, want := strings.Join(paths, ","), "/api/models,/api/tags"; got != want {
+		t.Fatalf("probe paths = %q, want %q", got, want)
+	}
+}
+
+func TestNewLLMProviderOllamaSendsAPIKeyToModelsProbe(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/api/models" {
+			t.Fatalf("unexpected path: %s", r.URL.Path)
+		}
+		if got := r.Header.Get("Authorization"); got != "Bearer switchyard-token" {
+			t.Fatalf("authorization = %q, want bearer token", got)
+		}
+		w.WriteHeader(http.StatusOK)
+	}))
+	t.Cleanup(server.Close)
+
+	cfg := config.Config{LLM: config.LLMConfig{Provider: "ollama", Ollama: config.OllamaConfig{Endpoint: server.URL, APIKey: "switchyard-token"}}}
+	if _, err := NewLLMProvider(cfg); err != nil {
+		t.Fatalf("NewLLMProvider() error = %v", err)
+	}
+}
+
+func TestOllamaHealthCheckRedactsSecretsFromErrorBody(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusUnauthorized)
+		_, _ = w.Write([]byte("bad bearer sk-secret api_key=abc token=def"))
+	}))
+	t.Cleanup(server.Close)
+
+	cfg := config.Config{LLM: config.LLMConfig{Provider: "ollama", Ollama: config.OllamaConfig{Endpoint: server.URL}}}
+	_, err := NewLLMProvider(cfg)
+	if err == nil {
+		t.Fatal("expected error, got nil")
+	}
+	for _, secret := range []string{"sk-secret", "api_key=abc", "token=def"} {
+		if strings.Contains(err.Error(), secret) {
+			t.Fatalf("error leaked secret %q: %v", secret, err)
+		}
+	}
+	if !strings.Contains(err.Error(), "[redacted]") {
+		t.Fatalf("error = %q, want redaction marker", err.Error())
 	}
 }
 

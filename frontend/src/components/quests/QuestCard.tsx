@@ -67,7 +67,7 @@ export function QuestCard({ quest, campaignId, className }: QuestCardProps) {
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="font-heading text-lg font-semibold uppercase tracking-[0.08em] text-champagne">{quest.title}</h3>
             {quest.parent_quest_id ? (
-              <span className="rounded-sm border border-pewter/30 bg-pewter/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-pewter">
+              <span className="hud-baseline-badge rounded-sm border border-pewter/30 bg-pewter/10 px-2.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-pewter">
                 Subquest
               </span>
             ) : null}
@@ -78,7 +78,7 @@ export function QuestCard({ quest, campaignId, className }: QuestCardProps) {
         <div className="flex flex-wrap items-center gap-2">
           <span
             className={cn(
-              'rounded-sm border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em]',
+              'hud-baseline-badge rounded-sm border px-3 text-xs font-semibold uppercase tracking-[0.2em]',
               questTypeTones[quest.quest_type] ?? 'border-pewter/30 bg-pewter/10 text-pewter',
             )}
           >
@@ -86,7 +86,7 @@ export function QuestCard({ quest, campaignId, className }: QuestCardProps) {
           </span>
           <span
             className={cn(
-              'rounded-sm border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em]',
+              'hud-baseline-badge rounded-sm border px-3 text-xs font-semibold uppercase tracking-[0.2em]',
               questStatusTones[quest.status] ?? 'border-pewter/30 bg-pewter/10 text-pewter',
             )}
           >
@@ -116,7 +116,7 @@ export function QuestCard({ quest, campaignId, className }: QuestCardProps) {
               type="button"
               onClick={() => toggleSection('notes')}
               className={cn(
-                'border px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] transition',
+                'hud-tab-button border px-3 text-xs font-semibold uppercase tracking-[0.2em] transition',
                 expandedSection === 'notes'
                   ? 'border-sapphire bg-sapphire/15 text-sapphire'
                   : 'border-sapphire/20 text-champagne/60 hover:border-sapphire hover:text-sapphire',
@@ -128,7 +128,7 @@ export function QuestCard({ quest, campaignId, className }: QuestCardProps) {
               type="button"
               onClick={() => toggleSection('history')}
               className={cn(
-                'border px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] transition',
+                'hud-tab-button border px-3 text-xs font-semibold uppercase tracking-[0.2em] transition',
                 expandedSection === 'history'
                   ? 'border-sapphire bg-sapphire/15 text-sapphire'
                   : 'border-sapphire/20 text-champagne/60 hover:border-sapphire hover:text-sapphire',

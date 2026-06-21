@@ -8,8 +8,11 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/rules"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // OrchestratorResult holds everything the TUI needs after world creation
@@ -27,6 +30,8 @@ type OrchestratorInput struct {
 	Summary          string // campaign description/summary
 	Profile          *CampaignProfile
 	CharacterProfile *CharacterProfile
+	RulesMode        string
+	Pool             db.DBTX
 	UserID           uuid.UUID
 }
 
@@ -103,15 +108,16 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 		return nil, fmt.Errorf("orchestrator: generate skeleton: %w", err)
 	}
 
-	var startingLocationID uuid.UUID
-	if skeleton.StartingLocationName != "" {
-		startingLocationID = resolveStartingLocation(ctx, o.queries, campaign.ID, skeleton.StartingLocationName)
-		logger().Debug("orchestrator resolved starting location",
-			"campaign_id", campaignUUID,
-			"starting_location", skeleton.StartingLocationName,
-			"starting_location_id", startingLocationID,
-		)
+	startingLocationID, err := resolveStartingLocation(ctx, o.queries, campaign.ID, skeleton.StartingLocationName)
+	if err != nil {
+		logger().Error("orchestrator starting location resolution failed", "campaign_id", campaignUUID, "starting_location", skeleton.StartingLocationName, "error", err)
+		return nil, fmt.Errorf("orchestrator: resolve starting location: %w", err)
 	}
+	logger().Debug("orchestrator resolved starting location",
+		"campaign_id", campaignUUID,
+		"starting_location", skeleton.StartingLocationName,
+		"starting_location_id", startingLocationID,
+	)
 
 	report("Bringing your character to life…")
 	var locPtr *uuid.UUID
@@ -132,6 +138,7 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 		logger().Error("orchestrator scene generation failed", "campaign_id", campaignUUID, "error", err)
 		return nil, fmt.Errorf("orchestrator: generate scene: %w", err)
 	}
+	orchestrateStartupWorldSetup(ctx, input.RulesMode, input.Pool, campaignUUID)
 
 	result := &OrchestratorResult{
 		Campaign:           campaign,
@@ -147,6 +154,36 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 	return result, nil
 }
 
+func orchestrateStartupWorldSetup(ctx context.Context, rulesMode string, pool db.DBTX, campaignUUID uuid.UUID) {
+	if pool == nil {
+		return
+	}
+	if _, err := pool.Exec(ctx,
+		"INSERT INTO campaign_time (campaign_id, day, hour, minute) VALUES ($1, 1, 8, 0) ON CONFLICT (campaign_id) DO NOTHING",
+		campaignUUID,
+	); err != nil {
+		logger().Error("orchestrator campaign time init failed", "campaign_id", campaignUUID, "error", err)
+	}
+	if rulesMode == "" {
+		return
+	}
+	if _, err := pool.Exec(ctx,
+		"UPDATE campaigns SET rules_mode = $1 WHERE id = $2",
+		rulesMode, campaignUUID,
+	); err != nil {
+		logger().Error("orchestrator rules mode update failed", "campaign_id", campaignUUID, "rules_mode", rulesMode, "error", err)
+	}
+	if rulesMode != "crunch" {
+		return
+	}
+	if err := rules.SeedDefaultFeats(ctx, pool, campaignUUID); err != nil {
+		logger().Error("orchestrator seed default feats failed", "campaign_id", campaignUUID, "error", err)
+	}
+	if err := rules.SeedDefaultSkills(ctx, pool, campaignUUID); err != nil {
+		logger().Error("orchestrator seed default skills failed", "campaign_id", campaignUUID, "error", err)
+	}
+}
+
 // campaignID extracts a uuid.UUID from a statedb.Campaign's pgtype.UUID ID.
 func campaignID(c statedb.Campaign) uuid.UUID {
 	if !c.ID.Valid {
@@ -156,20 +193,29 @@ func campaignID(c statedb.Campaign) uuid.UUID {
 }
 
 // resolveStartingLocation queries locations for the campaign and returns the
-// ID of the location matching name. Returns uuid.Nil if not found.
-func resolveStartingLocation(ctx context.Context, q statedb.Querier, campaignPgID pgtype.UUID, name string) uuid.UUID {
+// ID of the exact matching location name.
+func resolveStartingLocation(ctx context.Context, q statedb.Querier, campaignPgID pgtype.UUID, name string) (uuid.UUID, error) {
+	if name == "" {
+		return uuid.Nil, fmt.Errorf("starting location is required")
+	}
 	locations, err := q.ListLocationsByCampaign(ctx, campaignPgID)
 	if err != nil {
-		return uuid.Nil
+		return uuid.Nil, err
 	}
+	var match uuid.UUID
+	count := 0
 	for _, loc := range locations {
-		if loc.Name == name {
+		if domain.SameCanonicalLocationName(loc.Name, name) {
 			if loc.ID.Valid {
-				return loc.ID.Bytes
+				match = loc.ID.Bytes
+				count++
 			}
 		}
 	}
-	return uuid.Nil
+	if count != 1 {
+		return uuid.Nil, fmt.Errorf("expected exactly one location named %q, found %d", name, count)
+	}
+	return match, nil
 }
 
 func dbCharacterID(pc statedb.PlayerCharacter) uuid.UUID {

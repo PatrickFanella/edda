@@ -16,21 +16,24 @@ INSERT INTO world_facts (
   campaign_id,
   fact,
   category,
-  source
+  source,
+  player_known
 ) VALUES (
   $1,
   $2,
   $3,
-  $4
+  $4,
+  $5
 )
 RETURNING id, campaign_id, fact, category, source, superseded_by, created_at, player_known
 `
 
 type CreateFactParams struct {
-	CampaignID pgtype.UUID
-	Fact       string
-	Category   string
-	Source     string
+	CampaignID  pgtype.UUID
+	Fact        string
+	Category    string
+	Source      string
+	PlayerKnown bool
 }
 
 func (q *Queries) CreateFact(ctx context.Context, arg CreateFactParams) (WorldFact, error) {
@@ -39,6 +42,7 @@ func (q *Queries) CreateFact(ctx context.Context, arg CreateFactParams) (WorldFa
 		arg.Fact,
 		arg.Category,
 		arg.Source,
+		arg.PlayerKnown,
 	)
 	var i WorldFact
 	err := row.Scan(
@@ -255,23 +259,27 @@ func (q *Queries) SetFactPlayerKnown(ctx context.Context, id pgtype.UUID) error 
 
 const supersedeFact = `-- name: SupersedeFact :one
 WITH previous_fact AS (
-  SELECT world_facts.id, world_facts.campaign_id
+  SELECT world_facts.id, world_facts.campaign_id, world_facts.player_known
   FROM world_facts
   WHERE world_facts.id = $1
+    AND world_facts.campaign_id = $2
     AND world_facts.superseded_by IS NULL
+  FOR UPDATE
 ),
 new_fact AS (
   INSERT INTO world_facts (
     campaign_id,
     fact,
     category,
-    source
+    source,
+    player_known
   )
   SELECT
     campaign_id,
-    $2,
     $3,
-    $4
+    $4,
+    $5,
+    player_known OR $6::boolean
   FROM previous_fact
   RETURNING id
 ),
@@ -279,6 +287,7 @@ updated_previous AS (
   UPDATE world_facts
   SET superseded_by = (SELECT id FROM new_fact)
   WHERE world_facts.id = (SELECT id FROM previous_fact)
+    AND world_facts.superseded_by IS NULL
   RETURNING id
 )
 SELECT
@@ -296,18 +305,22 @@ WHERE world_facts.id = (SELECT id FROM new_fact)
 `
 
 type SupersedeFactParams struct {
-	OldFactID pgtype.UUID
-	Fact      string
-	Category  string
-	Source    string
+	OldFactID  pgtype.UUID
+	CampaignID pgtype.UUID
+	Fact       string
+	Category   string
+	Source     string
+	Reveal     bool
 }
 
 func (q *Queries) SupersedeFact(ctx context.Context, arg SupersedeFactParams) (WorldFact, error) {
 	row := q.db.QueryRow(ctx, supersedeFact,
 		arg.OldFactID,
+		arg.CampaignID,
 		arg.Fact,
 		arg.Category,
 		arg.Source,
+		arg.Reveal,
 	)
 	var i WorldFact
 	err := row.Scan(

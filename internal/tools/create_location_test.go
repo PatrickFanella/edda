@@ -10,20 +10,26 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 type stubLocationStore struct {
-	locationsByID      map[[16]byte]statedb.Location
-	createLocationCall []statedb.CreateLocationParams
-	createConnection   []statedb.CreateConnectionParams
-	createLocationRes  statedb.Location
-	connectionResults  []statedb.LocationConnection
-	getLocationErr     error
-	createLocationErr  error
-	createConnErr      error
+	locationsByID       map[[16]byte]statedb.Location
+	locationsByCampaign []statedb.Location
+	createLocationCall  []statedb.CreateLocationParams
+	createConnection    []statedb.CreateConnectionParams
+	updatePlayerLoc     []statedb.UpdatePlayerLocationParams
+	visitedLocations    []pgtype.UUID
+	createLocationRes   statedb.Location
+	connectionResults   []statedb.LocationConnection
+	getLocationErr      error
+	listLocationsErr    error
+	createLocationErr   error
+	createConnErr       error
+	updatePlayerLocErr  error
+	setVisitedErr       error
 }
 
 var _ LocationStore = (*stubLocationStore)(nil)
@@ -56,6 +62,22 @@ func (s *stubLocationStore) GetLocationByID(_ context.Context, id pgtype.UUID) (
 		return statedb.Location{}, errors.New("location not found")
 	}
 	return location, nil
+}
+
+func (s *stubLocationStore) ListLocationsByCampaign(_ context.Context, campaignID pgtype.UUID) ([]statedb.Location, error) {
+	if s.listLocationsErr != nil {
+		return nil, s.listLocationsErr
+	}
+	if s.locationsByCampaign != nil {
+		return s.locationsByCampaign, nil
+	}
+	out := make([]statedb.Location, 0, len(s.locationsByID))
+	for _, location := range s.locationsByID {
+		if location.CampaignID == campaignID {
+			out = append(out, location)
+		}
+	}
+	return out, nil
 }
 
 func (s *stubLocationStore) CreateConnection(_ context.Context, arg statedb.CreateConnectionParams) (statedb.LocationConnection, error) {
@@ -106,6 +128,22 @@ func TestRegisterCreateLocation(t *testing.T) {
 			t.Fatalf("schema missing required field %q", field)
 		}
 	}
+}
+
+func (s *stubLocationStore) UpdatePlayerLocation(_ context.Context, arg statedb.UpdatePlayerLocationParams) (statedb.PlayerCharacter, error) {
+	if s.updatePlayerLocErr != nil {
+		return statedb.PlayerCharacter{}, s.updatePlayerLocErr
+	}
+	s.updatePlayerLoc = append(s.updatePlayerLoc, arg)
+	return statedb.PlayerCharacter{ID: arg.ID, CurrentLocationID: arg.CurrentLocationID}, nil
+}
+
+func (s *stubLocationStore) SetLocationPlayerVisited(_ context.Context, id pgtype.UUID) error {
+	if s.setVisitedErr != nil {
+		return s.setVisitedErr
+	}
+	s.visitedLocations = append(s.visitedLocations, id)
+	return nil
 }
 
 func TestCreateLocationHandleSuccessWithoutConnections(t *testing.T) {
@@ -164,6 +202,230 @@ func TestCreateLocationHandleSuccessWithoutConnections(t *testing.T) {
 	}
 	if got.Data["region"] != "Emerald Wilds" {
 		t.Fatalf("result region = %v, want Emerald Wilds", got.Data["region"])
+	}
+}
+
+func TestCreateLocationHandleReusesExistingLocationByName(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+	existingLocationID := uuid.New()
+
+	store := &stubLocationStore{
+		locationsByID: map[[16]byte]statedb.Location{
+			dbutil.ToPgtype(currentLocationID).Bytes: {
+				ID:         dbutil.ToPgtype(currentLocationID),
+				CampaignID: dbutil.ToPgtype(campaignID),
+				Name:       "Current",
+			},
+		},
+		locationsByCampaign: []statedb.Location{
+			{
+				ID:           dbutil.ToPgtype(existingLocationID),
+				CampaignID:   dbutil.ToPgtype(campaignID),
+				Name:         "Daylight Maintenance Ledge",
+				Description:  pgtype.Text{String: "A ledge under real sky", Valid: true},
+				Region:       pgtype.Text{String: "Upper Drainage", Valid: true},
+				LocationType: pgtype.Text{String: "ledge", Valid: true},
+				Properties:   []byte(`{"existing":true}`),
+			},
+		},
+	}
+
+	memStore := &stubMemoryStore{}
+	h := NewCreateLocationHandler(store, memStore, &stubEmbedder{vector: []float32{0.1}})
+	got, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{
+		"name":          "daylight maintenance ledge",
+		"description":   "A duplicate description",
+		"region":        "Upper Drainage",
+		"location_type": "ledge",
+		"properties":    map[string]any{"incoming": true},
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if len(store.createLocationCall) != 0 {
+		t.Fatalf("CreateLocation call count = %d, want 0", len(store.createLocationCall))
+	}
+	if got.Data["id"] != existingLocationID.String() {
+		t.Fatalf("result id = %v, want reused %s", got.Data["id"], existingLocationID)
+	}
+	if got.Data["reused"] != true {
+		t.Fatalf("reused = %v, want true", got.Data["reused"])
+	}
+	properties, ok := got.Data["properties"].(map[string]any)
+	if !ok || properties["existing"] != true || properties["incoming"] != nil {
+		t.Fatalf("properties = %#v, want persisted existing properties", got.Data["properties"])
+	}
+	if memStore.lastParams.Content != "" {
+		t.Fatalf("expected no memory write for reused location, got %+v", memStore.lastParams)
+	}
+}
+
+func TestCreateLocationReusesCanonicalNameVariant(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+	existingLocationID := uuid.New()
+
+	store := &stubLocationStore{
+		locationsByID: map[[16]byte]statedb.Location{
+			dbutil.ToPgtype(currentLocationID).Bytes: {
+				ID:         dbutil.ToPgtype(currentLocationID),
+				CampaignID: dbutil.ToPgtype(campaignID),
+				Name:       "Current",
+			},
+		},
+		locationsByCampaign: []statedb.Location{
+			{
+				ID:           dbutil.ToPgtype(existingLocationID),
+				CampaignID:   dbutil.ToPgtype(campaignID),
+				Name:         "The Core Reactor",
+				Description:  pgtype.Text{String: "A humming reactor chamber", Valid: true},
+				Region:       pgtype.Text{String: "Deep Core", Valid: true},
+				LocationType: pgtype.Text{String: "facility", Valid: true},
+				Properties:   []byte(`{"existing":true}`),
+			},
+		},
+	}
+
+	h := NewCreateLocationHandler(store, nil, nil)
+	got, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{
+		"name":          "Core Reactor",
+		"description":   "A variant spelling of the same place",
+		"region":        "Deep Core",
+		"location_type": "facility",
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if len(store.createLocationCall) != 0 {
+		t.Fatalf("CreateLocation call count = %d, want 0", len(store.createLocationCall))
+	}
+	if got.Data["id"] != existingLocationID.String() {
+		t.Fatalf("result id = %v, want reused %s", got.Data["id"], existingLocationID)
+	}
+	if got.Data["reused"] != true {
+		t.Fatalf("reused = %v, want true", got.Data["reused"])
+	}
+}
+
+func TestCreateLocationHandleMovePlayerHere(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+	playerCharacterID := uuid.New()
+	newLocationID := uuid.New()
+
+	store := &stubLocationStore{
+		locationsByID: map[[16]byte]statedb.Location{
+			dbutil.ToPgtype(currentLocationID).Bytes: {
+				ID:         dbutil.ToPgtype(currentLocationID),
+				CampaignID: dbutil.ToPgtype(campaignID),
+				Name:       "Current",
+			},
+		},
+		createLocationRes: statedb.Location{
+			ID:           dbutil.ToPgtype(newLocationID),
+			CampaignID:   dbutil.ToPgtype(campaignID),
+			Name:         "Daylight Maintenance Ledge",
+			Description:  pgtype.Text{String: "A ledge under real sky", Valid: true},
+			Region:       pgtype.Text{String: "Upper Drainage", Valid: true},
+			LocationType: pgtype.Text{String: "ledge", Valid: true},
+		},
+	}
+
+	h := NewCreateLocationHandler(store, nil, nil)
+	ctx := WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerCharacterID)
+	got, err := h.Handle(ctx, map[string]any{
+		"name":             "Daylight Maintenance Ledge",
+		"description":      "A ledge under real sky",
+		"region":           "Upper Drainage",
+		"location_type":    "ledge",
+		"move_player_here": true,
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if len(store.updatePlayerLoc) != 1 {
+		t.Fatalf("UpdatePlayerLocation call count = %d, want 1", len(store.updatePlayerLoc))
+	}
+	if dbutil.FromPgtype(store.updatePlayerLoc[0].ID) != playerCharacterID {
+		t.Fatalf("updated player id mismatch")
+	}
+	if dbutil.FromPgtype(store.updatePlayerLoc[0].CurrentLocationID) != newLocationID {
+		t.Fatalf("updated location id mismatch")
+	}
+	if len(store.visitedLocations) != 1 || dbutil.FromPgtype(store.visitedLocations[0]) != newLocationID {
+		t.Fatalf("visited locations = %#v, want %s", store.visitedLocations, newLocationID)
+	}
+	if got.Data["move_player_here"] != true {
+		t.Fatalf("move_player_here = %v, want true", got.Data["move_player_here"])
+	}
+	if got.Data["player_character_id"] != playerCharacterID.String() {
+		t.Fatalf("player_character_id = %v, want %s", got.Data["player_character_id"], playerCharacterID)
+	}
+	if got.Data["location_id"] != newLocationID.String() {
+		t.Fatalf("location_id = %v, want %s", got.Data["location_id"], newLocationID)
+	}
+}
+
+func TestCreateLocationHandleMovePlayerHereFailureReturnsError(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+	playerCharacterID := uuid.New()
+	newLocationID := uuid.New()
+
+	store := &stubLocationStore{
+		locationsByID: map[[16]byte]statedb.Location{
+			dbutil.ToPgtype(currentLocationID).Bytes: {ID: dbutil.ToPgtype(currentLocationID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Current"},
+		},
+		createLocationRes:  statedb.Location{ID: dbutil.ToPgtype(newLocationID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Daylight Maintenance Ledge", Description: pgtype.Text{String: "A ledge", Valid: true}, Region: pgtype.Text{String: "Upper Drainage", Valid: true}, LocationType: pgtype.Text{String: "ledge", Valid: true}},
+		updatePlayerLocErr: errors.New("write failed"),
+	}
+
+	h := NewCreateLocationHandler(store, nil, nil)
+	ctx := WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerCharacterID)
+	result, err := h.Handle(ctx, map[string]any{"name": "Daylight Maintenance Ledge", "description": "A ledge", "region": "Upper Drainage", "location_type": "ledge", "move_player_here": true})
+	if err == nil || !strings.Contains(err.Error(), "move player to created location") {
+		t.Fatalf("error = %v, want movement failure", err)
+	}
+	if result != nil {
+		t.Fatalf("result = %+v, want nil on movement failure", result)
+	}
+	if len(store.updatePlayerLoc) != 0 {
+		t.Fatalf("UpdatePlayerLocation call count = %d, want 0 after failure", len(store.updatePlayerLoc))
+	}
+	if len(store.visitedLocations) != 0 {
+		t.Fatalf("visited locations = %#v, want none on movement failure", store.visitedLocations)
+	}
+}
+
+func TestCreateLocationMovePlayerHereFailsWhenMovementFails(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+	playerCharacterID := uuid.New()
+	newLocationID := uuid.New()
+
+	store := &stubLocationStore{
+		locationsByID: map[[16]byte]statedb.Location{
+			dbutil.ToPgtype(currentLocationID).Bytes: {ID: dbutil.ToPgtype(currentLocationID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Current"},
+		},
+		createLocationRes: statedb.Location{ID: dbutil.ToPgtype(newLocationID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Daylight Maintenance Ledge", Description: pgtype.Text{String: "A ledge", Valid: true}, Region: pgtype.Text{String: "Upper Drainage", Valid: true}, LocationType: pgtype.Text{String: "ledge", Valid: true}},
+		updatePlayerLocErr: errors.New("write failed"),
+	}
+
+	h := NewCreateLocationHandler(store, nil, nil)
+	ctx := WithCurrentPlayerCharacterID(WithCurrentLocationID(context.Background(), currentLocationID), playerCharacterID)
+	result, err := h.Handle(ctx, map[string]any{"name": "Daylight Maintenance Ledge", "description": "A ledge", "region": "Upper Drainage", "location_type": "ledge", "move_player_here": true})
+	if err == nil || !strings.Contains(err.Error(), "move player to created location") {
+		t.Fatalf("error = %v, want movement failure", err)
+	}
+	if result != nil {
+		t.Fatalf("result = %+v, want nil on movement failure", result)
+	}
+	if len(store.updatePlayerLoc) != 0 {
+		t.Fatalf("UpdatePlayerLocation call count = %d, want 0", len(store.updatePlayerLoc))
+	}
+	if len(store.visitedLocations) != 0 {
+		t.Fatalf("visited locations = %#v, want none", store.visitedLocations)
 	}
 }
 
@@ -251,6 +513,26 @@ func TestCreateLocationHandleSuccessWithBidirectionalConnectionsAndMemory(t *tes
 	}
 	if embedder.lastInput == "" {
 		t.Fatal("expected embedder input to be populated")
+	}
+}
+
+func TestCreateLocationHandleConnectionWarning(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+	newLocationID := uuid.New()
+	targetLocationID := uuid.New()
+
+	store := &stubLocationStore{locationsByID: map[[16]byte]statedb.Location{dbutil.ToPgtype(currentLocationID).Bytes: {ID: dbutil.ToPgtype(currentLocationID), CampaignID: dbutil.ToPgtype(campaignID)}, dbutil.ToPgtype(targetLocationID).Bytes: {ID: dbutil.ToPgtype(targetLocationID), CampaignID: dbutil.ToPgtype(campaignID)}}, createLocationRes: statedb.Location{ID: dbutil.ToPgtype(newLocationID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Old Road", Description: pgtype.Text{String: "A weathered road", Valid: true}, Region: pgtype.Text{String: "Borderlands", Valid: true}, LocationType: pgtype.Text{String: "wilderness", Valid: true}}, createConnErr: errors.New("connection write failed")}
+	h := NewCreateLocationHandler(store, nil, nil)
+	result, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{"name": "Old Road", "description": "A weathered road", "region": "Borderlands", "location_type": "wilderness", "connections": []any{map[string]any{"location_id": targetLocationID.String(), "description": "A worn trail", "bidirectional": true}}})
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if !result.Success {
+		t.Fatal("expected success")
+	}
+	if result.Data["connection_warning"] == nil {
+		t.Fatalf("expected connection_warning in result data, got %+v", result.Data)
 	}
 }
 
@@ -361,17 +643,32 @@ func TestCreateLocationValidationAndErrors(t *testing.T) {
 
 	t.Run("embedder error", func(t *testing.T) {
 		h := NewCreateLocationHandler(baseStore, &stubMemoryStore{}, &stubEmbedder{err: errors.New("embed failed")})
-		_, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), copyArgs(baseArgs))
-		if err == nil || !strings.Contains(err.Error(), "embed location memory") {
-			t.Fatalf("error = %v, want embed context", err)
+		args := copyArgs(baseArgs)
+		args["properties"] = map[string]any{"danger_level": "low"}
+		result, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), args)
+		if err != nil {
+			t.Fatalf("expected best-effort success, got error: %v", err)
+		}
+		if result == nil || !result.Success || result.Data["memory_warning"] == nil {
+			t.Fatalf("expected success with memory_warning, got %+v", result)
+		}
+		properties, ok := result.Data["properties"].(map[string]any)
+		if !ok {
+			t.Fatalf("properties type = %T, want map[string]any", result.Data["properties"])
+		}
+		if properties["danger_level"] != "low" {
+			t.Fatalf("properties = %#v, want danger_level low", properties)
 		}
 	})
 
 	t.Run("memory store error", func(t *testing.T) {
 		h := NewCreateLocationHandler(baseStore, &stubMemoryStore{err: errors.New("insert failed")}, &stubEmbedder{vector: []float32{0.1}})
-		_, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), copyArgs(baseArgs))
-		if err == nil || !strings.Contains(err.Error(), "create location memory") {
-			t.Fatalf("error = %v, want memory creation context", err)
+		result, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), copyArgs(baseArgs))
+		if err != nil {
+			t.Fatalf("expected best-effort success, got error: %v", err)
+		}
+		if result == nil || !result.Success || result.Data["memory_warning"] == nil {
+			t.Fatalf("expected success with memory_warning, got %+v", result)
 		}
 	})
 
@@ -534,4 +831,3 @@ func TestCreateLocationHandleCreateLocationStoreError(t *testing.T) {
 		t.Fatalf("error = %v, want wrapped store error \"db down\"", err)
 	}
 }
-

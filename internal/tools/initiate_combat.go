@@ -9,9 +9,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/combat"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/combat"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const (
@@ -19,25 +19,9 @@ const (
 	combatPlayerStatus     = "in_combat"
 )
 
-// InitiateCombatNPCParams contains NPC fields required when creating enemy records.
-type InitiateCombatNPCParams struct {
-	CampaignID  uuid.UUID
-	Name        string
-	Description string
-	LocationID  *uuid.UUID
-	HP          int
-	Stats       json.RawMessage
-	Abilities   json.RawMessage
-}
+type InitiateCombatNPCParams = domain.InitiateCombatNPCParams
 
-// InitiateCombatLogEntry contains persisted context for a newly-started encounter.
-type InitiateCombatLogEntry struct {
-	CampaignID             uuid.UUID
-	LocationID             *uuid.UUID
-	EnemyNPCIDs            []uuid.UUID
-	EnvironmentDescription string
-	OpeningDescription     string
-}
+type InitiateCombatLogEntry = domain.InitiateCombatLogEntry
 
 // InitiateCombatStore provides persistence needed for initiate_combat.
 type InitiateCombatStore interface {

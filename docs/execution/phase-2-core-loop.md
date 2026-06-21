@@ -34,16 +34,16 @@ tags: [tracking, phase-2, execution, gameplay]
 
 | #   | Issue                                                          | Title                                     | Size | Blocker           | Status  | Model             | Notes                       |
 | --- | -------------------------------------------------------------- | ----------------------------------------- | :--: | ----------------- | ------- | ----------------- | --------------------------- |
-| 1   | [#73](https://github.com/PatrickFanella/game-master/issues/73) | Define GameEngine interface               |  S   | Phase 1           | READY   | Claude Opus 4.6   | Do first                    |
-| 2   | [#90](https://github.com/PatrickFanella/game-master/issues/90) | Write system prompt for game master LLM   |  M   | None              | READY   | Claude Opus 4.6   | Creative work, no code deps |
-| 3   | [#75](https://github.com/PatrickFanella/game-master/issues/75) | Implement state gathering from Postgres   |  M   | Phase 1           | READY   | gpt-5.3-codex     | Needs sqlc queries          |
-| 4   | [#76](https://github.com/PatrickFanella/game-master/issues/76) | Implement LLM context assembly            |  M   | #73               | BLOCKED | Claude Sonnet 4.6 |                             |
-| 5   | [#77](https://github.com/PatrickFanella/game-master/issues/77) | Implement tool registry and registration  |  S   | Phase 1           | READY   | Claude Sonnet 4.6 | Unblocks all tools          |
-| 6   | [#74](https://github.com/PatrickFanella/game-master/issues/74) | Implement input classification            |  S   | #73               | BLOCKED | gpt-5.3-codex     |                             |
-| 7   | [#85](https://github.com/PatrickFanella/game-master/issues/85) | Implement tool call validation + post-hoc |  M   | #77               | BLOCKED | Claude Sonnet 4.6 |                             |
-| 8   | [#86](https://github.com/PatrickFanella/game-master/issues/86) | Implement error recovery: retry then skip |  S   | #77               | BLOCKED | Claude Sonnet 4.6 |                             |
-| 9   | [#88](https://github.com/PatrickFanella/game-master/issues/88) | Auto-create default user and campaign     |  S   | Phase 1           | READY   | gpt-5.4 mini      |                             |
-| 10  | [#87](https://github.com/PatrickFanella/game-master/issues/87) | Wire TUI input to game engine             |  L   | #73, #77, Track B | BLOCKED | Claude Opus 4.6   | THE integration point       |
+| 1   | [#73](https://git.subcult.tv/subculture-collective/edda/issues/73) | Define GameEngine interface               |  S   | Phase 1           | READY   | Claude Opus 4.6   | Do first                    |
+| 2   | [#90](https://git.subcult.tv/subculture-collective/edda/issues/90) | Write system prompt for game master LLM   |  M   | None              | READY   | Claude Opus 4.6   | Creative work, no code deps |
+| 3   | [#75](https://git.subcult.tv/subculture-collective/edda/issues/75) | Implement state gathering from Postgres   |  M   | Phase 1           | READY   | gpt-5.3-codex     | Needs sqlc queries          |
+| 4   | [#76](https://git.subcult.tv/subculture-collective/edda/issues/76) | Implement LLM context assembly            |  M   | #73               | BLOCKED | Claude Sonnet 4.6 |                             |
+| 5   | [#77](https://git.subcult.tv/subculture-collective/edda/issues/77) | Implement tool registry and registration  |  S   | Phase 1           | READY   | Claude Sonnet 4.6 | Unblocks all tools          |
+| 6   | [#74](https://git.subcult.tv/subculture-collective/edda/issues/74) | Implement input classification            |  S   | #73               | BLOCKED | gpt-5.3-codex     |                             |
+| 7   | [#85](https://git.subcult.tv/subculture-collective/edda/issues/85) | Implement tool call validation + post-hoc |  M   | #77               | BLOCKED | Claude Sonnet 4.6 |                             |
+| 8   | [#86](https://git.subcult.tv/subculture-collective/edda/issues/86) | Implement error recovery: retry then skip |  S   | #77               | BLOCKED | Claude Sonnet 4.6 |                             |
+| 9   | [#88](https://git.subcult.tv/subculture-collective/edda/issues/88) | Auto-create default user and campaign     |  S   | Phase 1           | READY   | gpt-5.4 mini      |                             |
+| 10  | [#87](https://git.subcult.tv/subculture-collective/edda/issues/87) | Wire TUI input to game engine             |  L   | #73, #77, Track B | BLOCKED | Claude Opus 4.6   | THE integration point       |
 
 ```mermaid
 graph TD
@@ -86,14 +86,14 @@ graph TD
 
 | #   | Issue                                                          | Title                                    | Size | Blocker  | Status  | Model         | Notes                 |
 | --- | -------------------------------------------------------------- | ---------------------------------------- | :--: | -------- | ------- | ------------- | --------------------- |
-| 1   | [#78](https://github.com/PatrickFanella/game-master/issues/78) | Implement describe_scene tool            |  S   | #77      | BLOCKED | gpt-5.3-codex |                       |
-| 2   | [#79](https://github.com/PatrickFanella/game-master/issues/79) | Implement npc_dialogue tool              |  S   | #77      | BLOCKED | gpt-5.3-codex |                       |
-| 3   | [#80](https://github.com/PatrickFanella/game-master/issues/80) | Implement present_choices tool           |  S   | #77      | BLOCKED | gpt-5.3-codex | No DB needed          |
-| 4   | [#81](https://github.com/PatrickFanella/game-master/issues/81) | Implement move_player tool               |  S   | #77      | BLOCKED | gpt-5.3-codex |                       |
-| 5   | [#82](https://github.com/PatrickFanella/game-master/issues/82) | Implement update_npc tool                |  S   | #77      | BLOCKED | gpt-5.3-codex |                       |
-| 6   | [#83](https://github.com/PatrickFanella/game-master/issues/83) | Implement add_item and remove_item tools |  S   | #77      | BLOCKED | gpt-5.3-codex |                       |
-| 7   | [#84](https://github.com/PatrickFanella/game-master/issues/84) | Implement roll_dice tool                 |  S   | #77      | BLOCKED | gpt-5.3-codex | No DB needed          |
-| 8   | [#89](https://github.com/PatrickFanella/game-master/issues/89) | Unit tests: turn pipeline orchestration  |  L   | #73, #77 | BLOCKED | gpt-5.3-codex | Tests entire pipeline |
+| 1   | [#78](https://git.subcult.tv/subculture-collective/edda/issues/78) | Implement describe_scene tool            |  S   | #77      | BLOCKED | gpt-5.3-codex |                       |
+| 2   | [#79](https://git.subcult.tv/subculture-collective/edda/issues/79) | Implement npc_dialogue tool              |  S   | #77      | BLOCKED | gpt-5.3-codex |                       |
+| 3   | [#80](https://git.subcult.tv/subculture-collective/edda/issues/80) | Implement present_choices tool           |  S   | #77      | BLOCKED | gpt-5.3-codex | No DB needed          |
+| 4   | [#81](https://git.subcult.tv/subculture-collective/edda/issues/81) | Implement move_player tool               |  S   | #77      | BLOCKED | gpt-5.3-codex |                       |
+| 5   | [#82](https://git.subcult.tv/subculture-collective/edda/issues/82) | Implement update_npc tool                |  S   | #77      | BLOCKED | gpt-5.3-codex |                       |
+| 6   | [#83](https://git.subcult.tv/subculture-collective/edda/issues/83) | Implement add_item and remove_item tools |  S   | #77      | BLOCKED | gpt-5.3-codex |                       |
+| 7   | [#84](https://git.subcult.tv/subculture-collective/edda/issues/84) | Implement roll_dice tool                 |  S   | #77      | BLOCKED | gpt-5.3-codex | No DB needed          |
+| 8   | [#89](https://git.subcult.tv/subculture-collective/edda/issues/89) | Unit tests: turn pipeline orchestration  |  L   | #73, #77 | BLOCKED | gpt-5.3-codex | Tests entire pipeline |
 
 ```mermaid
 graph TD
@@ -134,14 +134,14 @@ graph TD
 
 | #   | Issue                                                            | Title                                       | Size | Blocker   | Status  | Model             | Notes               |
 | --- | ---------------------------------------------------------------- | ------------------------------------------- | :--: | --------- | ------- | ----------------- | ------------------- |
-| 1   | [#168](https://github.com/PatrickFanella/game-master/issues/168) | Implement Claude HTTP client                |  M   | Phase 1   | READY   | gpt-5.3-codex     |                     |
-| 2   | [#172](https://github.com/PatrickFanella/game-master/issues/172) | Implement Claude API key configuration      |  S   | Phase 1   | READY   | gpt-5.4 mini      | Can start with #168 |
-| 3   | [#169](https://github.com/PatrickFanella/game-master/issues/169) | Implement Claude message sending with tools |  M   | #168      | BLOCKED | gpt-5.3-codex     |                     |
-| 4   | [#170](https://github.com/PatrickFanella/game-master/issues/170) | Implement Claude tool call parsing          |  S   | #168      | BLOCKED | gpt-5.3-codex     |                     |
-| 5   | [#171](https://github.com/PatrickFanella/game-master/issues/171) | Implement Claude streaming support          |  M   | #168      | BLOCKED | Claude Sonnet 4.6 | SSE parsing         |
-| 6   | [#173](https://github.com/PatrickFanella/game-master/issues/173) | Implement Claude error handling             |  S   | #168      | BLOCKED | gpt-5.3-codex     |                     |
-| 7   | [#174](https://github.com/PatrickFanella/game-master/issues/174) | Unit tests: Claude provider with fixtures   |  M   | #168-#173 | BLOCKED | gpt-5.3-codex     |                     |
-| 8   | [#175](https://github.com/PatrickFanella/game-master/issues/175) | Implement provider switching via config     |  S   | #168      | BLOCKED | gpt-5.3-codex     |                     |
+| 1   | [#168](https://git.subcult.tv/subculture-collective/edda/issues/168) | Implement Claude HTTP client                |  M   | Phase 1   | READY   | gpt-5.3-codex     |                     |
+| 2   | [#172](https://git.subcult.tv/subculture-collective/edda/issues/172) | Implement Claude API key configuration      |  S   | Phase 1   | READY   | gpt-5.4 mini      | Can start with #168 |
+| 3   | [#169](https://git.subcult.tv/subculture-collective/edda/issues/169) | Implement Claude message sending with tools |  M   | #168      | BLOCKED | gpt-5.3-codex     |                     |
+| 4   | [#170](https://git.subcult.tv/subculture-collective/edda/issues/170) | Implement Claude tool call parsing          |  S   | #168      | BLOCKED | gpt-5.3-codex     |                     |
+| 5   | [#171](https://git.subcult.tv/subculture-collective/edda/issues/171) | Implement Claude streaming support          |  M   | #168      | BLOCKED | Claude Sonnet 4.6 | SSE parsing         |
+| 6   | [#173](https://git.subcult.tv/subculture-collective/edda/issues/173) | Implement Claude error handling             |  S   | #168      | BLOCKED | gpt-5.3-codex     |                     |
+| 7   | [#174](https://git.subcult.tv/subculture-collective/edda/issues/174) | Unit tests: Claude provider with fixtures   |  M   | #168-#173 | BLOCKED | gpt-5.3-codex     |                     |
+| 8   | [#175](https://git.subcult.tv/subculture-collective/edda/issues/175) | Implement provider switching via config     |  S   | #168      | BLOCKED | gpt-5.3-codex     |                     |
 
 ```mermaid
 graph TD

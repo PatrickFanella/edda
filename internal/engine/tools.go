@@ -3,9 +3,10 @@ package engine
 import (
 	"errors"
 
-	"github.com/PatrickFanella/game-master/internal/game"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 // toolMetas defines the category and rules-mode metadata for every tool,
@@ -21,6 +22,7 @@ var toolMetas = []tools.ToolMeta{
 	{Name: "establish_fact", Category: tools.CategoryBase},
 	{Name: "revise_fact", Category: tools.CategoryBase},
 	{Name: "update_npc", Category: tools.CategoryBase},
+	{Name: "update_player_hp", Category: tools.CategoryExploration},
 	{Name: "add_item", Category: tools.CategoryBase},
 	{Name: "remove_item", Category: tools.CategoryBase},
 	{Name: "modify_item", Category: tools.CategoryBase},
@@ -80,6 +82,16 @@ var toolMetas = []tools.ToolMeta{
 // auto-embedding will skip it when nil.
 func registerAllTools(registry *tools.Registry, queries statedb.Querier, embedder tools.Embedder, searcher tools.SearchMemorySearcher, timeDB ...tools.TimeStore) error {
 	locSvc := game.NewLocationService(queries)
+	var stateStore *game.StateStore
+	if len(timeDB) > 0 && timeDB[0] != nil {
+		if timeStoreDB, ok := any(timeDB[0]).(db.DBTX); ok {
+			stateStore = game.NewStateStore(queries, timeStoreDB)
+		} else {
+			stateStore = game.NewStateStore(queries)
+		}
+	} else {
+		stateStore = game.NewStateStore(queries)
+	}
 	invSvc := game.NewInventoryService(queries)
 	npcSvc := game.NewNPCService(queries)
 	worldSvc := game.NewWorldService(queries)
@@ -88,11 +100,7 @@ func registerAllTools(registry *tools.Registry, queries statedb.Querier, embedde
 	statResolver := game.NewStatModifierResolver(queries)
 
 	var errs []error
-	if len(timeDB) > 0 && timeDB[0] != nil {
-		errs = appendErr(errs, tools.RegisterMovePlayer(registry, locSvc, timeDB[0]))
-	} else {
-		errs = appendErr(errs, tools.RegisterMovePlayer(registry, locSvc))
-	}
+	errs = appendErr(errs, tools.RegisterMovePlayer(registry, stateStore))
 	errs = appendErr(errs, tools.RegisterAddItem(registry, invSvc))
 	errs = appendErr(errs, tools.RegisterRemoveItem(registry, invSvc))
 	errs = appendErr(errs, tools.RegisterModifyItem(registry, invSvc))
@@ -122,6 +130,7 @@ func registerAllTools(registry *tools.Registry, queries statedb.Querier, embedde
 	errs = appendErr(errs, tools.RegisterCombatRound(registry, nil))
 	errs = appendErr(errs, tools.RegisterApplyDamage(registry))
 	errs = appendErr(errs, tools.RegisterApplyCondition(registry))
+	errs = appendErr(errs, tools.RegisterUpdatePlayerHP(registry, combatSvc))
 	errs = appendErr(errs, tools.RegisterUpdatePlayerStats(registry, combatSvc))
 	errs = appendErr(errs, tools.RegisterUpdatePlayerStatus(registry, combatSvc))
 	errs = appendErr(errs, tools.RegisterAddExperience(registry, progressionSvc))
@@ -133,7 +142,7 @@ func registerAllTools(registry *tools.Registry, queries statedb.Querier, embedde
 	errs = appendErr(errs, tools.RegisterCreateLore(registry, worldSvc, worldSvc, embedder))
 	errs = appendErr(errs, tools.RegisterReviseFact(registry, worldSvc, worldSvc, embedder))
 	errs = appendErr(errs, tools.RegisterDescribeScene(registry, locSvc))
-	errs = appendErr(errs, tools.RegisterRevealLocation(registry, locSvc))
+	errs = appendErr(errs, tools.RegisterRevealLocation(registry, stateStore))
 	errs = appendErr(errs, tools.RegisterNPCDialogue(registry, npcSvc))
 	errs = appendErr(errs, tools.RegisterPresentChoices(registry))
 	errs = appendErr(errs, tools.RegisterBranchQuest(registry, worldSvc))

@@ -8,13 +8,19 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
-var _ tools.AddItemStore = (*inventoryService)(nil)
-var _ tools.RemoveItemStore = (*inventoryService)(nil)
+var _ interface {
+	CreatePlayerItem(context.Context, uuid.UUID, string, string, string, string, int) (uuid.UUID, error)
+} = (*inventoryService)(nil)
+var _ interface {
+	GetPlayerItemByID(context.Context, uuid.UUID) (*domain.PlayerItem, error)
+	UpdateItemQuantity(context.Context, uuid.UUID, int) error
+	DeleteItem(context.Context, uuid.UUID) error
+} = (*inventoryService)(nil)
 
 func TestToInt32Quantity(t *testing.T) {
 	t.Run("within range", func(t *testing.T) {

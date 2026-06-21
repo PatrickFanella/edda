@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 // ToolResult holds the outcome of a tool invocation.

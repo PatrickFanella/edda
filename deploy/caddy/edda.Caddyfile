@@ -9,10 +9,10 @@ edda.subcult.tv {
 			Surrogate-Control "no-store"
 		}
 
-		reverse_proxy gm-api:8080
+		reverse_proxy edda-api:8080
 	}
 
 	handle {
-		reverse_proxy gm-web:80
+		reverse_proxy edda-web:80
 	}
 }

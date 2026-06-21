@@ -18,13 +18,13 @@ function formatDate(iso: string): string {
 function SaveBadge({ isAuto }: { readonly isAuto: boolean }) {
   if (isAuto) {
     return (
-      <span className="rounded-sm border border-pewter/30 bg-pewter/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-pewter">
+      <span className="hud-baseline-badge rounded-sm border border-pewter/30 bg-pewter/10 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-pewter">
         Auto
       </span>
     );
   }
   return (
-    <span className="rounded-sm border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
+    <span className="hud-baseline-badge rounded-sm border border-gold/30 bg-gold/10 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
       Manual
     </span>
   );

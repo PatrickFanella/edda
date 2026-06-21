@@ -3,12 +3,14 @@ INSERT INTO world_facts (
   campaign_id,
   fact,
   category,
-  source
+  source,
+  player_known
 ) VALUES (
   sqlc.arg(campaign_id),
   sqlc.arg(fact),
   sqlc.arg(category),
-  sqlc.arg(source)
+  sqlc.arg(source),
+  sqlc.arg(player_known)
 )
 RETURNING id, campaign_id, fact, category, source, superseded_by, created_at, player_known;
 
@@ -57,23 +59,27 @@ WHERE id = sqlc.arg(id);
 
 -- name: SupersedeFact :one
 WITH previous_fact AS (
-  SELECT world_facts.id, world_facts.campaign_id
+  SELECT world_facts.id, world_facts.campaign_id, world_facts.player_known
   FROM world_facts
   WHERE world_facts.id = sqlc.arg(old_fact_id)
+    AND world_facts.campaign_id = sqlc.arg(campaign_id)
     AND world_facts.superseded_by IS NULL
+  FOR UPDATE
 ),
 new_fact AS (
   INSERT INTO world_facts (
     campaign_id,
     fact,
     category,
-    source
+    source,
+    player_known
   )
   SELECT
     campaign_id,
     sqlc.arg(fact),
     sqlc.arg(category),
-    sqlc.arg(source)
+    sqlc.arg(source),
+    player_known OR sqlc.arg(reveal)::boolean
   FROM previous_fact
   RETURNING id
 ),
@@ -81,6 +87,7 @@ updated_previous AS (
   UPDATE world_facts
   SET superseded_by = (SELECT id FROM new_fact)
   WHERE world_facts.id = (SELECT id FROM previous_fact)
+    AND world_facts.superseded_by IS NULL
   RETURNING id
 )
 SELECT

@@ -81,6 +81,14 @@ SET
 WHERE id = sqlc.arg(id)
 RETURNING id, campaign_id, user_id, name, description, stats, hp, max_hp, experience, level, status, abilities, current_location_id, created_at, updated_at;
 
+-- name: UpdatePlayerCurrentHP :one
+UPDATE player_characters
+SET
+  hp = sqlc.arg(hp),
+  updated_at = now()
+WHERE id = sqlc.arg(id)
+RETURNING id, campaign_id, user_id, name, description, stats, hp, max_hp, experience, level, status, abilities, current_location_id, created_at, updated_at;
+
 -- name: UpdatePlayerExperience :one
 UPDATE player_characters
 SET

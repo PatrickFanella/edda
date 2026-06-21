@@ -3,13 +3,15 @@ package engine
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log/slog"
+	"strings"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/tools"
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // TurnProcessor handles the tool-call portion of the turn pipeline with
@@ -28,6 +30,11 @@ type TurnProcessor struct {
 	provider       llm.Provider
 	registry       *tools.Registry
 	validator      *tools.Validator
+	StatusCallback StatusCallback
+}
+
+// TurnProcessorOptions configures per-call processor behavior.
+type TurnProcessorOptions struct {
 	StatusCallback StatusCallback
 }
 
@@ -74,28 +81,48 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 	messages []llm.Message,
 	availableTools []llm.Tool,
 ) (narrative string, applied []AppliedToolCall, err error) {
+	return tp.ProcessWithRecoveryWithOptions(ctx, messages, availableTools, TurnProcessorOptions{StatusCallback: tp.StatusCallback})
+}
+
+// ProcessWithRecoveryWithOptions runs ProcessWithRecovery with request-local options.
+func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
+	ctx context.Context,
+	messages []llm.Message,
+	availableTools []llm.Tool,
+	opts TurnProcessorOptions,
+) (narrative string, applied []AppliedToolCall, err error) {
+	local := *tp
+	if opts.StatusCallback != nil {
+		local.StatusCallback = opts.StatusCallback
+	}
+	tp = &local
 	started := time.Now()
-	tp.logger.Debug("turn processor started", "messages", len(messages), "tools", len(availableTools))
+	tp.logger.Info("turn processor started", "messages", len(messages), "tools", len(availableTools), "tool_names", advertisedToolNames(availableTools))
 	tp.emitStatus(api.StatusPayload{Stage: "thinking", Description: "Generating response..."})
-	resp, err := tp.provider.Complete(ctx, messages, availableTools)
+	resp, err := tp.completeInitialWithRetry(ctx, messages, availableTools)
 	if err != nil {
 		tp.logger.Error("turn processor initial llm call failed", "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return "", nil, fmt.Errorf("initial LLM call failed: %w", err)
 	}
 
 	narrative = resp.Content
-	tp.logger.Debug("turn processor initial llm response", "tool_calls", len(resp.ToolCalls), "narrative_len", len(narrative))
-	if len(resp.ToolCalls) == 0 {
-		tp.logger.Debug("turn processor completed without tool calls", "duration_ms", time.Since(started).Milliseconds())
-		return narrative, nil, nil
-	}
+	tp.logger.Info("turn processor initial llm response", "tool_calls", len(resp.ToolCalls), "tool_call_names", toolCallNames(resp.ToolCalls), "narrative_len", len(narrative), "finish_reason", resp.FinishReason)
 
 	allowed := make(map[string]struct{}, len(availableTools))
 	for _, t := range availableTools {
 		allowed[t.Name] = struct{}{}
 	}
+	if len(resp.ToolCalls) == 0 {
+		if issues := AuditDurableClaims(narrative, nil, advertisedToolNames(availableTools)); len(issues) > 0 {
+			narrative, applied = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, nil)
+		}
+		tp.logger.Warn("turn processor completed without tool calls", "duration_ms", time.Since(started).Milliseconds(), "advertised_tools", len(availableTools), "advertised_tool_names", advertisedToolNames(availableTools))
+		return narrative, applied, nil
+	}
 
 	tp.emitStatus(api.StatusPayload{Stage: "tools", Description: "Executing tool calls..."})
+	unresolvedDurableIssues := []DurableClaimIssue{}
+	unresolvedDurableRequirements := []durableRequirement{}
 	assistantContent := resp.Content
 	for _, tc := range resp.ToolCalls {
 		tp.emitStatus(api.StatusPayload{Stage: "tool_execution", Tool: tc.Name, Description: fmt.Sprintf("Executing %s...", tc.Name)})
@@ -124,6 +151,8 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 				"initial_error", execErr.Error(),
 				"retry_llm_error", retryLLMErr.Error(),
 			)
+			unresolvedDurableIssues = appendFailedDurableIssue(unresolvedDurableIssues, tc)
+			unresolvedDurableRequirements = appendFailedDurableRequirement(unresolvedDurableRequirements, tc, applied)
 			continue
 		}
 
@@ -138,6 +167,13 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 				"retry_error", retryExecErr.Error(),
 				"retry_arguments", retryTC.Arguments,
 			)
+			unresolvedDurableIssues = appendFailedDurableIssue(unresolvedDurableIssues, retryTC)
+			unresolvedDurableIssues = appendFailedDurableIssue(unresolvedDurableIssues, tc)
+			if _, ok := durableIssueForFailedToolCall(retryTC); ok {
+				unresolvedDurableRequirements = appendFailedDurableRequirement(unresolvedDurableRequirements, retryTC, applied)
+			} else {
+				unresolvedDurableRequirements = appendFailedDurableRequirement(unresolvedDurableRequirements, tc, applied)
+			}
 			continue
 		}
 
@@ -149,6 +185,10 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 			)
 		} else {
 			applied = append(applied, atc)
+			if issue, ok := durableIssueForFailedToolCall(tc); ok && !appliedToolSatisfiesDurableIssue(atc, issue.Kind) {
+				unresolvedDurableIssues = appendUniqueDurableIssue(unresolvedDurableIssues, issue)
+				unresolvedDurableRequirements = appendDurableRequirement(unresolvedDurableRequirements, issue, applied)
+			}
 			tp.logger.Debug("tool call applied after retry", "tool", retryTC.Name, "tool_call_id", retryTC.ID)
 		}
 	}
@@ -164,8 +204,327 @@ func (tp *TurnProcessor) ProcessWithRecovery(
 		}
 	}
 
-	tp.logger.Debug("turn processor completed", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "narrative_len", len(narrative))
+	if issues := appendDurableIssues(AuditDurableClaims(narrative, applied, advertisedToolNames(availableTools)), unresolvedDurableIssues...); len(issues) > 0 {
+		narrative, applied = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, unresolvedDurableRequirements)
+	}
+
+	tp.logger.Info("turn processor completed", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied), "narrative_len", len(narrative))
 	return narrative, applied, nil
+}
+
+func (tp *TurnProcessor) completeInitialWithRetry(ctx context.Context, messages []llm.Message, availableTools []llm.Tool) (*llm.Response, error) {
+	const maxAttempts = 2
+	var lastErr error
+	for attempt := 1; attempt <= maxAttempts; attempt++ {
+		if ctx.Err() != nil {
+			return nil, ctx.Err()
+		}
+		resp, err := tp.provider.Complete(ctx, messages, availableTools)
+		if err == nil {
+			return resp, nil
+		}
+		lastErr = err
+		if ctx.Err() != nil {
+			return nil, ctx.Err()
+		}
+		if attempt == maxAttempts || !isRetryableInitialLLMError(ctx, err) {
+			return nil, err
+		}
+		tp.emitStatus(api.StatusPayload{Stage: "retrying", Description: "Retrying initial response after transient provider failure..."})
+		if err := waitForRetryDelay(ctx, err); err != nil {
+			return nil, err
+		}
+	}
+	return nil, lastErr
+}
+
+const maxInitialRetryAfter = 2 * time.Second
+
+func waitForRetryDelay(ctx context.Context, err error) error {
+	if delay := retryDelayForInitialError(err); delay > 0 {
+		select {
+		case <-time.After(delay):
+			return nil
+		case <-ctx.Done():
+			return ctx.Err()
+		}
+	}
+	return nil
+}
+
+func retryDelayForInitialError(err error) time.Duration {
+	var rl *llm.ErrRateLimit
+	if errors.As(err, &rl) && rl.HasRetryAfter && rl.RetryAfter > 0 {
+		if rl.RetryAfter > maxInitialRetryAfter {
+			return maxInitialRetryAfter
+		}
+		return rl.RetryAfter
+	}
+	return 25 * time.Millisecond
+}
+
+func isRetryableInitialLLMError(ctx context.Context, err error) bool {
+	var (
+		transient *llm.ErrTransient
+		timeout   *llm.ErrTimeout
+		rateLimit *llm.ErrRateLimit
+		conn      *llm.ErrConnection
+	)
+	switch {
+	case errors.As(err, &transient):
+		return true
+	case errors.As(err, &timeout):
+		return ctx.Err() == nil
+	case errors.As(err, &rateLimit):
+		return true
+	case errors.As(err, &conn):
+		msg := strings.ToLower(err.Error())
+		for _, fragment := range []string{"transport", "timeout", "timed out", "reset", "refused", "temporar", "connection refused", "connection reset", "bad gateway", "ollama_unavailable", "ollama unreachable", "unreachable", "502", "503", "504"} {
+			if strings.Contains(msg, fragment) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func appendFailedDurableIssue(issues []DurableClaimIssue, tc llm.ToolCall) []DurableClaimIssue {
+	issue, ok := durableIssueForFailedToolCall(tc)
+	if !ok {
+		return issues
+	}
+	return appendUniqueDurableIssue(issues, issue)
+}
+
+type durableRequirement struct {
+	Kind          DurableClaimKind
+	Message       string
+	RequiredCount int
+}
+
+func appendFailedDurableRequirement(requirements []durableRequirement, tc llm.ToolCall, applied []AppliedToolCall) []durableRequirement {
+	issue, ok := durableIssueForFailedToolCall(tc)
+	if !ok {
+		return requirements
+	}
+	return appendDurableRequirement(requirements, issue, applied)
+}
+
+func appendDurableRequirement(requirements []durableRequirement, issue DurableClaimIssue, applied []AppliedToolCall) []durableRequirement {
+	requiredCount := countAppliedSatisfyingDurableKind(applied, issue.Kind) + 1
+	for _, existing := range requirements {
+		if existing.Kind == issue.Kind && existing.RequiredCount >= requiredCount {
+			requiredCount = existing.RequiredCount + 1
+		}
+	}
+	return append(requirements, durableRequirement{Kind: issue.Kind, Message: issue.Message, RequiredCount: requiredCount})
+}
+
+func countAppliedSatisfyingDurableKind(applied []AppliedToolCall, kind DurableClaimKind) int {
+	count := 0
+	for _, call := range applied {
+		if appliedToolSatisfiesDurableIssue(call, kind) {
+			count++
+		}
+	}
+	return count
+}
+
+func appendDurableIssues(issues []DurableClaimIssue, extra ...DurableClaimIssue) []DurableClaimIssue {
+	for _, issue := range extra {
+		issues = appendUniqueDurableIssue(issues, issue)
+	}
+	return issues
+}
+
+func appendUniqueDurableIssue(issues []DurableClaimIssue, issue DurableClaimIssue) []DurableClaimIssue {
+	for _, existing := range issues {
+		if existing.Kind == issue.Kind && existing.Message == issue.Message {
+			return issues
+		}
+	}
+	return append(issues, issue)
+}
+
+func durableIssueForFailedToolCall(tc llm.ToolCall) (DurableClaimIssue, bool) {
+	switch tc.Name {
+	case "move_player":
+		return DurableClaimIssue{Kind: DurableClaimMovement, Message: "movement tool failed before durable state was updated"}, true
+	case "create_location":
+		if boolArg(tc.Arguments, "move_player_here") {
+			return DurableClaimIssue{Kind: DurableClaimMovement, Message: "create_location move_player_here failed before player location was updated"}, true
+		}
+	case "create_quest", "update_quest", "complete_objective":
+		return DurableClaimIssue{Kind: DurableClaimQuest, Message: "quest tool failed before durable state was updated"}, true
+	case "establish_fact", "revise_fact":
+		return DurableClaimIssue{Kind: DurableClaimFact, Message: "fact tool failed before durable state was updated"}, true
+	}
+	return DurableClaimIssue{}, false
+}
+
+func boolArg(args map[string]any, key string) bool {
+	v, ok := args[key]
+	if !ok {
+		return false
+	}
+	b, _ := v.(bool)
+	return b
+}
+
+func appliedToolSatisfiesDurableIssue(call AppliedToolCall, kind DurableClaimKind) bool {
+	switch kind {
+	case DurableClaimMovement:
+		if call.Tool == "move_player" {
+			return true
+		}
+		return call.Tool == "create_location" && hasMovePlayerHere(call.Result)
+	case DurableClaimQuest:
+		return call.Tool == "create_quest" || call.Tool == "update_quest" || call.Tool == "complete_objective"
+	case DurableClaimFact:
+		return call.Tool == "establish_fact" || call.Tool == "revise_fact"
+	default:
+		return false
+	}
+}
+
+func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm.Message, availableTools []llm.Tool, narrative string, applied []AppliedToolCall, issues []DurableClaimIssue, requirements []durableRequirement) (string, []AppliedToolCall) {
+	repairTools := durableRepairTools(availableTools, issues)
+	if len(repairTools) == 0 {
+		return safeProvisionalNarrative(narrative), applied
+	}
+
+	repairMessages := make([]llm.Message, len(messages), len(messages)+2)
+	copy(repairMessages, messages)
+	repairMessages = append(repairMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
+	repairMessages = append(repairMessages, llm.Message{Role: llm.RoleUser, Content: durableRepairPrompt(narrative, applied, issues)})
+
+	resp, err := tp.provider.Complete(ctx, repairMessages, repairTools)
+	if err != nil {
+		tp.logger.Error("durable-claim repair call failed", "error", err)
+		return safeProvisionalNarrative(narrative), applied
+	}
+
+	allowed := toolNameSet(repairTools)
+	repairApplied := make([]AppliedToolCall, 0, len(resp.ToolCalls))
+	for _, tc := range resp.ToolCalls {
+		if result, execErr := tp.attemptToolCall(ctx, tc, allowed); execErr == nil {
+			if atc, encErr := buildAppliedToolCall(tc, result); encErr == nil {
+				applied = append(applied, atc)
+				repairApplied = append(repairApplied, atc)
+			}
+		} else {
+			tp.logger.Warn("durable-claim repair tool failed", "tool", tc.Name, "error", execErr)
+		}
+	}
+
+	repairedNarrative := resp.Content
+	if repairedNarrative == "" && len(repairApplied) > 0 {
+		continued, contErr := tp.requestContinuation(ctx, repairMessages, resp, repairApplied, repairTools)
+		if contErr != nil {
+			tp.logger.Error("durable-claim repair continuation failed", "error", contErr)
+		} else {
+			repairedNarrative = continued
+		}
+	}
+	if repairedNarrative == "" {
+		repairedNarrative = safeProvisionalNarrative(narrative)
+	}
+	if !durableRequirementsSatisfied(applied, requirements) {
+		return safeProvisionalNarrative(repairedNarrative), applied
+	}
+	if len(AuditDurableClaims(repairedNarrative, applied, advertisedToolNames(repairTools))) > 0 {
+		return safeProvisionalNarrative(repairedNarrative), applied
+	}
+	return repairedNarrative, applied
+}
+
+func durableRequirementsSatisfied(applied []AppliedToolCall, requirements []durableRequirement) bool {
+	for _, requirement := range requirements {
+		if countAppliedSatisfyingDurableKind(applied, requirement.Kind) < requirement.RequiredCount {
+			return false
+		}
+	}
+	return true
+}
+
+func durableRepairPrompt(narrative string, applied []AppliedToolCall, issues []DurableClaimIssue) string {
+	return fmt.Sprintf("Durable state audit found unbacked claims in the previous narrative. Issues: %v. Already applied tools: %v. Either call only the missing durable state tools now, or rewrite the narrative as provisional so it does not claim those durable changes. Previous narrative: %s", issues, appliedToolNames(applied), narrative)
+}
+
+func durableRepairTools(availableTools []llm.Tool, issues []DurableClaimIssue) []llm.Tool {
+	wanted := map[string]struct{}{}
+	for _, issue := range issues {
+		switch issue.Kind {
+		case DurableClaimMovement:
+			wanted["move_player"] = struct{}{}
+			wanted["create_location"] = struct{}{}
+		case DurableClaimQuest:
+			wanted["create_quest"] = struct{}{}
+			wanted["update_quest"] = struct{}{}
+			wanted["complete_objective"] = struct{}{}
+		case DurableClaimFact:
+			wanted["establish_fact"] = struct{}{}
+			wanted["revise_fact"] = struct{}{}
+		case DurableClaimInventoryCreated:
+			wanted["add_item"] = struct{}{}
+			wanted["create_item"] = struct{}{}
+		case DurableClaimInventoryRemoved:
+			wanted["remove_item"] = struct{}{}
+		case DurableClaimInventoryUpdated:
+			wanted["modify_item"] = struct{}{}
+			wanted["update_item"] = struct{}{}
+		case DurableClaimCombatStarted:
+			wanted["initiate_combat"] = struct{}{}
+		case DurableClaimCombatResolved:
+			wanted["resolve_combat"] = struct{}{}
+		}
+	}
+	filtered := make([]llm.Tool, 0, len(availableTools))
+	for _, tool := range availableTools {
+		if _, ok := wanted[tool.Name]; ok {
+			filtered = append(filtered, tool)
+		}
+	}
+	return filtered
+}
+
+func toolNameSet(tools []llm.Tool) map[string]struct{} {
+	allowed := make(map[string]struct{}, len(tools))
+	for _, t := range tools {
+		allowed[t.Name] = struct{}{}
+	}
+	return allowed
+}
+
+func safeProvisionalNarrative(narrative string) string {
+	if narrative == "" {
+		return "The scene remains provisional."
+	}
+	return "What follows is provisional: the scene remains unsettled until the world-state tools confirm it."
+}
+
+func advertisedToolNames(tools []llm.Tool) []string {
+	names := make([]string, 0, len(tools))
+	for _, tool := range tools {
+		names = append(names, tool.Name)
+	}
+	return names
+}
+
+func toolCallNames(calls []llm.ToolCall) []string {
+	names := make([]string, 0, len(calls))
+	for _, call := range calls {
+		names = append(names, call.Name)
+	}
+	return names
+}
+
+func appliedToolNames(calls []AppliedToolCall) []string {
+	names := make([]string, 0, len(calls))
+	for _, call := range calls {
+		names = append(names, call.Tool)
+	}
+	return names
 }
 
 // attemptToolCall validates and executes a single tool call. The allowed set

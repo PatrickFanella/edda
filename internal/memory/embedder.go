@@ -1,5 +1,5 @@
 // Package memory defines the provider-agnostic embedding interface and
-// supporting types used by the game-master memory subsystem. Implementations
+// supporting types used by the edda memory subsystem. Implementations
 // may wrap any embedding provider (e.g. Ollama with nomic-embed-text, OpenAI,
 // or a local model) while callers depend only on this interface.
 package memory

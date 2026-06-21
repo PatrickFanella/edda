@@ -8,8 +8,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/game"
-	"github.com/PatrickFanella/game-master/internal/memory"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
+	"git.subcult.tv/subculture-collective/edda/internal/memory"
 )
 
 // MemoryRetriever abstracts semantic memory search for the assembly package.

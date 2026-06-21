@@ -61,7 +61,7 @@ export function QuestNotes({ campaignId, questId }: QuestNotesProps) {
           type="button"
           disabled={newNote.trim().length === 0 || createMutation.isPending}
           onClick={() => createMutation.mutate(newNote.trim())}
-          className="border border-sapphire/30 bg-sapphire/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-sapphire transition hover:border-sapphire hover:bg-sapphire/20 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="hud-btn hud-text-button border border-sapphire/30 bg-sapphire/10 px-4 text-xs font-semibold uppercase tracking-[0.2em] text-sapphire transition hover:border-sapphire hover:bg-sapphire/20 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {createMutation.isPending ? 'Adding...' : 'Add note'}
         </button>

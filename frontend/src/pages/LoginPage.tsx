@@ -36,7 +36,7 @@ export function LoginPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-obsidian px-6 text-champagne">
-      <div className="deco-corners deco-pattern w-full max-w-md border-2 border-gold/20 bg-charcoal p-8">
+      <div className="game-hud-panel game-hud-panel-auth deco-corners deco-pattern w-full max-w-md border-2 border-gold/20 bg-charcoal p-8">
         <div className="mb-8 space-y-3 text-center">
           <p className="font-heading text-sm font-semibold uppercase tracking-[0.32em] text-gold">
             Game Master
@@ -88,7 +88,7 @@ export function LoginPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-ruby px-5 py-3 text-sm font-semibold uppercase tracking-[0.15em] text-champagne transition-all duration-200 hover:bg-ruby-light hover:shadow-ruby focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
+            className="hud-btn hud-btn-primary hud-text-button w-full bg-ruby px-5 text-sm font-semibold uppercase tracking-[0.15em] text-champagne transition-all duration-200 hover:bg-ruby-light hover:shadow-ruby focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
           >
             {isSubmitting ? 'Signing in…' : 'Sign In'}
           </button>

@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 // Summarizer generates narrative summaries of session turns using an LLM.
@@ -95,7 +95,7 @@ func buildSummarizationPrompt(logs []SessionLogRow, fromTurn, toTurn int) string
 			fmt.Fprintf(&b, "Player: %s\n", log.PlayerInput)
 		}
 		if log.LLMResponse != "" {
-			fmt.Fprintf(&b, "Game Master: %s\n", log.LLMResponse)
+			fmt.Fprintf(&b, "Edda: %s\n", log.LLMResponse)
 		}
 		b.WriteString("\n")
 	}

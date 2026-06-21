@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 )
 
 // Summary represents a row in the session_summaries table.

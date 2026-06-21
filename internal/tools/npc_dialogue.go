@@ -7,21 +7,13 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const npcDialogueToolName = "npc_dialogue"
 
-// NPCDialogueLogEntry captures the dialogue event to persist in the session log.
-type NPCDialogueLogEntry struct {
-	CampaignID        uuid.UUID
-	LocationID        uuid.UUID
-	NPCID             uuid.UUID
-	Dialogue          string
-	Emotion           *string
-	FormattedDialogue string
-}
+type NPCDialogueLogEntry = domain.NPCDialogueLogEntry
 
 // NPCDialogueStore loads NPCs and logs NPC dialogue events.
 type NPCDialogueStore interface {

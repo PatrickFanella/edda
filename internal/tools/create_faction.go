@@ -10,10 +10,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 const createFactionToolName = "create_faction"
@@ -187,17 +187,17 @@ func (h *CreateFactionHandler) Handle(ctx context.Context, args map[string]any) 
 	if err != nil {
 		return nil, fmt.Errorf("create faction: %w", err)
 	}
+	factionID := dbutil.FromPgtype(faction.ID)
+	campaignID := dbutil.FromPgtype(faction.CampaignID)
 
 	createdRelationships, err := h.createFactionRelationships(ctx, faction.ID, relationships)
 	if err != nil {
-		return nil, err
+		return &ToolResult{Success: true, Data: map[string]any{"id": factionID.String(), "campaign_id": campaignID.String(), "name": name, "description": description, "agenda": agenda, "territory": territory, "properties": properties, "relationships": []map[string]any{}, "relationship_warning": err.Error()}, Narrative: fmt.Sprintf("Faction %q established, but relationship creation failed: %v", name, err)}, nil
 	}
 
-	factionID := dbutil.FromPgtype(faction.ID)
-	campaignID := dbutil.FromPgtype(faction.CampaignID)
 	if h.embedder != nil && h.memoryStore != nil {
 		if err := h.embedFactionMemory(ctx, campaignID, factionID, name, description, agenda, territory, properties, createdRelationships); err != nil {
-			return nil, err
+			return &ToolResult{Success: true, Data: map[string]any{"id": factionID.String(), "campaign_id": campaignID.String(), "name": name, "description": description, "agenda": agenda, "territory": territory, "properties": properties, "relationships": createdRelationships, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("Faction %q established. Memory embedding failed: %v", name, err)}, nil
 		}
 	}
 
@@ -286,10 +286,10 @@ func (h *CreateFactionHandler) embedFactionMemory(
 		return fmt.Errorf("embed faction memory: %w", err)
 	}
 	metadata, err := json.Marshal(map[string]any{
-		"faction_id":          factionID.String(),
-		"territory":           territory,
-		"relationship_count":  len(relationships),
-		"properties_present":  len(properties) > 0,
+		"faction_id":         factionID.String(),
+		"territory":          territory,
+		"relationship_count": len(relationships),
+		"properties_present": len(properties) > 0,
 	})
 	if err != nil {
 		return fmt.Errorf("marshal faction memory metadata: %w", err)

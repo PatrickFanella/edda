@@ -9,13 +9,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
 )
 
 // LLMProvider is an alias for the provider interface used by the game engine.
 type LLMProvider = Provider
 
 const (
+	switchyardModelsPath            = "api/models"
 	ollamaTagsPath                  = "api/tags"
 	ollamaHealthCheckTimeout        = 3 * time.Second
 	ollamaHealthCheckErrorBodyLimit = 512
@@ -25,13 +26,14 @@ const (
 func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
 	switch cfg.LLM.Provider {
 	case "ollama":
-		if err := validateOllamaEndpoint(cfg.LLM.Ollama.Endpoint); err != nil {
+		if err := validateOllamaEndpoint(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.APIKey); err != nil {
 			return nil, err
 		}
-		return NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()), nil
+		return NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()).
+			WithAPIKey(cfg.LLM.Ollama.APIKey), nil
 	case "claude":
 		if strings.TrimSpace(cfg.LLM.Claude.APIKey) == "" {
-			return nil, errors.New("claude provider unavailable: missing api key (set llm.claude.apikey, GM_LLM_CLAUDE_APIKEY, GM_CLAUDE_API_KEY, or ANTHROPIC_API_KEY)")
+			return nil, errors.New("claude provider unavailable: missing api key (set llm.claude.apikey, EDDA_LLM_CLAUDE_APIKEY, or ANTHROPIC_API_KEY)")
 		}
 		return NewClaudeClient("", cfg.LLM.Claude.APIKey, cfg.LLM.Claude.Model), nil
 	default:
@@ -39,7 +41,7 @@ func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
 	}
 }
 
-func validateOllamaEndpoint(baseURL string) error {
+func validateOllamaEndpoint(baseURL, apiKey string) error {
 	if baseURL == "" {
 		baseURL = defaultOllamaBaseURL
 	}
@@ -52,29 +54,89 @@ func validateOllamaEndpoint(baseURL string) error {
 		return fmt.Errorf("ollama provider unavailable: invalid endpoint scheme %q for %q", parsed.Scheme, baseURL)
 	}
 
+	client := &http.Client{Timeout: ollamaHealthCheckTimeout}
+	paths := []string{switchyardModelsPath, ollamaTagsPath}
+	var lastErr error
+	for i, path := range paths {
+		healthURL, err := healthCheckURL(parsed, path)
+		if err != nil {
+			return fmt.Errorf("ollama provider unavailable: failed to build health-check URL from %q: %w", baseURL, err)
+		}
+
+		err = probeOllamaCompatibleEndpoint(client, healthURL, apiKey)
+		if err == nil {
+			return nil
+		}
+		lastErr = err
+		// Switchyard exposes /api/models. Vanilla ollama exposes /api/tags. A 404
+		// from /api/models is the expected compatibility fallback, but auth,
+		// transport, and server errors should fail fast instead of hiding problems.
+		var httpErr *ollamaHealthCheckHTTPError
+		if i == 0 && errors.As(err, &httpErr) && httpErr.StatusCode == http.StatusNotFound {
+			continue
+		}
+		return err
+	}
+
+	return lastErr
+}
+
+func healthCheckURL(base *url.URL, path string) (string, error) {
+	parsed := *base
 	parsed.RawQuery = ""
 	parsed.Fragment = ""
-	tagsURL, err := url.JoinPath(parsed.String(), ollamaTagsPath)
-	if err != nil {
-		return fmt.Errorf("ollama provider unavailable: failed to build health-check URL from %q: %w", baseURL, err)
-	}
-	client := &http.Client{Timeout: ollamaHealthCheckTimeout}
+	return url.JoinPath(parsed.String(), path)
+}
 
-	req, err := http.NewRequest(http.MethodGet, tagsURL, nil)
+func probeOllamaCompatibleEndpoint(client *http.Client, healthURL, apiKey string) error {
+	req, err := http.NewRequest(http.MethodGet, healthURL, nil)
 	if err != nil {
 		return fmt.Errorf("ollama provider unavailable: failed to build health-check request: %w", err)
+	}
+	// Switchyard-compatible model endpoints may require the Bearer token.
+	// Vanilla ollama ignores the header when probing /api/tags.
+	if key := strings.TrimSpace(apiKey); key != "" {
+		req.Header.Set("Authorization", "Bearer "+key)
 	}
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("ollama provider unavailable: cannot reach %s: %w", tagsURL, err)
+		return fmt.Errorf("ollama provider unavailable: cannot reach %s: %w", healthURL, err)
 	}
 	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		body, _ := io.ReadAll(io.LimitReader(resp.Body, ollamaHealthCheckErrorBodyLimit))
-		return fmt.Errorf("ollama provider unavailable: %s returned HTTP %d: %s", tagsURL, resp.StatusCode, strings.TrimSpace(string(body)))
+		return &ollamaHealthCheckHTTPError{URL: healthURL, StatusCode: resp.StatusCode, Body: redactSecretText(strings.TrimSpace(string(body)))}
 	}
 
 	return nil
+}
+
+type ollamaHealthCheckHTTPError struct {
+	URL        string
+	StatusCode int
+	Body       string
+}
+
+func (e *ollamaHealthCheckHTTPError) Error() string {
+	return fmt.Sprintf("ollama provider unavailable: %s returned HTTP %d: %s", e.URL, e.StatusCode, e.Body)
+}
+
+func redactSecretText(s string) string {
+	fields := strings.Fields(s)
+	for i, field := range fields {
+		lower := strings.ToLower(field)
+		if lower == "bearer" {
+			fields[i] = "[redacted]"
+			if i+1 < len(fields) {
+				fields[i+1] = "[redacted]"
+			}
+			continue
+		}
+		if strings.HasPrefix(lower, "sk-") || strings.Contains(lower, "apikey=") || strings.Contains(lower, "api_key=") || strings.Contains(lower, "token=") {
+			fields[i] = "[redacted]"
+		}
+	}
+	return strings.Join(fields, " ")
 }

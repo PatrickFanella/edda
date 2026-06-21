@@ -1,4 +1,4 @@
-// Package bootstrap handles first-boot setup for the Game Master TUI.
+// Package bootstrap handles first-boot setup for the Edda TUI.
 // On first run it creates a default local user. On subsequent runs it returns
 // existing campaigns for the user so the TUI can show a selection list.
 package bootstrap
@@ -10,7 +10,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 const (

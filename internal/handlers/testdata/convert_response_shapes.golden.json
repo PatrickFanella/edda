@@ -1,0 +1,244 @@
+{
+  "campaign": {
+    "id": "11111111-1111-1111-1111-111111111111",
+    "name": "The Iron Road",
+    "description": "A frontier campaign",
+    "genre": "fantasy",
+    "tone": "gritty",
+    "themes": [
+      "exploration",
+      "survival"
+    ],
+    "status": "active",
+    "rules_mode": "narrative",
+    "created_by": "22222222-2222-2222-2222-222222222222",
+    "created_at": "2026-06-19T12:34:56Z",
+    "updated_at": "2026-06-19T13:34:56Z"
+  },
+  "character": {
+    "id": "77777777-7777-7777-7777-777777777777",
+    "campaign_id": "11111111-1111-1111-1111-111111111111",
+    "user_id": "22222222-2222-2222-2222-222222222222",
+    "name": "Vera",
+    "description": "Scout",
+    "stats": {
+      "agility": 14,
+      "strength": 12
+    },
+    "hp": 20,
+    "max_hp": 25,
+    "experience": 120,
+    "level": 3,
+    "status": "healthy",
+    "abilities": [
+      {
+        "name": "Track",
+        "description": "Follow signs"
+      }
+    ],
+    "current_location_id": "33333333-3333-3333-3333-333333333333"
+  },
+  "fact": {
+    "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+    "campaign_id": "11111111-1111-1111-1111-111111111111",
+    "fact": "The road is cursed.",
+    "category": "lore",
+    "source": "gm",
+    "superseded_by": "66666666-6666-6666-6666-666666666666",
+    "player_known": true,
+    "created_at": "2026-06-19T12:34:56Z"
+  },
+  "location": {
+    "id": "33333333-3333-3333-3333-333333333333",
+    "campaign_id": "11111111-1111-1111-1111-111111111111",
+    "name": "Gatehouse",
+    "description": "Stone fort",
+    "region": "North",
+    "location_type": "city",
+    "properties": {
+      "danger": "low"
+    },
+    "connections": [
+      {
+        "to_location_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+        "description": "Road east",
+        "bidirectional": true,
+        "travel_time": "15m"
+      }
+    ]
+  },
+  "npc": {
+    "id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+    "campaign_id": "11111111-1111-1111-1111-111111111111",
+    "name": "Captain Rowan",
+    "description": "Guard commander",
+    "personality": "stern",
+    "disposition": 40,
+    "faction_id": "44444444-4444-4444-4444-444444444444",
+    "alive": true,
+    "hp": 22,
+    "stats": {
+      "intelligence": 14
+    },
+    "properties": {
+      "rank": "captain"
+    }
+  },
+  "quest": {
+    "id": "55555555-5555-5555-5555-555555555555",
+    "campaign_id": "11111111-1111-1111-1111-111111111111",
+    "parent_quest_id": "88888888-8888-8888-8888-888888888888",
+    "title": "Secure the pass",
+    "description": "Defeat raiders",
+    "quest_type": "short_term",
+    "status": "active",
+    "objectives": [
+      {
+        "id": "99999999-9999-9999-9999-999999999999",
+        "description": "Scout the pass",
+        "completed": false,
+        "order_index": 1
+      }
+    ]
+  },
+  "turn": {
+    "narrative": "You arrive at the gatehouse.",
+    "state_changes": [
+      {
+        "entity_type": "player_character",
+        "entity_id": "77777777-7777-7777-7777-777777777777",
+        "change_type": "location_updated",
+        "details": {
+          "campaign_id": "11111111-1111-1111-1111-111111111111",
+          "day": 1,
+          "description": "A weathered road",
+          "hour": 9,
+          "location_id": "99999999-9999-9999-9999-999999999999",
+          "location_type": "wilderness",
+          "minute": 0,
+          "name": "Old Road",
+          "new_value": {
+            "campaign_id": "11111111-1111-1111-1111-111111111111",
+            "day": 1,
+            "description": "A weathered road",
+            "hour": 9,
+            "location_id": "99999999-9999-9999-9999-999999999999",
+            "location_type": "wilderness",
+            "minute": 0,
+            "name": "Old Road",
+            "player_character_id": "77777777-7777-7777-7777-777777777777",
+            "time_warning": "",
+            "travel_time": "1 hour",
+            "visited_marked": true,
+            "visited_warning": ""
+          },
+          "player_character_id": "77777777-7777-7777-7777-777777777777",
+          "time_warning": "",
+          "travel_time": "1 hour",
+          "visited_marked": true,
+          "visited_warning": ""
+        }
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "99999999-9999-9999-9999-999999999999",
+        "change_type": "updated",
+        "details": {
+          "campaign_id": "11111111-1111-1111-1111-111111111111",
+          "day": 1,
+          "description": "A weathered road",
+          "hour": 9,
+          "location_id": "99999999-9999-9999-9999-999999999999",
+          "location_type": "wilderness",
+          "minute": 0,
+          "name": "Old Road",
+          "new_value": {
+            "campaign_id": "11111111-1111-1111-1111-111111111111",
+            "day": 1,
+            "description": "A weathered road",
+            "hour": 9,
+            "location_id": "99999999-9999-9999-9999-999999999999",
+            "location_type": "wilderness",
+            "minute": 0,
+            "name": "Old Road",
+            "player_character_id": "77777777-7777-7777-7777-777777777777",
+            "time_warning": "",
+            "travel_time": "1 hour",
+            "visited_marked": true,
+            "visited_warning": ""
+          },
+          "player_character_id": "77777777-7777-7777-7777-777777777777",
+          "time_warning": "",
+          "travel_time": "1 hour",
+          "visited_marked": true,
+          "visited_warning": ""
+        }
+      },
+      {
+        "entity_type": "location",
+        "entity_id": "99999999-9999-9999-9999-999999999999",
+        "change_type": "moved",
+        "details": {
+          "campaign_id": "11111111-1111-1111-1111-111111111111",
+          "day": 1,
+          "description": "A weathered road",
+          "hour": 9,
+          "location_id": "99999999-9999-9999-9999-999999999999",
+          "location_type": "wilderness",
+          "minute": 0,
+          "name": "Old Road",
+          "new_value": {
+            "campaign_id": "11111111-1111-1111-1111-111111111111",
+            "day": 1,
+            "description": "A weathered road",
+            "hour": 9,
+            "location_id": "99999999-9999-9999-9999-999999999999",
+            "location_type": "wilderness",
+            "minute": 0,
+            "name": "Old Road",
+            "player_character_id": "77777777-7777-7777-7777-777777777777",
+            "time_warning": "",
+            "travel_time": "1 hour",
+            "visited_marked": true,
+            "visited_warning": ""
+          },
+          "player_character_id": "77777777-7777-7777-7777-777777777777",
+          "time_warning": "",
+          "travel_time": "1 hour",
+          "visited_marked": true,
+          "visited_warning": ""
+        }
+      },
+      {
+        "entity_type": "combat",
+        "entity_id": "88888888-8888-8888-8888-888888888888",
+        "change_type": "resolved",
+        "details": {
+          "campaign_id": "11111111-1111-1111-1111-111111111111",
+          "combatants": [],
+          "environment": {
+            "description": "trail"
+          },
+          "id": "88888888-8888-8888-8888-888888888888",
+          "initiative_order": [],
+          "narrative": "",
+          "new_value": {
+            "campaign_id": "11111111-1111-1111-1111-111111111111",
+            "combatants": [],
+            "environment": {
+              "description": "trail"
+            },
+            "id": "88888888-8888-8888-8888-888888888888",
+            "initiative_order": [],
+            "narrative": "",
+            "round_number": 2,
+            "status": "completed"
+          },
+          "round_number": 2,
+          "status": "completed"
+        }
+      }
+    ],
+    "combat_active": false
+  }
+}

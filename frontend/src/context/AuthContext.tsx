@@ -2,15 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import type { PropsWithChildren } from 'react';
 
 import { getMe, logout as logoutRequest } from '../api/auth';
-
-const TOKEN_KEY = 'gm_token';
-const USER_KEY = 'gm_user';
-
-export interface AuthUser {
-  readonly id: string;
-  readonly name: string;
-  readonly email: string;
-}
+import { clearStoredSession, getStoredToken, getStoredUser, setStoredSession, type AuthUser } from '../api/authSession';
 
 export interface AuthContextValue {
   readonly user: AuthUser | null;
@@ -23,18 +15,9 @@ export interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-function loadStoredUser(): AuthUser | null {
-  try {
-    const raw = localStorage.getItem(USER_KEY);
-    return raw ? (JSON.parse(raw) as AuthUser) : null;
-  } catch {
-    return null;
-  }
-}
-
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));
-  const [user, setUser] = useState<AuthUser | null>(loadStoredUser);
+  const [token, setToken] = useState<string | null>(getStoredToken);
+  const [user, setUser] = useState<AuthUser | null>(getStoredUser);
   const [isLoading, setIsLoading] = useState(true);
 
   const didValidate = useRef(false);
@@ -52,12 +35,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
     getMe(token)
       .then((res) => {
         setUser(res.user);
-        localStorage.setItem(USER_KEY, JSON.stringify(res.user));
+        setStoredSession(token, res.user);
       })
       .catch(() => {
         // Token expired or invalid — clear everything.
-        localStorage.removeItem(TOKEN_KEY);
-        localStorage.removeItem(USER_KEY);
+        clearStoredSession();
         setToken(null);
         setUser(null);
       })
@@ -65,15 +47,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [token]);
 
   const setSession = useCallback((newToken: string, newUser: AuthUser) => {
-    localStorage.setItem(TOKEN_KEY, newToken);
-    localStorage.setItem(USER_KEY, JSON.stringify(newUser));
+    setStoredSession(newToken, newUser);
     setToken(newToken);
     setUser(newUser);
   }, []);
 
   const logout = useCallback(async () => {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
     setToken(null);
     setUser(null);
 
@@ -81,6 +60,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       await logoutRequest();
     } catch {
       // Local auth state must still clear even if the network request fails.
+      clearStoredSession();
     }
   }, []);
 

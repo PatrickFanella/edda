@@ -1,6 +1,7 @@
 package memory
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -22,9 +23,14 @@ const (
 )
 
 // OllamaEmbedder implements Embedder using Ollama's /api/embed endpoint.
+// When APIKey is set, requests are authenticated as Bearer tokens against a
+// Switchyard-compatible model broker; the broker wraps the embed response in
+// SSE framing (with optional pre-pended queue status events), which this embedder
+// auto-detects and unwraps.
 type OllamaEmbedder struct {
 	baseURL   string
 	model     string
+	apiKey    string
 	dimension int
 	client    *http.Client
 	timeout   time.Duration
@@ -51,6 +57,15 @@ func WithOllamaEmbedderDimension(dimension int) OllamaEmbedderOption {
 		if dimension > 0 {
 			o.dimension = dimension
 		}
+	}
+}
+
+// WithOllamaEmbedderAPIKey attaches a Bearer token to embed requests. Required
+// when the embedding endpoint is served by an authenticated broker; safely
+// ignored by vanilla ollama.
+func WithOllamaEmbedderAPIKey(key string) OllamaEmbedderOption {
+	return func(o *OllamaEmbedder) {
+		o.apiKey = strings.TrimSpace(key)
 	}
 }
 
@@ -191,6 +206,10 @@ func (o *OllamaEmbedder) embed(ctx context.Context, input any) (*ollamaEmbedResp
 		return nil, fmt.Errorf("failed to create ollama embed request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
+	if o.apiKey != "" {
+		req.Header.Set("Authorization", "Bearer "+o.apiKey)
+		req.Header.Set("Accept", "text/event-stream")
+	}
 
 	resp, err := o.client.Do(req)
 	if err != nil {
@@ -206,11 +225,84 @@ func (o *OllamaEmbedder) embed(ctx context.Context, input any) (*ollamaEmbedResp
 		}
 	}
 
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read ollama embed response: %w", err)
+	}
+
+	payload, err := unwrapBrokerSSE(resp, bodyBytes)
+	if err != nil {
+		return nil, err
+	}
+
 	var decoded ollamaEmbedResponse
-	if err := json.NewDecoder(resp.Body).Decode(&decoded); err != nil {
+	if err := json.Unmarshal(payload, &decoded); err != nil {
 		return nil, fmt.Errorf("failed to decode ollama embed response: %w", err)
 	}
 	return &decoded, nil
+}
+
+// unwrapBrokerSSE returns the raw JSON payload from either a vanilla ollama
+// response body or a Switchyard broker SSE body. Broker status events with
+// status="queued" are skipped; terminal status events surface as errors.
+func unwrapBrokerSSE(resp *http.Response, body []byte) ([]byte, error) {
+	if !isEmbedSSEResponse(resp, body) {
+		return body, nil
+	}
+
+	scanner := bufio.NewScanner(bytes.NewReader(body))
+	scanner.Buffer(make([]byte, 0, 64*1024), 10*1024*1024)
+	for scanner.Scan() {
+		line := bytes.TrimRight(scanner.Bytes(), "\r")
+		if len(bytes.TrimSpace(line)) == 0 || bytes.HasPrefix(line, []byte(":")) {
+			continue
+		}
+		if !bytes.HasPrefix(line, []byte("data:")) {
+			continue
+		}
+		raw := bytes.TrimSpace(line[len("data:"):])
+		if len(raw) == 0 || bytes.Equal(raw, []byte("[DONE]")) {
+			continue
+		}
+
+		var probe struct {
+			RequestID string `json:"request_id"`
+			Status    string `json:"status"`
+			Message   string `json:"message"`
+		}
+		if err := json.Unmarshal(raw, &probe); err == nil && probe.RequestID != "" {
+			switch probe.Status {
+			case "queued":
+				continue
+			case "ollama_unavailable":
+				msg := probe.Message
+				if msg == "" {
+					msg = "ollama unavailable"
+				}
+				return nil, fmt.Errorf("model broker reported ollama_unavailable (request_id=%s): %s", probe.RequestID, msg)
+			case "dropped_by_admin":
+				return nil, fmt.Errorf("model broker dropped embed request by admin (request_id=%s)", probe.RequestID)
+			}
+		}
+		return append([]byte(nil), raw...), nil
+	}
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("failed to read broker SSE stream: %w", err)
+	}
+	return nil, errors.New("broker SSE stream ended without an embed payload")
+}
+
+func isEmbedSSEResponse(resp *http.Response, body []byte) bool {
+	if resp != nil {
+		if ct := resp.Header.Get("Content-Type"); strings.Contains(strings.ToLower(ct), "text/event-stream") {
+			return true
+		}
+		if resp.Header.Get("X-Ollama-Broker") != "" || resp.Header.Get("X-Llama-Line-Cache") != "" {
+			return true
+		}
+	}
+	trimmed := bytes.TrimLeft(body, " \t\r\n")
+	return bytes.HasPrefix(trimmed, []byte("data:")) || bytes.HasPrefix(trimmed, []byte(":"))
 }
 
 func formatOllamaEmbedConnectionError(endpoint string, err error) error {

@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 )
 
 // --- stubs ---
@@ -102,6 +102,16 @@ func TestSceneGenerator_Success(t *testing.T) {
 	}
 	if store.savedLog.LLMResponse != resp.Narrative {
 		t.Errorf("llm response: got %q, want %q", store.savedLog.LLMResponse, resp.Narrative)
+	}
+	var toolCalls []struct {
+		Type    string   `json:"type"`
+		Choices []string `json:"choices"`
+	}
+	if err := json.Unmarshal(store.savedLog.ToolCalls, &toolCalls); err != nil {
+		t.Fatalf("unmarshal tool calls: %v", err)
+	}
+	if len(toolCalls) != 1 || toolCalls[0].Type != "opening_choices" || len(toolCalls[0].Choices) != 3 {
+		t.Fatalf("tool calls: %+v", toolCalls)
 	}
 }
 
@@ -232,7 +242,6 @@ func TestSceneGenerator_EmptyChoicesValid(t *testing.T) {
 		t.Errorf("choices: got %d, want 0", len(result.Choices))
 	}
 }
-
 
 func TestBuildScenePrompt_FiltersNPCsByLocation(t *testing.T) {
 	profile := testProfile()

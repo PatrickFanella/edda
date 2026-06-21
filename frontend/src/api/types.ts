@@ -135,6 +135,7 @@ export interface SessionLogEntry {
   player_input: string;
   input_type: string;
   llm_response: string;
+  choices?: string[];
   created_at: string;
 }
 

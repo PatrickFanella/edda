@@ -1,0 +1,22 @@
+HTTP/2 401 
+date: Sat, 20 Jun 2026 05:52:54 GMT
+content-type: text/plain; charset=utf-8
+content-length: 41
+cache-control: no-store, no-cache, must-revalidate, max-age=0, s-maxage=0
+cache-control: no-store, no-cache, must-revalidate, max-age=0, s-maxage=0
+expires: 0
+expires: 0
+pragma: no-cache
+pragma: no-cache
+surrogate-control: no-store
+surrogate-control: no-store
+vary: Origin
+via: 1.1 Caddy
+x-content-type-options: nosniff
+cf-cache-status: DYNAMIC
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=waOSvcpfO9yhL4QSB8EqdDdZ7TyXKARVNM3gFXAxKG1mTYY7EMtCfwzlFtmLvCapGxsP8pH%2BsT4P%2FVmuroQpSnt3rExBD3CHy4vZWrbTjCIqXTxKFwli1Dvc2Lg1mvcnJo0%3D"}]}
+server: cloudflare
+cf-ray: a0e882915ac5570f-ORD
+alt-svc: h3=":443"; ma=86400
+

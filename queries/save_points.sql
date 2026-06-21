@@ -13,12 +13,12 @@ ORDER BY created_at DESC;
 DELETE FROM save_points WHERE id = $1;
 
 -- name: DeleteOldAutoSaves :exec
-DELETE FROM save_points
-WHERE campaign_id = $1
-  AND is_auto = true
-  AND id NOT IN (
-    SELECT id FROM save_points
-    WHERE campaign_id = $1 AND is_auto = true
-    ORDER BY created_at DESC
+DELETE FROM save_points AS sp
+WHERE sp.campaign_id = $1
+  AND sp.is_auto = true
+  AND sp.id NOT IN (
+    SELECT keep.id FROM save_points AS keep
+    WHERE keep.campaign_id = $1 AND keep.is_auto = true
+    ORDER BY keep.created_at DESC
     LIMIT 3
   );

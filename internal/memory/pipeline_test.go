@@ -11,8 +11,8 @@ import (
 	"log/slog"
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/memory"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/memory"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // --- spy stubs -----------------------------------------------------------

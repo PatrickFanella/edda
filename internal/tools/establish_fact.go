@@ -9,10 +9,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 const (
@@ -45,7 +45,7 @@ func EstablishFactTool() llm.Tool {
 				},
 				"reveal_to_player": map[string]any{
 					"type":        "boolean",
-					"description": "If true, the player character becomes aware of this fact. Defaults to false.",
+					"description": "If false, the fact stays hidden from the player. Defaults to true.",
 				},
 			},
 			"required":             []string{"fact", "category"},
@@ -109,11 +109,21 @@ func (h *EstablishFactHandler) Handle(ctx context.Context, args map[string]any) 
 		return nil, fmt.Errorf("resolve campaign from current location: %w", err)
 	}
 
+	revealToPlayer := true
+	if _, exists := args["reveal_to_player"]; exists {
+		parsedRevealToPlayer, err := parseBoolArg(args, "reveal_to_player")
+		if err != nil {
+			return nil, err
+		}
+		revealToPlayer = parsedRevealToPlayer
+	}
+
 	worldFact, err := h.factStore.CreateFact(ctx, statedb.CreateFactParams{
-		CampaignID: currentLocation.CampaignID,
-		Fact:       fact,
-		Category:   category,
-		Source:     establishedSource,
+		CampaignID:  currentLocation.CampaignID,
+		Fact:        fact,
+		Category:    category,
+		Source:      establishedSource,
+		PlayerKnown: revealToPlayer,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("create world fact: %w", err)
@@ -122,25 +132,33 @@ func (h *EstablishFactHandler) Handle(ctx context.Context, args map[string]any) 
 	factID := dbutil.FromPgtype(worldFact.ID)
 	campaignID := dbutil.FromPgtype(worldFact.CampaignID)
 
-	revealToPlayer, _ := parseBoolArg(args, "reveal_to_player")
-	if revealToPlayer {
-		_ = h.factStore.SetFactPlayerKnown(ctx, worldFact.ID)
-	}
-
 	if h.embedder != nil && h.memoryStore != nil {
 		if err := h.embedFactMemory(ctx, campaignID, factID, fact, category); err != nil {
-			return nil, err
+			return &ToolResult{
+				Success: true,
+				Data: map[string]any{
+					"id":             factID.String(),
+					"campaign_id":    campaignID.String(),
+					"fact":           fact,
+					"category":       category,
+					"source":         establishedSource,
+					"player_known":   worldFact.PlayerKnown,
+					"memory_warning": err.Error(),
+				},
+				Narrative: fmt.Sprintf("World fact established: %q (category: %s). Memory embedding failed: %v", fact, category, err),
+			}, nil
 		}
 	}
 
 	return &ToolResult{
 		Success: true,
 		Data: map[string]any{
-			"id":          factID.String(),
-			"campaign_id": campaignID.String(),
-			"fact":        fact,
-			"category":    category,
-			"source":      establishedSource,
+			"id":           factID.String(),
+			"campaign_id":  campaignID.String(),
+			"fact":         fact,
+			"category":     category,
+			"source":       establishedSource,
+			"player_known": worldFact.PlayerKnown,
 		},
 		Narrative: fmt.Sprintf("World fact established: %q (category: %s).", fact, category),
 	}, nil

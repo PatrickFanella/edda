@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/llmutil"
-	"github.com/PatrickFanella/game-master/internal/prompt"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llmutil"
+	"git.subcult.tv/subculture-collective/edda/internal/prompt"
 )
 
 // CampaignProposal is a single campaign option presented to the player during

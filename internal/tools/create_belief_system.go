@@ -9,10 +9,10 @@ import (
 
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 const (
@@ -227,30 +227,38 @@ func (h *CreateBeliefSystemHandler) Handle(ctx context.Context, args map[string]
 		return nil, fmt.Errorf("create belief system: %w", err)
 	}
 
-	revealToPlayer, _ := parseBoolArg(args, "reveal_to_player")
+	revealToPlayer := false
+	if _, exists := args["reveal_to_player"]; exists {
+		parsedRevealToPlayer, err := parseBoolArg(args, "reveal_to_player")
+		if err != nil {
+			return nil, err
+		}
+		revealToPlayer = parsedRevealToPlayer
+	}
 	if revealToPlayer {
 		_ = h.beliefStore.SetBeliefSystemPlayerKnown(ctx, beliefSystem.ID)
 	}
 
 	for i, fact := range buildBeliefSystemFacts(name, deitiesOrPrinciples, practices, institutions, moralFramework, taboos) {
 		if _, err := h.beliefStore.CreateFact(ctx, statedb.CreateFactParams{
-			CampaignID: dbCampaignID,
-			Fact:       fact,
-			Category:   "belief_system",
-			Source:     fmt.Sprintf("create_belief_system:%s", dbutil.FromPgtype(beliefSystem.ID).String()),
+			CampaignID:  dbCampaignID,
+			Fact:        fact,
+			Category:    "belief_system",
+			Source:      fmt.Sprintf("create_belief_system:%s", dbutil.FromPgtype(beliefSystem.ID).String()),
+			PlayerKnown: revealToPlayer,
 		}); err != nil {
-			return nil, fmt.Errorf("create belief system world_fact[%d]: %w", i, err)
+			return h.beliefSystemWarningResult(beliefSystem, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos, followerFactionIDs, followerCultureIDs, "fact_warning", fmt.Errorf("create belief system world_fact[%d]: %w", i, err), fmt.Sprintf("Belief system %q created, but fact generation failed: %v", beliefSystem.Name, err)), nil
 		}
 	}
 
 	if h.embedder != nil && h.memoryStore != nil {
 		memoryContent, err := buildBeliefSystemMemoryContent(name, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos)
 		if err != nil {
-			return nil, fmt.Errorf("build belief system memory content: %w", err)
+			return h.beliefSystemWarningResult(beliefSystem, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos, followerFactionIDs, followerCultureIDs, "memory_warning", fmt.Errorf("build belief system memory content: %w", err), fmt.Sprintf("Belief system %q created, but memory sync failed: %v", beliefSystem.Name, err)), nil
 		}
 		embedding, err := h.embedder.Embed(ctx, memoryContent)
 		if err != nil {
-			return nil, fmt.Errorf("embed belief system memory: %w", err)
+			return h.beliefSystemWarningResult(beliefSystem, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos, followerFactionIDs, followerCultureIDs, "memory_warning", fmt.Errorf("embed belief system memory: %w", err), fmt.Sprintf("Belief system %q created, but memory sync failed: %v", beliefSystem.Name, err)), nil
 		}
 		metadata, err := json.Marshal(map[string]any{
 			"belief_system_id":     dbutil.FromPgtype(beliefSystem.ID).String(),
@@ -258,7 +266,7 @@ func (h *CreateBeliefSystemHandler) Handle(ctx context.Context, args map[string]
 			"follower_culture_ids": dbutil.PgUUIDsToStrings(followerCultureIDs),
 		})
 		if err != nil {
-			return nil, fmt.Errorf("marshal belief system memory metadata: %w", err)
+			return h.beliefSystemWarningResult(beliefSystem, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos, followerFactionIDs, followerCultureIDs, "memory_warning", fmt.Errorf("marshal belief system memory metadata: %w", err), fmt.Sprintf("Belief system %q created, but memory sync failed: %v", beliefSystem.Name, err)), nil
 		}
 		if err := h.memoryStore.CreateMemory(ctx, CreateMemoryParams{
 			CampaignID: campaignID,
@@ -267,7 +275,7 @@ func (h *CreateBeliefSystemHandler) Handle(ctx context.Context, args map[string]
 			MemoryType: string(domain.MemoryTypeWorldFact),
 			Metadata:   metadata,
 		}); err != nil {
-			return nil, fmt.Errorf("create belief system memory: %w", err)
+			return h.beliefSystemWarningResult(beliefSystem, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos, followerFactionIDs, followerCultureIDs, "memory_warning", fmt.Errorf("create belief system memory: %w", err), fmt.Sprintf("Belief system %q created, but memory sync failed: %v", beliefSystem.Name, err)), nil
 		}
 	}
 
@@ -290,6 +298,39 @@ func (h *CreateBeliefSystemHandler) Handle(ctx context.Context, args map[string]
 		},
 		Narrative: fmt.Sprintf("Belief system %q created successfully.", beliefSystem.Name),
 	}, nil
+}
+
+func (h *CreateBeliefSystemHandler) beliefSystemWarningResult(
+	beliefSystem statedb.BeliefSystem,
+	description string,
+	deitiesOrPrinciples, practices, institutions []string,
+	moralFramework map[string]any,
+	taboos []string,
+	followerFactionIDs, followerCultureIDs []pgtype.UUID,
+	warningKey string,
+	warning error,
+	narrative string,
+) *ToolResult {
+	return &ToolResult{
+		Success: true,
+		Data: map[string]any{
+			"id":                    dbutil.FromPgtype(beliefSystem.ID).String(),
+			"campaign_id":           dbutil.FromPgtype(beliefSystem.CampaignID).String(),
+			"name":                  beliefSystem.Name,
+			"description":           description,
+			"deities_or_principles": deitiesOrPrinciples,
+			"practices":             practices,
+			"institutions":          institutions,
+			"moral_framework":       moralFramework,
+			"taboos":                taboos,
+			"followers": map[string]any{
+				"faction_ids": dbutil.PgUUIDsToStrings(followerFactionIDs),
+				"culture_ids": dbutil.PgUUIDsToStrings(followerCultureIDs),
+			},
+			warningKey: warning.Error(),
+		},
+		Narrative: narrative,
+	}
 }
 
 func (h *CreateBeliefSystemHandler) validateFollowerIDs(ctx context.Context, campaignID pgtype.UUID, factionIDs, cultureIDs []pgtype.UUID) error {

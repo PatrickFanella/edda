@@ -21,6 +21,7 @@ type Querier interface {
 	CreateFaction(ctx context.Context, arg CreateFactionParams) (Faction, error)
 	CreateFactionRelationship(ctx context.Context, arg CreateFactionRelationshipParams) (FactionRelationship, error)
 	CreateItem(ctx context.Context, arg CreateItemParams) (Item, error)
+	CreateJournalEntry(ctx context.Context, arg CreateJournalEntryParams) (PlayerJournalEntry, error)
 	CreateLanguage(ctx context.Context, arg CreateLanguageParams) (Language, error)
 	CreateLocation(ctx context.Context, arg CreateLocationParams) (Location, error)
 	CreateMemory(ctx context.Context, arg CreateMemoryParams) (Memory, error)
@@ -31,21 +32,28 @@ type Querier interface {
 	CreateQuestHistoryEntry(ctx context.Context, arg CreateQuestHistoryEntryParams) (QuestHistory, error)
 	CreateQuestNote(ctx context.Context, arg CreateQuestNoteParams) (QuestNote, error)
 	CreateRelationship(ctx context.Context, arg CreateRelationshipParams) (EntityRelationship, error)
+	CreateSavePoint(ctx context.Context, arg CreateSavePointParams) (SavePoint, error)
 	CreateSessionLog(ctx context.Context, arg CreateSessionLogParams) (SessionLog, error)
+	CreateSessionSummary(ctx context.Context, arg CreateSessionSummaryParams) (SessionSummary, error)
 	CreateUser(ctx context.Context, name string) (User, error)
+	CreateUserWithAuth(ctx context.Context, arg CreateUserWithAuthParams) (CreateUserWithAuthRow, error)
 	DeleteBeliefSystem(ctx context.Context, id pgtype.UUID) error
 	DeleteCampaign(ctx context.Context, id pgtype.UUID) error
 	DeleteConnection(ctx context.Context, arg DeleteConnectionParams) error
 	DeleteCulture(ctx context.Context, id pgtype.UUID) error
 	DeleteEconomicSystem(ctx context.Context, id pgtype.UUID) error
 	DeleteItem(ctx context.Context, id pgtype.UUID) error
+	DeleteJournalEntry(ctx context.Context, id pgtype.UUID) error
 	DeleteLanguage(ctx context.Context, id pgtype.UUID) error
+	DeleteOldAutoSaves(ctx context.Context, campaignID pgtype.UUID) error
 	DeleteQuestNote(ctx context.Context, arg DeleteQuestNoteParams) error
 	DeleteRelationship(ctx context.Context, arg DeleteRelationshipParams) error
+	DeleteSavePoint(ctx context.Context, id pgtype.UUID) error
 	DeleteUser(ctx context.Context, id pgtype.UUID) error
 	GetBeliefSystemByCulture(ctx context.Context, cultureID pgtype.UUID) (BeliefSystem, error)
 	GetBeliefSystemByID(ctx context.Context, id pgtype.UUID) (BeliefSystem, error)
 	GetCampaignByID(ctx context.Context, id pgtype.UUID) (Campaign, error)
+	GetCampaignTime(ctx context.Context, campaignID pgtype.UUID) (CampaignTime, error)
 	GetConnectionsFromLocation(ctx context.Context, arg GetConnectionsFromLocationParams) ([]GetConnectionsFromLocationRow, error)
 	GetCultureByID(ctx context.Context, id pgtype.UUID) (Culture, error)
 	GetEconomicSystemByID(ctx context.Context, id pgtype.UUID) (EconomicSystem, error)
@@ -64,6 +72,7 @@ type Querier interface {
 	GetRelationshipsBetween(ctx context.Context, arg GetRelationshipsBetweenParams) ([]EntityRelationship, error)
 	GetRelationshipsByEntity(ctx context.Context, arg GetRelationshipsByEntityParams) ([]EntityRelationship, error)
 	GetSessionLogByID(ctx context.Context, id pgtype.UUID) (SessionLog, error)
+	GetUserByEmail(ctx context.Context, email pgtype.Text) (GetUserByEmailRow, error)
 	GetUserByID(ctx context.Context, id pgtype.UUID) (User, error)
 	GetUserByName(ctx context.Context, name string) (User, error)
 	KillNPC(ctx context.Context, id pgtype.UUID) (Npc, error)
@@ -80,6 +89,7 @@ type Querier interface {
 	ListFactsByCategory(ctx context.Context, arg ListFactsByCategoryParams) ([]WorldFact, error)
 	ListItemsByPlayer(ctx context.Context, arg ListItemsByPlayerParams) ([]Item, error)
 	ListItemsByType(ctx context.Context, arg ListItemsByTypeParams) ([]Item, error)
+	ListJournalEntries(ctx context.Context, campaignID pgtype.UUID) ([]PlayerJournalEntry, error)
 	ListLanguagesByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]Language, error)
 	ListLanguagesByFaction(ctx context.Context, factionID pgtype.UUID) ([]Language, error)
 	ListLocationsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]Location, error)
@@ -104,8 +114,10 @@ type Querier interface {
 	ListQuestsByType(ctx context.Context, arg ListQuestsByTypeParams) ([]Quest, error)
 	ListRecentSessionLogs(ctx context.Context, arg ListRecentSessionLogsParams) ([]SessionLog, error)
 	ListRelationshipsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]EntityRelationship, error)
+	ListSavePointsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]SavePoint, error)
 	ListSessionLogsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]SessionLog, error)
 	ListSessionLogsByLocation(ctx context.Context, arg ListSessionLogsByLocationParams) ([]SessionLog, error)
+	ListSessionSummaries(ctx context.Context, campaignID pgtype.UUID) ([]SessionSummary, error)
 	ListSubquestsByParentQuest(ctx context.Context, parentQuestID pgtype.UUID) ([]Quest, error)
 	ListUsers(ctx context.Context) ([]User, error)
 	Ping(ctx context.Context) (int32, error)
@@ -140,6 +152,7 @@ type Querier interface {
 	UpdateObjective(ctx context.Context, arg UpdateObjectiveParams) (QuestObjective, error)
 	UpdatePlayerAbilities(ctx context.Context, arg UpdatePlayerAbilitiesParams) (PlayerCharacter, error)
 	UpdatePlayerCharacter(ctx context.Context, arg UpdatePlayerCharacterParams) (PlayerCharacter, error)
+	UpdatePlayerCurrentHP(ctx context.Context, arg UpdatePlayerCurrentHPParams) (PlayerCharacter, error)
 	UpdatePlayerExperience(ctx context.Context, arg UpdatePlayerExperienceParams) (PlayerCharacter, error)
 	UpdatePlayerHP(ctx context.Context, arg UpdatePlayerHPParams) (PlayerCharacter, error)
 	UpdatePlayerLevel(ctx context.Context, arg UpdatePlayerLevelParams) (PlayerCharacter, error)
@@ -150,6 +163,7 @@ type Querier interface {
 	UpdateQuestStatus(ctx context.Context, arg UpdateQuestStatusParams) (Quest, error)
 	UpdateRelationship(ctx context.Context, arg UpdateRelationshipParams) (EntityRelationship, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
+	UpsertCampaignTime(ctx context.Context, arg UpsertCampaignTimeParams) (CampaignTime, error)
 }
 
 var _ Querier = (*Queries)(nil)

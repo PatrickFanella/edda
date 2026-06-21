@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getMapData } from '../../api/map';
 import type { MapDataResponse, MapLocationResponse, LocationConnectionResponse } from '../../api/types';
 import { cn } from '../../lib/cn';
+import { HudPanel } from '../layout/HudPanel';
 
 interface MapPanelProps {
   readonly campaignId: string;
@@ -74,44 +75,46 @@ export function MapPanel({ campaignId, className }: MapPanelProps) {
 
   if (isPending) {
     return (
-      <div className={cn('border border-jade/20 bg-charcoal p-6 text-sm text-champagne/70', className)}>
+      <HudPanel title="Loading" accent="loading" className={cn(className)}>
         Loading map data...
-      </div>
+      </HudPanel>
     );
   }
 
   if (isError) {
     return (
-      <div className={cn('border border-ruby/40 bg-ruby/10 p-6 text-sm text-ruby', className)}>
+      <HudPanel title="Unavailable" accent="error" className={cn(className)}>
         {error instanceof Error ? error.message : 'Failed to load map data.'}
-      </div>
+      </HudPanel>
     );
   }
 
   if (!data || data.locations.length === 0) {
     return (
-      <div className={cn('flex min-h-48 flex-col items-center justify-center border border-dashed border-jade/15 bg-charcoal/50 px-6 text-center', className)}>
-        <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-pewter/80">No locations discovered</p>
-        <p className="mt-3 max-w-md text-sm leading-7 text-pewter">
-          Explore the world to discover new locations. They will appear on the map as you travel.
-        </p>
-      </div>
+      <HudPanel title="No records" accent="empty" className={cn(className)}>
+        <div className="flex min-h-48 flex-col items-center justify-center px-6 text-center">
+          <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-pewter/80">No locations discovered</p>
+          <p className="mt-3 max-w-md text-sm leading-7 text-pewter">
+            Explore the world to discover new locations. They will appear on the map as you travel.
+          </p>
+        </div>
+      </HudPanel>
     );
   }
 
   return (
-    <MapPanelContent regionGroups={regionGroups} data={data} className={className} />
+    <HudPanel title="World map" accent="exploration" className={cn(className)} bodyClassName="space-y-6">
+      <MapPanelContent regionGroups={regionGroups} data={data} />
+    </HudPanel>
   );
 }
 
 function MapPanelContent({
   regionGroups,
   data,
-  className,
 }: {
   readonly regionGroups: RegionGroup[];
   readonly data: MapDataResponse;
-  readonly className?: string;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -126,7 +129,7 @@ function MapPanelContent({
   }, [selectedId, data.connections, data.locations]);
 
   return (
-    <div className={cn('space-y-6', className)}>
+    <div className="space-y-6">
       {selectedLocation ? (
         <LocationDetail
           location={selectedLocation}
@@ -178,7 +181,7 @@ function LocationDetail({
         <button
           type="button"
           onClick={onClose}
-          className="text-xs font-semibold uppercase tracking-wide text-pewter transition-colors hover:text-champagne"
+          className="hud-text-button text-xs font-semibold uppercase tracking-wide text-pewter transition-colors hover:text-champagne"
         >
           Close
         </button>
@@ -190,12 +193,12 @@ function LocationDetail({
 
       <div className="mt-2 flex gap-1.5">
         {location.player_visited ? (
-          <span className="rounded-sm border border-jade/30 bg-jade/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-jade">
+          <span className="hud-baseline-badge rounded-sm border border-jade/30 bg-jade/10 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-jade">
             Visited
           </span>
         ) : null}
         {location.player_known && !location.player_visited ? (
-          <span className="rounded-sm border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
+          <span className="hud-baseline-badge rounded-sm border border-gold/30 bg-gold/10 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
             Known
           </span>
         ) : null}
@@ -248,12 +251,12 @@ function LocationCard({
         <h4 className="text-sm font-semibold text-champagne">{location.name}</h4>
         <div className="flex gap-1.5">
           {location.player_visited && (
-            <span className="rounded-sm border border-jade/30 bg-jade/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-jade">
+            <span className="hud-baseline-badge rounded-sm border border-jade/30 bg-jade/10 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-jade">
               Visited
             </span>
           )}
           {location.player_known && !location.player_visited && (
-            <span className="rounded-sm border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
+            <span className="hud-baseline-badge rounded-sm border border-gold/30 bg-gold/10 px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
               Known
             </span>
           )}

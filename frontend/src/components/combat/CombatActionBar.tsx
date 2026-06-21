@@ -9,7 +9,7 @@ interface CombatActionBarProps {
 type ExpandedInput = 'spell' | 'item' | null;
 
 const ACTION_BUTTON_STYLE =
-  'inline-flex items-center justify-center border-2 border-ruby/30 bg-charcoal px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-champagne transition-all duration-200 hover:border-ruby hover:bg-ruby/10 hover:text-ruby focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:opacity-40';
+  'hud-btn hud-text-button inline-flex items-center justify-center border-2 border-ruby/30 bg-charcoal px-4 text-xs font-semibold uppercase tracking-[0.15em] text-champagne transition-all duration-200 hover:border-ruby hover:bg-ruby/10 hover:text-ruby focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:opacity-40';
 
 export function CombatActionBar({ onAction, disabled }: CombatActionBarProps) {
   const [expandedInput, setExpandedInput] = useState<ExpandedInput>(null);
@@ -128,7 +128,7 @@ export function CombatActionBar({ onAction, disabled }: CombatActionBarProps) {
           </button>
           <button
             type="button"
-            className="inline-flex items-center justify-center border-2 border-pewter/30 px-3 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-pewter transition-all duration-200 hover:border-pewter hover:text-champagne"
+            className="hud-btn hud-text-button inline-flex items-center justify-center border-2 border-pewter/30 px-3 text-xs font-semibold uppercase tracking-[0.15em] text-pewter transition-all duration-200 hover:border-pewter hover:text-champagne"
             onClick={() => {
               setExpandedInput(null);
               setInputText('');

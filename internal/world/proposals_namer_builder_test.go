@@ -5,7 +5,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 func validProposalResponse() proposalLLMResponse {

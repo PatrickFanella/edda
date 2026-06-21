@@ -8,22 +8,13 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/google/uuid"
-
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const levelUpToolName = "level_up"
 
-// LevelUpStore provides persistence required for level_up.
-type LevelUpStore interface {
-	GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error)
-	UpdatePlayerLevel(ctx context.Context, playerCharacterID uuid.UUID, level int) error
-	UpdatePlayerStats(ctx context.Context, playerCharacterID uuid.UUID, stats json.RawMessage) error
-	UpdatePlayerAbilities(ctx context.Context, playerCharacterID uuid.UUID, abilities json.RawMessage) error
-	UpdatePlayerHP(ctx context.Context, playerCharacterID uuid.UUID, hp, maxHP int) error
-}
+type LevelUpStore = domain.LevelUpStore
 
 // hpGainPerLevel is the fixed HP increase applied on each level-up.
 const hpGainPerLevel = 5

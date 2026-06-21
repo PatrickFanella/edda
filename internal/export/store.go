@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 )
 
 // Store provides raw SQL queries to gather full campaign data for export.

@@ -9,10 +9,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 const innkeeperName = "Innkeeper Toma"
@@ -72,7 +71,7 @@ func TestNPCDialogueStoreLogNPCDialoguePersistsSessionLog(t *testing.T) {
 	npcID := uuid.New()
 	q.recentSessionLogs = []statedb.SessionLog{{TurnNumber: 7}}
 
-	err := store.LogNPCDialogue(context.Background(), tools.NPCDialogueLogEntry{
+	err := store.LogNPCDialogue(context.Background(), domain.NPCDialogueLogEntry{
 		CampaignID:        campaignID,
 		LocationID:        locationID,
 		NPCID:             npcID,
@@ -114,7 +113,7 @@ func TestNPCDialogueStoreLogNPCDialogueErrors(t *testing.T) {
 		q.listRecentSessionLogsErr = errors.New("query failed")
 		store := NewNPCService(q)
 
-		err := store.LogNPCDialogue(context.Background(), tools.NPCDialogueLogEntry{
+		err := store.LogNPCDialogue(context.Background(), domain.NPCDialogueLogEntry{
 			CampaignID:        uuid.New(),
 			LocationID:        uuid.New(),
 			NPCID:             uuid.New(),
@@ -133,7 +132,7 @@ func TestNPCDialogueStoreLogNPCDialogueErrors(t *testing.T) {
 		q.createSessionLogErr = errors.New("insert failed")
 		store := NewNPCService(q)
 
-		err := store.LogNPCDialogue(context.Background(), tools.NPCDialogueLogEntry{
+		err := store.LogNPCDialogue(context.Background(), domain.NPCDialogueLogEntry{
 			CampaignID:        uuid.New(),
 			LocationID:        uuid.New(),
 			NPCID:             uuid.New(),
@@ -148,8 +147,14 @@ func TestNPCDialogueStoreLogNPCDialogueErrors(t *testing.T) {
 	})
 }
 
-var _ tools.NPCDialogueStore = (*npcService)(nil)
-var _ tools.UpdateNPCStore = (*npcService)(nil)
+var _ interface {
+	GetNPCByID(context.Context, uuid.UUID) (*domain.NPC, error)
+	LogNPCDialogue(context.Context, domain.NPCDialogueLogEntry) error
+} = (*npcService)(nil)
+var _ interface {
+	LocationExistsInCampaign(context.Context, uuid.UUID, uuid.UUID) (bool, error)
+	UpdateNPC(context.Context, domain.NPC) (*domain.NPC, error)
+} = (*npcService)(nil)
 
 // ---------------------------------------------------------------------------
 // UpdateNPC / LocationExistsInCampaign tests (merged from update_npc_store_test.go)

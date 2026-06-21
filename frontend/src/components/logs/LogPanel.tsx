@@ -1,4 +1,5 @@
 import type { NarrativeEntryItem } from '../narrative/NarrativeEntry';
+import { HudPanel } from '../layout/HudPanel';
 
 interface LogPanelProps {
   readonly entries: NarrativeEntryItem[];
@@ -11,23 +12,23 @@ export function LogPanel({ entries, streamingEntry, isLoading, error }: LogPanel
   const allEntries = streamingEntry ? [...entries, streamingEntry] : entries;
 
   return (
-    <div className="flex flex-col gap-2 p-4 font-mono text-sm">
+    <HudPanel title="Logs" accent="scene" bodyClassName="flex flex-col gap-2 font-mono text-sm">
       {error && (
-        <p className="text-red-400">{error}</p>
+        <p className="text-ruby">{error}</p>
       )}
       {allEntries.length === 0 && !isLoading && (
-        <p className="text-stone-500 italic">No log entries yet.</p>
+        <p className="italic text-pewter">No log entries yet.</p>
       )}
       {allEntries.map((entry) => (
-        <div key={entry.id} className="flex gap-3 text-stone-300">
-          <span className="shrink-0 text-stone-600">{entry.timestamp}</span>
-          <span className="text-amber-400/70">[{entry.kind}]</span>
+        <div key={entry.id} className="flex gap-3 text-champagne/75">
+          <span className="shrink-0 text-pewter/60">{entry.timestamp}</span>
+          <span className="text-gold/70">[{entry.kind}]</span>
           <span>{entry.text}</span>
         </div>
       ))}
       {isLoading && (
-        <p className="text-stone-500 animate-pulse">...</p>
+        <p className="animate-pulse text-pewter">...</p>
       )}
-    </div>
+    </HudPanel>
   );
 }

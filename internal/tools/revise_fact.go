@@ -7,23 +7,26 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const reviseFactToolName = "revise_fact"
 
+var (
+	ErrWorldFactNotFound      = domain.ErrWorldFactNotFound
+	ErrWorldFactSuperseded    = domain.ErrWorldFactSuperseded
+	ErrWorldFactWrongCampaign = errors.New("world fact does not belong to campaign")
+)
+
+type ReviseWorldFactCommand = domain.ReviseWorldFactCommand
+
+type ReviseWorldFactResult = domain.ReviseWorldFactResult
+
 // ReviseFactStore persists fact supersession.
 type ReviseFactStore interface {
-	GetFactByID(ctx context.Context, id pgtype.UUID) (statedb.WorldFact, error)
-	SupersedeFact(ctx context.Context, arg statedb.SupersedeFactParams) (statedb.WorldFact, error)
-	SetFactPlayerKnown(ctx context.Context, id pgtype.UUID) error
-	GetFactPlayerKnown(ctx context.Context, id pgtype.UUID) (bool, error)
+	ReviseWorldFact(ctx context.Context, cmd ReviseWorldFactCommand) (*ReviseWorldFactResult, error)
 }
 
 // ReviseFactTool returns the revise_fact tool definition and JSON schema.
@@ -34,6 +37,10 @@ func ReviseFactTool() llm.Tool {
 		Parameters: map[string]any{
 			"type": "object",
 			"properties": map[string]any{
+				"campaign_id": map[string]any{
+					"type":        "string",
+					"description": "Campaign UUID that owns the fact. Usually supplied by tool context; explicit values must match context.",
+				},
 				"fact_id": map[string]any{
 					"type":        "string",
 					"description": "UUID of the existing world fact to supersede.",
@@ -94,63 +101,73 @@ func (h *ReviseFactHandler) Handle(ctx context.Context, args map[string]any) (*T
 	if err != nil {
 		return nil, err
 	}
+	campaignID, err := campaignIDForReviseFact(ctx, args)
+	if err != nil {
+		return nil, err
+	}
 	newFactText, err := parseStringArg(args, "new_fact")
 	if err != nil {
 		return nil, err
 	}
 
-	oldFact, err := h.factStore.GetFactByID(ctx, dbutil.ToPgtype(factID))
+	revealToPlayer, err := parseBoolArg(args, "reveal_to_player")
 	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
+		return nil, err
+	}
+
+	result, err := h.factStore.ReviseWorldFact(ctx, ReviseWorldFactCommand{CampaignID: campaignID, FactID: factID, NewFact: newFactText, RevealToPlayer: revealToPlayer})
+	if err != nil {
+		if errors.Is(err, ErrWorldFactNotFound) {
 			return nil, errors.New("fact_id does not reference an existing world fact")
 		}
-		return nil, fmt.Errorf("get existing fact: %w", err)
-	}
-	if oldFact.SupersededBy.Valid {
-		return nil, fmt.Errorf("fact %s is already superseded and cannot be revised", factID)
-	}
-
-	newFact, err := h.factStore.SupersedeFact(ctx, statedb.SupersedeFactParams{
-		OldFactID: dbutil.ToPgtype(factID),
-		Fact:      newFactText,
-		Category:  oldFact.Category,
-		Source:    reviseFactToolName,
-	})
-	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, fmt.Errorf("fact %s was superseded concurrently; fetch the current fact and retry", factID)
+		if errors.Is(err, ErrWorldFactSuperseded) {
+			return nil, fmt.Errorf("fact %s is already superseded and cannot be revised", factID)
 		}
-		return nil, fmt.Errorf("supersede fact: %w", err)
+		return nil, fmt.Errorf("revise world fact: %w", err)
 	}
 
-	// Propagate player_known from old fact to new fact.
-	oldPlayerKnown, _ := h.factStore.GetFactPlayerKnown(ctx, dbutil.ToPgtype(factID))
-	if oldPlayerKnown {
-		_ = h.factStore.SetFactPlayerKnown(ctx, newFact.ID)
-	}
-
-	newFactID := dbutil.FromPgtype(newFact.ID)
-	campaignID := dbutil.FromPgtype(newFact.CampaignID)
+	newFactID := result.NewFact.ID
+	resultCampaignID := result.NewFact.CampaignID
 
 	if h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedRevisedFactMemory(ctx, campaignID, factID, newFactID, newFactText, oldFact.Category); err != nil {
-			return nil, err
+		if err := h.embedRevisedFactMemory(ctx, resultCampaignID, factID, newFactID, newFactText, result.NewFact.Category); err != nil {
+			return &ToolResult{Success: true, Data: map[string]any{"new_fact_id": newFactID.String(), "old_fact_id": factID.String(), "campaign_id": resultCampaignID.String(), "new_fact": newFactText, "category": result.NewFact.Category, "source": reviseFactToolName, "supersedes": factID.String(), "player_known": result.PlayerKnownPropagated, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("World fact revised: %q supersedes fact %s. Memory embedding failed: %v", newFactText, factID, err)}, nil
 		}
 	}
 
 	return &ToolResult{
 		Success: true,
 		Data: map[string]any{
-			"new_fact_id":    newFactID.String(),
-			"old_fact_id":    factID.String(),
-			"campaign_id":    campaignID.String(),
-			"new_fact":       newFactText,
-			"category":       oldFact.Category,
-			"source":         reviseFactToolName,
-			"supersedes":     factID.String(),
+			"new_fact_id":  newFactID.String(),
+			"old_fact_id":  factID.String(),
+			"campaign_id":  resultCampaignID.String(),
+			"new_fact":     newFactText,
+			"category":     result.NewFact.Category,
+			"source":       reviseFactToolName,
+			"supersedes":   factID.String(),
+			"player_known": result.PlayerKnownPropagated,
 		},
 		Narrative: fmt.Sprintf("World fact revised: %q supersedes fact %s.", newFactText, factID),
 	}, nil
+}
+
+func campaignIDForReviseFact(ctx context.Context, args map[string]any) (uuid.UUID, error) {
+	contextCampaignID, hasContextCampaignID := CurrentCampaignIDFromContext(ctx)
+	raw, hasArg := args["campaign_id"]
+	if !hasArg {
+		if hasContextCampaignID {
+			return contextCampaignID, nil
+		}
+		return uuid.Nil, errors.New("campaign_id is required")
+	}
+	argCampaignID, err := parseUUIDArg(map[string]any{"campaign_id": raw}, "campaign_id")
+	if err != nil {
+		return uuid.Nil, err
+	}
+	if hasContextCampaignID && argCampaignID != contextCampaignID {
+		return uuid.Nil, errors.New("campaign_id does not match current campaign context")
+	}
+	return argCampaignID, nil
 }
 
 func (h *ReviseFactHandler) embedRevisedFactMemory(
@@ -167,11 +184,11 @@ func (h *ReviseFactHandler) embedRevisedFactMemory(
 		return fmt.Errorf("embed revised fact memory: %w", err)
 	}
 	metadata, err := json.Marshal(map[string]any{
-		"fact_id":      newFactID.String(),
-		"old_fact_id":  oldFactID.String(),
-		"category":     category,
-		"source":       reviseFactToolName,
-		"supersedes":   oldFactID.String(),
+		"fact_id":     newFactID.String(),
+		"old_fact_id": oldFactID.String(),
+		"category":    category,
+		"source":      reviseFactToolName,
+		"supersedes":  oldFactID.String(),
 	})
 	if err != nil {
 		return fmt.Errorf("marshal revised fact memory metadata: %w", err)

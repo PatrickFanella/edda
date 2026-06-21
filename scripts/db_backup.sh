@@ -32,8 +32,8 @@ require_var() {
 
 parse_db_url() {
   local regex='^postgres(ql)?://([^:/?#]+)(:([^@/?#]*))?@([^/?#:]+|\[[^]]+\])(:([0-9]+))?/([^?]+)'
-  if [[ ! "$GM_DB_URL" =~ $regex ]]; then
-    die "GM_DB_URL must be a postgres:// URL with explicit user, host, port, and database name"
+  if [[ ! "$EDDA_DB_URL" =~ $regex ]]; then
+    die "EDDA_DB_URL must be a postgres:// URL with explicit user, host, port, and database name"
   fi
 
   DB_HOST=${BASH_REMATCH[5]}
@@ -51,7 +51,7 @@ resolve_db_container() {
 
   case "$DB_HOST" in
     localhost|127.0.0.1|::1|[::1])
-      die "GM_DB_URL host '$DB_HOST' is not container-addressable; use the existing Postgres container hostname for production backup flow"
+      die "EDDA_DB_URL host '$DB_HOST' is not container-addressable; use the existing Postgres container hostname for production backup flow"
       ;;
   esac
 
@@ -60,11 +60,11 @@ resolve_db_container() {
 
 run_pg_dump() {
   if [[ -n "$DB_CONTAINER" ]]; then
-    docker exec -i "$DB_CONTAINER" pg_dump --dbname="$GM_DB_URL" --format=custom --no-owner --no-privileges
+    docker exec -i "$DB_CONTAINER" pg_dump --dbname="$EDDA_DB_URL" --format=custom --no-owner --no-privileges
     return 0
   fi
 
-  docker run --rm -i --network projects "$DB_IMAGE" pg_dump --dbname="$GM_DB_URL" --format=custom --no-owner --no-privileges
+  docker run --rm -i --network projects "$DB_IMAGE" pg_dump --dbname="$EDDA_DB_URL" --format=custom --no-owner --no-privileges
 }
 
 validate_dump() {
@@ -105,7 +105,7 @@ set -a
 . "$ENV_FILE"
 set +a
 
-require_var GM_DB_URL
+require_var EDDA_DB_URL
 parse_db_url
 resolve_db_container
 

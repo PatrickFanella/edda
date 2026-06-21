@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/world"
+	"git.subcult.tv/subculture-collective/edda/internal/world"
 )
 
 // CampaignCreateRequest describes the payload used to create a campaign.
@@ -18,6 +18,8 @@ type CampaignCreateRequest struct {
 }
 
 // CampaignResponse describes a campaign returned by the API.
+//
+// Converters keep Themes non-nil and preserve timestamp JSON shape as time.Time.
 type CampaignResponse struct {
 	ID          string    `json:"id"`
 	Name        string    `json:"name"`
@@ -44,6 +46,9 @@ type CharacterAbility struct {
 }
 
 // CharacterResponse describes a player character returned by the API.
+//
+// Converters normalize Stats and Abilities to empty collections and omit
+// CurrentLocationID when unknown.
 type CharacterResponse struct {
 	ID                string             `json:"id"`
 	CampaignID        string             `json:"campaign_id"`
@@ -70,6 +75,7 @@ type LocationConnectionResponse struct {
 }
 
 // LocationResponse describes a location returned by the API.
+// Converters normalize Properties and Connections to empty collections.
 type LocationResponse struct {
 	ID           string                       `json:"id"`
 	CampaignID   string                       `json:"campaign_id"`
@@ -82,6 +88,7 @@ type LocationResponse struct {
 }
 
 // NPCResponse describes a non-player character returned by the API.
+// Optional IDs and HP are omitted when unset; collection fields default empty.
 type NPCResponse struct {
 	ID          string         `json:"id"`
 	CampaignID  string         `json:"campaign_id"`
@@ -106,6 +113,7 @@ type QuestObjectiveResponse struct {
 }
 
 // QuestResponse describes a quest returned by the API.
+// ParentQuestID is omitted when absent.
 type QuestResponse struct {
 	ID            string                   `json:"id"`
 	CampaignID    string                   `json:"campaign_id"`
@@ -118,6 +126,7 @@ type QuestResponse struct {
 }
 
 // ItemResponse describes an item returned by the API.
+// PlayerCharacterID is omitted when absent.
 type ItemResponse struct {
 	ID                string         `json:"id"`
 	CampaignID        string         `json:"campaign_id"`
@@ -137,6 +146,7 @@ type SessionLogEntry struct {
 	PlayerInput string    `json:"player_input"`
 	InputType   string    `json:"input_type"`
 	LLMResponse string    `json:"llm_response"`
+	Choices     []string  `json:"choices,omitempty"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 
@@ -286,6 +296,7 @@ type WorldBuildResponse struct {
 }
 
 // FactResponse represents a world fact visible to the API consumer.
+// CreatedAt is serialized as an RFC3339 string.
 type FactResponse struct {
 	ID           string  `json:"id"`
 	CampaignID   string  `json:"campaign_id"`
@@ -298,6 +309,7 @@ type FactResponse struct {
 }
 
 // RelationshipResponse represents an entity relationship.
+// CreatedAt is serialized as an RFC3339 string and Strength is optional.
 type RelationshipResponse struct {
 	ID               string `json:"id"`
 	CampaignID       string `json:"campaign_id"`
@@ -313,6 +325,7 @@ type RelationshipResponse struct {
 }
 
 // LanguageResponse represents a player-known language.
+// CreatedAt is serialized as an RFC3339 string.
 type LanguageResponse struct {
 	ID          string `json:"id"`
 	CampaignID  string `json:"campaign_id"`
@@ -323,6 +336,7 @@ type LanguageResponse struct {
 }
 
 // CultureResponse represents a player-known culture.
+// Optional foreign keys are omitted when unset.
 type CultureResponse struct {
 	ID             string  `json:"id"`
 	CampaignID     string  `json:"campaign_id"`

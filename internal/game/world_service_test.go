@@ -6,13 +6,17 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
-var _ tools.LanguageStore = (*worldService)(nil)
-var _ tools.MemoryStore = (*worldService)(nil)
+var _ interface {
+	CreateLanguage(context.Context, domain.CreateLanguageParams) (uuid.UUID, error)
+} = (*worldService)(nil)
+var _ interface {
+	CreateMemory(context.Context, domain.CreateMemoryParams) error
+} = (*worldService)(nil)
 
 func TestWorldServiceCreateLanguage(t *testing.T) {
 	q := newMockQuerier()
@@ -23,7 +27,7 @@ func TestWorldServiceCreateLanguage(t *testing.T) {
 	q.createLanguageResult = statedb.Language{ID: dbutil.ToPgtype(langID)}
 	svc := NewWorldService(q)
 
-	got, err := svc.CreateLanguage(context.Background(), tools.CreateLanguageParams{
+	got, err := svc.CreateLanguage(context.Background(), domain.CreateLanguageParams{
 		CampaignID:         campaignID,
 		Name:               "Elvish",
 		Description:        "An ancient tongue.",
@@ -130,7 +134,7 @@ func TestWorldServiceCreateMemory(t *testing.T) {
 	svc := NewWorldService(q)
 
 	embedding := []float32{0.1, 0.2, 0.3}
-	err := svc.CreateMemory(context.Background(), tools.CreateMemoryParams{
+	err := svc.CreateMemory(context.Background(), domain.CreateMemoryParams{
 		CampaignID: campaignID,
 		Content:    "The old king vanished twenty years ago.",
 		Embedding:  embedding,

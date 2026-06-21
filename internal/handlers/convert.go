@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/engine"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 func campaignToResponse(c statedb.Campaign) api.CampaignResponse {
@@ -15,7 +16,7 @@ func campaignToResponse(c statedb.Campaign) api.CampaignResponse {
 	if themes == nil {
 		themes = []string{}
 	}
-	rulesMode := c.RulesMode.String
+	rulesMode := c.RulesMode
 	if rulesMode == "" {
 		rulesMode = "narrative"
 	}
@@ -29,20 +30,14 @@ func campaignToResponse(c statedb.Campaign) api.CampaignResponse {
 		Status:      c.Status,
 		RulesMode:   rulesMode,
 		CreatedBy:   dbutil.FromPgtype(c.CreatedBy).String(),
-		CreatedAt:   c.CreatedAt.Time,
-		UpdatedAt:   c.UpdatedAt.Time,
+		CreatedAt:   timestamptzValue(c.CreatedAt),
+		UpdatedAt:   timestamptzValue(c.UpdatedAt),
 	}
 }
 
 func playerCharacterToResponse(pc statedb.PlayerCharacter) api.CharacterResponse {
 	stats := unmarshalJSONMap(pc.Stats)
 	abilities := parseAbilities(pc.Abilities)
-
-	var locID *string
-	if pc.CurrentLocationID.Valid {
-		s := dbutil.FromPgtype(pc.CurrentLocationID).String()
-		locID = &s
-	}
 
 	return api.CharacterResponse{
 		ID:                dbutil.FromPgtype(pc.ID).String(),
@@ -57,7 +52,7 @@ func playerCharacterToResponse(pc statedb.PlayerCharacter) api.CharacterResponse
 		Level:             int(pc.Level),
 		Status:            pc.Status,
 		Abilities:         abilities,
-		CurrentLocationID: locID,
+		CurrentLocationID: optionalUUIDString(pc.CurrentLocationID),
 	}
 }
 
@@ -84,16 +79,6 @@ func locationToResponse(l statedb.Location, conns []statedb.GetConnectionsFromLo
 }
 
 func npcToResponse(n statedb.Npc) api.NPCResponse {
-	var factionID *string
-	if n.FactionID.Valid {
-		s := dbutil.FromPgtype(n.FactionID).String()
-		factionID = &s
-	}
-	var hp *int
-	if n.Hp.Valid {
-		v := int(n.Hp.Int32)
-		hp = &v
-	}
 	return api.NPCResponse{
 		ID:          dbutil.FromPgtype(n.ID).String(),
 		CampaignID:  dbutil.FromPgtype(n.CampaignID).String(),
@@ -101,20 +86,15 @@ func npcToResponse(n statedb.Npc) api.NPCResponse {
 		Description: n.Description.String,
 		Personality: n.Personality.String,
 		Disposition: int(n.Disposition),
-		FactionID:   factionID,
+		FactionID:   optionalUUIDString(n.FactionID),
 		Alive:       n.Alive,
-		HP:          hp,
+		HP:          optionalInt32Value(n.Hp),
 		Stats:       unmarshalJSONMap(n.Stats),
 		Properties:  unmarshalJSONMap(n.Properties),
 	}
 }
 
 func questToResponse(q statedb.Quest, objs []statedb.QuestObjective) api.QuestResponse {
-	var parentID *string
-	if q.ParentQuestID.Valid {
-		s := dbutil.FromPgtype(q.ParentQuestID).String()
-		parentID = &s
-	}
 	objectives := make([]api.QuestObjectiveResponse, 0, len(objs))
 	for _, o := range objs {
 		objectives = append(objectives, api.QuestObjectiveResponse{
@@ -127,7 +107,7 @@ func questToResponse(q statedb.Quest, objs []statedb.QuestObjective) api.QuestRe
 	return api.QuestResponse{
 		ID:            dbutil.FromPgtype(q.ID).String(),
 		CampaignID:    dbutil.FromPgtype(q.CampaignID).String(),
-		ParentQuestID: parentID,
+		ParentQuestID: optionalUUIDString(q.ParentQuestID),
 		Title:         q.Title,
 		Description:   q.Description.String,
 		QuestType:     q.QuestType,
@@ -137,15 +117,10 @@ func questToResponse(q statedb.Quest, objs []statedb.QuestObjective) api.QuestRe
 }
 
 func itemToResponse(i statedb.Item) api.ItemResponse {
-	var pcID *string
-	if i.PlayerCharacterID.Valid {
-		s := dbutil.FromPgtype(i.PlayerCharacterID).String()
-		pcID = &s
-	}
 	return api.ItemResponse{
 		ID:                dbutil.FromPgtype(i.ID).String(),
 		CampaignID:        dbutil.FromPgtype(i.CampaignID).String(),
-		PlayerCharacterID: pcID,
+		PlayerCharacterID: optionalUUIDString(i.PlayerCharacterID),
 		Name:              i.Name,
 		Description:       i.Description.String,
 		ItemType:          i.ItemType,
@@ -169,6 +144,11 @@ func engineStateChangesToAPI(changes []engine.StateChange) []api.StateChange {
 		if sc.NewValue != nil {
 			var nv any
 			if json.Unmarshal(sc.NewValue, &nv) == nil {
+				if fields, ok := nv.(map[string]any); ok {
+					for key, value := range fields {
+						details[key] = value
+					}
+				}
 				details["new_value"] = nv
 			}
 		}
@@ -191,13 +171,38 @@ func engineTurnResultToAPI(tr *engine.TurnResult) api.TurnResponse {
 }
 
 func sessionLogToEntry(sl statedb.SessionLog) api.SessionLogEntry {
+	choices := openingChoicesFromToolCalls(sl.ToolCalls)
 	return api.SessionLogEntry{
 		TurnNumber:  int(sl.TurnNumber),
 		PlayerInput: sl.PlayerInput,
 		InputType:   sl.InputType,
 		LLMResponse: sl.LlmResponse,
+		Choices:     choices,
 		CreatedAt:   sl.CreatedAt.Time,
 	}
+}
+
+func openingChoicesFromToolCalls(toolCalls []byte) []string {
+	if len(toolCalls) == 0 {
+		return nil
+	}
+
+	var payload []struct {
+		Type    string   `json:"type"`
+		Choices []string `json:"choices"`
+	}
+	if err := json.Unmarshal(toolCalls, &payload); err != nil {
+		return nil
+	}
+	for _, call := range payload {
+		if call.Type == "opening_choices" {
+			if len(call.Choices) == 0 {
+				return nil
+			}
+			return call.Choices
+		}
+	}
+	return nil
 }
 
 // unmarshalJSONMap decodes raw JSON bytes into a map; returns empty map on
@@ -226,29 +231,19 @@ func parseAbilities(data []byte) []api.CharacterAbility {
 }
 
 func factToResponse(f statedb.WorldFact) api.FactResponse {
-	var supersededBy *string
-	if f.SupersededBy.Valid {
-		s := dbutil.FromPgtype(f.SupersededBy).String()
-		supersededBy = &s
-	}
 	return api.FactResponse{
 		ID:           dbutil.FromPgtype(f.ID).String(),
 		CampaignID:   dbutil.FromPgtype(f.CampaignID).String(),
 		Fact:         f.Fact,
 		Category:     f.Category,
 		Source:       f.Source,
-		SupersededBy: supersededBy,
+		SupersededBy: optionalUUIDString(f.SupersededBy),
 		PlayerKnown:  f.PlayerKnown,
-		CreatedAt:    f.CreatedAt.Time.Format(time.RFC3339),
+		CreatedAt:    timestamptzRFC3339(f.CreatedAt),
 	}
 }
 
 func relationshipToResponse(r statedb.EntityRelationship) api.RelationshipResponse {
-	var strength *int
-	if r.Strength.Valid {
-		v := int(r.Strength.Int32)
-		strength = &v
-	}
 	return api.RelationshipResponse{
 		ID:               dbutil.FromPgtype(r.ID).String(),
 		CampaignID:       dbutil.FromPgtype(r.CampaignID).String(),
@@ -258,9 +253,9 @@ func relationshipToResponse(r statedb.EntityRelationship) api.RelationshipRespon
 		TargetEntityID:   dbutil.FromPgtype(r.TargetEntityID).String(),
 		RelationshipType: r.RelationshipType,
 		Description:      r.Description.String,
-		Strength:         strength,
+		Strength:         optionalInt32Value(r.Strength),
 		PlayerAware:      r.PlayerAware,
-		CreatedAt:        r.CreatedAt.Time.Format(time.RFC3339),
+		CreatedAt:        timestamptzRFC3339(r.CreatedAt),
 	}
 }
 
@@ -271,28 +266,19 @@ func languageToResponse(l statedb.Language) api.LanguageResponse {
 		Name:        l.Name,
 		Description: l.Description,
 		PlayerKnown: l.PlayerKnown,
-		CreatedAt:   l.CreatedAt.Time.Format(time.RFC3339),
+		CreatedAt:   timestamptzRFC3339(l.CreatedAt),
 	}
 }
 
 func cultureToResponse(c statedb.Culture) api.CultureResponse {
-	var langID, beliefID *string
-	if c.LanguageID.Valid {
-		s := dbutil.FromPgtype(c.LanguageID).String()
-		langID = &s
-	}
-	if c.BeliefSystemID.Valid {
-		s := dbutil.FromPgtype(c.BeliefSystemID).String()
-		beliefID = &s
-	}
 	return api.CultureResponse{
 		ID:             dbutil.FromPgtype(c.ID).String(),
 		CampaignID:     dbutil.FromPgtype(c.CampaignID).String(),
 		Name:           c.Name,
-		LanguageID:     langID,
-		BeliefSystemID: beliefID,
+		LanguageID:     optionalUUIDString(c.LanguageID),
+		BeliefSystemID: optionalUUIDString(c.BeliefSystemID),
 		PlayerKnown:    c.PlayerKnown,
-		CreatedAt:      c.CreatedAt.Time.Format(time.RFC3339),
+		CreatedAt:      timestamptzRFC3339(c.CreatedAt),
 	}
 }
 
@@ -302,7 +288,7 @@ func beliefSystemToResponse(b statedb.BeliefSystem) api.BeliefSystemResponse {
 		CampaignID:  dbutil.FromPgtype(b.CampaignID).String(),
 		Name:        b.Name,
 		PlayerKnown: b.PlayerKnown,
-		CreatedAt:   b.CreatedAt.Time.Format(time.RFC3339),
+		CreatedAt:   timestamptzRFC3339(b.CreatedAt),
 	}
 }
 
@@ -312,7 +298,7 @@ func economicSystemToResponse(e statedb.EconomicSystem) api.EconomicSystemRespon
 		CampaignID:  dbutil.FromPgtype(e.CampaignID).String(),
 		Name:        e.Name,
 		PlayerKnown: e.PlayerKnown,
-		CreatedAt:   e.CreatedAt.Time.Format(time.RFC3339),
+		CreatedAt:   timestamptzRFC3339(e.CreatedAt),
 	}
 }
 
@@ -327,4 +313,28 @@ func mapLocationToResponse(l statedb.Location) api.MapLocationResponse {
 		PlayerVisited: l.PlayerVisited,
 		PlayerKnown:   l.PlayerKnown,
 	}
+}
+
+func optionalUUIDString(id pgtype.UUID) *string {
+	if !id.Valid {
+		return nil
+	}
+	s := dbutil.FromPgtype(id).String()
+	return &s
+}
+
+func optionalInt32Value(v pgtype.Int4) *int {
+	if !v.Valid {
+		return nil
+	}
+	i := int(v.Int32)
+	return &i
+}
+
+func timestamptzValue(ts pgtype.Timestamptz) time.Time {
+	return ts.Time
+}
+
+func timestamptzRFC3339(ts pgtype.Timestamptz) string {
+	return ts.Time.Format(time.RFC3339)
 }

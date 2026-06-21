@@ -40,24 +40,24 @@ export function ReplayControls({
   }
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 border-2 border-gold/20 bg-charcoal px-5 py-4">
+    <div className="flex flex-wrap items-center justify-between gap-4">
       {/* Transport controls */}
       <div className="flex items-center gap-2">
         <button
           type="button"
           onClick={prevTurn}
           disabled={currentTurnIndex <= 0}
-          className="inline-flex items-center justify-center border border-gold/20 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold disabled:opacity-30 disabled:cursor-not-allowed"
+          className="hud-btn hud-icon-btn border border-pewter/30 text-pewter transition-colors hover:border-sapphire hover:text-sapphire disabled:cursor-not-allowed disabled:opacity-30"
           aria-label="Previous turn"
         >
-          Prev
+          <span aria-hidden="true">‹</span>
         </button>
 
         <button
           type="button"
           onClick={isPlaying ? pause : play}
           disabled={totalTurns === 0}
-          className="inline-flex items-center justify-center border-2 border-ruby/40 bg-ruby/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-ruby transition-all duration-200 hover:border-ruby hover:bg-ruby/20 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="hud-btn hud-text-button border border-sapphire/40 bg-sapphire/10 px-5 text-sm font-semibold uppercase tracking-wide text-sapphire transition-colors hover:border-sapphire hover:bg-sapphire/15 disabled:cursor-not-allowed disabled:opacity-30"
           aria-label={isPlaying ? 'Pause' : 'Play'}
         >
           {isPlaying ? 'Pause' : 'Play'}
@@ -67,10 +67,10 @@ export function ReplayControls({
           type="button"
           onClick={nextTurn}
           disabled={currentTurnIndex >= totalTurns - 1}
-          className="inline-flex items-center justify-center border border-gold/20 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold disabled:opacity-30 disabled:cursor-not-allowed"
+          className="hud-btn hud-icon-btn border border-pewter/30 text-pewter transition-colors hover:border-sapphire hover:text-sapphire disabled:cursor-not-allowed disabled:opacity-30"
           aria-label="Next turn"
         >
-          Next
+          <span aria-hidden="true">›</span>
         </button>
       </div>
 
@@ -83,10 +83,10 @@ export function ReplayControls({
             type="button"
             onClick={() => setSpeed(speed)}
             className={cn(
-              'inline-flex items-center justify-center border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition-all duration-200',
+              'hud-tab-button px-3 text-xs font-semibold uppercase tracking-wide transition-colors duration-200',
               speed === playbackSpeed
-                ? 'border-gold bg-gold/15 text-gold'
-                : 'border-gold/20 text-champagne/60 hover:border-gold/40 hover:text-champagne',
+                ? 'border-sapphire bg-sapphire/15 text-sapphire'
+                : 'border-pewter/20 text-pewter/70 hover:border-sapphire/40 hover:text-sapphire',
             )}
           >
             {speed}x
@@ -96,7 +96,7 @@ export function ReplayControls({
 
       {/* Turn counter */}
       <p className="text-sm font-medium tracking-wide text-champagne/70">
-        <span className="text-gold">{totalTurns > 0 ? currentTurnIndex + 1 : 0}</span>
+        <span className="text-sapphire">{totalTurns > 0 ? currentTurnIndex + 1 : 0}</span>
         <span className="mx-1 text-pewter">/</span>
         <span>{totalTurns}</span>
         <span className="ml-2 text-[11px] uppercase tracking-[0.2em] text-pewter">turns</span>
@@ -106,7 +106,7 @@ export function ReplayControls({
       <button
         type="button"
         onClick={handleCopyLink}
-        className="inline-flex items-center justify-center border border-sapphire/30 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-sapphire transition-all duration-200 hover:border-sapphire hover:text-sapphire"
+        className="hud-btn hud-text-button border border-sapphire/30 px-3 text-xs font-semibold uppercase tracking-wide text-sapphire transition-colors hover:border-sapphire hover:text-sapphire"
       >
         {copied ? 'Copied!' : 'Copy Link'}
       </button>

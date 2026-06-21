@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { apiFetchBlob } from '../../api/backend';
 import { cn } from '../../lib/cn';
 
 type ExportFormat = 'json' | 'transcript' | 'character';
@@ -10,21 +11,10 @@ interface ExportDialogProps {
   readonly onClose: () => void;
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE ?? '/api/v1';
-
 async function downloadExport(campaignId: string, format: ExportFormat) {
-  const token = localStorage.getItem('gm_token');
-  const headers: Record<string, string> = {};
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  const res = await fetch(`${API_BASE}/campaigns/${campaignId}/export/${format}`, { headers });
-  if (!res.ok) {
-    throw new Error(`Export failed: ${res.statusText}`);
-  }
-
-  const blob = await res.blob();
+  const blob = await apiFetchBlob(`/campaigns/${campaignId}/export/${format}`, {
+    method: 'GET',
+  });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

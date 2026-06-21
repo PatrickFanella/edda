@@ -75,7 +75,7 @@ export function ConfirmationPanel({
   backLabel = 'Back',
 }: ConfirmationPanelProps) {
   return (
-    <div className="deco-corners deco-pattern space-y-6 border-2 border-gold/20 bg-charcoal p-6">
+    <div className="deco-corners deco-pattern game-hud-panel game-hud-panel-setup space-y-6 border-2 border-sapphire/30 bg-charcoal p-6">
       <div className="space-y-2">
         <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-gold">Step 6 · Confirmation</p>
         <h2 className="font-heading text-2xl font-semibold uppercase tracking-wide text-champagne">Review the campaign and character</h2>
@@ -85,7 +85,7 @@ export function ConfirmationPanel({
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <section className="border-2 border-midnight/40 bg-obsidian p-5 transition-all duration-200 hover:border-midnight/60">
+        <section className="game-hud-panel game-hud-panel-setup border-2 border-sapphire/30 bg-obsidian p-5 transition-all duration-200 hover:border-sapphire/50">
           <div className="mb-4 space-y-1">
             <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">Campaign</p>
             <h3 className="font-heading text-xl font-semibold uppercase tracking-wide text-champagne">{campaignName}</h3>
@@ -101,7 +101,7 @@ export function ConfirmationPanel({
           </dl>
         </section>
 
-        <section className="border-2 border-midnight/40 bg-obsidian p-5 transition-all duration-200 hover:border-midnight/60">
+        <section className="game-hud-panel game-hud-panel-setup border-2 border-sapphire/30 bg-obsidian p-5 transition-all duration-200 hover:border-sapphire/50">
           <div className="mb-4 space-y-1">
             <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-jade">Character</p>
             <h3 className="font-heading text-xl font-semibold uppercase tracking-wide text-champagne">{characterProfile.name}</h3>
@@ -130,7 +130,7 @@ export function ConfirmationPanel({
             type="button"
             onClick={onBack}
             disabled={isBeginning}
-            className="inline-flex items-center justify-center border border-gold/30 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:border-gold/10 disabled:text-pewter"
+            className="hud-btn hud-text-button inline-flex items-center justify-center border border-sapphire/30 px-4 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:border-sapphire hover:text-gold focus:outline-none focus:ring-2 focus:ring-sapphire focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:border-sapphire/10 disabled:text-pewter"
           >
             {backLabel}
           </button>
@@ -138,7 +138,7 @@ export function ConfirmationPanel({
             type="button"
             onClick={onBegin}
             disabled={isBeginning}
-            className="inline-flex items-center justify-center bg-ruby px-5 py-3 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
+            className="hud-btn hud-text-button inline-flex items-center justify-center bg-ruby px-5 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
           >
             {isBeginning ? 'Starting adventure…' : beginLabel}
           </button>

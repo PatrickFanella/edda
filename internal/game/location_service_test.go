@@ -9,13 +9,13 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
-var _ tools.MovePlayerStore = (*locationService)(nil)
-var _ tools.DescribeSceneStore = (*locationService)(nil)
+var _ interface {
+	GetLocation(context.Context, uuid.UUID) (string, string, error)
+} = (*locationService)(nil)
 
 func TestLocationServiceGetLocation(t *testing.T) {
 	q := newMockQuerier()

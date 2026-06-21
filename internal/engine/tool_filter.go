@@ -1,9 +1,9 @@
 package engine
 
 import (
-	"github.com/PatrickFanella/game-master/internal/game"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 // GamePhase represents the current phase of gameplay, used to select which
@@ -121,6 +121,10 @@ func (f *PhaseToolFilter) Filter(state *game.GameState, allTools []llm.Tool) []l
 				allowed[tool.Name] = struct{}{}
 			}
 		case tools.CategoryQuest:
+			if tool.Name == "create_quest" && phase == PhaseExploration {
+				allowed[tool.Name] = struct{}{}
+				continue
+			}
 			if len(state.ActiveQuests) > 0 || len(state.NearbyNPCs) > 0 {
 				allowed[tool.Name] = struct{}{}
 			}
@@ -138,8 +142,9 @@ func (f *PhaseToolFilter) Filter(state *game.GameState, allTools []llm.Tool) []l
 	if phase == PhaseCombat {
 		allowed["initiate_combat"] = struct{}{}
 	}
+	allowed["update_player_status"] = struct{}{}
 	if nearLevelThreshold(state) {
-		allowed["update_player_status"] = struct{}{}
+		allowed["update_player_stats"] = struct{}{}
 	}
 
 	// Apply rules_mode filtering.

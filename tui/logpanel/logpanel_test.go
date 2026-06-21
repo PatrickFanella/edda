@@ -8,7 +8,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/PatrickFanella/game-master/internal/logging"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 // Compile-time check: *Model must satisfy tea.Model.

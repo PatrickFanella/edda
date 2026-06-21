@@ -7,10 +7,10 @@ import (
 
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/auth"
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/internal/auth"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // ListCampaigns returns all campaigns owned by the authenticated user.
@@ -82,7 +82,7 @@ func (h *CampaignHandlers) CreateCampaign(w http.ResponseWriter, r *http.Request
 			"UPDATE campaigns SET rules_mode = $1 WHERE id = $2",
 			rulesMode, campaign.ID,
 		)
-		campaign.RulesMode = pgtype.Text{String: rulesMode, Valid: true}
+		campaign.RulesMode = rulesMode
 	}
 
 	writeJSON(w, http.StatusCreated, campaignToResponse(campaign))

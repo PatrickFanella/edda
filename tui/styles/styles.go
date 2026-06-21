@@ -1,4 +1,4 @@
-// Package styles defines the shared visual theme for the game-master TUI using
+// Package styles defines the shared visual theme for the edda TUI using
 // Lip Gloss. It provides a color palette, border styles, text styles (headers,
 // body, player input, NPC dialogue, system messages), and layout helpers for
 // consistent padding, margins, and maximum widths across all views.

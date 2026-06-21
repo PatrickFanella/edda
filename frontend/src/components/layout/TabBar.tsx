@@ -13,14 +13,14 @@ interface TabBarProps<TTab extends string> {
 }
 
 const DEFAULT_ACTIVE = 'bg-ruby text-champagne';
-const DEFAULT_HOVER = 'border border-gold/20 bg-charcoal text-champagne/70 hover:border-gold hover:text-gold hover:bg-gold/5';
+const DEFAULT_HOVER = 'border border-pewter/20 bg-charcoal text-champagne/70 hover:border-pewter hover:text-pewter hover:bg-pewter/5';
 
 export function TabBar<TTab extends string>({ tabs, activeTab, onChange }: TabBarProps<TTab>) {
   return (
     <div
       role="tablist"
       aria-label="Campaign play sections"
-      className="flex flex-wrap gap-2 border-2 border-gold/20 bg-charcoal p-2"
+      className="mx-auto flex max-h-12 w-full flex-nowrap justify-between gap-2 overflow-x-auto overflow-y-hidden bg-charcoal p-1"
     >
       {tabs.map((tab) => {
         const isActive = tab.key === activeTab;
@@ -33,7 +33,7 @@ export function TabBar<TTab extends string>({ tabs, activeTab, onChange }: TabBa
             aria-selected={isActive}
             onClick={() => onChange(tab.key)}
             className={[
-              'relative px-4 py-2 text-sm font-semibold uppercase tracking-[0.15em] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian',
+              'hud-tab-button relative shrink-0 px-4 text-center text-[0.75rem] font-semibold uppercase tracking-[0.12em] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pewter focus:ring-offset-2 focus:ring-offset-obsidian',
               isActive
                 ? (tab.activeTone ?? DEFAULT_ACTIVE)
                 : (tab.hoverTone ?? DEFAULT_HOVER),

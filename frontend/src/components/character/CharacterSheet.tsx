@@ -4,10 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { getCampaignCharacter } from '../../api/characters';
 import { CampaignContext } from '../../context/CampaignContext';
 import { cn } from '../../lib/cn';
+import { HudPanel } from '../layout/HudPanel';
 import { AbilityList } from './AbilityList';
 import { FeatBrowser } from './FeatBrowser';
 import { SkillTree } from './SkillTree';
-import { StatsBlock } from './StatsBlock';
 
 interface CharacterSheetProps {
   readonly campaignId?: string;
@@ -26,30 +26,36 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
 
   if (!activeCampaignId) {
     return (
-      <PanelState
-        className={className}
-        title="Character unavailable"
-        message="Open a campaign before loading the character sheet."
-        tone="empty"
-      />
+      <HudPanel title="Character" accent="empty" className={className}>
+        <p className="text-sm leading-6 text-pewter">Open a campaign before loading the character sheet.</p>
+      </HudPanel>
     );
   }
 
   if (characterQuery.isPending) {
-    return <PanelState className={className} title="Loading character" message="Fetching the latest character sheet…" tone="loading" />;
+    return (
+      <HudPanel title="Character" accent="loading" className={className}>
+        <p className="text-sm leading-6 text-pewter">Fetching the latest character sheet…</p>
+      </HudPanel>
+    );
   }
 
   if (characterQuery.isError) {
-    return <PanelState className={className} title="Character failed to load" message={queryErrorMessage(characterQuery.error)} tone="error" />;
+    return (
+      <HudPanel title="Character" accent="error" className={className}>
+        <p className="text-sm leading-6 text-ruby">{queryErrorMessage(characterQuery.error)}</p>
+      </HudPanel>
+    );
   }
 
   const character = characterQuery.data;
+  const statEntries = Object.entries(character.stats);
 
   return (
     <div className={cn('grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.95fr)]', className)}>
       <div className="space-y-6">
-        <section className="deco-corners deco-corners-jade deco-pattern border-2 border-jade/25 bg-charcoal p-6">
-          <div className="flex flex-wrap items-start justify-between gap-4">
+        <HudPanel title="Character" accent="vitals" className="deco-corners deco-corners-jade deco-pattern" bodyClassName="p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4 border-b border-jade/15 pb-5">
             <div className="space-y-3">
               <div>
                 <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-jade">Character</p>
@@ -64,30 +70,43 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            <MetricCard label="HP" value={`${character.hp} / ${character.max_hp}`} accent="text-jade" />
-            <MetricCard label="Level" value={String(character.level)} accent="text-gold" />
-            <XPProgressCard level={character.level} experience={character.experience} />
-          </div>
-        </section>
+          <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+            <div className="space-y-4">
+              <VitalMeter label="HP" value={character.hp} max={character.max_hp} tone="jade" />
+              <XPProgressLine level={character.level} experience={character.experience} />
 
-        <StatsBlock stats={character.stats} />
+              <dl className="space-y-2 border-t border-jade/15 pt-4 text-sm text-champagne/70">
+                <InfoLine label="Level" value={String(character.level)} />
+                <InfoLine label="Status" value={humanizeInlineValue(character.status)} />
+                <InfoLine
+                  label="Location"
+                  value={character.current_location_id ? character.current_location_id : 'Location not recorded'}
+                  mono={Boolean(character.current_location_id)}
+                />
+                <InfoLine label="Character ID" value={character.id} mono />
+              </dl>
+            </div>
+
+            <div className="border-l border-jade/15 pl-5">
+              <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-jade/80">Stats</p>
+              {statEntries.length > 0 ? (
+                <dl className="mt-3 grid gap-x-5 gap-y-2 sm:grid-cols-2">
+                  {statEntries.map(([key, value]) => (
+                    <div key={key} className="flex items-baseline justify-between gap-3 border-b border-jade/10 pb-2 text-sm">
+                      <dt className="text-pewter/80">{humanizeStatKey(key)}</dt>
+                      <dd className="font-semibold text-champagne">{formatStatValue(value)}</dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : (
+                <p className="mt-3 text-sm leading-6 text-pewter">No stats have been recorded for this character yet.</p>
+              )}
+            </div>
+          </div>
+        </HudPanel>
       </div>
 
       <div className="space-y-6">
-        <section className="border-2 border-jade/20 bg-charcoal p-6">
-          <h3 className="font-heading text-lg font-semibold uppercase tracking-[0.1em] text-champagne">Current standing</h3>
-          <dl className="mt-4 space-y-3 text-sm text-champagne/70">
-            <SummaryRow label="Status" value={humanizeInlineValue(character.status)} />
-            <SummaryRow label="Character ID" value={character.id} mono />
-            <SummaryRow
-              label="Current location"
-              value={character.current_location_id ? character.current_location_id : 'Location not recorded'}
-              mono={Boolean(character.current_location_id)}
-            />
-          </dl>
-        </section>
-
         <AbilityList abilities={character.abilities} />
 
         {campaign?.campaign?.rules_mode === 'crunch' && (
@@ -106,7 +125,7 @@ function nextLevelThreshold(level: number): number {
   return 1000 * level * (level + 1) / 2;
 }
 
-function XPProgressCard({ level, experience }: { readonly level: number; readonly experience: number }) {
+function XPProgressLine({ level, experience }: { readonly level: number; readonly experience: number }) {
   const threshold = nextLevelThreshold(level);
   const prevThreshold = level > 1 ? nextLevelThreshold(level - 1) : 0;
   const xpInLevel = experience - prevThreshold;
@@ -114,11 +133,13 @@ function XPProgressCard({ level, experience }: { readonly level: number; readonl
   const pct = xpNeeded > 0 ? Math.min(100, Math.round((xpInLevel / xpNeeded) * 100)) : 100;
 
   return (
-    <div className="rounded-none border border-jade/20 bg-charcoal/80 p-4 transition-all duration-200 hover:border-jade/40">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-pewter/80">Experience</p>
-      <p className="mt-2 text-lg font-semibold tracking-tight text-sapphire">
-        {experience} <span className="text-sm text-pewter">/ {threshold}</span>
-      </p>
+    <div>
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-pewter/80">Experience</p>
+        <p className="text-sm font-semibold text-sapphire">
+          {experience} <span className="text-pewter">/ {threshold}</span>
+        </p>
+      </div>
       <div className="mt-2 h-2 w-full overflow-hidden bg-midnight/50">
         <div
           className="h-full bg-sapphire transition-all duration-500"
@@ -130,61 +151,43 @@ function XPProgressCard({ level, experience }: { readonly level: number; readonl
   );
 }
 
-function MetricCard({
+function VitalMeter({
   label,
   value,
-  accent,
-}: {
-  readonly label: string;
-  readonly value: string;
-  readonly accent: string;
-}) {
-  return (
-    <div className="rounded-none border border-jade/20 bg-charcoal/80 p-4 transition-all duration-200 hover:border-jade/40">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-pewter/80">{label}</p>
-      <p className={cn('mt-3 text-2xl font-semibold tracking-tight text-champagne', accent)}>{value}</p>
-    </div>
-  );
-}
-
-function SummaryRow({
-  label,
-  value,
-  mono = false,
-}: {
-  readonly label: string;
-  readonly value: string;
-  readonly mono?: boolean;
-}) {
-  return (
-    <div className="flex items-start justify-between gap-4">
-      <dt className="text-pewter">{label}</dt>
-      <dd className={cn('max-w-[60%] text-right text-champagne/80', mono ? 'font-mono text-xs leading-6 text-champagne/60' : '')}>{value}</dd>
-    </div>
-  );
-}
-
-function PanelState({
-  title,
-  message,
+  max,
   tone,
-  className,
 }: {
-  readonly title: string;
-  readonly message: string;
-  readonly tone: 'loading' | 'error' | 'empty';
-  readonly className?: string;
+  readonly label: string;
+  readonly value: number;
+  readonly max: number;
+  readonly tone: 'jade' | 'sapphire';
 }) {
-  const toneClasses =
-    tone === 'error'
-      ? 'border-ruby/40 bg-ruby/10 text-ruby'
-      : 'border-gold/20 bg-charcoal text-champagne/80';
+  const pct = max > 0 ? Math.min(100, Math.round((value / max) * 100)) : 0;
 
   return (
-    <section className={cn('border p-6', toneClasses, className)}>
-      <h2 className="font-heading text-lg font-semibold uppercase tracking-[0.1em] text-champagne">{title}</h2>
-      <p className="mt-2 text-sm leading-6 text-inherit">{message}</p>
-    </section>
+    <div>
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-pewter/80">{label}</p>
+        <p className={cn('text-sm font-semibold', tone === 'jade' ? 'text-jade' : 'text-sapphire')}>
+          {value} <span className="text-pewter">/ {max}</span>
+        </p>
+      </div>
+      <div className="mt-2 h-2 w-full overflow-hidden bg-midnight/50">
+        <div
+          className={cn('h-full transition-all duration-500', tone === 'jade' ? 'bg-jade' : 'bg-sapphire')}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function InfoLine({ label, value, mono = false }: { readonly label: string; readonly value: string; readonly mono?: boolean }) {
+  return (
+    <div className="flex items-baseline justify-between gap-4">
+      <dt className="text-pewter">{label}</dt>
+      <dd className={cn('max-w-[65%] truncate text-right text-champagne/80', mono ? 'font-mono text-xs' : '')}>{value}</dd>
+    </div>
   );
 }
 
@@ -198,4 +201,38 @@ function humanizeInlineValue(value: string): string {
     .replace(/\s+/g, ' ')
     .trim()
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function humanizeStatKey(key: string): string {
+  return key
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function formatStatValue(value: unknown): string {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value.toLocaleString() : String(value);
+  }
+
+  if (typeof value === 'string') {
+    return value.trim().length > 0 ? value : '—';
+  }
+
+  if (typeof value === 'boolean') {
+    return value ? 'True' : 'False';
+  }
+
+  if (value === null || value === undefined) {
+    return '—';
+  }
+
+  if (Array.isArray(value)) {
+    const parts = value.map((item) => formatStatValue(item)).filter((item) => item !== '—');
+    return parts.length > 0 ? parts.join(', ') : '—';
+  }
+
+  return JSON.stringify(value);
 }

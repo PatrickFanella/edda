@@ -10,9 +10,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/domain"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 type stubBeliefSystemStore struct {
@@ -65,7 +65,9 @@ func (s *stubBeliefSystemStore) GetCultureByID(_ context.Context, id pgtype.UUID
 	return culture, nil
 }
 
-func (s *stubBeliefSystemStore) SetBeliefSystemPlayerKnown(_ context.Context, _ pgtype.UUID) error { return nil }
+func (s *stubBeliefSystemStore) SetBeliefSystemPlayerKnown(_ context.Context, _ pgtype.UUID) error {
+	return nil
+}
 
 func TestRegisterCreateBeliefSystem(t *testing.T) {
 	reg := NewRegistry()
@@ -163,6 +165,31 @@ func TestCreateBeliefSystemHandleSuccess(t *testing.T) {
 	}
 	if got.Data["id"] != beliefID.String() {
 		t.Fatalf("result id = %v, want %s", got.Data["id"], beliefID.String())
+	}
+}
+
+func TestCreateBeliefSystemHandleFactWarning(t *testing.T) {
+	campaignID := uuid.New()
+	beliefID := uuid.New()
+	factionID := uuid.New()
+	cultureID := uuid.New()
+
+	beliefStore := &stubBeliefSystemStore{
+		createdBelief: statedb.BeliefSystem{ID: dbutil.ToPgtype(beliefID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Way of the Dawn"},
+		factions:      map[[16]byte]statedb.Faction{dbutil.ToPgtype(factionID).Bytes: {ID: dbutil.ToPgtype(factionID), CampaignID: dbutil.ToPgtype(campaignID)}},
+		cultures:      map[[16]byte]statedb.Culture{dbutil.ToPgtype(cultureID).Bytes: {ID: dbutil.ToPgtype(cultureID), CampaignID: dbutil.ToPgtype(campaignID)}},
+		createFactErr: errors.New("fact write failed"),
+	}
+	h := NewCreateBeliefSystemHandler(beliefStore, nil, nil)
+	result, err := h.Handle(context.Background(), map[string]any{"campaign_id": campaignID.String(), "name": "Way of the Dawn", "description": "A creed.", "deities_or_principles": []any{"Solar Trinity"}, "practices": []any{"Dawn fast"}, "institutions": []any{"Temple"}, "moral_framework": map[string]any{}, "taboos": []any{}, "followers": map[string]any{"faction_ids": []any{factionID.String()}, "culture_ids": []any{cultureID.String()}}})
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if !result.Success {
+		t.Fatal("expected success")
+	}
+	if result.Data["fact_warning"] == nil {
+		t.Fatalf("expected fact_warning in result data, got %+v", result.Data)
 	}
 }
 
@@ -276,9 +303,15 @@ func TestCreateBeliefSystemValidationAndErrors(t *testing.T) {
 			"faction_ids": []any{factionID.String()},
 			"culture_ids": []any{},
 		}
-		_, err := h.Handle(context.Background(), args)
-		if err == nil || !strings.Contains(err.Error(), "create belief system world_fact") {
-			t.Fatalf("error = %v, want world_fact context", err)
+		result, err := h.Handle(context.Background(), args)
+		if err != nil {
+			t.Fatalf("Handle returned error: %v", err)
+		}
+		if !result.Success {
+			t.Fatal("expected success")
+		}
+		if result.Data["fact_warning"] == nil {
+			t.Fatalf("expected fact_warning in result data, got %+v", result.Data)
 		}
 	})
 }
@@ -325,6 +358,99 @@ func TestCreateBeliefSystemStoresMemoryMetadata(t *testing.T) {
 	}
 	if metadata["belief_system_id"] != beliefID.String() {
 		t.Fatalf("metadata.belief_system_id = %v, want %s", metadata["belief_system_id"], beliefID.String())
+	}
+}
+
+func TestCreateBeliefSystemEmbedFailureReturnsWarning(t *testing.T) {
+	campaignID := uuid.New()
+	beliefID := uuid.New()
+	factionID := uuid.New()
+
+	beliefStore := &stubBeliefSystemStore{
+		createdBelief: statedb.BeliefSystem{
+			ID:         dbutil.ToPgtype(beliefID),
+			CampaignID: dbutil.ToPgtype(campaignID),
+			Name:       "Way of the Dawn",
+		},
+		factions: map[[16]byte]statedb.Faction{
+			dbutil.ToPgtype(factionID).Bytes: {ID: dbutil.ToPgtype(factionID), CampaignID: dbutil.ToPgtype(campaignID)},
+		},
+		cultures: map[[16]byte]statedb.Culture{},
+	}
+	h := NewCreateBeliefSystemHandler(beliefStore, &stubMemoryStore{}, &stubEmbedder{err: errors.New("embed error")})
+
+	result, err := h.Handle(context.Background(), map[string]any{
+		"campaign_id":           campaignID.String(),
+		"name":                  "Way of the Dawn",
+		"description":           "A creed of renewal through sacrifice.",
+		"deities_or_principles": []any{"Solar Trinity"},
+		"practices":             []any{"Dawn fast"},
+		"institutions":          []any{"Temple of First Light"},
+		"moral_framework":       map[string]any{"virtues": []any{"discipline"}},
+		"taboos":                []any{"break an oath"},
+		"followers": map[string]any{
+			"faction_ids": []any{factionID.String()},
+			"culture_ids": []any{},
+		},
+	})
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if !result.Success {
+		t.Fatal("expected success when memory sync fails")
+	}
+	if result.Data["memory_warning"] == nil {
+		t.Fatalf("expected memory_warning in result data, got %+v", result.Data)
+	}
+	if result.Data["description"] != "A creed of renewal through sacrifice." {
+		t.Fatalf("description = %v, want original description", result.Data["description"])
+	}
+	followers, ok := result.Data["followers"].(map[string]any)
+	if !ok {
+		t.Fatalf("followers type = %T, want map[string]any", result.Data["followers"])
+	}
+	if followers["faction_ids"] == nil || followers["culture_ids"] == nil {
+		t.Fatalf("followers = %#v, want nested faction_ids and culture_ids", followers)
+	}
+	if !strings.Contains(result.Narrative, "memory sync failed") {
+		t.Fatalf("Narrative = %q, want memory sync warning", result.Narrative)
+	}
+}
+
+func TestCreateBeliefSystemFactWarningNarrativeMatchesFailure(t *testing.T) {
+	campaignID := uuid.New()
+	beliefID := uuid.New()
+	factionID := uuid.New()
+
+	beliefStore := &stubBeliefSystemStore{
+		createdBelief: statedb.BeliefSystem{
+			ID:         dbutil.ToPgtype(beliefID),
+			CampaignID: dbutil.ToPgtype(campaignID),
+			Name:       "Way of the Dawn",
+		},
+		factions: map[[16]byte]statedb.Faction{
+			dbutil.ToPgtype(factionID).Bytes: {ID: dbutil.ToPgtype(factionID), CampaignID: dbutil.ToPgtype(campaignID)},
+		},
+		cultures:      map[[16]byte]statedb.Culture{},
+		createFactErr: errors.New("fact write failed"),
+	}
+	h := NewCreateBeliefSystemHandler(beliefStore, nil, nil)
+	result, err := h.Handle(context.Background(), map[string]any{
+		"campaign_id":           campaignID.String(),
+		"name":                  "Way of the Dawn",
+		"description":           "A creed.",
+		"deities_or_principles": []any{"Solar Trinity"},
+		"practices":             []any{"Dawn fast"},
+		"institutions":          []any{"Temple"},
+		"moral_framework":       map[string]any{},
+		"taboos":                []any{},
+		"followers":             map[string]any{"faction_ids": []any{factionID.String()}, "culture_ids": []any{}},
+	})
+	if err != nil {
+		t.Fatalf("Handle returned error: %v", err)
+	}
+	if !strings.Contains(result.Narrative, "fact generation failed") {
+		t.Fatalf("Narrative = %q, want fact generation warning", result.Narrative)
 	}
 }
 

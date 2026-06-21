@@ -1,7 +1,7 @@
 version: '3'
 
 vars:
-  DATABASE_URL: '{{default "postgres://game_master:game_master@localhost:5434/game_master?sslmode=disable" .DATABASE_URL}}'
+  DATABASE_URL: '{{default "postgres://edda:edda@localhost:5434/edda?sslmode=disable" .DATABASE_URL}}'
   APP_LOG_FILE: '{{default ".logs/tui.log" .APP_LOG_FILE}}'
 
 
@@ -9,7 +9,7 @@ tasks:
   db:up:
     desc: Start Postgres and run migrations
     cmds:
-      - docker start game-master-postgres || docker compose up -d postgres
+      - docker start edda-postgres || docker compose up -d postgres
       - task migrate
     env:
       DATABASE_URL: '{{.DATABASE_URL}}'
@@ -47,7 +47,7 @@ tasks:
     cmds:
       - mkdir -p .logs
       - rm -f .logs/tui.debug.log && touch .logs/tui.debug.log
-      - set -a && . ./.env && set +a && GM_TUI_ALTSCREEN=0 GM_TUI_MOUSE=0 sh -c 'go run ./cmd/tui 2>&1 | tee -a .logs/tui.debug.log'
+      - set -a && . ./.env && set +a && EDDA_TUI_ALTSCREEN=0 EDDA_TUI_MOUSE=0 sh -c 'go run ./cmd/tui 2>&1 | tee -a .logs/tui.debug.log'
 
   logs:debug:
     desc: Tail combined debug TUI output
@@ -64,18 +64,18 @@ tasks:
   logs:postgres:
     desc: Stream local Postgres logs for debugging
     cmds:
-      - docker logs -f game-master-postgres
+      - docker logs -f edda-postgres
 
   logs:ollama:
     desc: Stream Ollama logs from Docker if present, else from the system service
     cmds:
       - |
-        if docker ps -a --format '{{.Names}}' | grep -qx 'game-master-ollama'; then
-          docker logs -f game-master-ollama
+        if docker ps -a --format '{{.Names}}' | grep -qx 'edda-ollama'; then
+          docker logs -f edda-ollama
         elif systemctl is-active --quiet ollama; then
           journalctl -fu ollama
         else
-          echo 'No game-master-ollama container or active system ollama service found.' >&2
+          echo 'No edda-ollama container or active system ollama service found.' >&2
           exit 1
         fi
 
@@ -87,13 +87,13 @@ tasks:
   logs:clean:
     desc: Remove all structured log files
     cmds:
-      - rm -f .logs/game-master.jsonl
+      - rm -f .logs/edda.jsonl
 
   reset:first-boot:
     desc: Reset local Postgres data to first-boot state (destroys local game data)
     cmds:
-      - docker rm -f game-master-postgres || true
-      - docker volume rm game-master_postgres_data || true
+      - docker rm -f edda-postgres || true
+      - docker volume rm edda_postgres_data || true
       - docker compose up -d postgres
       - task migrate
 
@@ -116,6 +116,12 @@ tasks:
     desc: Run all tests
     cmds:
       - go test ./...
+
+  verify:
+    desc: Run backend tests and production frontend build
+    cmds:
+      - go test ./...
+      - pnpm --dir frontend build
 
   test:unit:
     desc: Run unit tests only (exclude integration)

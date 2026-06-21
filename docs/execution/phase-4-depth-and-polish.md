@@ -40,11 +40,11 @@ Full gameplay depth: LLM can create/modify all game entities during play. Semant
 
 | #   | Issue                                                            | Title                                                   | Size | Blocker | Status | Model         | Notes                                   |
 | --- | ---------------------------------------------------------------- | ------------------------------------------------------- | :--: | ------- | ------ | ------------- | --------------------------------------- |
-| 1   | [#113](https://github.com/PatrickFanella/game-master/issues/113) | Implement update_player_stats tool                      |  S   | None    | READY  | gpt-5.3-codex | UpdatePlayerStats query exists          |
-| 2   | [#114](https://github.com/PatrickFanella/game-master/issues/114) | Implement add_experience and level_up tools             |  M   | None    | READY  | gpt-5.3-codex | Two tools; level threshold logic needed |
-| 3   | [#115](https://github.com/PatrickFanella/game-master/issues/115) | Implement add_ability and remove_ability tools          |  S   | None    | READY  | gpt-5.3-codex | JSON array mutation on Abilities column |
-| 4   | [#116](https://github.com/PatrickFanella/game-master/issues/116) | Implement update_player_status tool                     |  S   | None    | READY  | gpt-5.3-codex | Simple status enum update               |
-| 5   | [#117](https://github.com/PatrickFanella/game-master/issues/117) | Implement enhanced item tools: modify_item, create_item |  S   | None    | READY  | gpt-5.3-codex | Extends existing item_tools.go pattern  |
+| 1   | [#113](https://git.subcult.tv/subculture-collective/edda/issues/113) | Implement update_player_stats tool                      |  S   | None    | READY  | gpt-5.3-codex | UpdatePlayerStats query exists          |
+| 2   | [#114](https://git.subcult.tv/subculture-collective/edda/issues/114) | Implement add_experience and level_up tools             |  M   | None    | READY  | gpt-5.3-codex | Two tools; level threshold logic needed |
+| 3   | [#115](https://git.subcult.tv/subculture-collective/edda/issues/115) | Implement add_ability and remove_ability tools          |  S   | None    | READY  | gpt-5.3-codex | JSON array mutation on Abilities column |
+| 4   | [#116](https://git.subcult.tv/subculture-collective/edda/issues/116) | Implement update_player_status tool                     |  S   | None    | READY  | gpt-5.3-codex | Simple status enum update               |
+| 5   | [#117](https://git.subcult.tv/subculture-collective/edda/issues/117) | Implement enhanced item tools: modify_item, create_item |  S   | None    | READY  | gpt-5.3-codex | Extends existing item_tools.go pattern  |
 
 **All 5 can run in parallel.** Follow existing tool handler pattern (see `internal/tools/doc.go`). Store interfaces use domain types; adapters in `game/`.
 
@@ -55,12 +55,12 @@ Full gameplay depth: LLM can create/modify all game entities during play. Semant
 
 | #   | Issue                                                            | Title                                          | Size | Blocker | Status | Model             | Notes                                    |
 | --- | ---------------------------------------------------------------- | ---------------------------------------------- | :--: | ------- | ------ | ----------------- | ---------------------------------------- |
-| 1   | [#122](https://github.com/PatrickFanella/game-master/issues/122) | Implement create_npc tool                      |  M   | None    | READY  | gpt-5.3-codex     | Rich schema: personality, stats, faction |
-| 2   | [#123](https://github.com/PatrickFanella/game-master/issues/123) | Implement create_location tool                 |  M   | None    | READY  | gpt-5.3-codex     | Connections + properties JSON            |
-| 3   | [#124](https://github.com/PatrickFanella/game-master/issues/124) | Implement create_faction tool                  |  M   | None    | READY  | gpt-5.3-codex     | Agenda, territory, NPC relationships     |
-| 4   | [#125](https://github.com/PatrickFanella/game-master/issues/125) | Implement create_lore tool                     |  S   | None    | READY  | gpt-5.3-codex     | WorldFact + optional memory embedding    |
-| 5   | [#126](https://github.com/PatrickFanella/game-master/issues/126) | Implement establish_fact and revise_fact tools |  M   | None    | READY  | Claude Sonnet 4.6 | Supersede logic needs careful state mgmt |
-| 6   | [#127](https://github.com/PatrickFanella/game-master/issues/127) | Implement establish_relationship tool          |  S   | None    | READY  | gpt-5.3-codex     | EntityRelationship with source/target    |
+| 1   | [#122](https://git.subcult.tv/subculture-collective/edda/issues/122) | Implement create_npc tool                      |  M   | None    | READY  | gpt-5.3-codex     | Rich schema: personality, stats, faction |
+| 2   | [#123](https://git.subcult.tv/subculture-collective/edda/issues/123) | Implement create_location tool                 |  M   | None    | READY  | gpt-5.3-codex     | Connections + properties JSON            |
+| 3   | [#124](https://git.subcult.tv/subculture-collective/edda/issues/124) | Implement create_faction tool                  |  M   | None    | READY  | gpt-5.3-codex     | Agenda, territory, NPC relationships     |
+| 4   | [#125](https://git.subcult.tv/subculture-collective/edda/issues/125) | Implement create_lore tool                     |  S   | None    | READY  | gpt-5.3-codex     | WorldFact + optional memory embedding    |
+| 5   | [#126](https://git.subcult.tv/subculture-collective/edda/issues/126) | Implement establish_fact and revise_fact tools |  M   | None    | READY  | Claude Sonnet 4.6 | Supersede logic needs careful state mgmt |
+| 6   | [#127](https://git.subcult.tv/subculture-collective/edda/issues/127) | Implement establish_relationship tool          |  S   | None    | READY  | gpt-5.3-codex     | EntityRelationship with source/target    |
 
 **All 6 can run in parallel.** These are the "just-in-time" creation tools — the LLM generates NPCs, locations, and lore as the player encounters them.
 
@@ -71,10 +71,10 @@ Full gameplay depth: LLM can create/modify all game entities during play. Semant
 
 | #   | Issue                                                            | Title                              | Size | Blocker | Status  | Model             | Notes                                   |
 | --- | ---------------------------------------------------------------- | ---------------------------------- | :--: | ------- | ------- | ----------------- | --------------------------------------- |
-| 1   | [#131](https://github.com/PatrickFanella/game-master/issues/131) | Implement create_quest tool        |  M   | None    | READY   | Claude Sonnet 4.6 | Short/medium/long-term type system      |
-| 2   | [#132](https://github.com/PatrickFanella/game-master/issues/132) | Implement create_subquest tool     |  S   | #131    | BLOCKED | gpt-5.3-codex     | Parent quest validation                 |
-| 3   | [#133](https://github.com/PatrickFanella/game-master/issues/133) | Implement update_quest tool        |  S   | None    | READY   | gpt-5.3-codex     | Status transitions + validation         |
-| 4   | [#135](https://github.com/PatrickFanella/game-master/issues/135) | Implement quest objective tracking |  M   | #131    | BLOCKED | Claude Sonnet 4.6 | Ordered objectives, completion tracking |
+| 1   | [#131](https://git.subcult.tv/subculture-collective/edda/issues/131) | Implement create_quest tool        |  M   | None    | READY   | Claude Sonnet 4.6 | Short/medium/long-term type system      |
+| 2   | [#132](https://git.subcult.tv/subculture-collective/edda/issues/132) | Implement create_subquest tool     |  S   | #131    | BLOCKED | gpt-5.3-codex     | Parent quest validation                 |
+| 3   | [#133](https://git.subcult.tv/subculture-collective/edda/issues/133) | Implement update_quest tool        |  S   | None    | READY   | gpt-5.3-codex     | Status transitions + validation         |
+| 4   | [#135](https://git.subcult.tv/subculture-collective/edda/issues/135) | Implement quest objective tracking |  M   | #131    | BLOCKED | Claude Sonnet 4.6 | Ordered objectives, completion tracking |
 
 **#131 and #133 can start immediately. After #131: #132 and #135 in parallel.**
 
@@ -103,13 +103,13 @@ graph TD
 
 | #   | Issue                                                          | Title                                             | Size | Blocker | Status  | Model             | Notes                                     |
 | --- | -------------------------------------------------------------- | ------------------------------------------------- | :--: | ------- | ------- | ----------------- | ----------------------------------------- |
-| 1   | [#91](https://github.com/PatrickFanella/game-master/issues/91) | Define Embedder interface and types               |  S   | None    | READY   | Claude Opus 4.6   | Architecture decision; provider-agnostic  |
-| 2   | [#92](https://github.com/PatrickFanella/game-master/issues/92) | Implement Ollama embedding provider               |  M   | #91     | BLOCKED | gpt-5.3-codex     | HTTP client mirrors llm/ollama.go pattern |
-| 3   | [#93](https://github.com/PatrickFanella/game-master/issues/93) | Implement turn event embedding and storage        |  M   | #92     | BLOCKED | Claude Sonnet 4.6 | Integration: turn pipeline → pgvector     |
-| 4   | [#94](https://github.com/PatrickFanella/game-master/issues/94) | Implement semantic search by similarity           |  M   | #91     | BLOCKED | gpt-5.3-codex     | pgvector cosine similarity query          |
-| 5   | [#95](https://github.com/PatrickFanella/game-master/issues/95) | Implement metadata-filtered semantic search       |  M   | #94     | BLOCKED | gpt-5.3-codex     | JSON filter + vector search combo         |
-| 6   | [#96](https://github.com/PatrickFanella/game-master/issues/96) | Implement async embedding pipeline                |  L   | #92     | BLOCKED | Claude Opus 4.6   | Goroutine design, backpressure, shutdown  |
-| 7   | [#97](https://github.com/PatrickFanella/game-master/issues/97) | Integration tests: pgvector storage and retrieval |  L   | #94     | BLOCKED | Claude Sonnet 4.6 | testcontainers with pgvector              |
+| 1   | [#91](https://git.subcult.tv/subculture-collective/edda/issues/91) | Define Embedder interface and types               |  S   | None    | READY   | Claude Opus 4.6   | Architecture decision; provider-agnostic  |
+| 2   | [#92](https://git.subcult.tv/subculture-collective/edda/issues/92) | Implement Ollama embedding provider               |  M   | #91     | BLOCKED | gpt-5.3-codex     | HTTP client mirrors llm/ollama.go pattern |
+| 3   | [#93](https://git.subcult.tv/subculture-collective/edda/issues/93) | Implement turn event embedding and storage        |  M   | #92     | BLOCKED | Claude Sonnet 4.6 | Integration: turn pipeline → pgvector     |
+| 4   | [#94](https://git.subcult.tv/subculture-collective/edda/issues/94) | Implement semantic search by similarity           |  M   | #91     | BLOCKED | gpt-5.3-codex     | pgvector cosine similarity query          |
+| 5   | [#95](https://git.subcult.tv/subculture-collective/edda/issues/95) | Implement metadata-filtered semantic search       |  M   | #94     | BLOCKED | gpt-5.3-codex     | JSON filter + vector search combo         |
+| 6   | [#96](https://git.subcult.tv/subculture-collective/edda/issues/96) | Implement async embedding pipeline                |  L   | #92     | BLOCKED | Claude Opus 4.6   | Goroutine design, backpressure, shutdown  |
+| 7   | [#97](https://git.subcult.tv/subculture-collective/edda/issues/97) | Integration tests: pgvector storage and retrieval |  L   | #94     | BLOCKED | Claude Sonnet 4.6 | testcontainers with pgvector              |
 
 **#91 first, then #92 and #94 in parallel. After #92: #93, #96. After #94: #95, #97.**
 
@@ -120,11 +120,11 @@ graph TD
 
 | #   | Issue                                                            | Title                                            | Size | Blocker     | Status  | Model             | Notes                                       |
 | --- | ---------------------------------------------------------------- | ------------------------------------------------ | :--: | ----------- | ------- | ----------------- | ------------------------------------------- |
-| 1   | [#100](https://github.com/PatrickFanella/game-master/issues/100) | Implement Tier 3 context: semantic retrieval     |  M   | Track D #94 | BLOCKED | Claude Sonnet 4.6 | Wire pgvector search into assembler         |
-| 2   | [#102](https://github.com/PatrickFanella/game-master/issues/102) | Implement turn summarization via LLM             |  M   | None        | READY   | Claude Opus 4.6   | LLM-as-judge: prompt design for summaries   |
-| 3   | [#103](https://github.com/PatrickFanella/game-master/issues/103) | Implement rich metadata extraction for summaries |  M   | #102        | BLOCKED | Claude Sonnet 4.6 | Time, location, NPCs, type from summaries   |
-| 4   | [#104](https://github.com/PatrickFanella/game-master/issues/104) | Implement sliding window aging and summarization |  M   | #102        | BLOCKED | Claude Sonnet 4.6 | Trigger policy: when to summarize old turns |
-| 5   | [#105](https://github.com/PatrickFanella/game-master/issues/105) | Implement token budget awareness                 |  M   | None        | READY   | GPT-4             | Token counting + dynamic context sizing     |
+| 1   | [#100](https://git.subcult.tv/subculture-collective/edda/issues/100) | Implement Tier 3 context: semantic retrieval     |  M   | Track D #94 | BLOCKED | Claude Sonnet 4.6 | Wire pgvector search into assembler         |
+| 2   | [#102](https://git.subcult.tv/subculture-collective/edda/issues/102) | Implement turn summarization via LLM             |  M   | None        | READY   | Claude Opus 4.6   | LLM-as-judge: prompt design for summaries   |
+| 3   | [#103](https://git.subcult.tv/subculture-collective/edda/issues/103) | Implement rich metadata extraction for summaries |  M   | #102        | BLOCKED | Claude Sonnet 4.6 | Time, location, NPCs, type from summaries   |
+| 4   | [#104](https://git.subcult.tv/subculture-collective/edda/issues/104) | Implement sliding window aging and summarization |  M   | #102        | BLOCKED | Claude Sonnet 4.6 | Trigger policy: when to summarize old turns |
+| 5   | [#105](https://git.subcult.tv/subculture-collective/edda/issues/105) | Implement token budget awareness                 |  M   | None        | READY   | GPT-4             | Token counting + dynamic context sizing     |
 
 **#102 and #105 can start immediately.** #100 waits for Track D's semantic search. After #102: #103 and #104 in parallel.
 
@@ -135,10 +135,10 @@ graph TD
 
 | #   | Issue                                                            | Title                                           | Size | Blocker          | Status  | Model             | Notes                                   |
 | --- | ---------------------------------------------------------------- | ----------------------------------------------- | :--: | ---------------- | ------- | ----------------- | --------------------------------------- |
-| 1   | [#134](https://github.com/PatrickFanella/game-master/issues/134) | Implement branch_quest tool                     |  M   | Sprint 1 #131    | BLOCKED | Claude Sonnet 4.6 | Quest graph logic, parent-child linking |
-| 2   | [#136](https://github.com/PatrickFanella/game-master/issues/136) | Implement quest-entity linking                  |  M   | Sprint 1 #131    | BLOCKED | gpt-5.3-codex     | EntityRelationship for quest → NPC/loc  |
-| 3   | [#128](https://github.com/PatrickFanella/game-master/issues/128) | Implement post-hoc entity validation            |  M   | Sprint 1 Track B | BLOCKED | Claude Sonnet 4.6 | Referential integrity after LLM creates |
-| 4   | [#129](https://github.com/PatrickFanella/game-master/issues/129) | Implement auto-embedding for generated entities |  M   | Track D #92      | BLOCKED | gpt-5.3-codex     | Hook into existing world service        |
+| 1   | [#134](https://git.subcult.tv/subculture-collective/edda/issues/134) | Implement branch_quest tool                     |  M   | Sprint 1 #131    | BLOCKED | Claude Sonnet 4.6 | Quest graph logic, parent-child linking |
+| 2   | [#136](https://git.subcult.tv/subculture-collective/edda/issues/136) | Implement quest-entity linking                  |  M   | Sprint 1 #131    | BLOCKED | gpt-5.3-codex     | EntityRelationship for quest → NPC/loc  |
+| 3   | [#128](https://git.subcult.tv/subculture-collective/edda/issues/128) | Implement post-hoc entity validation            |  M   | Sprint 1 Track B | BLOCKED | Claude Sonnet 4.6 | Referential integrity after LLM creates |
+| 4   | [#129](https://git.subcult.tv/subculture-collective/edda/issues/129) | Implement auto-embedding for generated entities |  M   | Track D #92      | BLOCKED | gpt-5.3-codex     | Hook into existing world service        |
 
 ```mermaid
 graph TD
@@ -177,10 +177,10 @@ graph TD
 
 | #   | Issue                                                            | Title                                            | Size | Blocker          | Status  | Model             | Notes                                   |
 | --- | ---------------------------------------------------------------- | ------------------------------------------------ | :--: | ---------------- | ------- | ----------------- | --------------------------------------- |
-| 1   | [#118](https://github.com/PatrickFanella/game-master/issues/118) | Build character sheet TUI view                   |  M   | Sprint 1 Track A | BLOCKED | Claude Sonnet 4.6 | Lip Gloss layout, stat rendering        |
-| 2   | [#119](https://github.com/PatrickFanella/game-master/issues/119) | Build inventory TUI view                         |  M   | Sprint 1 Track A | BLOCKED | Claude Sonnet 4.6 | List model, equipped indicators         |
-| 3   | [#137](https://github.com/PatrickFanella/game-master/issues/137) | Build quest log TUI view                         |  M   | Sprint 1 Track C | BLOCKED | Claude Sonnet 4.6 | Tree display for quest → objectives     |
-| 4   | [#120](https://github.com/PatrickFanella/game-master/issues/120) | Implement real-time view updates on state change |  L   | #118, #119, #137 | BLOCKED | Claude Opus 4.6   | Bubble Tea message bus, cross-view sync |
+| 1   | [#118](https://git.subcult.tv/subculture-collective/edda/issues/118) | Build character sheet TUI view                   |  M   | Sprint 1 Track A | BLOCKED | Claude Sonnet 4.6 | Lip Gloss layout, stat rendering        |
+| 2   | [#119](https://git.subcult.tv/subculture-collective/edda/issues/119) | Build inventory TUI view                         |  M   | Sprint 1 Track A | BLOCKED | Claude Sonnet 4.6 | List model, equipped indicators         |
+| 3   | [#137](https://git.subcult.tv/subculture-collective/edda/issues/137) | Build quest log TUI view                         |  M   | Sprint 1 Track C | BLOCKED | Claude Sonnet 4.6 | Tree display for quest → objectives     |
+| 4   | [#120](https://git.subcult.tv/subculture-collective/edda/issues/120) | Implement real-time view updates on state change |  L   | #118, #119, #137 | BLOCKED | Claude Opus 4.6   | Bubble Tea message bus, cross-view sync |
 
 **#118, #119, #137 in parallel. Then #120 once all views exist.**
 
@@ -191,13 +191,13 @@ graph TD
 
 | #   | Issue                                                            | Title                                              | Size | Blocker          | Status  | Model             | Notes                                     |
 | --- | ---------------------------------------------------------------- | -------------------------------------------------- | :--: | ---------------- | ------- | ----------------- | ----------------------------------------- |
-| 1   | [#106](https://github.com/PatrickFanella/game-master/issues/106) | Implement campaign creation LLM interview flow     |  L   | None             | READY   | Claude Opus 4.6   | Prompt design + multi-turn LLM interview  |
-| 2   | [#107](https://github.com/PatrickFanella/game-master/issues/107) | Implement Huh forms for structured campaign inputs |  M   | #106             | BLOCKED | Claude Sonnet 4.6 | Huh library integration, form schema      |
-| 3   | [#108](https://github.com/PatrickFanella/game-master/issues/108) | Implement character creation interview             |  L   | #106             | BLOCKED | Claude Opus 4.6   | LLM-guided character backstory + stats    |
-| 4   | [#109](https://github.com/PatrickFanella/game-master/issues/109) | Implement world skeleton generation                |  L   | Sprint 1 Track B | BLOCKED | Claude Opus 4.6   | Uses world gen tools to build initial map |
-| 5   | [#110](https://github.com/PatrickFanella/game-master/issues/110) | Implement starting scene generation                |  M   | #109             | BLOCKED | Claude Sonnet 4.6 | First narration from generated world      |
-| 6   | [#111](https://github.com/PatrickFanella/game-master/issues/111) | Implement campaign selection screen                |  M   | None             | READY   | gpt-5.3-codex     | Bubble Tea list model, DB query           |
-| 7   | [#112](https://github.com/PatrickFanella/game-master/issues/112) | Implement campaign resume and state restoration    |  M   | #111             | BLOCKED | Claude Sonnet 4.6 | Restore state + generate re-entry scene   |
+| 1   | [#106](https://git.subcult.tv/subculture-collective/edda/issues/106) | Implement campaign creation LLM interview flow     |  L   | None             | READY   | Claude Opus 4.6   | Prompt design + multi-turn LLM interview  |
+| 2   | [#107](https://git.subcult.tv/subculture-collective/edda/issues/107) | Implement Huh forms for structured campaign inputs |  M   | #106             | BLOCKED | Claude Sonnet 4.6 | Huh library integration, form schema      |
+| 3   | [#108](https://git.subcult.tv/subculture-collective/edda/issues/108) | Implement character creation interview             |  L   | #106             | BLOCKED | Claude Opus 4.6   | LLM-guided character backstory + stats    |
+| 4   | [#109](https://git.subcult.tv/subculture-collective/edda/issues/109) | Implement world skeleton generation                |  L   | Sprint 1 Track B | BLOCKED | Claude Opus 4.6   | Uses world gen tools to build initial map |
+| 5   | [#110](https://git.subcult.tv/subculture-collective/edda/issues/110) | Implement starting scene generation                |  M   | #109             | BLOCKED | Claude Sonnet 4.6 | First narration from generated world      |
+| 6   | [#111](https://git.subcult.tv/subculture-collective/edda/issues/111) | Implement campaign selection screen                |  M   | None             | READY   | gpt-5.3-codex     | Bubble Tea list model, DB query           |
+| 7   | [#112](https://git.subcult.tv/subculture-collective/edda/issues/112) | Implement campaign resume and state restoration    |  M   | #111             | BLOCKED | Claude Sonnet 4.6 | Restore state + generate re-entry scene   |
 
 **#106 and #111 start immediately.** #109 waits for world gen tools.
 
@@ -207,10 +207,10 @@ graph TD
 
 | #   | Issue                                                            | Title                                            | Size | Blocker          | Status  | Model           | Notes                                    |
 | --- | ---------------------------------------------------------------- | ------------------------------------------------ | :--: | ---------------- | ------- | --------------- | ---------------------------------------- |
-| 1   | [#121](https://github.com/PatrickFanella/game-master/issues/121) | Unit tests: player character and inventory tools |  L   | Sprint 1 Track A | BLOCKED | gpt-5.3-codex   | Stub stores, edge cases                  |
-| 2   | [#130](https://github.com/PatrickFanella/game-master/issues/130) | Unit tests: world generation tools               |  L   | Sprint 1 Track B | BLOCKED | gpt-5.3-codex   | Follow create_language_test.go pattern   |
-| 3   | [#138](https://github.com/PatrickFanella/game-master/issues/138) | Unit tests: quest system tools                   |  L   | Sprint 1 Track C | BLOCKED | gpt-5.3-codex   | Quest state transitions, objective logic |
-| 4   | [#148](https://github.com/PatrickFanella/game-master/issues/148) | Interface contract tests for CombatResolver      |  L   | None             | READY   | Claude Opus 4.6 | Reusable for future rule sets            |
+| 1   | [#121](https://git.subcult.tv/subculture-collective/edda/issues/121) | Unit tests: player character and inventory tools |  L   | Sprint 1 Track A | BLOCKED | gpt-5.3-codex   | Stub stores, edge cases                  |
+| 2   | [#130](https://git.subcult.tv/subculture-collective/edda/issues/130) | Unit tests: world generation tools               |  L   | Sprint 1 Track B | BLOCKED | gpt-5.3-codex   | Follow create_language_test.go pattern   |
+| 3   | [#138](https://git.subcult.tv/subculture-collective/edda/issues/138) | Unit tests: quest system tools                   |  L   | Sprint 1 Track C | BLOCKED | gpt-5.3-codex   | Quest state transitions, objective logic |
+| 4   | [#148](https://git.subcult.tv/subculture-collective/edda/issues/148) | Interface contract tests for CombatResolver      |  L   | None             | READY   | Claude Opus 4.6 | Reusable for future rule sets            |
 
 **Sprint 3 total: 15 issues. TUI views and campaign creation are the big UX wins.**
 
@@ -225,15 +225,15 @@ graph TD
 
 | #   | Issue                                                            | Title                                        | Size | Blocker   | Status  | Model             | Notes                                |
 | --- | ---------------------------------------------------------------- | -------------------------------------------- | :--: | --------- | ------- | ----------------- | ------------------------------------ |
-| 1   | [#158](https://github.com/PatrickFanella/game-master/issues/158) | Create cmd/server entry point and chi router |  M   | None      | READY   | gpt-5.3-codex     | chi/v5 boilerplate                   |
-| 2   | [#166](https://github.com/PatrickFanella/game-master/issues/166) | Implement auth middleware interface (no-op)  |  S   | None      | READY   | gpt-5.3-codex     | Passthrough now, implement for multi |
-| 3   | [#160](https://github.com/PatrickFanella/game-master/issues/160) | Implement campaign REST endpoints            |  M   | #158      | BLOCKED | gpt-5.3-codex     | CRUD via StateManager                |
-| 4   | [#161](https://github.com/PatrickFanella/game-master/issues/161) | Implement character REST endpoints           |  S   | #158      | BLOCKED | gpt-5.3-codex     | Read-only initially                  |
-| 5   | [#162](https://github.com/PatrickFanella/game-master/issues/162) | Implement location and NPC REST endpoints    |  M   | #158      | BLOCKED | gpt-5.3-codex     | Location graph + NPC list            |
-| 6   | [#163](https://github.com/PatrickFanella/game-master/issues/163) | Implement quest REST endpoints               |  S   | #158      | BLOCKED | gpt-5.3-codex     | Quest tree with objectives           |
-| 7   | [#164](https://github.com/PatrickFanella/game-master/issues/164) | Implement POST /action endpoint              |  M   | #158      | BLOCKED | Claude Sonnet 4.6 | Core gameplay endpoint, calls engine |
-| 8   | [#165](https://github.com/PatrickFanella/game-master/issues/165) | Implement WebSocket streaming endpoint       |  L   | #158      | BLOCKED | Claude Opus 4.6   | SSE/WS upgrade, chunk streaming      |
-| 9   | [#167](https://github.com/PatrickFanella/game-master/issues/167) | HTTP integration tests                       |  L   | #160-#165 | BLOCKED | Claude Sonnet 4.6 | testcontainers + httptest            |
+| 1   | [#158](https://git.subcult.tv/subculture-collective/edda/issues/158) | Create cmd/server entry point and chi router |  M   | None      | READY   | gpt-5.3-codex     | chi/v5 boilerplate                   |
+| 2   | [#166](https://git.subcult.tv/subculture-collective/edda/issues/166) | Implement auth middleware interface (no-op)  |  S   | None      | READY   | gpt-5.3-codex     | Passthrough now, implement for multi |
+| 3   | [#160](https://git.subcult.tv/subculture-collective/edda/issues/160) | Implement campaign REST endpoints            |  M   | #158      | BLOCKED | gpt-5.3-codex     | CRUD via StateManager                |
+| 4   | [#161](https://git.subcult.tv/subculture-collective/edda/issues/161) | Implement character REST endpoints           |  S   | #158      | BLOCKED | gpt-5.3-codex     | Read-only initially                  |
+| 5   | [#162](https://git.subcult.tv/subculture-collective/edda/issues/162) | Implement location and NPC REST endpoints    |  M   | #158      | BLOCKED | gpt-5.3-codex     | Location graph + NPC list            |
+| 6   | [#163](https://git.subcult.tv/subculture-collective/edda/issues/163) | Implement quest REST endpoints               |  S   | #158      | BLOCKED | gpt-5.3-codex     | Quest tree with objectives           |
+| 7   | [#164](https://git.subcult.tv/subculture-collective/edda/issues/164) | Implement POST /action endpoint              |  M   | #158      | BLOCKED | Claude Sonnet 4.6 | Core gameplay endpoint, calls engine |
+| 8   | [#165](https://git.subcult.tv/subculture-collective/edda/issues/165) | Implement WebSocket streaming endpoint       |  L   | #158      | BLOCKED | Claude Opus 4.6   | SSE/WS upgrade, chunk streaming      |
+| 9   | [#167](https://git.subcult.tv/subculture-collective/edda/issues/167) | HTTP integration tests                       |  L   | #160-#165 | BLOCKED | Claude Sonnet 4.6 | testcontainers + httptest            |
 
 **#158 and #166 start in parallel. After #158: #160-#165 all in parallel. #167 last.**
 

@@ -1,11 +1,12 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	"github.com/PatrickFanella/game-master/pkg/api"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // ProcessAction handles a player turn action.
@@ -26,7 +27,10 @@ func (h *ActionHandlers) ProcessAction(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, err := h.Engine.ProcessTurn(r.Context(), campaignID, req.Input)
+	turnCtx, cancel := h.turnContext(r.Context())
+	defer cancel()
+
+	result, err := h.Engine.ProcessTurn(turnCtx, campaignID, req.Input)
 	if err != nil {
 		h.Logger.Errorf("process turn for campaign %s: %v", campaignID, err)
 		writeError(w, http.StatusInternalServerError, "failed to process turn")
@@ -34,4 +38,12 @@ func (h *ActionHandlers) ProcessAction(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSON(w, http.StatusOK, engineTurnResultToAPI(result))
+}
+
+func (h *ActionHandlers) turnContext(parent context.Context) (context.Context, context.CancelFunc) {
+	base := context.WithoutCancel(parent)
+	if h.TurnTimeout <= 0 {
+		return base, func() {}
+	}
+	return context.WithTimeout(base, h.TurnTimeout)
 }

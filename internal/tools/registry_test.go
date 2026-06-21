@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 func TestNewRegistry(t *testing.T) {

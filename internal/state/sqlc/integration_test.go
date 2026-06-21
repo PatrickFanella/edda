@@ -21,13 +21,13 @@ import (
 	"github.com/pressly/goose/v3"
 	tcpostgres "github.com/testcontainers/testcontainers-go/modules/postgres"
 
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 const (
-	testDBName    = "game_master_test"
-	testDBUser    = "game_master"
-	testDBPass    = "game_master"
+	testDBName    = "edda_test"
+	testDBUser    = "edda"
+	testDBPass    = "edda"
 	migrationsDir = "../../../migrations"
 	vectorDim     = 1536
 )
@@ -251,7 +251,7 @@ func TestIntegrationMigrationsDown(t *testing.T) {
 	}
 	defer conn.Release()
 
-	const downDB = "game_master_down_test"
+	const downDB = "edda_down_test"
 	if _, err := conn.Exec(ctx, fmt.Sprintf("CREATE DATABASE %q", downDB)); err != nil {
 		t.Fatalf("CREATE DATABASE: %v", err)
 	}
@@ -1335,20 +1335,22 @@ func TestIntegrationWorldFacts(t *testing.T) {
 
 	// CreateFact
 	f1, err := q.CreateFact(ctx, statedb.CreateFactParams{
-		CampaignID: camp.ID,
-		Fact:       "The king is alive",
-		Category:   "politics",
-		Source:     "herald",
+		CampaignID:  camp.ID,
+		Fact:        "The king is alive",
+		Category:    "politics",
+		Source:      "herald",
+		PlayerKnown: true,
 	})
 	if err != nil {
 		t.Fatalf("CreateFact: %v", err)
 	}
 
 	f2, err := q.CreateFact(ctx, statedb.CreateFactParams{
-		CampaignID: camp.ID,
-		Fact:       "Dragons exist in the north",
-		Category:   "lore",
-		Source:     "scholar",
+		CampaignID:  camp.ID,
+		Fact:        "Dragons exist in the north",
+		Category:    "lore",
+		Source:      "scholar",
+		PlayerKnown: false,
 	})
 	if err != nil {
 		t.Fatalf("CreateFact (f2): %v", err)
@@ -1395,10 +1397,12 @@ func TestIntegrationWorldFacts(t *testing.T) {
 
 	// SupersedeFact – replace f1 with a corrected fact
 	newFact, err := q.SupersedeFact(ctx, statedb.SupersedeFactParams{
-		OldFactID: f1.ID,
-		Fact:      "The king is dead, long live the king",
-		Category:  "politics",
-		Source:    "town crier",
+		OldFactID:  f1.ID,
+		CampaignID: camp.ID,
+		Fact:       "The king is dead, long live the king",
+		Category:   "politics",
+		Source:     "town crier",
+		Reveal:     true,
 	})
 	if err != nil {
 		t.Fatalf("SupersedeFact: %v", err)
@@ -1430,6 +1434,107 @@ func TestIntegrationWorldFacts(t *testing.T) {
 
 	// Unused but validated: f2 still active
 	_ = f2
+}
+
+// TestIntegrationPlayerKnownFactsVisibility covers player-known visibility and supersede behavior.
+func TestIntegrationPlayerKnownFactsVisibility(t *testing.T) {
+	ctx := context.Background()
+	q := newTx(t)
+	user := createUser(t, q, "player-known-facts-user")
+	camp := createCampaign(t, q, user.ID)
+	otherCamp := createCampaign(t, q, createUser(t, q, "other-campaign-user").ID)
+
+	knownActive, err := q.CreateFact(ctx, statedb.CreateFactParams{
+		CampaignID:  camp.ID,
+		Fact:        "Known active fact",
+		Category:    "lore",
+		Source:      "scribe",
+		PlayerKnown: true,
+	})
+	if err != nil {
+		t.Fatalf("CreateFact knownActive: %v", err)
+	}
+	hiddenActive, err := q.CreateFact(ctx, statedb.CreateFactParams{
+		CampaignID:  camp.ID,
+		Fact:        "Hidden active fact",
+		Category:    "lore",
+		Source:      "scribe",
+		PlayerKnown: false,
+	})
+	if err != nil {
+		t.Fatalf("CreateFact hiddenActive: %v", err)
+	}
+	hiddenOld, err := q.CreateFact(ctx, statedb.CreateFactParams{
+		CampaignID:  camp.ID,
+		Fact:        "Hidden old fact",
+		Category:    "lore",
+		Source:      "scribe",
+		PlayerKnown: false,
+	})
+	if err != nil {
+		t.Fatalf("CreateFact hiddenOld: %v", err)
+	}
+
+	hiddenNew, err := q.SupersedeFact(ctx, statedb.SupersedeFactParams{
+		OldFactID:  hiddenOld.ID,
+		CampaignID: camp.ID,
+		Fact:       "Hidden old fact revealed",
+		Category:   "lore",
+		Source:     "oracle",
+		Reveal:     true,
+	})
+	if err != nil {
+		t.Fatalf("SupersedeFact hiddenOld: %v", err)
+	}
+	if !hiddenNew.PlayerKnown.Valid || !hiddenNew.PlayerKnown.Bool {
+		t.Fatalf("expected revealed superseding fact to be player-known")
+	}
+
+	if _, err := q.SupersedeFact(ctx, statedb.SupersedeFactParams{
+		OldFactID:  knownActive.ID,
+		CampaignID: otherCamp.ID,
+		Fact:       "Cross-campaign replacement",
+		Category:   "lore",
+		Source:     "oracle",
+		Reveal:     true,
+	}); err == nil {
+		t.Fatal("expected cross-campaign SupersedeFact to fail")
+	}
+
+	knownFacts, err := q.ListPlayerKnownFacts(ctx, camp.ID)
+	if err != nil {
+		t.Fatalf("ListPlayerKnownFacts: %v", err)
+	}
+	if len(knownFacts) != 2 {
+		t.Fatalf("expected 2 player-known facts, got %d", len(knownFacts))
+	}
+	if knownFacts[0].ID != knownActive.ID && knownFacts[1].ID != knownActive.ID {
+		t.Fatalf("expected known active fact to be included")
+	}
+	if knownFacts[0].ID != hiddenNew.ID && knownFacts[1].ID != hiddenNew.ID {
+		t.Fatalf("expected revealed superseding fact to be included")
+	}
+	for _, fact := range knownFacts {
+		if fact.ID == hiddenActive.ID || fact.ID == hiddenOld.ID {
+			t.Fatalf("unexpected fact %s in player-known list", fact.ID.String())
+		}
+	}
+
+	hiddenOldUpdated, err := q.GetFactByID(ctx, hiddenOld.ID)
+	if err != nil {
+		t.Fatalf("GetFactByID hiddenOld: %v", err)
+	}
+	if !hiddenOldUpdated.SupersededBy.Valid || hiddenOldUpdated.SupersededBy != hiddenNew.ID {
+		t.Fatalf("expected hidden old fact to be superseded by revealed fact")
+	}
+
+	knownActiveUpdated, err := q.GetFactByID(ctx, knownActive.ID)
+	if err != nil {
+		t.Fatalf("GetFactByID knownActive: %v", err)
+	}
+	if knownActiveUpdated.SupersededBy.Valid {
+		t.Fatalf("expected cross-campaign supersede to leave original fact unchanged")
+	}
 }
 
 // TestIntegrationExpandedWorldTables tests CRUD and association queries for expanded world tables.

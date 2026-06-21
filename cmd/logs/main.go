@@ -1,4 +1,4 @@
-// Command logs tails a game-master JSONL log file with colorized output and filtering.
+// Command logs tails a edda JSONL log file with colorized output and filtering.
 package main
 
 import (
@@ -14,11 +14,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/PatrickFanella/game-master/internal/logging"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 func main() {
-	filePath := flag.String("file", ".logs/game-master.jsonl", "path to JSONL log file")
+	filePath := flag.String("file", ".logs/edda.jsonl", "path to JSONL log file")
 	levelStr := flag.String("level", "debug", "minimum log level: debug, info, warn, error")
 	var serviceArgs multiValueFlag
 	flag.Var(&serviceArgs, "service", "service filter; repeat or comma-separate values (empty = all)")

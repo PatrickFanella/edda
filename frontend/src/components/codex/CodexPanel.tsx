@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { listKnownLanguages, listKnownCultures, listKnownBeliefSystems, listKnownEconomicSystems } from '../../api/codex';
 import type { LanguageResponse, CultureResponse, BeliefSystemResponse, EconomicSystemResponse } from '../../api/types';
 import { cn } from '../../lib/cn';
+import { HudPanel } from '../layout/HudPanel';
 
 interface CodexPanelProps {
   readonly campaignId: string;
@@ -53,19 +54,11 @@ export function CodexPanel({ campaignId, className }: CodexPanelProps) {
   });
 
   if (!enabled) {
-    return <PanelMessage className={className} tone="error" title="Missing campaign" message="Select a campaign before viewing the codex." />;
+    return <PanelMessage className={className} title="Missing campaign" message="Select a campaign before viewing the codex." />;
   }
 
   return (
-    <section className={cn('space-y-5 border-2 border-jade/20 bg-charcoal p-5', className)}>
-      <div className="border-b-2 border-jade/20 pb-5">
-        <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-jade">Codex</p>
-        <h2 className="font-heading mt-2 text-xl font-semibold uppercase tracking-[0.1em] text-champagne">World codex</h2>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-pewter">
-          Languages, cultures, belief systems, and economies discovered during this campaign.
-        </p>
-      </div>
-
+    <HudPanel title="Codex" accent="scene" className={cn(className)} bodyClassName="space-y-5">
       <div className="flex flex-wrap gap-2">
         {codexSections.map((section) => (
           <button
@@ -73,7 +66,7 @@ export function CodexPanel({ campaignId, className }: CodexPanelProps) {
             type="button"
             onClick={() => setActiveSection(section.key)}
             className={cn(
-              'px-4 py-2 text-sm font-semibold uppercase tracking-[0.15em] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-jade focus:ring-offset-2 focus:ring-offset-obsidian',
+              'hud-tab-button px-4 text-sm font-semibold uppercase tracking-[0.15em] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-jade focus:ring-offset-2 focus:ring-offset-obsidian',
               activeSection === section.key
                 ? 'bg-jade text-obsidian'
                 : 'border border-jade/20 bg-charcoal text-champagne/70 hover:border-jade hover:text-jade hover:bg-jade/5',
@@ -123,7 +116,7 @@ export function CodexPanel({ campaignId, className }: CodexPanelProps) {
           )}
         />
       )}
-    </section>
+    </HudPanel>
   );
 }
 
@@ -135,24 +128,20 @@ interface CodexListSectionProps<T> {
 
 function CodexListSection<T>({ query, emptyMessage, renderItem }: CodexListSectionProps<T>) {
   if (query.isPending) {
-    return <div className="border border-jade/15 bg-obsidian p-5 text-sm text-champagne/70">Loading...</div>;
+    return <HudPanel title="Loading" accent="loading">Loading...</HudPanel>;
   }
 
   if (query.isError) {
-    return <div className="border border-ruby/30 bg-ruby/10 p-5 text-sm text-ruby">{queryErrorMessage(query.error)}</div>;
+    return <HudPanel title="Unavailable" accent="error">{queryErrorMessage(query.error)}</HudPanel>;
   }
 
   const items = query.data ?? [];
 
   if (items.length === 0) {
-    return <div className="border border-dashed border-jade/15 bg-obsidian p-5 text-sm text-pewter">{emptyMessage}</div>;
+    return <HudPanel title="No records" accent="empty">{emptyMessage}</HudPanel>;
   }
 
-  return (
-    <div className="space-y-3">
-      {items.map(renderItem)}
-    </div>
-  );
+  return <div className="space-y-3">{items.map(renderItem)}</div>;
 }
 
 function CodexEntry({ name, description }: { readonly name: string; readonly description?: string }) {
@@ -167,23 +156,13 @@ function CodexEntry({ name, description }: { readonly name: string; readonly des
 interface PanelMessageProps {
   readonly title: string;
   readonly message: string;
-  readonly tone: 'default' | 'error';
   readonly className?: string;
 }
 
-function PanelMessage({ title, message, tone, className }: PanelMessageProps) {
+function PanelMessage({ title, message, className }: PanelMessageProps) {
   return (
-    <section
-      className={cn(
-        'border p-6',
-        tone === 'error'
-          ? 'border-ruby/40 bg-ruby/10 text-ruby'
-          : 'border-jade/20 bg-charcoal text-champagne/70',
-        className,
-      )}
-    >
-      <h2 className="font-heading text-lg font-semibold uppercase tracking-[0.1em] text-champagne">{title}</h2>
-      <p className="mt-3 text-sm leading-6">{message}</p>
-    </section>
+    <HudPanel title={title} accent="empty" className={cn(className)}>
+      <p className="text-sm leading-6 text-pewter">{message}</p>
+    </HudPanel>
   );
 }

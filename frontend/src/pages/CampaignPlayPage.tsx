@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router';
 
 import { createManualSave, getCampaign, startOverCampaign } from '../api/campaigns';
+import { getCampaignCharacter, getCampaignCharacterInventory } from '../api/characters';
 import { listCampaignQuests } from '../api/quests';
-import type { CampaignResponse, OpeningSceneResponse } from '../api/types';
+import type { CampaignResponse, CharacterResponse, ItemResponse, OpeningSceneResponse, QuestResponse } from '../api/types';
 import { AudioControls } from '../components/audio/AudioControls';
 import { CharacterSheet } from '../components/character/CharacterSheet';
 import { CombatView } from '../components/combat/CombatView';
@@ -13,6 +15,7 @@ import { ConfirmationDialog } from '../components/layout/ConfirmationDialog';
 import { InventoryPanel } from '../components/inventory/InventoryPanel';
 import { JournalPanel } from '../components/journal/JournalPanel';
 import { AppShell } from '../components/layout/AppShell';
+import { HudPanel } from '../components/layout/HudPanel';
 import { TabBar } from '../components/layout/TabBar';
 import { LogPanel } from '../components/logs/LogPanel';
 import { ChoiceList } from '../components/narrative/ChoiceList';
@@ -24,7 +27,6 @@ import { ThinkingIndicator } from '../components/layout/ThinkingIndicator';
 import { TimeWidget } from '../components/layout/TimeWidget';
 import { TurnNotifications } from '../components/layout/TurnNotifications';
 import { SavesList } from '../components/saves/SavesList';
-import { PinnedObjectives } from '../components/quests/PinnedObjectives';
 import { QuestPanel } from '../components/quests/QuestPanel';
 import { WorldPanel } from '../components/world/WorldPanel';
 import { CampaignContext, useCampaignState } from '../context/CampaignContext';
@@ -78,6 +80,7 @@ const playTabs = [
 ] as const;
 
 type CampaignPlayTab = (typeof playTabs)[number]['key'];
+type HudMode = 'combat' | 'dialogue' | 'exploration';
 type SharedNarrativeState = Pick<
   UseNarrativeResult,
   'connectionStatus' | 'entries' | 'streamingEntry' | 'suggestedChoices' | 'currentStatus' | 'combatActive' | 'isLoading' | 'error' | 'sendAction'
@@ -217,6 +220,25 @@ function CampaignPlayContent({
     enabled: campaignId.length > 0,
   });
 
+  const characterQuery = useQuery({
+    queryKey: ['campaign', campaignId, 'character'],
+    queryFn: () => getCampaignCharacter(campaignId),
+    enabled: campaignId.length > 0,
+  });
+
+  const inventoryQuery = useQuery({
+    queryKey: ['campaign', campaignId, 'character', 'inventory'],
+    queryFn: () => getCampaignCharacterInventory(campaignId),
+    enabled: campaignId.length > 0,
+  });
+
+  const suggestedChoices = useMemo(
+    () => getSuggestedChoicesForFrame(narrative, seededNarrative),
+    [narrative, seededNarrative],
+  );
+
+  const hudMode = useMemo(() => getHudMode(narrative.combatActive, suggestedChoices.length), [narrative.combatActive, suggestedChoices.length]);
+
   const levelUpMessage = useMemo(() => {
     const changes = narrative.latestResult?.state_changes;
     if (!changes) return null;
@@ -240,7 +262,13 @@ function CampaignPlayContent({
   });
 
   return (
-    <AppShell title={campaign.name} description={campaign.description || 'Live narrative play for this campaign.'} actions={<CampaignPlayActions campaignId={campaignId} onStartOver={() => setShowStartOverDialog(true)} onExport={() => setShowExportDialog(true)} />}>
+    <AppShell
+      title={campaign.name}
+      description={campaign.description || 'Live narrative play for this campaign.'}
+      actions={<CampaignPlayHeaderActions audio={audio} showSaves={showSaves} onToggleSaves={() => setShowSaves((v) => !v)} />}
+      userMenuActions={<CampaignPlayActions campaignId={campaignId} onStartOver={() => setShowStartOverDialog(true)} onExport={() => setShowExportDialog(true)} />}
+      variant="game"
+    >
       <ExportDialog open={showExportDialog} campaignId={campaignId} onClose={() => setShowExportDialog(false)} />
       <ConfirmationDialog
         open={showStartOverDialog}
@@ -252,26 +280,36 @@ function CampaignPlayContent({
         onConfirm={() => startOverMutation.mutate()}
         onCancel={() => setShowStartOverDialog(false)}
       />
-      <div className="space-y-6">
+      <div className="flex h-full min-h-0 flex-col gap-2">
+        <WidescreenNotice />
         {levelUpMessage ? <LevelUpBanner message={levelUpMessage} /> : null}
-        <PinnedObjectives quests={questsQuery.data ?? []} />
-        <CampaignSummary campaign={campaign} campaignSummary={startupSeed?.campaignSummary ?? null} />
-        <div className="flex items-center justify-between">
-          <TabBar tabs={badgedTabs} activeTab={activeTab} onChange={handleTabChange} />
-          <div className="flex items-center gap-2">
-            <AudioControls {...audio} />
-            <button
-              type="button"
-              onClick={() => setShowSaves((v) => !v)}
-              className="inline-flex items-center justify-center border-2 border-gold/30 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
-            >
-              {showSaves ? 'Hide Saves' : 'Saves'}
-            </button>
+        <GameHudTopBar campaign={campaign} campaignId={campaignId} hudMode={hudMode} />
+        {showSaves ? (
+          <div className="max-h-40 shrink-0 overflow-y-auto pr-1">
+            <SavesList campaignId={campaignId} />
+          </div>
+        ) : null}
+        <div className="game-hud-frame grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-hidden xl:grid-cols-[minmax(0,1fr)_18rem] xl:grid-rows-[minmax(0,1fr)_auto]">
+          <div className="grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden xl:col-start-1 xl:row-start-1">
+            <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />
+            <div className="min-h-0 overflow-hidden">
+              <TurnNotifications stateChanges={narrative.latestResult?.state_changes ?? []} />
+            </div>
+          </div>
+          <GameHudSidebar
+            campaign={campaign}
+            hudMode={hudMode}
+            connectionStatus={narrative.connectionStatus}
+            isLoading={narrative.isLoading}
+            quests={questsQuery.data ?? []}
+            character={characterQuery.data ?? null}
+            inventory={inventoryQuery.data ?? []}
+            suggestedChoiceCount={suggestedChoices.length}
+          />
+          <div className="game-hud-panel-scene flex max-h-14 shrink-0 items-center overflow-hidden border-2 bg-charcoal/75 p-1.5 xl:col-start-1 xl:row-start-2">
+            <TabBar tabs={badgedTabs} activeTab={activeTab} onChange={handleTabChange} />
           </div>
         </div>
-        {showSaves ? <SavesList campaignId={campaignId} /> : null}
-        <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} />
-        <TurnNotifications stateChanges={narrative.latestResult?.state_changes ?? []} />
       </div>
     </AppShell>
   );
@@ -282,35 +320,67 @@ function PlayTabContent({
   activeTab,
   narrative,
   seededNarrative,
+  suggestedChoices,
 }: {
   readonly campaignId: string;
   readonly activeTab: CampaignPlayTab;
   readonly narrative: SharedNarrativeState;
   readonly seededNarrative: SeededNarrativeState;
+  readonly suggestedChoices: readonly { id: string; text: string }[];
 }) {
   switch (activeTab) {
     case 'narrative':
-      return <NarrativeTab narrative={narrative} seededNarrative={seededNarrative} />;
+      return (
+        <div className="h-full min-h-0 overflow-hidden">
+          <NarrativeTab narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />
+        </div>
+      );
     case 'character':
-      return <CharacterSheet campaignId={campaignId} />;
+      return (
+        <ContainedTabPanel>
+          <CharacterSheet campaignId={campaignId} />
+        </ContainedTabPanel>
+      );
     case 'inventory':
-      return <InventoryPanel />;
+      return (
+        <ContainedTabPanel>
+          <InventoryPanel />
+        </ContainedTabPanel>
+      );
     case 'quests':
-      return <QuestPanel campaignId={campaignId} />;
+      return (
+        <ContainedTabPanel>
+          <QuestPanel campaignId={campaignId} />
+        </ContainedTabPanel>
+      );
     case 'npcs':
-      return <NPCPanel campaignId={campaignId} />;
+      return (
+        <ContainedTabPanel>
+          <NPCPanel campaignId={campaignId} />
+        </ContainedTabPanel>
+      );
     case 'world':
-      return <WorldPanel campaignId={campaignId} />;
+      return (
+        <ContainedTabPanel>
+          <WorldPanel campaignId={campaignId} />
+        </ContainedTabPanel>
+      );
     case 'journal':
-      return <JournalPanel campaignId={campaignId} />;
+      return (
+        <ContainedTabPanel>
+          <JournalPanel campaignId={campaignId} />
+        </ContainedTabPanel>
+      );
     case 'logs':
       return (
-        <LogPanel
-          entries={seededNarrative.entries}
-          streamingEntry={narrative.streamingEntry}
-          isLoading={narrative.isLoading}
-          error={narrative.error}
-        />
+        <ContainedTabPanel>
+          <LogPanel
+            entries={seededNarrative.entries}
+            streamingEntry={narrative.streamingEntry}
+            isLoading={narrative.isLoading}
+            error={narrative.error}
+          />
+        </ContainedTabPanel>
       );
     default: {
       const exhaustiveTab: never = activeTab;
@@ -319,26 +389,25 @@ function PlayTabContent({
   }
 }
 
+function ContainedTabPanel({ children }: { readonly children: ReactNode }) {
+  return (
+    <div className="h-full min-h-0 overflow-y-auto overflow-x-hidden pr-1">
+      {children}
+    </div>
+  );
+}
+
 function NarrativeTab({
   narrative,
   seededNarrative,
+  suggestedChoices,
 }: {
   readonly narrative: SharedNarrativeState;
   readonly seededNarrative: SeededNarrativeState;
+  readonly suggestedChoices: readonly { id: string; text: string }[];
 }) {
   const { campaign } = useCampaign();
   const { connectionStatus, streamingEntry, currentStatus, combatActive, isLoading, error, sendAction } = narrative;
-  const suggestedChoices = useMemo(() => {
-    if (narrative.suggestedChoices.length > 0) {
-      return narrative.suggestedChoices;
-    }
-
-    if (narrative.entries.length > 0) {
-      return [];
-    }
-
-    return seededNarrative.suggestedChoices;
-  }, [narrative.entries.length, narrative.suggestedChoices, seededNarrative.suggestedChoices]);
 
   // Issue #410: Only show combat UI in light/crunch rules modes.
   const rulesMode = campaign?.rules_mode ?? 'narrative';
@@ -346,11 +415,11 @@ function NarrativeTab({
 
   if (showCombatUI) {
     return (
-      <div className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-2 border-ruby/30 bg-charcoal px-5 py-4">
+      <div className="flex h-full min-h-0 flex-col gap-3 overflow-hidden">
+        <div className="game-hud-panel game-hud-panel-combat flex shrink-0 flex-wrap items-center justify-between gap-4 border-2 bg-obsidian/75 px-5 py-3">
           <div>
-            <h2 className="font-heading text-lg font-semibold uppercase tracking-wide text-ruby">Combat</h2>
-            <p className="mt-1 text-sm text-pewter">{campaign?.name ?? 'Campaign'} · active combat encounter</p>
+            <h2 className="font-heading text-base font-semibold uppercase tracking-wide text-ruby">Combat</h2>
+            <p className="mt-1 text-xs text-pewter">{campaign?.name ?? 'Campaign'} · active combat encounter</p>
           </div>
           <ConnectionBadge status={connectionStatus} isLoading={isLoading} />
         </div>
@@ -370,127 +439,224 @@ function NarrativeTab({
   }
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(18rem,1fr)]">
-      <div className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-2 border-gold/20 bg-charcoal px-5 py-4">
-          <div>
-            <h2 className="font-heading text-lg font-semibold uppercase tracking-wide text-champagne">Narrative log</h2>
-            <p className="mt-1 text-sm text-pewter">{campaign?.name ?? 'Campaign'} · live turn-by-turn scene feed</p>
+    <div className="flex h-full min-h-0 flex-col gap-3 overflow-hidden">
+      <NarrativePanel
+        className="min-h-0 flex-1 overflow-hidden bg-charcoal/70"
+        contentClassName="h-full max-h-none min-h-0 text-[1.12rem] leading-6"
+        entries={seededNarrative.entries}
+        streamingEntry={streamingEntry}
+        isLoading={isLoading}
+        emptyState={
+          <div className="flex min-h-64 flex-1 flex-col items-center justify-center border border-dashed border-pewter/15 bg-charcoal/50 px-6 text-center">
+            <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-pewter/80">Awaiting first move</p>
+            <p className="mt-3 max-w-md text-sm leading-7 text-pewter">
+              Send an action to begin. Player moves, GM narration, system notices, and suggested choices will collect here.
+            </p>
           </div>
-          <ConnectionBadge status={connectionStatus} isLoading={isLoading} />
-        </div>
+        }
+      />
 
-        <NarrativePanel
-          entries={seededNarrative.entries}
-          streamingEntry={streamingEntry}
-          isLoading={isLoading}
-          emptyState={
-            <div className="flex min-h-64 flex-1 flex-col items-center justify-center border border-dashed border-gold/15 bg-charcoal/50 px-6 text-center">
-              <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-pewter/80">Awaiting first move</p>
-              <p className="mt-3 max-w-md text-sm leading-7 text-pewter">
-                Send an action to begin. Player moves, GM narration, system notices, and suggested choices will collect here.
-              </p>
-            </div>
-          }
-        />
+      <ChoiceList
+        choices={[...suggestedChoices]}
+        onSelectChoice={(choiceText) => {
+          sendAction(choiceText);
+        }}
+        disabled={isLoading}
+      />
 
-        <ChoiceList
-          choices={[...suggestedChoices]}
-          onSelectChoice={(choiceText) => {
-            sendAction(choiceText);
-          }}
-          disabled={isLoading}
-        />
+      <ThinkingIndicator status={currentStatus} />
 
-        <ThinkingIndicator status={currentStatus} />
+      <PlayerInput onSendAction={sendAction} disabled={connectionStatus === 'connecting'} isLoading={isLoading} autoFocus />
 
-        <PlayerInput onSendAction={sendAction} disabled={connectionStatus === 'connecting'} isLoading={isLoading} autoFocus />
-
-        {error ? <ErrorPanel message={error} /> : null}
-      </div>
-
-      <aside className="space-y-4">
-        <section className="border-2 border-sapphire/20 bg-midnight/20 p-5">
-          <h2 className="font-heading text-lg font-semibold uppercase tracking-wide text-champagne">Session state</h2>
-          <dl className="mt-4 space-y-3 text-sm text-champagne/70">
-            <SummaryRow label="Campaign status" value={campaign?.status || 'Unknown'} />
-            <SummaryRow label="Live connection" value={connectionStatus} capitalize />
-            <SummaryRow label="Themes" value={campaign && campaign.themes.length > 0 ? campaign.themes.join(', ') : 'None set'} />
-            <SummaryRow label="Suggested choices" value={String(suggestedChoices.length)} />
-          </dl>
-          <p className="mt-4 text-sm leading-6 text-pewter">
-            Suggested choices route through the same action pipeline as freeform input. Edit them in the input box if you want to elaborate.
-          </p>
-        </section>
-
-        <section className="border-2 border-sapphire/20 bg-midnight/20 p-5">
-          <h2 className="font-heading text-lg font-semibold uppercase tracking-wide text-champagne">Connection guide</h2>
-          <ul className="mt-4 space-y-3 text-sm leading-6 text-champagne/70">
-            <li>Use Tab buttons or keys 1–5 later to move between views.</li>
-            <li>Streaming GM text appears inline before the final response settles.</li>
-            <li>System messages stay in the narrative log so failures are visible, not silent.</li>
-          </ul>
-        </section>
-      </aside>
+      {error ? <ErrorPanel message={error} /> : null}
     </div>
   );
 }
 
+function WidescreenNotice() {
+  return (
+    <div className="xl:hidden border border-pewter/30 bg-pewter/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-pewter">
+      Optimized for widescreen play. Rotate, widen, or zoom out for the full HUD frame.
+    </div>
+  );
+}
+
+function GameHudTopBar({
+  campaign,
+  campaignId,
+  hudMode,
+}: {
+  readonly campaign: CampaignResponse;
+  readonly campaignId: string;
+  readonly hudMode: HudMode;
+}) {
+  return (
+    <section className={`game-hud-panel game-hud-panel-${hudMode} grid gap-3 border-2 bg-obsidian/70 px-4 py-2.5 lg:grid-cols-[1fr_auto]`}>
+      <div className="flex min-w-0 flex-wrap items-center gap-3">
+        <HudModeBadge mode={hudMode} />
+        <h2 className="min-w-0 truncate font-heading text-xl font-semibold uppercase tracking-[0.14em] text-champagne sm:text-2xl">
+          {campaign.name}
+        </h2>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        <div className="border border-pewter/20 bg-charcoal/70 px-3 py-1.5">
+          <TimeWidget campaignId={campaignId} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GameHudSidebar({
+  campaign,
+  hudMode,
+  connectionStatus,
+  isLoading,
+  quests,
+  character,
+  inventory,
+  suggestedChoiceCount,
+}: {
+  readonly campaign: CampaignResponse;
+  readonly hudMode: HudMode;
+  readonly connectionStatus: string;
+  readonly isLoading: boolean;
+  readonly quests: QuestResponse[];
+  readonly character: CharacterResponse | null;
+  readonly inventory: ItemResponse[];
+  readonly suggestedChoiceCount: number;
+}) {
+  const activeQuest = quests.find((quest) => quest.status === 'active') ?? quests[0] ?? null;
+  const activeObjective = activeQuest?.objectives.find((objective) => !objective.completed) ?? activeQuest?.objectives[0] ?? null;
+  const quickItems = inventory.slice(0, 5);
+
+  return (
+    <aside className="flex min-h-0 flex-col gap-2 overflow-hidden xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:self-stretch">
+      <div className="min-h-0 space-y-2 overflow-y-auto pr-1">
+        <HudPanel title="Vitals" accent="vitals">
+          {character ? (
+            <>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-heading text-sm font-semibold uppercase tracking-[0.12em] text-champagne">{character.name}</p>
+                  <p className="mt-1 text-[0.7rem] uppercase tracking-[0.16em] text-pewter">Level {character.level} · {humanizeInlineValue(character.status)}</p>
+                </div>
+                <span className="hud-badge hud-badge-jade">LV {character.level}</span>
+              </div>
+              <HudMeter label="HP" value={character.hp} max={character.max_hp} tone="jade" />
+              <HudMeter label="XP" value={character.experience} max={nextLevelThreshold(character.level)} tone="sapphire" />
+            </>
+          ) : (
+            <p className="text-sm leading-6 text-pewter">Character telemetry not loaded yet.</p>
+          )}
+        </HudPanel>
+
+        <HudPanel title="Active objective" accent="objective">
+          {activeQuest ? (
+            <div className="space-y-2">
+              <p className="font-heading text-xs font-semibold uppercase tracking-[0.12em] text-champagne">{activeQuest.title}</p>
+              <p className="text-sm leading-6 text-champagne/70">{activeObjective?.description ?? activeQuest.description}</p>
+            </div>
+          ) : (
+            <p className="text-sm leading-6 text-pewter">No tracked objective yet.</p>
+          )}
+        </HudPanel>
+
+        <HudPanel title="Quick inventory" accent="inventory">
+          {quickItems.length > 0 ? (
+            <div className="grid grid-cols-5 gap-1.5">
+              {quickItems.map((item) => (
+                <div key={item.id} title={item.name} className="hud-item-cell">
+                  <span className="line-clamp-2">{item.name}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm leading-6 text-pewter">No quick items detected.</p>
+          )}
+        </HudPanel>
+      </div>
+
+      <div className="mt-auto">
+        <HudPanel title="Scene scan" accent="scene">
+          <dl className="space-y-2 text-sm text-champagne/70">
+            <SummaryRow label="Mode" value={humanizeInlineValue(hudMode)} />
+            <SummaryRow label="Rules" value={humanizeInlineValue(campaign.rules_mode)} />
+            <SummaryRow label="Status" value={humanizeInlineValue(campaign.status)} />
+            <SummaryRow label="Connection" value={isLoading ? 'GM responding' : connectionStatus} capitalize />
+            <SummaryRow label="Choices" value={String(suggestedChoiceCount)} />
+            <SummaryRow label="Tone" value={campaign.tone || 'Unspecified'} />
+          </dl>
+        </HudPanel>
+      </div>
+    </aside>
+  );
+}
+
+function HudModeBadge({ mode }: { readonly mode: HudMode }) {
+  return <span className={`game-hud-mode game-hud-mode-${mode}`}>{mode}</span>;
+}
+
+function HudMeter({ label, value, max, tone }: { readonly label: string; readonly value: number; readonly max: number; readonly tone: 'jade' | 'sapphire' }) {
+  const pct = max > 0 ? Math.max(0, Math.min(100, Math.round((value / max) * 100))) : 0;
+  const fillClass = tone === 'jade' ? 'hud-meter-fill-jade' : 'hud-meter-fill-sapphire';
+
+  return (
+    <div className="hud-meter mt-2.5">
+      <div className="hud-meter-header">
+        <span className="hud-meter-label">{label}</span>
+        <span className="hud-meter-value">{value} / {max}</span>
+      </div>
+      <div className="hud-meter-bar">
+        <div className={`hud-meter-fill ${fillClass}`} style={{ width: `${pct}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function nextLevelThreshold(level: number): number {
+  return 1000 * level * (level + 1) / 2;
+}
+
+function getSuggestedChoicesForFrame(narrative: SharedNarrativeState, seededNarrative: SeededNarrativeState) {
+  if (narrative.suggestedChoices.length > 0) {
+    return narrative.suggestedChoices;
+  }
+
+  if (narrative.entries.length > 0) {
+    return [];
+  }
+
+  return seededNarrative.suggestedChoices;
+}
+
+function getHudMode(combatActive: boolean, suggestedChoiceCount: number): HudMode {
+  if (combatActive) return 'combat';
+  if (suggestedChoiceCount > 0) return 'dialogue';
+  return 'exploration';
+}
+
 function LevelUpBanner({ message }: { readonly message: string }) {
   return (
-    <div className="animate-pulse border-2 border-gold/50 bg-gold/10 px-6 py-4 text-center shadow-gold">
-      <p className="font-heading text-lg font-semibold uppercase tracking-[0.15em] text-gold">{message}</p>
+    <div className="animate-pulse border-2 border-gold/50 bg-gold/10 px-6 py-3 text-center">
+      <p className="font-heading text-sm font-semibold uppercase tracking-[0.15em] text-gold">{message}</p>
     </div>
   );
 }
 
 function ConnectionBadge({ status, isLoading }: { readonly status: string; readonly isLoading: boolean }) {
-  const tone =
+  const statusClass =
     status === 'open'
-      ? 'border-jade/40 bg-jade/10 text-jade'
+      ? 'hud-status-open'
       : status === 'connecting'
-        ? 'border-gold/40 bg-gold/10 text-gold'
+        ? 'hud-status-connecting'
         : status === 'error'
-          ? 'border-ruby/40 bg-ruby/10 text-ruby'
-          : 'border-pewter/30 bg-pewter/10 text-pewter';
+          ? 'hud-status-error'
+          : 'hud-status-idle';
 
   return (
-    <div className={`rounded-sm border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${tone}`}>
+    <div className={`hud-status ${statusClass}`}>
       {isLoading ? 'GM responding' : status}
-    </div>
-  );
-}
-
-function CampaignSummary({
-  campaign,
-  campaignSummary,
-}: {
-  readonly campaign: CampaignResponse;
-  readonly campaignSummary: string | null;
-}) {
-  return (
-    <section className="grid gap-4 border-2 border-midnight/30 bg-midnight/10 p-5 text-sm text-champagne/70 md:grid-cols-3">
-      <SummaryItem label="Genre" value={campaign.genre || 'Unspecified'} />
-      <SummaryItem label="Tone" value={campaign.tone || 'Unspecified'} />
-      <SummaryItem label="Themes" value={campaign.themes.length > 0 ? campaign.themes.join(', ') : 'None set'} />
-      {campaignSummary ? <SummaryItem label="Startup summary" value={campaignSummary} className="md:col-span-3" /> : null}
-    </section>
-  );
-}
-
-function SummaryItem({
-  label,
-  value,
-  className = '',
-}: {
-  readonly label: string;
-  readonly value: string;
-  readonly className?: string;
-}) {
-  return (
-    <div className={`space-y-1 ${className}`.trim()}>
-      <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">{label}</p>
-      <p className="leading-6 text-champagne">{value}</p>
     </div>
   );
 }
@@ -512,12 +678,43 @@ function SummaryRow({
   );
 }
 
+function humanizeInlineValue(value: string): string {
+  return value
+    .split(/[_-]/g)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
 function LoadingPanel({ message }: { readonly message: string }) {
-  return <div className="border border-gold/20 bg-charcoal p-6 text-sm text-champagne/70">{message}</div>;
+  return <div className="border border-pewter/20 bg-charcoal p-6 text-sm text-pewter">{message}</div>;
 }
 
 function ErrorPanel({ message }: { readonly message: string }) {
   return <div className="border border-ruby/40 bg-ruby/10 p-6 text-sm text-ruby">{message}</div>;
+}
+
+function CampaignPlayHeaderActions({
+  audio,
+  showSaves,
+  onToggleSaves,
+}: {
+  readonly audio: ReturnType<typeof useAudio>;
+  readonly showSaves: boolean;
+  readonly onToggleSaves: () => void;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <AudioControls {...audio} />
+      <button
+        type="button"
+        onClick={onToggleSaves}
+        className="hud-btn hud-btn-primary"
+      >
+        {showSaves ? 'Hide Saves' : 'Saves'}
+      </button>
+    </div>
+  );
 }
 
 function CampaignPlayActions({ campaignId, onStartOver, onExport }: { readonly campaignId: string; readonly onStartOver: () => void; readonly onExport: () => void }) {
@@ -537,27 +734,26 @@ function CampaignPlayActions({ campaignId, onStartOver, onExport }: { readonly c
   };
 
   return (
-    <div className="flex items-center gap-3">
-      <TimeWidget campaignId={campaignId} />
+    <div className="grid gap-2">
       <button
         type="button"
         onClick={handleSave}
         disabled={saveMutation.isPending}
-        className="inline-flex items-center justify-center border-2 border-gold/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian disabled:opacity-50"
+        className="hud-btn hud-btn-primary"
       >
         {saveMutation.isPending ? 'Saving...' : 'Save'}
       </button>
       <button
         type="button"
         onClick={onExport}
-        className="inline-flex items-center justify-center border-2 border-sapphire/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-sapphire hover:text-sapphire focus:outline-none focus:ring-2 focus:ring-sapphire focus:ring-offset-2 focus:ring-offset-obsidian"
+        className="hud-btn hud-btn-secondary"
       >
         Export
       </button>
       <button
         type="button"
         onClick={onStartOver}
-        className="inline-flex items-center justify-center border-2 border-ruby/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-ruby transition-all duration-200 hover:border-ruby hover:bg-ruby/10 focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian"
+        className="hud-btn hud-btn-danger"
       >
         Start Over
       </button>
@@ -570,7 +766,7 @@ function BackToCampaignsLink() {
   return (
     <Link
       to="/"
-      className="inline-flex items-center justify-center border-2 border-gold/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian"
+      className="hud-btn hud-btn-secondary w-full"
     >
       Back to campaigns
     </Link>

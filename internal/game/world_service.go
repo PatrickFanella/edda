@@ -8,9 +8,9 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 	pgvector "github.com/pgvector/pgvector-go"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/internal/tools"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // worldService consolidates world-building persistence for expanded world tools
@@ -27,7 +27,7 @@ func NewWorldService(q statedb.Querier) *worldService {
 
 // --- tools.LanguageStore methods ---
 
-func (s *worldService) CreateLanguage(ctx context.Context, params tools.CreateLanguageParams) (uuid.UUID, error) {
+func (s *worldService) CreateLanguage(ctx context.Context, params domain.CreateLanguageParams) (uuid.UUID, error) {
 	lang, err := s.queries.CreateLanguage(ctx, statedb.CreateLanguageParams{
 		CampaignID:         dbutil.ToPgtype(params.CampaignID),
 		Name:               params.Name,
@@ -62,7 +62,7 @@ func (s *worldService) CultureBelongsToCampaign(ctx context.Context, cultureID, 
 
 // --- tools.MemoryStore methods ---
 
-func (s *worldService) CreateMemory(ctx context.Context, params tools.CreateMemoryParams) error {
+func (s *worldService) CreateMemory(ctx context.Context, params domain.CreateMemoryParams) error {
 	_, err := s.queries.CreateMemory(ctx, statedb.CreateMemoryParams{
 		CampaignID: dbutil.ToPgtype(params.CampaignID),
 		Content:    params.Content,
@@ -133,25 +133,7 @@ func (s *worldService) GetLocationByID(ctx context.Context, id pgtype.UUID) (sta
 	return s.queries.GetLocationByID(ctx, statedb.GetLocationByIDParams{ID: id})
 }
 
-// --- tools.CityStore methods ---
-
-func (s *worldService) CreateLocation(ctx context.Context, arg statedb.CreateLocationParams) (statedb.Location, error) {
-	return s.queries.CreateLocation(ctx, arg)
-}
-
-func (s *worldService) UpdateLocation(ctx context.Context, arg statedb.UpdateLocationParams) (statedb.Location, error) {
-	return s.queries.UpdateLocation(ctx, arg)
-}
-
-func (s *worldService) ListLocationsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Location, error) {
-	return s.queries.ListLocationsByCampaign(ctx, campaignID)
-}
-
-func (s *worldService) CreateConnection(ctx context.Context, arg statedb.CreateConnectionParams) (statedb.LocationConnection, error) {
-	return s.queries.CreateConnection(ctx, arg)
-}
-
-// --- tools.QuestStore methods ---
+// --- tools.QuestStore compatibility methods ---
 
 func (s *worldService) CreateQuest(ctx context.Context, arg statedb.CreateQuestParams) (statedb.Quest, error) {
 	return s.queries.CreateQuest(ctx, arg)
@@ -169,20 +151,38 @@ func (s *worldService) ListObjectivesByQuest(ctx context.Context, questID pgtype
 	return s.queries.ListObjectivesByQuest(ctx, questID)
 }
 
-func (s *worldService) CompleteObjective(ctx context.Context, id pgtype.UUID) (statedb.QuestObjective, error) {
-	return s.queries.CompleteObjective(ctx, id)
-}
-
 func (s *worldService) UpdateQuestStatus(ctx context.Context, arg statedb.UpdateQuestStatusParams) (statedb.Quest, error) {
 	return s.queries.UpdateQuestStatus(ctx, arg)
 }
 
-func (s *worldService) UpdateQuest(ctx context.Context, arg statedb.UpdateQuestParams) (statedb.Quest, error) {
-	return s.queries.UpdateQuest(ctx, arg)
-}
-
 func (s *worldService) ListQuestsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Quest, error) {
 	return s.queries.ListQuestsByCampaign(ctx, campaignID)
+}
+
+// --- tools.CityStore methods ---
+
+func (s *worldService) CreateLocation(ctx context.Context, arg statedb.CreateLocationParams) (statedb.Location, error) {
+	return s.queries.CreateLocation(ctx, arg)
+}
+
+func (s *worldService) UpdateLocation(ctx context.Context, arg statedb.UpdateLocationParams) (statedb.Location, error) {
+	return s.queries.UpdateLocation(ctx, arg)
+}
+
+func (s *worldService) ListLocationsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]statedb.Location, error) {
+	return s.queries.ListLocationsByCampaign(ctx, campaignID)
+}
+
+func (s *worldService) UpdatePlayerLocation(ctx context.Context, arg statedb.UpdatePlayerLocationParams) (statedb.PlayerCharacter, error) {
+	return s.queries.UpdatePlayerLocation(ctx, arg)
+}
+
+func (s *worldService) SetLocationPlayerVisited(ctx context.Context, id pgtype.UUID) error {
+	return s.queries.SetLocationPlayerVisited(ctx, id)
+}
+
+func (s *worldService) CreateConnection(ctx context.Context, arg statedb.CreateConnectionParams) (statedb.LocationConnection, error) {
+	return s.queries.CreateConnection(ctx, arg)
 }
 
 func (s *worldService) CreateRelationship(ctx context.Context, arg statedb.CreateRelationshipParams) (statedb.EntityRelationship, error) {
@@ -217,6 +217,13 @@ func (s *worldService) GetRelationshipsByEntity(ctx context.Context, arg statedb
 
 func (s *worldService) SetFactPlayerKnown(ctx context.Context, id pgtype.UUID) error {
 	return s.queries.SetFactPlayerKnown(ctx, id)
+}
+
+// --- tools.ReviseFactStore methods ---
+
+func (s *worldService) ReviseWorldFact(ctx context.Context, cmd domain.ReviseWorldFactCommand) (*domain.ReviseWorldFactResult, error) {
+	store := NewStateStore(s.queries)
+	return store.ReviseWorldFact(ctx, cmd)
 }
 
 func (s *worldService) GetFactPlayerKnown(ctx context.Context, id pgtype.UUID) (bool, error) {

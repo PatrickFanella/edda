@@ -14,12 +14,12 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/PatrickFanella/game-master/internal/config"
-	"github.com/PatrickFanella/game-master/internal/engine"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/logging"
-	statedb "github.com/PatrickFanella/game-master/internal/state/sqlc"
-	"github.com/PatrickFanella/game-master/tui"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/tui"
 )
 
 func main() {
@@ -27,13 +27,13 @@ func main() {
 }
 
 func run(args []string) int {
-	configPath, err := parseConfigPath(args, os.Getenv("GM_CONFIG"))
+	configPath, err := parseConfigPath(args, os.Getenv("EDDA_CONFIG"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "parse flags: %v\n", err)
 		return 2
 	}
 
-	logResult, err := logging.Setup(".logs/game-master.jsonl", slog.LevelDebug)
+	logResult, err := logging.Setup(".logs/edda.jsonl", slog.LevelDebug)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "init logging: %v\n", err)
 		return 1
@@ -136,16 +136,17 @@ func newLLMProvider(cfg config.Config) (llm.Provider, error) {
 	case "claude":
 		return llm.NewClaudeClient("", cfg.LLM.Claude.APIKey, cfg.LLM.Claude.Model), nil
 	case "ollama":
-		return llm.NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()), nil
+		return llm.NewOllamaClientWithTimeout(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.RequestTimeout()).
+			WithAPIKey(cfg.LLM.Ollama.APIKey), nil
 	default:
 		return nil, fmt.Errorf("unknown llm provider: %q", cfg.LLM.Provider)
 	}
 }
 
 func tuiAltScreenEnabled() bool {
-	return os.Getenv("GM_TUI_ALTSCREEN") != "0"
+	return os.Getenv("EDDA_TUI_ALTSCREEN") != "0"
 }
 
 func tuiMouseEnabled() bool {
-	return os.Getenv("GM_TUI_MOUSE") != "0"
+	return os.Getenv("EDDA_TUI_MOUSE") != "0"
 }

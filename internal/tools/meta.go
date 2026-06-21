@@ -1,6 +1,6 @@
 package tools
 
-import "github.com/PatrickFanella/game-master/internal/llm"
+import "git.subcult.tv/subculture-collective/edda/internal/llm"
 
 // ToolCategory classifies tools for phase-based filtering.
 type ToolCategory string

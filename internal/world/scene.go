@@ -9,10 +9,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/PatrickFanella/game-master/internal/domain"
-	"github.com/PatrickFanella/game-master/internal/llm"
-	"github.com/PatrickFanella/game-master/internal/llmutil"
-	"github.com/PatrickFanella/game-master/internal/prompt"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/llmutil"
+	"git.subcult.tv/subculture-collective/edda/internal/prompt"
 )
 
 // SceneResult holds the opening scene narrative and initial player choices
@@ -110,6 +110,7 @@ func (g *SceneGenerator) Generate(ctx context.Context, campaignID uuid.UUID, pro
 		PlayerInput: "[scene_generation]",
 		InputType:   domain.InputTypeNarrative,
 		LLMResponse: parsed.Narrative,
+		ToolCalls:   openingChoicesToolCalls(parsed.Choices),
 	}
 	if err := g.store.SaveSessionLog(ctx, log); err != nil {
 		logger().Error("scene session log persistence failed", "campaign_id", campaignID, "error", err)
@@ -127,6 +128,19 @@ func (g *SceneGenerator) Generate(ctx context.Context, campaignID uuid.UUID, pro
 		"choices", len(result.Choices),
 	)
 	return result, nil
+}
+
+func openingChoicesToolCalls(choices []string) json.RawMessage {
+	type openingChoicesPayload struct {
+		Type    string   `json:"type"`
+		Choices []string `json:"choices"`
+	}
+	payload := []openingChoicesPayload{{Type: "opening_choices", Choices: choices}}
+	data, err := json.Marshal(payload)
+	if err != nil {
+		return nil
+	}
+	return data
 }
 
 // buildScenePrompt constructs the system prompt for opening scene generation.

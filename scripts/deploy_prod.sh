@@ -20,14 +20,14 @@ Runs the production cutover sequence in strict order:
   2. rollback manifest capture
   3. DB backup
   4. migrations
-  5. build or pull tagged gm-api / gm-web images
+  5. build or pull tagged edda-api / edda-web images
   6. docker compose refresh
   7. Caddy install/reload if needed
 
 Environment knobs:
-  GM_DEPLOY_IMAGE_SOURCE=build|pull   (default: build)
-  GM_DEPLOY_FORCE_CADDY_RELOAD=1      force Caddy install/reload even when config is unchanged
-  GM_DEPLOY_CADDY_SOURCE_CONFIG=...   override repo-owned Caddyfile path
+  EDDA_DEPLOY_IMAGE_SOURCE=build|pull   (default: build)
+  EDDA_DEPLOY_FORCE_CADDY_RELOAD=1      force Caddy install/reload even when config is unchanged
+  EDDA_DEPLOY_CADDY_SOURCE_CONFIG=...   override repo-owned Caddyfile path
 
 Required env contract comes from the supplied env file. Script is fail-fast and non-interactive.
 EOF
@@ -126,7 +126,7 @@ caddy_reload_required() {
   local current_copy
   local import_probe_file
 
-  if [[ "${GM_DEPLOY_FORCE_CADDY_RELOAD:-0}" == "1" ]]; then
+  if [[ "${EDDA_DEPLOY_FORCE_CADDY_RELOAD:-0}" == "1" ]]; then
     return 0
   fi
 
@@ -173,11 +173,11 @@ prepare_release_images() {
       docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build api web
       ;;
     pull)
-      docker pull "gm-api:$GM_RELEASE_TAG"
-      docker pull "gm-web:$GM_RELEASE_TAG"
+      docker pull "edda-api:$EDDA_RELEASE_TAG"
+      docker pull "edda-web:$EDDA_RELEASE_TAG"
       ;;
     *)
-      die "GM_DEPLOY_IMAGE_SOURCE must be 'build' or 'pull' (got '$IMAGE_SOURCE')"
+      die "EDDA_DEPLOY_IMAGE_SOURCE must be 'build' or 'pull' (got '$IMAGE_SOURCE')"
       ;;
   esac
 }
@@ -295,17 +295,17 @@ require_cmd tee
 
 load_env
 
-require_var GM_RELEASE_TAG
+require_var EDDA_RELEASE_TAG
 require_var CADDY_CONTAINER_NAME
 require_var CADDY_SITE_CONFIG_PATH
 
-IMAGE_SOURCE=${GM_DEPLOY_IMAGE_SOURCE:-build}
-PUBLIC_HOSTNAME=${GM_DEPLOY_PUBLIC_HOSTNAME:-edda.subcult.tv}
-CADDY_SOURCE_CONFIG=${GM_DEPLOY_CADDY_SOURCE_CONFIG:-$REPO_ROOT/deploy/caddy/edda.Caddyfile}
+IMAGE_SOURCE=${EDDA_DEPLOY_IMAGE_SOURCE:-build}
+PUBLIC_HOSTNAME=${EDDA_DEPLOY_PUBLIC_HOSTNAME:-edda.subcult.tv}
+CADDY_SOURCE_CONFIG=${EDDA_DEPLOY_CADDY_SOURCE_CONFIG:-$REPO_ROOT/deploy/caddy/edda.Caddyfile}
 [[ -f "$CADDY_SOURCE_CONFIG" ]] || die "Caddy source config '$CADDY_SOURCE_CONFIG' does not exist"
 
-API_CONTAINER_NAME=${GM_API_CONTAINER_NAME:-gm-api}
-WEB_CONTAINER_NAME=${GM_WEB_CONTAINER_NAME:-gm-web}
+API_CONTAINER_NAME=${EDDA_API_CONTAINER_NAME:-edda-api}
+WEB_CONTAINER_NAME=${EDDA_WEB_CONTAINER_NAME:-edda-web}
 
 RUN_TIMESTAMP=$(date -u +%Y%m%dT%H%M%SZ)
 RUN_DIR="$EVIDENCE_DIR/deploy-prod-$RUN_TIMESTAMP"
@@ -317,7 +317,7 @@ discover_caddy_runtime_config
 
 log "run dir: $RUN_DIR"
 log "env file: $ENV_FILE"
-log "release tag: $GM_RELEASE_TAG"
+log "release tag: $EDDA_RELEASE_TAG"
 log "image source: $IMAGE_SOURCE"
 log "compose file: $COMPOSE_FILE"
 log "public hostname: $PUBLIC_HOSTNAME"
@@ -327,9 +327,9 @@ record_running_state >"$RUN_DIR/pre-cutover-state.txt" || true
 run_step preflight bash "$SCRIPT_DIR/preflight_prod_deploy.sh" "$ENV_FILE" "$PUBLIC_HOSTNAME"
 
 run_step capture-release env \
-  GM_API_CURRENT_IMAGE="${GM_API_CURRENT_IMAGE:-}" \
-  GM_WEB_CURRENT_IMAGE="${GM_WEB_CURRENT_IMAGE:-}" \
-  bash "$SCRIPT_DIR/capture_prod_release.sh" "$GM_RELEASE_TAG" "$ROLLBACK_MANIFEST"
+  EDDA_API_CURRENT_IMAGE="${EDDA_API_CURRENT_IMAGE:-}" \
+  EDDA_WEB_CURRENT_IMAGE="${EDDA_WEB_CURRENT_IMAGE:-}" \
+  bash "$SCRIPT_DIR/capture_prod_release.sh" "$EDDA_RELEASE_TAG" "$ROLLBACK_MANIFEST"
 
 append_manifest_line DEPLOY_ENV_FILE "$ENV_FILE"
 append_manifest_line DEPLOY_COMPOSE_FILE "$COMPOSE_FILE"

@@ -9,23 +9,14 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/dbutil"
-	"github.com/PatrickFanella/game-master/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 const createLanguageToolName = "create_language"
 
-// CreateLanguageParams holds the parameters for creating a language.
-type CreateLanguageParams struct {
-	CampaignID         uuid.UUID
-	Name               string
-	Description        string
-	PhonologicalRules  json.RawMessage
-	NamingConventions  json.RawMessage
-	SampleVocabulary   json.RawMessage
-	SpokenByFactionIDs []uuid.UUID
-	SpokenByCultureIDs []uuid.UUID
-}
+type CreateLanguageParams = domain.CreateLanguageParams
 
 // LanguageStore persists language records using domain types.
 type LanguageStore interface {
@@ -35,14 +26,7 @@ type LanguageStore interface {
 	SetLanguagePlayerKnown(ctx context.Context, id pgtype.UUID) error
 }
 
-// CreateMemoryParams holds the parameters for creating a semantic memory.
-type CreateMemoryParams struct {
-	CampaignID uuid.UUID
-	Content    string
-	Embedding  []float32
-	MemoryType string
-	Metadata   json.RawMessage
-}
+type CreateMemoryParams = domain.CreateMemoryParams
 
 // MemoryStore persists semantic memories using domain types.
 type MemoryStore interface {
@@ -217,7 +201,7 @@ func (h *CreateLanguageHandler) Handle(ctx context.Context, args map[string]any)
 
 	if h.embedder != nil && h.memoryStore != nil {
 		if err := h.embedLanguageMemory(ctx, campaignID, languageID, name, description, phonologicalRules, namingConventions, sampleVocabulary, spokenByFactionIDs, spokenByCultureIDs); err != nil {
-			return nil, err
+			return &ToolResult{Success: true, Data: map[string]any{"id": languageID.String(), "campaign_id": campaignID.String(), "name": name, "description": description, "phonological_rules": phonologicalRules, "naming_conventions": namingConventions, "sample_vocabulary": sampleVocabulary, "spoken_by_faction_ids": spokenByFactionIDs, "spoken_by_culture_ids": spokenByCultureIDs, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("Language %q created. Memory embedding failed: %v", name, err)}, nil
 		}
 	}
 

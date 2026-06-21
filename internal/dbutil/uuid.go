@@ -1,7 +1,7 @@
 // Package dbutil provides shared helpers for converting between domain types
 // and database-specific types (pgtype, pgvector).
 //
-// Deprecated: New code should use github.com/PatrickFanella/game-master/internal/db
+// Deprecated: New code should use git.subcult.tv/subculture-collective/edda/internal/db
 // directly. These functions are thin wrappers for backward compatibility.
 package dbutil
 
@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/PatrickFanella/game-master/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 )
 
 // FromPgtype converts a pgtype.UUID to a uuid.UUID.
