@@ -49,9 +49,9 @@ export function MethodPicker<TMethod extends string = string>({
   }
 
   return (
-    <section className="deco-corners deco-pattern space-y-6 border-2 border-gold/20 bg-charcoal p-6">
-      <header className="space-y-3 border-b-2 border-gold/20 pb-5">
-        <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">Start game</p>
+    <section className="deco-corners deco-pattern game-hud-panel game-hud-panel-setup space-y-6 border-2 border-sapphire/20 bg-charcoal p-6">
+      <header className="space-y-3 border-b-2 border-sapphire/20 pb-5">
+        <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">Start game</p>
         <div className="space-y-2">
           <h2 className="font-heading text-2xl font-semibold uppercase tracking-wide text-champagne">{title}</h2>
           <p className="max-w-2xl text-sm leading-7 text-champagne/70">{description}</p>
@@ -71,10 +71,10 @@ export function MethodPicker<TMethod extends string = string>({
               }}
               aria-pressed={isSelected}
               className={[
-                'border-2 px-5 py-5 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold/60',
+                'border-2 px-5 py-5 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sapphire/60',
                 isSelected
                   ? 'border-gold bg-gold/10'
-                  : 'border-gold/20 bg-charcoal hover:border-gold/40 hover:bg-charcoal/80 hover:-translate-y-0.5',
+                  : 'border-sapphire/20 bg-charcoal hover:border-sapphire/40 hover:bg-charcoal/80 hover:-translate-y-0.5',
               ].join(' ')}
             >
               {method.eyebrow ? (
@@ -90,7 +90,7 @@ export function MethodPicker<TMethod extends string = string>({
                     'mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-semibold',
                     isSelected
                       ? 'border-gold bg-gold text-obsidian'
-                      : 'border-gold/30 bg-obsidian text-pewter',
+                      : 'border-sapphire/30 bg-obsidian text-pewter',
                   ].join(' ')}
                   aria-hidden="true"
                 >
@@ -108,12 +108,12 @@ export function MethodPicker<TMethod extends string = string>({
         <div className="border border-ruby/40 bg-ruby/10 px-4 py-3 text-sm text-ruby">{errorMessage}</div>
       ) : null}
 
-      <div className="flex flex-col-reverse gap-3 border-t-2 border-gold/20 pt-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col-reverse gap-3 border-t-2 border-sapphire/20 pt-5 sm:flex-row sm:items-center sm:justify-between">
         {onBack ? (
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center justify-center border border-gold/30 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-gold hover:text-champagne focus:outline-none focus:ring-2 focus:ring-gold/60"
+            className="hud-btn hud-text-button inline-flex items-center justify-center border border-sapphire/30 px-4 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-sapphire hover:text-champagne focus:outline-none focus:ring-2 focus:ring-sapphire/60"
           >
             {backLabel}
           </button>
@@ -124,7 +124,7 @@ export function MethodPicker<TMethod extends string = string>({
           type="button"
           onClick={handleContinue}
           disabled={!hasSelection || isLoading}
-          className="inline-flex items-center justify-center bg-ruby px-5 py-3 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:bg-ruby-light hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter disabled:hover:scale-100"
+          className="hud-btn hud-text-button inline-flex items-center justify-center bg-ruby px-5 text-sm font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:bg-ruby-light hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter disabled:hover:scale-100"
         >
           {isLoading ? continueLoadingLabel : continueLabel}
         </button>

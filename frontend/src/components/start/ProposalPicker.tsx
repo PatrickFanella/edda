@@ -62,8 +62,8 @@ export function ProposalPicker({
 
   if (proposals.length === 0) {
     return (
-      <section className="deco-corners deco-pattern space-y-6 border-2 border-gold/20 bg-charcoal p-6">
-        <header className="space-y-3 border-b-2 border-gold/20 pb-5">
+      <section className="game-hud-panel game-hud-panel-setup deco-corners deco-pattern space-y-6 border-2 border-sapphire/30 bg-charcoal p-6">
+        <header className="space-y-3 border-b-2 border-sapphire/30 pb-5">
           <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">Campaign proposals</p>
           <div className="space-y-2">
             <h2 className="font-heading text-2xl font-semibold uppercase tracking-wide text-champagne">{emptyStateTitle}</h2>
@@ -80,7 +80,7 @@ export function ProposalPicker({
             <button
               type="button"
               onClick={onBack}
-              className="inline-flex items-center justify-center border border-gold/30 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-gold hover:text-champagne focus:outline-none focus:ring-2 focus:ring-gold/60"
+              className="hud-btn hud-text-button inline-flex items-center justify-center border border-sapphire/30 px-4 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-sapphire hover:text-champagne focus:outline-none focus:ring-2 focus:ring-sapphire/60"
             >
               {backLabel}
             </button>
@@ -91,8 +91,8 @@ export function ProposalPicker({
   }
 
   return (
-    <section className="deco-corners deco-pattern space-y-6 border-2 border-gold/20 bg-charcoal p-6">
-      <header className="space-y-3 border-b-2 border-gold/20 pb-5">
+    <section className="game-hud-panel game-hud-panel-setup deco-corners deco-pattern space-y-6 border-2 border-sapphire/30 bg-charcoal p-6">
+      <header className="space-y-3 border-b-2 border-sapphire/30 pb-5">
         <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">Campaign proposals</p>
         <div className="space-y-2">
           <h2 className="font-heading text-2xl font-semibold uppercase tracking-wide text-champagne">{title}</h2>
@@ -115,10 +115,10 @@ export function ProposalPicker({
                 }}
                 aria-pressed={isSelected}
                 className={[
-                  'w-full border-2 px-5 py-5 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold/60',
+                  'game-hud-panel game-hud-panel-setup w-full border-2 px-5 py-5 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold/60',
                   isSelected
                     ? 'border-gold bg-gold/10'
-                    : 'border-gold/20 bg-charcoal hover:border-gold/40 hover:bg-charcoal/80 hover:-translate-y-0.5',
+                    : 'border-sapphire/30 bg-charcoal hover:border-sapphire/50 hover:bg-charcoal/80 hover:-translate-y-0.5',
                 ].join(' ')}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -146,11 +146,11 @@ export function ProposalPicker({
           })}
         </div>
 
-        <aside className="border-2 border-gold/20 bg-charcoal p-5">
+        <aside className="border-2 border-sapphire/30 bg-charcoal p-5">
           {selectedProposal ? (
             <SelectedProposalPreview proposal={selectedProposal} />
           ) : (
-            <div className="flex h-full min-h-64 flex-col items-center justify-center border border-dashed border-gold/15 bg-obsidian px-6 text-center">
+            <div className="flex h-full min-h-64 flex-col items-center justify-center border border-dashed border-sapphire/20 bg-obsidian px-6 text-center">
               <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-pewter/80">Awaiting selection</p>
               <p className="mt-3 max-w-sm text-sm leading-7 text-pewter">
                 Select a proposal to inspect its genre, world shape, and campaign pressures before continuing.
@@ -164,12 +164,12 @@ export function ProposalPicker({
         <div className="border border-ruby/40 bg-ruby/10 px-4 py-3 text-sm text-ruby">{errorMessage}</div>
       ) : null}
 
-      <div className="flex flex-col-reverse gap-3 border-t-2 border-gold/20 pt-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col-reverse gap-3 border-t-2 border-sapphire/30 pt-5 sm:flex-row sm:items-center sm:justify-between">
         {onBack ? (
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center justify-center border border-gold/30 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-gold hover:text-champagne focus:outline-none focus:ring-2 focus:ring-gold/60"
+            className="hud-btn hud-text-button inline-flex items-center justify-center border border-sapphire/30 px-4 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-sapphire hover:text-champagne focus:outline-none focus:ring-2 focus:ring-sapphire/60"
           >
             {backLabel}
           </button>
@@ -180,7 +180,7 @@ export function ProposalPicker({
           type="button"
           onClick={handleContinue}
           disabled={!selectedProposal || isLoading}
-          className="inline-flex items-center justify-center bg-ruby px-5 py-3 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
+          className="hud-btn hud-text-button inline-flex items-center justify-center bg-ruby px-5 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
         >
           {isLoading ? continueLoadingLabel : continueLabel}
         </button>
@@ -214,7 +214,7 @@ function SelectedProposalPreview({ proposal }: { readonly proposal: CampaignProp
       </div>
       <dl className="space-y-3 text-sm text-champagne/70">
         {metadata.map((item) => (
-          <div key={item.label} className="border border-gold/15 bg-obsidian px-4 py-3">
+          <div key={item.label} className="border border-sapphire/20 bg-obsidian px-4 py-3">
             <dt className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-pewter/80">{item.label}</dt>
             <dd className="mt-2 leading-6 text-champagne">{item.value}</dd>
           </div>

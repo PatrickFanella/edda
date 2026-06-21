@@ -92,8 +92,8 @@ export function CampaignAttributesForm({
   }
 
   return (
-    <section className="deco-corners deco-pattern space-y-6 border-2 border-gold/20 bg-charcoal p-6">
-      <header className="space-y-3 border-b-2 border-gold/20 pb-5">
+    <section className="game-hud-panel game-hud-panel-setup deco-corners deco-pattern space-y-6 border-2 border-sapphire/30 bg-charcoal p-6">
+      <header className="space-y-3 border-b-2 border-sapphire/30 pb-5">
         <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">Campaign attributes</p>
         <div className="space-y-2">
           <h2 className="font-heading text-2xl font-semibold uppercase tracking-wide text-champagne">Choose the campaign frame</h2>
@@ -134,7 +134,7 @@ export function CampaignAttributesForm({
       </div>
 
       {missingFields.length > 0 ? (
-        <div className="border border-gold/40 bg-gold/10 px-4 py-3 text-sm text-gold">
+        <div className="border border-sapphire/30 bg-sapphire/10 px-4 py-3 text-sm text-sapphire">
           Select a value for {formatMissingFields(missingFields)} before continuing.
         </div>
       ) : null}
@@ -143,12 +143,12 @@ export function CampaignAttributesForm({
         <div className="border border-ruby/40 bg-ruby/10 px-4 py-3 text-sm text-ruby">{errorMessage}</div>
       ) : null}
 
-      <div className="flex flex-col-reverse gap-3 border-t-2 border-gold/20 pt-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col-reverse gap-3 border-t-2 border-sapphire/30 pt-5 sm:flex-row sm:items-center sm:justify-between">
         {onBack ? (
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center justify-center border border-gold/30 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-gold hover:text-champagne focus:outline-none focus:ring-2 focus:ring-gold/60"
+            className="hud-btn hud-text-button inline-flex items-center justify-center border border-sapphire/30 px-4 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-sapphire hover:text-champagne focus:outline-none focus:ring-2 focus:ring-sapphire/60"
           >
             {backLabel}
           </button>
@@ -159,7 +159,7 @@ export function CampaignAttributesForm({
           type="button"
           onClick={handleContinue}
           disabled={missingFields.length > 0 || isLoading}
-          className="inline-flex items-center justify-center bg-ruby px-5 py-3 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
+          className="hud-btn hud-text-button inline-flex items-center justify-center bg-ruby px-5 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
         >
           {isLoading ? continueLoadingLabel : continueLabel}
         </button>
@@ -182,7 +182,7 @@ function AttributeSection({
   readonly onSelect: (value: string) => void;
 }) {
   return (
-    <section className="space-y-3 border-2 border-gold/15 bg-charcoal/80 p-5">
+    <section className="space-y-3 border-2 border-sapphire/20 bg-charcoal/80 p-5">
       <div className="space-y-1">
         <h3 className="font-heading text-lg font-semibold uppercase tracking-wide text-champagne">{title}</h3>
         <p className="text-sm leading-6 text-pewter">{description}</p>

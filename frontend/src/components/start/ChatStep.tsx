@@ -85,8 +85,8 @@ export function ChatStep({
 
   return (
     <section className="grid gap-6 xl:grid-cols-[minmax(0,1.8fr)_minmax(18rem,1fr)]">
-      <div className="border-2 border-gold/20 bg-charcoal">
-        <header className="space-y-3 border-b-2 border-gold/20 px-6 py-5">
+      <div className="game-hud-panel game-hud-panel-setup border-2 border-sapphire/30 bg-charcoal">
+        <header className="space-y-3 border-b-2 border-sapphire/30 px-6 py-5">
           <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold">Campaign interview</p>
           <div className="space-y-2">
             <h2 className="font-heading text-2xl font-semibold uppercase tracking-wide text-champagne">{title}</h2>
@@ -98,7 +98,7 @@ export function ChatStep({
           {transcript.length > 0 ? (
             transcript.map((entry) => <TranscriptBubble key={entry.id} entry={entry} />)
           ) : (
-            <div className="flex min-h-64 flex-1 flex-col items-center justify-center border border-dashed border-gold/15 bg-charcoal/50 px-6 text-center">
+            <div className="flex min-h-64 flex-1 flex-col items-center justify-center border border-dashed border-sapphire/20 bg-charcoal/50 px-6 text-center">
               <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-pewter/80">{emptyStateTitle}</p>
               <p className="mt-3 max-w-md text-sm leading-7 text-pewter">{emptyStateMessage}</p>
             </div>
@@ -106,8 +106,8 @@ export function ChatStep({
 
           {isLoading ? (
             <div className="flex justify-start">
-              <div className="max-w-2xl rounded-bl-md border border-gold/20 bg-gold/10 px-4 py-3 text-sm text-champagne">
-                <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-gold/80">Guide</p>
+              <div className="max-w-2xl rounded-bl-md border border-sapphire/30 bg-sapphire/10 px-4 py-3 text-sm text-champagne">
+                <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-sapphire/80">Guide</p>
                 <p className="mt-2 leading-6 text-champagne">Thinking through the next question…</p>
               </div>
             </div>
@@ -118,7 +118,7 @@ export function ChatStep({
 
       <aside className="space-y-4">
         <form
-          className="border-2 border-gold/20 bg-charcoal p-5"
+          className="game-hud-panel game-hud-panel-setup border-2 border-sapphire/30 bg-charcoal p-5"
           onSubmit={(event) => {
             void handleSubmit(event);
           }}
@@ -146,7 +146,7 @@ export function ChatStep({
                 <button
                   type="button"
                   onClick={onBack}
-                  className="inline-flex items-center justify-center border border-gold/30 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-gold hover:text-champagne focus:outline-none focus:ring-2 focus:ring-gold/60"
+                  className="hud-btn hud-text-button inline-flex items-center justify-center border border-sapphire/30 px-4 text-sm font-semibold uppercase tracking-wide text-champagne/80 transition hover:border-sapphire hover:text-champagne focus:outline-none focus:ring-2 focus:ring-sapphire/60"
                 >
                   {backLabel}
                 </button>
@@ -156,7 +156,7 @@ export function ChatStep({
               <button
                 type="submit"
                 disabled={isDisabled || draft.trim().length === 0}
-                className="inline-flex items-center justify-center bg-ruby px-5 py-3 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
+                className="hud-btn hud-text-button inline-flex items-center justify-center bg-ruby px-5 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
               >
                 {isDisabled ? submitLoadingLabel : submitLabel}
               </button>
@@ -168,7 +168,7 @@ export function ChatStep({
           <div className="border border-ruby/40 bg-ruby/10 px-4 py-3 text-sm text-ruby">{errorMessage}</div>
         ) : null}
 
-        <section className="border-2 border-gold/20 bg-charcoal p-5">
+        <section className="game-hud-panel game-hud-panel-setup border-2 border-sapphire/30 bg-charcoal p-5">
           <h3 className="font-heading text-lg font-semibold uppercase tracking-wide text-champagne">Interview flow</h3>
           <ul className="mt-4 space-y-3 text-sm leading-6 text-champagne/70">
             <li>The guide can start the conversation before you type anything.</li>

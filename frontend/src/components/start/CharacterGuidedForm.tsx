@@ -186,9 +186,9 @@ export function CharacterGuidedForm({
   }
 
   return (
-    <div className="deco-corners deco-corners-jade deco-pattern border-2 border-jade/20 bg-charcoal p-6">
+    <div className="game-hud-panel game-hud-panel-setup deco-corners deco-pattern border-2 border-sapphire/30 bg-charcoal p-6">
       <div className="mb-6 space-y-2">
-        <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-jade">Step 5 · Guided character</p>
+        <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-sapphire">Step 5 · Guided character</p>
         <h2 className="font-heading text-2xl font-semibold uppercase tracking-wide text-champagne">Build your adventurer</h2>
         <p className="max-w-2xl text-sm leading-6 text-champagne/70">
           Mirror the TUI flow: lock in name, race, class, background, and alignment before the final confirmation step.
@@ -217,7 +217,7 @@ export function CharacterGuidedForm({
               onChange={handleNameChange}
               aria-invalid={fieldErrors.name ? 'true' : 'false'}
               aria-describedby={fieldErrors.name ? 'character-guided-name-error' : undefined}
-              className="w-full border-2 border-gold/20 bg-obsidian px-4 py-3 text-sm text-champagne transition-all duration-200 placeholder:text-pewter/60 focus:border-jade focus:outline-none focus:ring-2 focus:ring-jade/40"
+              className="w-full border-2 border-sapphire/20 bg-obsidian px-4 py-3 text-sm text-champagne transition-all duration-200 placeholder:text-pewter/60 focus:border-sapphire focus:outline-none focus:ring-2 focus:ring-sapphire/40"
               placeholder="Aela Nightwind"
               autoComplete="off"
             />
@@ -243,7 +243,7 @@ export function CharacterGuidedForm({
                   onChange={handleSelectChange(field.key)}
                   aria-invalid={fieldError ? 'true' : 'false'}
                   aria-describedby={fieldError ? errorId : undefined}
-                  className="w-full border-2 border-gold/20 bg-obsidian px-4 py-3 text-sm text-champagne transition-all duration-200 focus:border-jade focus:outline-none focus:ring-2 focus:ring-jade/40"
+                  className="w-full border-2 border-sapphire/20 bg-obsidian px-4 py-3 text-sm text-champagne transition-all duration-200 focus:border-sapphire focus:outline-none focus:ring-2 focus:ring-sapphire/40"
                 >
                   <option value="" disabled>
                     {field.placeholder}
@@ -264,7 +264,7 @@ export function CharacterGuidedForm({
           })}
         </div>
 
-        <div className="flex flex-col gap-3 border-t-2 border-jade/20 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-t-2 border-sapphire/30 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-pewter">The next step reviews both the campaign pitch and this character build.</p>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             {onBack ? (
@@ -272,7 +272,7 @@ export function CharacterGuidedForm({
                 type="button"
                 onClick={onBack}
                 disabled={isSubmitting}
-                className="inline-flex items-center justify-center border border-gold/30 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:border-gold/10 disabled:text-pewter"
+                className="hud-btn hud-text-button inline-flex items-center justify-center border border-sapphire/30 px-4 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:border-sapphire hover:text-gold focus:outline-none focus:ring-2 focus:ring-sapphire focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:border-sapphire/10 disabled:text-pewter"
               >
                 {backLabel}
               </button>
@@ -280,7 +280,7 @@ export function CharacterGuidedForm({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center justify-center bg-jade px-5 py-3 text-sm font-semibold uppercase tracking-wide text-obsidian transition hover:bg-jade-light focus:outline-none focus:ring-2 focus:ring-jade focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
+              className="hud-btn hud-text-button inline-flex items-center justify-center bg-sapphire px-5 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-sapphire-light focus:outline-none focus:ring-2 focus:ring-sapphire focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
             >
               {isSubmitting ? 'Saving character…' : continueLabel}
             </button>
