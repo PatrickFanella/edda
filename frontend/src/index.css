@@ -264,7 +264,7 @@ button {
   display: inline-flex;
   align-items: center;
   border: 2px solid currentColor;
-  padding: 0.35rem 0.65rem;
+  padding: 0.45rem 0.65rem 0.25rem;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -280,6 +280,7 @@ button {
   margin-right: 0.5rem;
   background: currentColor;
   box-shadow: 0 0 12px currentColor;
+  transform: translateY(-1px);
 }
 
 .game-hud-mode-exploration {
@@ -464,12 +465,18 @@ button {
   display: inline-flex;
   align-items: center;
   border: 1px solid;
-  padding: 0.25rem 0.5rem;
+  padding: 0.35rem 0.5rem 0.15rem;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   line-height: 1;
   text-transform: uppercase;
+}
+
+.hud-baseline-badge {
+  line-height: 1;
+  padding-top: 0.32rem;
+  padding-bottom: 0.16rem;
 }
 
 .hud-badge-jade {

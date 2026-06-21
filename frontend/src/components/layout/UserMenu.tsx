@@ -26,7 +26,7 @@ export function UserMenu({ actions }: { readonly actions?: ReactNode }) {
         <span className="inline-flex h-6 w-6 items-center justify-center border border-pewter/40 bg-pewter/10 text-xs font-bold leading-none text-pewter">
           <span className="translate-x-px translate-y-[1px]">{user.name.charAt(0).toUpperCase()}</span>
         </span>
-        <span className="hidden translate-y-[1px] sm:inline">{user.name}</span>
+        <span className="hidden translate-y-[2px] sm:inline">{user.name}</span>
       </button>
 
       {open && (

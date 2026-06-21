@@ -36,7 +36,7 @@ const ENTRY_STYLES: Record<NarrativeEntryKind, { shell: string; badge: string; a
     shell: 'border-gold/30 bg-gold/5 text-champagne hover:border-gold/50',
     badge: 'bg-gold/15 text-gold border border-gold/20',
     accent: 'text-gold',
-    defaultSpeaker: 'Game Master',
+    defaultSpeaker: 'Edda',
   },
   system: {
     shell: 'border-pewter/30 bg-pewter/5 text-champagne/90 hover:border-pewter/50',
@@ -64,10 +64,10 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
     >
       <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
-          <span className={cn('inline-flex rounded-sm px-2 pt-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.2em]', styles.badge)}>
+          <span className={cn('hud-baseline-badge inline-flex rounded-sm px-2 text-[11px] font-semibold uppercase tracking-[0.2em]', styles.badge)}>
             {entry.kind}
           </span>
-          <p className={cn('text-sm font-semibold', styles.accent)}>{speaker}</p>
+          <p className={cn('translate-y-[1px] text-sm font-semibold leading-none', styles.accent)}>{speaker}</p>
         </div>
         <p className="text-xs uppercase tracking-[0.2em] text-pewter">{timestampLabel}</p>
       </header>
@@ -76,7 +76,7 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
         {showStreamingState ? <LoadingIndicator label={`${speaker} is responding`} detail="Streaming the next beat…" /> : null}
 
         {hasText ? (
-          <p className="whitespace-pre-wrap wrap-break-word text-md leading-3 text-inherit">
+          <p className="whitespace-pre-wrap wrap-break-word text-md leading-6 text-inherit">
             {entry.text}
             {entry.isStreaming ? <span className="ml-2 inline-block h-4 w-2 animate-pulse bg-gold/80 align-middle" /> : null}
           </p>
@@ -87,7 +87,7 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
             {entry.stateChanges.map((change, index) => (
               <span
                 key={`${change.entity_type}-${change.entity_id}-${change.change_type}-${index}`}
-                className="rounded-sm border border-pewter/15 bg-pewter/5 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-champagne/70"
+                className="hud-baseline-badge rounded-sm border border-pewter/15 bg-pewter/5 px-3 text-[11px] font-medium uppercase tracking-[0.18em] text-champagne/70"
               >
                 {change.change_type}
               </span>
