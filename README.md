@@ -1,5 +1,7 @@
 # edda
 
+![Edda identity](docs/brand/edda/readme-lockup.png)
+
 Project foundation for the Edda Go application.
 
 ## Prerequisites
@@ -112,3 +114,7 @@ Naming rule: `GM_<UPPER_SECTION>_<UPPER_KEY>` maps to `<section>.<key>` in the k
 ## License
 
 Licensed under `GPL-3.0-or-later`. See [LICENSE](LICENSE).
+
+## Brand assets
+
+The product identity and selected public exports are recorded in [the brand handoff](docs/brand/edda/GUIDE.md) and [source hashes](docs/brand/edda/export.json). Regenerate from SUBCULT Studio with `python3 studio/scripts/export_remaining_brand.py edda /path/to/this/repository`; use `--check` to verify the export without writing.

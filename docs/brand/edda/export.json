@@ -1,0 +1,79 @@
+{
+  "studio_repository": "subculture-collective/subcult-tv",
+  "studio_revision": "6907e56c181949c1d99064dbc38ae9fe660a66d0",
+  "brand": "edda",
+  "files": [
+    {
+      "source": "studio/brands/edda/GUIDE.md",
+      "target": "docs/brand/edda/GUIDE.md",
+      "sha256": "9bfeef29aabb1436c14191e8d089b394e33836c6c731482dda317c33f7cb9cc6",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/product/readme-lockup.png",
+      "target": "docs/brand/edda/readme-lockup.png",
+      "sha256": "9b6293dd55746da480180b282cb0db62e2348914491d9c4a0b0d27cb9231b0d7",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/social/avatar.png",
+      "target": "docs/brand/edda/avatar.png",
+      "sha256": "dc9c36a9d02269971b7fef50cd07183bcd70dea40bb4f90306360c51dc3ffb0e",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/product/favicon.svg",
+      "target": "frontend/public/brand/edda/favicon.svg",
+      "sha256": "0a1c98c15abb52d7af8109878144b8fd55dfaa5d1360f3f6b5d02047d58403fc",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/product/favicon.ico",
+      "target": "frontend/public/brand/edda/favicon.ico",
+      "sha256": "0a19d9f4210d7d38c1c09a6c90714e83f0ed5b5d6b89e3b0a46836f0b19f8bd8",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/product/apple-touch-icon.png",
+      "target": "frontend/public/brand/edda/apple-touch-icon.png",
+      "sha256": "7be30f4235dc13548526cde08588fe2555f365a9e9a14baeb8848a79c115afac",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/product/og.png",
+      "target": "frontend/public/brand/edda/og.png",
+      "sha256": "35b412a606bb8eee31fd855d3dbc40be04569a2f9ea5a8080a61597b3af73b95",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/product/mark.svg",
+      "target": "frontend/public/brand/edda/mark.svg",
+      "sha256": "987773c75b69709e237d0029f62d18a81406f7adc5805679b92b5b843aa09580",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/product/favicon.svg",
+      "target": "frontend/public/favicon.svg",
+      "sha256": "0a1c98c15abb52d7af8109878144b8fd55dfaa5d1360f3f6b5d02047d58403fc",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/product/favicon.ico",
+      "target": "frontend/public/favicon.ico",
+      "sha256": "0a19d9f4210d7d38c1c09a6c90714e83f0ed5b5d6b89e3b0a46836f0b19f8bd8",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/product/apple-touch-icon.png",
+      "target": "frontend/public/apple-touch-icon.png",
+      "sha256": "7be30f4235dc13548526cde08588fe2555f365a9e9a14baeb8848a79c115afac",
+      "transformation": "unchanged copy"
+    },
+    {
+      "source": "studio/brands/edda/product/og.png",
+      "target": "frontend/public/og.png",
+      "sha256": "35b412a606bb8eee31fd855d3dbc40be04569a2f9ea5a8080a61597b3af73b95",
+      "transformation": "unchanged copy"
+    }
+  ]
+}
