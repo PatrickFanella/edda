@@ -1,18 +1,20 @@
 name: CI
 
+# Pull-request and branch verification runs on the GitHub organization copy
+# (.github/workflows/mirror-ci.yml). Gitea keeps main verification and deployment.
 on:
   workflow_dispatch:
-  pull_request:
   push:
     branches:
-      - '**'
+      - main
 
 permissions:
   contents: read
 
+# This workflow deploys from main, so a newer run waits instead of cancelling one in progress.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: false
 
 jobs:
   test:

@@ -1,0 +1,84 @@
+name: Mirror CI
+run-name: Mirror CI ${{ github.sha }}
+
+# Pull-request verification for the Gitea source. Gitea mirrors every branch here;
+# a bridge reports the "Mirror CI gate" result back to the Gitea commit.
+# main is verified and deployed by .gitea/workflows/ci.yml after merge.
+'on':
+  push:
+    branches-ignore:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Go tests
+    if: github.repository == 'subculture-collective/edda'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: go.mod
+          cache: true
+          cache-dependency-path: go.sum
+
+      # Same command as `task test`, which the Gitea PR check ran.
+      - name: Run tests
+        run: go test ./...
+
+  frontend:
+    name: Frontend image build
+    if: github.repository == 'subculture-collective/edda'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      # Same build and nginx configuration check the Gitea PR run did before
+      # its deploy steps, which only run on main. Nothing is pushed or deployed.
+      - name: Build the frontend image and check its nginx configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          image="edda-web-verify:${GITHUB_SHA}"
+          docker build -f frontend/Dockerfile -t "$image" frontend
+          docker run --rm --network none --entrypoint nginx "$image" -t
+
+  mirror-gate:
+    name: Mirror CI gate
+    if: always() && github.repository == 'subculture-collective/edda'
+    needs:
+      - test
+      - frontend
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require every verification job
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          results = json.loads(os.environ["RESULTS"])
+          expected = {'test', 'frontend'}
+          assert set(results) == expected, results
+          for name, result in results.items():
+              assert result["result"] == "success", name + " did not pass"
+          PY
