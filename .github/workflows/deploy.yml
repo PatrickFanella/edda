@@ -39,6 +39,8 @@ jobs:
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:github-ci
           version: latest
+          # The tailnet DNS server (10.0.0.200) is not reachable from hosted runners.
+          args: --accept-dns=false
       - name: Prepare the deploy key
         env:
           DEPLOY_KEY: ${{ secrets.HOMELAB_DEPLOY_KEY }}
