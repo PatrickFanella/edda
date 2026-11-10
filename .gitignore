@@ -28,3 +28,14 @@ frontend/dist/
 .blacktower/worktrees/
 .blacktower/worktrees.json
 # END Blacktower worktrees
+
+# Local build output, backups and tool state
+/server
+*.bak
+*.bak.*
+.playwright-mcp/
+__pycache__/
+*.py[cod]
+
+# envsitter creates its pepper locally; it is a secret and never belongs in git.
+.envsitter/
