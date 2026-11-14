@@ -104,6 +104,7 @@ config key by section: `EDDA_LLM_OLLAMA_MODEL` sets `llm.ollama.model`.
 | `EDDA_LLM_CLAUDE_*`                        | Model, reasoning effort and context budget. The key can also come from `ANTHROPIC_API_KEY`.                   |
 | `EDDA_LLM_OPENROUTER_*`                    | Model, fallback models, reasoning effort and context budget. The key can also come from `OPENROUTER_API_KEY`. |
 | `EDDA_LLM_CHATGPT_*`                       | Credentials file, model, reasoning effort and context budget for the ChatGPT-plan provider.                   |
+| `EDDA_LLM_CLAUDECODE_*`                    | Bridge endpoint, bearer token and context budget for the `claudecode` provider.                               |
 | `EDDA_LLM_PROFILES_*`, `EDDA_LLM_ROUTES_*` | Optional per-job model routing.                                                                               |
 
 With `EDDA_LLM_OPENROUTER_FALLBACKMODELS` set, OpenRouter retries a failed
@@ -172,6 +173,43 @@ first one. Keep the local file anyway: signing in again with it reuses the same
 registration instead of creating a new one. If the server logs that the sign-in is no
 longer valid, repeat these steps. Plan usage and per-app limits are under
 [ChatGPT settings → Usage](https://chatgpt.com/settings/usage).
+
+### Running Claude on your own Claude subscription
+
+The `claudecode` provider sends each request to `cmd/claude-bridge`. The bridge
+runs the unmodified Claude Code CLI (`claude -p`), signed in with your own
+Claude subscription. Claude Code's own tools are turned off: the bridge passes
+the conversation and Edda's tool list as text, and asks for a JSON reply of
+narration and tool calls, which Edda then runs as usual.
+
+This route is for your own games only. Anthropic intends subscription sign-in
+for ordinary use of Claude Code and its own apps, and asks apps that serve other
+people to use an API key. Usage counts against the same limits as your other
+Claude Code work. Keep `EDDA_SERVER_ALLOWREGISTRATION=false`, and keep a
+fallback provider for when the limits run out.
+
+1. On the machine where you use Claude Code, create a long-lived token with
+   `claude setup-token` and save it to a file with mode `600`.
+2. Create a bearer token for Edda with `openssl rand -hex 32 > bridge.token`.
+3. Run the bridge with both:
+
+   ```bash
+   CLAUDE_CODE_OAUTH_TOKEN="$(cat claude-oauth-token)" \
+     go run ./cmd/claude-bridge -listen 10.0.0.50:18095 -token-file bridge.token \
+     -model claude-sonnet-5-5 -effort high
+   ```
+
+4. Point Edda at it:
+
+   ```bash
+   EDDA_LLM_PROVIDER=claudecode
+   EDDA_LLM_CLAUDECODE_ENDPOINT=http://10.0.0.50:18095
+   EDDA_LLM_CLAUDECODE_TOKEN=<contents of bridge.token>
+   EDDA_LLM_FALLBACKPROVIDER=chatgpt
+   ```
+
+Each request starts a `claude` process, which adds a second or two to every
+call; the bridge runs two at a time by default (`-concurrency`).
 
 Embeddings always use the Ollama-compatible settings
 (`EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT`, `EDDA_LLM_OLLAMA_EMBEDDINGMODEL`,

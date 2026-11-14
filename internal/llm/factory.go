@@ -101,8 +101,10 @@ func newSingleProvider(cfg config.Config, name string) (LLMProvider, error) {
 			WithReasoningEffort(cfg.LLM.OpenRouter.ReasoningEffort), nil
 	case "chatgpt":
 		return chatGPTClient(cfg.LLM.ChatGPT)
+	case "claudecode":
+		return NewClaudeCodeClient(cfg.LLM.ClaudeCode.Endpoint, cfg.LLM.ClaudeCode.Token), nil
 	default:
-		return nil, fmt.Errorf("unsupported llm provider %q (supported: ollama, claude, openrouter, chatgpt)", name)
+		return nil, fmt.Errorf("unsupported llm provider %q (supported: ollama, claude, openrouter, chatgpt, claudecode)", name)
 	}
 }
 

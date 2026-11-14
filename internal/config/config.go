@@ -74,6 +74,15 @@ type ChatGPTConfig struct {
 	ContextTokenBudget int    `koanf:"contexttokenbudget"`
 }
 
+// ClaudeCodeConfig points the claudecode provider at cmd/claude-bridge, which
+// runs the Claude Code CLI on the owner's Claude subscription. The bridge
+// sets the model and effort.
+type ClaudeCodeConfig struct {
+	Endpoint           string `koanf:"endpoint"`
+	Token              string `koanf:"token"`
+	ContextTokenBudget int    `koanf:"contexttokenbudget"`
+}
+
 var openRouterReasoningEfforts = map[string]bool{
 	"": true, "none": true, "minimal": true, "low": true, "medium": true, "high": true, "xhigh": true, "max": true,
 }
@@ -107,6 +116,7 @@ type LLMConfig struct {
 	Claude           ClaudeConfig                `koanf:"claude"`
 	OpenRouter       OpenRouterConfig            `koanf:"openrouter"`
 	ChatGPT          ChatGPTConfig               `koanf:"chatgpt"`
+	ClaudeCode       ClaudeCodeConfig            `koanf:"claudecode"`
 	Profiles         map[string]LLMProfileConfig `koanf:"profiles"`
 	Routes           LLMRoutesConfig             `koanf:"routes"`
 }
@@ -120,6 +130,8 @@ func (c LLMConfig) ContextTokenBudget() int {
 		return c.OpenRouter.ContextTokenBudget
 	case "chatgpt":
 		return c.ChatGPT.ContextTokenBudget
+	case "claudecode":
+		return c.ClaudeCode.ContextTokenBudget
 	default:
 		return c.Ollama.ContextTokenBudget
 	}
@@ -176,6 +188,9 @@ func (c *Config) Validate() error {
 	if !openRouterReasoningEfforts[c.LLM.Claude.ReasoningEffort] {
 		return fmt.Errorf("unknown claude reasoning effort: %q (use low, medium, high, xhigh or max)", c.LLM.Claude.ReasoningEffort)
 	}
+	if c.usesProvider("claudecode") && (strings.TrimSpace(c.LLM.ClaudeCode.Endpoint) == "" || strings.TrimSpace(c.LLM.ClaudeCode.Token) == "") {
+		return errors.New("claudecode provider requires llm.claudecode.endpoint and llm.claudecode.token (EDDA_LLM_CLAUDECODE_ENDPOINT, EDDA_LLM_CLAUDECODE_TOKEN)")
+	}
 	if !openRouterReasoningEfforts[c.LLM.ChatGPT.ReasoningEffort] {
 		return fmt.Errorf("unknown chatgpt reasoning effort: %q (use none, minimal, low, medium, high, xhigh or max)", c.LLM.ChatGPT.ReasoningEffort)
 	}
@@ -208,7 +223,7 @@ func (c *Config) Validate() error {
 	return nil
 }
 
-var knownProviders = map[string]bool{"ollama": true, "claude": true, "openrouter": true, "chatgpt": true}
+var knownProviders = map[string]bool{"ollama": true, "claude": true, "openrouter": true, "chatgpt": true, "claudecode": true}
 
 // usesProvider reports whether name is the active, fallback or a profile provider.
 func (c *Config) usesProvider(name string) bool {
@@ -243,6 +258,7 @@ func Load(path string) (Config, error) {
 		"llm.openrouter.contexttokenbudget": 8000,
 		"llm.chatgpt.model":                 "gpt-6.1-terra",
 		"llm.chatgpt.contexttokenbudget":    8000,
+		"llm.claudecode.contexttokenbudget": 8000,
 		"server.port":                       8080,
 		"server.jwtsecret":                  "",
 		"server.allowregistration":          true,
