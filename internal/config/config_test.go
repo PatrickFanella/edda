@@ -391,3 +391,30 @@ func TestLoadRejectsUnknownLLMRouteProfile(t *testing.T) {
 		t.Fatalf("expected unknown profile error, got: %v", err)
 	}
 }
+
+func TestLoadOpenRouterFallbackModelsAndEffortFromEnv(t *testing.T) {
+	t.Setenv("EDDA_LLM_PROVIDER", "openrouter")
+	t.Setenv("EDDA_LLM_OPENROUTER_APIKEY", "sk-or-test")
+	t.Setenv("EDDA_LLM_OPENROUTER_MODEL", "anthropic/claude-sonnet-5.5")
+	t.Setenv("EDDA_LLM_OPENROUTER_FALLBACKMODELS", "openai/gpt-6.1-terra,openai/gpt-5.6-terra")
+	t.Setenv("EDDA_LLM_OPENROUTER_REASONINGEFFORT", "high")
+
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	got := cfg.LLM.OpenRouter.FallbackModels
+	if len(got) != 2 || got[0] != "openai/gpt-6.1-terra" || got[1] != "openai/gpt-5.6-terra" {
+		t.Fatalf("FallbackModels = %q", got)
+	}
+	if cfg.LLM.OpenRouter.ReasoningEffort != "high" {
+		t.Fatalf("ReasoningEffort = %q, want high", cfg.LLM.OpenRouter.ReasoningEffort)
+	}
+}
+
+func TestValidateRejectsUnknownOpenRouterReasoningEffort(t *testing.T) {
+	cfg := Config{LLM: LLMConfig{Provider: "openrouter", OpenRouter: OpenRouterConfig{APIKey: "sk-or-test", ReasoningEffort: "hihg"}}}
+	if err := cfg.Validate(); err == nil {
+		t.Fatal("Validate() accepted an unknown reasoning effort")
+	}
+}

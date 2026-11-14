@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net"
 	"net/http"
 	"strings"
@@ -21,10 +22,12 @@ const (
 
 // OpenRouterClient implements Provider via OpenRouter's OpenAI-compatible API.
 type OpenRouterClient struct {
-	baseURL string
-	apiKey  string
-	model   string
-	client  *http.Client
+	baseURL         string
+	apiKey          string
+	model           string
+	fallbackModels  []string
+	reasoningEffort string
+	client          *http.Client
 }
 
 // NewOpenRouterClient returns an OpenRouter-backed provider.
@@ -53,6 +56,27 @@ func NewOpenRouterClient(apiKey, model string) *OpenRouterClient {
 			Transport: transport,
 		},
 	}
+}
+
+// WithFallbackModels sets the models OpenRouter tries, in order, when the
+// primary model returns an error (outage, rate limit, moderation, context limit).
+// OpenRouter does the fallback server-side within the same request.
+func (c *OpenRouterClient) WithFallbackModels(models []string) *OpenRouterClient {
+	c.fallbackModels = nil
+	for _, m := range models {
+		if m = strings.TrimSpace(m); m != "" && m != c.model {
+			c.fallbackModels = append(c.fallbackModels, m)
+		}
+	}
+	return c
+}
+
+// WithReasoningEffort sets OpenRouter's unified reasoning.effort for every
+// request ("low" through "max"; empty leaves the model default). The same
+// effort applies to fallback models.
+func (c *OpenRouterClient) WithReasoningEffort(effort string) *OpenRouterClient {
+	c.reasoningEffort = strings.TrimSpace(effort)
+	return c
 }
 
 func (c *OpenRouterClient) Complete(ctx context.Context, messages []Message, tools []Tool) (*Response, error) {
@@ -150,6 +174,12 @@ func (c *OpenRouterClient) buildRequest(messages []Message, tools []Tool, stream
 	if len(openaiTools) > 0 {
 		req.Tools = openaiTools
 	}
+	if len(c.fallbackModels) > 0 {
+		req.Models = append([]string{c.model}, c.fallbackModels...)
+	}
+	if c.reasoningEffort != "" {
+		req.Reasoning = &openRouterReasoning{Effort: c.reasoningEffort}
+	}
 
 	return json.Marshal(req)
 }
@@ -184,6 +214,10 @@ func (c *OpenRouterClient) toResponse(resp *openRouterChatResponse) (*Response, 
 			URL: c.chatURL(),
 			Err: fmt.Errorf("openrouter response contained no choices"),
 		}
+	}
+
+	if resp.Model != "" && len(c.fallbackModels) > 0 && resp.Model != c.model {
+		slog.Default().WithGroup("openrouter").Warn("fallback model served request", "primary", c.model, "served_by", resp.Model)
 	}
 
 	choice := resp.Choices[0]
@@ -352,10 +386,16 @@ func sanitizeErrorBody(body string) string {
 // --- OpenAI-compatible JSON types ---
 
 type openRouterChatRequest struct {
-	Model    string              `json:"model"`
-	Messages []openRouterMessage `json:"messages"`
-	Tools    []openRouterToolDef `json:"tools,omitempty"`
-	Stream   bool                `json:"stream,omitempty"`
+	Model     string               `json:"model"`
+	Models    []string             `json:"models,omitempty"`
+	Messages  []openRouterMessage  `json:"messages"`
+	Tools     []openRouterToolDef  `json:"tools,omitempty"`
+	Reasoning *openRouterReasoning `json:"reasoning,omitempty"`
+	Stream    bool                 `json:"stream,omitempty"`
+}
+
+type openRouterReasoning struct {
+	Effort string `json:"effort"`
 }
 
 type openRouterMessage struct {
@@ -395,6 +435,7 @@ type openRouterToolFunctionDef struct {
 }
 
 type openRouterChatResponse struct {
+	Model   string             `json:"model"`
 	Choices []openRouterChoice `json:"choices"`
 	Usage   openRouterUsage    `json:"usage"`
 }

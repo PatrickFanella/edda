@@ -941,12 +941,28 @@ func (tp *TurnProcessor) requestContinuation(
 		ToolCalls: initialResp.ToolCalls,
 	})
 
-	// Add a tool-result message for each applied tool call.
-	for _, atc := range applied {
+	// Answer every tool call in the assistant message, under the call's own ID:
+	// Anthropic and OpenAI reject a tool result whose ID matches no call. An
+	// applied result answers the first unanswered call with the same tool name
+	// (a retried call keeps its tool name but gets a new ID).
+	used := make([]bool, len(applied))
+	for _, tc := range initialResp.ToolCalls {
+		content := `{"error":"tool call was not applied"}`
+		for i, atc := range applied {
+			if !used[i] && atc.Tool == tc.Name {
+				used[i] = true
+				content = string(atc.Result)
+				break
+			}
+		}
+		id := tc.ID
+		if id == "" {
+			id = tc.Name
+		}
 		contMessages = append(contMessages, llm.Message{
 			Role:       llm.RoleTool,
-			Content:    string(atc.Result),
-			ToolCallID: atc.Tool, // use tool name as fallback ID when ID is empty
+			Content:    content,
+			ToolCallID: id,
 		})
 	}
 

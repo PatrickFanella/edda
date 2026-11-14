@@ -92,16 +92,30 @@ environment variables with the `EDDA_` prefix. A variable name maps to a
 config key by section: `EDDA_LLM_OLLAMA_MODEL` sets `llm.ollama.model`.
 [`.env.example`](.env.example) lists every supported variable with comments.
 
-| Variable                                   | Purpose                                                                    |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| `EDDA_DB_URL`                              | PostgreSQL connection string. The database needs pgvector.                 |
-| `EDDA_SERVER_PORT`                         | API port.                                                                  |
-| `EDDA_SERVER_JWTSECRET`                    | Signs session tokens. Generate with `openssl rand -hex 32`.                |
-| `EDDA_LLM_PROVIDER`                        | `ollama`, `claude` or `openrouter`.                                        |
-| `EDDA_LLM_OLLAMA_*`                        | Endpoint, model, API key, context budget, timeout and embedding model.     |
-| `EDDA_LLM_CLAUDE_*`                        | Model and context budget. The key can also come from `ANTHROPIC_API_KEY`.  |
-| `EDDA_LLM_OPENROUTER_*`                    | Model and context budget. The key can also come from `OPENROUTER_API_KEY`. |
-| `EDDA_LLM_PROFILES_*`, `EDDA_LLM_ROUTES_*` | Optional per-job model routing.                                            |
+| Variable                                   | Purpose                                                                                                       |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `EDDA_DB_URL`                              | PostgreSQL connection string. The database needs pgvector.                                                    |
+| `EDDA_SERVER_PORT`                         | API port.                                                                                                     |
+| `EDDA_SERVER_JWTSECRET`                    | Signs session tokens. Generate with `openssl rand -hex 32`.                                                   |
+| `EDDA_LLM_PROVIDER`                        | `ollama`, `claude` or `openrouter`.                                                                           |
+| `EDDA_LLM_OLLAMA_*`                        | Endpoint, model, API key, context budget, timeout and embedding model.                                        |
+| `EDDA_LLM_CLAUDE_*`                        | Model and context budget. The key can also come from `ANTHROPIC_API_KEY`.                                     |
+| `EDDA_LLM_OPENROUTER_*`                    | Model, fallback models, reasoning effort and context budget. The key can also come from `OPENROUTER_API_KEY`. |
+| `EDDA_LLM_PROFILES_*`, `EDDA_LLM_ROUTES_*` | Optional per-job model routing.                                                                               |
+
+With `EDDA_LLM_OPENROUTER_FALLBACKMODELS` set, OpenRouter retries a failed
+request (outage, rate limit, moderation flag, context limit) on each fallback model in
+order, inside the same request; the API logs a warning when a fallback answered.
+`EDDA_LLM_OPENROUTER_REASONINGEFFORT` (`none` to `max`) applies to the fallback
+models too. The recommended setup is Claude Sonnet 5.5 at `high` effort with
+GPT-6.1 Terra as the fallback:
+
+```bash
+EDDA_LLM_PROVIDER=openrouter
+EDDA_LLM_OPENROUTER_MODEL=anthropic/claude-sonnet-5.5
+EDDA_LLM_OPENROUTER_FALLBACKMODELS=openai/gpt-6.1-terra
+EDDA_LLM_OPENROUTER_REASONINGEFFORT=high
+```
 
 Embeddings always use the Ollama-compatible settings
 (`EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT`, `EDDA_LLM_OLLAMA_EMBEDDINGMODEL`,

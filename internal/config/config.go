@@ -50,11 +50,19 @@ type ClaudeConfig struct {
 	ContextTokenBudget int    `koanf:"contexttokenbudget"`
 }
 
-// OpenRouterConfig holds OpenRouter-specific LLM settings.
+// OpenRouterConfig holds OpenRouter-specific LLM settings. FallbackModels are
+// tried in order by OpenRouter when Model errors; from the environment they are
+// a comma-separated list. ReasoningEffort sets reasoning.effort on every request.
 type OpenRouterConfig struct {
-	APIKey             string `koanf:"apikey"`
-	Model              string `koanf:"model"`
-	ContextTokenBudget int    `koanf:"contexttokenbudget"`
+	APIKey             string   `koanf:"apikey"`
+	Model              string   `koanf:"model"`
+	FallbackModels     []string `koanf:"fallbackmodels"`
+	ReasoningEffort    string   `koanf:"reasoningeffort"`
+	ContextTokenBudget int      `koanf:"contexttokenbudget"`
+}
+
+var openRouterReasoningEfforts = map[string]bool{
+	"": true, "none": true, "minimal": true, "low": true, "medium": true, "high": true, "xhigh": true, "max": true,
 }
 
 // LLMProfileConfig names a model/provider profile that can be routed to a
@@ -145,6 +153,9 @@ func (c *Config) Validate() error {
 	if c.LLM.Provider == "openrouter" && c.LLM.OpenRouter.APIKey == "" {
 		return errors.New("openrouter provider requires api key (set llm.openrouter.apikey or EDDA_LLM_OPENROUTER_APIKEY)")
 	}
+	if !openRouterReasoningEfforts[c.LLM.OpenRouter.ReasoningEffort] {
+		return fmt.Errorf("unknown openrouter reasoning effort: %q (use none, minimal, low, medium, high, xhigh or max)", c.LLM.OpenRouter.ReasoningEffort)
+	}
 	if c.LLM.Provider == "ollama" && c.LLM.Ollama.EmbeddingDimension <= 0 {
 		return errors.New("ollama embedding dimension must be positive")
 	}
@@ -230,10 +241,25 @@ func Load(path string) (Config, error) {
 	if err := k.Unmarshal("", &cfg); err != nil {
 		return Config{}, err
 	}
+	cfg.LLM.OpenRouter.FallbackModels = splitList(cfg.LLM.OpenRouter.FallbackModels)
 
 	if err := cfg.Validate(); err != nil {
 		return Config{}, err
 	}
 
 	return cfg, nil
+}
+
+// splitList splits comma-separated entries (an env var arrives as one string)
+// and drops blanks.
+func splitList(values []string) []string {
+	var out []string
+	for _, v := range values {
+		for _, part := range strings.Split(v, ",") {
+			if part = strings.TrimSpace(part); part != "" {
+				out = append(out, part)
+			}
+		}
+	}
+	return out
 }
