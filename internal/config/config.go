@@ -61,6 +61,17 @@ type OpenRouterConfig struct {
 	ContextTokenBudget int      `koanf:"contexttokenbudget"`
 }
 
+// ChatGPTConfig holds settings for the ChatGPT-plan provider, which uses the
+// Responses API on the signed-in user's ChatGPT plan. CredentialsFile is the
+// file written by cmd/chatgpt-login; the server must be able to rewrite it,
+// because each token refresh rotates the refresh token.
+type ChatGPTConfig struct {
+	CredentialsFile    string `koanf:"credentialsfile"`
+	Model              string `koanf:"model"`
+	ReasoningEffort    string `koanf:"reasoningeffort"`
+	ContextTokenBudget int    `koanf:"contexttokenbudget"`
+}
+
 var openRouterReasoningEfforts = map[string]bool{
 	"": true, "none": true, "minimal": true, "low": true, "medium": true, "high": true, "xhigh": true, "max": true,
 }
@@ -84,14 +95,18 @@ type LLMRoutesConfig struct {
 	Worldgen       string `koanf:"worldgen"`
 }
 
-// LLMConfig holds provider selection and per-provider settings.
+// LLMConfig holds provider selection and per-provider settings. When
+// FallbackProvider is set, a request that fails on Provider is sent again to
+// FallbackProvider.
 type LLMConfig struct {
-	Provider   string                      `koanf:"provider"`
-	Ollama     OllamaConfig                `koanf:"ollama"`
-	Claude     ClaudeConfig                `koanf:"claude"`
-	OpenRouter OpenRouterConfig            `koanf:"openrouter"`
-	Profiles   map[string]LLMProfileConfig `koanf:"profiles"`
-	Routes     LLMRoutesConfig             `koanf:"routes"`
+	Provider         string                      `koanf:"provider"`
+	FallbackProvider string                      `koanf:"fallbackprovider"`
+	Ollama           OllamaConfig                `koanf:"ollama"`
+	Claude           ClaudeConfig                `koanf:"claude"`
+	OpenRouter       OpenRouterConfig            `koanf:"openrouter"`
+	ChatGPT          ChatGPTConfig               `koanf:"chatgpt"`
+	Profiles         map[string]LLMProfileConfig `koanf:"profiles"`
+	Routes           LLMRoutesConfig             `koanf:"routes"`
 }
 
 // ContextTokenBudget returns the configured context token budget for the active provider.
@@ -101,6 +116,8 @@ func (c LLMConfig) ContextTokenBudget() int {
 		return c.Claude.ContextTokenBudget
 	case "openrouter":
 		return c.OpenRouter.ContextTokenBudget
+	case "chatgpt":
+		return c.ChatGPT.ContextTokenBudget
 	default:
 		return c.Ollama.ContextTokenBudget
 	}
@@ -127,10 +144,13 @@ func (c LLMConfig) RoutedProfileNames() map[string]string {
 	return routes
 }
 
-// ServerConfig holds HTTP server settings.
+// ServerConfig holds HTTP server settings. AllowRegistration controls whether
+// POST /api/v1/auth/register creates accounts; turn it off on a public server
+// whose model costs fall on one person.
 type ServerConfig struct {
-	Port      int    `koanf:"port"`
-	JWTSecret string `koanf:"jwtsecret"`
+	Port              int    `koanf:"port"`
+	JWTSecret         string `koanf:"jwtsecret"`
+	AllowRegistration bool   `koanf:"allowregistration"`
 }
 
 // Config is the top-level configuration, composed of per-concern slices.
@@ -142,10 +162,17 @@ type Config struct {
 
 // Validate checks that the configuration is internally consistent.
 func (c *Config) Validate() error {
-	switch c.LLM.Provider {
-	case "ollama", "claude", "openrouter":
-	default:
+	if !knownProviders[c.LLM.Provider] {
 		return fmt.Errorf("unknown llm provider: %q", c.LLM.Provider)
+	}
+	if c.LLM.FallbackProvider != "" && !knownProviders[c.LLM.FallbackProvider] {
+		return fmt.Errorf("unknown llm fallback provider: %q", c.LLM.FallbackProvider)
+	}
+	if c.usesProvider("chatgpt") && strings.TrimSpace(c.LLM.ChatGPT.CredentialsFile) == "" {
+		return errors.New("chatgpt provider requires a credentials file (set llm.chatgpt.credentialsfile or EDDA_LLM_CHATGPT_CREDENTIALSFILE)")
+	}
+	if !openRouterReasoningEfforts[c.LLM.ChatGPT.ReasoningEffort] {
+		return fmt.Errorf("unknown chatgpt reasoning effort: %q (use none, minimal, low, medium, high, xhigh or max)", c.LLM.ChatGPT.ReasoningEffort)
 	}
 	if c.LLM.Provider == "claude" && c.LLM.Claude.APIKey == "" {
 		return errors.New("claude provider requires api key (set llm.claude.apikey, EDDA_LLM_CLAUDE_APIKEY, or ANTHROPIC_API_KEY)")
@@ -164,9 +191,7 @@ func (c *Config) Validate() error {
 		if provider == "" {
 			provider = c.LLM.Provider
 		}
-		switch provider {
-		case "ollama", "claude", "openrouter":
-		default:
+		if !knownProviders[provider] {
 			return fmt.Errorf("llm profile %q has unknown provider: %q", name, provider)
 		}
 	}
@@ -176,6 +201,21 @@ func (c *Config) Validate() error {
 		}
 	}
 	return nil
+}
+
+var knownProviders = map[string]bool{"ollama": true, "claude": true, "openrouter": true, "chatgpt": true}
+
+// usesProvider reports whether name is the active, fallback or a profile provider.
+func (c *Config) usesProvider(name string) bool {
+	if c.LLM.Provider == name || c.LLM.FallbackProvider == name {
+		return true
+	}
+	for _, p := range c.LLM.Profiles {
+		if p.Provider == name {
+			return true
+		}
+	}
+	return false
 }
 
 func Load(path string) (Config, error) {
@@ -196,8 +236,11 @@ func Load(path string) (Config, error) {
 		"llm.claude.contexttokenbudget":     8000,
 		"llm.openrouter.model":              "openai/gpt-4o-mini",
 		"llm.openrouter.contexttokenbudget": 8000,
+		"llm.chatgpt.model":                 "gpt-6.1-terra",
+		"llm.chatgpt.contexttokenbudget":    8000,
 		"server.port":                       8080,
 		"server.jwtsecret":                  "",
+		"server.allowregistration":          true,
 	}
 
 	if err := k.Load(confmap.Provider(defaults, "."), nil); err != nil {

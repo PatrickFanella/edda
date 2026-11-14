@@ -4,9 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"strings"
+	"sync"
 	"time"
 
 	"git.subcult.tv/subculture-collective/edda/internal/config"
@@ -22,9 +24,63 @@ const (
 	ollamaHealthCheckErrorBodyLimit = 512
 )
 
-// NewLLMProvider constructs the configured LLM provider implementation.
+// NewLLMProvider constructs the configured LLM provider implementation,
+// wrapped in a FallbackProvider when llm.fallbackprovider names another one.
+// If the fallback cannot be built (for example, a missing ChatGPT credentials
+// file), it logs a warning and returns the primary provider alone.
 func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
-	switch cfg.LLM.Provider {
+	primary, err := newSingleProvider(cfg, cfg.LLM.Provider)
+	if err != nil {
+		return nil, err
+	}
+	fallback := cfg.LLM.FallbackProvider
+	if fallback == "" || fallback == cfg.LLM.Provider {
+		return primary, nil
+	}
+	secondary, err := newSingleProvider(cfg, fallback)
+	if err != nil {
+		// A broken fallback should not keep the game from starting.
+		slog.Warn("llm fallback provider unavailable; running without it", "fallback", fallback, "error", err)
+		return primary, nil
+	}
+	return &FallbackProvider{Primary: primary, Secondary: secondary, PrimaryName: cfg.LLM.Provider, SecondaryName: fallback}, nil
+}
+
+var (
+	chatGPTClientsMu sync.Mutex
+	chatGPTClients   = map[string]*ChatGPTClient{}
+)
+
+// chatGPTClient returns one client per credentials file, model and effort.
+// Clients for the same file share a token store, so two profiles never race
+// to spend the same rotating refresh token.
+func chatGPTClient(cfg config.ChatGPTConfig) (*ChatGPTClient, error) {
+	chatGPTClientsMu.Lock()
+	defer chatGPTClientsMu.Unlock()
+	key := cfg.CredentialsFile + "\x00" + cfg.Model + "\x00" + cfg.ReasoningEffort
+	if c, ok := chatGPTClients[key]; ok {
+		return c, nil
+	}
+	var tokens *ChatGPTTokenStore
+	for _, c := range chatGPTClients {
+		if c.tokens.path == cfg.CredentialsFile {
+			tokens = c.tokens
+			break
+		}
+	}
+	if tokens == nil {
+		var err error
+		if tokens, err = LoadChatGPTTokenStore(cfg.CredentialsFile); err != nil {
+			return nil, err
+		}
+	}
+	c := NewChatGPTClient(tokens, cfg.Model, cfg.ReasoningEffort)
+	chatGPTClients[key] = c
+	return c, nil
+}
+
+func newSingleProvider(cfg config.Config, name string) (LLMProvider, error) {
+	switch name {
 	case "ollama":
 		if err := validateOllamaEndpoint(cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.APIKey); err != nil {
 			return nil, err
@@ -43,8 +99,10 @@ func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
 		return NewOpenRouterClient(cfg.LLM.OpenRouter.APIKey, cfg.LLM.OpenRouter.Model).
 			WithFallbackModels(cfg.LLM.OpenRouter.FallbackModels).
 			WithReasoningEffort(cfg.LLM.OpenRouter.ReasoningEffort), nil
+	case "chatgpt":
+		return chatGPTClient(cfg.LLM.ChatGPT)
 	default:
-		return nil, fmt.Errorf("unsupported llm provider %q (supported: ollama, claude, openrouter)", cfg.LLM.Provider)
+		return nil, fmt.Errorf("unsupported llm provider %q (supported: ollama, claude, openrouter, chatgpt)", name)
 	}
 }
 

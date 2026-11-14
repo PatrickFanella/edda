@@ -136,6 +136,8 @@ func applyProfile(cfg config.Config, profile config.LLMProfileConfig) config.Con
 			cfg.LLM.Claude.Model = model
 		case "openrouter":
 			cfg.LLM.OpenRouter.Model = model
+		case "chatgpt":
+			cfg.LLM.ChatGPT.Model = model
 		default:
 			cfg.LLM.Ollama.Model = model
 		}
@@ -146,6 +148,8 @@ func applyProfile(cfg config.Config, profile config.LLMProfileConfig) config.Con
 			cfg.LLM.Claude.ContextTokenBudget = budget
 		case "openrouter":
 			cfg.LLM.OpenRouter.ContextTokenBudget = budget
+		case "chatgpt":
+			cfg.LLM.ChatGPT.ContextTokenBudget = budget
 		default:
 			cfg.LLM.Ollama.ContextTokenBudget = budget
 		}
@@ -159,6 +163,8 @@ func activeModel(cfg config.LLMConfig) string {
 		return cfg.Claude.Model
 	case "openrouter":
 		return cfg.OpenRouter.Model
+	case "chatgpt":
+		return cfg.ChatGPT.Model
 	default:
 		return cfg.Ollama.Model
 	}

@@ -68,7 +68,13 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.Cam
 			if cfg.Server.JWTSecret != "" {
 				r.Route("/auth", func(r chi.Router) {
 					authH := auth.NewAuthHandlers(auth.NewDBAuthQuerier(pool), cfg.Server.JWTSecret)
-					r.Post("/register", authH.Register)
+					if cfg.Server.AllowRegistration {
+						r.Post("/register", authH.Register)
+					} else {
+						r.Post("/register", func(w http.ResponseWriter, _ *http.Request) {
+							writeJSON(logger, w, http.StatusForbidden, map[string]any{"error": "registration is closed"})
+						})
+					}
 					r.Post("/login", authH.Login)
 					r.Post("/logout", func(w http.ResponseWriter, req *http.Request) {
 						auth.ClearSessionCookie(w, req)

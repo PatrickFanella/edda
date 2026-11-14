@@ -97,10 +97,13 @@ config key by section: `EDDA_LLM_OLLAMA_MODEL` sets `llm.ollama.model`.
 | `EDDA_DB_URL`                              | PostgreSQL connection string. The database needs pgvector.                                                    |
 | `EDDA_SERVER_PORT`                         | API port.                                                                                                     |
 | `EDDA_SERVER_JWTSECRET`                    | Signs session tokens. Generate with `openssl rand -hex 32`.                                                   |
-| `EDDA_LLM_PROVIDER`                        | `ollama`, `claude` or `openrouter`.                                                                           |
+| `EDDA_SERVER_ALLOWREGISTRATION`            | `false` stops new accounts being created. Defaults to `true`.                                                 |
+| `EDDA_LLM_PROVIDER`                        | `ollama`, `claude`, `openrouter` or `chatgpt`.                                                                |
+| `EDDA_LLM_FALLBACKPROVIDER`                | Optional provider that gets a request when `EDDA_LLM_PROVIDER` fails.                                         |
 | `EDDA_LLM_OLLAMA_*`                        | Endpoint, model, API key, context budget, timeout and embedding model.                                        |
 | `EDDA_LLM_CLAUDE_*`                        | Model and context budget. The key can also come from `ANTHROPIC_API_KEY`.                                     |
 | `EDDA_LLM_OPENROUTER_*`                    | Model, fallback models, reasoning effort and context budget. The key can also come from `OPENROUTER_API_KEY`. |
+| `EDDA_LLM_CHATGPT_*`                       | Credentials file, model, reasoning effort and context budget for the ChatGPT-plan provider.                   |
 | `EDDA_LLM_PROFILES_*`, `EDDA_LLM_ROUTES_*` | Optional per-job model routing.                                                                               |
 
 With `EDDA_LLM_OPENROUTER_FALLBACKMODELS` set, OpenRouter retries a failed
@@ -116,6 +119,53 @@ EDDA_LLM_OPENROUTER_MODEL=anthropic/claude-sonnet-5.5
 EDDA_LLM_OPENROUTER_FALLBACKMODELS=openai/gpt-6.1-terra
 EDDA_LLM_OPENROUTER_REASONINGEFFORT=high
 ```
+
+### Running on a ChatGPT plan
+
+The `chatgpt` provider sends requests to OpenAI's Responses API and charges them
+to a ChatGPT plan instead of API credits, through OpenAI's
+[Sign in with ChatGPT](https://developers.openai.com/siwc/token-sharing-open-source)
+preview for open-source and self-hosted apps. Use it only with your own plan for
+your own play: every request counts against the plan of whoever signed in. On a
+public server, set `EDDA_SERVER_ALLOWREGISTRATION=false` so nobody else can
+create an account and spend it.
+
+The production example uses Sonnet 5.5 on OpenRouter first and the ChatGPT plan
+when that fails, for example when OpenRouter credits run out:
+
+```bash
+EDDA_LLM_PROVIDER=openrouter
+EDDA_LLM_FALLBACKPROVIDER=chatgpt
+EDDA_LLM_CHATGPT_CREDENTIALSFILE=/app/chatgpt/chatgpt-auth.json
+EDDA_LLM_CHATGPT_MODEL=gpt-6.1-terra
+EDDA_LLM_CHATGPT_REASONINGEFFORT=high
+```
+
+To sign in:
+
+1. Run `go run ./cmd/chatgpt-login` on a machine with a browser. It opens the
+   ChatGPT sign-in page, waits for the callback on `127.0.0.1:1455`, and writes
+   `~/.config/edda/chatgpt-auth.json` (mode `600`). On a headless machine, run
+   it with `-no-browser`, forward the port from your laptop with
+   `ssh -L 1455:127.0.0.1:1455 <host>`, and open the printed link there.
+2. It then lists the models your account can use. If `gpt-6.1-terra` is not
+   among them, set `EDDA_LLM_CHATGPT_MODEL` to one that is.
+3. Copy the file into the API container's `chatgpt-auth` volume and restart
+   the API:
+
+   ```bash
+   docker cp ~/.config/edda/chatgpt-auth.json edda-api:/app/chatgpt/chatgpt-auth.json
+   docker exec -u 0 edda-api chown 1001:1001 /app/chatgpt/chatgpt-auth.json
+   docker exec -u 0 edda-api chmod 600 /app/chatgpt/chatgpt-auth.json
+   docker restart edda-api
+   ```
+
+The server refreshes the token and rewrites its copy of the file. Each refresh
+replaces the refresh token, so the local copy's tokens stop working after the
+first one. Keep the local file anyway: signing in again with it reuses the same
+registration instead of creating a new one. If the server logs that the sign-in is no
+longer valid, repeat these steps. Plan usage and per-app limits are under
+[ChatGPT settings → Usage](https://chatgpt.com/settings/usage).
 
 Embeddings always use the Ollama-compatible settings
 (`EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT`, `EDDA_LLM_OLLAMA_EMBEDDINGMODEL`,

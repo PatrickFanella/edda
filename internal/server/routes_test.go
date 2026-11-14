@@ -133,3 +133,19 @@ func TestNewRouterWithProvider_CORSAndRequestIDStillWork(t *testing.T) {
 		t.Fatalf("GET /api/healthz body = %q, want status ok", rec.Body.String())
 	}
 }
+
+func TestNewRouterWithProvider_ClosedRegistration(t *testing.T) {
+	t.Parallel()
+
+	cfg := config.Config{}
+	cfg.Server.JWTSecret = "test-secret"
+	cfg.Server.AllowRegistration = false
+	router := NewRouterWithProvider(log.New(io.Discard), nil, nil, nil, nil, uuid.Nil, cfg, nil)
+
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/auth/register", strings.NewReader(`{"name":"a","email":"a@example.com","password":"pw"}`))
+	router.ServeHTTP(rec, req)
+	if rec.Code != http.StatusForbidden || !strings.Contains(rec.Body.String(), "registration is closed") {
+		t.Fatalf("POST /api/v1/auth/register = %d %q, want 403 registration is closed", rec.Code, rec.Body.String())
+	}
+}

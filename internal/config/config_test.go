@@ -418,3 +418,43 @@ func TestValidateRejectsUnknownOpenRouterReasoningEffort(t *testing.T) {
 		t.Fatal("Validate() accepted an unknown reasoning effort")
 	}
 }
+
+func TestLoadChatGPTFallbackAndClosedRegistrationFromEnv(t *testing.T) {
+	t.Setenv("EDDA_LLM_PROVIDER", "openrouter")
+	t.Setenv("EDDA_LLM_OPENROUTER_APIKEY", "sk-or-test")
+	t.Setenv("EDDA_LLM_FALLBACKPROVIDER", "chatgpt")
+	t.Setenv("EDDA_LLM_CHATGPT_CREDENTIALSFILE", "/data/chatgpt-auth.json")
+	t.Setenv("EDDA_LLM_CHATGPT_REASONINGEFFORT", "high")
+	t.Setenv("EDDA_SERVER_ALLOWREGISTRATION", "false")
+
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if cfg.LLM.FallbackProvider != "chatgpt" || cfg.LLM.ChatGPT.CredentialsFile != "/data/chatgpt-auth.json" {
+		t.Fatalf("LLM = %+v", cfg.LLM)
+	}
+	if cfg.LLM.ChatGPT.Model != "gpt-6.1-terra" || cfg.LLM.ChatGPT.ReasoningEffort != "high" {
+		t.Fatalf("ChatGPT = %+v", cfg.LLM.ChatGPT)
+	}
+	if cfg.Server.AllowRegistration {
+		t.Fatal("AllowRegistration = true, want false")
+	}
+}
+
+func TestLoadAllowsRegistrationByDefault(t *testing.T) {
+	cfg, err := Load("")
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	if !cfg.Server.AllowRegistration {
+		t.Fatal("AllowRegistration = false, want true by default")
+	}
+}
+
+func TestValidateChatGPTNeedsCredentialsFile(t *testing.T) {
+	cfg := Config{LLM: LLMConfig{Provider: "openrouter", FallbackProvider: "chatgpt", OpenRouter: OpenRouterConfig{APIKey: "sk-or-test"}}}
+	if err := cfg.Validate(); err == nil || !strings.Contains(err.Error(), "credentials file") {
+		t.Fatalf("Validate() = %v, want credentials-file error", err)
+	}
+}

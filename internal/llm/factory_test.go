@@ -3,6 +3,7 @@ package llm
 import (
 	"net/http"
 	"net/http/httptest"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -250,5 +251,42 @@ func TestNewLLMProviderRejectsUnknownProvider(t *testing.T) {
 	}
 	if !strings.Contains(err.Error(), "unsupported llm provider") {
 		t.Fatalf("error = %q, want provider message", err)
+	}
+}
+
+func TestNewLLMProviderFallsBackToChatGPT(t *testing.T) {
+	path := writeTestCreds(t, 3600)
+	cfg := config.Config{LLM: config.LLMConfig{
+		Provider:         "openrouter",
+		FallbackProvider: "chatgpt",
+		OpenRouter:       config.OpenRouterConfig{APIKey: "sk-or-test"},
+		ChatGPT:          config.ChatGPTConfig{CredentialsFile: path, Model: "gpt-6.1-terra"},
+	}}
+	p, err := NewLLMProvider(cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	f, ok := p.(*FallbackProvider)
+	if !ok {
+		t.Fatalf("provider = %T, want *FallbackProvider", p)
+	}
+	if _, ok := f.Secondary.(*ChatGPTClient); !ok {
+		t.Fatalf("fallback = %T, want *ChatGPTClient", f.Secondary)
+	}
+}
+
+func TestNewLLMProviderSkipsUnavailableFallback(t *testing.T) {
+	cfg := config.Config{LLM: config.LLMConfig{
+		Provider:         "openrouter",
+		FallbackProvider: "chatgpt",
+		OpenRouter:       config.OpenRouterConfig{APIKey: "sk-or-test"},
+		ChatGPT:          config.ChatGPTConfig{CredentialsFile: filepath.Join(t.TempDir(), "missing.json")},
+	}}
+	p, err := NewLLMProvider(cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, ok := p.(*OpenRouterClient); !ok {
+		t.Fatalf("provider = %T, want the primary *OpenRouterClient alone", p)
 	}
 }

@@ -33,6 +33,9 @@ services:
     env_file: ${EDDA_ENV_FILE:-.env}
     ports:
       - "${EDDA_BIND_ADDRESS:-10.0.0.56}:${GM_API_HOST_PORT:-3034}:8080"
+    volumes:
+      # ChatGPT sign-in credentials; the server rewrites them on each refresh.
+      - chatgpt-auth:/app/chatgpt
     networks:
       - projects
     healthcheck:
@@ -59,3 +62,4 @@ services:
 
 volumes:
   postgres_data:
+  chatgpt-auth:
