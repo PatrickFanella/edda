@@ -10,7 +10,6 @@ import (
 	"io"
 	"net/http"
 	"strings"
-	"sync"
 	"time"
 )
 
@@ -18,7 +17,6 @@ const (
 	defaultChatGPTBaseURL = "https://api.openai.com/v1"
 	defaultChatGPTModel   = "gpt-6.1-terra"
 	chatGPTToolNamespace  = "edda"
-	chatGPTReplayCacheMax = 256
 )
 
 // ChatGPTClient implements Provider with the Responses API, paid for by the
@@ -27,19 +25,14 @@ const (
 // That route requires store:false and stream:true, rejects system-role items
 // and several request fields, and wants function tools grouped in a
 // namespace. Without stored responses, the reasoning items that come with a
-// tool call must be sent back with the tool results; the client keeps them in
-// a small in-memory cache keyed by call ID, because Edda's message history
-// does not carry provider data.
+// tool call must be sent back with the tool results (see replayCache).
 type ChatGPTClient struct {
 	baseURL         string
 	model           string
 	reasoningEffort string
 	tokens          *ChatGPTTokenStore
 	client          *http.Client
-
-	replayMu    sync.Mutex
-	replay      map[string][]json.RawMessage
-	replayOrder []string
+	replay          replayCache
 }
 
 // NewChatGPTClient returns a ChatGPT-plan provider using tokens.
@@ -53,7 +46,6 @@ func NewChatGPTClient(tokens *ChatGPTTokenStore, model, reasoningEffort string) 
 		reasoningEffort: strings.TrimSpace(reasoningEffort),
 		tokens:          tokens,
 		client:          &http.Client{Timeout: 5 * time.Minute},
-		replay:          map[string][]json.RawMessage{},
 	}
 }
 
@@ -175,7 +167,7 @@ func (c *ChatGPTClient) buildRequest(messages []Message, tools []Tool) ([]byte, 
 				req.Input = append(req.Input, chatGPTMessageItem{Role: "assistant", Content: m.Content})
 				continue
 			}
-			if items := c.replayItems(m.ToolCalls[0].ID); items != nil {
+			if items := c.replay.get(m.ToolCalls[0].ID); items != nil {
 				for _, item := range items {
 					req.Input = append(req.Input, item)
 				}
@@ -368,7 +360,7 @@ func (c *ChatGPTClient) readStream(body io.Reader, send func(StreamChunk)) (*Res
 			out.FinishReason = "stop"
 			if len(out.ToolCalls) > 0 {
 				out.FinishReason = "tool_calls"
-				c.saveReplay(out.ToolCalls, items)
+				c.replay.save(out.ToolCalls[0].ID, items)
 			}
 			return out, nil
 		case "response.failed":
@@ -391,34 +383,6 @@ func (c *ChatGPTClient) readStream(body io.Reader, send func(StreamChunk)) (*Res
 		return nil, &ErrConnection{URL: endpoint, Err: fmt.Errorf("read stream: %w", err)}
 	}
 	return nil, &ErrConnection{URL: endpoint, Err: errors.New("stream ended before response.completed")}
-}
-
-// saveReplay keeps a response's output items so the next request can send
-// them back with the tool results.
-func (c *ChatGPTClient) saveReplay(calls []ToolCall, items []json.RawMessage) {
-	key := calls[0].ID
-	if key == "" {
-		return
-	}
-	c.replayMu.Lock()
-	defer c.replayMu.Unlock()
-	if _, ok := c.replay[key]; !ok {
-		c.replayOrder = append(c.replayOrder, key)
-	}
-	c.replay[key] = items
-	for len(c.replayOrder) > chatGPTReplayCacheMax {
-		delete(c.replay, c.replayOrder[0])
-		c.replayOrder = c.replayOrder[1:]
-	}
-}
-
-func (c *ChatGPTClient) replayItems(firstCallID string) []json.RawMessage {
-	if firstCallID == "" {
-		return nil
-	}
-	c.replayMu.Lock()
-	defer c.replayMu.Unlock()
-	return c.replay[firstCallID]
 }
 
 func classifyChatGPTError(endpoint, model string, status int, body []byte) error {

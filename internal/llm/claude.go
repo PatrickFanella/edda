@@ -17,15 +17,17 @@ import (
 
 const (
 	defaultClaudeBaseURL      = "https://api.anthropic.com"
-	defaultClaudeModel        = "claude-sonnet-4-6"
+	defaultClaudeModel        = "claude-sonnet-5-5"
 	defaultAnthropicVersion   = "2023-06-01"
-	defaultClaudeMaxTokens    = 1024
+	defaultClaudeMaxTokens    = 16000
+	claudeFallbackBeta        = "server-side-fallback-2026-07-01"
 	claudeMessagesPath        = "/v1/messages"
 	claudeRoleUser            = "user"
 	claudeRoleAssistant       = "assistant"
 	claudeContentTypeText     = "text"
 	claudeContentTypeToolUse  = "tool_use"
 	claudeContentTypeToolResp = "tool_result"
+	claudeStopReasonRefusal   = "refusal"
 
 	// SSE event types emitted by the Anthropic streaming API.
 	claudeSSEEventMessageStart      = "message_start"
@@ -48,8 +50,28 @@ type ClaudeClient struct {
 	model            string
 	anthropicVersion string
 	maxTokens        int
+	effort           string
 	client           *http.Client
 	streamClient     *http.Client // no Timeout; SSE streams are unbounded in duration
+	// replay keeps each tool-calling response's content, thinking blocks
+	// included, for the follow-up request: Claude rejects a tool_result turn
+	// whose thinking was dropped or changed.
+	replay replayCache
+}
+
+// claudeServerFallbackModels accept the server-side refusal fallback
+// (fallbacks: "default"), which re-serves some declined requests on another
+// Claude model inside the same call.
+var claudeServerFallbackModels = map[string]bool{
+	"claude-sonnet-5-5": true, "claude-opus-5-5": true, "claude-opus-5": true,
+	"claude-fable-5-1": true, "claude-fable-5-2": true,
+}
+
+// WithEffort sets output_config.effort ("low" through "max") on every
+// request; empty leaves the model's default.
+func (c *ClaudeClient) WithEffort(effort string) *ClaudeClient {
+	c.effort = strings.TrimSpace(effort)
+	return c
 }
 
 // NewClaudeClient returns a Claude-backed provider.
@@ -83,12 +105,13 @@ func NewClaudeClientWithMaxTokens(baseURL, apiKey, model string, maxTokens int) 
 		model:            model,
 		anthropicVersion: defaultAnthropicVersion,
 		maxTokens:        normalizeClaudeMaxTokens(maxTokens),
+		// Thinking at high effort can take minutes before the reply starts.
 		client: &http.Client{
-			Timeout:   30 * time.Second,
+			Timeout:   5 * time.Minute,
 			Transport: transport,
 		},
 		// streamClient has no client-level timeout: SSE streams are long-lived and
-		// must not be cut off by the 30s request timeout.  Context cancellation /
+		// must not be cut off by the request timeout.  Context cancellation /
 		// deadlines are the caller's mechanism for bounding stream duration.
 		streamClient: &http.Client{
 			Timeout:   0,
@@ -118,13 +141,35 @@ func (c *ClaudeClient) Complete(ctx context.Context, messages []Message, tools [
 			Err: fmt.Errorf("failed to decode claude messages response: %w", err),
 		}
 	}
+	if messagesResp.StopReason == claudeStopReasonRefusal {
+		category := ""
+		if messagesResp.StopDetails != nil {
+			category = messagesResp.StopDetails.Category
+		}
+		return nil, &ErrMalformedResponse{
+			URL: c.baseURL + claudeMessagesPath,
+			Err: fmt.Errorf("claude declined the request (stop_reason refusal, category %q)", category),
+		}
+	}
 
-	content, toolCalls, err := fromClaudeContent(messagesResp.Content)
+	blocks := make([]claudeContentBlock, len(messagesResp.Content))
+	for i, raw := range messagesResp.Content {
+		if err := json.Unmarshal(raw, &blocks[i]); err != nil {
+			return nil, &ErrMalformedResponse{
+				URL: c.baseURL + claudeMessagesPath,
+				Err: fmt.Errorf("failed to decode claude content block: %w", err),
+			}
+		}
+	}
+	content, toolCalls, err := fromClaudeContent(blocks)
 	if err != nil {
 		return nil, &ErrMalformedResponse{
 			URL: c.baseURL + claudeMessagesPath,
 			Err: err,
 		}
+	}
+	if len(toolCalls) > 0 {
+		c.replay.save(toolCalls[0].ID, messagesResp.Content)
 	}
 
 	return &Response{
@@ -307,19 +352,27 @@ func (c *ClaudeClient) callMessages(ctx context.Context, messages []Message, too
 		return nil, err
 	}
 
-	claudeMessages, system, err := toClaudeMessages(messages)
+	claudeMessages, system, err := toClaudeMessages(messages, c.replay.get)
 	if err != nil {
 		return nil, err
 	}
 
-	body, err := json.Marshal(claudeMessagesRequest{
+	reqBody := claudeMessagesRequest{
 		Model:     c.model,
 		MaxTokens: c.maxTokens,
 		System:    system,
 		Messages:  claudeMessages,
 		Tools:     toClaudeTools(tools),
 		Stream:    stream,
-	})
+	}
+	if c.effort != "" {
+		reqBody.OutputConfig = &claudeOutputConfig{Effort: c.effort}
+	}
+	serverFallback := claudeServerFallbackModels[c.model]
+	if serverFallback {
+		reqBody.Fallbacks = "default"
+	}
+	body, err := json.Marshal(reqBody)
 	if err != nil {
 		return nil, fmt.Errorf("failed to marshal claude messages request: %w", err)
 	}
@@ -331,6 +384,9 @@ func (c *ClaudeClient) callMessages(ctx context.Context, messages []Message, too
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("x-api-key", c.apiKey)
 	req.Header.Set("anthropic-version", c.anthropicVersion)
+	if serverFallback {
+		req.Header.Set("anthropic-beta", claudeFallbackBeta)
+	}
 
 	httpClient := c.client
 	if stream {
@@ -483,6 +539,14 @@ type claudeMessagesRequest struct {
 	Messages  []claudeMessage `json:"messages"`
 	Tools     []claudeTool    `json:"tools,omitempty"`
 	Stream    bool            `json:"stream,omitempty"`
+	// OutputConfig carries effort. Thinking is left unset: current models run
+	// adaptive thinking by default.
+	OutputConfig *claudeOutputConfig `json:"output_config,omitempty"`
+	Fallbacks    string              `json:"fallbacks,omitempty"`
+}
+
+type claudeOutputConfig struct {
+	Effort string `json:"effort"`
 }
 
 type claudeMessage struct {
@@ -504,18 +568,38 @@ type claudeContentBlock struct {
 	Input     map[string]any `json:"input,omitempty"`
 	ToolUseID string         `json:"tool_use_id,omitempty"`
 	Content   string         `json:"content,omitempty"`
+
+	// raw, when set, is sent as-is: a block replayed from an earlier
+	// response, such as a thinking block with its signature.
+	raw json.RawMessage
+}
+
+// MarshalJSON sends a replayed block unchanged.
+func (b claudeContentBlock) MarshalJSON() ([]byte, error) {
+	if len(b.raw) > 0 {
+		return b.raw, nil
+	}
+	type plain claudeContentBlock
+	return json.Marshal(plain(b))
 }
 
 type claudeMessagesResponse struct {
-	Content    []claudeContentBlock `json:"content"`
-	StopReason string               `json:"stop_reason"`
-	Usage      struct {
+	Content     []json.RawMessage `json:"content"`
+	StopReason  string            `json:"stop_reason"`
+	StopDetails *struct {
+		Category string `json:"category"`
+	} `json:"stop_details"`
+	Usage struct {
 		InputTokens  int `json:"input_tokens"`
 		OutputTokens int `json:"output_tokens"`
 	} `json:"usage"`
 }
 
-func toClaudeMessages(messages []Message) ([]claudeMessage, string, error) {
+// toClaudeMessages converts Edda messages. replayed returns the saved content
+// of the response that made a set of tool calls, keyed by the first call's ID;
+// when it has one, that content is sent instead of rebuilding the turn.
+// Consecutive tool results go into one user message, as Claude expects.
+func toClaudeMessages(messages []Message, replayed func(string) []json.RawMessage) ([]claudeMessage, string, error) {
 	if len(messages) == 0 {
 		return make([]claudeMessage, 0), "", nil
 	}
@@ -537,6 +621,16 @@ func toClaudeMessages(messages []Message) ([]claudeMessage, string, error) {
 				},
 			})
 		case RoleAssistant:
+			if len(msg.ToolCalls) > 0 && replayed != nil {
+				if saved := replayed(msg.ToolCalls[0].ID); saved != nil {
+					content := make([]claudeContentBlock, len(saved))
+					for i, raw := range saved {
+						content[i] = claudeContentBlock{raw: raw}
+					}
+					out = append(out, claudeMessage{Role: claudeRoleAssistant, Content: content})
+					continue
+				}
+			}
 			content := make([]claudeContentBlock, 0, 1+len(msg.ToolCalls))
 			if msg.Content != "" {
 				content = append(content, claudeContentBlock{Type: claudeContentTypeText, Text: msg.Content})
@@ -557,22 +651,31 @@ func toClaudeMessages(messages []Message) ([]claudeMessage, string, error) {
 			if msg.ToolCallID == "" {
 				return nil, "", fmt.Errorf("tool message missing tool_call_id")
 			}
-			out = append(out, claudeMessage{
-				Role: claudeRoleUser,
-				Content: []claudeContentBlock{
-					{
-						Type:      claudeContentTypeToolResp,
-						ToolUseID: msg.ToolCallID,
-						Content:   msg.Content,
-					},
-				},
-			})
+			result := claudeContentBlock{
+				Type:      claudeContentTypeToolResp,
+				ToolUseID: msg.ToolCallID,
+				Content:   msg.Content,
+			}
+			if n := len(out); n > 0 && out[n-1].Role == claudeRoleUser && isToolResultTurn(out[n-1]) {
+				out[n-1].Content = append(out[n-1].Content, result)
+				continue
+			}
+			out = append(out, claudeMessage{Role: claudeRoleUser, Content: []claudeContentBlock{result}})
 		default:
 			return nil, "", fmt.Errorf("unsupported message role %q for claude", msg.Role)
 		}
 	}
 
 	return out, strings.Join(systemContent, "\n\n"), nil
+}
+
+func isToolResultTurn(m claudeMessage) bool {
+	for _, b := range m.Content {
+		if b.Type != claudeContentTypeToolResp {
+			return false
+		}
+	}
+	return len(m.Content) > 0
 }
 
 func toClaudeTools(tools []Tool) []claudeTool {
@@ -607,6 +710,8 @@ func fromClaudeContent(content []claudeContentBlock) (string, []ToolCall, error)
 				Name:      block.Name,
 				Arguments: block.Input,
 			})
+		case "thinking", "redacted_thinking":
+			// Kept in the replay cache, not shown.
 		default:
 			return "", nil, fmt.Errorf("unsupported claude content block type %q", block.Type)
 		}

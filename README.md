@@ -101,7 +101,7 @@ config key by section: `EDDA_LLM_OLLAMA_MODEL` sets `llm.ollama.model`.
 | `EDDA_LLM_PROVIDER`                        | `ollama`, `claude`, `openrouter` or `chatgpt`.                                                                |
 | `EDDA_LLM_FALLBACKPROVIDER`                | Optional provider that gets a request when `EDDA_LLM_PROVIDER` fails.                                         |
 | `EDDA_LLM_OLLAMA_*`                        | Endpoint, model, API key, context budget, timeout and embedding model.                                        |
-| `EDDA_LLM_CLAUDE_*`                        | Model and context budget. The key can also come from `ANTHROPIC_API_KEY`.                                     |
+| `EDDA_LLM_CLAUDE_*`                        | Model, reasoning effort and context budget. The key can also come from `ANTHROPIC_API_KEY`.                   |
 | `EDDA_LLM_OPENROUTER_*`                    | Model, fallback models, reasoning effort and context budget. The key can also come from `OPENROUTER_API_KEY`. |
 | `EDDA_LLM_CHATGPT_*`                       | Credentials file, model, reasoning effort and context budget for the ChatGPT-plan provider.                   |
 | `EDDA_LLM_PROFILES_*`, `EDDA_LLM_ROUTES_*` | Optional per-job model routing.                                                                               |
@@ -110,8 +110,8 @@ With `EDDA_LLM_OPENROUTER_FALLBACKMODELS` set, OpenRouter retries a failed
 request (outage, rate limit, moderation flag, context limit) on each fallback model in
 order, inside the same request; the API logs a warning when a fallback answered.
 `EDDA_LLM_OPENROUTER_REASONINGEFFORT` (`none` to `max`) applies to the fallback
-models too. The recommended setup is Claude Sonnet 5.5 at `high` effort with
-GPT-6.1 Terra as the fallback:
+models too. For example, Claude Sonnet 5.5 at `high` effort with GPT-6.1 Terra
+as the fallback, both billed to OpenRouter credits:
 
 ```bash
 EDDA_LLM_PROVIDER=openrouter
@@ -130,11 +130,17 @@ your own play: every request counts against the plan of whoever signed in. On a
 public server, set `EDDA_SERVER_ALLOWREGISTRATION=false` so nobody else can
 create an account and spend it.
 
-The production example uses Sonnet 5.5 on OpenRouter first and the ChatGPT plan
-when that fails, for example when OpenRouter credits run out:
+The production example runs Claude Sonnet 5.5 at `high` effort on a Claude
+Console API key, and sends a request to the ChatGPT plan when Claude fails or
+declines it. Claude API usage is billed to the Console account, separately from
+any Claude.ai plan; a Claude.ai plan can't be used here, because Anthropic only
+allows subscription sign-in for its own apps.
 
 ```bash
-EDDA_LLM_PROVIDER=openrouter
+EDDA_LLM_PROVIDER=claude
+EDDA_LLM_CLAUDE_APIKEY=sk-ant-...
+EDDA_LLM_CLAUDE_MODEL=claude-sonnet-5-5
+EDDA_LLM_CLAUDE_REASONINGEFFORT=high
 EDDA_LLM_FALLBACKPROVIDER=chatgpt
 EDDA_LLM_CHATGPT_CREDENTIALSFILE=/app/chatgpt/chatgpt-auth.json
 EDDA_LLM_CHATGPT_MODEL=gpt-6.1-terra

@@ -114,7 +114,7 @@ func TestLoadClaudeModelDefault(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Load() error = %v", err)
 	}
-	if cfg.LLM.Claude.Model != "claude-sonnet-4-6" {
+	if cfg.LLM.Claude.Model != "claude-sonnet-5-5" {
 		t.Fatalf("expected default claude model, got %q", cfg.LLM.Claude.Model)
 	}
 	if cfg.LLM.Claude.ContextTokenBudget != 8000 {

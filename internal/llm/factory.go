@@ -91,7 +91,7 @@ func newSingleProvider(cfg config.Config, name string) (LLMProvider, error) {
 		if strings.TrimSpace(cfg.LLM.Claude.APIKey) == "" {
 			return nil, errors.New("claude provider unavailable: missing api key (set llm.claude.apikey, EDDA_LLM_CLAUDE_APIKEY, or ANTHROPIC_API_KEY)")
 		}
-		return NewClaudeClient("", cfg.LLM.Claude.APIKey, cfg.LLM.Claude.Model), nil
+		return NewClaudeClient("", cfg.LLM.Claude.APIKey, cfg.LLM.Claude.Model).WithEffort(cfg.LLM.Claude.ReasoningEffort), nil
 	case "openrouter":
 		if strings.TrimSpace(cfg.LLM.OpenRouter.APIKey) == "" {
 			return nil, errors.New("openrouter provider unavailable: missing api key (set llm.openrouter.apikey or EDDA_LLM_OPENROUTER_APIKEY)")

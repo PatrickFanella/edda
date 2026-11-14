@@ -43,10 +43,12 @@ func (c OllamaConfig) RequestTimeout() time.Duration {
 	return time.Duration(c.TimeoutSeconds) * time.Second
 }
 
-// ClaudeConfig holds Claude-specific LLM settings.
+// ClaudeConfig holds Claude-specific LLM settings. ReasoningEffort sets
+// output_config.effort on every request.
 type ClaudeConfig struct {
 	APIKey             string `koanf:"apikey"`
 	Model              string `koanf:"model"`
+	ReasoningEffort    string `koanf:"reasoningeffort"`
 	ContextTokenBudget int    `koanf:"contexttokenbudget"`
 }
 
@@ -171,6 +173,9 @@ func (c *Config) Validate() error {
 	if c.usesProvider("chatgpt") && strings.TrimSpace(c.LLM.ChatGPT.CredentialsFile) == "" {
 		return errors.New("chatgpt provider requires a credentials file (set llm.chatgpt.credentialsfile or EDDA_LLM_CHATGPT_CREDENTIALSFILE)")
 	}
+	if !openRouterReasoningEfforts[c.LLM.Claude.ReasoningEffort] {
+		return fmt.Errorf("unknown claude reasoning effort: %q (use low, medium, high, xhigh or max)", c.LLM.Claude.ReasoningEffort)
+	}
 	if !openRouterReasoningEfforts[c.LLM.ChatGPT.ReasoningEffort] {
 		return fmt.Errorf("unknown chatgpt reasoning effort: %q (use none, minimal, low, medium, high, xhigh or max)", c.LLM.ChatGPT.ReasoningEffort)
 	}
@@ -232,7 +237,7 @@ func Load(path string) (Config, error) {
 		"llm.ollama.apikey":                 "",
 		"llm.ollama.contexttokenbudget":     8000,
 		"llm.ollama.timeoutseconds":         600,
-		"llm.claude.model":                  "claude-sonnet-4-6",
+		"llm.claude.model":                  "claude-sonnet-5-5",
 		"llm.claude.contexttokenbudget":     8000,
 		"llm.openrouter.model":              "openai/gpt-4o-mini",
 		"llm.openrouter.contexttokenbudget": 8000,
