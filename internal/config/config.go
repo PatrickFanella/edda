@@ -76,10 +76,13 @@ type ChatGPTConfig struct {
 
 // ClaudeCodeConfig points the claudecode provider at cmd/claude-bridge, which
 // runs the Claude Code CLI on the owner's Claude subscription. The bridge
-// sets the model and effort.
+// sets the model and effort. Skills lets the model load the Claude Code
+// skills installed for the bridge; each loaded skill adds a round trip, so it
+// is usually turned on only for the GM-turn profile.
 type ClaudeCodeConfig struct {
 	Endpoint           string `koanf:"endpoint"`
 	Token              string `koanf:"token"`
+	Skills             bool   `koanf:"skills"`
 	ContextTokenBudget int    `koanf:"contexttokenbudget"`
 }
 
@@ -95,6 +98,8 @@ type LLMProfileConfig struct {
 	Model              string `koanf:"model"`
 	ContextTokenBudget int    `koanf:"contexttokenbudget"`
 	ToolSupport        bool   `koanf:"toolsupport"`
+	// Skills turns on llm.claudecode.skills for this profile.
+	Skills bool `koanf:"skills"`
 }
 
 // LLMRoutesConfig maps high-level game flows to named LLM profiles.

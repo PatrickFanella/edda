@@ -211,6 +211,23 @@ fallback provider for when the limits run out.
 Each request starts a `claude` process, which adds a second or two to every
 call; the bridge runs two at a time by default (`-concurrency`).
 
+The GM can also use Claude Code skills, such as ones for running RPG sessions
+or writing fiction. Put the skill folders in `~/.claude/skills` under the
+bridge's `HOME`, start the bridge with `-skills`, and turn skills on for the
+GM-turn profile only, because each skill the model loads adds a round trip and
+its text to the request:
+
+```bash
+EDDA_LLM_PROFILES_GM_PROVIDER=claudecode
+EDDA_LLM_PROFILES_GM_SKILLS=true
+EDDA_LLM_PROFILES_GM_TOOLSUPPORT=true
+EDDA_LLM_ROUTES_GMTURN=gm
+```
+
+With skills on, the bridge gives the model only the `Skill` tool, which reads
+skill files, and loads user settings so it can find them; keep the bridge's
+`HOME` free of a Claude Code settings file.
+
 Embeddings always use the Ollama-compatible settings
 (`EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT`, `EDDA_LLM_OLLAMA_EMBEDDINGMODEL`,
 `EDDA_LLM_OLLAMA_EMBEDDINGDIMENSION`).

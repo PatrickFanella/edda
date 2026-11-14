@@ -85,3 +85,33 @@ func TestClaudeEnvDropsAPIKey(t *testing.T) {
 		t.Errorf("env = %s", env)
 	}
 }
+
+func TestBridgeSkillsOnlyWhenAllowedAndAsked(t *testing.T) {
+	reply := `{"type":"result","subtype":"success","structured_output":{"text":"ok","tool_calls":[]},"usage":{}}`
+	skillsBody := `{"system":"GM","prompt":"hi","json_schema":{"type":"object"},"skills":true}`
+	for _, tc := range []struct {
+		name          string
+		bridgeAllows  bool
+		body          string
+		wantSkillTool bool
+	}{
+		{"allowed and asked", true, skillsBody, true},
+		{"asked but not allowed", false, skillsBody, false},
+		{"allowed but not asked", true, okBody, false},
+	} {
+		bin, argsFile, _ := fakeClaude(t, reply)
+		b := newTestBridge(t, bin)
+		b.skills = tc.bridgeAllows
+		if rec := post(b, strings.Repeat("t", 32), tc.body); rec.Code != http.StatusOK {
+			t.Fatalf("%s: status = %d", tc.name, rec.Code)
+		}
+		args, _ := os.ReadFile(argsFile)
+		got := strings.Contains(string(args), "--tools\nSkill\n") && strings.Contains(string(args), "--setting-sources\nuser\n")
+		if got != tc.wantSkillTool {
+			t.Errorf("%s: Skill tool enabled = %v, want %v\n%s", tc.name, got, tc.wantSkillTool, args)
+		}
+		if !tc.wantSkillTool && !strings.Contains(string(args), "--tools\n\n") {
+			t.Errorf("%s: tools not turned off:\n%s", tc.name, args)
+		}
+	}
+}

@@ -84,3 +84,22 @@ func TestClaudeCodeClientErrorStatuses(t *testing.T) {
 		}
 	}
 }
+
+func TestClaudeCodeClientSkills(t *testing.T) {
+	var got map[string]any
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_ = json.NewDecoder(r.Body).Decode(&got)
+		_, _ = io.WriteString(w, `{"structured_output":{"text":"ok","tool_calls":[]}}`)
+	}))
+	defer srv.Close()
+
+	for _, on := range []bool{false, true} {
+		if _, err := NewClaudeCodeClient(srv.URL, "tok").WithSkills(on).Complete(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil); err != nil {
+			t.Fatal(err)
+		}
+		hinted := strings.Contains(got["system"].(string), "load the one that fits")
+		if got["skills"] != on || hinted != on {
+			t.Errorf("skills=%v: request skills=%v, hint in system prompt=%v", on, got["skills"], hinted)
+		}
+	}
+}

@@ -22,8 +22,16 @@ import (
 type ClaudeCodeClient struct {
 	endpoint string
 	token    string
+	skills   bool
 	client   *http.Client
 	calls    atomic.Uint64
+}
+
+// WithSkills asks the bridge to let the model load its installed Claude Code
+// skills, and tells the model to load the one that fits before it answers.
+func (c *ClaudeCodeClient) WithSkills(on bool) *ClaudeCodeClient {
+	c.skills = on
+	return c
 }
 
 // NewClaudeCodeClient returns a provider that calls the bridge at endpoint
@@ -62,13 +70,19 @@ you say in "text", and put each tool you call in "tool_calls" with its name and
 arguments that match the tool's parameters. Call only the tools listed in
 <tools>. When you call tools, their results come back in the next request.`
 
+const claudeCodeSkillsInstructions = `You have skills for running the game and writing fiction. Before you
+write this turn, load the one that fits it best.`
+
 // Complete implements Provider.
 func (c *ClaudeCodeClient) Complete(ctx context.Context, messages []Message, tools []Tool) (*Response, error) {
 	system, prompt, err := buildClaudeCodePrompt(messages, tools)
 	if err != nil {
 		return nil, err
 	}
-	body, err := json.Marshal(map[string]any{"system": system, "prompt": prompt, "json_schema": claudeCodeReplySchema})
+	if c.skills {
+		system += "\n\n" + claudeCodeSkillsInstructions
+	}
+	body, err := json.Marshal(map[string]any{"system": system, "prompt": prompt, "json_schema": claudeCodeReplySchema, "skills": c.skills})
 	if err != nil {
 		return nil, err
 	}

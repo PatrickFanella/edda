@@ -74,3 +74,24 @@ func TestNewRosterProfileCanOverrideOnlyModel(t *testing.T) {
 		t.Fatalf("expected inherited budget, got %d", routed.ContextTokenBudget)
 	}
 }
+
+func TestRosterGMProfileTurnsOnClaudeCodeSkills(t *testing.T) {
+	cfg := config.Config{LLM: config.LLMConfig{
+		Provider:   "claudecode",
+		ClaudeCode: config.ClaudeCodeConfig{Endpoint: "http://bridge", Token: "tok"},
+		Profiles:   map[string]config.LLMProfileConfig{"gm": {Provider: "claudecode", Skills: true, ToolSupport: true}},
+		Routes:     config.LLMRoutesConfig{GMTurn: "gm"},
+	}}
+	roster, err := NewRoster(cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	gm, ok := roster.Provider(FlowGMTurn).(*ClaudeCodeClient)
+	if !ok || !gm.skills {
+		t.Fatalf("gm provider = %T skills=%v, want *ClaudeCodeClient with skills", roster.Provider(FlowGMTurn), ok && gm.skills)
+	}
+	def, ok := roster.Provider(FlowPostTurnState).(*ClaudeCodeClient)
+	if !ok || def.skills {
+		t.Fatalf("post-turn provider should be the default claudecode client without skills")
+	}
+}

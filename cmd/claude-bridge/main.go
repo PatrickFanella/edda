@@ -32,6 +32,9 @@ type runRequest struct {
 	System     string          `json:"system"`
 	Prompt     string          `json:"prompt"`
 	JSONSchema json.RawMessage `json:"json_schema"`
+	// Skills asks for Claude Code's Skill tool and the skills in
+	// ~/.claude/skills of the bridge's HOME. Ignored unless -skills is set.
+	Skills bool `json:"skills"`
 }
 
 // claudeResult is the part of `claude -p --output-format json` the bridge reads.
@@ -68,6 +71,7 @@ type bridge struct {
 	timeout time.Duration
 	workDir string
 	slots   chan struct{}
+	skills  bool
 }
 
 func main() {
@@ -78,6 +82,7 @@ func main() {
 	effort := flag.String("effort", "high", "effort passed to claude --effort")
 	concurrency := flag.Int("concurrency", 2, "claude processes allowed at once")
 	timeout := flag.Duration("timeout", 5*time.Minute, "longest a single run may take")
+	skills := flag.Bool("skills", false, "allow requests to use the Skill tool and the skills in $HOME/.claude/skills")
 	flag.Parse()
 
 	if *tokenFile == "" {
@@ -104,7 +109,7 @@ func main() {
 	defer func() { _ = os.RemoveAll(workDir) }()
 
 	b := &bridge{token: token, claude: bin, model: *model, effort: *effort, timeout: *timeout,
-		workDir: workDir, slots: make(chan struct{}, max(1, *concurrency))}
+		workDir: workDir, slots: make(chan struct{}, max(1, *concurrency)), skills: *skills}
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) { _, _ = io.WriteString(w, "ok\n") })
 	mux.HandleFunc("POST /v1/run", b.handleRun)
@@ -175,10 +180,16 @@ func (b *bridge) run(ctx context.Context, req runRequest) (*claudeResult, int, e
 		"--system-prompt-file", sysFile,
 		"--model", b.model,
 		"--effort", b.effort,
-		"--tools", "",
 		"--strict-mcp-config",
-		"--setting-sources", "",
 		"--no-session-persistence",
+	}
+	if req.Skills && b.skills {
+		// The Skill tool only reads skill files. Skills live in the user
+		// scope, so user settings load too; keep HOME free of a settings
+		// file.
+		args = append(args, "--tools", "Skill", "--allowedTools", "Skill", "--setting-sources", "user")
+	} else {
+		args = append(args, "--tools", "", "--setting-sources", "")
 	}
 	cmd := exec.CommandContext(ctx, b.claude, args...)
 	cmd.Dir = b.workDir

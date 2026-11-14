@@ -142,6 +142,9 @@ func applyProfile(cfg config.Config, profile config.LLMProfileConfig) config.Con
 			cfg.LLM.Ollama.Model = model
 		}
 	}
+	if profile.Skills && provider == "claudecode" {
+		cfg.LLM.ClaudeCode.Skills = true
+	}
 	if budget := profile.ContextTokenBudget; budget > 0 {
 		switch provider {
 		case "claude":
