@@ -26,6 +26,7 @@ WORKDIR /app
 
 COPY --from=builder /build/edda-server .
 COPY --from=builder /build/migrations ./migrations
+COPY --from=builder /build/skills ./skills
 RUN mkdir -p .logs chatgpt && chown appuser:appgroup .logs chatgpt
 
 USER appuser:appgroup

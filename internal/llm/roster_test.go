@@ -75,23 +75,31 @@ func TestNewRosterProfileCanOverrideOnlyModel(t *testing.T) {
 	}
 }
 
-func TestRosterGMProfileTurnsOnClaudeCodeSkills(t *testing.T) {
+func TestRosterSkillsProfileWrapsProvider(t *testing.T) {
 	cfg := config.Config{LLM: config.LLMConfig{
 		Provider:   "claudecode",
 		ClaudeCode: config.ClaudeCodeConfig{Endpoint: "http://bridge", Token: "tok"},
-		Profiles:   map[string]config.LLMProfileConfig{"gm": {Provider: "claudecode", Skills: true, ToolSupport: true}},
+		SkillsDir:  "../../skills",
+		Profiles:   map[string]config.LLMProfileConfig{"gm": {Skills: true, ToolSupport: true}},
 		Routes:     config.LLMRoutesConfig{GMTurn: "gm"},
 	}}
 	roster, err := NewRoster(cfg)
 	if err != nil {
 		t.Fatal(err)
 	}
-	gm, ok := roster.Provider(FlowGMTurn).(*ClaudeCodeClient)
-	if !ok || !gm.skills {
-		t.Fatalf("gm provider = %T skills=%v, want *ClaudeCodeClient with skills", roster.Provider(FlowGMTurn), ok && gm.skills)
+	if _, ok := roster.Provider(FlowGMTurn).(*SkillProvider); !ok {
+		t.Fatalf("gm provider = %T, want *SkillProvider", roster.Provider(FlowGMTurn))
 	}
-	def, ok := roster.Provider(FlowPostTurnState).(*ClaudeCodeClient)
-	if !ok || def.skills {
-		t.Fatalf("post-turn provider should be the default claudecode client without skills")
+	if _, ok := roster.Provider(FlowPostTurnState).(*ClaudeCodeClient); !ok {
+		t.Fatalf("other flows should not get skills, got %T", roster.Provider(FlowPostTurnState))
+	}
+
+	cfg.LLM.SkillsDir = t.TempDir()
+	roster, err = NewRoster(cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, ok := roster.Provider(FlowGMTurn).(*ClaudeCodeClient); !ok {
+		t.Fatalf("an empty skills folder should leave the provider unwrapped, got %T", roster.Provider(FlowGMTurn))
 	}
 }

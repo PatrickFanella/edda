@@ -211,22 +211,26 @@ fallback provider for when the limits run out.
 Each request starts a `claude` process, which adds a second or two to every
 call; the bridge runs two at a time by default (`-concurrency`).
 
-The GM can also use Claude Code skills, such as ones for running RPG sessions
-or writing fiction. Put the skill folders in `~/.claude/skills` under the
-bridge's `HOME`, start the bridge with `-skills`, and turn skills on for the
-GM-turn profile only, because each skill the model loads adds a round trip and
-its text to the request:
+### Game-master skills
+
+[`skills/`](skills/) holds game-mastering and fiction skills (running RPG
+sessions, worldbuilding, fiction drafting and editing, branching stories,
+names, fictional languages and game design); see
+[`skills/NOTICE.md`](skills/NOTICE.md) for their origin and license. A profile
+with `skills` set gets two read-only tools, `load_skill` and `read_skill_file`,
+which Edda answers itself from `llm.skillsdir` (default `skills`, copied into
+the image). The engine never sees them, and they work the same with every
+provider. Each skill the model reads adds a round trip, so turn them on for
+the GM-turn profile only:
 
 ```bash
-EDDA_LLM_PROFILES_GM_PROVIDER=claudecode
 EDDA_LLM_PROFILES_GM_SKILLS=true
 EDDA_LLM_PROFILES_GM_TOOLSUPPORT=true
 EDDA_LLM_ROUTES_GMTURN=gm
 ```
 
-With skills on, the bridge gives the model only the `Skill` tool, which reads
-skill files, and loads user settings so it can find them; keep the bridge's
-`HOME` free of a Claude Code settings file.
+The profile uses `EDDA_LLM_PROVIDER` and `EDDA_LLM_FALLBACKPROVIDER` unless it
+sets its own provider, so both the main model and the fallback get the skills.
 
 Embeddings always use the Ollama-compatible settings
 (`EDDA_LLM_OLLAMA_EMBEDDINGENDPOINT`, `EDDA_LLM_OLLAMA_EMBEDDINGMODEL`,

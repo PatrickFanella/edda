@@ -2,6 +2,7 @@ package llm
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 
 	"git.subcult.tv/subculture-collective/edda/internal/config"
@@ -61,6 +62,13 @@ func NewRoster(cfg config.Config) (*Roster, error) {
 		provider, err := NewLLMProvider(profileCfg)
 		if err != nil {
 			return nil, fmt.Errorf("create llm profile %q: %w", name, err)
+		}
+		if profile.Skills {
+			if lib, err := LoadSkillLibrary(cfg.LLM.SkillsDir); err != nil {
+				slog.Warn("llm profile skills unavailable; running without them", "profile", name, "error", err)
+			} else {
+				provider = NewSkillProvider(provider, lib)
+			}
 		}
 		profileProviders[name] = RoutedProvider{
 			ProfileName:        name,
@@ -141,9 +149,6 @@ func applyProfile(cfg config.Config, profile config.LLMProfileConfig) config.Con
 		default:
 			cfg.LLM.Ollama.Model = model
 		}
-	}
-	if profile.Skills && provider == "claudecode" {
-		cfg.LLM.ClaudeCode.Skills = true
 	}
 	if budget := profile.ContextTokenBudget; budget > 0 {
 		switch provider {

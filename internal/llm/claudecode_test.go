@@ -18,7 +18,7 @@ func TestClaudeCodeClientRequestAndToolCalls(t *testing.T) {
 			t.Errorf("path=%s auth=%q", r.URL.Path, r.Header.Get("Authorization"))
 		}
 		_ = json.NewDecoder(r.Body).Decode(&got)
-		_, _ = io.WriteString(w, `{"structured_output":{"text":"You walk in.","tool_calls":[{"name":"move_player","arguments":{"to":"inn"}}]},"input_tokens":100,"output_tokens":20}`)
+		_, _ = io.WriteString(w, `{"structured_output":{"text":"You walk in.","actions":[{"name":"move_player","arguments":{"to":"inn"}}]},"input_tokens":100,"output_tokens":20}`)
 	}))
 	defer srv.Close()
 
@@ -43,7 +43,7 @@ func TestClaudeCodeClientRequestAndToolCalls(t *testing.T) {
 	if !strings.HasPrefix(system, "You are the GM.") || !strings.Contains(system, "response schema") {
 		t.Errorf("system = %q", system)
 	}
-	for _, want := range []string{`"name":"move_player"`, "<user>\nGo to the inn.\n</user>", `<tool_call id="toolu_9" name="move_player">{"to":"gate"}</tool_call>`, `<tool_result id="toolu_9">`} {
+	for _, want := range []string{`"name":"move_player"`, "<user>\nGo to the inn.\n</user>", `<action id="toolu_9" name="move_player">{"to":"gate"}</action>`, `<action_result id="toolu_9">`} {
 		if !strings.Contains(prompt, want) {
 			t.Errorf("prompt missing %q:\n%s", want, prompt)
 		}
@@ -55,7 +55,7 @@ func TestClaudeCodeClientRequestAndToolCalls(t *testing.T) {
 
 func TestClaudeCodeClientRejectsUnknownTool(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		_, _ = io.WriteString(w, `{"structured_output":{"text":"","tool_calls":[{"name":"rm_rf","arguments":{}}]}}`)
+		_, _ = io.WriteString(w, `{"structured_output":{"text":"","actions":[{"name":"rm_rf","arguments":{}}]}}`)
 	}))
 	defer srv.Close()
 	_, err := NewClaudeCodeClient(srv.URL, "tok").Complete(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, []Tool{{Name: "move_player"}})
@@ -81,25 +81,6 @@ func TestClaudeCodeClientErrorStatuses(t *testing.T) {
 		srv.Close()
 		if !tc.check(err) {
 			t.Errorf("status %d: err = %T %v", tc.status, err, err)
-		}
-	}
-}
-
-func TestClaudeCodeClientSkills(t *testing.T) {
-	var got map[string]any
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		_ = json.NewDecoder(r.Body).Decode(&got)
-		_, _ = io.WriteString(w, `{"structured_output":{"text":"ok","tool_calls":[]}}`)
-	}))
-	defer srv.Close()
-
-	for _, on := range []bool{false, true} {
-		if _, err := NewClaudeCodeClient(srv.URL, "tok").WithSkills(on).Complete(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil); err != nil {
-			t.Fatal(err)
-		}
-		hinted := strings.Contains(got["system"].(string), "load the one that fits")
-		if got["skills"] != on || hinted != on {
-			t.Errorf("skills=%v: request skills=%v, hint in system prompt=%v", on, got["skills"], hinted)
 		}
 	}
 }

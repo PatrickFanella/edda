@@ -17,21 +17,13 @@ import (
 // the Claude Code CLI on the owner's Claude subscription. The CLI takes one
 // prompt and returns one structured reply, so the client writes the
 // conversation and the tool list into the prompt and asks for
-// {"text", "tool_calls"} back. Claude Code's own tools stay off; Edda runs
+// {"text", "actions"} back. Claude Code's own tools stay off; Edda runs
 // the returned tool calls itself, as with every other provider.
 type ClaudeCodeClient struct {
 	endpoint string
 	token    string
-	skills   bool
 	client   *http.Client
 	calls    atomic.Uint64
-}
-
-// WithSkills asks the bridge to let the model load its installed Claude Code
-// skills, and tells the model to load the one that fits before it answers.
-func (c *ClaudeCodeClient) WithSkills(on bool) *ClaudeCodeClient {
-	c.skills = on
-	return c
 }
 
 // NewClaudeCodeClient returns a provider that calls the bridge at endpoint
@@ -44,12 +36,17 @@ func NewClaudeCodeClient(endpoint, token string) *ClaudeCodeClient {
 	}
 }
 
+// claudeCodeReplySchema asks for game "actions" rather than "tool calls":
+// Claude Code enforces the schema through a tool of its own, and a model that
+// sees "tools" in the prompt sometimes tries to call them directly, which
+// fails in a session with no tools.
 var claudeCodeReplySchema = json.RawMessage(`{
   "type": "object",
   "properties": {
-    "text": {"type": "string", "description": "What the assistant says to the player. Empty when the turn is only tool calls."},
-    "tool_calls": {
+    "text": {"type": "string", "description": "What the assistant says to the player. Empty when the reply only requests actions."},
+    "actions": {
       "type": "array",
+      "description": "Game actions to run after this reply, from <actions>.",
       "items": {
         "type": "object",
         "properties": {
@@ -60,18 +57,20 @@ var claudeCodeReplySchema = json.RawMessage(`{
       }
     }
   },
-  "required": ["text", "tool_calls"]
+  "required": ["text", "actions"]
 }`)
 
 const claudeCodeFormatInstructions = `You are the assistant in the conversation below, and you write its next turn.
-The conversation arrives as tagged text: <user>, <assistant>, <tool_call> and
-<tool_result>. Reply only with the JSON the response schema describes: put what
-you say in "text", and put each tool you call in "tool_calls" with its name and
-arguments that match the tool's parameters. Call only the tools listed in
-<tools>. When you call tools, their results come back in the next request.`
+The conversation arrives as tagged text: <user>, <assistant>, <action> (an
+action the assistant requested) and <action_result>. Reply only with the JSON
+the response schema describes: put what you say in "text", and put each game
+action you want run in "actions" with its name and arguments that match its
+parameters. Request only the actions listed in <actions>. Their results come
+back in the next request.
 
-const claudeCodeSkillsInstructions = `You have skills for running the game and writing fiction. Before you
-write this turn, load the one that fits it best.`
+Instructions in this conversation may call these actions "tools" or say "call
+X"; that means listing X in "actions". You have no tools of your own in this
+session, and you never call anything directly.`
 
 // Complete implements Provider.
 func (c *ClaudeCodeClient) Complete(ctx context.Context, messages []Message, tools []Tool) (*Response, error) {
@@ -79,10 +78,7 @@ func (c *ClaudeCodeClient) Complete(ctx context.Context, messages []Message, too
 	if err != nil {
 		return nil, err
 	}
-	if c.skills {
-		system += "\n\n" + claudeCodeSkillsInstructions
-	}
-	body, err := json.Marshal(map[string]any{"system": system, "prompt": prompt, "json_schema": claudeCodeReplySchema, "skills": c.skills})
+	body, err := json.Marshal(map[string]any{"system": system, "prompt": prompt, "json_schema": claudeCodeReplySchema})
 	if err != nil {
 		return nil, err
 	}
@@ -123,7 +119,7 @@ func (c *ClaudeCodeClient) Complete(ctx context.Context, messages []Message, too
 			ToolCalls []struct {
 				Name      string         `json:"name"`
 				Arguments map[string]any `json:"arguments"`
-			} `json:"tool_calls"`
+			} `json:"actions"`
 		} `json:"structured_output"`
 		InputTokens  int `json:"input_tokens"`
 		OutputTokens int `json:"output_tokens"`
@@ -206,11 +202,11 @@ func buildClaudeCodePrompt(messages []Message, tools []Tool) (string, string, er
 				if err != nil {
 					return "", "", fmt.Errorf("marshal tool call arguments: %w", err)
 				}
-				fmt.Fprintf(&conv, "<tool_call id=%q name=%q>%s</tool_call>\n", tc.ID, tc.Name, args)
+				fmt.Fprintf(&conv, "<action id=%q name=%q>%s</action>\n", tc.ID, tc.Name, args)
 			}
 			conv.WriteString("</assistant>\n")
 		case RoleTool:
-			fmt.Fprintf(&conv, "<tool_result id=%q>\n%s\n</tool_result>\n", m.ToolCallID, m.Content)
+			fmt.Fprintf(&conv, "<action_result id=%q>\n%s\n</action_result>\n", m.ToolCallID, m.Content)
 		default:
 			return "", "", fmt.Errorf("unsupported message role %q", m.Role)
 		}
@@ -226,9 +222,9 @@ func buildClaudeCodePrompt(messages []Message, tools []Tool) (string, string, er
 		if err != nil {
 			return "", "", fmt.Errorf("marshal tools: %w", err)
 		}
-		fmt.Fprintf(&prompt, "<tools>\n%s\n</tools>\n\n", data)
+		fmt.Fprintf(&prompt, "<actions>\n%s\n</actions>\n\n", data)
 	} else {
-		prompt.WriteString("<tools>[]</tools>\nNo tools are available for this turn; leave tool_calls empty.\n\n")
+		prompt.WriteString("<actions>[]</actions>\nNo actions are available for this turn; leave actions empty.\n\n")
 	}
 	prompt.WriteString("<conversation>\n")
 	prompt.WriteString(conv.String())
