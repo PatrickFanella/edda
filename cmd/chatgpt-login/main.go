@@ -55,6 +55,7 @@ func run() error {
 	port := flag.Int("port", 1455, "loopback callback port")
 	hostID := flag.String("host-id", "", "ext_agent_host_id for this host (default: reuse the one in -out, or create one)")
 	noBrowser := flag.Bool("no-browser", false, "print the sign-in link instead of opening a browser")
+	wait := flag.Duration("timeout", 10*time.Minute, "how long to wait for the browser callback")
 	flag.Parse()
 
 	existing, err := llm.ReadChatGPTCredentials(*out)
@@ -114,10 +115,14 @@ func run() error {
 			return
 		}
 		v := r.URL.Query()
+		if v.Get("state") != state {
+			// A callback from an older attempt; keep waiting for this one.
+			fmt.Fprintln(os.Stderr, "Ignored a callback from a different sign-in attempt; still waiting.")
+			http.Error(w, "this callback belongs to a different sign-in attempt; use the latest link", http.StatusBadRequest)
+			return
+		}
 		var cb callback
 		switch {
-		case v.Get("state") != state:
-			cb.err = errors.New("callback state does not match this sign-in attempt")
 		case v.Get("error") != "":
 			cb.err = fmt.Errorf("sign-in failed: %s %s", v.Get("error"), v.Get("error_description"))
 		case v.Get("code") == "":
@@ -147,7 +152,7 @@ func run() error {
 	var cb callback
 	select {
 	case cb = <-done:
-	case <-time.After(10 * time.Minute):
+	case <-time.After(*wait):
 		return errors.New("timed out waiting for the browser callback")
 	}
 	if cb.err != nil {
