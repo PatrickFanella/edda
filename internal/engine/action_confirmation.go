@@ -228,6 +228,26 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		label = "Decline reaction"
 		narrative = "Opportunity attack declined. No reaction spent; the NPC withdrawal resumes."
 		finishWithdrawal(encounter)
+	} else if request.Intent.Kind == srd521.AdvanceLevel {
+		var envelope struct {
+			Build srd521.Build `json:"srd521"`
+		}
+		if err := json.Unmarshal(pc.Stats, &envelope); err != nil {
+			return nil, err
+		}
+		advancement, err := srd521.AdvanceFighter(&envelope.Build, sheet, request.Intent.EntryID, dice)
+		if err != nil {
+			return nil, ErrActionRefresh
+		}
+		build, err := json.Marshal(envelope.Build)
+		if err != nil {
+			return nil, err
+		}
+		if _, err := tx.Exec(ctx, `UPDATE player_characters SET level=2,max_hp=$1,stats=jsonb_set(stats,'{srd521}',$2::jsonb),updated_at=clock_timestamp() WHERE id=$3 AND campaign_id=$4`, advancement.MaxHPAfter, build, pc.ID, campaignID); err != nil {
+			return nil, err
+		}
+		receipt, tool, label = advancement, "srd_advancement", "Fighter level 2"
+		narrative = fmt.Sprintf("Fighter level 2 saved: %s HP choice, d10 value %d, maximum HP %d to %d. Current HP unchanged. Defense and weapon mastery choices retained. Action Surge and Tactical Mind recorded; their effects remain unavailable.", advancement.Choice, advancement.Die, advancement.MaxHPBefore, advancement.MaxHPAfter)
 	} else if srd521.IsLifecycle(request.Intent.Kind) || (request.Intent.Kind == srd521.SpellCast && request.Intent.EntryID == "shield-of-faith") {
 		var envelope struct {
 			Build srd521.Build `json:"srd521"`

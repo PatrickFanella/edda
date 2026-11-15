@@ -38,6 +38,9 @@ type StoredAction struct {
 // The narrow fixture is a one-handed longsword against a colocated, previously
 // encountered unarmored target explicitly assigned to this actor at five feet.
 func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
+	if intent.Kind == srd521.AdvanceLevel {
+		return prepareAdvancement(ctx, campaign, pc, intent)
+	}
 	if srd521.IsLifecycle(intent.Kind) {
 		return prepareLifecycle(ctx, campaign, pc, intent)
 	}

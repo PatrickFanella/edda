@@ -201,6 +201,13 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if event, ok := skillCheckResolutionEvent(call); ok {
 				out = append(out, event)
 			}
+		case "srd_advancement":
+			var result struct {
+				Receipt *srd521.AdvancementReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.AdvanceLevel {
+				out = append(out, api.ResolutionEvent{Type: "srd_advancement", Label: "Fighter level 2", Outcome: "advanced", Details: map[string]any{"receipt": result.Receipt}})
+			}
 		case "srd_spell":
 			var result struct {
 				Receipt *srd521.SpellReceipt `json:"receipt"`

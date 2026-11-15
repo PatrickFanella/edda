@@ -32,7 +32,7 @@ func TestCharacterProjection(t *testing.T) {
 			t.Fatal("read-only projection advertised playable action")
 		}
 	}
-	for _, tc := range []struct{ level, hp, max, xp int }{{2, 9, 12, 125}, {1, 13, 12, 125}, {1, 9, 20, 125}, {1, 9, 12, 300}} {
+	for _, tc := range []struct{ level, hp, max, xp int }{{2, 9, 12, 125}, {1, 13, 12, 125}, {1, 9, 20, 125}} {
 		if _, err := Project(stats, tc.level, tc.hp, tc.max, tc.xp); err == nil {
 			t.Fatalf("unsupported state accepted: %+v", tc)
 		}

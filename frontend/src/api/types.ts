@@ -637,3 +637,5 @@ export interface Encounter {
  actors: { id: string; name: string; player: boolean; hp?: number; max_hp?: number; initiative: number; initiative_die: number }[];
  budget: { spell_slot_spent?: boolean; action: boolean; bonus_action: boolean; movement: number };
 }
+
+export interface AdvancementReceipt { rules_version: string; kind: string; choice: string; die: number; hp_gain: number; level_before: number; level_after: number; max_hp_before: number; max_hp_after: number; source_ids: string[]; }

@@ -11,6 +11,7 @@ import (
 // Build is an explicit read-only fixture contract, not a character creator.
 // Stored beneath stats.srd521, it never interprets legacy free-form stats.
 type Build struct {
+	Advancement   *Advancement   `json:"advancement,omitempty"`
 	Casting       *CastingBuild  `json:"casting,omitempty"`
 	FightingStyle string         `json:"fighting_style"`
 	Class         string         `json:"class"`
@@ -100,7 +101,7 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		return nil, fmt.Errorf("invalid SRD build data")
 	}
 	b := envelope.Build
-	if b == nil || level != 1 || (b.Class != "fighter" && b.Class != "cleric") || (b.Class == "fighter" && (b.FightingStyle != "defense" || b.Armor != "chain-mail")) || (b.Class == "cleric" && (b.Armor != "none" || b.Shield || b.FightingStyle != "" || b.SecondWind != 0)) {
+	if b == nil || (level != 1 && (level != 2 || b.Class != "fighter" || b.Advancement == nil)) || (level == 1 && b.Advancement != nil) || (b.Class != "fighter" && b.Class != "cleric") || (b.Class == "fighter" && (b.FightingStyle != "defense" || b.Armor != "chain-mail")) || (b.Class == "cleric" && (b.Armor != "none" || b.Shield || b.FightingStyle != "" || b.SecondWind != 0)) {
 		return nil, fmt.Errorf("supported projection: level 1 Fighter with chain mail and Defense, or unarmored Cleric fixture")
 	}
 	if len(b.Abilities) != 6 {
@@ -149,7 +150,15 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		hitDie = 8
 	}
 	sheet.MaxHP = derived(term(classLabel(b.Class)+" first-level Hit Die", hitDie, b.Class+"/core-traits"), term("constitution", sheet.Abilities["constitution"].Modifier.Value, "character/hit-points"))
-	if maxHP != sheet.MaxHP.Value || hp < 0 || hp > maxHP || xp < 0 || xp >= 300 || b.SecondWind < 0 || b.SecondWind > 2 || b.HitDice < 0 || b.HitDice > 1 {
+	if level == 2 {
+		a := b.Advancement
+		if xp < 300 || (a.Choice != "fixed" && a.Choice != "roll") || a.Die < 1 || a.Die > 10 || (a.Choice == "fixed" && a.Die != 6) || a.HPGain != max(1, a.Die+sheet.Abilities["constitution"].Modifier.Value) {
+			return nil, fmt.Errorf("invalid saved advancement")
+		}
+		sheet.MaxHP = derived(append(sheet.MaxHP.Derivation, term("Level 2 HP (saved choice)", a.HPGain, "character/level-advancement"))...)
+		sheet.Scope = "fighter-2-chain-mail-defense-fixture"
+	}
+	if maxHP != sheet.MaxHP.Value || hp < 0 || hp > maxHP || xp < 0 || b.SecondWind < 0 || b.SecondWind > 2 || b.HitDice < 0 || b.HitDice > level {
 		return nil, fmt.Errorf("invalid level-one vitals or resources")
 	}
 	sheet.HP = derived(term("Current hit points", hp, "character/hit-points"))
@@ -159,7 +168,7 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 	}
 	sheet.Defenses["armor-class"] = derived(ac...)
 	sheet.Defenses["initiative"] = derived(term("dexterity", sheet.Abilities["dexterity"].Modifier.Value, "combat/initiative"))
-	sheet.Resources = []Resource{{"second-wind", "Second Wind", b.SecondWind, 2, prefix + "fighter/second-wind"}, {"hit-dice", "Hit Dice (d10)", b.HitDice, 1, prefix + "character/hit-dice"}}
+	sheet.Resources = []Resource{{"second-wind", "Second Wind", b.SecondWind, 2, prefix + "fighter/second-wind"}, {"hit-dice", "Hit Dice (d10)", b.HitDice, level, prefix + "character/hit-dice"}}
 	sheet.Capabilities = []Capability{{"attack", "Attack", prefix + "actions/attack", false}, {"second-wind", "Second Wind", prefix + "fighter/second-wind", false}, {"weapon-mastery", "Weapon Mastery", prefix + "fighter/weapon-mastery", false}}
 	if b.Class == "cleric" {
 		if b.Casting == nil || b.Casting.Slots < 0 || b.Casting.Slots > 2 {
@@ -212,6 +221,11 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		}
 	}
 	sheet.Progression = Progression{xp, 0, 300, prefix + "character/level-advancement"}
+	if level == 2 {
+		sheet.Progression.LevelXP, sheet.Progression.NextLevelXP = 300, 900
+		sheet.Resources = append(sheet.Resources, Resource{"action-surge", "Action Surge (effect unavailable)", 1, 1, prefix + "fighter/action-surge"})
+		sheet.Capabilities = append(sheet.Capabilities, Capability{"action-surge", "Action Surge", prefix + "fighter/action-surge", false}, Capability{"tactical-mind", "Tactical Mind", prefix + "fighter/tactical-mind", false})
+	}
 	return sheet, nil
 }
 
