@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Edda gameplay concepts</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&family=Marcellus&display=swap">
+<style>
+*{box-sizing:border-box}body{margin:0;color:var(--foreground,#eee);font-family:var(--font-sans,sans-serif)}
+button,textarea,select{font:inherit}button,select{cursor:pointer}button{min-height:44px}button:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--ring,#d4af37);outline-offset:3px}
+.review{display:grid;gap:16px}.review p{margin:0;line-height:1.5}.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.controls button,.controls select{background:var(--secondary,#292929);color:var(--foreground,#eee);border:1px solid var(--border,#777);padding:8px 12px;border-radius:var(--radius,4px)}
+.controls button[aria-pressed=true]{border-color:var(--ring,#d4af37);background:var(--accent,#393939)}
+.note{font-size:14px;color:var(--muted-foreground,#aaa)}.stage{min-width:0;display:flex;justify-content:center}
+.screen{--ink:#f2f0e4;--ground:#0a0a0a;--panel:#141414;--gold:#d4af37;--jade:#4ecca3;--blue:#5b8fb9;--ruby:#ab2346;position:relative;isolation:isolate;display:flex;flex-direction:column;width:100%;height:660px;border:1px solid #756121;background:var(--ground);color:var(--ink);font-family:'Josefin Sans',sans-serif;font-size:17px;overflow:hidden}
+.screen.phone{max-width:390px;height:740px}.screen.keyboard{height:450px}.screen button{background:transparent;color:var(--ink);border:1px solid #65615a;padding:8px 12px;border-radius:0}.screen button:hover{border-color:var(--gold)}
+.screen header{flex:none;display:flex;align-items:center;gap:12px;min-height:60px;padding:8px 16px;border-bottom:1px solid #756121}
+.wordmark{font:20px 'Marcellus',serif;color:var(--gold);letter-spacing:2px}.campaign-name{margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:17px 'Marcellus',serif}
+.workspace{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 220px;flex:1;min-height:0}
+.story{display:flex;flex-direction:column;min-height:0;min-width:0}.transcript{flex:1;min-height:0;overflow:auto;padding:24px;scrollbar-color:#756121 var(--ground);overscroll-behavior:contain}
+.transcript article{max-width:64ch;margin:0 auto}.transcript h1{font:26px 'Marcellus',serif;margin:0 0 18px}.transcript p{font-size:18px;line-height:1.6;margin:0 0 20px}.transcript .player{border-left:2px solid var(--blue);padding:8px 0 8px 16px;color:#c4d8e8}
+.turn{display:flex;justify-content:space-between;font-size:13px;color:var(--gold);margin-bottom:16px}.new-result{border-top:1px solid #756121;padding-top:20px}
+.composer{flex:none;border-top:1px solid #756121;padding:12px 16px;background:var(--panel)}.composer label{display:block;font-size:15px;margin-bottom:6px}.draft-row{display:flex;align-items:stretch;gap:8px}
+.composer textarea{resize:none;flex:1;min-width:0;min-height:64px;max-height:120px;border:1px solid #77736a;background:var(--ground);color:var(--ink);padding:10px;font-size:17px;line-height:1.4}.composer .send{background:var(--ruby);border-color:var(--ruby);min-width:66px}
+.choices{display:flex;gap:8px;overflow:auto;max-height:104px;margin-bottom:10px}.choices button{text-align:left;flex:1;min-width:130px;border-color:#7a6a36;font-size:16px}.status{margin:7px 0 0;font-size:13px;color:#c7c3b8;min-height:16px}
+.context{border-left:1px solid #756121;background:var(--panel);overflow:auto;padding:16px;min-height:0}.context h2{font:22px 'Marcellus',serif;margin:8px 0 20px}.context p{line-height:1.5;font-size:17px}.context dl{display:grid;grid-template-columns:1fr auto;gap:12px;margin:0}.context dt{color:var(--jade)}.context dd{margin:0}.meter{height:7px;background:var(--jade);margin:14px 0 24px}
+.context .close{display:none}.navigation{display:flex;flex:none;gap:8px;border-top:1px solid #756121;padding:8px 12px;background:var(--panel)}.navigation button{flex:1;padding:8px}.navigation button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
+.phone .workspace{display:block}.phone .story{height:100%}.phone .transcript{padding:18px}.phone header{padding:8px 12px;gap:8px}.phone .wordmark{font-size:18px}.phone header button{font-size:15px}.phone .composer{padding:10px 12px}.phone .navigation{gap:5px;padding:6px}.phone .navigation button{font-size:15px;padding:6px}.phone .context{display:none;position:absolute;inset:0;z-index:2;border:0}.phone .context.open{display:block}.phone .context .close{display:block;float:right}
+.screen[data-concept=B] .workspace{grid-template-columns:minmax(0,1fr)}.screen[data-concept=B] .context{display:none;position:absolute;inset:0;z-index:2;border:0;padding:24px}.screen[data-concept=B] .context.open{display:block}.screen[data-concept=B] .context .close{display:block;float:right}.screen[data-concept=B] .transcript article{max-width:58ch}.screen[data-serif=true] .transcript p{font-family:Georgia,serif}
+.keyboard .choices{display:none}.keyboard .composer textarea{min-height:48px;height:48px}.keyboard .status{display:none}.keyboard header{min-height:48px}.keyboard .composer{padding:6px 12px}.keyboard .navigation{padding:4px 6px}
+.screen footer{padding:4px 12px;font-size:12px;color:#c7c3b8;border-top:1px solid #444;flex:none;display:flex;justify-content:space-between}.screen footer a{color:inherit}
+dialog{background:var(--panel,#141414);color:var(--ink,#f2f0e4);border:1px solid #756121;padding:20px;max-width:min(360px,90%)}dialog::backdrop{background:#000b}dialog h2{font:24px 'Marcellus',serif}dialog button{display:block;width:100%;margin:8px 0}
+@media(max-width:620px){.screen:not(.phone) .workspace{grid-template-columns:minmax(0,1fr)}.screen:not(.phone) .context{display:none}.screen:not(.phone) .context.open{display:block;position:absolute;inset:0;z-index:2}.screen:not(.phone) .context .close{display:block}.screen header{padding:8px}.wordmark{font-size:17px}.screen .transcript{padding:18px}}
+</style>
+<div class="review">
+ <p><strong id="concept-title">Selected: A layout with serif story text</strong></p>
+ <p id="description">Desktop keeps a narrow character rail beside the story. On a phone, Character, World and Journal open a bounded detail view over the transcript. The draft stays below it.</p>
+ <div class="controls" aria-label="Concept review controls">
+  <button id="hybrid" aria-pressed="true" onclick="selectConcept('A',true)">Selected combination</button><button id="a" aria-pressed="false" onclick="selectConcept('A')">Concept A</button><button id="b" aria-pressed="false" onclick="selectConcept('B')">Concept B</button>
+  <label>View <select id="view" onchange="setView()"><option value="desktop">Desktop arrangement</option><option value="phone">Phone arrangement</option></select></label>
+  <button id="keyboard" aria-pressed="false" onclick="toggleKeyboard()">Simulate reduced height</button>
+ </div>
+ <p class="note">Design prototype for #55. Same isolated Adventure alpha fixture as #45/#46, after finding the silver key. Buttons demonstrate navigation and editable drafts; no gameplay API or dice runs. Reduced height is a layout sketch, not a software-keyboard test.</p>
+ <div class="stage">
+ <section class="screen" data-concept="A" data-serif="true" aria-label="Edda gameplay concept">
+  <header><span class="wordmark">EDDA</span><h2 class="campaign-name">Adventure alpha</h2><button onclick="openTools(this)">Menu</button></header>
+  <div class="workspace">
+   <div class="story">
+    <div class="transcript" tabindex="0" aria-label="Campaign transcript">
+     <article>
+      <div class="turn"><span>At the gate</span><span>Day 1, 12:00</span></div>
+      <h1>A light beyond the gate</h1>
+      <p>The alpha gate opens. A lantern lights the road beyond. The keeper raises a hand and waits for you to speak.</p>
+      <p class="player">You: Inspect the gate.</p>
+      <p class="new-result">You find a silver key.</p>
+     </article>
+    </div>
+    <div class="composer">
+     <div class="choices" aria-label="Suggested choices"><button onclick="draftChoice()">Inspect the key</button></div>
+     <label for="draft">Your move</label>
+     <div class="draft-row"><textarea id="draft" placeholder="What do you do?" aria-describedby="status"></textarea><button class="send" onclick="showPrototypeStatus()">Send</button></div>
+     <p class="status" id="status" aria-live="polite">Choose a suggestion to edit it before sending.</p>
+    </div>
+   </div>
+   <aside class="context" id="context" aria-label="Campaign details">
+    <button class="close" onclick="closeContext()">Back to story</button>
+    <div id="context-body"></div>
+   </aside>
+  </div>
+  <nav class="navigation" aria-label="Campaign context"><button aria-pressed="true" onclick="showStory(this)">Story</button><button aria-pressed="false" onclick="showContext('Character',this)">Character</button><button aria-pressed="false" onclick="showContext('World',this)">World</button><button aria-pressed="false" onclick="showContext('Journal',this)">Journal</button></nav>
+  <footer><span>Connected</span><a href="https://subcult.tv" target="_blank" rel="noreferrer">Edda by SUBCULT</a></footer>
+  <dialog aria-labelledby="tools-title"><h2 id="tools-title">Campaign menu</h2><button onclick="toolStatus('Saves')">Saves</button><button onclick="toolStatus('Export')">Export</button><button onclick="toolStatus('Campaign list')">Campaign list</button><button onclick="closeTools()">Close menu</button><p id="tool-status" aria-live="polite"></p></dialog>
+ </section>
+ </div>
+ <p class="note">Review the arrangements at actual desktop and phone sizes in the standalone file. The production implementation must still pass the viewport matrix, accessible reflow, real keyboard and screen-reader checks.</p>
+</div>
+<script>
+const screen=document.querySelector('.screen'),context=document.querySelector('#context');
+let contextTrigger=null,toolsTrigger=null;
+const panels={
+ Character:'<h2>Mira</h2><dl><dt>Level</dt><dd>1</dd><dt>Hit points</dt><dd>10 / 10</dd><dt>Experience</dt><dd>0 / 1000</dd></dl><div class="meter" role="img" aria-label="Hit points full"></div><h3>Inventory</h3><p>Silver key</p><p>A scout. Active.</p>',
+ World:'<h2>World</h2><p>The alpha gate is open.</p><p>A keeper waits beside the lantern-lit road.</p><h3>Known discoveries</h3><p>You found a silver key at the gate.</p>',
+ Journal:'<h2>Journal</h2><p>No summaries or journal entries yet.</p><p>Your played turn remains in the story. Chapters will appear here when that later capability is available.</p>'
+};
+function selectConcept(choice,serif=choice==='B'){screen.dataset.concept=choice;screen.dataset.serif=serif;document.querySelector('#hybrid').setAttribute('aria-pressed',choice==='A'&&serif);document.querySelector('#a').setAttribute('aria-pressed',choice==='A'&&!serif);document.querySelector('#b').setAttribute('aria-pressed',choice==='B');document.querySelector('#concept-title').textContent=choice==='A'&&serif?'Selected: A layout with serif story text':choice==='A'?'A: Story with a context rail':'B: Story with a full reading column';document.querySelector('#description').textContent=choice==='A'?'Desktop keeps a narrow character rail beside the story. On a phone, Character, World and Journal open a bounded detail view over the transcript. The draft stays below it.':'Desktop gives the story the whole reading area. Context replaces the reading area when requested. A serif story face is shown as a typography option; controls keep the current type stack.';closeContext()}
+function setView(){screen.classList.toggle('phone',document.querySelector('#view').value==='phone');closeContext()}
+function toggleKeyboard(){const active=screen.classList.toggle('keyboard');document.querySelector('#keyboard').setAttribute('aria-pressed',active)}
+function setActive(button){document.querySelectorAll('.navigation button').forEach(b=>b.setAttribute('aria-pressed',b===button))}
+function showContext(name,button){contextTrigger=button;setActive(button);document.querySelector('#context-body').innerHTML=panels[name];context.classList.add('open');if(screen.classList.contains('phone')||screen.dataset.concept==='B'||innerWidth<620)context.querySelector('.close').focus()}
+function closeContext(){context.classList.remove('open');document.querySelector('#context-body').innerHTML=panels.Character;setActive(document.querySelector('.navigation button'));contextTrigger?.focus()}
+function showStory(button){closeContext();setActive(button)}
+function draftChoice(){document.querySelector('#draft').value='Inspect the key';document.querySelector('#draft').focus();document.querySelector('#status').textContent='Suggestion copied to your draft. Edit it before sending.'}
+function showPrototypeStatus(){document.querySelector('#status').textContent='Prototype only. No action was sent.'}
+function openTools(button){toolsTrigger=button;document.querySelector('dialog').showModal()}
+function closeTools(){document.querySelector('dialog').close();toolsTrigger?.focus()}
+function toolStatus(name){document.querySelector('#tool-status').textContent=name+' is a placeholder in this design prototype.'}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&context.classList.contains('open'))closeContext()});
+document.querySelector('dialog').addEventListener('close',()=>toolsTrigger?.focus());
+document.querySelector('#context-body').innerHTML=panels.Character;
+</script>
+</html>
