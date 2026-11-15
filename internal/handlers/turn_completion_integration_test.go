@@ -26,13 +26,14 @@ import (
 )
 
 type receiptProvider struct {
-	t       *testing.T
-	calls   int
-	noTools bool
-	multi   bool
+	t         *testing.T
+	calls     int
+	noTools   bool
+	noChoices bool
+	multi     bool
 }
 
-func (p *receiptProvider) Complete(ctx context.Context, _ []llm.Message, available []llm.Tool) (*llm.Response, error) {
+func (p *receiptProvider) Complete(ctx context.Context, messages []llm.Message, available []llm.Tool) (*llm.Response, error) {
 	var open int
 	if err := testPool.QueryRow(ctx, `SELECT count(*) FROM pg_stat_activity WHERE datname=current_database() AND state='idle in transaction'`).Scan(&open); err != nil {
 		p.t.Fatal(err)
@@ -41,8 +42,14 @@ func (p *receiptProvider) Complete(ctx context.Context, _ []llm.Message, availab
 		p.t.Errorf("provider called with %d open transactions", open)
 	}
 	p.calls++
-	if len(available) == 0 {
+	if len(available) == 0 && strings.Contains(messages[len(messages)-1].Content, "Generate 3-5 player choices") {
 		return &llm.Response{Content: "1. Wait.\n2. Look.\n3. Listen."}, nil
+	}
+	if len(available) == 0 {
+		return &llm.Response{Content: "A quiet pause.\n\nChoices:\n1. Wait.\n2. Look.\n3. Listen."}, nil
+	}
+	if p.noChoices {
+		return &llm.Response{Content: "A quiet pause.", ToolCalls: []llm.ToolCall{{ID: "hp", Name: "update_player_hp", Arguments: map[string]any{"hp": 7}}}}, nil
 	}
 	if p.noTools {
 		return &llm.Response{Content: "A quiet pause.\n\nChoices:\n1. Wait.\n2. Look.\n3. Listen."}, nil
@@ -70,11 +77,11 @@ func TestIntegrationDurableTurnCompletion(t *testing.T) {
 		t.Cleanup(func() { _, _ = testPool.Exec(context.Background(), `DELETE FROM campaigns WHERE id=$1`, c.ID) })
 		return dbutil.FromPgtype(c.ID), pc
 	}
-	for _, point := range []string{"completion", "receipt", "zero-tools", "second-receipt"} {
+	for _, point := range []string{"completion", "completion-no-choices", "receipt", "zero-tools", "second-receipt"} {
 		t.Run(point, func(t *testing.T) {
 			id, pc := create(point)
 			actionID := uuid.New()
-			p := &receiptProvider{t: t, noTools: point == "zero-tools", multi: point == "second-receipt"}
+			p := &receiptProvider{t: t, noTools: point == "zero-tools", noChoices: point == "completion-no-choices", multi: point == "second-receipt"}
 			e, err := engine.New(testPool, p, config.LLMConfig{})
 			if err != nil {
 				t.Fatal(err)
@@ -99,7 +106,7 @@ func TestIntegrationDurableTurnCompletion(t *testing.T) {
 				}
 			}
 			defer cleanup()
-			if point == "completion" {
+			if point == "completion" || point == "completion-no-choices" {
 				cfg := config.Config{}
 				cfg.Server.JWTSecret = "turn-completion-fixture"
 				router := server.NewRouterWithProvider(log.New(io.Discard), e, q, p, testPool, testUserID, cfg, saves.NewStore(testPool))
@@ -160,8 +167,11 @@ func TestIntegrationDurableTurnCompletion(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if (point == "completion" || point == "zero-tools" || point == "second-receipt") && (!result.Recovered || p.calls != callsBefore) {
+			if (point == "completion" || point == "completion-no-choices" || point == "zero-tools") && (!result.Recovered || p.calls != callsBefore) {
 				t.Fatalf("retry reran committed work: %+v calls %d -> %d", result, callsBefore, p.calls)
+			}
+			if point == "completion-no-choices" && len(result.Choices) != 3 {
+				t.Fatalf("recovery lost generated choices: %+v", result.Choices)
 			}
 			callsAfter := p.calls
 			again, err := e.ProcessTurn(engine.WithActionID(ctx, actionID), id, "Wait here")

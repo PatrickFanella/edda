@@ -30,7 +30,7 @@ type receiptBeginner struct{ tx pgx.Tx }
 func (b receiptBeginner) Begin(context.Context) (pgx.Tx, error) { return b.tx, nil }
 func TestUncertainToolCommitStopsProviderRecoveryAndRequiresReceiptRead(t *testing.T) {
 	tx := &uncertainReceiptTx{}
-	e := &Engine{turnDB: receiptBeginner{tx}}
+	e := &Engine{turnDB: receiptBeginner{tx}, baseDB: tx, logger: testLogger()}
 	j := &turnJournal{id: uuid.New(), tc: &TurnContext{}}
 	ctx := context.WithValue(context.Background(), journalKey{}, j)
 	reg := tools.NewRegistry()

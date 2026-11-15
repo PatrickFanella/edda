@@ -479,3 +479,17 @@ type QuestHistoryEntry struct {
 	Snapshot  string `json:"snapshot"`
 	CreatedAt string `json:"created_at"`
 }
+
+// ActionReceiptResponse lets a reconnect inspect effects without re-execution.
+// Result is populated only after final narration is durably completed.
+type ActionReceiptResponse struct {
+	ActionID             string            `json:"action_id"`
+	Input                string            `json:"input"`
+	Status               string            `json:"status"`
+	TurnNumber           int               `json:"turn_number"`
+	NarrationAttempts    int               `json:"narration_attempts"`
+	MaxNarrationAttempts int               `json:"max_narration_attempts"`
+	StateChanges         []StateChange     `json:"state_changes"`
+	ResolutionEvents     []ResolutionEvent `json:"resolution_events"`
+	Result               *TurnResponse     `json:"result,omitempty"`
+}

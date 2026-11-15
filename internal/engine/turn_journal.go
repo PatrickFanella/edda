@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
@@ -23,8 +23,6 @@ var ErrActionIDConflict = errors.New("action_id belongs to a different campaign 
 
 var ErrTurnPersistence = errors.New("turn receipt persistence failed")
 var errRecoveredTurn = errors.New("recorded turn recovered")
-
-const mechanicalNarrative = "Mechanical outcomes were recorded. Narration could not be completed; no effects were repeated during recovery."
 
 type actionIDKey struct{}
 type journalKey struct{}
@@ -41,9 +39,12 @@ type recoveryError struct {
 }
 
 func (e *recoveryError) Error() string {
+	if errors.Is(e.cause, ErrNarrationAttemptsExhausted) {
+		return fmt.Sprintf("%s: action_id %s: %s; recorded effects remain available", ErrTurnRecoveryRequired, e.id, ErrNarrationAttemptsExhausted)
+	}
 	return fmt.Sprintf("%s: retry the original action with action_id %s; effects will not repeat", ErrTurnRecoveryRequired, e.id)
 }
-func (e *recoveryError) Unwrap() error { return ErrTurnRecoveryRequired }
+func (e *recoveryError) Unwrap() []error { return []error{ErrTurnRecoveryRequired, e.cause} }
 func RecoveryActionID(err error) string {
 	var r *recoveryError
 	if errors.As(err, &r) {
@@ -121,7 +122,7 @@ func (e *Engine) journalTool(ctx context.Context, name string, args map[string]a
 	if err != nil {
 		return nil, fmt.Errorf("%w: %v", ErrTurnPersistence, err)
 	}
-	tag, err := tx.Exec(ctx, `UPDATE turn_attempts SET calls=$2,updated_at=now() WHERE id=$1 AND status='pending_mechanics'`, dbutil.ToPgtype(j.id), data)
+	tag, err := tx.Exec(ctx, `UPDATE turn_attempts SET calls=$2,updated_at=now() WHERE id=$1 AND status='pending_mechanics'`, db.ToPgUUID(j.id), data)
 	if err != nil || tag.RowsAffected() != 1 {
 		return nil, fmt.Errorf("%w: record tool receipt: %v", ErrTurnPersistence, err)
 	}
@@ -137,20 +138,23 @@ func (e *Engine) journalTool(ctx context.Context, name string, args map[string]a
 
 type storedAttempt struct {
 	result                          []byte
+	candidateResult                 []byte
 	id                              uuid.UUID
 	turn                            int
 	input, status, candidate, final string
 	calls                           []byte
 	recovered                       bool
+	narrationReady                  bool
+	narrationAttempts               int
 }
 
 func scanAttempt(row pgx.Row) (storedAttempt, error) {
 	var a storedAttempt
-	err := row.Scan(&a.id, &a.turn, &a.input, &a.status, &a.candidate, &a.final, &a.calls, &a.recovered, &a.result)
+	err := row.Scan(&a.id, &a.turn, &a.input, &a.status, &a.candidate, &a.final, &a.calls, &a.recovered, &a.result, &a.narrationReady, &a.narrationAttempts, &a.candidateResult)
 	return a, err
 }
 
-const attemptColumns = `id,turn_number,player_input,status,candidate_narrative,final_narrative,calls,recovered,final_result`
+const attemptColumns = `id,turn_number,player_input,status,candidate_narrative,final_narrative,calls,recovered,final_result,narration_ready,narration_attempts,candidate_result`
 
 func (e *Engine) startJournal(ctx context.Context, tc *TurnContext) error {
 	if e.turnDB == nil {
@@ -160,7 +164,7 @@ func (e *Engine) startJournal(ctx context.Context, tc *TurnContext) error {
 	var a storedAttempt
 	var err error
 	if id != uuid.Nil {
-		a, err = scanAttempt(e.baseDB.QueryRow(ctx, `SELECT `+attemptColumns+` FROM turn_attempts WHERE id=$1 AND campaign_id=$2`, dbutil.ToPgtype(id), dbutil.ToPgtype(tc.CampaignID)))
+		a, err = scanAttempt(e.baseDB.QueryRow(ctx, `SELECT `+attemptColumns+` FROM turn_attempts WHERE id=$1 AND campaign_id=$2`, db.ToPgUUID(id), db.ToPgUUID(tc.CampaignID)))
 		if err != nil && !errors.Is(err, pgx.ErrNoRows) {
 			return err
 		}
@@ -169,7 +173,7 @@ func (e *Engine) startJournal(ctx context.Context, tc *TurnContext) error {
 		}
 	}
 	if a.id == uuid.Nil || a.status == "failed" {
-		pending, pendingErr := scanAttempt(e.baseDB.QueryRow(ctx, `SELECT `+attemptColumns+` FROM turn_attempts WHERE campaign_id=$1 AND status IN ('pending_mechanics','pending_narration')`, dbutil.ToPgtype(tc.CampaignID)))
+		pending, pendingErr := scanAttempt(e.baseDB.QueryRow(ctx, `SELECT `+attemptColumns+` FROM turn_attempts WHERE campaign_id=$1 AND status IN ('pending_mechanics','pending_narration')`, db.ToPgUUID(tc.CampaignID)))
 		if pendingErr == nil {
 			if id != uuid.Nil && id != pending.id || strings.TrimSpace(pending.input) != strings.TrimSpace(tc.PlayerInput) {
 				return &recoveryError{id: pending.id}
@@ -206,12 +210,7 @@ func (e *Engine) startJournal(ctx context.Context, tc *TurnContext) error {
 		if len(tc.Applied) == 0 && a.status == "pending_mechanics" {
 			id = a.id
 		} else {
-			tc.Narrative = mechanicalNarrative
-			tc.Recovered = true
-			if err := e.finalizeAttempt(ctx, tc, a.id, mechanicalNarrative); err != nil {
-				return &recoveryError{id: a.id, cause: err}
-			}
-			return errRecoveredTurn
+			return e.recoverNarration(ctx, tc, a)
 		}
 	}
 	if id == uuid.Nil {
@@ -220,7 +219,7 @@ func (e *Engine) startJournal(ctx context.Context, tc *TurnContext) error {
 	tc.ActionID = id
 	tc.TurnNumber = nextTurnNumber(tc.RecentLogs)
 	tag, err := e.baseDB.Exec(ctx, `INSERT INTO turn_attempts(id,campaign_id,turn_number,player_input,status) VALUES($1,$2,$3,$4,'pending_mechanics')
- ON CONFLICT(id) DO UPDATE SET status='pending_mechanics',updated_at=now() WHERE turn_attempts.status IN ('failed','pending_mechanics') AND turn_attempts.campaign_id=EXCLUDED.campaign_id AND turn_attempts.player_input=EXCLUDED.player_input`, dbutil.ToPgtype(id), dbutil.ToPgtype(tc.CampaignID), tc.TurnNumber, tc.PlayerInput)
+ ON CONFLICT(id) DO UPDATE SET status='pending_mechanics',updated_at=now() WHERE turn_attempts.status IN ('failed','pending_mechanics') AND turn_attempts.campaign_id=EXCLUDED.campaign_id AND turn_attempts.player_input=EXCLUDED.player_input`, db.ToPgUUID(id), db.ToPgUUID(tc.CampaignID), tc.TurnNumber, tc.PlayerInput)
 	if err != nil {
 		return err
 	}
@@ -235,7 +234,7 @@ func (e *Engine) recordCandidate(ctx context.Context, tc *TurnContext) error {
 	if j == nil {
 		return nil
 	}
-	_, err := e.baseDB.Exec(ctx, `UPDATE turn_attempts SET candidate_narrative=$2,status='pending_narration',updated_at=now() WHERE id=$1`, dbutil.ToPgtype(j.id), tc.Narrative)
+	_, err := e.baseDB.Exec(ctx, `UPDATE turn_attempts SET candidate_narrative=$2,narration_ready=true,status='pending_narration',updated_at=now() WHERE id=$1`, db.ToPgUUID(j.id), tc.Narrative)
 	if err != nil {
 		return fmt.Errorf("%w: candidate: %v", ErrTurnPersistence, err)
 	}
@@ -253,7 +252,7 @@ func (e *Engine) finalizeAttempt(ctx context.Context, tc *TurnContext, id uuid.U
 		return err
 	}
 	_, err = tx.Exec(ctx, `INSERT INTO session_logs(campaign_id,turn_number,player_input,input_type,llm_response,tool_calls,location_id)
- VALUES($1,$2,$3,$4,$5,$6,$7)`, dbutil.ToPgtype(tc.CampaignID), tc.TurnNumber, tc.PlayerInput, string(domain.Classify(tc.PlayerInput)), narrative, data, optionalJournalLocation(tc))
+ VALUES($1,$2,$3,$4,$5,$6,$7)`, db.ToPgUUID(tc.CampaignID), tc.TurnNumber, tc.PlayerInput, string(domain.Classify(tc.PlayerInput)), narrative, data, optionalJournalLocation(tc))
 	if err != nil {
 		return err
 	}
@@ -261,7 +260,7 @@ func (e *Engine) finalizeAttempt(ctx context.Context, tc *TurnContext, id uuid.U
 	if err != nil {
 		return err
 	}
-	tag, err := tx.Exec(ctx, `UPDATE turn_attempts SET status='completed',final_narrative=$2,recovered=$3,final_result=$4,updated_at=now() WHERE id=$1 AND status IN ('pending_mechanics','pending_narration')`, dbutil.ToPgtype(id), narrative, tc.Recovered, resultJSON)
+	tag, err := tx.Exec(ctx, `UPDATE turn_attempts SET status='completed',final_narrative=$2,recovered=$3,final_result=$4,updated_at=now() WHERE id=$1 AND status IN ('pending_mechanics','pending_narration')`, db.ToPgUUID(id), narrative, tc.Recovered, resultJSON)
 	if err != nil || tag.RowsAffected() != 1 {
 		return fmt.Errorf("finalize attempt: %v", err)
 	}
@@ -272,7 +271,7 @@ func optionalJournalLocation(tc *TurnContext) any {
 	if location == nil {
 		return nil
 	}
-	return dbutil.ToPgtype(*location)
+	return db.ToPgUUID(*location)
 }
 func (e *Engine) persistCompletedTurn(ctx context.Context, tc *TurnContext, log domain.SessionLog) error {
 	j, _ := ctx.Value(journalKey{}).(*turnJournal)
@@ -283,7 +282,7 @@ func (e *Engine) persistCompletedTurn(ctx context.Context, tc *TurnContext, log 
 	return e.finalizeAttempt(ctx, tc, j.id, log.LLMResponse)
 }
 func (e *Engine) turnFailure(ctx context.Context, err error) error {
-	if ctx == nil {
+	if ctx == nil || e.baseDB == nil {
 		return err
 	}
 	j, _ := ctx.Value(journalKey{}).(*turnJournal)
@@ -291,11 +290,19 @@ func (e *Engine) turnFailure(ctx context.Context, err error) error {
 		return err
 	}
 	if len(j.calls) > 0 || j.candidate || j.uncertain || errors.Is(err, ErrTurnPersistence) {
+		// A cancelled request still leaves committed effects explicitly awaiting
+		// narration. The receipt, not the failed connection, owns recovery.
+		cleanup, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		_, updateErr := e.baseDB.Exec(cleanup, `UPDATE turn_attempts SET status='pending_narration',updated_at=now() WHERE id=$1 AND status='pending_mechanics' AND calls<>'[]'::jsonb`, db.ToPgUUID(j.id))
+		if updateErr != nil {
+			e.logger.Error("mark narration pending", "action_id", j.id, "error", updateErr)
+		}
 		return &recoveryError{id: j.id, cause: err}
 	}
 	cleanup, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	_, _ = e.baseDB.Exec(cleanup, `UPDATE turn_attempts SET status='failed',updated_at=now() WHERE id=$1 AND calls='[]'::jsonb AND status<>'completed'`, dbutil.ToPgtype(j.id))
+	_, _ = e.baseDB.Exec(cleanup, `UPDATE turn_attempts SET status='failed',updated_at=now() WHERE id=$1 AND calls='[]'::jsonb AND status<>'completed'`, db.ToPgUUID(j.id))
 	return err
 }
 
@@ -304,7 +311,7 @@ func (e *Engine) recordRawCandidate(ctx context.Context, text string) error {
 	if j == nil {
 		return nil
 	}
-	_, err := e.baseDB.Exec(ctx, `UPDATE turn_attempts SET candidate_narrative=$2,updated_at=now() WHERE id=$1`, dbutil.ToPgtype(j.id), text)
+	_, err := e.baseDB.Exec(ctx, `UPDATE turn_attempts SET candidate_narrative=$2,updated_at=now() WHERE id=$1`, db.ToPgUUID(j.id), text)
 	if err != nil {
 		return fmt.Errorf("%w: raw narrative: %v", ErrTurnPersistence, err)
 	}
