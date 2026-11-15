@@ -1,8 +1,10 @@
 import { useState, type FormEvent, type KeyboardEvent } from 'react';
 
+import { matchSuggestions, type ActionSuggestion } from '../../api/suggestions';
 import { cn } from '../../lib/cn';
 
 interface PlayerInputProps {
+  readonly suggestions?: readonly ActionSuggestion[];
   readonly onSendAction: (input: string) => boolean | Promise<boolean>;
   readonly disabled?: boolean;
   readonly isLoading?: boolean;
@@ -13,6 +15,7 @@ interface PlayerInputProps {
 
 export function PlayerInput({
   onSendAction,
+  suggestions = [],
   disabled = false,
   isLoading = false,
   placeholder = 'Describe what you do next…',
@@ -73,6 +76,11 @@ export function PlayerInput({
           className="min-h-16 max-h-28 overflow-y-auto w-full resize-none border-2 border-gold/20 bg-obsidian px-4 py-3 text-sm leading-6 text-champagne transition-all duration-200 placeholder:text-pewter/60 focus:border-gold focus:outline-none disabled:cursor-not-allowed disabled:border-gold/10 disabled:bg-charcoal disabled:text-pewter"
         />
       </label>
+      {suggestions.length > 0 && !isDisabled && <div aria-label="Action suggestions" className="mt-2 max-h-24 overflow-y-auto">
+        {matchSuggestions(suggestions, value).map(candidate => <button key={candidate.id} type="button" className="block min-h-11 w-full py-2 text-left text-sm text-pewter hover:text-gold" onClick={() => setValue(candidate.text)}>
+          <span className="block">{candidate.text}</span><small className="block text-xs">{candidate.reason}</small>
+        </button>)}
+      </div>}
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-pewter">Press Enter to act. Use Shift+Enter for a line break.</p>
         <button

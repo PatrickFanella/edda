@@ -19,3 +19,17 @@ it('keeps Shift+Enter as a newline and blocks actions during a turn', async () =
   rerender(<PlayerInput onSendAction={send} isLoading />);
   expect(screen.getByRole('textbox')).toBeDisabled(); expect(send).not.toHaveBeenCalled();
 });
+it('matches suggestions locally and selects an editable draft without submitting', async () => {
+  const send = vi.fn();
+  render(<PlayerInput onSendAction={send} suggestions={[
+    { id: 'clue', text: 'Investigate the blue seal', reason: 'A known clue, with an uncertain outcome.', source_ids: ['known-fact:seal'] },
+    { id: 'skill', text: 'Look around using Perception', reason: 'Your sheet supports this check.', source_ids: ['srd:skill'] },
+  ]} />);
+  await userEvent.type(screen.getByRole('textbox'), 'I inv');
+  expect(screen.queryByRole('button', { name: /Look around/ })).not.toBeInTheDocument();
+  await userEvent.click(screen.getByRole('button', { name: /Investigate the blue seal/ }));
+  expect(screen.getByRole('textbox')).toHaveValue('Investigate the blue seal');
+  expect(send).not.toHaveBeenCalled();
+  await userEvent.type(screen.getByRole('textbox'), ' carefully');
+  expect(screen.getByRole('textbox')).toHaveValue('Investigate the blue seal carefully');
+});

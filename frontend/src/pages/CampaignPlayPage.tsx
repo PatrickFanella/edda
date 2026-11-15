@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router';
 
+import { getActionSuggestions } from '../api/suggestions';
 import { createManualSave, getCampaign, startOverCampaign } from '../api/campaigns';
 import { getCampaignCharacter, getCampaignCharacterInventory } from '../api/characters';
 import { listCampaignQuests } from '../api/quests';
@@ -385,7 +386,8 @@ function NarrativeTab({
   readonly seededNarrative: SeededNarrativeState;
   readonly suggestedChoices: readonly { id: string; text: string }[];
 }) {
-  const { campaign } = useCampaign();
+  const { campaign, campaignId } = useCampaign();
+  const assistance = useQuery({ queryKey: ['campaign', campaignId, 'action-suggestions'], queryFn: () => getActionSuggestions(campaignId!), enabled: !!campaignId, retry: false });
   const { connectionStatus, streamingEntry, currentStatus, combatActive, isLoading, error, sendAction } = narrative;
 
   // Issue #410: Only show combat UI in light/crunch rules modes.
@@ -449,7 +451,7 @@ function NarrativeTab({
         {error ? <ErrorPanel message={error} /> : null}
       </div>
 
-      <PlayerInput className="game-action-form" onSendAction={sendAction} disabled={connectionStatus === 'connecting'} isLoading={isLoading} autoFocus />
+      <PlayerInput suggestions={assistance.isError ? [] : assistance.data?.candidates} className="game-action-form" onSendAction={sendAction} disabled={connectionStatus === 'connecting'} isLoading={isLoading} autoFocus />
 
     </div>
   );
