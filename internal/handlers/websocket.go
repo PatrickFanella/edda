@@ -82,6 +82,12 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 		case msg = <-messages:
 		}
 
+		if msg.Type == "confirm_action" {
+			// Confirmation uses the identical durable action ID and strict request
+			// contract as HTTP. Reconnect/retry returns its recorded result.
+			h.confirmActionMessage(ctx, conn, campaignID, msg.Payload)
+			continue
+		}
 		if msg.Type != "action" {
 			sendErrorEnvelope(ctx, conn, fmt.Sprintf("unknown message type: %q", msg.Type))
 			continue
@@ -171,7 +177,7 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 				if event.Err != nil {
 					h.Logger.Errorf("stream event error for campaign %s: %v", campaignID, event.Err)
 				}
-				if errors.Is(event.Err, engine.ErrActionIDConflict) {
+				if errors.Is(event.Err, engine.ErrActionIDConflict) || errors.Is(event.Err, engine.ErrTurnInProgress) {
 					errMsg = event.Err.Error()
 				}
 				if errors.Is(event.Err, engine.ErrTurnRecoveryRequired) {

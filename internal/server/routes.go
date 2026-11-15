@@ -145,6 +145,7 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.Cam
 						r.Get("/codex/economies", worldH.ListKnownEconomicSystems)
 						r.Get("/map", worldH.GetMapData)
 						r.Post("/action", actionH.ProcessAction)
+						r.Post("/action/confirm", actionH.ConfirmAction)
 						r.Get("/action", actionH.GetActionReceipt)
 						r.Get("/ws", actionH.HandleWebSocket)
 						savesH := saves.NewHandlers(saveStore)

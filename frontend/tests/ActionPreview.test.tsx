@@ -3,10 +3,12 @@ import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { expect, it, vi } from 'vitest';
 import { ActionPreviewPanel } from '../src/components/character/ActionPreviewPanel';
+import { confirmCharacterAction, readActionReceipt } from '../src/api/actions';
 import { previewCharacterAction } from '../src/api/characters';
 import type { ActionPreview, CharacterSheetProjection } from '../src/api/types';
 import fixture from './fixtures/srd-check-sheet.json';
 
+vi.mock('../src/api/actions', () => ({ confirmCharacterAction: vi.fn(), readActionReceipt: vi.fn().mockResolvedValue(null), publishConfirmedAction: vi.fn() }));
 vi.mock('../src/api/characters', () => ({ previewCharacterAction: vi.fn() }));
 const sheet = fixture.sheet as CharacterSheetProjection;
 const ready: ActionPreview = {
@@ -27,7 +29,8 @@ it('previews a selected sheet skill without confirming or performing an action',
   expect(previewCharacterAction).toHaveBeenCalledWith('alpha', { actor_id: 'hero', kind: 'ability-check', skill: 'athletics' });
   expect(screen.getByText('Modifier: 5')).toBeVisible();
   expect(screen.getByText(/No direct resource cost/)).toHaveTextContent('Action and time costs require adjudication.');
-  expect(screen.queryByRole('button', { name: /confirm|roll|submit/i })).not.toBeInTheDocument();
+  expect(confirmCharacterAction).not.toHaveBeenCalled();
+  expect(screen.getByRole('button', { name: 'Confirm action' })).toBeEnabled();
   await userEvent.click(screen.getByText('Inspect preview sources'));
   expect(screen.getByText(/actor-v1:fixture/)).toBeVisible();
   await userEvent.selectOptions(screen.getByLabelText('Character action'), 'saving-throw:constitution');
@@ -58,4 +61,29 @@ it('blocks overlapping selections while a preview is pending', async () => {
   expect(screen.getByRole('button', { name: 'Preparing preview…' })).toBeDisabled();
   finish(ready);
   expect(await screen.findByText('Preview ready. No action has been performed.')).toBeVisible();
+});
+
+it('confirms once and retries uncertain delivery with the same action identity', async () => {
+  vi.mocked(previewCharacterAction).mockResolvedValue(ready);
+  vi.mocked(confirmCharacterAction).mockRejectedValueOnce(new Error('offline')).mockResolvedValueOnce({ action_id: 'saved', turn_number: 1, narrative: 'Recorded check.', state_changes: [], resolution_events: [], combat_active: false });
+  mount('retry-campaign');
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'skill:athletics');
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  await userEvent.click(await screen.findByRole('button', { name: 'Confirm action' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('ID is retained');
+  const request = vi.mocked(confirmCharacterAction).mock.calls[0][1];
+  expect(request.expected_revision).toBe(ready.expected_revision);
+  expect(request.intent).toEqual(ready.intent);
+  await userEvent.click(screen.getByRole('button', { name: 'Retry same action' }));
+  expect(await screen.findByText('Action saved.')).toBeVisible();
+  expect(vi.mocked(confirmCharacterAction).mock.calls[1][1]).toEqual(request);
+});
+it('reconciles a saved receipt after remount instead of rolling again', async () => {
+  const request = { action_id: 'retained', expected_revision: ready.expected_revision, intent: ready.intent };
+  sessionStorage.setItem('edda:prepared-action:reload:hero', JSON.stringify(request));
+  vi.mocked(readActionReceipt).mockResolvedValueOnce({ result: { action_id: 'retained', turn_number: 2, narrative: 'Saved before disconnect.', state_changes: [], resolution_events: [], combat_active: false } });
+  mount('reload');
+  expect(await screen.findByText('Action saved.')).toBeVisible();
+  expect(readActionReceipt).toHaveBeenCalledWith('reload', 'retained');
+  expect(confirmCharacterAction).not.toHaveBeenCalled();
 });

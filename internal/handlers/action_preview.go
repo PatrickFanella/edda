@@ -6,11 +6,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
-	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
-	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
 )
 
@@ -43,16 +40,7 @@ func (h *CharacterHandlers) PreviewAction(w http.ResponseWriter, r *http.Request
 		writeError(w, http.StatusServiceUnavailable, "action previews unavailable")
 		return
 	}
-	campaign := domain.Campaign{ID: campaignID}
-	pc := domain.PlayerCharacter{ID: actorID, CampaignID: campaignID}
-	var location pgtype.UUID
-	// Owner filtering is repeated in the same snapshot as the selected actor.
-	// No world/NPC/fact table is read and arbitrary actors never disclose existence.
-	err = h.Pool.QueryRow(r.Context(), `SELECT c.rules_version,c.status,c.updated_at,
- p.name,p.stats,p.hp,p.max_hp,p.experience,p.level,p.status,p.current_location_id,p.updated_at
- FROM campaigns c JOIN player_characters p ON p.campaign_id=c.id
- WHERE c.id=$1 AND p.id=$2 AND c.created_by=$3`, dbutil.ToPgtype(campaignID), dbutil.ToPgtype(actorID), dbutil.ToPgtype(userID)).Scan(
-		&campaign.RulesVersion, &campaign.Status, &campaign.UpdatedAt, &pc.Name, &pc.Stats, &pc.HP, &pc.MaxHP, &pc.Experience, &pc.Level, &pc.Status, &location, &pc.UpdatedAt)
+	campaign, pc, err := game.ReadActionSnapshot(r.Context(), h.Pool, campaignID, actorID, userID, false)
 	if errors.Is(err, pgx.ErrNoRows) {
 		writeError(w, http.StatusNotFound, "character action not found")
 		return
@@ -61,10 +49,6 @@ func (h *CharacterHandlers) PreviewAction(w http.ResponseWriter, r *http.Request
 		h.Logger.Errorf("read action preview: %v", err)
 		writeError(w, http.StatusInternalServerError, "failed to prepare action preview")
 		return
-	}
-	if location.Valid {
-		id := dbutil.FromPgtype(location)
-		pc.CurrentLocationID = &id
 	}
 	preview, err := game.PrepareCharacterAction(r.Context(), campaign, pc, game.ActionIntent{ActorID: actorID, Kind: values.Get("kind"), Ability: values.Get("ability"), Skill: values.Get("skill"), EntryID: values.Get("entry_id")})
 	if err != nil {

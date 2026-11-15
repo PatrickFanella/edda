@@ -20,6 +20,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/journal"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"git.subcult.tv/subculture-collective/edda/internal/saves"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/internal/tools"
@@ -28,6 +29,7 @@ import (
 
 // Engine is the concrete GameEngine implementation used by the TUI.
 type Engine struct {
+	actionDice         srd521.Dice
 	turnDB             transactionBeginner
 	baseDB             statedb.DBTX
 	turnLock           turnLock

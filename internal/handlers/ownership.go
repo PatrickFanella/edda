@@ -41,7 +41,11 @@ func (h *CampaignHandlers) RequireOwnership(next http.Handler) http.Handler {
 		// its own revisions. It is safe for either rules version. Other write
 		// routes retain the legacy gameplay compatibility guard.
 		chapterRequest := r.Method == http.MethodPost && strings.HasSuffix(r.URL.Path, "/journal/chapters")
-		if !chapterRequest && (r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket")) {
+		confirmationRequest := r.Method == http.MethodPost && strings.HasSuffix(r.URL.Path, "/action/confirm")
+		socketRequest := r.Method == http.MethodGet && strings.EqualFold(r.Header.Get("Upgrade"), "websocket")
+		// The socket permits typed confirmations. Free-form turns still enforce
+		// the legacy rule guard inside the shared engine gather stage.
+		if !chapterRequest && !confirmationRequest && !socketRequest && (r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket")) {
 			if err := domain.RequireLegacyRules(domain.RulesVersion(campaign.RulesVersion)); err != nil {
 				writeError(w, http.StatusConflict, err.Error())
 				return

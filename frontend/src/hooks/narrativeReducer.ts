@@ -41,6 +41,7 @@ export const initialNarrativeState: NarrativeState = {
 };
 
 export type NarrativeAction =
+  | { type: 'CONFIRMED_INPUT'; input: string; turn: number; timestamp: string }
   | { type: 'RESET' }
   | { type: 'LIVE_EVENT'; event: SequencedEvent }
   | { type: 'HISTORY_LOADED'; entries: NarrativeEntry[] }
@@ -70,6 +71,11 @@ export function narrativeReducer(state: NarrativeState, action: NarrativeAction)
           ? { ...next, phase: 'processing', streamingChunks: [] } : next;
       }
       return next;
+    }
+    case 'CONFIRMED_INPUT': {
+      const id = `history-player-${action.turn}`;
+      if (state.entries.some(entry => entry.id === id)) return state;
+      return { ...state, entries: [...state.entries, { id, kind: 'player', text: action.input, timestamp: action.timestamp, speaker: 'You' }] };
     }
     case 'RESET':
       return initialNarrativeState;

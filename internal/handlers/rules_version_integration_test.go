@@ -95,14 +95,15 @@ func TestIntegrationRulesVersionCompatibility(t *testing.T) {
 	} {
 		request(mutation.method, "/"+c.ID+mutation.path, mutation.body, http.StatusConflict)
 	}
-	// A legacy WebSocket handshake cannot enter the action transport either.
+	// SRD sockets now admit typed confirmations (#64); malformed handshakes
+	// reach WebSocket validation. Free-form engine turns below remain blocked.
 	wsRequest := httptest.NewRequest("GET", "/api/v1/campaigns/"+c.ID+"/ws", nil)
 	wsRequest.Header.Set("Authorization", "Bearer "+token)
 	wsRequest.Header.Set("Upgrade", "websocket")
 	wsRequest.Header.Set("Connection", "Upgrade")
 	wsResponse := httptest.NewRecorder()
 	router.ServeHTTP(wsResponse, wsRequest)
-	if wsResponse.Code != http.StatusConflict {
+	if wsResponse.Code != http.StatusBadRequest {
 		t.Fatalf("websocket = %d %s", wsResponse.Code, wsResponse.Body.String())
 	}
 	id := uuid.MustParse(c.ID)

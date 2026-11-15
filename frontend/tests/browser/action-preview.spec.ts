@@ -18,6 +18,11 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
         cost_status: 'requires-adjudication', source_ids: ['srd-5.2.1:content/d20-tests/ability-checks'],
       } });
     });
+    await page.route('**/api/v1/campaigns/alpha/action?*', route => route.fulfill({ json: null }));
+    await page.route('**/api/v1/campaigns/alpha/action/confirm', route => {
+      const request = route.request().postDataJSON();
+      return route.fulfill({ json: { action_id: request.action_id, turn_number: 3, narrative: 'The ordinary check is recorded.', combat_active: false, state_changes: [], resolution_events: [] } });
+    });
     await signIn(page);
     await page.goto('/play/alpha');
     await page.getByRole('tab', { name: 'Character', exact: true }).click();
@@ -29,7 +34,12 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
     expect(previews[0].searchParams.get('actor_id')).toBe('hero');
     expect(game.actions).toEqual([]);
     await expect(page.getByText('Modifier: 5')).toBeVisible();
-    await expect(page.getByRole('button', { name: /confirm|roll dice/i })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Confirm action', exact: true })).toBeEnabled();
+    await page.getByRole('button', { name: 'Confirm action', exact: true }).click();
+    await expect(page.getByText('Action saved.')).toBeVisible();
+    await page.getByRole('tab', { name: 'Play', exact: true }).click();
+    await expect(page.getByText('The ordinary check is recorded.', { exact: true })).toBeVisible();
+    await expect(page.getByText('Confirm athletics check', { exact: true })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   });
 }

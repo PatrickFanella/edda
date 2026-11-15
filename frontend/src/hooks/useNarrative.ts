@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 
 import { getSessionHistory } from '../api/campaigns';
-import type { WebSocketStatusPayload } from '../api/types';
+import type { TurnResponse, WebSocketStatusPayload } from '../api/types';
 import { useCampaign } from './useCampaign';
 import { useWebSocket, type ConnectionStatus, type NarrativeChoice, type TurnResponseWithChoices } from './useWebSocket';
 import {
@@ -37,6 +37,17 @@ export function useNarrative(): UseNarrativeResult {
   const { connectionStatus, error: socketError, isLoading, currentStatus, combatActive, sendAction: sendSocketAction } = useWebSocket(campaignId, (event) => {
     dispatch({ type: 'LIVE_EVENT', event });
   });
+
+  useEffect(() => {
+    const receive = (event: Event) => {
+      const detail = (event as CustomEvent<{ campaignId: string; result: TurnResponse; input: string }>).detail;
+      if (detail.campaignId !== campaignId) return;
+      dispatch({ type: 'CONFIRMED_INPUT', input: detail.input, turn: detail.result.turn_number ?? 0, timestamp: new Date().toISOString() });
+      dispatch({ type: 'RESULT_RECEIVED', payload: { ...detail.result, choices: [] }, timestamp: new Date().toISOString(), entryCount: 0 });
+    };
+    window.addEventListener('edda:confirmed-action', receive);
+    return () => window.removeEventListener('edda:confirmed-action', receive);
+  }, [campaignId, dispatch]);
 
   // Effect 1: campaign change + history load
   useEffect(() => {
