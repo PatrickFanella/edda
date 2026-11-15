@@ -43,7 +43,8 @@ whitelists that typed receipt and ignores raw arguments, sibling DC/margin
 fields, and unknown receipt fields. It does not use the legacy `skill_check`
 argument/result merge. Existing legacy arithmetic, registry and campaign guards
 are unchanged. This slice does not register a new live tool or enable the SRD
-campaign turn loop; preview and confirmation remain #63/#64. `pkg/api.CheckReceipt`
+campaign turn loop. [Read-only preparation](action-previews.md) reuses its
+modifier validation; confirmation remains #64. `pkg/api.CheckReceipt`
 aliases the shared rules DTO so future web/TUI adapters need no arithmetic copy.
 
 The Go-generated fixture at

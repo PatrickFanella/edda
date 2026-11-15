@@ -120,6 +120,7 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.Cam
 						r.Delete("/", campaignH.DeleteCampaign)
 						r.Get("/history", campaignH.GetSessionHistory)
 						r.Get("/character", charH.GetCharacter)
+						r.Get("/character/action-preview", charH.PreviewAction)
 						r.Get("/character/inventory", charH.GetCharacterInventory)
 						r.Get("/character/abilities", charH.GetCharacterAbilities)
 						r.Get("/character/feats", charH.GetCharacterFeats)

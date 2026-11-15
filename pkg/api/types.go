@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
+	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 )
@@ -493,3 +494,6 @@ type ActionReceiptResponse struct {
 	ResolutionEvents     []ResolutionEvent `json:"resolution_events"`
 	Result               *TurnResponse     `json:"result,omitempty"`
 }
+
+// ActionPreview is the shared player-safe action preparation response.
+type ActionPreview = game.ActionPreview

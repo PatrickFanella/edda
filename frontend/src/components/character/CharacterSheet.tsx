@@ -53,7 +53,7 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
   if (character.rules_version === 'srd-5.2.1') {
     return <HudPanel title={character.name} accent="vitals" className={className}>
       <p className="mb-3 text-sm text-pewter">{character.description} · HP {character.hp} / {character.max_hp}</p>
-      {character.sheet ? <RulesSheet sheet={character.sheet} /> : <p role="status">{character.sheet_unavailable ?? 'Rules projection unavailable for this build.'}</p>}
+      {character.sheet ? <RulesSheet sheet={character.sheet} campaignId={activeCampaignId} actorId={character.id} /> : <p role="status">{character.sheet_unavailable ?? 'Rules projection unavailable for this build.'}</p>}
     </HudPanel>;
   }
   const statEntries = Object.entries(character.stats);

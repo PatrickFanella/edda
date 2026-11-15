@@ -1,6 +1,6 @@
 import { apiFetch } from './client';
 import { buildCampaignPath } from './routes';
-import type { CharacterAbility, CharacterResponse, FeatResponse, ItemResponse, SkillResponse } from './types';
+import type { ActionIntent, ActionPreview, CharacterAbility, CharacterResponse, FeatResponse, ItemResponse, SkillResponse } from './types';
 
 function buildCharacterPath(campaignId: string, suffix?: 'inventory' | 'abilities' | 'feats' | 'skills'): string {
   return suffix ? buildCampaignPath(campaignId, 'character', suffix) : buildCampaignPath(campaignId, 'character');
@@ -24,4 +24,10 @@ export function getCampaignCharacterFeats(campaignId: string): Promise<FeatRespo
 
 export function getCampaignCharacterSkills(campaignId: string): Promise<SkillResponse[]> {
   return apiFetch<SkillResponse[]>(buildCharacterPath(campaignId, 'skills'));
+}
+
+export function previewCharacterAction(campaignId: string, intent: ActionIntent): Promise<ActionPreview> {
+  const params = new URLSearchParams();
+  Object.entries(intent).forEach(([key, value]) => { if (value) params.set(key, value); });
+  return apiFetch<ActionPreview>(`${buildCampaignPath(campaignId, 'character', 'action-preview')}?${params}`);
 }

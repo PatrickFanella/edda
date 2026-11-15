@@ -20,7 +20,9 @@ Every derived value carries its calculation terms and stable source identifiers.
 Capabilities are explicitly read only; no rolls, costs or class features execute.
 The separate [check resolver and receipt fixture](srd-checks.md) consumes this
 projection and supports optional recorded skill expertise. It does not execute
-these capabilities or enable live character-sheet actions.
+these capabilities or enable confirmed character-sheet actions.
+[Action previews](action-previews.md) add read-only preparation for supported
+checks and saves without performing them.
 
 Source identifiers use srd-5.2.1:content/<family>/<slug>. The source map is:
 

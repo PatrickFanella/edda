@@ -99,41 +99,14 @@ func ResolveCheck(sheet *CharacterSheet, check Check, difficulty Difficulty, dic
 	if difficulty.Value < 0 {
 		return nil, fmt.Errorf("nonnegative difficulty required")
 	}
-	ability, ok := sheet.Abilities[check.Ability]
-	if !ok {
-		return nil, fmt.Errorf("unsupported ability")
+	modifier, sources, err := CheckModifier(sheet, check)
+	if err != nil {
+		return nil, err
 	}
-	var modifier Value
-	source := "d20-tests/ability-checks"
-	switch check.Kind {
-	case AbilityCheck:
-		modifier = ability.Modifier
-		if check.Skill != "" {
-			if skillAbilities[check.Skill] != check.Ability {
-				return nil, fmt.Errorf("unsupported skill and ability pairing")
-			}
-			modifier, ok = sheet.Skills[check.Skill]
-			if !ok {
-				return nil, fmt.Errorf("skill projection required")
-			}
-		}
-	case SavingThrow:
-		if check.Skill != "" {
-			return nil, fmt.Errorf("skills do not apply to saving throws")
-		}
-		modifier, ok = sheet.Saves[check.Ability]
-		if !ok {
-			return nil, fmt.Errorf("save projection required")
-		}
-		source = "d20-tests/saving-throws"
-	default:
-		return nil, fmt.Errorf("unsupported test kind")
-	}
-	modifier.Derivation = append([]Term(nil), modifier.Derivation...)
 	receipt := CheckReceipt{
 		RulesVersion: sheet.RulesVersion, Kind: check.Kind, Ability: check.Ability,
 		Skill: check.Skill, Mode: "ordinary", Modifier: modifier, Outcome: "unknown",
-		SourceIDs: []string{prefix + source},
+		SourceIDs: sources,
 	}
 	count := 1
 	if check.Advantage || check.Disadvantage {
@@ -172,4 +145,50 @@ func ResolveCheck(sheet *CharacterSheet, check Check, difficulty Difficulty, dic
 		}
 	}
 	return &CheckResolution{receipt: receipt, success: success}, nil
+}
+
+// CheckModifier validates a supported test and returns its derived modifier and
+// public source identifiers without rolling dice or adjudicating an outcome.
+func CheckModifier(sheet *CharacterSheet, check Check) (Value, []string, error) {
+	if sheet == nil || sheet.RulesVersion != "srd-5.2.1" {
+		return Value{}, nil, fmt.Errorf("SRD character sheet required")
+	}
+	ability, ok := sheet.Abilities[check.Ability]
+	if !ok {
+		return Value{}, nil, fmt.Errorf("unsupported ability")
+	}
+	var modifier Value
+	source := "d20-tests/ability-checks"
+	switch check.Kind {
+	case AbilityCheck:
+		modifier = ability.Modifier
+		if check.Skill != "" {
+			if skillAbilities[check.Skill] != check.Ability {
+				return Value{}, nil, fmt.Errorf("unsupported skill and ability pairing")
+			}
+			modifier, ok = sheet.Skills[check.Skill]
+			if !ok {
+				return Value{}, nil, fmt.Errorf("skill projection required")
+			}
+		}
+	case SavingThrow:
+		if check.Skill != "" {
+			return Value{}, nil, fmt.Errorf("skills do not apply to saving throws")
+		}
+		modifier, ok = sheet.Saves[check.Ability]
+		if !ok {
+			return Value{}, nil, fmt.Errorf("save projection required")
+		}
+		source = "d20-tests/saving-throws"
+	default:
+		return Value{}, nil, fmt.Errorf("unsupported test kind")
+	}
+	modifier.Derivation = append([]Term(nil), modifier.Derivation...)
+	return modifier, []string{prefix + source}, nil
+}
+
+// AbilityForSkill returns the supported standard ability for a skill selection.
+func AbilityForSkill(skill string) (string, bool) {
+	ability, ok := skillAbilities[skill]
+	return ability, ok
 }
