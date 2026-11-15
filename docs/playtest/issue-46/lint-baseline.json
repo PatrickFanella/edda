@@ -1,0 +1,218 @@
+{
+  "source": "b84d5dc8bde8438920c867c2dab4d64c50c001b5",
+  "command": "pnpm --dir frontend exec eslint . --format json",
+  "errorCount": 23,
+  "files": [
+    {
+      "file": "src/components/layout/TurnNotifications.tsx",
+      "messages": [
+        {
+          "ruleId": "react-hooks/set-state-in-effect",
+          "severity": 2,
+          "line": 40,
+          "column": 5,
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/components/layout/TurnNotifications.tsx:40:5\n  38 |     const next = deriveNotifications(stateChanges);\n  39 |     if (next.length === 0) return;\n> 40 |     setVisible(next);\n     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect\n  41 |     setDismissing(new Set());\n  42 |\n  43 |     const fadeTimer = setTimeout(() => {"
+        }
+      ]
+    },
+    {
+      "file": "src/components/map/MapPanel.tsx",
+      "messages": [
+        {
+          "ruleId": "react-hooks/preserve-manual-memoization",
+          "severity": 2,
+          "line": 71,
+          "column": 32,
+          "message": "Compilation Skipped: Existing memoization could not be preserved\n\nReact Compiler has skipped optimizing this component because the existing manual memoization could not be preserved. The inferred dependencies did not match the manually specified dependencies, which could cause the value to change more or less frequently than expected. The inferred dependency was `data.locations`, but the source dependencies were [data?.locations]. Inferred different dependency than source.\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/components/map/MapPanel.tsx:71:32\n  69 |   });\n  70 |\n> 71 |   const regionGroups = useMemo(() => {\n     |                                ^^^^^^^\n> 72 |     if (!data?.locations) return [];\n     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n> 73 |     return groupByRegion(data.locations);\n     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n> 74 |   }, [data?.locations]);\n     | ^^^^ Could not preserve existing manual memoization\n  75 |\n  76 |   if (isPending) {\n  77 |     return ("
+        }
+      ]
+    },
+    {
+      "file": "src/components/replay/ReplayNarrative.tsx",
+      "messages": [
+        {
+          "ruleId": "react-hooks/set-state-in-effect",
+          "severity": 2,
+          "line": 35,
+          "column": 7,
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/components/replay/ReplayNarrative.tsx:35:7\n  33 |     const fullText = latestEntry.llm_response;\n  34 |     if (!fullText) {\n> 35 |       setTypedText('');\n     |       ^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  36 |       setIsTyping(false);\n  37 |       return;\n  38 |     }"
+        }
+      ]
+    },
+    {
+      "file": "src/components/start/CampaignAttributesForm.tsx",
+      "messages": [
+        {
+          "ruleId": "react-refresh/only-export-components",
+          "severity": 2,
+          "line": 58,
+          "column": 19,
+          "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        },
+        {
+          "ruleId": "react-refresh/only-export-components",
+          "severity": 2,
+          "line": 59,
+          "column": 26,
+          "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        },
+        {
+          "ruleId": "react-refresh/only-export-components",
+          "severity": 2,
+          "line": 60,
+          "column": 18,
+          "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        }
+      ]
+    },
+    {
+      "file": "src/components/start/CharacterGuidedForm.tsx",
+      "messages": [
+        {
+          "ruleId": "react-refresh/only-export-components",
+          "severity": 2,
+          "line": 32,
+          "column": 14,
+          "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        },
+        {
+          "ruleId": "react-refresh/only-export-components",
+          "severity": 2,
+          "line": 44,
+          "column": 14,
+          "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        },
+        {
+          "ruleId": "react-refresh/only-export-components",
+          "severity": 2,
+          "line": 59,
+          "column": 14,
+          "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        },
+        {
+          "ruleId": "react-refresh/only-export-components",
+          "severity": 2,
+          "line": 75,
+          "column": 14,
+          "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        }
+      ]
+    },
+    {
+      "file": "src/context/AuthContext.tsx",
+      "messages": [
+        {
+          "ruleId": "react-hooks/set-state-in-effect",
+          "severity": 2,
+          "line": 30,
+          "column": 7,
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/context/AuthContext.tsx:30:7\n  28 |\n  29 |     if (!token) {\n> 30 |       setIsLoading(false);\n     |       ^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  31 |       return;\n  32 |     }\n  33 |"
+        },
+        {
+          "ruleId": "react-refresh/only-export-components",
+          "severity": 2,
+          "line": 82,
+          "column": 17,
+          "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        }
+      ]
+    },
+    {
+      "file": "src/context/CampaignContext.tsx",
+      "messages": [
+        {
+          "ruleId": "react-refresh/only-export-components",
+          "severity": 2,
+          "line": 25,
+          "column": 14,
+          "message": "Fast refresh only works when a file only exports components. Move your React context(s) to a separate file."
+        },
+        {
+          "ruleId": "react-refresh/only-export-components",
+          "severity": 2,
+          "line": 27,
+          "column": 17,
+          "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        }
+      ]
+    },
+    {
+      "file": "src/hooks/useAudio.ts",
+      "messages": [
+        {
+          "ruleId": "react-hooks/refs",
+          "severity": 2,
+          "line": 124,
+          "column": 3,
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/hooks/useAudio.ts:124:3\n  122 |   const userInteractedRef = useRef(false);\n  123 |\n> 124 |   ambientVolRef.current = ambientVolume;\n      |   ^^^^^^^^^^^^^^^^^^^^^ Cannot update ref during render\n  125 |   musicVolRef.current = musicVolume;\n  126 |   sfxVolRef.current = sfxVolume;\n  127 |   ambientMutedRef.current = ambientMuted;"
+        },
+        {
+          "ruleId": "react-hooks/refs",
+          "severity": 2,
+          "line": 125,
+          "column": 3,
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/hooks/useAudio.ts:125:3\n  123 |\n  124 |   ambientVolRef.current = ambientVolume;\n> 125 |   musicVolRef.current = musicVolume;\n      |   ^^^^^^^^^^^^^^^^^^^ Cannot update ref during render\n  126 |   sfxVolRef.current = sfxVolume;\n  127 |   ambientMutedRef.current = ambientMuted;\n  128 |   musicMutedRef.current = musicMuted;"
+        },
+        {
+          "ruleId": "react-hooks/refs",
+          "severity": 2,
+          "line": 126,
+          "column": 3,
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/hooks/useAudio.ts:126:3\n  124 |   ambientVolRef.current = ambientVolume;\n  125 |   musicVolRef.current = musicVolume;\n> 126 |   sfxVolRef.current = sfxVolume;\n      |   ^^^^^^^^^^^^^^^^^ Cannot update ref during render\n  127 |   ambientMutedRef.current = ambientMuted;\n  128 |   musicMutedRef.current = musicMuted;\n  129 |   sfxMutedRef.current = sfxMuted;"
+        },
+        {
+          "ruleId": "react-hooks/refs",
+          "severity": 2,
+          "line": 127,
+          "column": 3,
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/hooks/useAudio.ts:127:3\n  125 |   musicVolRef.current = musicVolume;\n  126 |   sfxVolRef.current = sfxVolume;\n> 127 |   ambientMutedRef.current = ambientMuted;\n      |   ^^^^^^^^^^^^^^^^^^^^^^^ Cannot update ref during render\n  128 |   musicMutedRef.current = musicMuted;\n  129 |   sfxMutedRef.current = sfxMuted;\n  130 |   userInteractedRef.current = userInteracted;"
+        },
+        {
+          "ruleId": "react-hooks/refs",
+          "severity": 2,
+          "line": 128,
+          "column": 3,
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/hooks/useAudio.ts:128:3\n  126 |   sfxVolRef.current = sfxVolume;\n  127 |   ambientMutedRef.current = ambientMuted;\n> 128 |   musicMutedRef.current = musicMuted;\n      |   ^^^^^^^^^^^^^^^^^^^^^ Cannot update ref during render\n  129 |   sfxMutedRef.current = sfxMuted;\n  130 |   userInteractedRef.current = userInteracted;\n  131 |"
+        },
+        {
+          "ruleId": "react-hooks/refs",
+          "severity": 2,
+          "line": 129,
+          "column": 3,
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/hooks/useAudio.ts:129:3\n  127 |   ambientMutedRef.current = ambientMuted;\n  128 |   musicMutedRef.current = musicMuted;\n> 129 |   sfxMutedRef.current = sfxMuted;\n      |   ^^^^^^^^^^^^^^^^^^^ Cannot update ref during render\n  130 |   userInteractedRef.current = userInteracted;\n  131 |\n  132 |   // Listen for first user interaction"
+        },
+        {
+          "ruleId": "react-hooks/refs",
+          "severity": 2,
+          "line": 130,
+          "column": 3,
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/hooks/useAudio.ts:130:3\n  128 |   musicMutedRef.current = musicMuted;\n  129 |   sfxMutedRef.current = sfxMuted;\n> 130 |   userInteractedRef.current = userInteracted;\n      |   ^^^^^^^^^^^^^^^^^^^^^^^^^ Cannot update ref during render\n  131 |\n  132 |   // Listen for first user interaction\n  133 |   useEffect(() => {"
+        }
+      ]
+    },
+    {
+      "file": "src/hooks/useDiscoveryBadge.ts",
+      "messages": [
+        {
+          "ruleId": "react-hooks/set-state-in-effect",
+          "severity": 2,
+          "line": 37,
+          "column": 7,
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/hooks/useDiscoveryBadge.ts:37:7\n  35 |\n  36 |     if (hasNewDiscovery) {\n> 37 |       setHasUnread(true);\n     |       ^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  38 |     }\n  39 |   }, [latestResult, entityTypes]);\n  40 |"
+        }
+      ]
+    },
+    {
+      "file": "src/hooks/useWebSocket.ts",
+      "messages": [
+        {
+          "ruleId": "react-hooks/set-state-in-effect",
+          "severity": 2,
+          "line": 52,
+          "column": 7,
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/shared/Work/Worktrees/edda/t3-6eb68e8d-44d04182c87189c8/frontend/src/hooks/useWebSocket.ts:52:7\n  50 |\n  51 |     if (!activeCampaignId) {\n> 52 |       setEvents([]);\n     |       ^^^^^^^^^ Avoid calling setState() directly within an effect\n  53 |       setError(null);\n  54 |       setIsAwaitingResponse(false);\n  55 |       setCurrentStatus(null);"
+        }
+      ]
+    }
+  ]
+}

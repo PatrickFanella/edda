@@ -1,0 +1,1239 @@
+{
+  "observedAt": "2026-11-15T01:33:00Z\u201301:42:00Z",
+  "source": "b84d5dc8bde8438920c867c2dab4d64c50c001b5",
+  "afterTurn": {
+    "viewport": [
+      390,
+      844
+    ],
+    "document": [
+      390,
+      2201
+    ],
+    "scrollY": 0,
+    "input": {
+      "x": 36,
+      "y": 1208.2578125,
+      "width": 318,
+      "height": 112,
+      "bottom": 1320.2578125
+    },
+    "send": {
+      "x": 36,
+      "y": 1388.2578125,
+      "width": 318,
+      "height": 32.9921875,
+      "bottom": 1421.25
+    },
+    "tabs": {
+      "x": 26,
+      "y": 2060.0546875,
+      "width": 338,
+      "height": 39.4765625,
+      "bottom": 2099.53125
+    },
+    "choice": {
+      "x": 18,
+      "y": 1094.2578125,
+      "width": 354,
+      "height": 56,
+      "bottom": 1150.2578125
+    },
+    "focus": "<textarea rows=\"3\" placeholder=\"Describe what you do next\u2026\" class=\"min-h-28 w-full resize-none border-2 border-gold/20 bg-obsidian px-4 py-3 text-sm l"
+  },
+  "sections": [
+    {
+      "label": "Character",
+      "selected": "Character",
+      "headings": [
+        "Adventure alpha",
+        "Character",
+        "Mira",
+        "Abilities",
+        "Vitals",
+        "Active objective",
+        "Quick inventory",
+        "Scene scan"
+      ],
+      "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nCHARACTER\n\nCHARACTER\n\nMIRA\n\nA scout\n\nACTIVE\n\nHP\n\n10 / 10\n\nEXPERIENCE\n\n0 / 1000\n\n0% TO LEVEL 2\n\nLevel\n1\nStatus\nActive\nLocation\nLocation not recorded\nCharacter ID\nhero\n\nSTATS\n\nNo stats have been recorded for this character yet.\n\nCHARACTER\n\nABILITIES\n\nCapabilities and special actions currently attached to this character.\n\nNo abilities are available yet. The character can still act through the narrative tab while new capabilities are discovered.\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+      "focus": "tab",
+      "document": [
+        390,
+        1996
+      ],
+      "scrollY": 1152
+    },
+    {
+      "label": "Inventory",
+      "selected": "Inventory",
+      "headings": [
+        "Adventure alpha",
+        "Inventory",
+        "Vitals",
+        "Active objective",
+        "Quick inventory",
+        "Scene scan"
+      ],
+      "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nINVENTORY\n\nINVENTORY EMPTY\n\nAdventure alpha has no items yet. Loot, rewards, and equipped gear will appear here.\n\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+      "focus": "tab",
+      "document": [
+        390,
+        1305
+      ],
+      "scrollY": 461
+    },
+    {
+      "label": "Quests",
+      "selected": "Quests",
+      "headings": [
+        "Adventure alpha",
+        "No quests yet",
+        "Vitals",
+        "Active objective",
+        "Quick inventory",
+        "Scene scan"
+      ],
+      "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nNO QUESTS YET\n\nQuest hooks, long-term arcs, and subquests will appear here once the campaign creates them.\n\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+      "focus": "tab",
+      "document": [
+        390,
+        1185
+      ],
+      "scrollY": 341
+    },
+    {
+      "label": "NPCs",
+      "selected": "NPCs",
+      "headings": [
+        "Adventure alpha",
+        "No NPCs encountered",
+        "Vitals",
+        "Active objective",
+        "Quick inventory",
+        "Scene scan"
+      ],
+      "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nNO NPCS ENCOUNTERED\n\nNPCs you meet during the campaign will appear here with their dialogue history.\n\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+      "focus": "tab",
+      "document": [
+        390,
+        1185
+      ],
+      "scrollY": 341
+    },
+    {
+      "label": "World",
+      "selected": "World",
+      "headings": [
+        "Adventure alpha",
+        "No records",
+        "Vitals",
+        "Active objective",
+        "Quick inventory",
+        "Scene scan"
+      ],
+      "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nMAP\nFACTS\nCODEX\nRELATIONSHIPS\nNO RECORDS\n\nNO LOCATIONS DISCOVERED\n\nExplore the world to discover new locations. They will appear on the map as you travel.\n\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+      "focus": "tab",
+      "document": [
+        390,
+        1440
+      ],
+      "scrollY": 341
+    },
+    {
+      "label": "Journal",
+      "selected": "Journal",
+      "headings": [
+        "Adventure alpha",
+        "Journal",
+        "Journal",
+        "Vitals",
+        "Active objective",
+        "Quick inventory",
+        "Scene scan"
+      ],
+      "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nJOURNAL\nJOURNAL\nCHRONICLE\nNOTES\n\nAuto-generated session summaries, ordered by turn range.\n\nSUMMARIZE\n\nNO SUMMARIES YET\n\nSummaries are auto-generated every 10 turns, or you can trigger one manually.\n\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+      "focus": "tab",
+      "document": [
+        390,
+        1498
+      ],
+      "scrollY": 596
+    },
+    {
+      "label": "Logs",
+      "selected": "Logs",
+      "headings": [
+        "Adventure alpha",
+        "Logs",
+        "Vitals",
+        "Active objective",
+        "Quick inventory",
+        "Scene scan"
+      ],
+      "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nLOGS\n2026-01-01T12:00:00Z\n[gm]\nThe alpha gate opens.\n2026-01-01T12:00:00Z\n[player]\nEnter the gate\n2026-01-01T12:00:00Z\n[gm]\nThe alpha keeper welcomes you.\n2026-11-15T01:33:34.701Z\n[player]\nLook around\n2026-01-01T12:00:00Z\n[gm]\nYou find a silver key.\n2026-11-15T01:33:46.185Z\n[player]\nInspect the key\n2026-01-01T12:00:00Z\n[gm]\nYou find a silver key.\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+      "focus": "tab",
+      "document": [
+        390,
+        1585
+      ],
+      "scrollY": 596
+    },
+    {
+      "label": "Narrative",
+      "selected": "Narrative",
+      "headings": [
+        "Adventure alpha",
+        "Vitals",
+        "Active objective",
+        "Quick inventory",
+        "Scene scan"
+      ],
+      "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nGM\n\nGame Master\n\n6:00 AM\n\nThe alpha gate opens.\n\nPLAYER\n\nYou\n\n6:00 AM\n\nEnter the gate\n\nGM\n\nGame Master\n\n6:00 AM\n\nThe alpha keeper welcomes you.\n\nPLAYER\n\nYou\n\n7:33 PM\n\nLook around\n\nGM\n\nGame Master\n\n6:00 AM\n\nYou find a silver key.\n\nPLAYER\n\nYou\n\n7:33 PM\n\nInspect the key\n\nGM\n\nGame Master\n\n6:00 AM\n\nYou find a silver key.\n\nSUGGESTED CHOICES\n\nInspect the key\nCHOOSE\nYOUR MOVE\n\nPress Enter to act. Use Shift+Enter for a line break.\n\nSEND ACTION\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+      "draft": "",
+      "focus": null,
+      "document": [
+        390,
+        2483
+      ],
+      "scrollY": 741
+    }
+  ],
+  "world": [
+    {
+      "label": "Map",
+      "result": {
+        "toolIcon": {
+          "_tag": "website",
+          "pageUrl": "http://localhost:39247/play/alpha"
+        },
+        "value": {
+          "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nMAP\nFACTS\nCODEX\nRELATIONSHIPS\nNO RECORDS\n\nNO LOCATIONS DISCOVERED\n\nExplore the world to discover new locations. They will appear on the map as you travel.\n\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+          "document": [
+            390,
+            1440
+          ]
+        }
+      }
+    },
+    {
+      "label": "Facts",
+      "result": {
+        "toolIcon": {
+          "_tag": "website",
+          "pageUrl": "http://localhost:39247/play/alpha"
+        },
+        "value": {
+          "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nMAP\nFACTS\nCODEX\nRELATIONSHIPS\nNO RECORDS\n\nWorld facts and lore your character has learned will appear here.\n\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+          "document": [
+            390,
+            1296
+          ]
+        }
+      }
+    },
+    {
+      "label": "Codex",
+      "result": {
+        "toolIcon": {
+          "_tag": "website",
+          "pageUrl": "http://localhost:39247/play/alpha"
+        },
+        "value": {
+          "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nMAP\nFACTS\nCODEX\nRELATIONSHIPS\nCODEX\nLANGUAGES\nCULTURES\nBELIEFS\nECONOMIES\nNO RECORDS\nNo languages discovered yet.\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+          "document": [
+            390,
+            1424
+          ]
+        }
+      }
+    },
+    {
+      "label": "Relationships",
+      "result": {
+        "toolIcon": {
+          "_tag": "website",
+          "pageUrl": "http://localhost:39247/play/alpha"
+        },
+        "value": {
+          "text": "OPTIMIZED FOR WIDESCREEN PLAY. ROTATE, WIDEN, OR ZOOM OUT FOR THE FULL HUD FRAME.\nDIALOGUE\nADVENTURE ALPHA\nDAY 1, 12:00\nMAP\nFACTS\nCODEX\nRELATIONSHIPS\nNO RELATIONSHIPS KNOWN\n\nRelationships between entities that your character is aware of will appear here.\n\nVITALS\n\nMIRA\n\nLEVEL 1 \u00b7 ACTIVE\n\nLV 1\nHP\n10 / 10\nXP\n0 / 1000\nACTIVE OBJECTIVE\n\nNo tracked objective yet.\n\nQUICK INVENTORY\n\nNo quick items detected.\n\nSCENE SCAN\nMode\nDialogue\nRules\nNarrative\nStatus\nActive\nConnection\nOpen\nChoices\n1\nTone\nhopeful\nNARRATIVE\nCHARACTER\nINVENTORY\nQUESTS\nNPCS\nWORLD\nJOURNAL\nLOGS",
+          "document": [
+            390,
+            1326
+          ]
+        }
+      }
+    }
+  ],
+  "narrowSections": [
+    {
+      "viewport": [
+        360,
+        800
+      ],
+      "selected": "Narrative",
+      "document": [
+        360,
+        6315
+      ],
+      "focus": "Narrative"
+    },
+    {
+      "viewport": [
+        360,
+        800
+      ],
+      "selected": "Character",
+      "document": [
+        360,
+        1996
+      ],
+      "focus": "Character"
+    },
+    {
+      "viewport": [
+        360,
+        800
+      ],
+      "selected": "Inventory",
+      "document": [
+        360,
+        1305
+      ],
+      "focus": "Inventory"
+    },
+    {
+      "viewport": [
+        360,
+        800
+      ],
+      "selected": "Quests",
+      "document": [
+        360,
+        1209
+      ],
+      "focus": "Quests"
+    },
+    {
+      "viewport": [
+        360,
+        800
+      ],
+      "selected": "NPCs",
+      "document": [
+        360,
+        1185
+      ],
+      "focus": "NPCs"
+    },
+    {
+      "viewport": [
+        360,
+        800
+      ],
+      "selected": "World",
+      "document": [
+        360,
+        1479
+      ],
+      "focus": "World"
+    },
+    {
+      "viewport": [
+        360,
+        800
+      ],
+      "selected": "Journal",
+      "document": [
+        360,
+        1498
+      ],
+      "focus": "Journal"
+    },
+    {
+      "viewport": [
+        360,
+        800
+      ],
+      "selected": "Logs",
+      "document": [
+        360,
+        12745
+      ],
+      "focus": "Logs"
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "selected": "Narrative",
+      "document": [
+        844,
+        3655
+      ],
+      "focus": ""
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "selected": "Character",
+      "document": [
+        844,
+        1836
+      ],
+      "focus": "Character"
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "selected": "Inventory",
+      "document": [
+        844,
+        1185
+      ],
+      "focus": "Inventory"
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "selected": "Quests",
+      "document": [
+        844,
+        1089
+      ],
+      "focus": "Quests"
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "selected": "NPCs",
+      "document": [
+        844,
+        1089
+      ],
+      "focus": "NPCs"
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "selected": "World",
+      "document": [
+        844,
+        1328
+      ],
+      "focus": "World"
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "selected": "Journal",
+      "document": [
+        844,
+        1359
+      ],
+      "focus": "Journal"
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "selected": "Logs",
+      "document": [
+        844,
+        2573
+      ],
+      "focus": "Logs"
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "selected": "Narrative",
+      "document": [
+        768,
+        3791
+      ],
+      "focus": ""
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "selected": "Character",
+      "document": [
+        768,
+        1852
+      ],
+      "focus": "Character"
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "selected": "Inventory",
+      "document": [
+        768,
+        1201
+      ],
+      "focus": "Inventory"
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "selected": "Quests",
+      "document": [
+        768,
+        1105
+      ],
+      "focus": "Quests"
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "selected": "NPCs",
+      "document": [
+        768,
+        1105
+      ],
+      "focus": "NPCs"
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "selected": "World",
+      "document": [
+        768,
+        1344
+      ],
+      "focus": "World"
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "selected": "Journal",
+      "document": [
+        768,
+        1375
+      ],
+      "focus": "Journal"
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "selected": "Logs",
+      "document": [
+        768,
+        2949
+      ],
+      "focus": "Logs"
+    }
+  ],
+  "export": [
+    {
+      "toolIcon": {
+        "_tag": "website",
+        "pageUrl": "http://localhost:39247/play/alpha"
+      },
+      "value": {
+        "dialog": {
+          "x": 0,
+          "y": 193,
+          "width": 390,
+          "height": 458,
+          "top": 193,
+          "right": 390,
+          "bottom": 651,
+          "left": 0
+        },
+        "controls": [
+          {
+            "text": "JSON DATA\n\nFull campaign data including all NPCs, locations, quests, and session history.",
+            "rect": {
+              "x": 26,
+              "y": 303,
+              "width": 338,
+              "height": 82,
+              "top": 303,
+              "right": 364,
+              "bottom": 385,
+              "left": 26
+            }
+          },
+          {
+            "text": "SESSION TRANSCRIPT\n\nMarkdown document of all player/GM exchanges.",
+            "rect": {
+              "x": 26,
+              "y": 397,
+              "width": 338,
+              "height": 66,
+              "top": 397,
+              "right": 364,
+              "bottom": 463,
+              "left": 26
+            }
+          },
+          {
+            "text": "CHARACTER SHEET\n\nMarkdown character sheet with stats, abilities, and inventory.",
+            "rect": {
+              "x": 26,
+              "y": 475,
+              "width": 338,
+              "height": 82,
+              "top": 475,
+              "right": 364,
+              "bottom": 557,
+              "left": 26
+            }
+          },
+          {
+            "text": "CLOSE",
+            "rect": {
+              "x": 269.875,
+              "y": 598,
+              "width": 94.125,
+              "height": 35,
+              "top": 598,
+              "right": 364,
+              "bottom": 633,
+              "left": 269.875
+            }
+          }
+        ],
+        "viewport": [
+          390,
+          844
+        ],
+        "dialogClientHeight": 454,
+        "dialogScrollHeight": 454
+      }
+    },
+    {
+      "toolIcon": {
+        "_tag": "website",
+        "pageUrl": "http://localhost:39247/play/alpha"
+      },
+      "value": {
+        "dialog": {
+          "x": 0,
+          "y": 159,
+          "width": 360,
+          "height": 482,
+          "top": 159,
+          "right": 360,
+          "bottom": 641,
+          "left": 0
+        },
+        "controls": [
+          {
+            "text": "JSON DATA\n\nFull campaign data including all NPCs, locations, quests, and session history.",
+            "rect": {
+              "x": 26,
+              "y": 293,
+              "width": 308,
+              "height": 82,
+              "top": 293,
+              "right": 334,
+              "bottom": 375,
+              "left": 26
+            }
+          },
+          {
+            "text": "SESSION TRANSCRIPT\n\nMarkdown document of all player/GM exchanges.",
+            "rect": {
+              "x": 26,
+              "y": 387,
+              "width": 308,
+              "height": 66,
+              "top": 387,
+              "right": 334,
+              "bottom": 453,
+              "left": 26
+            }
+          },
+          {
+            "text": "CHARACTER SHEET\n\nMarkdown character sheet with stats, abilities, and inventory.",
+            "rect": {
+              "x": 26,
+              "y": 465,
+              "width": 308,
+              "height": 82,
+              "top": 465,
+              "right": 334,
+              "bottom": 547,
+              "left": 26
+            }
+          },
+          {
+            "text": "CLOSE",
+            "rect": {
+              "x": 239.875,
+              "y": 588,
+              "width": 94.125,
+              "height": 35,
+              "top": 588,
+              "right": 334,
+              "bottom": 623,
+              "left": 239.875
+            }
+          }
+        ],
+        "viewport": [
+          360,
+          800
+        ],
+        "dialogClientHeight": 478,
+        "dialogScrollHeight": 478
+      }
+    },
+    {
+      "toolIcon": {
+        "_tag": "website",
+        "pageUrl": "http://localhost:39247/play/alpha"
+      },
+      "value": {
+        "dialog": {
+          "x": 166,
+          "y": 20,
+          "width": 512,
+          "height": 350,
+          "top": 20,
+          "right": 678,
+          "bottom": 370,
+          "left": 166
+        },
+        "controls": [
+          {
+            "text": "JSON DATA\n\nFull campaign data including all NPCs, locations, quests, and session history.",
+            "rect": {
+              "x": 192,
+              "y": 130,
+              "width": 460,
+              "height": 66,
+              "top": 130,
+              "right": 652,
+              "bottom": 196,
+              "left": 192
+            }
+          },
+          {
+            "text": "SESSION TRANSCRIPT\n\nMarkdown document of all player/GM exchanges.",
+            "rect": {
+              "x": 192,
+              "y": 208,
+              "width": 460,
+              "height": 66,
+              "top": 208,
+              "right": 652,
+              "bottom": 274,
+              "left": 192
+            }
+          },
+          {
+            "text": "CHARACTER SHEET\n\nMarkdown character sheet with stats, abilities, and inventory.",
+            "rect": {
+              "x": 192,
+              "y": 286,
+              "width": 460,
+              "height": 66,
+              "top": 286,
+              "right": 652,
+              "bottom": 352,
+              "left": 192
+            }
+          },
+          {
+            "text": "CLOSE",
+            "rect": {
+              "x": 557.875,
+              "y": 393,
+              "width": 94.125,
+              "height": 35,
+              "top": 393,
+              "right": 652,
+              "bottom": 428,
+              "left": 557.875
+            }
+          }
+        ],
+        "viewport": [
+          844,
+          390
+        ],
+        "dialogClientHeight": 346,
+        "dialogScrollHeight": 422
+      }
+    },
+    {
+      "toolIcon": {
+        "_tag": "website",
+        "pageUrl": "http://localhost:39247/play/alpha"
+      },
+      "value": {
+        "dialog": {
+          "x": 128,
+          "y": 299,
+          "width": 512,
+          "height": 426,
+          "top": 299,
+          "right": 640,
+          "bottom": 725,
+          "left": 128
+        },
+        "controls": [
+          {
+            "text": "JSON DATA\n\nFull campaign data including all NPCs, locations, quests, and session history.",
+            "rect": {
+              "x": 154,
+              "y": 409,
+              "width": 460,
+              "height": 66,
+              "top": 409,
+              "right": 614,
+              "bottom": 475,
+              "left": 154
+            }
+          },
+          {
+            "text": "SESSION TRANSCRIPT\n\nMarkdown document of all player/GM exchanges.",
+            "rect": {
+              "x": 154,
+              "y": 487,
+              "width": 460,
+              "height": 66,
+              "top": 487,
+              "right": 614,
+              "bottom": 553,
+              "left": 154
+            }
+          },
+          {
+            "text": "CHARACTER SHEET\n\nMarkdown character sheet with stats, abilities, and inventory.",
+            "rect": {
+              "x": 154,
+              "y": 565,
+              "width": 460,
+              "height": 66,
+              "top": 565,
+              "right": 614,
+              "bottom": 631,
+              "left": 154
+            }
+          },
+          {
+            "text": "CLOSE",
+            "rect": {
+              "x": 519.875,
+              "y": 672,
+              "width": 94.125,
+              "height": 35,
+              "top": 672,
+              "right": 614,
+              "bottom": 707,
+              "left": 519.875
+            }
+          }
+        ],
+        "viewport": [
+          768,
+          1024
+        ],
+        "dialogClientHeight": 422,
+        "dialogScrollHeight": 422
+      }
+    }
+  ],
+  "landscapeExportScrolled": {
+    "scrollTop": 76,
+    "close": {
+      "x": 557.875,
+      "y": 317,
+      "width": 94.125,
+      "height": 35,
+      "top": 317,
+      "right": 652,
+      "bottom": 352,
+      "left": 557.875
+    },
+    "viewport": [
+      844,
+      390
+    ]
+  },
+  "longChoices": {
+    "choices": 8,
+    "log": {
+      "clientHeight": 3866,
+      "scrollHeight": 3866
+    },
+    "viewport": [
+      390,
+      844
+    ],
+    "document": [
+      390,
+      7766
+    ],
+    "scrollY": 3421.5,
+    "input": {
+      "x": 36,
+      "y": 6772.9375,
+      "width": 318,
+      "height": 112,
+      "bottom": 6884.9375
+    },
+    "send": {
+      "x": 36,
+      "y": 6952.9375,
+      "width": 318,
+      "height": 32.9921875,
+      "bottom": 6985.9296875
+    },
+    "tabs": {
+      "x": 26,
+      "y": 7624.7421875,
+      "width": 338,
+      "height": 39.4765625,
+      "bottom": 7664.21875
+    },
+    "choice": {
+      "x": 18,
+      "y": 4322.9375,
+      "width": 354,
+      "height": 292,
+      "bottom": 4614.9375
+    },
+    "focus": "<body>\n    <div id=\"root\"><main class=\"min-h-screen overflow-x-hidden bg-obsidian px-2 py-2 text-[17px] xl:h-screen xl:overflow-hidden text-champagne\""
+  },
+  "error": {
+    "error": true,
+    "viewport": [
+      390,
+      844
+    ],
+    "document": [
+      390,
+      5623
+    ],
+    "scrollY": 3629,
+    "input": {
+      "x": 36,
+      "y": 4548.2890625,
+      "width": 318,
+      "height": 112,
+      "bottom": 4660.2890625
+    },
+    "send": {
+      "x": 36,
+      "y": 4728.2890625,
+      "width": 318,
+      "height": 32.9921875,
+      "bottom": 4761.28125
+    },
+    "tabs": {
+      "x": 26,
+      "y": 5482.0859375,
+      "width": 338,
+      "height": 39.4765625,
+      "bottom": 5521.5625
+    },
+    "choice": null,
+    "focus": "<textarea rows=\"3\" placeholder=\"Describe what you do next\u2026\" class=\"min-h-28 w-full resize-none border-2 border-gold/20 bg-obsidian px-4 py-3 text-sm l"
+  },
+  "desktopLongChoices": {
+    "viewport": [
+      1366,
+      768
+    ],
+    "document": [
+      1366,
+      844
+    ],
+    "log": {
+      "x": 26.5546875,
+      "y": 158.5,
+      "width": 1016.8828125,
+      "height": 32,
+      "top": 158.5,
+      "right": 1043.4375,
+      "bottom": 190.5,
+      "left": 26.5546875
+    },
+    "choices": {
+      "x": 24.5546875,
+      "y": 172.5,
+      "width": 1020.8828125,
+      "height": 836,
+      "top": 172.5,
+      "right": 1045.4375,
+      "bottom": 1008.5,
+      "left": 24.5546875
+    },
+    "send": {
+      "x": 838.8828125,
+      "y": 1194.5,
+      "width": 188.5546875,
+      "height": 32.9921875,
+      "top": 1194.5,
+      "right": 1027.4375,
+      "bottom": 1227.4921875,
+      "left": 838.8828125
+    },
+    "input": {
+      "x": 42.5546875,
+      "y": 1066.5,
+      "width": 984.8828125,
+      "height": 112,
+      "top": 1066.5,
+      "right": 1027.4375,
+      "bottom": 1178.5,
+      "left": 42.5546875
+    }
+  },
+  "desktopClipping": {
+    "ancestry": [
+      {
+        "tag": "BUTTON",
+        "classes": "hud-text-button inline-flex items-center justify-center bg-ruby px-5 text-sm font-semibold uppercase tracking-[0.15em] text-champagne transition-all duration-200 hover:bg-ruby-light hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter disabled:hover:scale-100",
+        "rect": {
+          "x": 838.8828125,
+          "y": 1194.5,
+          "width": 188.5546875,
+          "height": 32.9921875,
+          "top": 1194.5,
+          "right": 1027.4375,
+          "bottom": 1227.4921875,
+          "left": 838.8828125
+        },
+        "overflowY": "visible"
+      },
+      {
+        "tag": "DIV",
+        "classes": "mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between",
+        "rect": {
+          "x": 42.5546875,
+          "y": 1194.5,
+          "width": 984.8828125,
+          "height": 32.9921875,
+          "top": 1194.5,
+          "right": 1027.4375,
+          "bottom": 1227.4921875,
+          "left": 42.5546875
+        },
+        "overflowY": "visible"
+      },
+      {
+        "tag": "FORM",
+        "classes": "border-2 border-gold/20 bg-charcoal p-4 transition-all duration-200",
+        "rect": {
+          "x": 24.5546875,
+          "y": 1020.5,
+          "width": 1020.8828125,
+          "height": 224.9921875,
+          "top": 1020.5,
+          "right": 1045.4375,
+          "bottom": 1245.4921875,
+          "left": 24.5546875
+        },
+        "overflowY": "visible"
+      },
+      {
+        "tag": "DIV",
+        "classes": "flex h-full min-h-0 flex-col gap-3 overflow-hidden",
+        "rect": {
+          "x": 24.5546875,
+          "y": 156.5,
+          "width": 1020.8828125,
+          "height": 530.0234375,
+          "top": 156.5,
+          "right": 1045.4375,
+          "bottom": 686.5234375,
+          "left": 24.5546875
+        },
+        "overflowY": "hidden"
+      },
+      {
+        "tag": "DIV",
+        "classes": "h-full min-h-0 overflow-hidden",
+        "rect": {
+          "x": 24.5546875,
+          "y": 156.5,
+          "width": 1020.8828125,
+          "height": 530.0234375,
+          "top": 156.5,
+          "right": 1045.4375,
+          "bottom": 686.5234375,
+          "left": 24.5546875
+        },
+        "overflowY": "hidden"
+      },
+      {
+        "tag": "DIV",
+        "classes": "grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden xl:col-start-1 xl:row-start-1",
+        "rect": {
+          "x": 24.5546875,
+          "y": 156.5,
+          "width": 1020.8828125,
+          "height": 530.0234375,
+          "top": 156.5,
+          "right": 1045.4375,
+          "bottom": 686.5234375,
+          "left": 24.5546875
+        },
+        "overflowY": "hidden"
+      },
+      {
+        "tag": "DIV",
+        "classes": "game-hud-frame grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-hidden xl:grid-cols-[minmax(0,1fr)_18rem] xl:grid-rows-[minmax(0,1fr)_auto]",
+        "rect": {
+          "x": 24.5546875,
+          "y": 156.5,
+          "width": 1316.8828125,
+          "height": 593.5,
+          "top": 156.5,
+          "right": 1341.4375,
+          "bottom": 750,
+          "left": 24.5546875
+        },
+        "overflowY": "hidden"
+      },
+      {
+        "tag": "DIV",
+        "classes": "flex h-full min-h-0 flex-col gap-2",
+        "rect": {
+          "x": 24.5546875,
+          "y": 85,
+          "width": 1316.8828125,
+          "height": 665,
+          "top": 85,
+          "right": 1341.4375,
+          "bottom": 750,
+          "left": 24.5546875
+        },
+        "overflowY": "visible"
+      },
+      {
+        "tag": "SECTION",
+        "classes": "min-h-0 flex-1",
+        "rect": {
+          "x": 24.5546875,
+          "y": 85,
+          "width": 1316.8828125,
+          "height": 665,
+          "top": 85,
+          "right": 1341.4375,
+          "bottom": 750,
+          "left": 24.5546875
+        },
+        "overflowY": "visible"
+      },
+      {
+        "tag": "DIV",
+        "classes": "mx-auto flex w-full flex-col border-2 border-pewter/20 bg-charcoal min-h-[calc(100vh-1rem)] gap-2 p-2 xl:h-[calc(100vh-1rem)] xl:max-w-[min(calc(100vw-1rem),calc((100vh-1rem)*16/9))] xl:overflow-hidden",
+        "rect": {
+          "x": 14.5546875,
+          "y": 8,
+          "width": 1336.8828125,
+          "height": 752,
+          "top": 8,
+          "right": 1351.4375,
+          "bottom": 760,
+          "left": 14.5546875
+        },
+        "overflowY": "hidden"
+      },
+      {
+        "tag": "MAIN",
+        "classes": "min-h-screen overflow-x-hidden bg-obsidian px-2 py-2 text-[17px] xl:h-screen xl:overflow-hidden text-champagne",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1366,
+          "height": 768,
+          "top": 0,
+          "right": 1366,
+          "bottom": 768,
+          "left": 0
+        },
+        "overflowY": "hidden"
+      },
+      {
+        "tag": "DIV",
+        "classes": "",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1366,
+          "height": 768,
+          "top": 0,
+          "right": 1366,
+          "bottom": 768,
+          "left": 0
+        },
+        "overflowY": "visible"
+      },
+      {
+        "tag": "BODY",
+        "classes": "",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1366,
+          "height": 844,
+          "top": 0,
+          "right": 1366,
+          "bottom": 844,
+          "left": 0
+        },
+        "overflowY": "visible"
+      },
+      {
+        "tag": "HTML",
+        "classes": "",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 1366,
+          "height": 844,
+          "top": 0,
+          "right": 1366,
+          "bottom": 844,
+          "left": 0
+        },
+        "overflowY": "visible"
+      }
+    ]
+  },
+  "readingPosition": {
+    "before": 100,
+    "after": 0,
+    "focus": "TEXTAREA",
+    "logHeight": 193,
+    "scrollHeight": 595
+  }
+}

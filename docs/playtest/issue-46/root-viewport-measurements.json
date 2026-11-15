@@ -1,0 +1,891 @@
+[
+  {
+    "viewport": [
+      1366,
+      768
+    ],
+    "document": [
+      1366,
+      844
+    ],
+    "input": {
+      "x": 43,
+      "y": 508,
+      "width": 985,
+      "height": 112,
+      "bottom": 620
+    },
+    "send": {
+      "x": 839,
+      "y": 636,
+      "width": 189,
+      "height": 33,
+      "bottom": 669
+    },
+    "tabs": {
+      "x": 33,
+      "y": 703,
+      "width": 1005,
+      "height": 39,
+      "bottom": 742
+    },
+    "choice": {
+      "x": 25,
+      "y": 394,
+      "width": 506,
+      "height": 56,
+      "bottom": 450
+    },
+    "footer": {
+      "x": 0,
+      "y": 768,
+      "width": 1366,
+      "height": 76,
+      "bottom": 844
+    },
+    "tabTargets": [
+      {
+        "label": "Narrative",
+        "box": {
+          "x": 37,
+          "y": 707,
+          "width": 147,
+          "height": 31,
+          "bottom": 738
+        }
+      },
+      {
+        "label": "Character",
+        "box": {
+          "x": 192,
+          "y": 707,
+          "width": 156,
+          "height": 31,
+          "bottom": 738
+        }
+      },
+      {
+        "label": "Inventory",
+        "box": {
+          "x": 356,
+          "y": 707,
+          "width": 155,
+          "height": 31,
+          "bottom": 738
+        }
+      },
+      {
+        "label": "Quests",
+        "box": {
+          "x": 519,
+          "y": 707,
+          "width": 115,
+          "height": 31,
+          "bottom": 738
+        }
+      },
+      {
+        "label": "NPCs",
+        "box": {
+          "x": 642,
+          "y": 707,
+          "width": 88,
+          "height": 31,
+          "bottom": 738
+        }
+      },
+      {
+        "label": "World",
+        "box": {
+          "x": 738,
+          "y": 707,
+          "width": 109,
+          "height": 31,
+          "bottom": 738
+        }
+      },
+      {
+        "label": "Journal",
+        "box": {
+          "x": 855,
+          "y": 707,
+          "width": 129,
+          "height": 31,
+          "bottom": 738
+        }
+      },
+      {
+        "label": "Logs",
+        "box": {
+          "x": 992,
+          "y": 707,
+          "width": 90,
+          "height": 31,
+          "bottom": 738
+        }
+      }
+    ]
+  },
+  {
+    "viewport": [
+      1440,
+      900
+    ],
+    "document": [
+      1440,
+      976
+    ],
+    "input": {
+      "x": 36,
+      "y": 640,
+      "width": 1072,
+      "height": 112,
+      "bottom": 752
+    },
+    "send": {
+      "x": 919,
+      "y": 768,
+      "width": 189,
+      "height": 33,
+      "bottom": 801
+    },
+    "tabs": {
+      "x": 26,
+      "y": 835,
+      "width": 1092,
+      "height": 39,
+      "bottom": 874
+    },
+    "choice": {
+      "x": 18,
+      "y": 526,
+      "width": 550,
+      "height": 56,
+      "bottom": 582
+    },
+    "footer": {
+      "x": 0,
+      "y": 900,
+      "width": 1440,
+      "height": 76,
+      "bottom": 976
+    },
+    "tabTargets": [
+      {
+        "label": "Narrative",
+        "box": {
+          "x": 30,
+          "y": 839,
+          "width": 147,
+          "height": 31,
+          "bottom": 870
+        }
+      },
+      {
+        "label": "Character",
+        "box": {
+          "x": 191,
+          "y": 839,
+          "width": 156,
+          "height": 31,
+          "bottom": 870
+        }
+      },
+      {
+        "label": "Inventory",
+        "box": {
+          "x": 361,
+          "y": 839,
+          "width": 155,
+          "height": 31,
+          "bottom": 870
+        }
+      },
+      {
+        "label": "Quests",
+        "box": {
+          "x": 529,
+          "y": 839,
+          "width": 115,
+          "height": 31,
+          "bottom": 870
+        }
+      },
+      {
+        "label": "NPCs",
+        "box": {
+          "x": 657,
+          "y": 839,
+          "width": 88,
+          "height": 31,
+          "bottom": 870
+        }
+      },
+      {
+        "label": "World",
+        "box": {
+          "x": 759,
+          "y": 839,
+          "width": 109,
+          "height": 31,
+          "bottom": 870
+        }
+      },
+      {
+        "label": "Journal",
+        "box": {
+          "x": 882,
+          "y": 839,
+          "width": 129,
+          "height": 31,
+          "bottom": 870
+        }
+      },
+      {
+        "label": "Logs",
+        "box": {
+          "x": 1024,
+          "y": 839,
+          "width": 90,
+          "height": 31,
+          "bottom": 870
+        }
+      }
+    ]
+  },
+  {
+    "viewport": [
+      1920,
+      1080
+    ],
+    "document": [
+      1920,
+      1156
+    ],
+    "input": {
+      "x": 42,
+      "y": 820,
+      "width": 1540,
+      "height": 112,
+      "bottom": 932
+    },
+    "send": {
+      "x": 1393,
+      "y": 948,
+      "width": 189,
+      "height": 33,
+      "bottom": 981
+    },
+    "tabs": {
+      "x": 32,
+      "y": 1015,
+      "width": 1560,
+      "height": 39,
+      "bottom": 1054
+    },
+    "choice": {
+      "x": 24,
+      "y": 706,
+      "width": 784,
+      "height": 56,
+      "bottom": 762
+    },
+    "footer": {
+      "x": 0,
+      "y": 1080,
+      "width": 1920,
+      "height": 76,
+      "bottom": 1156
+    },
+    "tabTargets": [
+      {
+        "label": "Narrative",
+        "box": {
+          "x": 36,
+          "y": 1019,
+          "width": 147,
+          "height": 31,
+          "bottom": 1050
+        }
+      },
+      {
+        "label": "Character",
+        "box": {
+          "x": 264,
+          "y": 1019,
+          "width": 156,
+          "height": 31,
+          "bottom": 1050
+        }
+      },
+      {
+        "label": "Inventory",
+        "box": {
+          "x": 500,
+          "y": 1019,
+          "width": 155,
+          "height": 31,
+          "bottom": 1050
+        }
+      },
+      {
+        "label": "Quests",
+        "box": {
+          "x": 736,
+          "y": 1019,
+          "width": 115,
+          "height": 31,
+          "bottom": 1050
+        }
+      },
+      {
+        "label": "NPCs",
+        "box": {
+          "x": 931,
+          "y": 1019,
+          "width": 88,
+          "height": 31,
+          "bottom": 1050
+        }
+      },
+      {
+        "label": "World",
+        "box": {
+          "x": 1099,
+          "y": 1019,
+          "width": 109,
+          "height": 31,
+          "bottom": 1050
+        }
+      },
+      {
+        "label": "Journal",
+        "box": {
+          "x": 1289,
+          "y": 1019,
+          "width": 129,
+          "height": 31,
+          "bottom": 1050
+        }
+      },
+      {
+        "label": "Logs",
+        "box": {
+          "x": 1498,
+          "y": 1019,
+          "width": 90,
+          "height": 31,
+          "bottom": 1050
+        }
+      }
+    ]
+  },
+  {
+    "viewport": [
+      768,
+      1024
+    ],
+    "document": [
+      768,
+      1752
+    ],
+    "input": {
+      "x": 36,
+      "y": 811,
+      "width": 696,
+      "height": 112,
+      "bottom": 923
+    },
+    "send": {
+      "x": 543,
+      "y": 939,
+      "width": 189,
+      "height": 33,
+      "bottom": 972
+    },
+    "tabs": {
+      "x": 26,
+      "y": 1610,
+      "width": 716,
+      "height": 39,
+      "bottom": 1650
+    },
+    "choice": {
+      "x": 18,
+      "y": 697,
+      "width": 362,
+      "height": 56,
+      "bottom": 753
+    },
+    "footer": {
+      "x": 0,
+      "y": 1676,
+      "width": 768,
+      "height": 76,
+      "bottom": 1752
+    },
+    "tabTargets": [
+      {
+        "label": "Narrative",
+        "box": {
+          "x": 30,
+          "y": 1614,
+          "width": 147,
+          "height": 31,
+          "bottom": 1646
+        }
+      },
+      {
+        "label": "Character",
+        "box": {
+          "x": 185,
+          "y": 1614,
+          "width": 156,
+          "height": 31,
+          "bottom": 1646
+        }
+      },
+      {
+        "label": "Inventory",
+        "box": {
+          "x": 350,
+          "y": 1614,
+          "width": 155,
+          "height": 31,
+          "bottom": 1646
+        }
+      },
+      {
+        "label": "Quests",
+        "box": {
+          "x": 513,
+          "y": 1614,
+          "width": 115,
+          "height": 31,
+          "bottom": 1646
+        }
+      },
+      {
+        "label": "NPCs",
+        "box": {
+          "x": 635,
+          "y": 1614,
+          "width": 88,
+          "height": 31,
+          "bottom": 1646
+        }
+      },
+      {
+        "label": "World",
+        "box": {
+          "x": 732,
+          "y": 1614,
+          "width": 109,
+          "height": 31,
+          "bottom": 1646
+        }
+      },
+      {
+        "label": "Journal",
+        "box": {
+          "x": 849,
+          "y": 1614,
+          "width": 129,
+          "height": 31,
+          "bottom": 1646
+        }
+      },
+      {
+        "label": "Logs",
+        "box": {
+          "x": 985,
+          "y": 1614,
+          "width": 90,
+          "height": 31,
+          "bottom": 1646
+        }
+      }
+    ]
+  },
+  {
+    "viewport": [
+      360,
+      800
+    ],
+    "document": [
+      360,
+      2016
+    ],
+    "input": {
+      "x": 36,
+      "y": 1023,
+      "width": 288,
+      "height": 112,
+      "bottom": 1135
+    },
+    "send": {
+      "x": 36,
+      "y": 1203,
+      "width": 288,
+      "height": 33,
+      "bottom": 1236
+    },
+    "tabs": {
+      "x": 26,
+      "y": 1875,
+      "width": 308,
+      "height": 39,
+      "bottom": 1914
+    },
+    "choice": {
+      "x": 18,
+      "y": 909,
+      "width": 324,
+      "height": 56,
+      "bottom": 965
+    },
+    "footer": {
+      "x": 0,
+      "y": 1940,
+      "width": 360,
+      "height": 76,
+      "bottom": 2016
+    },
+    "tabTargets": [
+      {
+        "label": "Narrative",
+        "box": {
+          "x": 30,
+          "y": 1879,
+          "width": 147,
+          "height": 31,
+          "bottom": 1910
+        }
+      },
+      {
+        "label": "Character",
+        "box": {
+          "x": 185,
+          "y": 1879,
+          "width": 156,
+          "height": 31,
+          "bottom": 1910
+        }
+      },
+      {
+        "label": "Inventory",
+        "box": {
+          "x": 350,
+          "y": 1879,
+          "width": 155,
+          "height": 31,
+          "bottom": 1910
+        }
+      },
+      {
+        "label": "Quests",
+        "box": {
+          "x": 513,
+          "y": 1879,
+          "width": 115,
+          "height": 31,
+          "bottom": 1910
+        }
+      },
+      {
+        "label": "NPCs",
+        "box": {
+          "x": 635,
+          "y": 1879,
+          "width": 88,
+          "height": 31,
+          "bottom": 1910
+        }
+      },
+      {
+        "label": "World",
+        "box": {
+          "x": 732,
+          "y": 1879,
+          "width": 109,
+          "height": 31,
+          "bottom": 1910
+        }
+      },
+      {
+        "label": "Journal",
+        "box": {
+          "x": 849,
+          "y": 1879,
+          "width": 129,
+          "height": 31,
+          "bottom": 1910
+        }
+      },
+      {
+        "label": "Logs",
+        "box": {
+          "x": 985,
+          "y": 1879,
+          "width": 90,
+          "height": 31,
+          "bottom": 1910
+        }
+      }
+    ]
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "document": [
+      390,
+      1992
+    ],
+    "input": {
+      "x": 36,
+      "y": 999,
+      "width": 318,
+      "height": 112,
+      "bottom": 1111
+    },
+    "send": {
+      "x": 36,
+      "y": 1179,
+      "width": 318,
+      "height": 33,
+      "bottom": 1212
+    },
+    "tabs": {
+      "x": 26,
+      "y": 1851,
+      "width": 338,
+      "height": 39,
+      "bottom": 1890
+    },
+    "choice": {
+      "x": 18,
+      "y": 885,
+      "width": 354,
+      "height": 56,
+      "bottom": 941
+    },
+    "footer": {
+      "x": 0,
+      "y": 1916,
+      "width": 390,
+      "height": 76,
+      "bottom": 1992
+    },
+    "tabTargets": [
+      {
+        "label": "Narrative",
+        "box": {
+          "x": 30,
+          "y": 1855,
+          "width": 147,
+          "height": 31,
+          "bottom": 1886
+        }
+      },
+      {
+        "label": "Character",
+        "box": {
+          "x": 185,
+          "y": 1855,
+          "width": 156,
+          "height": 31,
+          "bottom": 1886
+        }
+      },
+      {
+        "label": "Inventory",
+        "box": {
+          "x": 350,
+          "y": 1855,
+          "width": 155,
+          "height": 31,
+          "bottom": 1886
+        }
+      },
+      {
+        "label": "Quests",
+        "box": {
+          "x": 513,
+          "y": 1855,
+          "width": 115,
+          "height": 31,
+          "bottom": 1886
+        }
+      },
+      {
+        "label": "NPCs",
+        "box": {
+          "x": 635,
+          "y": 1855,
+          "width": 88,
+          "height": 31,
+          "bottom": 1886
+        }
+      },
+      {
+        "label": "World",
+        "box": {
+          "x": 732,
+          "y": 1855,
+          "width": 109,
+          "height": 31,
+          "bottom": 1886
+        }
+      },
+      {
+        "label": "Journal",
+        "box": {
+          "x": 849,
+          "y": 1855,
+          "width": 129,
+          "height": 31,
+          "bottom": 1886
+        }
+      },
+      {
+        "label": "Logs",
+        "box": {
+          "x": 985,
+          "y": 1855,
+          "width": 90,
+          "height": 31,
+          "bottom": 1886
+        }
+      }
+    ]
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "document": [
+      844,
+      1736
+    ],
+    "input": {
+      "x": 36,
+      "y": 795,
+      "width": 772,
+      "height": 112,
+      "bottom": 907
+    },
+    "send": {
+      "x": 619,
+      "y": 923,
+      "width": 189,
+      "height": 33,
+      "bottom": 956
+    },
+    "tabs": {
+      "x": 26,
+      "y": 1594,
+      "width": 792,
+      "height": 39,
+      "bottom": 1634
+    },
+    "choice": {
+      "x": 18,
+      "y": 681,
+      "width": 400,
+      "height": 56,
+      "bottom": 737
+    },
+    "footer": {
+      "x": 0,
+      "y": 1660,
+      "width": 844,
+      "height": 76,
+      "bottom": 1736
+    },
+    "tabTargets": [
+      {
+        "label": "Narrative",
+        "box": {
+          "x": 30,
+          "y": 1598,
+          "width": 147,
+          "height": 31,
+          "bottom": 1630
+        }
+      },
+      {
+        "label": "Character",
+        "box": {
+          "x": 185,
+          "y": 1598,
+          "width": 156,
+          "height": 31,
+          "bottom": 1630
+        }
+      },
+      {
+        "label": "Inventory",
+        "box": {
+          "x": 350,
+          "y": 1598,
+          "width": 155,
+          "height": 31,
+          "bottom": 1630
+        }
+      },
+      {
+        "label": "Quests",
+        "box": {
+          "x": 513,
+          "y": 1598,
+          "width": 115,
+          "height": 31,
+          "bottom": 1630
+        }
+      },
+      {
+        "label": "NPCs",
+        "box": {
+          "x": 635,
+          "y": 1598,
+          "width": 88,
+          "height": 31,
+          "bottom": 1630
+        }
+      },
+      {
+        "label": "World",
+        "box": {
+          "x": 732,
+          "y": 1598,
+          "width": 109,
+          "height": 31,
+          "bottom": 1630
+        }
+      },
+      {
+        "label": "Journal",
+        "box": {
+          "x": 849,
+          "y": 1598,
+          "width": 129,
+          "height": 31,
+          "bottom": 1630
+        }
+      },
+      {
+        "label": "Logs",
+        "box": {
+          "x": 985,
+          "y": 1598,
+          "width": 90,
+          "height": 31,
+          "bottom": 1630
+        }
+      }
+    ]
+  }
+]
