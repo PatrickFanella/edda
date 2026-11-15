@@ -110,7 +110,7 @@ export function ExportDialog({ open, campaignId, onClose }: ExportDialogProps) {
         <button
           type="button"
           onClick={onClose}
-          className="border border-pewter/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne/70 transition hover:border-pewter hover:text-champagne"
+          className="min-h-11 min-w-11 border border-pewter/30 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-champagne/70 transition hover:border-pewter hover:text-champagne"
         >
           Close
         </button>

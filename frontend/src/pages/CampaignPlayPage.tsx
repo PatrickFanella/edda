@@ -294,7 +294,7 @@ function CampaignPlayContent({
               >
                 {activeTab === tab.key || tab.key === 'narrative' ? (
                   <div className="flex h-full min-h-0 flex-col">
-                    {tab.key !== 'narrative' ? <button type="button" onClick={closeDetails} className="hud-btn hud-btn-secondary mb-2 shrink-0">Close details</button> : null}
+                    {tab.key !== 'narrative' ? <button type="button" onClick={closeDetails} className="hud-btn hud-btn-secondary mb-2 min-h-11 shrink-0">Close details</button> : null}
                     <div className="min-h-0 flex-1"><PlayTabContent campaignId={campaignId} activeTab={tab.key} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} /></div>
                   </div>
                 ) : null}

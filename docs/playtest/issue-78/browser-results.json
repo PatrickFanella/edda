@@ -1,0 +1,3536 @@
+{
+  "observed_at": "2026-11-15T03:36:49.145Z",
+  "base_revision": "cf0a61f",
+  "browser": "Playwright Chromium headless shell 1255",
+  "fixture_port": 39388,
+  "stats": {
+    "startTime": "2026-11-15T03:36:49.145Z",
+    "duration": 62237.577,
+    "expected": 46,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "test": "retains drafts and selection across details at 360",
+      "file": "composer.spec.ts",
+      "status": "passed",
+      "duration_ms": 1585,
+      "measurements": []
+    },
+    {
+      "test": "retains drafts and selection across details at 390",
+      "file": "composer.spec.ts",
+      "status": "passed",
+      "duration_ms": 1453,
+      "measurements": []
+    },
+    {
+      "test": "retains drafts and selection across details at 1366",
+      "file": "composer.spec.ts",
+      "status": "passed",
+      "duration_ms": 1662,
+      "measurements": []
+    },
+    {
+      "test": "context restores reading position and focus at 390",
+      "file": "context.spec.ts",
+      "status": "passed",
+      "duration_ms": 1315,
+      "measurements": []
+    },
+    {
+      "test": "context restores reading position and focus at 1366",
+      "file": "context.spec.ts",
+      "status": "passed",
+      "duration_ms": 1726,
+      "measurements": []
+    },
+    {
+      "test": "creation hands the opening scene to live play and completes a turn",
+      "file": "journeys.spec.ts",
+      "status": "passed",
+      "duration_ms": 2651,
+      "measurements": []
+    },
+    {
+      "test": "reconnects and accepts a subsequent action without duplicating it",
+      "file": "journeys.spec.ts",
+      "status": "passed",
+      "duration_ms": 3092,
+      "measurements": []
+    },
+    {
+      "test": "switches campaigns through the list and replays only the selected history",
+      "file": "journeys.spec.ts",
+      "status": "passed",
+      "duration_ms": 1903,
+      "measurements": []
+    },
+    {
+      "test": "registers, restores a session, signs out and rejects an expired session",
+      "file": "journeys.spec.ts",
+      "status": "passed",
+      "duration_ms": 3168,
+      "measurements": []
+    },
+    {
+      "test": "layout probe rejects a clipped or covered control even in a bounded document",
+      "file": "layout-guards.spec.ts",
+      "status": "passed",
+      "duration_ms": 182,
+      "measurements": []
+    },
+    {
+      "test": "viewport qualification: story, choices, pending and validation 1366x768",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 4060,
+      "measurements": [
+        {
+          "scenario": "long-story-choices.json",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "document": {
+            "width": 1366,
+            "height": 768,
+            "documentWidth": 1366,
+            "documentHeight": 768,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 496,
+                "width": 1082,
+                "height": 72
+              },
+              "visibleWidth": 1082,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 924.5,
+                "y": 576,
+                "width": 185.5,
+                "height": 44
+              },
+              "visibleWidth": 185.5,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "lastChoice": {
+              "rect": {
+                "x": 573,
+                "y": 25.203125,
+                "width": 547,
+                "height": 772
+              },
+              "visibleWidth": 547,
+              "visibleHeight": 77,
+              "hittable": true,
+              "clips": [
+                "SECTION.space-y-3 game-choices-region:x",
+                "SECTION.space-y-3 game-choices-region:y",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "pending.json",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "document": {
+            "width": 1366,
+            "height": 768,
+            "documentWidth": 1366,
+            "documentHeight": 768,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 496,
+                "width": 1082,
+                "height": 72
+              },
+              "visibleWidth": 1082,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 954.34375,
+                "y": 576,
+                "width": 155.65625,
+                "height": 44
+              },
+              "visibleWidth": 155.65625,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "validation.json",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "document": {
+            "width": 1366,
+            "height": 768,
+            "documentWidth": 1366,
+            "documentHeight": 768,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 496,
+                "width": 1082,
+                "height": 72
+              },
+              "visibleWidth": 1082,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 924.5,
+                "y": 576,
+                "width": 185.5,
+                "height": 44
+              },
+              "visibleWidth": 185.5,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: context, saves and export 1366x768",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 4150,
+      "measurements": [
+        {
+          "scenario": "details-Character.json",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "document": {
+            "width": 1366,
+            "height": 768,
+            "documentWidth": 1366,
+            "documentHeight": 768,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 619.1875,
+                "y": 158.5,
+                "width": 500.8125,
+                "height": 44
+              },
+              "visibleWidth": 500.8125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-World.json",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "document": {
+            "width": 1366,
+            "height": 768,
+            "documentWidth": 1366,
+            "documentHeight": 768,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 619.1875,
+                "y": 158.5,
+                "width": 500.8125,
+                "height": 44
+              },
+              "visibleWidth": 500.8125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-Journal.json",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "document": {
+            "width": 1366,
+            "height": 768,
+            "documentWidth": 1366,
+            "documentHeight": 768,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 619.1875,
+                "y": 158.5,
+                "width": 500.8125,
+                "height": 44
+              },
+              "visibleWidth": 500.8125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "export.json",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "document": {
+            "width": 1366,
+            "height": 768,
+            "documentWidth": 1366,
+            "documentHeight": 768,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 821.21875,
+                "y": 547.5,
+                "width": 91.78125,
+                "height": 44
+              },
+              "visibleWidth": 91.78125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:x",
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: combat controls 1366x768",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1853,
+      "measurements": [
+        {
+          "scenario": "combat.json",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          },
+          "document": {
+            "width": 1366,
+            "height": 768,
+            "documentWidth": 1366,
+            "documentHeight": 768,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "spell": {
+              "rect": {
+                "x": 36,
+                "y": 576.5,
+                "width": 869.59375,
+                "height": 45.5
+              },
+              "visibleWidth": 869.59375,
+              "visibleHeight": 45.5,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 913.59375,
+                "y": 576.5,
+                "width": 80.421875,
+                "height": 45.5
+              },
+              "visibleWidth": 80.421875,
+              "visibleHeight": 45.5,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: story, choices, pending and validation 1440x900",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 3164,
+      "measurements": [
+        {
+          "scenario": "long-story-choices.json",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "document": {
+            "width": 1440,
+            "height": 900,
+            "documentWidth": 1440,
+            "documentHeight": 900,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 628,
+                "width": 1156,
+                "height": 72
+              },
+              "visibleWidth": 1156,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 998.5,
+                "y": 708,
+                "width": 185.5,
+                "height": 44
+              },
+              "visibleWidth": 185.5,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "lastChoice": {
+              "rect": {
+                "x": 610,
+                "y": 211,
+                "width": 584,
+                "height": 652
+              },
+              "visibleWidth": 584,
+              "visibleHeight": 90,
+              "hittable": true,
+              "clips": [
+                "SECTION.space-y-3 game-choices-region:x",
+                "SECTION.space-y-3 game-choices-region:y",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "pending.json",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "document": {
+            "width": 1440,
+            "height": 900,
+            "documentWidth": 1440,
+            "documentHeight": 900,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 628,
+                "width": 1156,
+                "height": 72
+              },
+              "visibleWidth": 1156,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 1028.34375,
+                "y": 708,
+                "width": 155.65625,
+                "height": 44
+              },
+              "visibleWidth": 155.65625,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "validation.json",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "document": {
+            "width": 1440,
+            "height": 900,
+            "documentWidth": 1440,
+            "documentHeight": 900,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 628,
+                "width": 1156,
+                "height": 72
+              },
+              "visibleWidth": 1156,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 998.5,
+                "y": 708,
+                "width": 185.5,
+                "height": 44
+              },
+              "visibleWidth": 185.5,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: context, saves and export 1440x900",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 4248,
+      "measurements": [
+        {
+          "scenario": "details-Character.json",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "document": {
+            "width": 1440,
+            "height": 900,
+            "documentWidth": 1440,
+            "documentHeight": 900,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 659.1875,
+                "y": 158.5,
+                "width": 534.8125,
+                "height": 44
+              },
+              "visibleWidth": 534.8125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-World.json",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "document": {
+            "width": 1440,
+            "height": 900,
+            "documentWidth": 1440,
+            "documentHeight": 900,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 659.1875,
+                "y": 158.5,
+                "width": 534.8125,
+                "height": 44
+              },
+              "visibleWidth": 534.8125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-Journal.json",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "document": {
+            "width": 1440,
+            "height": 900,
+            "documentWidth": 1440,
+            "documentHeight": 900,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 659.1875,
+                "y": 158.5,
+                "width": 534.8125,
+                "height": 44
+              },
+              "visibleWidth": 534.8125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "export.json",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "document": {
+            "width": 1440,
+            "height": 900,
+            "documentWidth": 1440,
+            "documentHeight": 900,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 858.21875,
+                "y": 613.5,
+                "width": 91.78125,
+                "height": 44
+              },
+              "visibleWidth": 91.78125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:x",
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: combat controls 1440x900",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1796,
+      "measurements": [
+        {
+          "scenario": "combat.json",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "document": {
+            "width": 1440,
+            "height": 900,
+            "documentWidth": 1440,
+            "documentHeight": 900,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "spell": {
+              "rect": {
+                "x": 36,
+                "y": 708.5,
+                "width": 943.59375,
+                "height": 45.5
+              },
+              "visibleWidth": 943.59375,
+              "visibleHeight": 45.5,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 987.59375,
+                "y": 708.5,
+                "width": 80.421875,
+                "height": 45.5
+              },
+              "visibleWidth": 80.421875,
+              "visibleHeight": 45.5,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: story, choices, pending and validation 1920x1080",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 3283,
+      "measurements": [
+        {
+          "scenario": "long-story-choices.json",
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "document": {
+            "width": 1920,
+            "height": 1080,
+            "documentWidth": 1920,
+            "documentHeight": 1080,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 808,
+                "width": 1636,
+                "height": 72
+              },
+              "visibleWidth": 1636,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 1478.5,
+                "y": 888,
+                "width": 185.5,
+                "height": 44
+              },
+              "visibleWidth": 185.5,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "lastChoice": {
+              "rect": {
+                "x": 850,
+                "y": 490,
+                "width": 824,
+                "height": 436
+              },
+              "visibleWidth": 824,
+              "visibleHeight": 108,
+              "hittable": true,
+              "clips": [
+                "SECTION.space-y-3 game-choices-region:x",
+                "SECTION.space-y-3 game-choices-region:y",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "pending.json",
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "document": {
+            "width": 1920,
+            "height": 1080,
+            "documentWidth": 1920,
+            "documentHeight": 1080,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 808,
+                "width": 1636,
+                "height": 72
+              },
+              "visibleWidth": 1636,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 1508.34375,
+                "y": 888,
+                "width": 155.65625,
+                "height": 44
+              },
+              "visibleWidth": 155.65625,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "validation.json",
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "document": {
+            "width": 1920,
+            "height": 1080,
+            "documentWidth": 1920,
+            "documentHeight": 1080,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 808,
+                "width": 1636,
+                "height": 72
+              },
+              "visibleWidth": 1636,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 1478.5,
+                "y": 888,
+                "width": 185.5,
+                "height": 44
+              },
+              "visibleWidth": 185.5,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: context, saves and export 1920x1080",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 4713,
+      "measurements": [
+        {
+          "scenario": "details-Character.json",
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "document": {
+            "width": 1920,
+            "height": 1080,
+            "documentWidth": 1920,
+            "documentHeight": 1080,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 918.640625,
+                "y": 158.5,
+                "width": 755.34375,
+                "height": 44
+              },
+              "visibleWidth": 755,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-World.json",
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "document": {
+            "width": 1920,
+            "height": 1080,
+            "documentWidth": 1920,
+            "documentHeight": 1080,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 918.640625,
+                "y": 158.5,
+                "width": 755.34375,
+                "height": 44
+              },
+              "visibleWidth": 755,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-Journal.json",
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "document": {
+            "width": 1920,
+            "height": 1080,
+            "documentWidth": 1920,
+            "documentHeight": 1080,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 918.640625,
+                "y": 158.5,
+                "width": 755.34375,
+                "height": 44
+              },
+              "visibleWidth": 755,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "export.json",
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "document": {
+            "width": 1920,
+            "height": 1080,
+            "documentWidth": 1920,
+            "documentHeight": 1080,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 1098.21875,
+                "y": 703.5,
+                "width": 91.78125,
+                "height": 44
+              },
+              "visibleWidth": 91.78125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:x",
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: combat controls 1920x1080",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1769,
+      "measurements": [
+        {
+          "scenario": "combat.json",
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "document": {
+            "width": 1920,
+            "height": 1080,
+            "documentWidth": 1920,
+            "documentHeight": 1080,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "spell": {
+              "rect": {
+                "x": 36,
+                "y": 896.5,
+                "width": 1423.59375,
+                "height": 45.5
+              },
+              "visibleWidth": 1423.59375,
+              "visibleHeight": 45.5,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 1467.59375,
+                "y": 896.5,
+                "width": 80.421875,
+                "height": 45.5
+              },
+              "visibleWidth": 80.421875,
+              "visibleHeight": 45.5,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: story, choices, pending and validation 768x1024",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 2541,
+      "measurements": [
+        {
+          "scenario": "long-story-choices.json",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "document": {
+            "width": 768,
+            "height": 1024,
+            "documentWidth": 768,
+            "documentHeight": 1024,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 752,
+                "width": 712,
+                "height": 72
+              },
+              "visibleWidth": 712,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 554.5,
+                "y": 832,
+                "width": 185.5,
+                "height": 44
+              },
+              "visibleWidth": 185.5,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "lastChoice": {
+              "rect": {
+                "x": 388,
+                "y": 28.609375,
+                "width": 362,
+                "height": 1252
+              },
+              "visibleWidth": 362,
+              "visibleHeight": 102,
+              "hittable": true,
+              "clips": [
+                "SECTION.space-y-3 game-choices-region:x",
+                "SECTION.space-y-3 game-choices-region:y",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "pending.json",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "document": {
+            "width": 768,
+            "height": 1024,
+            "documentWidth": 768,
+            "documentHeight": 1024,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 752,
+                "width": 712,
+                "height": 72
+              },
+              "visibleWidth": 712,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 584.34375,
+                "y": 832,
+                "width": 155.65625,
+                "height": 44
+              },
+              "visibleWidth": 155.65625,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "validation.json",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "document": {
+            "width": 768,
+            "height": 1024,
+            "documentWidth": 768,
+            "documentHeight": 1024,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 752,
+                "width": 712,
+                "height": 72
+              },
+              "visibleWidth": 712,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 554.48583984375,
+                "y": 831.9966430664062,
+                "width": 185.5283203125,
+                "height": 44.0067138671875
+              },
+              "visibleWidth": 185.5283203125,
+              "visibleHeight": 44.0067138671875,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: context, saves and export 768x1024",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 3405,
+      "measurements": [
+        {
+          "scenario": "details-Character.json",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "document": {
+            "width": 768,
+            "height": 1024,
+            "documentWidth": 768,
+            "documentHeight": 1024,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 18,
+                "y": 202.5,
+                "width": 732,
+                "height": 44
+              },
+              "visibleWidth": 732,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-World.json",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "document": {
+            "width": 768,
+            "height": 1024,
+            "documentWidth": 768,
+            "documentHeight": 1024,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 18,
+                "y": 202.5,
+                "width": 732,
+                "height": 44
+              },
+              "visibleWidth": 732,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-Journal.json",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "document": {
+            "width": 768,
+            "height": 1024,
+            "documentWidth": 768,
+            "documentHeight": 1024,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 18,
+                "y": 202.5,
+                "width": 732,
+                "height": 44
+              },
+              "visibleWidth": 732,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "export.json",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "document": {
+            "width": 768,
+            "height": 1024,
+            "documentWidth": 768,
+            "documentHeight": 1024,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 522.21875,
+                "y": 675.5,
+                "width": 91.78125,
+                "height": 44
+              },
+              "visibleWidth": 91.78125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:x",
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: combat controls 768x1024",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1605,
+      "measurements": [
+        {
+          "scenario": "combat.json",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "document": {
+            "width": 768,
+            "height": 1024,
+            "documentWidth": 768,
+            "documentHeight": 1024,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "spell": {
+              "rect": {
+                "x": 36,
+                "y": 832,
+                "width": 499.59375,
+                "height": 45.5
+              },
+              "visibleWidth": 499.59375,
+              "visibleHeight": 45.5,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 543.59375,
+                "y": 832,
+                "width": 80.421875,
+                "height": 45.5
+              },
+              "visibleWidth": 80.421875,
+              "visibleHeight": 45.5,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: story, choices, pending and validation 360x800",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 2367,
+      "measurements": [
+        {
+          "scenario": "long-story-choices.json",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "document": {
+            "width": 360,
+            "height": 800,
+            "documentWidth": 360,
+            "documentHeight": 800,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 480,
+                "width": 304,
+                "height": 72
+              },
+              "visibleWidth": 304,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 28,
+                "y": 608,
+                "width": 304,
+                "height": 44
+              },
+              "visibleWidth": 304,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "lastChoice": {
+              "rect": {
+                "x": 18,
+                "y": -352,
+                "width": 324,
+                "height": 1492
+              },
+              "visibleWidth": 324,
+              "visibleHeight": 80,
+              "hittable": true,
+              "clips": [
+                "SECTION.space-y-3 game-choices-region:x",
+                "SECTION.space-y-3 game-choices-region:y",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "pending.json",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "document": {
+            "width": 360,
+            "height": 800,
+            "documentWidth": 360,
+            "documentHeight": 800,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 480,
+                "width": 304,
+                "height": 72
+              },
+              "visibleWidth": 304,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 28,
+                "y": 608,
+                "width": 304,
+                "height": 44
+              },
+              "visibleWidth": 304,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "validation.json",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "document": {
+            "width": 360,
+            "height": 800,
+            "documentWidth": 360,
+            "documentHeight": 800,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 480,
+                "width": 304,
+                "height": 72
+              },
+              "visibleWidth": 304,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 27.97064208984375,
+                "y": 607.9957275390625,
+                "width": 304.0587158203125,
+                "height": 44.008544921875
+              },
+              "visibleWidth": 304.0587158203125,
+              "visibleHeight": 44.008544921875,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: context, saves and export 360x800",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 3483,
+      "measurements": [
+        {
+          "scenario": "details-Character.json",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "document": {
+            "width": 360,
+            "height": 800,
+            "documentWidth": 360,
+            "documentHeight": 800,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 18,
+                "y": 216.890625,
+                "width": 324,
+                "height": 44
+              },
+              "visibleWidth": 324,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-World.json",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "document": {
+            "width": 360,
+            "height": 800,
+            "documentWidth": 360,
+            "documentHeight": 800,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 18,
+                "y": 216.890625,
+                "width": 324,
+                "height": 44
+              },
+              "visibleWidth": 324,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-Journal.json",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "document": {
+            "width": 360,
+            "height": 800,
+            "documentWidth": 360,
+            "documentHeight": 800,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 18,
+                "y": 216.890625,
+                "width": 324,
+                "height": 44
+              },
+              "visibleWidth": 324,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "export.json",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "document": {
+            "width": 360,
+            "height": 800,
+            "documentWidth": 360,
+            "documentHeight": 800,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 242.21875,
+                "y": 591.5,
+                "width": 91.78125,
+                "height": 44
+              },
+              "visibleWidth": 91.78125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:x",
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: combat controls 360x800",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1781,
+      "measurements": [
+        {
+          "scenario": "combat.json",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "document": {
+            "width": 360,
+            "height": 800,
+            "documentWidth": 360,
+            "documentHeight": 800,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "spell": {
+              "rect": {
+                "x": 36,
+                "y": 564.796875,
+                "width": 288,
+                "height": 45.5
+              },
+              "visibleWidth": 288,
+              "visibleHeight": 45.5,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 36,
+                "y": 618.296875,
+                "width": 80.421875,
+                "height": 44
+              },
+              "visibleWidth": 80.421875,
+              "visibleHeight": 43.59375,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: story, choices, pending and validation 390x844",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 2485,
+      "measurements": [
+        {
+          "scenario": "long-story-choices.json",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "document": {
+            "width": 390,
+            "height": 844,
+            "documentWidth": 390,
+            "documentHeight": 844,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 524,
+                "width": 334,
+                "height": 72
+              },
+              "visibleWidth": 334,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 28,
+                "y": 652,
+                "width": 334,
+                "height": 44
+              },
+              "visibleWidth": 334,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "lastChoice": {
+              "rect": {
+                "x": 18.069087982177734,
+                "y": -310.390625,
+                "width": 354,
+                "height": 1492
+              },
+              "visibleWidth": 353.93091201782227,
+              "visibleHeight": 84,
+              "hittable": true,
+              "clips": [
+                "SECTION.space-y-3 game-choices-region:x",
+                "SECTION.space-y-3 game-choices-region:y",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "pending.json",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "document": {
+            "width": 390,
+            "height": 844,
+            "documentWidth": 390,
+            "documentHeight": 844,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 524,
+                "width": 334,
+                "height": 72
+              },
+              "visibleWidth": 334,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 28,
+                "y": 652,
+                "width": 334,
+                "height": 44
+              },
+              "visibleWidth": 334,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        },
+        {
+          "scenario": "validation.json",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "document": {
+            "width": 390,
+            "height": 844,
+            "documentWidth": 390,
+            "documentHeight": 844,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "input": {
+              "rect": {
+                "x": 28,
+                "y": 524,
+                "width": 334,
+                "height": 72
+              },
+              "visibleWidth": 334,
+              "visibleHeight": 72,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 27.967803955078125,
+                "y": 651.9957275390625,
+                "width": 334.06439208984375,
+                "height": 44.008544921875
+              },
+              "visibleWidth": 334.06439208984375,
+              "visibleHeight": 44.008544921875,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: context, saves and export 390x844",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 3373,
+      "measurements": [
+        {
+          "scenario": "details-Character.json",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "document": {
+            "width": 390,
+            "height": 844,
+            "documentWidth": 390,
+            "documentHeight": 844,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 18,
+                "y": 216.890625,
+                "width": 354,
+                "height": 44
+              },
+              "visibleWidth": 354,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-World.json",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "document": {
+            "width": 390,
+            "height": 844,
+            "documentWidth": 390,
+            "documentHeight": 844,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 18,
+                "y": 216.890625,
+                "width": 354,
+                "height": 44
+              },
+              "visibleWidth": 354,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "details-Journal.json",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "document": {
+            "width": 390,
+            "height": 844,
+            "documentWidth": 390,
+            "documentHeight": 844,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 18,
+                "y": 216.890625,
+                "width": 354,
+                "height": 44
+              },
+              "visibleWidth": 354,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-detail-panel:y",
+                "DIV.game-context-workspace min-h-0 has-details:x",
+                "DIV.game-context-workspace min-h-0 has-details:y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        },
+        {
+          "scenario": "export.json",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "document": {
+            "width": 390,
+            "height": 844,
+            "documentWidth": 390,
+            "documentHeight": 844,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "close": {
+              "rect": {
+                "x": 272.21875,
+                "y": 605.5,
+                "width": 91.78125,
+                "height": 44
+              },
+              "visibleWidth": 91.78125,
+              "visibleHeight": 44,
+              "hittable": true,
+              "clips": [
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:x",
+                "DIALOG.m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "viewport qualification: combat controls 390x844",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1617,
+      "measurements": [
+        {
+          "scenario": "combat.json",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "document": {
+            "width": 390,
+            "height": 844,
+            "documentWidth": 390,
+            "documentHeight": 844,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "spell": {
+              "rect": {
+                "x": 36,
+                "y": 608.796875,
+                "width": 318,
+                "height": 45.5
+              },
+              "visibleWidth": 318,
+              "visibleHeight": 45.5,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            },
+            "send": {
+              "rect": {
+                "x": 36,
+                "y": 662.296875,
+                "width": 80.421875,
+                "height": 44
+              },
+              "visibleWidth": 80.421875,
+              "visibleHeight": 43.59375,
+              "hittable": true,
+              "clips": [
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 12.8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "enlarged text reflows through internal owners at 360x800",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1733,
+      "measurements": [
+        {
+          "scenario": "enlarged-text.json",
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "document": {
+            "width": 360,
+            "height": 800,
+            "documentWidth": 360,
+            "documentHeight": 800,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "send": {
+              "rect": {
+                "x": 52,
+                "y": 551.015625,
+                "width": 256,
+                "height": 48.984375
+              },
+              "visibleWidth": 256,
+              "visibleHeight": 48.984375,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "enlarged text reflows through internal owners at 390x844",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1706,
+      "measurements": [
+        {
+          "scenario": "enlarged-text.json",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "document": {
+            "width": 390,
+            "height": 844,
+            "documentWidth": 390,
+            "documentHeight": 844,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "send": {
+              "rect": {
+                "x": 52,
+                "y": 595.015625,
+                "width": 286,
+                "height": 48.984375
+              },
+              "visibleWidth": 286,
+              "visibleHeight": 48.984375,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "enlarged text reflows through internal owners at 683x384",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1709,
+      "measurements": [
+        {
+          "scenario": "enlarged-text.json",
+          "viewport": {
+            "width": 683,
+            "height": 384
+          },
+          "document": {
+            "width": 683,
+            "height": 384,
+            "documentWidth": 683,
+            "documentHeight": 384,
+            "scrollX": 0,
+            "scrollY": 0
+          },
+          "controls": {
+            "send": {
+              "rect": {
+                "x": 469.65625,
+                "y": 231,
+                "width": 161.34375,
+                "height": 65.984375
+              },
+              "visibleWidth": 161.34375,
+              "visibleHeight": 65.984375,
+              "hittable": true,
+              "clips": [
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:x",
+                "DIV.game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto:y",
+                "DIV.h-full min-h-0 overflow-hidden:x",
+                "DIV.h-full min-h-0 overflow-hidden:y",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:x",
+                "DIV.h-full min-h-0 overflow-hidden game-story-panel:y",
+                "DIV.game-context-workspace min-h-0 :x",
+                "DIV.game-context-workspace min-h-0 :y",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:x",
+                "DIV.game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden:y",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:x",
+                "DIV.game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden:y",
+                "SECTION.game-app-content min-h-0 flex-1:x",
+                "SECTION.game-app-content min-h-0 flex-1:y",
+                "BODY.:x",
+                "BODY.:y"
+              ],
+              "fontSize": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "test": "tap action and restore context at 360",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1403,
+      "measurements": []
+    },
+    {
+      "test": "tap action and restore context at 390",
+      "file": "qualification.spec.ts",
+      "status": "passed",
+      "duration_ms": 1352,
+      "measurements": []
+    },
+    {
+      "test": "reads long history without losing position at 390",
+      "file": "reader.spec.ts",
+      "status": "passed",
+      "duration_ms": 3121,
+      "measurements": []
+    },
+    {
+      "test": "reads long history without losing position at 1440",
+      "file": "reader.spec.ts",
+      "status": "passed",
+      "duration_ms": 3305,
+      "measurements": []
+    },
+    {
+      "test": "retention baseline preserves history and completed turns across reconnect",
+      "file": "retention.spec.ts",
+      "status": "passed",
+      "duration_ms": 17517,
+      "measurements": []
+    },
+    {
+      "test": "all campaign tabs expose stable panels and support automatic keyboard selection",
+      "file": "tabs.spec.ts",
+      "status": "passed",
+      "duration_ms": 1617,
+      "measurements": []
+    },
+    {
+      "test": "gameplay owns its scrolling at 1366x768",
+      "file": "viewport.spec.ts",
+      "status": "passed",
+      "duration_ms": 1586,
+      "measurements": []
+    },
+    {
+      "test": "gameplay owns its scrolling at 1440x900",
+      "file": "viewport.spec.ts",
+      "status": "passed",
+      "duration_ms": 2263,
+      "measurements": []
+    },
+    {
+      "test": "gameplay owns its scrolling at 1920x1080",
+      "file": "viewport.spec.ts",
+      "status": "passed",
+      "duration_ms": 1585,
+      "measurements": []
+    },
+    {
+      "test": "gameplay owns its scrolling at 768x1024",
+      "file": "viewport.spec.ts",
+      "status": "passed",
+      "duration_ms": 1273,
+      "measurements": []
+    },
+    {
+      "test": "gameplay owns its scrolling at 360x800",
+      "file": "viewport.spec.ts",
+      "status": "passed",
+      "duration_ms": 1294,
+      "measurements": []
+    },
+    {
+      "test": "gameplay owns its scrolling at 390x844",
+      "file": "viewport.spec.ts",
+      "status": "passed",
+      "duration_ms": 1370,
+      "measurements": []
+    },
+    {
+      "test": "long choices, details and reduced viewport keep controls reachable at 360",
+      "file": "viewport.spec.ts",
+      "status": "passed",
+      "duration_ms": 2828,
+      "measurements": []
+    },
+    {
+      "test": "long choices, details and reduced viewport keep controls reachable at 390",
+      "file": "viewport.spec.ts",
+      "status": "passed",
+      "duration_ms": 2141,
+      "measurements": []
+    },
+    {
+      "test": "visual viewport resize budgets the credit and removes its override on navigation",
+      "file": "viewport.spec.ts",
+      "status": "passed",
+      "duration_ms": 1303,
+      "measurements": []
+    }
+  ]
+}

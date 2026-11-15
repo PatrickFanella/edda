@@ -9,7 +9,7 @@ interface CombatActionBarProps {
 type ExpandedInput = 'spell' | 'item' | null;
 
 const ACTION_BUTTON_STYLE =
-  'hud-btn hud-text-button inline-flex items-center justify-center border-2 border-ruby/30 bg-charcoal px-4 text-xs font-semibold uppercase tracking-[0.15em] text-champagne transition-all duration-200 hover:border-ruby hover:bg-ruby/10 hover:text-ruby focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:opacity-40';
+  'hud-btn hud-text-button inline-flex min-h-11 items-center justify-center border-2 border-ruby/30 bg-charcoal px-4 text-xs font-semibold uppercase tracking-[0.15em] text-champagne transition-all duration-200 hover:border-ruby hover:bg-ruby/10 hover:text-ruby focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:opacity-40';
 
 export function CombatActionBar({ onAction, disabled }: CombatActionBarProps) {
   const [expandedInput, setExpandedInput] = useState<ExpandedInput>(null);
@@ -107,7 +107,7 @@ export function CombatActionBar({ onAction, disabled }: CombatActionBarProps) {
       </div>
 
       {expandedInput !== null ? (
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex flex-wrap gap-2">
           <input
             type="text"
             value={inputText}
@@ -116,7 +116,7 @@ export function CombatActionBar({ onAction, disabled }: CombatActionBarProps) {
             placeholder={expandedInput === 'spell' ? 'Enter spell name...' : 'Enter item name...'}
             disabled={disabled}
             autoFocus
-            className="flex-1 border-2 border-ruby/20 bg-obsidian px-3 py-2 text-sm text-champagne placeholder:text-pewter/50 focus:border-ruby focus:outline-none disabled:opacity-40"
+            className="min-h-11 min-w-0 basis-full sm:basis-auto flex-1 border-2 border-ruby/20 bg-obsidian px-3 py-2 text-base text-champagne placeholder:text-pewter/50 focus:border-ruby focus:outline-none disabled:opacity-40"
           />
           <button
             type="button"
@@ -128,7 +128,7 @@ export function CombatActionBar({ onAction, disabled }: CombatActionBarProps) {
           </button>
           <button
             type="button"
-            className="hud-btn hud-text-button inline-flex items-center justify-center border-2 border-pewter/30 px-3 text-xs font-semibold uppercase tracking-[0.15em] text-pewter transition-all duration-200 hover:border-pewter hover:text-champagne"
+            className="hud-btn hud-text-button inline-flex min-h-11 items-center justify-center border-2 border-pewter/30 px-3 text-xs font-semibold uppercase tracking-[0.15em] text-pewter transition-all duration-200 hover:border-pewter hover:text-champagne"
             onClick={() => {
               setExpandedInput(null);
               setInputText('');

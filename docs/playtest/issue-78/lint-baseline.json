@@ -1,0 +1,179 @@
+{
+  "base_revision": "cf0a61f",
+  "error_count": 22,
+  "files": [
+    {
+      "file": "frontend/src/components/layout/TurnNotifications.tsx",
+      "unchanged_from_base": true,
+      "sha256": "fed75941ce233c3ddf5b826cda837d89baecf9a6c51bd94fe25ee83b39b0d658",
+      "errors": [
+        {
+          "line": 40,
+          "rule": "react-hooks/set-state-in-effect",
+          "summary": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/components/map/MapPanel.tsx",
+      "unchanged_from_base": true,
+      "sha256": "9265d3ee21de55b1c1eb137492cee7a23bd9fb97e4815fb02d07190b83a501d8",
+      "errors": [
+        {
+          "line": 71,
+          "rule": "react-hooks/preserve-manual-memoization",
+          "summary": "Compilation Skipped: Existing memoization could not be preserved"
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/components/replay/ReplayNarrative.tsx",
+      "unchanged_from_base": true,
+      "sha256": "2df8f6dd9bb4dfb872990fbe9f04111b1080f173520684e397c3a8d350612650",
+      "errors": [
+        {
+          "line": 35,
+          "rule": "react-hooks/set-state-in-effect",
+          "summary": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/components/start/CampaignAttributesForm.tsx",
+      "unchanged_from_base": true,
+      "sha256": "1556cf53025d6c2c551980a71f92e24580312305e394cdc5ab4824af3d3d758b",
+      "errors": [
+        {
+          "line": 58,
+          "rule": "react-refresh/only-export-components",
+          "summary": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        },
+        {
+          "line": 59,
+          "rule": "react-refresh/only-export-components",
+          "summary": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        },
+        {
+          "line": 60,
+          "rule": "react-refresh/only-export-components",
+          "summary": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/components/start/CharacterGuidedForm.tsx",
+      "unchanged_from_base": true,
+      "sha256": "bd6cf8d4da01c906e478b1f5f2d41f3c2f1a95fbb1850aebc2cc425f4ec43906",
+      "errors": [
+        {
+          "line": 32,
+          "rule": "react-refresh/only-export-components",
+          "summary": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        },
+        {
+          "line": 44,
+          "rule": "react-refresh/only-export-components",
+          "summary": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        },
+        {
+          "line": 59,
+          "rule": "react-refresh/only-export-components",
+          "summary": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        },
+        {
+          "line": 75,
+          "rule": "react-refresh/only-export-components",
+          "summary": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/context/AuthContext.tsx",
+      "unchanged_from_base": true,
+      "sha256": "541f7d631622a3e626b7e54ed74794fb7ab56106c8ee8331a6f109f25b0261e2",
+      "errors": [
+        {
+          "line": 30,
+          "rule": "react-hooks/set-state-in-effect",
+          "summary": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+        },
+        {
+          "line": 82,
+          "rule": "react-refresh/only-export-components",
+          "summary": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/context/CampaignContext.tsx",
+      "unchanged_from_base": true,
+      "sha256": "f1998d595151c7b962a620dcb6835c9242b9c69c42539328347485361b8406c3",
+      "errors": [
+        {
+          "line": 25,
+          "rule": "react-refresh/only-export-components",
+          "summary": "Fast refresh only works when a file only exports components. Move your React context(s) to a separate file."
+        },
+        {
+          "line": 27,
+          "rule": "react-refresh/only-export-components",
+          "summary": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components."
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/hooks/useAudio.ts",
+      "unchanged_from_base": true,
+      "sha256": "2aaaf7ea12b9a059a0308a6a6344194f8936e7a2f6ed248e64cde4ebbe5a0391",
+      "errors": [
+        {
+          "line": 124,
+          "rule": "react-hooks/refs",
+          "summary": "Error: Cannot access refs during render"
+        },
+        {
+          "line": 125,
+          "rule": "react-hooks/refs",
+          "summary": "Error: Cannot access refs during render"
+        },
+        {
+          "line": 126,
+          "rule": "react-hooks/refs",
+          "summary": "Error: Cannot access refs during render"
+        },
+        {
+          "line": 127,
+          "rule": "react-hooks/refs",
+          "summary": "Error: Cannot access refs during render"
+        },
+        {
+          "line": 128,
+          "rule": "react-hooks/refs",
+          "summary": "Error: Cannot access refs during render"
+        },
+        {
+          "line": 129,
+          "rule": "react-hooks/refs",
+          "summary": "Error: Cannot access refs during render"
+        },
+        {
+          "line": 130,
+          "rule": "react-hooks/refs",
+          "summary": "Error: Cannot access refs during render"
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/hooks/useDiscoveryBadge.ts",
+      "unchanged_from_base": true,
+      "sha256": "46c8aa4cb056622c6bdaead3de05e0a44f45e6e15cf55728b3cff41bc2005627",
+      "errors": [
+        {
+          "line": 37,
+          "rule": "react-hooks/set-state-in-effect",
+          "summary": "Error: Calling setState synchronously within an effect can trigger cascading renders"
+        }
+      ]
+    }
+  ]
+}
