@@ -396,8 +396,8 @@ func (s *stubQuerier) SearchMemoriesWithFilters(ctx context.Context, arg statedb
 	return nil, nil
 }
 
-func (s *stubQuerier) SupersedeFact(ctx context.Context, arg statedb.SupersedeFactParams) (statedb.WorldFact, error) {
-	return statedb.WorldFact{}, nil
+func (s *stubQuerier) SupersedeFact(ctx context.Context, arg statedb.SupersedeFactParams) (statedb.SupersedeFactRow, error) {
+	return statedb.SupersedeFactRow{}, nil
 }
 func (s *stubQuerier) GetFactPlayerKnown(_ context.Context, _ pgtype.UUID) (bool, error) {
 	return false, nil

@@ -281,7 +281,7 @@ new_fact AS (
     $5,
     player_known OR $6::boolean
   FROM previous_fact
-  RETURNING id
+  RETURNING id, campaign_id, fact, category, source, superseded_by, created_at, player_known
 ),
 updated_previous AS (
   UPDATE world_facts
@@ -290,18 +290,9 @@ updated_previous AS (
     AND world_facts.superseded_by IS NULL
   RETURNING id
 )
-SELECT
-  world_facts.id,
-  world_facts.campaign_id,
-  world_facts.fact,
-  world_facts.category,
-  world_facts.source,
-  world_facts.superseded_by,
-  world_facts.created_at,
-  world_facts.player_known
-FROM world_facts
-WHERE world_facts.id = (SELECT id FROM new_fact)
-  AND EXISTS (SELECT 1 FROM updated_previous)
+SELECT id, campaign_id, fact, category, source, superseded_by, created_at, player_known
+FROM new_fact
+WHERE EXISTS (SELECT 1 FROM updated_previous)
 `
 
 type SupersedeFactParams struct {
@@ -313,7 +304,18 @@ type SupersedeFactParams struct {
 	Reveal     bool
 }
 
-func (q *Queries) SupersedeFact(ctx context.Context, arg SupersedeFactParams) (WorldFact, error) {
+type SupersedeFactRow struct {
+	ID           pgtype.UUID
+	CampaignID   pgtype.UUID
+	Fact         string
+	Category     string
+	Source       string
+	SupersededBy pgtype.UUID
+	CreatedAt    pgtype.Timestamptz
+	PlayerKnown  bool
+}
+
+func (q *Queries) SupersedeFact(ctx context.Context, arg SupersedeFactParams) (SupersedeFactRow, error) {
 	row := q.db.QueryRow(ctx, supersedeFact,
 		arg.OldFactID,
 		arg.CampaignID,
@@ -322,7 +324,7 @@ func (q *Queries) SupersedeFact(ctx context.Context, arg SupersedeFactParams) (W
 		arg.Source,
 		arg.Reveal,
 	)
-	var i WorldFact
+	var i SupersedeFactRow
 	err := row.Scan(
 		&i.ID,
 		&i.CampaignID,

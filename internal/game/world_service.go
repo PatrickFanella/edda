@@ -88,7 +88,8 @@ func (s *worldService) GetFactByID(ctx context.Context, id pgtype.UUID) (statedb
 }
 
 func (s *worldService) SupersedeFact(ctx context.Context, arg statedb.SupersedeFactParams) (statedb.WorldFact, error) {
-	return s.queries.SupersedeFact(ctx, arg)
+	fact, err := s.queries.SupersedeFact(ctx, arg)
+	return statedb.WorldFact(fact), err
 }
 
 func (s *worldService) GetFactionByID(ctx context.Context, id pgtype.UUID) (statedb.Faction, error) {

@@ -350,8 +350,8 @@ func (n *noopQuerier) SearchMemoriesWithFilters(ctx context.Context, arg statedb
 	return nil, nil
 }
 
-func (n *noopQuerier) SupersedeFact(ctx context.Context, arg statedb.SupersedeFactParams) (statedb.WorldFact, error) {
-	return statedb.WorldFact{}, nil
+func (n *noopQuerier) SupersedeFact(ctx context.Context, arg statedb.SupersedeFactParams) (statedb.SupersedeFactRow, error) {
+	return statedb.SupersedeFactRow{}, nil
 }
 func (n *noopQuerier) GetFactPlayerKnown(_ context.Context, _ pgtype.UUID) (bool, error) {
 	return false, nil

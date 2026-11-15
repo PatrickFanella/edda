@@ -81,7 +81,7 @@ new_fact AS (
     sqlc.arg(source),
     player_known OR sqlc.arg(reveal)::boolean
   FROM previous_fact
-  RETURNING id
+  RETURNING *
 ),
 updated_previous AS (
   UPDATE world_facts
@@ -90,15 +90,6 @@ updated_previous AS (
     AND world_facts.superseded_by IS NULL
   RETURNING id
 )
-SELECT
-  world_facts.id,
-  world_facts.campaign_id,
-  world_facts.fact,
-  world_facts.category,
-  world_facts.source,
-  world_facts.superseded_by,
-  world_facts.created_at,
-  world_facts.player_known
-FROM world_facts
-WHERE world_facts.id = (SELECT id FROM new_fact)
-  AND EXISTS (SELECT 1 FROM updated_previous);
+SELECT *
+FROM new_fact
+WHERE EXISTS (SELECT 1 FROM updated_previous);

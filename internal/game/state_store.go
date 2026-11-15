@@ -35,7 +35,7 @@ type StateStore struct {
 
 type stateQuerier interface {
 	GetFactByID(ctx context.Context, id pgtype.UUID) (statedb.WorldFact, error)
-	SupersedeFact(ctx context.Context, arg statedb.SupersedeFactParams) (statedb.WorldFact, error)
+	SupersedeFact(ctx context.Context, arg statedb.SupersedeFactParams) (statedb.SupersedeFactRow, error)
 	GetLocationByID(ctx context.Context, arg statedb.GetLocationByIDParams) (statedb.Location, error)
 	GetConnectionsFromLocation(ctx context.Context, arg statedb.GetConnectionsFromLocationParams) ([]statedb.GetConnectionsFromLocationRow, error)
 	GetPlayerCharacterByID(ctx context.Context, id pgtype.UUID) (statedb.PlayerCharacter, error)
@@ -112,7 +112,7 @@ func (s *StateStore) ReviseWorldFact(ctx context.Context, cmd ReviseWorldFactCom
 
 	return &ReviseWorldFactResult{
 		OldFact:               factToDomain(oldFact),
-		NewFact:               factToDomain(newFact),
+		NewFact:               factToDomain(statedb.WorldFact(newFact)),
 		PlayerKnownPropagated: newFact.PlayerKnown,
 	}, nil
 }

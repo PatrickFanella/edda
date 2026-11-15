@@ -35,12 +35,12 @@ func (s *stateFactStoreStub) GetFactByID(_ context.Context, _ pgtype.UUID) (stat
 	return s.fact, s.getErr
 }
 
-func (s *stateFactStoreStub) SupersedeFact(_ context.Context, arg statedb.SupersedeFactParams) (statedb.WorldFact, error) {
+func (s *stateFactStoreStub) SupersedeFact(_ context.Context, arg statedb.SupersedeFactParams) (statedb.SupersedeFactRow, error) {
 	s.lastSupersede = arg
 	if s.supersedeErr != nil {
-		return statedb.WorldFact{}, s.supersedeErr
+		return statedb.SupersedeFactRow{}, s.supersedeErr
 	}
-	return s.newFact, nil
+	return statedb.SupersedeFactRow(s.newFact), nil
 }
 
 func (s *stateFactStoreStub) GetLocationByID(_ context.Context, _ statedb.GetLocationByIDParams) (statedb.Location, error) {

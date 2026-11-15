@@ -29,7 +29,7 @@ const (
 	testDBUser    = "edda"
 	testDBPass    = "edda"
 	migrationsDir = "../../../migrations"
-	vectorDim     = 1536
+	vectorDim     = 768
 )
 
 var (
@@ -119,7 +119,7 @@ func newTx(t *testing.T) *statedb.Queries {
 	return statedb.New(tx)
 }
 
-// makeVec returns a 1536-dimensional unit vector with 1.0 at position (idx % vectorDim).
+// makeVec returns a unit vector matching the migrated memory embedding dimension.
 func makeVec(idx int) pgvector.Vector {
 	floats := make([]float32, vectorDim)
 	floats[idx%vectorDim] = 1.0
@@ -1486,7 +1486,7 @@ func TestIntegrationPlayerKnownFactsVisibility(t *testing.T) {
 	if err != nil {
 		t.Fatalf("SupersedeFact hiddenOld: %v", err)
 	}
-	if !hiddenNew.PlayerKnown.Valid || !hiddenNew.PlayerKnown.Bool {
+	if !hiddenNew.PlayerKnown {
 		t.Fatalf("expected revealed superseding fact to be player-known")
 	}
 
@@ -1999,13 +1999,16 @@ func TestIntegrationForeignKeyConstraints(t *testing.T) {
 		}
 	})
 
-	t.Run("delete_campaign_with_locations_blocked", func(t *testing.T) {
+	t.Run("delete_campaign_cascades_locations", func(t *testing.T) {
 		q := newTx(t)
 		user := createUser(t, q, "camp-with-locs")
 		camp := createCampaign(t, q, user.ID)
-		createLocation(t, q, camp.ID, "some place")
-		if err := q.DeleteCampaign(ctx, camp.ID); err == nil {
-			t.Fatal("expected FK restriction when deleting campaign that has locations, got nil")
+		loc := createLocation(t, q, camp.ID, "some place")
+		if err := q.DeleteCampaign(ctx, camp.ID); err != nil {
+			t.Fatalf("DeleteCampaign: %v", err)
+		}
+		if _, err := q.GetLocationByID(ctx, statedb.GetLocationByIDParams{ID: loc.ID, CampaignID: camp.ID}); err != pgx.ErrNoRows {
+			t.Fatalf("expected cascaded location to be absent, got %v", err)
 		}
 	})
 

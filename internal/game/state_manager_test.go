@@ -813,8 +813,8 @@ func (m *mockQuerier) TransferItem(_ context.Context, _ statedb.TransferItemPara
 	return statedb.Item{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) SupersedeFact(_ context.Context, _ statedb.SupersedeFactParams) (statedb.WorldFact, error) {
-	return statedb.WorldFact{}, pgx.ErrNoRows
+func (m *mockQuerier) SupersedeFact(_ context.Context, _ statedb.SupersedeFactParams) (statedb.SupersedeFactRow, error) {
+	return statedb.SupersedeFactRow{}, pgx.ErrNoRows
 }
 func (m *mockQuerier) GetFactPlayerKnown(_ context.Context, _ pgtype.UUID) (bool, error) {
 	return false, nil

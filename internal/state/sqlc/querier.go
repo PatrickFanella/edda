@@ -131,7 +131,7 @@ type Querier interface {
 	SetLocationPlayerKnown(ctx context.Context, id pgtype.UUID) error
 	SetLocationPlayerVisited(ctx context.Context, id pgtype.UUID) error
 	SetRelationshipPlayerAware(ctx context.Context, id pgtype.UUID) error
-	SupersedeFact(ctx context.Context, arg SupersedeFactParams) (WorldFact, error)
+	SupersedeFact(ctx context.Context, arg SupersedeFactParams) (SupersedeFactRow, error)
 	TransferItem(ctx context.Context, arg TransferItemParams) (Item, error)
 	UpdateBeliefSystem(ctx context.Context, arg UpdateBeliefSystemParams) (BeliefSystem, error)
 	UpdateCampaign(ctx context.Context, arg UpdateCampaignParams) (Campaign, error)
