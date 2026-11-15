@@ -379,8 +379,8 @@ export function CampaignCreatePage() {
     setWizardStep('confirmation');
   }
 
-  function supportsSRDMartialBuild(profile: CharacterProfile): boolean {
-    return profile.concept.trim().toLowerCase() === 'human fighter' && profile.background.trim().toLowerCase() === 'soldier';
+  function supportsSRDBuild(profile: CharacterProfile): boolean {
+    return (profile.concept.trim().toLowerCase() === 'human fighter' && profile.background.trim().toLowerCase() === 'soldier') || (profile.concept.trim().toLowerCase() === 'human cleric' && profile.background.trim().toLowerCase() === 'acolyte');
   }
 
   async function handleBeginAdventure() {
@@ -389,8 +389,8 @@ export function CampaignCreatePage() {
       return;
     }
 
-    if (rulesMode === 'crunch' && !supportsSRDMartialBuild(characterProfile)) {
-      setConfirmationError('Crunch currently requires the supported Human Soldier Fighter build. Return to guided creation to complete it.');
+    if (rulesMode === 'crunch' && !supportsSRDBuild(characterProfile)) {
+      setConfirmationError('Crunch requires Human Soldier Fighter or Human Acolyte Cleric. Return to guided creation to complete it.');
       return;
     }
 
@@ -542,7 +542,7 @@ export function CampaignCreatePage() {
           <MethodPicker<CharacterCreationMethod>
             title="Choose how to create the hero"
             description={rulesMode === 'crunch'
-              ? 'The SRD 5.2.1 slice currently supports one explicit martial build through guided choices. Interview-created SRD characters remain pending the shared catalogue validation work.'
+              ? 'The SRD 5.2.1 slice currently supports Human Soldier Fighter and Human Acolyte Cleric through guided choices. Interview-created SRD characters remain pending the shared catalogue validation work.'
               : campaignName
                 ? `Campaign locked: ${campaignName}. Next, either talk through the character in an interview or build them from guided D&D-style attributes.`
                 : 'Choose how to create the hero who will enter the opening scene.'}
@@ -607,7 +607,7 @@ export function CampaignCreatePage() {
             value={characterGuidedForm}
             onChange={setCharacterGuidedForm}
             onSubmit={handleGuidedCharacterSubmit}
-            requiresSupportedMartialBuild={rulesMode === 'crunch'}
+            requiresSupportedBuild={rulesMode === 'crunch'}
             onBack={() => {
               setCharacterGuidedError(null);
               setWizardStep('characterMethod');
@@ -633,13 +633,15 @@ export function CampaignCreatePage() {
             campaignProfile={campaignProfile}
             characterProfile={{
               ...characterProfile,
-              rulesSummary: rulesMode === 'crunch' && supportsSRDMartialBuild(characterProfile)
-                ? 'SRD 5.2.1 Human Soldier Fighter · standard array plus Soldier +1 STR/DEX/CON: STR 16, DEX 15, CON 14, INT 8, WIS 10, CHA 12 · Savage Attacker and Skilled · AC 19 · 12 HP · proficiency +2 · initiative +2 · Second Wind 2/2 · skills: Athletics, Intimidation, Perception, Survival, Insight, History, Medicine, Nature · Dice Set proficiency · Defense style · mastery choices: Longsword, Greatsword, Javelin · chain mail, shield, longsword, greatsword, flail, 8 javelins, Dungeoneer’s Pack, 29 GP · Required choices complete; wider feat and mastery effects remain unavailable.'
+              rulesSummary: rulesMode === 'crunch' && supportsSRDBuild(characterProfile)
+                ? characterProfile.concept.trim().toLowerCase() === 'human cleric'
+ ? 'SRD 5.2.1 Human Acolyte Cleric · standard array plus Acolyte +1 INT/WIS/CHA: STR 10, DEX 12, CON 14, INT 9, WIS 16, CHA 14 · AC 11 · 10 HP · Wisdom casting +3 · level 1 slots 2/2 · prepared: Bless, Cure Wounds, Guiding Bolt, Shield of Faith · cantrips: Guidance, Sacred Flame, Thaumaturgy · Divine Order: Protector · Magic Initiate (Cleric; Wisdom): Light, Mending, Detect Magic (1 free use) · Skilled: Athletics, Survival, Nature · other skills: Insight, Religion, Medicine, Persuasion, Perception · Calligrapher’s Supplies, prayer book, Holy Symbol, 10 parchment sheets, robe, 118 GP · unarmored; Cure Wounds on self is playable; other recorded spells and feat effects await implementation.'
+ : 'SRD 5.2.1 Human Soldier Fighter · standard array plus Soldier +1 STR/DEX/CON: STR 16, DEX 15, CON 14, INT 8, WIS 10, CHA 12 · Savage Attacker and Skilled · AC 19 · 12 HP · proficiency +2 · initiative +2 · Second Wind 2/2 · skills: Athletics, Intimidation, Perception, Survival, Insight, History, Medicine, Nature · Dice Set proficiency · Defense style · mastery choices: Longsword, Greatsword, Javelin · chain mail, shield, longsword, greatsword, flail, 8 javelins, Dungeoneer’s Pack, 29 GP · Required choices complete; wider feat and mastery effects remain unavailable.'
                 : undefined,
             }}
-            canBegin={rulesMode !== 'crunch' || supportsSRDMartialBuild(characterProfile)}
-            incompleteMessage={rulesMode === 'crunch' && !supportsSRDMartialBuild(characterProfile)
-              ? 'This character does not meet the supported SRD 5.2.1 martial build. Return to guided creation; no campaign can be started from incomplete choices.'
+            canBegin={rulesMode !== 'crunch' || supportsSRDBuild(characterProfile)}
+            incompleteMessage={rulesMode === 'crunch' && !supportsSRDBuild(characterProfile)
+              ? 'This character does not meet the supported SRD 5.2.1 builds. Return to guided creation; no campaign can be started from incomplete choices.'
               : null}
             onBegin={handleBeginAdventure}
             onBack={() => {

@@ -14,8 +14,11 @@ import (
 	"testing"
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
+	"git.subcult.tv/subculture-collective/edda/internal/config"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/handlers"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/rules"
@@ -416,5 +419,61 @@ func TestIntegrationWorldCreationRequiredSetup(t *testing.T) {
 				t.Fatal(err)
 			}
 		})
+	}
+}
+
+func TestIntegrationSRDCasterCreationCanCast(t *testing.T) {
+	ctx := context.Background()
+	q := statedb.New(testPool)
+	input := creationInput(testUserID)
+	input.RulesVersion = domain.RulesVersionSRD521
+	input.CharacterProfile = &world.CharacterProfile{Name: "Acolyte", Concept: "human cleric", Background: "Acolyte"}
+	input.SpawnPackage = &world.CharacterSpawnPackage{Items: []world.StarterItem{{Name: "Unearned wand", ItemType: "weapon", Quantity: 1}}}
+	result, err := world.NewOrchestrator(&creationProvider{t: t}, q).Run(ctx, input, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _, _ = testPool.Exec(ctx, `DELETE FROM campaigns WHERE id=$1`, result.Campaign.ID) })
+	pcs, err := q.GetPlayerCharacterByCampaign(ctx, result.Campaign.ID)
+	if err != nil || len(pcs) != 1 {
+		t.Fatalf("pcs=%v err=%v", pcs, err)
+	}
+	pc := pcs[0]
+	sheet, err := srd521.Project(pc.Stats, 1, int(pc.Hp), int(pc.MaxHp), 0)
+	if err != nil || sheet.Spellcasting.Modifier.Value != 3 || sheet.Resources[0].Current != 2 {
+		t.Fatalf("sheet=%+v err=%v", sheet, err)
+	}
+	items, err := q.ListItemsByPlayer(ctx, statedb.ListItemsByPlayerParams{CampaignID: result.Campaign.ID, PlayerCharacterID: pc.ID})
+	if err != nil || len(items) != 6 {
+		t.Fatalf("items=%+v err=%v", items, err)
+	}
+	names := map[string]bool{}
+	for _, item := range items {
+		names[item.Name] = true
+	}
+	for _, name := range []string{"Calligrapher's Supplies", "Prayer Book", "Holy Symbol", "Parchment (10)", "Robe", "Coin Pouch (118 GP)"} {
+		if !names[name] {
+			t.Fatalf("missing %s", name)
+		}
+	}
+	campaign, actor, err := game.ReadActionSnapshot(ctx, testPool, dbutil.FromPgtype(result.Campaign.ID), dbutil.FromPgtype(pc.ID), testUserID, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	intent := game.ActionIntent{ActorID: actor.ID, Kind: srd521.SpellCast, EntryID: "cure-wounds", SlotLevel: 1}
+	prepared, err := game.PrepareStoredAction(ctx, testPool, campaign, actor, intent, false)
+	if err != nil || !prepared.Preview.Available {
+		t.Fatalf("prepared=%+v err=%v", prepared, err)
+	}
+	e, err := engine.New(testPool, nil, config.LLMConfig{}, engine.WithActionDice(&castingDice{}))
+	if err != nil {
+		t.Fatal(err)
+	}
+	cast, err := e.ConfirmAction(ctx, campaign.ID, engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: prepared.Preview.ExpectedRevision, Intent: intent, TargetID: actor.ID})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(cast.Narrative, "1 level 1 slots remain") {
+		t.Fatal(cast.Narrative)
 	}
 }

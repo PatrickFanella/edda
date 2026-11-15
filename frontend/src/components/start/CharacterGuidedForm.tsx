@@ -17,7 +17,7 @@ export interface CharacterGuidedFormProps {
   readonly errorMessage?: string | null;
   readonly continueLabel?: string;
   readonly backLabel?: string;
-  readonly requiresSupportedMartialBuild?: boolean;
+  readonly requiresSupportedBuild?: boolean;
 }
 
 type CharacterGuidedField = keyof CharacterGuidedFormData;
@@ -112,15 +112,15 @@ const SELECT_FIELDS: readonly SelectFieldConfig[] = [
   },
 ] as const;
 
-function validateGuidedCharacter(value: CharacterGuidedFormData, requiresSupportedMartialBuild: boolean): CharacterGuidedErrors {
+function validateGuidedCharacter(value: CharacterGuidedFormData, requiresSupportedBuild: boolean): CharacterGuidedErrors {
   const errors: CharacterGuidedErrors = {};
 
   if (value.name.trim().length === 0) {
     errors.name = 'Required';
   }
 
-  if (requiresSupportedMartialBuild && (value.race !== 'Human' || value.class !== 'Fighter' || value.background !== 'Soldier')) {
-    errors.class = 'Crunch currently supports the Human Soldier Fighter build.';
+  if (requiresSupportedBuild && (value.race !== 'Human' || !((value.class === 'Fighter' && value.background === 'Soldier') || (value.class === 'Cleric' && value.background === 'Acolyte')))) {
+    errors.class = 'Choose Human with Soldier Fighter or Acolyte Cleric for this SRD slice.';
   }
 
   for (const field of SELECT_FIELDS) {
@@ -145,7 +145,7 @@ export function CharacterGuidedForm({
   errorMessage,
   continueLabel = 'Continue to confirmation',
   backLabel = 'Back',
-  requiresSupportedMartialBuild = false,
+  requiresSupportedBuild = false,
 }: CharacterGuidedFormProps) {
   const [fieldErrors, setFieldErrors] = useState<CharacterGuidedErrors>({});
 
@@ -179,7 +179,7 @@ export function CharacterGuidedForm({
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const nextErrors = validateGuidedCharacter(value, requiresSupportedMartialBuild);
+    const nextErrors = validateGuidedCharacter(value, requiresSupportedBuild);
     setFieldErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
       return;
@@ -199,8 +199,8 @@ export function CharacterGuidedForm({
         <p className="max-w-2xl text-sm leading-6 text-champagne/70">
           Mirror the TUI flow: lock in name, race, class, background, and alignment before the final confirmation step.
         </p>
-        {requiresSupportedMartialBuild ? (
-          <p className="text-sm leading-6 text-gold">Crunch starts with the supported SRD 5.2.1 Human Soldier Fighter: standard-array 16 Strength, Soldier increases, Savage Attacker and Skilled, eight recorded skills, chain mail, shield, and longsword.</p>
+        {requiresSupportedBuild ? (
+          <p className="text-sm leading-6 text-gold">Choose Human Soldier Fighter for melee or Human Acolyte Cleric for Cure Wounds on self. Each uses fixed standard-array abilities, proficiencies, starting equipment and resources; the confirmation lists every starting choice. Wider rules remain unavailable.</p>
         ) : null}
       </div>
 

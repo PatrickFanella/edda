@@ -82,20 +82,20 @@ func PersistCharacterProfile(
 	return pc, nil
 }
 
-// PersistSupportedMartialCharacter saves the supported SRD creation fixture
+// PersistSupportedCharacter saves the supported SRD creation fixture
 // with its derived vitals and catalogue identifier for action handling.
-func PersistSupportedMartialCharacter(ctx context.Context, queries statedb.Querier, campaignID, userID uuid.UUID, profile *CharacterProfile, build *srd521.SupportedMartialBuild, startingLocationID *uuid.UUID) (statedb.PlayerCharacter, error) {
+func PersistSupportedCharacter(ctx context.Context, queries statedb.Querier, campaignID, userID uuid.UUID, profile *CharacterProfile, build *srd521.SupportedBuild, startingLocationID *uuid.UUID) (statedb.PlayerCharacter, error) {
 	if profile == nil {
-		return statedb.PlayerCharacter{}, fmt.Errorf("persist supported martial character: nil profile")
+		return statedb.PlayerCharacter{}, fmt.Errorf("persist supported SRD character: nil profile")
 	}
 	stats, err := build.Stats()
 	if err != nil {
-		return statedb.PlayerCharacter{}, fmt.Errorf("persist supported martial character: %w", err)
+		return statedb.PlayerCharacter{}, fmt.Errorf("persist supported SRD character: %w", err)
 	}
 	// Keep the player's descriptive choices alongside the versioned mechanics.
 	var envelope map[string]any
 	if err := json.Unmarshal(stats, &envelope); err != nil {
-		return statedb.PlayerCharacter{}, fmt.Errorf("parse martial stats: %w", err)
+		return statedb.PlayerCharacter{}, fmt.Errorf("parse SRD stats: %w", err)
 	}
 	envelope["concept"] = profile.Concept
 	envelope["personality"] = profile.Personality
@@ -104,25 +104,34 @@ func PersistSupportedMartialCharacter(ctx context.Context, queries statedb.Queri
 	envelope["weaknesses"] = profile.Weaknesses
 	stats, err = json.Marshal(envelope)
 	if err != nil {
-		return statedb.PlayerCharacter{}, fmt.Errorf("encode martial profile: %w", err)
+		return statedb.PlayerCharacter{}, fmt.Errorf("encode SRD profile: %w", err)
 	}
 	var locationID pgtype.UUID
 	if startingLocationID != nil {
 		locationID = dbutil.ToPgtype(*startingLocationID)
 	}
-	abilities, err := json.Marshal([]string{"Second Wind", "Weapon Mastery: Longsword, Greatsword, Javelin", "Fighting Style: Defense", "Origin Feat: " + build.OriginFeat, "Species Feat: " + build.SpeciesFeat, "Tool Proficiency: " + build.Tool})
-	if err != nil {
-		return statedb.PlayerCharacter{}, fmt.Errorf("marshal supported martial abilities: %w", err)
+	features := []string{"Second Wind", "Weapon Mastery: Longsword, Greatsword, Javelin", "Fighting Style: Defense", "Origin Feat: " + build.OriginFeat, "Species Feat: " + build.SpeciesFeat, "Tool Proficiency: " + build.Tool}
+	if build.Class == "Cleric" {
+		features = []string{"Spellcasting: Wisdom", "Divine Order: Protector", "Origin Feat: " + build.OriginFeat, "Species Feat: " + build.SpeciesFeat, "Tool Proficiency: " + build.Tool}
 	}
-	pc, err := queries.CreatePlayerCharacter(ctx, statedb.CreatePlayerCharacterParams{CampaignID: dbutil.ToPgtype(campaignID), UserID: dbutil.ToPgtype(userID), Name: profile.Name, Description: pgtype.Text{String: fmt.Sprintf("%s. %s", profile.Concept, profile.Background), Valid: true}, Stats: stats, Hp: 12, MaxHp: 12, Level: 1, Status: "active", Abilities: abilities, CurrentLocationID: locationID})
+	abilities, err := json.Marshal(features)
 	if err != nil {
-		return statedb.PlayerCharacter{}, fmt.Errorf("create supported martial character: %w", err)
+		return statedb.PlayerCharacter{}, fmt.Errorf("marshal supported SRD abilities: %w", err)
 	}
-	for _, item := range []struct {
+	hp := int32(12)
+	if build.Class == "Cleric" {
+		hp = 10
+	}
+	pc, err := queries.CreatePlayerCharacter(ctx, statedb.CreatePlayerCharacterParams{CampaignID: dbutil.ToPgtype(campaignID), UserID: dbutil.ToPgtype(userID), Name: profile.Name, Description: pgtype.Text{String: fmt.Sprintf("%s. %s", profile.Concept, profile.Background), Valid: true}, Stats: stats, Hp: hp, MaxHp: hp, Level: 1, Status: "active", Abilities: abilities, CurrentLocationID: locationID})
+	if err != nil {
+		return statedb.PlayerCharacter{}, fmt.Errorf("create supported SRD character: %w", err)
+	}
+	type equipmentEntry struct {
 		name, itemType, properties string
 		equipped                   bool
 		quantity                   int32
-	}{
+	}
+	equipment := []equipmentEntry{
 		{"Chain Mail", "armor", `{"srd521_id":"chain-mail"}`, true, 1},
 		{"Shield", "armor", `{"srd521_id":"shield"}`, true, 1},
 		{"Longsword", "weapon", `{"srd521_id":"longsword"}`, true, 1},
@@ -131,9 +140,21 @@ func PersistSupportedMartialCharacter(ctx context.Context, queries statedb.Queri
 		{"Javelin", "weapon", `{"srd521_id":"javelin"}`, false, 8},
 		{"Dungeoneer's Pack", "misc", `{"srd521_id":"dungeoneers-pack"}`, false, 1},
 		{"Coin Pouch (29 GP)", "misc", `{"srd521_gold":29}`, false, 1},
-	} {
+	}
+	if build.Class == "Cleric" {
+		equipment = equipment[:0]
+		for _, name := range build.Equipment {
+			quantity := int32(1)
+			if name == "Parchment (10)" {
+				quantity = 10
+			}
+			equipment = append(equipment, equipmentEntry{name, "misc", `{}`, false, quantity})
+		}
+		equipment = append(equipment, equipmentEntry{"Coin Pouch (118 GP)", "misc", `{"srd521_gold":118}`, false, 1})
+	}
+	for _, item := range equipment {
 		if _, err = queries.CreateItem(ctx, statedb.CreateItemParams{CampaignID: dbutil.ToPgtype(campaignID), PlayerCharacterID: pc.ID, Name: item.name, ItemType: item.itemType, Rarity: "common", Equipped: item.equipped, Quantity: item.quantity, Properties: []byte(item.properties)}); err != nil {
-			return statedb.PlayerCharacter{}, fmt.Errorf("create supported martial equipment %s: %w", item.name, err)
+			return statedb.PlayerCharacter{}, fmt.Errorf("create supported SRD equipment %s: %w", item.name, err)
 		}
 	}
 	return pc, nil

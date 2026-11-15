@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
+	"reflect"
+	"strings"
 )
 
 // Build is an explicit read-only fixture contract, not a character creator.
@@ -166,8 +168,27 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		sheet.Defenses["armor-class"] = derived(term("Unarmored", 10, "armor/unarmored"), term("dexterity", sheet.Abilities["dexterity"].Modifier.Value, "character/ability-modifiers"))
 		sheet.Resources = []Resource{{"spell-slot-1", "Level 1 spell slots", b.Casting.Slots, 2, prefix + "cleric/spellcasting"}, {"hit-dice", "Hit Dice (d8)", b.HitDice, 1, prefix + "character/hit-dice"}}
 		sheet.Capabilities = []Capability{}
-		sheet.Spellcasting = &Spellcasting{Ability: "wisdom", Modifier: sheet.Abilities["wisdom"].Modifier, Spells: []Spell{{ID: "cure-wounds", Label: "Cure Wounds", Known: true, Prepared: b.Casting.Prepared, Components: []string{"verbal", "somatic"}, ComponentsAvailable: b.Casting.Verbal && b.Casting.Somatic, SlotLevels: []int{1}, SourceID: prefix + "spells/cure-wounds"}}}
+		sheet.Spellcasting = &Spellcasting{Ability: "wisdom", Modifier: sheet.Abilities["wisdom"].Modifier, Spells: []Spell{{ID: "cure-wounds", Playable: true, Label: "Cure Wounds", Known: true, Prepared: b.Casting.Prepared, Components: []string{"verbal", "somatic"}, ComponentsAvailable: b.Casting.Verbal && b.Casting.Somatic, SlotLevels: []int{1}, SourceID: prefix + "spells/cure-wounds"}}}
 	}
+	if b.Class == "cleric" && b.Casting.Choices != nil {
+		choices := b.Casting.Choices
+		expected := (&SupportedBuild{Class: "Cleric"}).CastingChoices()
+		expected.FeatUses = choices.FeatUses
+		if choices.FeatUses < 0 || choices.FeatUses > 1 || !reflect.DeepEqual(choices, expected) {
+			return nil, fmt.Errorf("unsupported caster choices")
+		}
+		sheet.Resources = append(sheet.Resources, Resource{"magic-initiate", "Magic Initiate (Detect Magic; effect unavailable)", choices.FeatUses, 1, prefix + "feats/magic-initiate"})
+		sheet.Spellcasting.Choices = choices
+		for _, group := range [][]string{choices.PreparedSpells, choices.Cantrips, choices.FeatCantrips, {choices.FeatSpell}} {
+			for _, name := range group {
+				if name == "Cure Wounds" {
+					continue
+				}
+				sheet.Spellcasting.Spells = append(sheet.Spellcasting.Spells, Spell{ID: strings.ReplaceAll(strings.ToLower(name), " ", "-"), Label: name, Known: true, Prepared: true, SourceID: prefix + "spells/" + strings.ReplaceAll(strings.ToLower(name), " ", "-")})
+			}
+		}
+	}
+
 	sheet.Progression = Progression{xp, 0, 300, prefix + "character/level-advancement"}
 	return sheet, nil
 }

@@ -68,7 +68,8 @@ export interface CheckReceipt {
 export interface Spellcasting {
  ability: string;
  modifier: DerivedValue;
- spells: { id: string; label: string; known: boolean; prepared: boolean; components: string[]; components_available: boolean; slot_levels: number[]; source_id: string }[];
+ choices?: { divine_order: string; cantrips: string[]; prepared_spells: string[]; magic_initiate_cantrips: string[]; magic_initiate_spell: string; magic_initiate_ability: string; magic_initiate_uses: number };
+ spells: { playable?: boolean; id: string; label: string; known: boolean; prepared: boolean; components: string[]; components_available: boolean; slot_levels: number[]; source_id: string }[];
 }
 export interface SpellReceipt {
  rules_version: string;

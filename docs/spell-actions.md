@@ -3,7 +3,7 @@
 Issue #68 adds a level-one, unarmored Cleric fixture to the shared sheet
 prepare/confirm path. It supports Cure Wounds on the conscious caster only,
 using one level-one spell slot and a Magic action. This is a bounded mechanical
-fixture, not a complete Cleric build or a new character creation option (#72).
+fixture, not a complete Cleric implementation. Issue #72 adds a valid fixed creation build.
 
 The sheet exposes Wisdom, known/prepared status, verbal and somatic components,
 component availability and current/maximum level-one slots. Choose Cure Wounds,
@@ -52,3 +52,33 @@ No source prose is reproduced here.
 
 These isolated tests do not qualify real device keyboards, all Cleric features,
 live models, or production deployment.
+
+## Guided caster creation (#72)
+
+The existing setup flow also accepts Human Acolyte Cleric. The server validates
+this combination before generation and persists the same casting contract used
+by play. Its standard array is STR 10, DEX 12, CON 14, INT 8, WIS 15, CHA 13;
+Acolyte adds +1 INT/WIS/CHA. The unarmored projection has 10 HP, AC 11, Wisdom
+casting +3, two level-one slots and one d8 Hit Die.
+
+Acolyte grants Insight, Religion, Calligrapher's Supplies and Magic Initiate
+(Cleric; Wisdom): Light, Mending and Detect Magic with one recorded free use.
+Class skills are Medicine and Persuasion; Divine Order is Protector. Human adds
+Perception and Skilled (Athletics, Survival, Nature). Three class cantrips are
+Guidance, Sacred Flame and Thaumaturgy; four prepared spells are Bless, Cure
+Wounds, Guiding Bolt and Shield of Faith. These choices are recorded, but only
+Cure Wounds on self has an executable spell action in this slice. Feat spells
+and unimplemented class spells do not acquire actions merely by being recorded.
+
+Cleric equipment option B contributes 110 GP. Acolyte option A contributes
+Calligrapher's Supplies, a prayer book, Holy Symbol, ten parchment sheets, a robe
+and 8 GP: 118 GP total, with no armor purchased or equipped. Client-authored
+starter items are excluded, as for the Fighter. Generation, inventory and setup
+remain one transaction. A database test creates this caster and confirms Cure
+Wounds directly, without modifying its character data; desktop/phone creation
+fixtures retain choices through a failed generation and retry.
+
+Sources in the pinned SRD: character creation pp. 19–22, Cleric pp. 36–38,
+Acolyte p. 83, Human p. 86, and Magic Initiate/Skilled p. 87. This is an adaptation
+under the attribution linked above. Broader character choice and advancement
+remain later roadmap work; no legacy data is converted.

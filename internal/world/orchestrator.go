@@ -75,13 +75,13 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 		return nil, err
 	}
 
-	var martialBuild *srd521.SupportedMartialBuild
+	var supportedBuild *srd521.SupportedBuild
 	if input.RulesVersion == domain.RulesVersionSRD521 {
 		if strings.TrimSpace(input.CharacterProfile.Name) == "" {
 			return nil, fmt.Errorf("character name is required")
 		}
 		var err error
-		martialBuild, err = srd521.MartialBuildForConcept(input.CharacterProfile.Concept, input.CharacterProfile.Background)
+		supportedBuild, err = srd521.SupportedBuildForConcept(input.CharacterProfile.Concept, input.CharacterProfile.Background)
 		if err != nil {
 			return nil, err
 		}
@@ -167,7 +167,7 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 		}
 		var characterRow statedb.PlayerCharacter
 		if input.RulesVersion == domain.RulesVersionSRD521 {
-			characterRow, err = PersistSupportedMartialCharacter(ctx, queries, campaignUUID, input.UserID, input.CharacterProfile, martialBuild, locPtr)
+			characterRow, err = PersistSupportedCharacter(ctx, queries, campaignUUID, input.UserID, input.CharacterProfile, supportedBuild, locPtr)
 		} else {
 			characterRow, err = PersistCharacterProfile(ctx, queries, campaignUUID, input.UserID, input.CharacterProfile, locPtr)
 		}

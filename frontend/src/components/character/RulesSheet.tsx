@@ -21,8 +21,9 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId }: { read
     {sheet.spellcasting && <section aria-label="Spellcasting" className="space-y-2">
       <h3 className="font-heading text-gold">Spellcasting</h3>
       <p>Casting ability: {sheet.spellcasting.ability} ({sheet.spellcasting.modifier.value >= 0 ? '+' : ''}{sheet.spellcasting.modifier.value})</p>
-      {sheet.spellcasting.spells.map(spell => <p key={spell.id}>{spell.label} · {spell.known ? 'Known' : 'Unknown'} · {spell.prepared ? 'Prepared' : 'Not prepared'} · Components: {spell.components.join(', ')} ({spell.components_available ? 'available' : 'unavailable'}) · Supported slots: {spell.slot_levels.join(', ')}</p>)}
-      <p className="text-sm text-pewter">Cure Wounds on self only. Other spells, targets and caster creation are not supported by this fixture.</p>
+      {sheet.spellcasting.spells.map(spell => <p key={spell.id}>{spell.label} · {spell.known ? 'Known' : 'Unknown'} · {spell.prepared ? 'Prepared' : 'Not prepared'} · Components: {spell.components.join(', ')} ({spell.components_available ? 'available' : 'unavailable'}) · {spell.playable === false ? 'Effect unavailable' : `Supported slots: ${spell.slot_levels.join(', ')}`}</p>)}
+      {sheet.spellcasting.choices && <p>Divine Order: {sheet.spellcasting.choices.divine_order} · Magic Initiate ({sheet.spellcasting.choices.magic_initiate_ability}): {sheet.spellcasting.choices.magic_initiate_spell}</p>}
+      <p className="text-sm text-pewter">Human Acolyte Cleric creation is supported. Recorded spell choices are listed here; Cure Wounds on self is playable. Other effects and targets remain unavailable.</p>
     </section>}
     <h3 className="font-heading text-gold">Skills</h3>
     <dl className="grid gap-3 sm:grid-cols-2">{Object.entries(sheet.skills).map(([name,value]) => <RuleValue key={name} label={name} value={value} />)}</dl>

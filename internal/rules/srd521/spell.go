@@ -8,14 +8,16 @@ const SpellCast = "spell-cast"
 // CastingBuild stores only the resources and component rulings for this fixture.
 // Prepared refers to Cure Wounds; it is not a general spell catalogue.
 type CastingBuild struct {
-	Prepared bool `json:"prepared"`
-	Slots    int  `json:"slots"`
-	Verbal   bool `json:"verbal"`
-	Somatic  bool `json:"somatic"`
+	Choices  *CasterChoices `json:"choices,omitempty"`
+	Prepared bool           `json:"prepared"`
+	Slots    int            `json:"slots"`
+	Verbal   bool           `json:"verbal"`
+	Somatic  bool           `json:"somatic"`
 }
 
 // Spell is a player-visible supported spell and its casting requirements.
 type Spell struct {
+	Playable            bool     `json:"playable"`
 	ID                  string   `json:"id"`
 	Label               string   `json:"label"`
 	Known               bool     `json:"known"`
@@ -28,9 +30,10 @@ type Spell struct {
 
 // Spellcasting exposes server-derived casting ability and the supported spell.
 type Spellcasting struct {
-	Ability  string  `json:"ability"`
-	Modifier Value   `json:"modifier"`
-	Spells   []Spell `json:"spells"`
+	Choices  *CasterChoices `json:"choices,omitempty"`
+	Ability  string         `json:"ability"`
+	Modifier Value          `json:"modifier"`
+	Spells   []Spell        `json:"spells"`
 }
 
 // SpellReceipt records the healing roll and exact slot cost for durable replay.
@@ -55,7 +58,7 @@ type SpellReceipt struct {
 // ResolveCureWounds resolves a level-one slot on a conscious self target.
 // Other targets, higher slots and lifecycle effects are not supported.
 func ResolveCureWounds(sheet *CharacterSheet, dice Dice) (*SpellReceipt, error) {
-	if sheet == nil || sheet.Spellcasting == nil || sheet.Scope != "cleric-1-cure-wounds-self-fixture" || len(sheet.Spellcasting.Spells) != 1 || len(sheet.Resources) == 0 || sheet.Resources[0].ID != "spell-slot-1" || sheet.HP.Value <= 0 || sheet.HP.Value > sheet.MaxHP.Value || dice == nil {
+	if sheet == nil || sheet.Spellcasting == nil || sheet.Scope != "cleric-1-cure-wounds-self-fixture" || len(sheet.Resources) == 0 || sheet.Resources[0].ID != "spell-slot-1" || sheet.HP.Value <= 0 || sheet.HP.Value > sheet.MaxHP.Value || dice == nil {
 		return nil, fmt.Errorf("supported conscious caster required")
 	}
 	spell := sheet.Spellcasting.Spells[0]
@@ -75,4 +78,16 @@ func ResolveCureWounds(sheet *CharacterSheet, dice Dice) (*SpellReceipt, error) 
 	r.HPAfter = min(sheet.MaxHP.Value, r.HPBefore+max(0, r.RolledHealing))
 	r.Healing = r.HPAfter - r.HPBefore
 	return r, nil
+}
+
+// CasterChoices persists the fixed creation catalogue, including recorded but
+// unavailable spell effects. It is not inferred from descriptive profile text.
+type CasterChoices struct {
+	DivineOrder    string   `json:"divine_order"`
+	Cantrips       []string `json:"cantrips"`
+	PreparedSpells []string `json:"prepared_spells"`
+	FeatCantrips   []string `json:"magic_initiate_cantrips"`
+	FeatSpell      string   `json:"magic_initiate_spell"`
+	FeatAbility    string   `json:"magic_initiate_ability"`
+	FeatUses       int      `json:"magic_initiate_uses"`
 }

@@ -24,7 +24,7 @@ const rulesModeOptions: readonly RulesModeOption[] = [
     value: 'crunch',
     title: 'Crunch',
     eyebrow: 'Supported SRD slice',
-    description: 'SRD 5.2.1 level-one Human Soldier Fighter, inspectable checks and ordinary melee. Other builds and wider rules remain in progress.',
+    description: 'SRD 5.2.1 level-one Human Soldier Fighter or Human Acolyte Cleric, inspectable checks, ordinary melee and Cure Wounds on self. Other builds and wider rules remain in progress.',
   },
 ];
 

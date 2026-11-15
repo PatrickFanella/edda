@@ -9,7 +9,7 @@ const blank: CharacterGuidedFormData = { name: '', race: '', class: '', backgrou
 
 function Harness({ submit }: { submit: (value: CharacterGuidedFormData) => void }) {
   const [value, setValue] = useState(blank);
-  return <CharacterGuidedForm value={value} onChange={setValue} onSubmit={submit} requiresSupportedMartialBuild />;
+  return <CharacterGuidedForm value={value} onChange={setValue} onSubmit={submit} requiresSupportedBuild />;
 }
 
 it('keeps guided inputs editable and blocks an incomplete Crunch build before confirmation', async () => {
@@ -23,7 +23,7 @@ it('keeps guided inputs editable and blocks an incomplete Crunch build before co
   await user.selectOptions(screen.getByLabelText('Alignment'), 'Lawful Good');
   await user.click(screen.getByRole('button', { name: 'Continue to confirmation' }));
   expect(submit).not.toHaveBeenCalled();
-  expect(screen.getByText('Crunch currently supports the Human Soldier Fighter build.')).toBeVisible();
+  expect(screen.getByText('Choose Human with Soldier Fighter or Acolyte Cleric for this SRD slice.')).toBeVisible();
   expect(screen.getByLabelText('Character name')).toHaveValue('Mira');
   await user.selectOptions(screen.getByLabelText('Race'), 'Human');
   await user.click(screen.getByRole('button', { name: 'Continue to confirmation' }));
