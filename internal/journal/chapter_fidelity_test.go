@@ -25,11 +25,12 @@ type fidelityFixture struct {
 		SourceText  string `json:"source_text"`
 		ChapterText string `json:"chapter_text"`
 	} `json:"outcomes"`
-	Contradictions []string        `json:"contradictions"`
-	HiddenLore     string          `json:"hidden_lore"`
-	ToolSecret     string          `json:"tool_secret"`
-	Pending        api.ChapterTurn `json:"pending"`
-	Later          api.ChapterTurn `json:"later"`
+	SuggestivePhrases []string        `json:"suggestive_phrases,omitempty"`
+	Contradictions    []string        `json:"contradictions"`
+	HiddenLore        string          `json:"hidden_lore"`
+	ToolSecret        string          `json:"tool_secret"`
+	Pending           api.ChapterTurn `json:"pending"`
+	Later             api.ChapterTurn `json:"later"`
 }
 
 func fidelityFixtures(t *testing.T) []fidelityFixture {
@@ -70,7 +71,7 @@ func (f fidelityFixture) checkChapter(content string) error {
 			return fmt.Errorf("missing outcome from turn %d", outcome.TurnNumber)
 		}
 	}
-	for _, forbidden := range append(append([]string{}, f.Contradictions...), f.HiddenLore, f.ToolSecret, f.Pending.Narrative, f.Later.Narrative) {
+	for _, forbidden := range append(append(append([]string{}, f.Contradictions...), f.SuggestivePhrases...), f.HiddenLore, f.ToolSecret, f.Pending.Narrative, f.Later.Narrative) {
 		if strings.Contains(strings.ToLower(content), strings.ToLower(forbidden)) {
 			return fmt.Errorf("forbidden claim %q", forbidden)
 		}
@@ -132,7 +133,7 @@ func TestCuratedChapterFixtures(t *testing.T) {
 				"pending":     content + f.Pending.Narrative,
 				"later":       content + f.Later.Narrative,
 			}
-			for _, contradiction := range f.Contradictions {
+			for _, contradiction := range append(append([]string{}, f.Contradictions...), f.SuggestivePhrases...) {
 				bad[contradiction] = content + contradiction
 			}
 			for name, prose := range bad {

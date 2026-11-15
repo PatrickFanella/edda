@@ -36,8 +36,10 @@ beyond the pending gap. Chapter persistence retained the deterministic response.
 The fixed-example oracle detects missing names/outcomes and the enumerated
 contradictions and private markers. It cannot judge arbitrary prose or a
 paraphrased spoiler. The examples are explicitly labeled as authored doubles,
-and the human review records no approval. No corrective chapter failure was
-observed in these mechanical runs. Intentionally rejected controls are test
+and the owner feedback is recorded separately in human-review.md. No corrective
+chapter failure was observed in the initial mechanical runs. The later human
+review identified suggestive repetition in one closing clause; F87-1 records its
+removal and the new negative control. Intentionally rejected controls are test
 evidence, not observed product defects.
 
 The frontend lint failures are confined to `TurnNotifications.tsx`, `MapPanel.tsx`,
@@ -48,10 +50,21 @@ and rerun lint plus frontend behavior checks. Toolchain maintenance can separate
 install a linter compatible with Go 1.27.3 and rerun the journal lint check.
 Neither is folded into chapter fidelity work.
 
-## Outstanding acceptance criterion
+## Human acceptance evidence
 
-**Human plot-fidelity and readability review remains pending.** Use
-[human-review.md](human-review.md) to record source-linked findings and any bounded
-corrections. Keep the PR draft with `Refs #87` until that checkpoint is supplied.
+**The owner reviewed the three curated examples and gave overall favorable
+feedback with one specific wording concern.**
+[human-review.md](human-review.md) records that feedback without inventing separate
+human row-by-row ratings, along with the agent source comparison and bounded
+correction. The revised clause has not received a second human sign-off.
 Hosted CI status must be read separately from these local results; this report
 does not claim hosted CI, merge, deployment or live-provider qualification.
+
+## Follow-up after owner feedback
+
+The owner reviewed candidate `b937b5e` in the Wave 7 conversation. F87-1 removes
+the redundant “no route beneath the kiln” clause from the chapter without changing
+the frozen source transcript. A separate suggestive-phrase negative control
+guards this editorial correction. The existing failed-search and cart/waiting
+anchors still verify the played outcomes. Focused journal race tests, vet and the
+curated PostgreSQL integration race test passed after this correction.

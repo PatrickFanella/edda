@@ -5,7 +5,8 @@
 For deterministic campaigns with failed plans, corrected misunderstandings and
 undiscovered secrets, use the [issue #87 evidence packet](issue-87/README.md).
 It includes original synthetic transcripts, chapter examples, structural checks
-and a separate human review form. The human prose-quality checkpoint is pending.
+and a separate human review form. The owner reviewed the three examples; the packet records the feedback and the
+bounded correction to a suggestive closing clause.
 
 ## Continue a campaign
 

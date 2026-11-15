@@ -211,8 +211,8 @@
       },
       {
         "turn_number": 3,
-        "source_text": "She had found no route beneath the kiln.",
-        "chapter_text": "she had found no route beneath the kiln"
+        "source_text": "Sera covered the cart before the rain arrived and waited beside it.",
+        "chapter_text": "Sera covered the cart before the rain arrived and waited beside it"
       }
     ],
     "contradictions": [
@@ -235,6 +235,9 @@
       "turn_number": 5,
       "player_input": "Continue later",
       "narrative": "LATER_ONLY_undiscovered-secret"
-    }
+    },
+    "suggestive_phrases": [
+      "she had found no route beneath the kiln"
+    ]
   }
 ]
