@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -11,6 +12,8 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
@@ -185,5 +188,72 @@ func TestGetCampaign_InvalidID(t *testing.T) {
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("expected status 400, got %d", rec.Code)
+	}
+}
+
+// campaignRulesDB exercises the follow-up rules write without a real pool.
+type campaignRulesDB struct {
+	exec func(context.Context, string, ...any) (pgconn.CommandTag, error)
+}
+
+func (d campaignRulesDB) Exec(ctx context.Context, sql string, args ...any) (pgconn.CommandTag, error) {
+	return d.exec(ctx, sql, args...)
+}
+func (d campaignRulesDB) Query(context.Context, string, ...any) (pgx.Rows, error) {
+	panic("unexpected Query")
+}
+func (d campaignRulesDB) QueryRow(context.Context, string, ...any) pgx.Row {
+	panic("unexpected QueryRow")
+}
+
+func TestCreateCampaign_RulesModeWriteFailure(t *testing.T) {
+	for _, tc := range []struct {
+		name string
+		tag  string
+		err  error
+	}{
+		{"write error", "", errors.New("rules write failed")},
+		{"missing row", "UPDATE 0", nil},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			h := &CampaignHandlers{Queries: &stubQuerier{}, Logger: log.Default(), Pool: campaignRulesDB{exec: func(context.Context, string, ...any) (pgconn.CommandTag, error) {
+				return pgconn.NewCommandTag(tc.tag), tc.err
+			}}}
+			rec := httptest.NewRecorder()
+			newTestRouter(h).ServeHTTP(rec, httptest.NewRequest(http.MethodPost, "/campaigns", bytes.NewBufferString(`{"name":"Test","rules_mode":"crunch"}`)))
+			if rec.Code != http.StatusInternalServerError {
+				t.Fatalf("got %d: %s, want 500", rec.Code, rec.Body.String())
+			}
+		})
+	}
+}
+
+func TestCreateCampaign_RulesModeResponseUsesSavedRow(t *testing.T) {
+	q := &stubQuerier{campaignByID: map[string]statedb.Campaign{}}
+	h := &CampaignHandlers{Queries: q, Logger: log.Default(), Pool: campaignRulesDB{exec: func(_ context.Context, _ string, args ...any) (pgconn.CommandTag, error) {
+		id := args[1].(pgtype.UUID)
+		q.campaignByID[dbutil.FromPgtype(id).String()] = statedb.Campaign{ID: id, Name: "Test", Status: "active", RulesMode: "crunch"}
+		return pgconn.NewCommandTag("UPDATE 1"), nil
+	}}}
+	rec := httptest.NewRecorder()
+	newTestRouter(h).ServeHTTP(rec, httptest.NewRequest(http.MethodPost, "/campaigns", bytes.NewBufferString(`{"name":"Test","rules_mode":"crunch"}`)))
+	if rec.Code != http.StatusCreated {
+		t.Fatalf("got %d: %s", rec.Code, rec.Body.String())
+	}
+	var resp api.CampaignResponse
+	if err := json.Unmarshal(rec.Body.Bytes(), &resp); err != nil {
+		t.Fatal(err)
+	}
+	if resp.RulesMode != "crunch" {
+		t.Fatalf("got rules_mode %q", resp.RulesMode)
+	}
+}
+
+func TestCreateCampaign_RulesModeRequiresPersistence(t *testing.T) {
+	h := &CampaignHandlers{Queries: &stubQuerier{}, Logger: log.Default()}
+	rec := httptest.NewRecorder()
+	newTestRouter(h).ServeHTTP(rec, httptest.NewRequest(http.MethodPost, "/campaigns", bytes.NewBufferString(`{"name":"Test","rules_mode":"crunch"}`)))
+	if rec.Code != http.StatusInternalServerError {
+		t.Fatalf("got %d: %s, want 500", rec.Code, rec.Body.String())
 	}
 }

@@ -55,6 +55,11 @@ func (h *CampaignHandlers) CreateCampaign(w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	if req.RulesMode != "" && h.Pool == nil {
+		writeError(w, http.StatusInternalServerError, "campaign rules persistence unavailable")
+		return
+	}
+
 	themes := req.Themes
 	if themes == nil {
 		themes = []string{}
@@ -77,12 +82,23 @@ func (h *CampaignHandlers) CreateCampaign(w http.ResponseWriter, r *http.Request
 
 	// Set rules_mode if provided (not in sqlc-generated INSERT params, use raw SQL).
 	rulesMode := req.RulesMode
-	if rulesMode != "" && h.Pool != nil {
-		_, _ = h.Pool.Exec(r.Context(),
+	if rulesMode != "" {
+		tag, err := h.Pool.Exec(r.Context(),
 			"UPDATE campaigns SET rules_mode = $1 WHERE id = $2",
 			rulesMode, campaign.ID,
 		)
-		campaign.RulesMode = rulesMode
+		if err != nil || tag.RowsAffected() != 1 {
+			h.Logger.Errorf("save campaign rules mode: %v (rows: %d)", err, tag.RowsAffected())
+			writeError(w, http.StatusInternalServerError, "failed to save campaign rules mode")
+			return
+		}
+		// Read the saved row so the response reflects persisted values.
+		campaign, err = h.Queries.GetCampaignByID(r.Context(), campaign.ID)
+		if err != nil {
+			h.Logger.Errorf("read campaign after rules mode update: %v", err)
+			writeError(w, http.StatusInternalServerError, "failed to read saved campaign")
+			return
+		}
 	}
 
 	writeJSON(w, http.StatusCreated, campaignToResponse(campaign))
