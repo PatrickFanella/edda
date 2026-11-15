@@ -31,3 +31,9 @@ export function previewCharacterAction(campaignId: string, intent: ActionIntent)
   Object.entries(intent).forEach(([key, value]) => { if (value) params.set(key, String(value)); });
   return apiFetch<ActionPreview>(`${buildCampaignPath(campaignId, 'character', 'action-preview')}?${params}`);
 }
+
+export function previewCharacterTextAction(campaignId: string, actorId: string, input: string): Promise<ActionPreview> {
+  return apiFetch<ActionPreview>(buildCampaignPath(campaignId, 'character', 'action-preview'), {
+    method: 'POST', body: { actor_id: actorId, input },
+  });
+}

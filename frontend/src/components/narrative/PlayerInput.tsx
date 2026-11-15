@@ -13,6 +13,7 @@ interface PlayerInputProps {
   readonly placeholder?: string;
   readonly className?: string;
   readonly autoFocus?: boolean;
+  readonly preparesAction?: boolean;
 }
 
 export function PlayerInput({
@@ -23,6 +24,7 @@ export function PlayerInput({
   placeholder = 'Describe what you do next…',
   className,
   autoFocus = false,
+  preparesAction = false,
 }: PlayerInputProps) {
   const [value, setValue] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -129,13 +131,13 @@ export function PlayerInput({
         </button>)}
       </div>}
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-pewter">Press Enter to act. Use Shift+Enter for a line break.</p>
+        <p className="text-sm text-pewter">Press Enter to {preparesAction ? 'prepare' : 'act'}. Use Shift+Enter for a line break.</p>
         <button
           type="submit"
           disabled={isDisabled || value.trim().length === 0}
           className="hud-text-button inline-flex items-center justify-center bg-ruby px-5 text-sm font-semibold uppercase tracking-[0.15em] text-champagne transition-all duration-200 hover:bg-ruby-light hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter disabled:hover:scale-100"
         >
-          {isLoading || isSubmitting ? 'Sending…' : 'Send action'}
+          {isLoading || isSubmitting ? (preparesAction ? 'Preparing…' : 'Sending…') : preparesAction ? 'Prepare action' : 'Send action'}
         </button>
       </div>
     </form>

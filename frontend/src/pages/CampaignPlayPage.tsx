@@ -5,9 +5,9 @@ import { Link, useLocation, useParams } from 'react-router';
 
 import { getActionSuggestions } from '../api/suggestions';
 import { createManualSave, getCampaign, startOverCampaign } from '../api/campaigns';
-import { getCampaignCharacter, getCampaignCharacterInventory, previewCharacterAction } from '../api/characters';
+import { getCampaignCharacter, getCampaignCharacterInventory, previewCharacterAction, previewCharacterTextAction } from '../api/characters';
 import { listCampaignQuests } from '../api/quests';
-import type { CampaignResponse, CharacterResponse, ItemResponse, OpeningSceneResponse, QuestResponse } from '../api/types';
+import type { ActionPreview, CampaignResponse, CharacterResponse, ItemResponse, OpeningSceneResponse, QuestResponse } from '../api/types';
 import { AudioControls } from '../components/audio/AudioControls';
 import { CharacterSheet } from '../components/character/CharacterSheet';
 import { EncounterCombatView } from '../components/combat/EncounterCombatView';
@@ -171,6 +171,7 @@ function CampaignPlayContent({
     }
   }, [activeTab]);
   const closeDetails = () => {
+    setTextPreview(null);
     onTabChange('narrative');
     requestAnimationFrame(() => {
       const target = returnFocus.current;
@@ -179,6 +180,7 @@ function CampaignPlayContent({
     });
   };
   const narrative = useNarrative();
+  const [textPreview, setTextPreview] = useState<{ preview: ActionPreview; sequence: number } | null>(null);
   const audio = useAudio();
   useAudioEffects(narrative.latestResult, narrative.combatActive, audio);
   const seededNarrative = useMemo(() => buildSeededNarrativeState(campaign, startupSeed, narrative.entries), [campaign, narrative.entries, startupSeed]);
@@ -195,6 +197,7 @@ function CampaignPlayContent({
 
   const handleTabChange = useCallback(
     (tab: CampaignPlayTab) => {
+      if (activeTab === 'character' && tab !== 'character') setTextPreview(null);
       if (activeTab === 'narrative' && tab !== 'narrative') {
         returnScrollTop.current = storyRef.current?.querySelector('[role="log"]')?.scrollTop ?? null;
       }
@@ -203,7 +206,7 @@ function CampaignPlayContent({
       }
       onTabChange(tab);
     },
-    [activeTab, clearWorldUnread, onTabChange],
+    [activeTab, clearWorldUnread, onTabChange, setTextPreview],
   );
 
   const questsQuery = useQuery({
@@ -299,7 +302,12 @@ function CampaignPlayContent({
                 {activeTab === tab.key || tab.key === 'narrative' ? (
                   <div className="flex h-full min-h-0 flex-col">
                     {tab.key !== 'narrative' ? <button type="button" onClick={closeDetails} className="hud-btn hud-btn-secondary mb-2 min-h-11 shrink-0">Close details</button> : null}
-                    <div className="min-h-0 flex-1"><PlayTabContent campaignId={campaignId} activeTab={tab.key} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} /></div>
+                    <div className="min-h-0 flex-1"><PlayTabContent campaignId={campaignId} activeTab={tab.key} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} textPreview={textPreview} onTextPreview={preview => {
+                      returnFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+                      setTextPreview(previous => ({ preview, sequence: (previous?.sequence ?? 0) + 1 }));
+                      handleTabChange('character');
+                      requestAnimationFrame(() => document.getElementById(`${tabIdPrefix}-panel-character`)?.focus({ preventScroll: true }));
+                    }} /></div>
                   </div>
                 ) : null}
               </div>
@@ -336,22 +344,26 @@ function PlayTabContent({
   narrative,
   seededNarrative,
   suggestedChoices,
+  textPreview,
+  onTextPreview,
 }: {
   readonly campaignId: string;
   readonly activeTab: CampaignPlayTab;
   readonly narrative: SharedNarrativeState;
   readonly seededNarrative: SeededNarrativeState;
   readonly suggestedChoices: readonly { id: string; text: string }[];
+  readonly textPreview: { preview: ActionPreview; sequence: number } | null;
+  readonly onTextPreview: (preview: ActionPreview) => void;
 }) {
   switch (activeTab) {
     case 'narrative':
       return (
         <div className="h-full min-h-0 overflow-hidden">
-          <NarrativeTab narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />
+          <NarrativeTab narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} onTextPreview={onTextPreview} />
         </div>
       );
     case 'character':
-      return <ContainedTabPanel><CharacterSheet campaignId={campaignId} /><section aria-label="Inventory" className="mt-6"><InventoryPanel /></section></ContainedTabPanel>;
+      return <ContainedTabPanel><CharacterSheet key={textPreview?.sequence ?? 0} campaignId={campaignId} initialPreview={textPreview?.preview} /><section aria-label="Inventory" className="mt-6"><InventoryPanel /></section></ContainedTabPanel>;
     case 'world':
       return <ContainedTabPanel>
         <WorldPanel campaignId={campaignId} />
@@ -384,16 +396,54 @@ function NarrativeTab({
   narrative,
   seededNarrative,
   suggestedChoices,
+  onTextPreview,
 }: {
   readonly narrative: SharedNarrativeState;
   readonly seededNarrative: SeededNarrativeState;
   readonly suggestedChoices: readonly { id: string; text: string }[];
+  readonly onTextPreview: (preview: ActionPreview) => void;
 }) {
   const { campaign, campaignId } = useCampaign();
   const assistance = useQuery({ queryKey: ['campaign', campaignId, 'action-suggestions'], queryFn: () => getActionSuggestions(campaignId!), enabled: !!campaignId, retry: false });
   const { connectionStatus, streamingEntry, currentStatus, combatActive, isLoading, error, sendAction } = narrative;
   const character = useQuery({ queryKey: ['campaign', campaignId, 'character'], queryFn: () => getCampaignCharacter(campaignId!), enabled: campaign?.rules_version === 'srd-5.2.1' });
   const encounter = useQuery({ queryKey: ['campaign', campaignId, 'encounter'], queryFn: () => previewCharacterAction(campaignId!, { actor_id: character.data!.id, kind: 'combat-end-turn' }), enabled: campaign?.rules_version === 'srd-5.2.1' && !!character.data, refetchOnWindowFocus: true });
+  const isSRD = campaign?.rules_version === 'srd-5.2.1';
+  const [textError, setTextError] = useState<string | null>(null);
+  const [isPreparing, setIsPreparing] = useState(false);
+  const textRequest = useRef(0);
+  useEffect(() => () => { textRequest.current++; }, [campaignId]);
+  const prepareText = async (input: string): Promise<boolean> => {
+    if (!isSRD) return sendAction(input);
+    if (!campaignId || !character.data) return false;
+    try {
+      if (sessionStorage.getItem(`edda:prepared-action:${campaignId}:${character.data.id}`)) {
+        setTextError('Resolve the previous prepared action in Character before preparing another.');
+        return false;
+      }
+    } catch {
+      setTextError('This browser cannot retain a prepared action. Use Character to continue.');
+      return false;
+    }
+    const request = ++textRequest.current;
+    setTextError(null);
+    setIsPreparing(true);
+    try {
+      const preview = await previewCharacterTextAction(campaignId, character.data.id, input);
+      if (request !== textRequest.current) return false;
+      if (!preview.available) {
+        setTextError(preview.reason ?? 'This action is unavailable. Choose a supported action in Character.');
+        return false;
+      }
+      onTextPreview(preview);
+      return true;
+    } catch (error) {
+      if (request === textRequest.current) setTextError(error instanceof Error ? error.message : 'Could not prepare this action. Your draft is retained.');
+      return false;
+    } finally {
+      if (request === textRequest.current) setIsPreparing(false);
+    }
+  };
 
   // Issue #410: Only show combat UI in light/crunch rules modes.
   const rulesMode = campaign?.rules_mode ?? 'narrative';
@@ -452,17 +502,19 @@ function NarrativeTab({
         className="game-choices-region"
         choices={[...suggestedChoices]}
         onSelectChoice={(choiceText) => {
-          sendAction(choiceText);
+          void prepareText(choiceText);
         }}
-        disabled={isLoading}
+        disabled={isSRD ? isPreparing : isLoading}
       />
 
       <div className="game-composer-feedback" aria-live="polite">
         <ThinkingIndicator status={currentStatus} />
         {error ? <ErrorPanel message={error} /> : null}
+        {textError ? <ErrorPanel message={textError} /> : null}
+        {isSRD ? <p className="text-sm text-pewter">Supported text: Make an Athletics check. Prepare it here, then confirm in Character. Other actions are available from the sheet.</p> : null}
       </div>
 
-      <PlayerInput suggestions={assistance.isError ? [] : assistance.data?.candidates} className="game-action-form" onSendAction={sendAction} disabled={connectionStatus === 'connecting'} isLoading={isLoading} autoFocus />
+      <PlayerInput suggestions={assistance.isError ? [] : assistance.data?.candidates} className="game-action-form" onSendAction={prepareText} preparesAction={isSRD} disabled={isSRD ? !character.data : connectionStatus === 'connecting'} isLoading={isSRD ? isPreparing : isLoading} autoFocus />
 
     </div>
   );

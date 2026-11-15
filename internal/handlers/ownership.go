@@ -42,10 +42,13 @@ func (h *CampaignHandlers) RequireOwnership(next http.Handler) http.Handler {
 		// routes retain the legacy gameplay compatibility guard.
 		chapterRequest := r.Method == http.MethodPost && strings.HasSuffix(r.URL.Path, "/journal/chapters")
 		confirmationRequest := r.Method == http.MethodPost && strings.HasSuffix(r.URL.Path, "/action/confirm")
+		// This exact endpoint only prepares the one documented sheet check. Its
+		// handler has no execution path, so it remains available to SRD campaigns.
+		textPreviewRequest := r.Method == http.MethodPost && strings.HasSuffix(r.URL.Path, "/character/action-preview")
 		socketRequest := r.Method == http.MethodGet && strings.EqualFold(r.Header.Get("Upgrade"), "websocket")
 		// The socket permits typed confirmations. Free-form turns still enforce
 		// the legacy rule guard inside the shared engine gather stage.
-		if !chapterRequest && !confirmationRequest && !socketRequest && (r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket")) {
+		if !chapterRequest && !confirmationRequest && !textPreviewRequest && !socketRequest && (r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket")) {
 			if err := domain.RequireLegacyRules(domain.RulesVersion(campaign.RulesVersion)); err != nil {
 				writeError(w, http.StatusConflict, err.Error())
 				return

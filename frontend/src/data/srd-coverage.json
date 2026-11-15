@@ -7,5 +7,5 @@
   "planned_character_scopes": 344,
   "planned_world_scopes": 335,
   "planned_spell_item_scopes": 753,
-  "supported_scope": "Level-one Human Soldier Fighter or Human Acolyte Cleric; Fighter level 2 with Action Surge and Tactical Mind shown read-only; inspectable ability checks and saving throws; one-handed longsword attacks; Cure Wounds and Shield of Faith on self; a basic Potion of Healing on self; one explicit Longsword opportunity-attack trigger or decline; and the recorded Short Rest, Long Rest, and concentration fixtures."
+  "supported_scope": "Level-one Human Soldier Fighter or Human Acolyte Cleric; Fighter level 2 with Action Surge and Tactical Mind shown read-only; inspectable ability checks and saving throws; one-handed longsword attacks; Cure Wounds and Shield of Faith on self; a basic Potion of Healing on self; one explicit Longsword opportunity-attack trigger or decline; and the recorded Short Rest, Long Rest, and concentration fixtures. The exact text request “Make an Athletics check” prepares that check for explicit confirmation; other free text remains unavailable."
 }

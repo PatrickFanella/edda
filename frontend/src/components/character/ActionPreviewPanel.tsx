@@ -11,13 +11,14 @@ import { AttackReceipt } from './AttackReceipt';
 import { CheckReceipt } from './CheckReceipt';
 import type { CheckReceipt as Receipt, TurnResponse } from '../../api/types';
 import { getCampaignCharacterInventory, previewCharacterAction } from '../../api/characters';
-import type { CharacterSheetProjection, Encounter } from '../../api/types';
+import type { ActionPreview, CharacterSheetProjection, Encounter } from '../../api/types';
 
-export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelection = '', reaction }: {
+export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelection = '', initialPreview, reaction }: {
   readonly campaignId: string;
   readonly actorId: string;
   readonly sheet: CharacterSheetProjection;
   readonly initialSelection?: string;
+  readonly initialPreview?: ActionPreview;
   readonly reaction?: Encounter['reaction'];
 }) {
   const client = useQueryClient();
@@ -57,10 +58,12 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
         setPending(null); requestRef.current = null;
         try { sessionStorage.removeItem(storageKey); } catch { /* Storage is optional. */ }
         preview.reset();
+        setProvidedPreview(undefined);
       }
     },
   });
-  const [selection, setSelection] = useState(initialSelection);
+  const [selection, setSelection] = useState(initialPreview?.intent.skill ? `skill:${initialPreview.intent.skill}` : initialSelection);
+  const [providedPreview, setProvidedPreview] = useState(initialPreview);
   const preview = useMutation({ mutationFn: (value: string) => {
     const [kind, name] = value.split(':');
     return previewCharacterAction(campaignId, {
@@ -70,13 +73,13 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
       ...(kind === 'skill' ? { skill: name } : kind === 'entry' || kind === 'martial-attack' || kind === 'combat-start' || kind === 'combat-react' || kind === 'consumable-use' || kind === 'spell-cast' || kind === 'rest-short' || kind === 'advance-level' ? { entry_id: name } : { ability: name }),
     });
   } });
-  const result = preview.data;
+  const result = preview.data ?? (pending ? undefined : providedPreview);
   const trigger = (reaction ?? result?.encounter?.reaction)?.pending;
   return <section aria-label="Action preview" className="space-y-3 border-y border-gold/20 py-4">
     <h3 className="font-heading text-gold">Preview a character action</h3>
     <p className="text-sm text-pewter">Inspect an action without rolling dice or changing resources, time or history.</p>
     <label className="block text-sm">Character action
-      <select value={selection} disabled={preview.isPending || !!pending} onChange={event => { setSelection(event.target.value); setTarget(''); preview.reset(); confirmation.reset(); setCompleted(null); }} className="mt-2 block min-h-11 w-full max-w-full bg-midnight p-2 text-champagne">
+      <select value={selection} disabled={preview.isPending || !!pending} onChange={event => { setSelection(event.target.value); setProvidedPreview(undefined); setTarget(''); preview.reset(); confirmation.reset(); setCompleted(null); }} className="mt-2 block min-h-11 w-full max-w-full bg-midnight p-2 text-champagne">
         <option value="">Choose an action</option>
         <optgroup label="Ability checks">{Object.keys(sheet.abilities).map(name => <option key={name} value={`ability-check:${name}`}>{name} check</option>)}</optgroup>
         <optgroup label="Skills">{Object.keys(sheet.skills).map(name => <option key={name} value={`skill:${name}`}>{name.replaceAll('-', ' ')} check</option>)}</optgroup>

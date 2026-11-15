@@ -17,9 +17,29 @@ const ready: ActionPreview = {
   modifier: sheet.skills.athletics, targets: [], options: ['ordinary'], costs: [],
   cost_status: 'requires-adjudication', source_ids: ['srd-5.2.1:content/d20-tests/ability-checks'],
 };
-function mount(campaignId = 'alpha', actorId = 'hero') {
-  return render(<QueryClientProvider client={new QueryClient()}><ActionPreviewPanel key={`${campaignId}:${actorId}`} campaignId={campaignId} actorId={actorId} sheet={sheet} /></QueryClientProvider>);
+function mount(campaignId = 'alpha', actorId = 'hero', initialPreview?: ActionPreview) {
+  return render(<QueryClientProvider client={new QueryClient()}><ActionPreviewPanel key={`${campaignId}:${actorId}`} campaignId={campaignId} actorId={actorId} sheet={sheet} initialPreview={initialPreview} /></QueryClientProvider>);
 }
+
+it('uses a supplied text preview until a manual selection deliberately discards it', async () => {
+  mount('provided', 'hero', ready);
+  expect(await screen.findByText('Preview ready. No action has been performed.')).toBeVisible();
+  expect(previewCharacterAction).not.toHaveBeenCalled();
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'saving-throw:constitution');
+  expect(screen.queryByText('Preview ready. No action has been performed.')).not.toBeInTheDocument();
+  vi.mocked(previewCharacterAction).mockResolvedValueOnce({ ...ready, intent: { actor_id: 'hero', kind: 'saving-throw', ability: 'constitution' } });
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  expect(previewCharacterAction).toHaveBeenLastCalledWith('provided', { actor_id: 'hero', kind: 'saving-throw', ability: 'constitution' });
+});
+
+it('keeps an existing stored prepared action ahead of a supplied text preview', async () => {
+  const pending = { action_id: 'old-action', expected_revision: 'old-v1', intent: ready.intent };
+  sessionStorage.setItem('edda:prepared-action:pending:hero', JSON.stringify(pending));
+  mount('pending', 'hero', ready);
+  expect(await screen.findByRole('button', { name: 'Retry same action' })).toBeVisible();
+  expect(screen.queryByRole('button', { name: 'Confirm action' })).not.toBeInTheDocument();
+  expect(sessionStorage.getItem('edda:prepared-action:pending:hero')).toContain('old-action');
+});
 it('shows exact reach and clarification before an unavailable attack can be confirmed', async () => {
   vi.mocked(previewCharacterAction).mockResolvedValueOnce({ ...ready, available: false, reason: 'No legal target.', targets: [{id:'foe', label:'Practice foe', distance_feet:15, reach_feet:5, unavailable_reason:'Out of reach.'}] });
   mount('spatial');

@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getCampaignCharacter } from '../../api/characters';
+import type { ActionPreview } from '../../api/types';
 import { CampaignContext } from '../../context/CampaignContext';
 import { cn } from '../../lib/cn';
 import { HudPanel } from '../layout/HudPanel';
@@ -13,9 +14,10 @@ import { SkillTree } from './SkillTree';
 interface CharacterSheetProps {
   readonly campaignId?: string;
   readonly className?: string;
+  readonly initialPreview?: ActionPreview;
 }
 
-export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
+export function CharacterSheet({ campaignId, className, initialPreview }: CharacterSheetProps) {
   const campaign = useContext(CampaignContext);
   const activeCampaignId = campaignId ?? campaign?.campaignId ?? '';
 
@@ -53,7 +55,7 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
   if (character.rules_version === 'srd-5.2.1') {
     return <HudPanel title={character.name} accent="vitals" className={className}>
       <p className="mb-3 text-sm text-pewter">{character.description} · HP {character.hp} / {character.max_hp}</p>
-      {character.sheet ? <RulesSheet sheet={character.sheet} campaignId={activeCampaignId} actorId={character.id} /> : <p role="status">{character.sheet_unavailable ?? 'Rules projection unavailable for this build.'}</p>}
+      {character.sheet ? <RulesSheet sheet={character.sheet} campaignId={activeCampaignId} actorId={character.id} initialPreview={initialPreview} /> : <p role="status">{character.sheet_unavailable ?? 'Rules projection unavailable for this build.'}</p>}
     </HudPanel>;
   }
   const statEntries = Object.entries(character.stats);

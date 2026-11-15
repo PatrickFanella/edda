@@ -26,3 +26,13 @@ The current inventory totals are deliberately fail-closed constants, checked
 against their source manifests. A future full-coverage release must replace that
 pending-inventory representation with source-complete qualification evidence;
 changing register statuses or closing tracker issues alone cannot open the gate.
+
+## Supported text entry point
+
+The exact composer request **Make an Athletics check** prepares the same
+Athletics intent as the character sheet for the supported build. It shows a
+read-only preview first; the existing explicit Confirm action remains the only
+mutation. Other text requests receive a clarification and stay in the draft.
+Legacy campaigns keep their existing narrative WebSocket behavior. This
+bounded entry point does not enable general SRD narrative adjudication, remove
+the legacy mutation guard, or promote a whole rules family.

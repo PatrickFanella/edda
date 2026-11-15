@@ -1,9 +1,9 @@
-import type { CharacterSheetProjection, CheckReceipt as Receipt, DerivedValue } from '../../api/types';
+import type { ActionPreview, CharacterSheetProjection, CheckReceipt as Receipt, DerivedValue } from '../../api/types';
 import { formatCampaignSeconds } from '../../lib/campaignTime';
 import { ActionPreviewPanel } from './ActionPreviewPanel';
 import { CheckReceipt } from './CheckReceipt';
 
-export function RulesSheet({ sheet, receipts = [], campaignId, actorId }: { readonly campaignId?: string; readonly actorId?: string; readonly sheet: CharacterSheetProjection; readonly receipts?: readonly Receipt[] }) {
+export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialPreview }: { readonly campaignId?: string; readonly actorId?: string; readonly sheet: CharacterSheetProjection; readonly receipts?: readonly Receipt[]; readonly initialPreview?: ActionPreview }) {
   return <section aria-label="SRD character sheet" className="space-y-5 text-champagne">
     <p className="text-sm text-pewter">SRD 5.2.1 · Level {sheet.scope.startsWith('fighter-2-') ? 2 : 1} {sheet.spellcasting ? 'Cleric fixture' : 'Fighter'} · Sheet values and previews</p>
     <section aria-label="Rules coverage" className="border border-gold/40 bg-ink/40 p-3 text-sm">
@@ -38,7 +38,7 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId }: { read
     </section>}
     <h3 className="font-heading text-gold">Skills</h3>
     <dl className="grid gap-3 sm:grid-cols-2">{Object.entries(sheet.skills).map(([name,value]) => <RuleValue key={name} label={name} value={value} />)}</dl>
-    {campaignId && actorId && <ActionPreviewPanel key={`${campaignId}:${actorId}`} campaignId={campaignId} actorId={actorId} sheet={sheet} />}
+    {campaignId && actorId && <ActionPreviewPanel key={`${campaignId}:${actorId}`} campaignId={campaignId} actorId={actorId} sheet={sheet} initialPreview={initialPreview} />}
     <p className="text-sm text-pewter">Fighter advancement supports level 1 to 2 at 300 earned XP. Choose fixed or rolled HP and retain Defense and the recorded mastery choices. Later levels and new feature effects remain unavailable.</p>
     <h3 className="font-heading text-gold">Resources</h3>
     {sheet.resources.map(resource => <p key={resource.id}>{resource.label}: {resource.current} / {resource.maximum}<small className="block break-all text-pewter">{resource.source_id}</small></p>)}
