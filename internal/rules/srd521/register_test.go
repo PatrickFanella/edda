@@ -2,10 +2,11 @@ package srd521
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"os"
+	"reflect"
 	"strings"
 	"testing"
 	"testing/fstest"
@@ -27,22 +28,7 @@ func TestBundledRegister(t *testing.T) {
 	}
 	// This list protects the original stable IDs from accidental deletion or
 	// renaming. New, narrower content IDs may be added by subsequent slices.
-	required := map[string]string{}
-	for _, family := range strings.Fields("d20-tests actions combat conditions exploration toolbox character-creation backgrounds species feats equipment spells magic-items monsters animals") {
-		required["srd-5.2.1:family/"+family] = family
-	}
-	for class, subclass := range map[string]string{
-		"barbarian": "path-of-the-berserker", "bard": "college-of-lore", "cleric": "life-domain",
-		"druid": "circle-of-the-land", "fighter": "champion", "monk": "warrior-of-the-open-hand",
-		"paladin": "oath-of-devotion", "ranger": "hunter", "rogue": "thief",
-		"sorcerer": "draconic-sorcery", "warlock": "fiend-patron", "wizard": "evoker",
-	} {
-		required["srd-5.2.1:class/"+class] = "classes"
-		required["srd-5.2.1:subclass/"+class+"/"+subclass] = "subclasses"
-	}
-	for level := 1; level <= 20; level++ {
-		required[fmt.Sprintf("srd-5.2.1:level/%d", level)] = "advancement"
-	}
+	required := requiredStableEntries()
 	for _, e := range r.Entries {
 		if family, ok := required[e.ID]; ok {
 			if e.Family != family {
@@ -73,6 +59,92 @@ func TestImplementationClaimsRequireReviewedEvidence(t *testing.T) {
 	}
 	for id := range qualified {
 		t.Errorf("reviewed evidence refers to missing entry %s", id)
+	}
+}
+
+func TestCoverageFailsClosedUntilEveryScopeIsQualified(t *testing.T) {
+	r := loadRegister(t)
+	coverage := r.Coverage()
+	if coverage.Status != "partial" || coverage.FullSupport || r.FullSupportEligible(os.DirFS("../../..")) {
+		t.Fatalf("coverage = %+v; partial register must not claim full support", coverage)
+	}
+	if coverage.RegisterEntries == 0 || coverage.QualifiedRegisterEntries > coverage.RegisterEntries {
+		t.Fatalf("invalid register counts: %+v", coverage)
+	}
+	if coverage.PlannedCharacterScopes != 344 || coverage.PlannedWorldScopes != 335 || coverage.PlannedSpellItemScopes != 753 {
+		t.Fatalf("planned source inventory = %+v, want character 344, world 335 and spell/item 753", coverage)
+	}
+	if coverage.SupportedScope == "" {
+		t.Fatal("supported scope must be explicit")
+	}
+}
+
+func TestFrontendCoverageSnapshotMatchesServerReport(t *testing.T) {
+	want := loadRegister(t).Coverage()
+	contents, err := os.ReadFile("../../../frontend/src/data/srd-coverage.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var got CoverageReport
+	if err := json.Unmarshal(contents, &got); err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("frontend coverage snapshot drifted:\n got: %+v\nwant: %+v", got, want)
+	}
+}
+
+func TestCoveragePlannedCountsMatchSourceInventories(t *testing.T) {
+	coverage := loadRegister(t).Coverage()
+	for _, tc := range []struct {
+		name string
+		path string
+		want int
+	}{
+		{"character", "../../../docs/investigations/issue-74-character-inventory.json", coverage.PlannedCharacterScopes},
+		{"world", "../../../docs/investigations/issue-82-world-inventory.json", coverage.PlannedWorldScopes},
+		{"spell and item", "../../../docs/investigations/issue-80-spell-item-inventory.json", coverage.PlannedSpellItemScopes},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			contents, err := os.ReadFile(tc.path)
+			if err != nil {
+				t.Fatal(err)
+			}
+			var inventory struct {
+				Counts              map[string]int    `json:"counts"`
+				IndexedRecords      int               `json:"indexed_records"`
+				SpellCreatedRecords int               `json:"spell_created_records"`
+				Records             []json.RawMessage `json:"records"`
+			}
+			if err := json.Unmarshal(contents, &inventory); err != nil {
+				t.Fatal(err)
+			}
+			counted := inventory.IndexedRecords + inventory.SpellCreatedRecords
+			for _, count := range inventory.Counts {
+				counted += count
+			}
+			if len(inventory.Records) != counted || counted != tc.want {
+				t.Fatalf("inventory records=%d, declared=%d, coverage=%d", len(inventory.Records), counted, tc.want)
+			}
+		})
+	}
+}
+
+func TestFullSupportGateRejectsMissingStableEntryAndInvalidFixture(t *testing.T) {
+	for _, tc := range []struct {
+		name string
+		edit func(*Register)
+	}{
+		{"missing stable entry", func(r *Register) { r.Entries = r.Entries[1:] }},
+		{"unknown fixture", func(r *Register) { r.Entries[0].Fixtures = []string{"internal/rules/srd521/nope_test.go"} }},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			r := loadRegister(t)
+			tc.edit(&r)
+			if r.FullSupportEligible(os.DirFS("../../..")) {
+				t.Fatal("accepted an incomplete or unverified register for a full-support claim")
+			}
+		})
 	}
 }
 

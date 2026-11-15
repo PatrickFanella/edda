@@ -98,6 +98,7 @@ export interface SpellReceipt {
  source_ids: string[];
 }
 export interface CharacterSheetProjection {
+  coverage: RulesCoverage;
  concentration?: Concentration;
   spellcasting?: Spellcasting;
   rules_version: string;
@@ -112,6 +113,17 @@ export interface CharacterSheetProjection {
   resources: { id: string; label: string; current: number; maximum: number; source_id: string }[];
   capabilities: { id: string; label: string; source_id: string; playable: boolean }[];
   progression: { current_xp: number; level_xp: number; next_level_xp: number; source_id: string };
+}
+export interface RulesCoverage {
+  rules_version: string;
+  status: 'partial';
+  full_support: false;
+  qualified_register_entries: number;
+  register_entries: number;
+  planned_character_scopes: number;
+  planned_world_scopes: number;
+  planned_spell_item_scopes: number;
+  supported_scope: string;
 }
 export interface CharacterResponse {
   rules_version?: string;

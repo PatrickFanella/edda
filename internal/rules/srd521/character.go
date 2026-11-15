@@ -59,6 +59,7 @@ type Progression struct {
 
 // CharacterSheet is derived on the server; clients display values and sources.
 type CharacterSheet struct {
+	Coverage      CoverageReport     `json:"coverage"`
 	Concentration *Concentration     `json:"concentration,omitempty"`
 	RulesVersion  string             `json:"rules_version"`
 	Scope         string             `json:"scope"`
@@ -107,7 +108,11 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 	if len(b.Abilities) != 6 {
 		return nil, fmt.Errorf("six explicit ability scores required")
 	}
-	sheet := &CharacterSheet{RulesVersion: "srd-5.2.1", Scope: "fighter-1-chain-mail-defense-read-only", Abilities: map[string]Ability{}, Saves: map[string]Value{}, Skills: map[string]Value{}, Defenses: map[string]Value{}}
+	register, err := Load()
+	if err != nil {
+		return nil, fmt.Errorf("load SRD coverage: %w", err)
+	}
+	sheet := &CharacterSheet{Coverage: register.Coverage(), RulesVersion: "srd-5.2.1", Scope: "fighter-1-chain-mail-defense-read-only", Abilities: map[string]Ability{}, Saves: map[string]Value{}, Skills: map[string]Value{}, Defenses: map[string]Value{}}
 	sheet.Proficiency = derived(term("Level 1 proficiency", 2, "character/proficiency"))
 	for _, name := range abilityNames {
 		score, ok := b.Abilities[name]

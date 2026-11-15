@@ -66,6 +66,95 @@ type Register struct {
 	Entries       []Entry `json:"entries"`
 }
 
+// CoverageReport describes the bounded playable SRD slice without promoting
+// source inventory or partially implemented entries to full rules support.
+// It is safe to display to players: it contains counts and declared scope,
+// never unpublished rules content.
+type CoverageReport struct {
+	RulesVersion             string `json:"rules_version"`
+	Status                   string `json:"status"`
+	FullSupport              bool   `json:"full_support"`
+	QualifiedRegisterEntries int    `json:"qualified_register_entries"`
+	RegisterEntries          int    `json:"register_entries"`
+	PlannedCharacterScopes   int    `json:"planned_character_scopes"`
+	PlannedWorldScopes       int    `json:"planned_world_scopes"`
+	PlannedSpellItemScopes   int    `json:"planned_spell_item_scopes"`
+	SupportedScope           string `json:"supported_scope"`
+}
+
+const (
+	plannedCharacterScopes = 344
+	plannedWorldScopes     = 335
+	plannedSpellItemScopes = 753
+)
+
+// Coverage returns the current support boundary. Full support is deliberately
+// fail-closed: every register entry needs reviewed fixtures and all planned
+// source scopes must be qualified before a later release can claim it.
+func (r Register) Coverage() CoverageReport {
+	qualified := 0
+	for _, entry := range r.Entries {
+		if entry.Status == "implemented" && len(entry.Fixtures) > 0 {
+			qualified++
+		}
+	}
+	return CoverageReport{
+		RulesVersion:             Version,
+		Status:                   "partial",
+		FullSupport:              false,
+		QualifiedRegisterEntries: qualified,
+		RegisterEntries:          len(r.Entries),
+		PlannedCharacterScopes:   plannedCharacterScopes,
+		PlannedWorldScopes:       plannedWorldScopes,
+		PlannedSpellItemScopes:   plannedSpellItemScopes,
+		SupportedScope:           "Level-one Human Soldier Fighter or Human Acolyte Cleric; Fighter level 2 with Action Surge and Tactical Mind shown read-only; inspectable ability checks and saving throws; one-handed longsword attacks; Cure Wounds and Shield of Faith on self; a basic Potion of Healing on self; one explicit Longsword opportunity-attack trigger or decline; and the recorded Short Rest, Long Rest, and concentration fixtures.",
+	}
+}
+
+// FullSupportEligible reports whether the register could support a full claim.
+// Planned inventories deliberately block that claim until their separate gates
+// add qualified evidence. This prevents a broad status change from silently
+// reclassifying a partial build as complete.
+func (r Register) FullSupportEligible(repo fs.FS) bool {
+	if err := r.Validate(repo); err != nil {
+		return false
+	}
+	required := requiredStableEntries()
+	for _, entry := range r.Entries {
+		if expectedFamily, ok := required[entry.ID]; ok {
+			if entry.Family != expectedFamily {
+				return false
+			}
+			delete(required, entry.ID)
+		}
+		if entry.Status != "implemented" || len(entry.Fixtures) == 0 {
+			return false
+		}
+	}
+	coverage := r.Coverage()
+	return len(required) == 0 && coverage.PlannedCharacterScopes == 0 && coverage.PlannedWorldScopes == 0 && coverage.PlannedSpellItemScopes == 0
+}
+
+func requiredStableEntries() map[string]string {
+	required := map[string]string{}
+	for _, family := range strings.Fields("d20-tests actions combat conditions exploration toolbox character-creation backgrounds species feats equipment spells magic-items monsters animals") {
+		required["srd-5.2.1:family/"+family] = family
+	}
+	for class, subclass := range map[string]string{
+		"barbarian": "path-of-the-berserker", "bard": "college-of-lore", "cleric": "life-domain",
+		"druid": "circle-of-the-land", "fighter": "champion", "monk": "warrior-of-the-open-hand",
+		"paladin": "oath-of-devotion", "ranger": "hunter", "rogue": "thief",
+		"sorcerer": "draconic-sorcery", "warlock": "fiend-patron", "wizard": "evoker",
+	} {
+		required["srd-5.2.1:class/"+class] = "classes"
+		required["srd-5.2.1:subclass/"+class+"/"+subclass] = "subclasses"
+	}
+	for level := 1; level <= 20; level++ {
+		required[fmt.Sprintf("srd-5.2.1:level/%d", level)] = "advancement"
+	}
+	return required
+}
+
 // Load decodes a fresh copy of the bundled register. Validate it with a repository
 // filesystem when checking fixture links; no filesystem or network is used here.
 func Load() (Register, error) {

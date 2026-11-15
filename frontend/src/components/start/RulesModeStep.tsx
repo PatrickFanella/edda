@@ -1,3 +1,5 @@
+import coverage from '../../data/srd-coverage.json';
+
 export type RulesMode = 'narrative' | 'light' | 'crunch';
 
 interface RulesModeOption {
@@ -24,7 +26,7 @@ const rulesModeOptions: readonly RulesModeOption[] = [
     value: 'crunch',
     title: 'Crunch',
     eyebrow: 'Supported SRD slice',
-    description: 'SRD 5.2.1 level-one Human Soldier Fighter or Human Acolyte Cleric, inspectable checks, ordinary melee and Cure Wounds on self. Other builds and wider rules remain in progress.',
+    description: `${coverage.supported_scope} This is a partial slice; Edda does not claim Full Rules support.`,
   },
 ];
 

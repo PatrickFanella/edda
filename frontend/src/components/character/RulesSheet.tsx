@@ -6,6 +6,11 @@ import { CheckReceipt } from './CheckReceipt';
 export function RulesSheet({ sheet, receipts = [], campaignId, actorId }: { readonly campaignId?: string; readonly actorId?: string; readonly sheet: CharacterSheetProjection; readonly receipts?: readonly Receipt[] }) {
   return <section aria-label="SRD character sheet" className="space-y-5 text-champagne">
     <p className="text-sm text-pewter">SRD 5.2.1 · Level {sheet.scope.startsWith('fighter-2-') ? 2 : 1} {sheet.spellcasting ? 'Cleric fixture' : 'Fighter'} · Sheet values and previews</p>
+    <section aria-label="Rules coverage" className="border border-gold/40 bg-ink/40 p-3 text-sm">
+      <h3 className="font-heading text-gold">Supported SRD slice</h3>
+      <p>{sheet.coverage.supported_scope}</p>
+      <p className="mt-2 text-pewter">Status: partial. {sheet.coverage.qualified_register_entries} of {sheet.coverage.register_entries} register scopes have full conformance evidence. The roadmap still tracks {sheet.coverage.planned_character_scopes} character/advancement scopes, {sheet.coverage.planned_world_scopes} world scopes and {sheet.coverage.planned_spell_item_scopes} spell/item source families separately. Edda does not claim Full Rules support.</p>
+    </section>
     <p>HP {sheet.hp.value} / {sheet.max_hp.value} · XP {sheet.progression.current_xp} / {sheet.progression.next_level_xp}</p>
     <p className="text-sm text-pewter">Inspect a value to see its calculation and source identifiers.</p>
     <dl className="grid gap-3 sm:grid-cols-2">
