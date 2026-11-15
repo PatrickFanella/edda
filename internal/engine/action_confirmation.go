@@ -14,7 +14,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-// PreparedAction confirms only the supported ordinary, untargeted sheet checks.
+// PreparedAction confirms supported checks and explicitly prepared fixture actions.
 // No modifiers, DC, advantage, resource amounts or disclosure flags are accepted.
 type PreparedAction struct {
 	ActionID         uuid.UUID         `json:"action_id"`
@@ -89,11 +89,12 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	if err != nil {
 		return nil, err
 	}
-	preview, err := game.PrepareCharacterAction(ctx, campaign, pc, request.Intent)
+	prepared, err := game.PrepareStoredAction(ctx, tx, campaign, pc, request.Intent, true)
 	if err != nil {
 		return nil, err
 	}
-	if !preview.Available || preview.ExpectedRevision != request.ExpectedRevision || len(preview.Costs) != 0 {
+	preview := prepared.Preview
+	if !preview.Available || preview.ExpectedRevision != request.ExpectedRevision {
 		return nil, ErrActionRefresh
 	}
 	// This slice has no scene-target resolver or combat action economy. A save
@@ -102,7 +103,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if request.TargetID != pc.ID {
 			return nil, ErrActionRefresh
 		}
-	} else if request.TargetID != uuid.Nil {
+	} else if request.Intent.Kind != srd521.MartialAttack && request.TargetID != uuid.Nil {
 		return nil, ErrActionRefresh
 	}
 	var inCombat bool
@@ -120,11 +121,48 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	if dice == nil {
 		dice = actionDice{}
 	}
-	resolution, err := srd521.ResolveCheck(sheet, srd521.Check{Kind: preview.Intent.Kind, Ability: preview.Intent.Ability, Skill: preview.Intent.Skill}, srd521.Difficulty{}, dice)
-	if err != nil {
-		return nil, err
+	label := preview.Intent.Ability
+	if preview.Intent.Skill != "" {
+		label = preview.Intent.Skill
 	}
-	receipt := resolution.PlayerReceipt()
+	var receipt any
+	tool := "srd_check"
+	narrative := ""
+	if request.Intent.Kind == srd521.MartialAttack {
+		var target *game.MartialTarget
+		for i := range prepared.Targets {
+			if prepared.Targets[i].ID == request.TargetID {
+				target = &prepared.Targets[i]
+				break
+			}
+		}
+		if target == nil {
+			return nil, ErrActionRefresh
+		}
+		attack, err := srd521.ResolveLongsword(sheet, 10, dice)
+		if err != nil {
+			return nil, err
+		}
+		attack.TargetID = target.ID.String()
+		attack.Target = target.Name
+		if attack.Damage > 0 {
+			if _, err := tx.Exec(ctx, `UPDATE npcs SET hp=GREATEST(0,hp-$1),alive=(hp-$1>0),updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3`, attack.Damage, db.ToPgUUID(target.ID), db.ToPgUUID(campaignID)); err != nil {
+				return nil, err
+			}
+		}
+		receipt = attack
+		tool = "srd_attack"
+		label = "Longsword"
+		narrative = fmt.Sprintf("Longsword attack against %s: %s (total %d), %d slashing damage. One fixture Attack action recorded; initiative, mastery and reactions are not implemented.", target.Name, attack.Outcome, attack.Total, attack.Damage)
+	} else {
+		resolution, err := srd521.ResolveCheck(sheet, srd521.Check{Kind: preview.Intent.Kind, Ability: preview.Intent.Ability, Skill: preview.Intent.Skill}, srd521.Difficulty{}, dice)
+		if err != nil {
+			return nil, err
+		}
+		check := resolution.PlayerReceipt()
+		receipt = check
+		narrative = fmt.Sprintf("%s %s recorded: total %d. The outcome requires adjudication; no scene effect or time cost has been applied.", label, preview.Intent.Kind, check.Total)
+	}
 	encoded, err := json.Marshal(map[string]any{"receipt": receipt})
 	if err != nil {
 		return nil, err
@@ -133,11 +171,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	if err := tx.QueryRow(ctx, `SELECT COALESCE(MAX(turn_number),0)+1 FROM session_logs WHERE campaign_id=$1`, db.ToPgUUID(campaignID)).Scan(&turn); err != nil {
 		return nil, err
 	}
-	label := preview.Intent.Ability
-	if preview.Intent.Skill != "" {
-		label = preview.Intent.Skill
-	}
-	result := &TurnResult{ActionID: request.ActionID, TurnNumber: turn, Narrative: fmt.Sprintf("%s %s recorded: total %d. The outcome requires adjudication; no scene effect or time cost has been applied.", label, preview.Intent.Kind, receipt.Total), AppliedToolCalls: []AppliedToolCall{{Tool: "srd_check", Result: encoded}}}
+	result := &TurnResult{ActionID: request.ActionID, TurnNumber: turn, Narrative: narrative, AppliedToolCalls: []AppliedToolCall{{Tool: tool, Result: encoded}}}
 	resultData, err := json.Marshal(result)
 	if err != nil {
 		return nil, err

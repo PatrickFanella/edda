@@ -4,12 +4,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { expect, it, vi } from 'vitest';
 import { ActionPreviewPanel } from '../src/components/character/ActionPreviewPanel';
 import { confirmCharacterAction, readActionReceipt } from '../src/api/actions';
-import { previewCharacterAction } from '../src/api/characters';
+import { getCampaignCharacterInventory, previewCharacterAction } from '../src/api/characters';
 import type { ActionPreview, CharacterSheetProjection } from '../src/api/types';
 import fixture from './fixtures/srd-check-sheet.json';
 
 vi.mock('../src/api/actions', () => ({ confirmCharacterAction: vi.fn(), readActionReceipt: vi.fn().mockResolvedValue(null), publishConfirmedAction: vi.fn() }));
-vi.mock('../src/api/characters', () => ({ previewCharacterAction: vi.fn() }));
+vi.mock('../src/api/characters', () => ({ previewCharacterAction: vi.fn(), getCampaignCharacterInventory: vi.fn().mockResolvedValue([]) }));
 const sheet = fixture.sheet as CharacterSheetProjection;
 const ready: ActionPreview = {
   intent: { actor_id: 'hero', kind: 'ability-check', ability: 'strength', skill: 'athletics' },
@@ -86,4 +86,20 @@ it('reconciles a saved receipt after remount instead of rolling again', async ()
   expect(await screen.findByText('Action saved.')).toBeVisible();
   expect(readActionReceipt).toHaveBeenCalledWith('reload', 'retained');
   expect(confirmCharacterAction).not.toHaveBeenCalled();
+});
+
+it('selects an equipped longsword and known target, then confirms only on request', async () => {
+ vi.mocked(getCampaignCharacterInventory).mockResolvedValueOnce([{ id:'sword',campaign_id:'martial',name:'Longsword',description:'',rarity:'common',item_type:'weapon',properties:{srd521_id:'longsword'},equipped:true,quantity:1 }]);
+ vi.mocked(previewCharacterAction).mockResolvedValueOnce({ ...ready,intent:{actor_id:'hero',kind:'martial-attack',entry_id:'sword'},targets:[{id:'foe',label:'Practice foe'}],costs:[{resource_id:'attack-action',amount:1}],cost_status:'fixture-only' });
+ vi.mocked(confirmCharacterAction).mockResolvedValueOnce({action_id:'saved',turn_number:2,narrative:'Longsword hit, 8 slashing.',state_changes:[],resolution_events:[],combat_active:false});
+ mount('martial');
+ await screen.findByRole('option',{name:'Longsword (one hand)'});
+ await userEvent.selectOptions(screen.getByLabelText('Character action'),'martial-attack:sword');
+ await userEvent.click(screen.getByRole('button',{name:'Preview action'}));
+ expect(await screen.findByRole('button',{name:'Confirm action'})).toBeDisabled();
+ await userEvent.selectOptions(screen.getByLabelText('Attack target'),'foe');
+ expect(confirmCharacterAction).not.toHaveBeenCalled();
+ await userEvent.click(screen.getByRole('button',{name:'Confirm action'}));
+ expect(await screen.findByText('Action saved.')).toBeVisible();
+ expect(vi.mocked(confirmCharacterAction).mock.calls[0][1]).toMatchObject({target_id:'foe',intent:{kind:'martial-attack',entry_id:'sword'}});
 });

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"github.com/google/uuid"
 	"time"
 
@@ -171,6 +172,13 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 		case "skill_check":
 			if event, ok := skillCheckResolutionEvent(call); ok {
 				out = append(out, event)
+			}
+		case "srd_attack":
+			var result struct {
+				Receipt *srd521.AttackReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.MartialAttack {
+				out = append(out, api.ResolutionEvent{Type: "srd_attack", Label: "Longsword attack", Outcome: result.Receipt.Outcome, Details: map[string]any{"receipt": result.Receipt}})
 			}
 		case "srd_check":
 			if event, ok := srdCheckResolutionEvent(call); ok {

@@ -518,7 +518,7 @@ export interface ActionPreview {
   targets: { id: string; label: string }[];
   options: string[];
   costs: { resource_id: string; amount: number }[];
-  cost_status: 'requires-adjudication';
+  cost_status: 'requires-adjudication' | 'fixture-only';
   source_ids: string[];
 }
 
@@ -552,4 +552,21 @@ export interface ChapterResponse {
   rules_mode: string;
   created_at: string;
   revisions: ChapterRevisionResponse[];
+}
+
+export interface AttackReceipt {
+ rules_version: string;
+ kind: 'martial-attack';
+ weapon: string;
+ target_id: string;
+ target: string;
+ die: number;
+ modifier: DerivedValue;
+ total: number;
+ outcome: string;
+ damage_dice: number[];
+ damage_modifier: number;
+ damage: number;
+ damage_type: string;
+ source_ids: string[];
 }

@@ -50,11 +50,11 @@ func (h *CharacterHandlers) PreviewAction(w http.ResponseWriter, r *http.Request
 		writeError(w, http.StatusInternalServerError, "failed to prepare action preview")
 		return
 	}
-	preview, err := game.PrepareCharacterAction(r.Context(), campaign, pc, game.ActionIntent{ActorID: actorID, Kind: values.Get("kind"), Ability: values.Get("ability"), Skill: values.Get("skill"), EntryID: values.Get("entry_id")})
+	prepared, err := game.PrepareStoredAction(r.Context(), h.Pool, campaign, pc, game.ActionIntent{ActorID: actorID, Kind: values.Get("kind"), Ability: values.Get("ability"), Skill: values.Get("skill"), EntryID: values.Get("entry_id")}, false)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, "failed to prepare action preview")
 		return
 	}
 	w.Header().Set("Cache-Control", "no-store")
-	writeJSON(w, http.StatusOK, preview)
+	writeJSON(w, http.StatusOK, prepared.Preview)
 }

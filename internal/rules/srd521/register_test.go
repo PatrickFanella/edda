@@ -159,6 +159,7 @@ func TestFixtureLinks(t *testing.T) {
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			r := loadRegister(t)
+			r.Entries = r.Entries[:1] // This case supplies its own isolated fixture filesystem.
 			r.Entries[0].Status = "implemented"
 			r.Entries[0].Fixtures = tc.paths
 			if err := r.Validate(repo); (err == nil) != tc.valid {

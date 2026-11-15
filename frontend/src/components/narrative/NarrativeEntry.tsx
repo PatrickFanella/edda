@@ -1,5 +1,6 @@
 import type { ResolutionEvent, StateChange } from '../../api/types';
 import { cn } from '../../lib/cn';
+import { AttackReceipt } from '../character/AttackReceipt';
 import { CheckReceipt } from '../character/CheckReceipt';
 import type { CheckReceipt as Receipt } from '../../api/types';
 import { LoadingIndicator } from './LoadingIndicator';
@@ -112,6 +113,7 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
 }
 
 function ResolutionEventBadge({ event }: { readonly event: ResolutionEvent }) {
+  if (event.type === 'srd_attack' && event.details.receipt) return <AttackReceipt receipt={event.details.receipt as import('../../api/types').AttackReceipt} />;
   if (event.type === 'srd_check' && event.details.receipt) return <CheckReceipt receipt={event.details.receipt as Receipt} />;
   if (event.type === 'skill_check') {
     return <SkillCheckBadge event={event} />;
