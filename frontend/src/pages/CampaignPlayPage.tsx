@@ -453,9 +453,9 @@ function NarrativeTab({
   }
 
   return (
-    <div className="game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-hidden">
+    <div className="game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto">
       <NarrativePanel
-        className="min-h-0 flex-1 overflow-hidden bg-charcoal/70"
+        className="min-h-24 flex-1 overflow-hidden bg-charcoal/70"
         contentClassName="h-full max-h-none min-h-0 text-[1.12rem] leading-6"
         entries={seededNarrative.entries}
         streamingEntry={streamingEntry}

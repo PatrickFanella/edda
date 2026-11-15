@@ -40,9 +40,10 @@ for (const [width, height] of [[1366, 768], [1440, 900], [1920, 1080], [768, 102
 }
 
 for (const [width, height] of [[360, 800], [390, 844]]) {
-  test(`long choices, details and reduced viewport keep controls reachable at ${width}`, async ({ page, game }) => {
+  test(`long choices, details and reduced viewport keep controls reachable at ${width}`, async ({ page, game }, testInfo) => {
     await page.setViewportSize({ width, height });
     await longHistory(page);
+    await page.route('**/campaigns/alpha/saves', route => route.fulfill({ json: Array.from({ length: 20 }, (_, i) => ({ id: `save-${i}`, campaign_id: 'alpha', name: `Checkpoint ${i + 1}`, turn_number: i + 1, is_auto: true, created_at: timestamp })) }));
     await signIn(page); await page.goto('/play/alpha');
     await expect.poll(() => game.sockets.length).toBe(1);
     const choices = Array.from({ length: 8 }, (_, i) => ({ id: `long-${i}`, text: `Option ${i + 1}: ${'Consider the old gate carefully. '.repeat(20)}` }));
@@ -56,10 +57,16 @@ for (const [width, height] of [[360, 800], [390, 844]]) {
     await expect(region.getByRole('button').last()).toBeInViewport();
     // Deterministic resize, not evidence of an actual software keyboard.
     await page.setViewportSize({ width, height: 480 });
+    await page.getByRole('button', { name: 'Saves', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Save Points (20)', exact: true })).toBeVisible();
+    expect(await page.getByRole('log').evaluate(el => el.clientHeight)).toBeGreaterThanOrEqual(80);
+    const narrativeLayout = page.locator('.game-narrative-layout');
+    expect(await narrativeLayout.evaluate(el => el.scrollHeight > el.clientHeight && getComputedStyle(el).overflowY === 'hidden')).toBe(false);
     await page.getByLabel('Your move').fill('Keyboard-sized viewport\nMultiline draft');
     await page.getByRole('button', { name: 'Send action' }).scrollIntoViewIfNeeded();
     await expect(page.getByRole('button', { name: 'Send action' })).toBeInViewport();
     await expectDocumentFits(page);
+    await page.screenshot({ path: testInfo.outputPath('expanded-saves-viewport.png') });
     await page.setViewportSize({ width, height });
     await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
     for (const name of ['Logs', 'Character', 'Narrative']) {

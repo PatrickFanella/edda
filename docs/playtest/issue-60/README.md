@@ -102,6 +102,15 @@ resize to prove the old listener cannot restore the override. All 10 focused
 repetitions, all 15 browser checks, 10 unit tests, the frontend build and scoped
 ESLint passed after this test correction. No production lifecycle code changed.
 
+Review identified a separate short-height case with the Saves list expanded.
+The added fixture loads 20 checkpoints and eight long choices at both 360×480
+and 390×480. Before the follow-up fix, both cases collapsed the transcript to
+32 pixels and left overflowing content inside a hidden narrative container.
+The narrative container now allows vertical scrolling and the transcript keeps
+a 6rem minimum height. This provides a scroll escape to the composer instead of
+shrinking its controls. The same fixtures then check enlarged text with Saves
+still open. They save an `expanded-saves-viewport.png` artifact for inspection.
+
 ## Inspected renders
 
 These images come from the isolated long-history fixture, after internally
