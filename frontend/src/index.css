@@ -672,7 +672,7 @@ body:has(.game-app-shell) > .subcult-identity {
 }
 
 .game-action-form { flex: none; min-width: 0; padding: 0.5rem; }
-.game-action-form textarea { font-size: max(1rem, 17px); }
+.game-action-form textarea, .game-action-form .action-completion { font-size: max(1rem, 17px); }
 
 .game-app-header > div:first-child > div {
   max-width: 100%;
