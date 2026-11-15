@@ -1,0 +1,240 @@
+[
+  {
+    "id": "failed-plan",
+    "source": {
+      "from_turn": 1,
+      "to_turn": 3,
+      "rules_version": "legacy",
+      "rules_mode": "narrative",
+      "knowledge_boundary": "player-visible-transcript-through-to-turn-v1",
+      "source_turns": [
+        {
+          "log_id": "87000000-0000-4000-8000-000100000001",
+          "attempt_id": "87000001-0000-4000-8000-000100000001",
+          "turn_number": 1,
+          "player_input": "I tie a rope across the sluice at Greywash and try to cross.",
+          "narrative": "Mara tied the rope, but the knot slipped. The crossing failed. The current carried the rope away. Mara remained on the near bank with Iven."
+        },
+        {
+          "log_id": "87000000-0000-4000-8000-000100000002",
+          "attempt_id": "87000001-0000-4000-8000-000100000002",
+          "turn_number": 2,
+          "player_input": "I offer Iven two silver to ferry me across.",
+          "narrative": "Iven refused the payment: his boat was damaged. Mara kept the two silver. She could wait at the sluice or try the upstream bridge."
+        },
+        {
+          "log_id": "87000000-0000-4000-8000-000100000003",
+          "attempt_id": "87000001-0000-4000-8000-000100000003",
+          "turn_number": 3,
+          "player_input": "I wait beside the sluice.",
+          "narrative": "Mara waited beside the sluice. The water was still rising. Neither Mara nor Iven had crossed."
+        }
+      ]
+    },
+    "chapter_file": "failed-plan.chapter.md",
+    "names": [
+      "Mara",
+      "Iven",
+      "Greywash"
+    ],
+    "outcomes": [
+      {
+        "turn_number": 1,
+        "source_text": "The crossing failed.",
+        "chapter_text": "The crossing failed"
+      },
+      {
+        "turn_number": 2,
+        "source_text": "Mara kept the two silver.",
+        "chapter_text": "she kept the coins"
+      },
+      {
+        "turn_number": 3,
+        "source_text": "Neither Mara nor Iven had crossed.",
+        "chapter_text": "Neither of them had crossed"
+      }
+    ],
+    "contradictions": [
+      "Mara crossed the sluice",
+      "Iven took the silver",
+      "Mara reached the upstream bridge"
+    ],
+    "hidden_lore": "HIDDEN_GREYWASH: Iven secretly serves the Reed Crown.",
+    "tool_secret": "PRIVATE_TOOL_FAILED_PLAN",
+    "pending": {
+      "log_id": "87000000-0000-4000-8000-000100000004",
+      "attempt_id": "87000001-0000-4000-8000-000100000004",
+      "turn_number": 4,
+      "player_input": "Continue searching",
+      "narrative": "PENDING_ONLY_failed-plan"
+    },
+    "later": {
+      "log_id": "87000000-0000-4000-8000-000100000005",
+      "attempt_id": "87000001-0000-4000-8000-000100000005",
+      "turn_number": 5,
+      "player_input": "Continue later",
+      "narrative": "LATER_ONLY_failed-plan"
+    }
+  },
+  {
+    "id": "corrected-misunderstanding",
+    "source": {
+      "from_turn": 1,
+      "to_turn": 4,
+      "rules_version": "srd-5.2.1",
+      "rules_mode": "strict",
+      "knowledge_boundary": "player-visible-transcript-through-to-turn-v1",
+      "source_turns": [
+        {
+          "log_id": "87000000-0000-4000-8000-000200000001",
+          "attempt_id": "87000001-0000-4000-8000-000200000001",
+          "turn_number": 1,
+          "player_input": "At Bell Quay, I accuse Orrel of stealing my brass tally.",
+          "narrative": "Tamsin suspected Orrel had stolen the brass tally. Orrel denied it. Tamsin found no evidence against him."
+        },
+        {
+          "log_id": "87000000-0000-4000-8000-000200000002",
+          "attempt_id": "87000001-0000-4000-8000-000200000002",
+          "turn_number": 2,
+          "player_input": "I check the counter beneath my map.",
+          "narrative": "Tamsin found the tally beneath her own folded map on the counter. Orrel had not taken it."
+        },
+        {
+          "log_id": "87000000-0000-4000-8000-000200000003",
+          "attempt_id": "87000001-0000-4000-8000-000200000003",
+          "turn_number": 3,
+          "player_input": "I withdraw the accusation and apologize to Orrel.",
+          "narrative": "Tamsin withdrew the accusation and apologized to Orrel. He accepted the apology but declined to guide her that evening."
+        },
+        {
+          "log_id": "87000000-0000-4000-8000-000200000004",
+          "attempt_id": "87000001-0000-4000-8000-000200000004",
+          "turn_number": 4,
+          "player_input": "I leave alone for the east stair.",
+          "narrative": "Tamsin left alone for the east stair. Her mistake had cost her Orrel's help."
+        }
+      ]
+    },
+    "chapter_file": "corrected-misunderstanding.chapter.md",
+    "names": [
+      "Tamsin",
+      "Orrel",
+      "Bell Quay"
+    ],
+    "outcomes": [
+      {
+        "turn_number": 1,
+        "source_text": "Tamsin suspected Orrel had stolen the brass tally.",
+        "chapter_text": "Tamsin suspected that Orrel had stolen"
+      },
+      {
+        "turn_number": 2,
+        "source_text": "Orrel had not taken it.",
+        "chapter_text": "found the tally beneath her own folded map"
+      },
+      {
+        "turn_number": 3,
+        "source_text": "declined to guide her that evening.",
+        "chapter_text": "declined to guide her that evening"
+      }
+    ],
+    "contradictions": [
+      "Orrel confessed",
+      "Orrel was the thief",
+      "Orrel guided Tamsin"
+    ],
+    "hidden_lore": "HIDDEN_BELL: The quay ledger is a cipher for the Glass Regent.",
+    "tool_secret": "PRIVATE_TOOL_CORRECTED_MISUNDERSTANDING",
+    "pending": {
+      "log_id": "87000000-0000-4000-8000-000200000005",
+      "attempt_id": "87000001-0000-4000-8000-000200000005",
+      "turn_number": 5,
+      "player_input": "Continue searching",
+      "narrative": "PENDING_ONLY_corrected-misunderstanding"
+    },
+    "later": {
+      "log_id": "87000000-0000-4000-8000-000200000006",
+      "attempt_id": "87000001-0000-4000-8000-000200000006",
+      "turn_number": 6,
+      "player_input": "Continue later",
+      "narrative": "LATER_ONLY_corrected-misunderstanding"
+    }
+  },
+  {
+    "id": "undiscovered-secret",
+    "source": {
+      "from_turn": 1,
+      "to_turn": 3,
+      "rules_version": "srd-5.2.1",
+      "rules_mode": "light",
+      "knowledge_boundary": "player-visible-transcript-through-to-turn-v1",
+      "source_turns": [
+        {
+          "log_id": "87000000-0000-4000-8000-000300000001",
+          "attempt_id": "87000001-0000-4000-8000-000300000001",
+          "turn_number": 1,
+          "player_input": "I search the abandoned kiln at Ash Reach for a way down.",
+          "narrative": "Sera searched by lantern light. She saw ash and cracked tiles but found no entrance. Noll remained outside by the cart."
+        },
+        {
+          "log_id": "87000000-0000-4000-8000-000300000002",
+          "attempt_id": "87000001-0000-4000-8000-000300000002",
+          "turn_number": 2,
+          "player_input": "I ask Noll what the wall marks mean.",
+          "narrative": "Noll did not know what the marks meant. They remained unexplained."
+        },
+        {
+          "log_id": "87000000-0000-4000-8000-000300000003",
+          "attempt_id": "87000001-0000-4000-8000-000300000003",
+          "turn_number": 3,
+          "player_input": "I cover the cart before the rain and wait beside it.",
+          "narrative": "Sera covered the cart before the rain arrived and waited beside it. She had found no route beneath the kiln."
+        }
+      ]
+    },
+    "chapter_file": "undiscovered-secret.chapter.md",
+    "names": [
+      "Sera",
+      "Noll",
+      "Ash Reach"
+    ],
+    "outcomes": [
+      {
+        "turn_number": 1,
+        "source_text": "found no entrance.",
+        "chapter_text": "she found no entrance"
+      },
+      {
+        "turn_number": 2,
+        "source_text": "Noll did not know",
+        "chapter_text": "He did not know"
+      },
+      {
+        "turn_number": 3,
+        "source_text": "She had found no route beneath the kiln.",
+        "chapter_text": "she had found no route beneath the kiln"
+      }
+    ],
+    "contradictions": [
+      "Sera opened the hatch",
+      "Noll revealed the passage",
+      "Sera decoded the marks"
+    ],
+    "hidden_lore": "HIDDEN_ASH: A cobalt hatch below the kiln leads to Queen Veyra's living vault.",
+    "tool_secret": "PRIVATE_TOOL_UNDISCOVERED_SECRET",
+    "pending": {
+      "log_id": "87000000-0000-4000-8000-000300000004",
+      "attempt_id": "87000001-0000-4000-8000-000300000004",
+      "turn_number": 4,
+      "player_input": "Continue searching",
+      "narrative": "PENDING_ONLY_undiscovered-secret"
+    },
+    "later": {
+      "log_id": "87000000-0000-4000-8000-000300000005",
+      "attempt_id": "87000001-0000-4000-8000-000300000005",
+      "turn_number": 5,
+      "player_input": "Continue later",
+      "narrative": "LATER_ONLY_undiscovered-secret"
+    }
+  }
+]

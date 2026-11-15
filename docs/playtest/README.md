@@ -1,5 +1,12 @@
 # Edda playtest runbook
 
+## Chapter fidelity
+
+For deterministic campaigns with failed plans, corrected misunderstandings and
+undiscovered secrets, use the [issue #87 evidence packet](issue-87/README.md).
+It includes original synthetic transcripts, chapter examples, structural checks
+and a separate human review form. The human prose-quality checkpoint is pending.
+
 ## Continue a campaign
 
 - Use a 900s timeout for blocking `/action` calls.
