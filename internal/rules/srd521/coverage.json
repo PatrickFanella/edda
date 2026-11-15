@@ -1,0 +1,609 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Coverage identifiers and notes are Edda additions. No rules prose or stat blocks are imported."
+  },
+  "entries": [
+    {
+      "id": "srd-5.2.1:family/d20-tests",
+      "family": "d20-tests",
+      "name": "D20 tests, ability checks and saving throws",
+      "source_pages": [6, 8],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 61,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/actions",
+      "family": "actions",
+      "name": "Actions, bonus actions and reactions",
+      "source_pages": [9, 10],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 64,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/combat",
+      "family": "combat",
+      "name": "Initiative, attacks, movement and damage",
+      "source_pages": [13, 18],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 67,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/conditions",
+      "family": "conditions",
+      "name": "Conditions and rules glossary",
+      "source_pages": [176, 191],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 77,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/exploration",
+      "family": "exploration",
+      "name": "Exploration, travel, light, hazards and social interaction",
+      "source_pages": [10, 12],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 82,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/toolbox",
+      "family": "toolbox",
+      "name": "Environment, curses, poison, traps and encounters",
+      "source_pages": [192, 203],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 82,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/character-creation",
+      "family": "character-creation",
+      "name": "Character creation, multiclassing and higher-level starts",
+      "source_pages": [19, 27],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 69,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/backgrounds",
+      "family": "backgrounds",
+      "name": "Character backgrounds",
+      "source_pages": [83, 83],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/species",
+      "family": "species",
+      "name": "Character species",
+      "source_pages": [83, 86],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/feats",
+      "family": "feats",
+      "name": "Origin, general, fighting style and epic boon feats",
+      "source_pages": [87, 88],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/equipment",
+      "family": "equipment",
+      "name": "Weapons, mastery, armor, tools, gear and crafting",
+      "source_pages": [89, 103],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 79,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/spells",
+      "family": "spells",
+      "name": "Spellcasting and spell descriptions, cantrips through level 9",
+      "source_pages": [104, 175],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 80,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/magic-items",
+      "family": "magic-items",
+      "name": "Magic item rules and catalogue",
+      "source_pages": [204, 253],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 80,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/monsters",
+      "family": "monsters",
+      "name": "Monster rules and stat blocks",
+      "source_pages": [254, 344],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 82,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:family/animals",
+      "family": "animals",
+      "name": "Animal stat blocks",
+      "source_pages": [344, 364],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 82,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/barbarian",
+      "family": "classes",
+      "name": "Barbarian levels 1–20",
+      "source_pages": [28, 30],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/barbarian/path-of-the-berserker",
+      "family": "subclasses",
+      "name": "Path of the Berserker",
+      "source_pages": [30, 30],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/bard",
+      "family": "classes",
+      "name": "Bard levels 1–20",
+      "source_pages": [31, 35],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/bard/college-of-lore",
+      "family": "subclasses",
+      "name": "College of Lore",
+      "source_pages": [35, 35],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/cleric",
+      "family": "classes",
+      "name": "Cleric levels 1–20",
+      "source_pages": [36, 40],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/cleric/life-domain",
+      "family": "subclasses",
+      "name": "Life Domain",
+      "source_pages": [40, 40],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/druid",
+      "family": "classes",
+      "name": "Druid levels 1–20",
+      "source_pages": [41, 46],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/druid/circle-of-the-land",
+      "family": "subclasses",
+      "name": "Circle of the Land",
+      "source_pages": [46, 46],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/fighter",
+      "family": "classes",
+      "name": "Fighter levels 1–20",
+      "source_pages": [47, 49],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/fighter/champion",
+      "family": "subclasses",
+      "name": "Champion",
+      "source_pages": [49, 49],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/monk",
+      "family": "classes",
+      "name": "Monk levels 1–20",
+      "source_pages": [49, 52],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/monk/warrior-of-the-open-hand",
+      "family": "subclasses",
+      "name": "Warrior of the Open Hand",
+      "source_pages": [52, 52],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/paladin",
+      "family": "classes",
+      "name": "Paladin levels 1–20",
+      "source_pages": [53, 57],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/paladin/oath-of-devotion",
+      "family": "subclasses",
+      "name": "Oath of Devotion",
+      "source_pages": [56, 57],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/ranger",
+      "family": "classes",
+      "name": "Ranger levels 1–20",
+      "source_pages": [57, 61],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/ranger/hunter",
+      "family": "subclasses",
+      "name": "Hunter",
+      "source_pages": [61, 61],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/rogue",
+      "family": "classes",
+      "name": "Rogue levels 1–20",
+      "source_pages": [61, 64],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/rogue/thief",
+      "family": "subclasses",
+      "name": "Thief",
+      "source_pages": [64, 64],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/sorcerer",
+      "family": "classes",
+      "name": "Sorcerer levels 1–20",
+      "source_pages": [64, 70],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/sorcerer/draconic-sorcery",
+      "family": "subclasses",
+      "name": "Draconic Sorcery",
+      "source_pages": [69, 70],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/warlock",
+      "family": "classes",
+      "name": "Warlock levels 1–20",
+      "source_pages": [70, 76],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/warlock/fiend-patron",
+      "family": "subclasses",
+      "name": "Fiend Patron",
+      "source_pages": [76, 76],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:class/wizard",
+      "family": "classes",
+      "name": "Wizard levels 1–20",
+      "source_pages": [77, 82],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:subclass/wizard/evoker",
+      "family": "subclasses",
+      "name": "Evoker",
+      "source_pages": [82, 82],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 74,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/1",
+      "family": "advancement",
+      "name": "Character level 1",
+      "source_pages": [19, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/2",
+      "family": "advancement",
+      "name": "Character level 2",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/3",
+      "family": "advancement",
+      "name": "Character level 3",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/4",
+      "family": "advancement",
+      "name": "Character level 4",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/5",
+      "family": "advancement",
+      "name": "Character level 5",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/6",
+      "family": "advancement",
+      "name": "Character level 6",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/7",
+      "family": "advancement",
+      "name": "Character level 7",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/8",
+      "family": "advancement",
+      "name": "Character level 8",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/9",
+      "family": "advancement",
+      "name": "Character level 9",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/10",
+      "family": "advancement",
+      "name": "Character level 10",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/11",
+      "family": "advancement",
+      "name": "Character level 11",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/12",
+      "family": "advancement",
+      "name": "Character level 12",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/13",
+      "family": "advancement",
+      "name": "Character level 13",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/14",
+      "family": "advancement",
+      "name": "Character level 14",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/15",
+      "family": "advancement",
+      "name": "Character level 15",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/16",
+      "family": "advancement",
+      "name": "Character level 16",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/17",
+      "family": "advancement",
+      "name": "Character level 17",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/18",
+      "family": "advancement",
+      "name": "Character level 18",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/19",
+      "family": "advancement",
+      "name": "Character level 19",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    },
+    {
+      "id": "srd-5.2.1:level/20",
+      "family": "advancement",
+      "name": "Character level 20",
+      "source_pages": [23, 24],
+      "status": "unsupported",
+      "fixtures": [],
+      "follow_up": 73,
+      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+    }
+  ]
+}

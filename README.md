@@ -11,6 +11,10 @@ It is in development and is being playtested. Expect rough edges in the rules
 and in how the game master tracks the world. A running copy is at
 [edda.subcult.tv](https://edda.subcult.tv/).
 
+The [SRD 5.2.1 conformance register](docs/srd-5.2.1-conformance.md) pins the
+reference and records coverage. All initial scopes are unsupported pending
+conformance tests.
+
 ## Features
 
 - **Campaign setup:** a guided interview creates the campaign and the player
