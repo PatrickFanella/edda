@@ -595,3 +595,111 @@ button {
   text-align: center;
   line-height: 1.2;
 }
+
+/* The game owns one viewport, including the identity credit outside #root.
+   Other routes keep their ordinary document layout. */
+body:has(.game-app-shell) {
+  display: flex;
+  flex-direction: column;
+  height: var(--game-viewport-height, 100dvh);
+  min-height: 0;
+  overflow: hidden;
+}
+
+body:has(.game-app-shell) #root {
+  flex: 1;
+  min-height: 0;
+}
+
+body:has(.game-app-shell) > .subcult-identity {
+  flex: none;
+  padding: 0 12px;
+  gap: 8px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.game-app-shell,
+.game-app-frame {
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+.game-app-content {
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+/* A minimum workspace is an internal-scroll escape hatch for short viewports
+   and enlarged text. It never reduces font sizes or hides controls. */
+.game-play-layout {
+  min-height: 32rem;
+  min-width: 0;
+}
+
+.game-play-grid {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.game-main-panel { grid-area: 1 / 1; }
+.game-play-nav { grid-area: 2 / 1; min-width: 0; }
+.game-context-rail { display: none; }
+
+@media (min-width: 64rem) {
+  .game-play-grid { grid-template-columns: minmax(0, 1fr) 220px; }
+  .game-context-rail { display: flex; grid-area: 1 / 2 / 3 / 3; }
+}
+
+.game-app-header > div:first-child {
+  flex-wrap: wrap;
+}
+
+.game-app-header button,
+.game-play-nav button,
+.game-action-form button {
+  min-height: 44px;
+}
+
+.game-app-header .hud-icon-btn { min-width: 44px; }
+.game-play-nav [role='tablist'] { max-height: none; }
+
+.game-choices-region {
+  flex: none;
+  max-height: min(10dvh, 8rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.game-action-form { flex: none; min-width: 0; padding: 0.5rem; }
+.game-action-form textarea { font-size: max(1rem, 17px); }
+
+.game-app-header > div:first-child > div {
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+.game-app-header > div:first-child > p {
+  overflow-wrap: anywhere;
+}
+
+.game-action-form label { gap: 0.5rem; }
+.game-action-form > div { margin-top: 0.5rem; gap: 0.5rem; }
+
+@media (max-width: 40rem) {
+  .game-campaign-header { gap: 0.25rem; padding: 0.5rem; }
+  .game-campaign-header > div { gap: 0.5rem; }
+  .game-campaign-header > div:last-child > div { padding: 0.25rem 0.5rem; }
+}
+
+/* Both existing header popovers anchor to the frame, so the leftmost audio
+   button cannot place its menu off the phone's left edge. */
+.game-app-header { position: relative; }
+.game-app-header .relative { position: static; }
+.game-app-header .absolute {
+  top: 100%;
+  right: 0.5rem;
+  max-width: calc(100% - 1rem);
+  max-height: calc(var(--game-viewport-height, 100dvh) - 10rem);
+  overflow: auto;
+}

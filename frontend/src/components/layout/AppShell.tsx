@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 
 import { UserMenu } from './UserMenu';
 
@@ -13,20 +13,45 @@ interface AppShellProps {
 
 export function AppShell({ title, description, actions, userMenuActions, children, variant = 'default' }: AppShellProps) {
   const isGame = variant === 'game';
+  useEffect(() => {
+    if (!isGame) return;
+    const viewport = window.visualViewport;
+    const root = document.documentElement;
+    const previous = root.style.getPropertyValue('--game-viewport-height');
+    const resize = () => {
+      // Pinch zoom should retain native panning rather than compressing the UI.
+      if (viewport && viewport.scale === 1) {
+        root.style.setProperty('--game-viewport-height', `${viewport.height}px`);
+      } else {
+        root.style.removeProperty('--game-viewport-height');
+      }
+    };
+    resize();
+    viewport?.addEventListener('resize', resize);
+    window.addEventListener('resize', resize);
+    return () => {
+      viewport?.removeEventListener('resize', resize);
+      window.removeEventListener('resize', resize);
+      if (previous) root.style.setProperty('--game-viewport-height', previous);
+      else root.style.removeProperty('--game-viewport-height');
+    };
+  }, [isGame]);
 
   return (
-    <main className={`${isGame ? 'min-h-screen overflow-x-hidden bg-obsidian px-2 py-2 text-[17px] xl:h-screen xl:overflow-hidden' : 'min-h-screen bg-obsidian px-6 py-16'} text-champagne`}>
+    <main className={`${isGame ? 'game-app-shell bg-obsidian p-2 text-[17px]' : 'min-h-screen bg-obsidian px-6 py-16'} text-champagne`}>
       <div
         className={[
           'mx-auto flex w-full flex-col border-2 border-pewter/20 bg-charcoal',
           isGame
-            ? 'min-h-[calc(100vh-1rem)] gap-2 p-2 xl:h-[calc(100vh-1rem)] xl:max-w-[min(calc(100vw-1rem),calc((100vh-1rem)*16/9))] xl:overflow-hidden'
+            ? 'game-app-frame gap-2 p-2'
             : 'deco-corners deco-pattern max-w-5xl gap-8 p-8',
         ].join(' ')}
       >
-        <header className={`flex shrink-0 flex-col border-b border-pewter/20 ${isGame ? 'gap-2 bg-obsidian/80 px-3 py-2' : 'gap-6 pb-6'}`}>
+        <header className={`flex shrink-0 flex-col border-b border-pewter/20 ${isGame ? 'game-app-header gap-2 bg-obsidian/80 px-3 py-2' : 'gap-6 pb-6'}`}>
           <div className="flex items-center justify-between gap-3">
-            <p className={`${isGame ? 'text-[1rem] leading-none' : 'text-sm'} font-heading font-semibold uppercase tracking-[0.24em] text-pewter`}>edda - game master</p>
+            <p className={`${isGame ? 'text-[1rem] leading-none' : 'text-sm'} font-heading font-semibold uppercase tracking-[0.24em] text-pewter`}>
+              edda<span className={isGame ? 'hidden sm:inline' : undefined}> - game master</span>
+            </p>
             <div className="flex items-center gap-2">
               {isGame && actions ? <div className="flex items-center gap-2">{actions}</div> : null}
               <UserMenu actions={userMenuActions} />
@@ -40,7 +65,7 @@ export function AppShell({ title, description, actions, userMenuActions, childre
             {actions ? <div className="flex shrink-0 items-center gap-3">{actions}</div> : null}
           </div>
         </header>
-        <section className={isGame ? 'min-h-0 flex-1' : undefined}>{children}</section>
+        <section className={isGame ? 'game-app-content min-h-0 flex-1' : undefined}>{children}</section>
       </div>
     </main>
   );

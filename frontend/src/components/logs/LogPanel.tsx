@@ -20,10 +20,10 @@ export function LogPanel({ entries, streamingEntry, isLoading, error }: LogPanel
         <p className="italic text-pewter">No log entries yet.</p>
       )}
       {allEntries.map((entry) => (
-        <div key={entry.id} className="flex gap-3 text-champagne/75">
-          <span className="shrink-0 text-pewter/60">{entry.timestamp}</span>
+        <div key={entry.id} className="flex min-w-0 flex-col gap-1 text-champagne/75 sm:flex-row sm:gap-3">
+          <span className="break-all text-pewter/60 sm:shrink-0">{entry.timestamp}</span>
           <span className="text-gold/70">[{entry.kind}]</span>
-          <span>{entry.text}</span>
+          <span className="min-w-0 wrap-break-word">{entry.text}</span>
         </div>
       ))}
       {isLoading && (

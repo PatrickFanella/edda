@@ -281,8 +281,7 @@ function CampaignPlayContent({
         onConfirm={() => startOverMutation.mutate()}
         onCancel={() => setShowStartOverDialog(false)}
       />
-      <div className="flex h-full min-h-0 flex-col gap-2">
-        <WidescreenNotice />
+      <div className="game-play-layout flex h-full flex-col gap-2">
         {levelUpMessage ? <LevelUpBanner message={levelUpMessage} /> : null}
         <GameHudTopBar campaign={campaign} campaignId={campaignId} hudMode={hudMode} />
         {showSaves ? (
@@ -290,8 +289,8 @@ function CampaignPlayContent({
             <SavesList campaignId={campaignId} />
           </div>
         ) : null}
-        <div className="game-hud-frame grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-hidden xl:grid-cols-[minmax(0,1fr)_18rem] xl:grid-rows-[minmax(0,1fr)_auto]">
-          <div className="grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden xl:col-start-1 xl:row-start-1">
+        <div className="game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden">
+          <div className="game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden">
             {playTabs.map((tab) => (
               <div
                 key={tab.key}
@@ -321,7 +320,7 @@ function CampaignPlayContent({
             inventory={inventoryQuery.data ?? []}
             suggestedChoiceCount={suggestedChoices.length}
           />
-          <div className="game-hud-panel-scene flex max-h-14 shrink-0 items-center overflow-hidden border-2 bg-charcoal/75 p-1.5 xl:col-start-1 xl:row-start-2">
+          <div className="game-play-nav game-hud-panel-scene flex shrink-0 items-center border-2 bg-charcoal/75 p-1.5">
             <TabBar idPrefix={tabIdPrefix} tabs={badgedTabs} activeTab={activeTab} onChange={handleTabChange} />
           </div>
         </div>
@@ -430,7 +429,7 @@ function NarrativeTab({
 
   if (showCombatUI) {
     return (
-      <div className="flex h-full min-h-0 flex-col gap-3 overflow-hidden">
+      <div className="flex h-full min-h-0 flex-col gap-3 overflow-y-auto">
         <div className="game-hud-panel game-hud-panel-combat flex shrink-0 flex-wrap items-center justify-between gap-4 border-2 bg-obsidian/75 px-5 py-3">
           <div>
             <h2 className="font-heading text-base font-semibold uppercase tracking-wide text-ruby">Combat</h2>
@@ -454,7 +453,7 @@ function NarrativeTab({
   }
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-3 overflow-hidden">
+    <div className="game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-hidden">
       <NarrativePanel
         className="min-h-0 flex-1 overflow-hidden bg-charcoal/70"
         contentClassName="h-full max-h-none min-h-0 text-[1.12rem] leading-6"
@@ -472,6 +471,7 @@ function NarrativeTab({
       />
 
       <ChoiceList
+        className="game-choices-region"
         choices={[...suggestedChoices]}
         onSelectChoice={(choiceText) => {
           sendAction(choiceText);
@@ -481,17 +481,9 @@ function NarrativeTab({
 
       <ThinkingIndicator status={currentStatus} />
 
-      <PlayerInput onSendAction={sendAction} disabled={connectionStatus === 'connecting'} isLoading={isLoading} autoFocus />
+      <PlayerInput className="game-action-form" onSendAction={sendAction} disabled={connectionStatus === 'connecting'} isLoading={isLoading} autoFocus />
 
       {error ? <ErrorPanel message={error} /> : null}
-    </div>
-  );
-}
-
-function WidescreenNotice() {
-  return (
-    <div className="xl:hidden border border-pewter/30 bg-pewter/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-pewter">
-      Optimized for widescreen play. Rotate, widen, or zoom out for the full HUD frame.
     </div>
   );
 }
@@ -506,7 +498,7 @@ function GameHudTopBar({
   readonly hudMode: HudMode;
 }) {
   return (
-    <section className={`game-hud-panel game-hud-panel-${hudMode} grid gap-3 border-2 bg-obsidian/70 px-4 py-2.5 lg:grid-cols-[1fr_auto]`}>
+    <section className={`game-campaign-header game-hud-panel game-hud-panel-${hudMode} grid gap-3 border-2 bg-obsidian/70 px-4 py-2.5 lg:grid-cols-[1fr_auto]`}>
       <div className="flex min-w-0 flex-wrap items-center gap-3">
         <HudModeBadge mode={hudMode} />
         <h2 className="min-w-0 truncate font-heading text-xl font-semibold uppercase tracking-[0.14em] text-champagne sm:text-2xl">
@@ -546,7 +538,7 @@ function GameHudSidebar({
   const quickItems = inventory.slice(0, 5);
 
   return (
-    <aside className="flex min-h-0 flex-col gap-2 overflow-hidden xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:self-stretch">
+    <aside aria-label="Campaign context" className="game-context-rail min-h-0 flex-col gap-2 overflow-y-auto">
       <div className="min-h-0 space-y-2 overflow-y-auto pr-1">
         <HudPanel title="Vitals" accent="vitals">
           {character ? (
