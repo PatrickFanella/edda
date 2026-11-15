@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import { PlayerInput } from '../src/components/narrative/PlayerInput';
@@ -7,9 +7,12 @@ it('retains a rejected draft and clears it only after acceptance', async () => {
   render(<PlayerInput onSendAction={send} />);
   const user = userEvent.setup(); const input = screen.getByRole('textbox');
   await user.type(input, 'Open the gate{Enter}');
+  await waitFor(() => expect(input).toBeEnabled());
   expect(input).toHaveValue('Open the gate');
+  expect(send).toHaveBeenCalledTimes(1);
   await user.keyboard('{Enter}');
-  expect(input).toHaveValue(''); expect(send).toHaveBeenCalledTimes(2);
+  await waitFor(() => expect(input).toHaveValue(''));
+  expect(send).toHaveBeenCalledTimes(2);
 });
 it('keeps Shift+Enter as a newline and blocks actions during a turn', async () => {
   const send = vi.fn(); const user = userEvent.setup();

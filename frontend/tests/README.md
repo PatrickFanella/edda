@@ -47,3 +47,12 @@ Fixed action controls are measured before scrolling in normal play. Long choices
 Each qualification case attaches JSON geometry and writes screenshots under ignored `test-results/`. To save a machine-readable run, set `PLAYWRIGHT_JSON_OUTPUT_NAME` and use `--reporter=line,json`. `EDDA_FIXTURE_PORT` selects a free isolated server port when another agent is using 4175. Playwright owns and stops that server. Run only these cases with `pnpm --dir frontend test:browser qualification layout-guards --workers=2`.
 
 Touch emulation (`hasTouch` and `isMobile`) is a separate test group. Synthetic visual-viewport resizing stays in `viewport.spec.ts`. Neither opens a phone software keyboard. See `docs/playtest/issue-78/README.md` for retained evidence and the still-required visible device/human checkpoint.
+
+## Return reminders
+
+`ReturnReminder.test.tsx` and `browser/reminder.spec.ts` cover the optional
+current-situation aid, including dismissal, retries, delayed/failing reads,
+retained draft/selection/scroll, turn refresh and campaign isolation. The shared
+browser fixture maps `journal/reminder` explicitly and never reaches a provider.
+See [return-reminders.md](../../docs/return-reminders.md) for the player-known
+source boundary and verification limits.

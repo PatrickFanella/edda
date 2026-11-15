@@ -22,6 +22,7 @@ import { LogPanel } from '../components/logs/LogPanel';
 import { ChoiceList } from '../components/narrative/ChoiceList';
 import { NarrativePanel } from '../components/narrative/NarrativePanel';
 import type { NarrativeEntryItem } from '../components/narrative/NarrativeEntry';
+import { ReturnReminder } from '../components/narrative/ReturnReminder';
 import { PlayerInput } from '../components/narrative/PlayerInput';
 import { NPCPanel } from '../components/npcs/NPCPanel';
 import { ThinkingIndicator } from '../components/layout/ThinkingIndicator';
@@ -475,6 +476,7 @@ function GameHudTopBar({
         </h2>
       </div>
       <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        <ReturnReminder key={campaignId} campaignId={campaignId} />
         <div className="border border-pewter/20 bg-charcoal/70 px-3 py-1.5">
           <TimeWidget campaignId={campaignId} />
         </div>

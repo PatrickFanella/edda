@@ -33,6 +33,7 @@ export const test = base.extend<{ game: { sockets: WebSocketRoute[]; actions: st
         if (resource === '') body = campaign(id);
         else if (resource === '/history') body = { entries: created ? [] : history(id) };
         else if (resource === '/character') body = character(id);
+        else if (resource === '/journal/reminder') body = { known_facts: [] };
         else if (resource === '/action-suggestions') body = { version: 'suggestions-v1:fixture', candidates: [] };
         else if (resource === '/map') body = { locations: [], connections: [] };
         else if (resource === '/time') body = { day: 1, hour: 12, minute: 0 };
