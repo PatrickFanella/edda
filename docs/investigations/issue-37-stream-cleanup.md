@@ -57,3 +57,34 @@ Changing that policy or auditing every provider/driver is beyond this spike.
 
 Hosted PostgreSQL integration and CI gate results are separate; the parent owns
 monitoring. No deployment or production-data change is part of this work.
+
+## Turn ownership decision (#105)
+
+The WebSocket owns active work until disconnect or the configured turn deadline.
+One connection reader runs throughout inference, including periods with no
+provider output. A read failure cancels the turn context immediately; the event
+loop does not wait for the provider before releasing the HTTP handler. Actions
+received during a turn are rejected, not queued for later execution. The engine's
+campaign lock remains the cross-connection authority against overlapping turns.
+
+Cancellation stops cooperative providers/tools; it cannot force a dependency
+that ignores context to return. The handler does not create another reader or
+kill that dependency. Its engine worker retains the campaign lock until it exits.
+A silent, half-open network that supplies neither EOF nor a close frame is bounded
+by the configured turn timeout, not by an application heartbeat. Deployments must
+keep a finite turn timeout. No output is required for a received peer close to
+cancel work.
+
+Committed effects survive disconnect and timeout. Reconnect reads the existing
+`GET /action` receipt, then retries the original input with the same action ID.
+The #59 journal replays completed results or recovers narration without rerolling;
+uncommitted work can restart. HTTP actions keep their existing server-owned
+lifetime through their deadline, independent of the request connection.
+
+`TestHandleWebSocket_SilentTurnLifetime` separates cancellation delivery, provider
+exit and worker exit with two-second test deadlines, including a provider that
+intentionally ignores cancellation until released. It exercises timeout and
+actual socket disconnect without releasing narrative output. The busy-action
+fixture proves that an action sent during silent work receives an error. Existing
+narration-recovery integration fixtures cover exact committed dice/effects after
+restart and retry; these are separate from transport lifetime tests.

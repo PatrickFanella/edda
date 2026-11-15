@@ -47,20 +47,39 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 	}
 	defer func() { _ = conn.CloseNow() }()
 
-	ctx := r.Context()
+	ctx, cancelConnection := context.WithCancel(r.Context())
+	defer cancelConnection()
+	// Exactly one reader stays active while the provider is silent. A peer close
+	// cancels turn work without waiting for a narrative write to discover it.
+	messages := make(chan wsActionMessage)
+	readerDone := make(chan struct{})
+	go func() {
+		defer close(readerDone)
+		defer cancelConnection()
+		for {
+			var msg wsActionMessage
+			if err := wsjson.Read(ctx, conn, &msg); err != nil {
+				return
+			}
+			select {
+			case messages <- msg:
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+	defer func() {
+		cancelConnection()
+		_ = conn.CloseNow()
+		<-readerDone
+	}()
 
 	for {
 		var msg wsActionMessage
-		if err := wsjson.Read(ctx, conn, &msg); err != nil {
-			closeStatus := websocket.CloseStatus(err)
-			if closeStatus == websocket.StatusNormalClosure || closeStatus == websocket.StatusGoingAway {
-				h.Logger.Infof("websocket closed normally for campaign %s", campaignID)
-			} else if ctx.Err() != nil {
-				h.Logger.Infof("websocket context done for campaign %s", campaignID)
-			} else {
-				h.Logger.Errorf("websocket read for campaign %s: %v", campaignID, err)
-			}
+		select {
+		case <-ctx.Done():
 			return
+		case msg = <-messages:
 		}
 
 		if msg.Type != "action" {
@@ -80,21 +99,43 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 		}
 
 		turnCtx, cancelTurn := h.turnContext(ctx)
+		stopCancellation := context.AfterFunc(ctx, cancelTurn)
 		turnCtx, err = actionContext(turnCtx, payload.ActionID)
 		if err != nil {
+			stopCancellation()
 			cancelTurn()
 			sendErrorEnvelope(ctx, conn, "invalid action_id")
 			continue
 		}
 		ch, err := h.Engine.ProcessTurnStream(turnCtx, campaignID, payload.Input)
 		if err != nil {
+			stopCancellation()
 			cancelTurn()
 			h.Logger.Errorf("process turn stream for campaign %s: %v", campaignID, err)
 			sendErrorEnvelope(ctx, conn, "failed to process turn")
 			continue
 		}
 
-		for event := range ch {
+	stream:
+		for {
+			var event engine.StreamEvent
+			var ok bool
+			select {
+			case <-ctx.Done():
+				stopCancellation()
+				cancelTurn()
+				return
+			case <-turnCtx.Done():
+				sendErrorEnvelope(ctx, conn, "turn canceled or timed out; reconnect to inspect its action receipt")
+				break stream
+			case <-messages:
+				sendErrorEnvelope(ctx, conn, "a turn is already in progress; inspect its action receipt before retrying")
+				continue
+			case event, ok = <-ch:
+				if !ok {
+					break stream
+				}
+			}
 			var envelope api.WebSocketMessageEnvelope
 			envelope.Timestamp = time.Now()
 
@@ -143,11 +184,13 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 			}
 
 			if err := wsjson.Write(ctx, conn, envelope); err != nil {
+				stopCancellation()
 				cancelTurn()
 				h.Logger.Errorf("websocket write for campaign %s: %v", campaignID, err)
 				return
 			}
 		}
+		stopCancellation()
 		cancelTurn()
 	}
 }
