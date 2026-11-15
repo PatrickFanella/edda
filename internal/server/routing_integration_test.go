@@ -134,6 +134,11 @@ func TestIntegrationWorkflowRoutes(t *testing.T) {
 					t.Fatalf("summary = %d %s", rec.Code, rec.Body.String())
 				}
 			}
+			recChapter := httptest.NewRecorder()
+			router.ServeHTTP(recChapter, httptest.NewRequest(http.MethodPost, "/api/v1/campaigns/"+cid.String()+"/journal/chapters", strings.NewReader(`{"request_id":"`+uuid.NewString()+`"}`)))
+			if recChapter.Code != http.StatusOK || !strings.Contains(recChapter.Body.String(), "A faithful fixture summary.") {
+				t.Fatalf("chapter = %d %s", recChapter.Code, recChapter.Body.String())
+			}
 			mu.Lock()
 			summaryCalls := append([]string(nil), calls...)
 			calls = nil
@@ -142,7 +147,7 @@ func TestIntegrationWorkflowRoutes(t *testing.T) {
 			if explicit {
 				want = "summary"
 			}
-			if len(summaryCalls) != 2 {
+			if len(summaryCalls) != 3 {
 				t.Fatalf("summary calls=%v", summaryCalls)
 			}
 			for _, model := range summaryCalls {

@@ -1,8 +1,9 @@
 import { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { createEntry, deleteEntry, listEntries, listSummaries, triggerSummarize } from '../../api/journal';
+import { createEntry, deleteEntry, listEntries, listSummaries } from '../../api/journal';
 import type { JournalEntryResponse, SessionSummaryResponse } from '../../api/types';
+import { ChapterSection } from './ChapterSection';
 import { HudPanel } from '../layout/HudPanel';
 
 interface JournalPanelProps {
@@ -23,7 +24,7 @@ export function JournalPanel({ campaignId }: JournalPanelProps) {
       </div>
 
       {activeSection === 'chronicle' ? (
-        <ChronicleSection campaignId={campaignId} />
+        <div className="space-y-4"><ChapterSection key={campaignId} campaignId={campaignId} /><ChronicleSection campaignId={campaignId} /></div>
       ) : (
         <NotesSection campaignId={campaignId} />
       )}
@@ -48,19 +49,10 @@ function SectionButton({ label, active, onClick }: { readonly label: string; rea
 }
 
 function ChronicleSection({ campaignId }: { readonly campaignId: string }) {
-  const queryClient = useQueryClient();
-
   const summariesQuery = useQuery({
     queryKey: ['campaign', campaignId, 'journal', 'summaries'],
     queryFn: () => listSummaries(campaignId),
     enabled: campaignId.length > 0,
-  });
-
-  const summarizeMutation = useMutation({
-    mutationFn: () => triggerSummarize(campaignId),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['campaign', campaignId, 'journal', 'summaries'] });
-    },
   });
 
   const summaries = summariesQuery.data ?? [];
@@ -68,21 +60,7 @@ function ChronicleSection({ campaignId }: { readonly campaignId: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-pewter">Auto-generated session summaries, ordered by turn range.</p>
-        <button
-          type="button"
-          onClick={() => summarizeMutation.mutate()}
-          disabled={summarizeMutation.isPending}
-          className="hud-btn hud-text-button inline-flex items-center justify-center border-2 border-gold/30 px-3 text-xs font-semibold uppercase tracking-wide text-champagne transition-all duration-200 hover:border-gold hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-obsidian disabled:opacity-50"
-        >
-          {summarizeMutation.isPending ? 'Summarizing...' : 'Summarize'}
-        </button>
-      </div>
-
-      {summarizeMutation.isError ? (
-        <div className="border border-ruby/40 bg-ruby/10 px-4 py-3 text-sm text-ruby">Failed to generate summary.</div>
-      ) : null}
+      <p className="text-sm text-pewter">Earlier session summaries</p>
 
       {summariesQuery.isPending ? (
         <HudPanel accent="loading">
@@ -92,7 +70,7 @@ function ChronicleSection({ campaignId }: { readonly campaignId: string }) {
         <HudPanel accent="empty" bodyClassName="flex min-h-32 flex-col items-center justify-center px-6 text-center">
           <p className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-pewter/80">No summaries yet</p>
           <p className="mt-2 max-w-md text-sm leading-7 text-pewter">
-            Summaries are auto-generated every 10 turns, or you can trigger one manually.
+            Generate a chapter above after completing a turn. Existing summaries remain here.
           </p>
         </HudPanel>
       ) : (

@@ -35,7 +35,7 @@ export const test = base.extend<{ game: { sockets: WebSocketRoute[]; actions: st
         else if (resource === '/character') body = character(id);
         else if (resource === '/map') body = { locations: [], connections: [] };
         else if (resource === '/time') body = { day: 1, hour: 12, minute: 0 };
-        else if (['/quests', '/character/inventory', '/character/abilities', '/character/feats', '/character/skills', '/npcs', '/npcs/encountered', '/journal/summaries', '/journal/entries', '/locations', '/facts', '/journal', '/encountered', '/relationships'].includes(resource ?? '')) body = [];
+        else if (['/quests', '/character/inventory', '/character/abilities', '/character/feats', '/character/skills', '/npcs', '/npcs/encountered', '/journal/chapters', '/journal/summaries', '/journal/entries', '/locations', '/facts', '/journal', '/encountered', '/relationships'].includes(resource ?? '')) body = [];
         else {
           unmapped.push(path);
           return route.fulfill({ status: 501, json: { error: `Unmapped fixture: ${path}` } });

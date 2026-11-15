@@ -77,6 +77,7 @@ func TestIntegrationOwnershipNestedResources(t *testing.T) {
 		request(testUserID, tc.method, baseA+tc.path, `{"content":"changed"}`, 404)
 	}
 	request(testUserID, "DELETE", baseB, "", 404)
+	request(testUserID, "POST", baseB+"/journal/chapters", `{"request_id":"`+uuid.NewString()+`"}`, 404)
 	request(testUserID, "DELETE", baseA+"/journal/entries/"+entry.ID.String(), "", 204)
 	entries, err := js.ListEntries(ctx, db.FromPgUUID(b.ID))
 	if err != nil || len(entries) != 1 {
@@ -88,7 +89,7 @@ func TestIntegrationOwnershipNestedResources(t *testing.T) {
 	}
 	// B can still use the same routes for B's own campaign and children.
 	ownerB := db.FromPgUUID(other.ID)
-	for _, path := range []string{"", questPath + "/notes", questPath + "/history", "/saves", "/time", "/journal/entries", "/journal/summaries", "/export/json", "/export/transcript"} {
+	for _, path := range []string{"", questPath + "/notes", questPath + "/history", "/saves", "/time", "/journal/entries", "/journal/summaries", "/journal/chapters", "/export/json", "/export/transcript"} {
 		request(ownerB, "GET", baseB+path, "", 200)
 	}
 	request(ownerB, "POST", baseB+questPath+"/notes", `{"content":"Owner note"}`, 201)

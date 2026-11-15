@@ -1,0 +1,41 @@
+# On-demand campaign chapters
+
+Journal → Chronicle → **Generate next chapter** freezes the next completed player-visible turn range and asks the configured `summary` model route for a concise chapter. It records the source before inference. No paid provider, production account or application database is needed for the regression tests.
+
+A chapter has an immutable ID, exact source log IDs and completed action receipt IDs (when available), covered turn numbers, a SHA-256 source identity, rules version/mode at capture, and the knowledge boundary `player-visible-transcript-through-to-turn-v1`. The source snapshot contains only player input and final visible narration. It excludes raw tool calls/results, unrevealed world facts, current world state and pending narration. Modern engine logs already strip choice scaffolding; older logs may retain offered choices, which the generation instructions forbid treating as played actions. Legacy completed logs without action receipts remain eligible. Legacy summaries neither define chapter coverage nor become model input.
+
+The next range starts after the last captured range belonging to the current transcript. It stops at a gap, an empty narration or a pending/uncompleted turn, and covers at most 100 consecutive turns per request. A failed first generation reserves its source for retry rather than skipping it. Completing more turns while generation runs cannot change that source. Start Over keeps earlier chapter snapshots; replacement logs have new IDs and begin their own coverage, even when turn numbers repeat. This does not change Start Over's existing transcript deletion behavior.
+
+Each generation revision records a request ID, revision number, prompt version, status, prose or a sanitized failure message, and creation time. Explicit regeneration creates another revision over the same snapshot, retaining earlier prose. Replaying a completed request returns the saved revision. Replaying a failed request retries that revision. A retry in another process uses the same durable record. Journal retains uncertain request keys in tab-local session storage across transport failures, panel navigation and reloads (with an in-memory fallback when storage is blocked); persisted retry buttons also work after reload.
+
+The provider receives only the frozen source and fidelity instructions: preserve played outcomes, costs and uncertainty; treat intentions as intentions; invent no events, dialogue or resolutions; never reroll or reinterpret mechanics. These are generation constraints, not a semantic proof that every possible model output is faithful. Source snapshots remain available through the API for comparison. Blank responses and tool-call responses fail without saving chapter prose.
+
+Generation runs outside database transactions, with a 90-second request timeout and a two-minute persisted lease. Concurrent requests using the same key return the in-progress revision; competing keys for the same source receive 409. Expired leases can be reclaimed by retry. A lease token prevents a late worker from overwriting a recovered revision. Completion and next-range reservation use the same short campaign row lock, so completion cannot turn a next-range request into an unintended regeneration. A worker killed without cleanup may show `generating` until retried; Journal polls the durable status and exposes retry. Provider failures do not mutate gameplay, the transcript, saves or earlier revisions. Provider error text is not stored or returned.
+
+## API
+
+Both routes use the existing campaign authentication and ownership middleware. Chapter generation supports legacy and SRD campaigns because it does not invoke mechanics or mutate game state. Other rules compatibility guards remain in force.
+
+- `GET /api/v1/campaigns/{id}/journal/chapters` returns an ordered array of chapters, their source snapshots and all revisions.
+- `POST /api/v1/campaigns/{id}/journal/chapters` accepts `request_id` (a nonzero UUID) and optional `chapter_id`. Omit `chapter_id` for the next source range; supply an existing campaign-owned chapter ID for regeneration. Reuse `request_id` for retries. A key cannot be rebound to another chapter.
+- Responses: 200 for a saved completed/failed revision or a message when no completed range exists, 202 for an in-progress retry, 400 for invalid input, 404 for an unavailable chapter/campaign, 409 for a competing generation or rebound key, 503 when no chapter provider is configured.
+
+Migration 00041 creates two tables and does not rewrite existing logs, summaries or notes. Legacy summary reads and generation APIs remain compatible; Journal's new generation control uses chapters. Automatic legacy summarization scheduling is unchanged. The migration down operation removes only the new chapter tables, so back up their contents before rolling it back after use.
+
+## Verification
+
+`internal/handlers/chapter_generation_integration_test.go` exercises the production router and disposable Testcontainers PostgreSQL with deterministic model doubles. It covers committed range selection, legacy sources/summary compatibility, knowledge isolation, immutable regeneration, process restart, idempotency, concurrent keys, failures, lease expiry, stale-worker fencing, ownership and reset coverage. `internal/server/routing_integration_test.go` verifies the configured summary route for chapters. No dice or mechanics run during chapter generation.
+
+Run:
+
+```sh
+go test -short -race ./...
+go vet ./...
+go test -tags integration -run Integration -count=1 -timeout 10m ./internal/handlers ./internal/state/sqlc ./internal/server
+pnpm --dir frontend test
+EDDA_FIXTURE_PORT=4187 pnpm --dir frontend test:browser --workers=2
+pnpm --dir frontend build
+pnpm --dir frontend lint
+```
+
+The isolated frontend tests cover failure, same-key retry, regeneration, reload and continued play through fixture sockets. The existing frontend lint baseline has 22 errors outside the chapter files; do not suppress those errors to qualify this change.

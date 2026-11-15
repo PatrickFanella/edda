@@ -521,3 +521,35 @@ export interface ActionPreview {
   cost_status: 'requires-adjudication';
   source_ids: string[];
 }
+
+export interface ChapterTurn {
+  log_id: string;
+  attempt_id?: string;
+  turn_number: number;
+  player_input: string;
+  narrative: string;
+}
+export interface ChapterRevisionResponse {
+  id: string;
+  chapter_id: string;
+  request_id: string;
+  revision: number;
+  status: 'generating' | 'completed' | 'failed';
+  content: string;
+  error: string;
+  prompt_version: string;
+  created_at: string;
+}
+export interface ChapterResponse {
+  id: string;
+  campaign_id: string;
+  from_turn: number;
+  to_turn: number;
+  source_hash: string;
+  source_turns: ChapterTurn[];
+  knowledge_boundary: string;
+  rules_version: string;
+  rules_mode: string;
+  created_at: string;
+  revisions: ChapterRevisionResponse[];
+}

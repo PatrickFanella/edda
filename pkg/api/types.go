@@ -497,3 +497,48 @@ type ActionReceiptResponse struct {
 
 // ActionPreview is the shared player-safe action preparation response.
 type ActionPreview = game.ActionPreview
+
+// ChapterTurn is the player-visible transcript captured when a chapter is requested.
+// Hidden tool calls, world facts and pending narration are never chapter sources.
+type ChapterTurn struct {
+	LogID       string `json:"log_id"`
+	AttemptID   string `json:"attempt_id,omitempty"`
+	TurnNumber  int    `json:"turn_number"`
+	PlayerInput string `json:"player_input"`
+	Narrative   string `json:"narrative"`
+}
+
+// ChapterResponse identifies an immutable source range and all generation revisions.
+type ChapterResponse struct {
+	ID                string                    `json:"id"`
+	CampaignID        string                    `json:"campaign_id"`
+	FromTurn          int                       `json:"from_turn"`
+	ToTurn            int                       `json:"to_turn"`
+	SourceHash        string                    `json:"source_hash"`
+	SourceTurns       []ChapterTurn             `json:"source_turns"`
+	KnowledgeBoundary string                    `json:"knowledge_boundary"`
+	RulesVersion      string                    `json:"rules_version"`
+	RulesMode         string                    `json:"rules_mode"`
+	CreatedAt         time.Time                 `json:"created_at"`
+	Revisions         []ChapterRevisionResponse `json:"revisions"`
+}
+
+// ChapterRevisionResponse records an idempotent generation attempt, including failures.
+type ChapterRevisionResponse struct {
+	ID            string    `json:"id"`
+	ChapterID     string    `json:"chapter_id"`
+	RequestID     string    `json:"request_id"`
+	Revision      int       `json:"revision"`
+	Status        string    `json:"status"`
+	Content       string    `json:"content"`
+	Error         string    `json:"error"`
+	PromptVersion string    `json:"prompt_version"`
+	CreatedAt     time.Time `json:"created_at"`
+}
+
+// GenerateChapterRequest requires a stable key reused for transport retries.
+// ChapterID selects an existing source for explicit regeneration; empty selects next.
+type GenerateChapterRequest struct {
+	RequestID string `json:"request_id"`
+	ChapterID string `json:"chapter_id,omitempty"`
+}

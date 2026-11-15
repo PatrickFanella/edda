@@ -37,9 +37,11 @@ func (h *CampaignHandlers) RequireOwnership(next http.Handler) http.Handler {
 			writeError(w, http.StatusInternalServerError, "failed to authorize campaign")
 			return
 		}
-		// All existing write routes implement legacy mechanics. Keep reads
-		// available, but refuse mutations and legacy WebSocket actions.
-		if r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket") {
+		// Chapter generation only reads committed player-visible history and writes
+		// its own revisions. It is safe for either rules version. Other write
+		// routes retain the legacy gameplay compatibility guard.
+		chapterRequest := r.Method == http.MethodPost && strings.HasSuffix(r.URL.Path, "/journal/chapters")
+		if !chapterRequest && (r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket")) {
 			if err := domain.RequireLegacyRules(domain.RulesVersion(campaign.RulesVersion)); err != nil {
 				writeError(w, http.StatusConflict, err.Error())
 				return

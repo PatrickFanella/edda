@@ -159,6 +159,8 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.Cam
 						journalStore := journal.NewStore(pool)
 						journalH := journal.NewHandlersWithSummarizer(journalStore, journal.NewSummarizer(provider, journalStore))
 						r.Route("/journal", func(r chi.Router) {
+							r.Get("/chapters", journalH.ListChapters)
+							r.Post("/chapters", journalH.GenerateChapter)
 							r.Get("/summaries", journalH.ListSummaries)
 							r.Get("/entries", journalH.ListEntries)
 							r.Post("/entries", journalH.CreateEntry)
