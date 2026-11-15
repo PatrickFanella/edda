@@ -67,8 +67,8 @@
       ],
       "status": "unsupported",
       "fixtures": [],
-      "follow_up": 77,
-      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+      "follow_up": 193,
+      "notes": "Shield of Faith timing/concentration and Cleric rest recovery are bounded fixtures. #193 tracks named condition, stacking, interrupted rest/recharge and casting-mode decisions from #80. The whole glossary/condition family remains unsupported."
     },
     {
       "id": "srd-5.2.1:family/exploration",
@@ -158,8 +158,8 @@
       ],
       "status": "unsupported",
       "fixtures": [],
-      "follow_up": 79,
-      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+      "follow_up": 195,
+      "notes": "Fixed creation/projection and ordinary longsword fixture only. #80 inventories 156 mundane families and assigns mounts/services/crafting sections to bounded decisions. Data imports and recorded equipment do not establish complete equipment mechanics."
     },
     {
       "id": "srd-5.2.1:family/spells",
@@ -171,8 +171,8 @@
       ],
       "status": "unsupported",
       "fixtures": [],
-      "follow_up": 80,
-      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+      "follow_up": 194,
+      "notes": "Partial Cure Wounds/Shield of Faith self fixtures only. #80 inventories 339 named spells; #194 starts the source-linked record contract. All record/mechanic and qualification follow-ups remain required before full coverage."
     },
     {
       "id": "srd-5.2.1:family/magic-items",
@@ -184,8 +184,8 @@
       ],
       "status": "unsupported",
       "fixtures": [],
-      "follow_up": 80,
-      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+      "follow_up": 195,
+      "notes": "Basic Potion of Healing conscious-self fixture only. #80 inventories 258 magic-item headings and source-listed nested variants; #195 starts the record contract. Attunement, charges, item spells, curses and broader effects remain unavailable."
     },
     {
       "id": "srd-5.2.1:family/monsters",
@@ -816,8 +816,7 @@
       ],
       "follow_up": 79,
       "notes": "Conscious self-use basic healing fixture only. Administration, unconscious targets, combat action economy and improved potions remain unqualified."
-    }
-,
+    },
     {
       "id": "srd-5.2.1:content/spells/cure-wounds",
       "family": "spells",
@@ -833,7 +832,7 @@
         "internal/handlers/spell_action_integration_test.go"
       ],
       "follow_up": 80,
-      "notes": "Issue #68 implements only conscious self-casting by the unarmored level-one Cleric fixture, level 1 slot, explicit prepared/component rulings, capped 2d8 + Wisdom healing and durable slot consumption. Other targets, higher slots, conditions, caster creation and recovery are not qualified. #72, #77 and #80 retain those boundaries."
+      "notes": "Conscious-self level-one Cleric, one level-one slot, explicit components, capped healing and committed replay only; fixed creation #72 and bounded recovery #77 are merged. #80 assigns other targets/slots/effects and full qualification to explicit follow-ups."
     }
   ]
 }
