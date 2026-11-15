@@ -254,7 +254,7 @@ func (e *Engine) LoadCampaign(ctx context.Context, campaignID uuid.UUID) error {
 
 // ProcessTurnStream is like ProcessTurn but delivers narrative chunks over
 // the returned channel. The channel is closed when processing completes.
-// Callers must consume the channel fully to avoid goroutine leaks.
+// Callers must consume the channel or cancel ctx when abandoning the stream.
 //
 // In this initial implementation the full narrative is sent as a single
 // chunk followed by the complete TurnResult.
@@ -264,7 +264,7 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		defer close(ch)
 		defer func() {
 			if r := recover(); r != nil {
-				ch <- StreamEvent{Type: "error", Err: fmt.Errorf("process turn panic: %v", r)}
+				sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: fmt.Errorf("process turn panic: %v", r)})
 			}
 		}()
 
@@ -277,16 +277,19 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 
 		tc := &TurnContext{CampaignID: campaignID, PlayerInput: playerInput, Logger: e.logger, Started: time.Now()}
 		emitStatus := func(stage, description string) {
-			ch <- StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: stage, Description: description}}
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: stage, Description: description}})
 		}
 		emitPhase := func(stage, description string, started time.Time) {
-			e.emitTimedStatus(ch, stage, description, started)
+			e.emitTimedStatus(ctx, ch, stage, description, started)
 		}
 
+		if ctx.Err() != nil {
+			return
+		}
 		gatherStarted := time.Now()
 		emitStatus("gathering", "Gathering world state...")
 		if err := e.gatherStage()(ctx, tc); err != nil {
-			ch <- StreamEvent{Type: "error", Err: err}
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
 			return
 		}
 		if tc.Ctx == nil {
@@ -294,29 +297,38 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		}
 		emitPhase("gathering", "Gathering world state complete.", gatherStarted)
 
+		if ctx.Err() != nil {
+			return
+		}
 		memoryStarted := time.Now()
 		emitStatus("memory_retrieval", "Retrieving relevant memories...")
 		if err := e.memoryStage()(tc.Ctx, tc); err != nil {
-			ch <- StreamEvent{Type: "error", Err: err}
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
 			return
 		}
 		emitPhase("memory_retrieval", "Relevant memories retrieved.", memoryStarted)
 
+		if ctx.Err() != nil {
+			return
+		}
 		assembleStarted := time.Now()
 		emitStatus("context_assembly", "Assembling turn context...")
 		if err := e.assembleStage()(tc.Ctx, tc); err != nil {
-			ch <- StreamEvent{Type: "error", Err: err}
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
 			return
 		}
 		emitPhase("context_assembly", "Turn context assembled.", assembleStarted)
 
+		if ctx.Err() != nil {
+			return
+		}
 		thinkingStarted := time.Now()
 		emitStatus("thinking", "Generating response...")
 		localProcessor := *e.processor
-		localProcessor.StatusCallback = func(s api.StatusPayload) { ch <- StreamEvent{Type: "status", Status: &s} }
+		localProcessor.StatusCallback = func(s api.StatusPayload) { sendStreamEvent(ctx, ch, StreamEvent{Type: "status", Status: &s}) }
 		narrative, applied, err := localProcessor.ProcessWithRecoveryWithOptions(tc.Ctx, tc.Messages, tc.FilteredTools, TurnProcessorOptions{})
 		if err != nil {
-			ch <- StreamEvent{Type: "error", Err: err}
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
 			return
 		}
 		emitPhase("thinking", "Response generated.", thinkingStarted)
@@ -324,10 +336,13 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		tc.Narrative = narrative
 		tc.Applied = applied
 
+		if ctx.Err() != nil {
+			return
+		}
 		persistStarted := time.Now()
 		emitStatus("finalizing", "Finalizing and persisting turn...")
 		if err := e.completeStage()(tc.Ctx, tc); err != nil {
-			ch <- StreamEvent{Type: "error", Err: err}
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
 			return
 		}
 		emitPhase("finalizing", "Turn persisted.", persistStarted)
@@ -337,22 +352,34 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		for _, atc := range result.AppliedToolCalls {
 			switch atc.Tool {
 			case "initiate_combat":
-				ch <- StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: "combat_start", Description: "Combat has begun!"}}
+				sendStreamEvent(ctx, ch, StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: "combat_start", Description: "Combat has begun!"}})
 			case "resolve_combat":
-				ch <- StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: "combat_end", Description: "Combat has ended."}}
+				sendStreamEvent(ctx, ch, StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: "combat_end", Description: "Combat has ended."}})
 			}
 		}
 
-		ch <- StreamEvent{Type: "chunk", Text: result.Narrative}
-		ch <- StreamEvent{Type: "result", Result: result}
+		sendStreamEvent(ctx, ch, StreamEvent{Type: "chunk", Text: result.Narrative})
+		sendStreamEvent(ctx, ch, StreamEvent{Type: "result", Result: result})
 	}()
 	return ch, nil
 }
 
-func (e *Engine) emitTimedStatus(ch chan<- StreamEvent, stage, description string, started time.Time) {
-	ch <- StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: stage, Description: description}}
+func (e *Engine) emitTimedStatus(ctx context.Context, ch chan<- StreamEvent, stage, description string, started time.Time) {
+	sendStreamEvent(ctx, ch, StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: stage, Description: description}})
 	if e != nil && e.logger != nil {
 		e.logger.Info("turn phase completed", "stage", stage, "duration_ms", time.Since(started).Milliseconds())
+	}
+}
+
+// sendStreamEvent releases a blocked publisher when its consumer abandons the
+// stream. A canceled stream owes no terminal frame to a disconnected consumer.
+func sendStreamEvent(ctx context.Context, ch chan<- StreamEvent, event StreamEvent) {
+	if ctx.Err() != nil {
+		return
+	}
+	select {
+	case ch <- event:
+	case <-ctx.Done():
 	}
 }
 

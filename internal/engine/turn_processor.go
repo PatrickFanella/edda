@@ -171,7 +171,13 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 	unresolvedDurableRequirements := []durableRequirement{}
 	assistantContent := resp.Content
 	for _, tc := range resp.ToolCalls {
+		if err := ctx.Err(); err != nil {
+			return "", applied, err
+		}
 		tp.emitStatus(api.StatusPayload{Stage: "tool_execution", Tool: tc.Name, Description: fmt.Sprintf("Executing %s...", tc.Name)})
+		if err := ctx.Err(); err != nil {
+			return "", applied, err
+		}
 		tp.logger.Debug("attempting tool call", "tool", tc.Name, "tool_call_id", tc.ID)
 		result, execErr := tp.attemptToolCall(ctx, tc, allowed)
 		if execErr == nil {

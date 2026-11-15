@@ -53,7 +53,7 @@ func (h *ActionHandlers) ProcessAction(w http.ResponseWriter, r *http.Request) {
 func (h *ActionHandlers) turnContext(parent context.Context) (context.Context, context.CancelFunc) {
 	base := context.WithoutCancel(parent)
 	if h.TurnTimeout <= 0 {
-		return base, func() {}
+		return context.WithCancel(base)
 	}
 	return context.WithTimeout(base, h.TurnTimeout)
 }
