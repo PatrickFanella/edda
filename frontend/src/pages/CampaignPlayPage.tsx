@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useMemo, useState } from 'react';
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import type { ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router';
@@ -39,44 +39,10 @@ import { useRefreshAfterTurn } from '../hooks/useRefreshAfterTurn';
 import type { StartupPlaySeed } from '../lib/startupWorkflow';
 
 const playTabs = [
-  { key: 'narrative', label: 'Narrative' },
-  {
-    key: 'character',
-    label: 'Character',
-    activeTone: 'bg-jade text-obsidian',
-    hoverTone: 'border border-jade/20 bg-charcoal text-champagne/70 hover:border-jade hover:text-jade hover:bg-jade/5',
-  },
-  { key: 'inventory', label: 'Inventory' },
-  {
-    key: 'quests',
-    label: 'Quests',
-    activeTone: 'bg-sapphire text-obsidian',
-    hoverTone: 'border border-sapphire/20 bg-charcoal text-champagne/70 hover:border-sapphire hover:text-sapphire hover:bg-sapphire/5',
-  },
-  {
-    key: 'npcs',
-    label: 'NPCs',
-    activeTone: 'bg-gold text-obsidian',
-    hoverTone: 'border border-gold/20 bg-charcoal text-champagne/70 hover:border-gold hover:text-gold hover:bg-gold/5',
-  },
-  {
-    key: 'world',
-    label: 'World',
-    activeTone: 'bg-jade text-obsidian',
-    hoverTone: 'border border-jade/20 bg-charcoal text-champagne/70 hover:border-jade hover:text-jade hover:bg-jade/5',
-  },
-  {
-    key: 'journal',
-    label: 'Journal',
-    activeTone: 'bg-gold text-obsidian',
-    hoverTone: 'border border-gold/20 bg-charcoal text-champagne/70 hover:border-gold hover:text-gold hover:bg-gold/5',
-  },
-  {
-    key: 'logs',
-    label: 'Logs',
-    activeTone: 'bg-pewter text-obsidian',
-    hoverTone: 'border border-pewter/20 bg-charcoal text-champagne/70 hover:border-pewter hover:text-pewter hover:bg-pewter/5',
-  },
+  { key: 'narrative', label: 'Play' },
+  { key: 'character', label: 'Character' },
+  { key: 'world', label: 'World' },
+  { key: 'journal', label: 'Journal' },
 ] as const;
 
 type CampaignPlayTab = (typeof playTabs)[number]['key'];
@@ -190,7 +156,24 @@ function CampaignPlayContent({
   readonly onTabChange: (tab: CampaignPlayTab) => void;
   readonly startupSeed: StartupPlaySeed | null;
 }) {
+  const companionVisible = useSyncExternalStore(subscribeCompanionLayout, () => window.matchMedia('(min-width: 80rem)').matches, () => false);
   const tabIdPrefix = useId();
+  const storyRef = useRef<HTMLDivElement>(null);
+  const returnScrollTop = useRef<number | null>(null);
+  const returnFocus = useRef<HTMLElement | null>(null);
+  useLayoutEffect(() => {
+    if (activeTab === 'narrative' && returnScrollTop.current !== null) {
+      storyRef.current?.querySelector('[role="log"]')?.scrollTo({ top: returnScrollTop.current, behavior: 'instant' });
+    }
+  }, [activeTab]);
+  const closeDetails = () => {
+    onTabChange('narrative');
+    requestAnimationFrame(() => {
+      const target = returnFocus.current;
+      if (target?.isConnected) target.focus({ preventScroll: true });
+      else document.getElementById(`${tabIdPrefix}-tab-narrative`)?.focus({ preventScroll: true });
+    });
+  };
   const narrative = useNarrative();
   const audio = useAudio();
   useAudioEffects(narrative.latestResult, narrative.combatActive, audio);
@@ -208,12 +191,15 @@ function CampaignPlayContent({
 
   const handleTabChange = useCallback(
     (tab: CampaignPlayTab) => {
+      if (activeTab === 'narrative' && tab !== 'narrative') {
+        returnScrollTop.current = storyRef.current?.querySelector('[role="log"]')?.scrollTop ?? null;
+      }
       if (tab === 'world') {
         clearWorldUnread();
       }
       onTabChange(tab);
     },
-    [clearWorldUnread, onTabChange],
+    [activeTab, clearWorldUnread, onTabChange],
   );
 
   const questsQuery = useQuery({
@@ -292,21 +278,29 @@ function CampaignPlayContent({
         ) : null}
         <div className="game-hud-frame game-play-grid grid min-h-0 flex-1 gap-2 overflow-hidden">
           <div className="game-main-panel grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden">
+            <div className={`game-context-workspace min-h-0 ${activeTab !== 'narrative' ? 'has-details' : ''}`}>
             {playTabs.map((tab) => (
               <div
                 key={tab.key}
-                role="tabpanel"
+                role={tab.key === 'narrative' && activeTab !== 'narrative' && companionVisible ? 'region' : 'tabpanel'}
                 id={`${tabIdPrefix}-panel-${tab.key}`}
-                aria-labelledby={`${tabIdPrefix}-tab-${tab.key}`}
-                hidden={activeTab !== tab.key}
-                tabIndex={0}
-                className="h-full min-h-0 overflow-hidden"
+                aria-label={tab.key === 'narrative' && activeTab !== 'narrative' && companionVisible ? 'Story' : undefined}
+                aria-labelledby={tab.key === 'narrative' && activeTab !== 'narrative' && companionVisible ? undefined : `${tabIdPrefix}-tab-${tab.key}`}
+                hidden={activeTab !== tab.key && !(tab.key === 'narrative' && companionVisible)}
+                tabIndex={tab.key === 'narrative' && activeTab !== 'narrative' && companionVisible ? undefined : 0}
+                ref={tab.key === 'narrative' ? storyRef : undefined}
+                className={`h-full min-h-0 overflow-hidden ${tab.key === 'narrative' ? 'game-story-panel' : 'game-detail-panel'}`}
+                onKeyDown={(event) => { if (event.key === 'Escape' && tab.key !== 'narrative') { event.preventDefault(); closeDetails(); } }}
               >
                 {activeTab === tab.key || tab.key === 'narrative' ? (
-                  <PlayTabContent campaignId={campaignId} activeTab={tab.key} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />
+                  <div className="flex h-full min-h-0 flex-col">
+                    {tab.key !== 'narrative' ? <button type="button" onClick={closeDetails} className="hud-btn hud-btn-secondary mb-2 shrink-0">Close details</button> : null}
+                    <div className="min-h-0 flex-1"><PlayTabContent campaignId={campaignId} activeTab={tab.key} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} /></div>
+                  </div>
                 ) : null}
               </div>
             ))}
+            </div>
             <div className="min-h-0 overflow-hidden">
               <TurnNotifications stateChanges={narrative.latestResult?.state_changes ?? []} />
             </div>
@@ -321,7 +315,9 @@ function CampaignPlayContent({
             inventory={inventoryQuery.data ?? []}
             suggestedChoiceCount={suggestedChoices.length}
           />
-          <div className="game-play-nav game-hud-panel-scene flex shrink-0 items-center border-2 bg-charcoal/75 p-1.5">
+          <div className="game-play-nav game-hud-panel-scene flex shrink-0 items-center border-2 bg-charcoal/75 p-1.5"
+            onPointerDownCapture={() => { if (storyRef.current?.contains(document.activeElement)) returnFocus.current = document.activeElement as HTMLElement; }}
+          >
             <TabBar idPrefix={tabIdPrefix} tabs={badgedTabs} activeTab={activeTab} onChange={handleTabChange} />
           </div>
         </div>
@@ -351,52 +347,20 @@ function PlayTabContent({
         </div>
       );
     case 'character':
-      return (
-        <ContainedTabPanel>
-          <CharacterSheet campaignId={campaignId} />
-        </ContainedTabPanel>
-      );
-    case 'inventory':
-      return (
-        <ContainedTabPanel>
-          <InventoryPanel />
-        </ContainedTabPanel>
-      );
-    case 'quests':
-      return (
-        <ContainedTabPanel>
-          <QuestPanel campaignId={campaignId} />
-        </ContainedTabPanel>
-      );
-    case 'npcs':
-      return (
-        <ContainedTabPanel>
-          <NPCPanel campaignId={campaignId} />
-        </ContainedTabPanel>
-      );
+      return <ContainedTabPanel><CharacterSheet campaignId={campaignId} /><section aria-label="Inventory" className="mt-6"><InventoryPanel /></section></ContainedTabPanel>;
     case 'world':
-      return (
-        <ContainedTabPanel>
-          <WorldPanel campaignId={campaignId} />
-        </ContainedTabPanel>
-      );
+      return <ContainedTabPanel>
+        <WorldPanel campaignId={campaignId} />
+        <section aria-label="Quests" className="mt-6"><QuestPanel campaignId={campaignId} /></section>
+        <section aria-label="NPCs" className="mt-6"><NPCPanel campaignId={campaignId} /></section>
+      </ContainedTabPanel>;
     case 'journal':
-      return (
-        <ContainedTabPanel>
-          <JournalPanel campaignId={campaignId} />
-        </ContainedTabPanel>
-      );
-    case 'logs':
-      return (
-        <ContainedTabPanel>
-          <LogPanel
-            entries={seededNarrative.entries}
-            streamingEntry={narrative.streamingEntry}
-            isLoading={narrative.isLoading}
-            error={narrative.error}
-          />
-        </ContainedTabPanel>
-      );
+      return <ContainedTabPanel>
+        <JournalPanel campaignId={campaignId} />
+        <details className="mt-6"><summary className="hud-btn hud-btn-secondary cursor-pointer">Logs</summary>
+          <LogPanel entries={seededNarrative.entries} streamingEntry={narrative.streamingEntry} isLoading={narrative.isLoading} error={narrative.error} />
+        </details>
+      </ContainedTabPanel>;
     default: {
       const exhaustiveTab: never = activeTab;
       return exhaustiveTab;
@@ -862,4 +826,10 @@ function isOpeningSceneResponse(value: unknown): value is OpeningSceneResponse {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
+}
+
+function subscribeCompanionLayout(listener: () => void) {
+  const query = window.matchMedia('(min-width: 80rem)');
+  query.addEventListener('change', listener);
+  return () => query.removeEventListener('change', listener);
 }

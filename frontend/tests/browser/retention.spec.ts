@@ -2,6 +2,8 @@ import { test, expect, signIn } from './fixtures';
 import { timestamp } from '../fixtures/data';
 
 test('retention baseline preserves history and completed turns across reconnect', async ({ page, game }) => {
+  // Hosted 2-core runners need a bounded 60s budget for 1,100 live frames.
+  test.setTimeout(60_000);
   await signIn(page); await page.goto('/play/alpha');
   await expect(page.getByText('The alpha gate opens.', { exact: true })).toBeVisible();
   await expect.poll(() => game.sockets.length).toBe(1);

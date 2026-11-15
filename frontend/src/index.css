@@ -710,6 +710,17 @@ body:has(.game-app-shell) > .subcult-identity {
 .game-composer-feedback:empty { display: none; }
 .game-action-form textarea { height: 4.5rem; min-height: 4.5rem; max-height: 7rem; overflow-y: auto; }
 
+.game-context-workspace { display: grid; grid-template-columns: minmax(0, 1fr); overflow: hidden; }
+.game-context-workspace > [role='tabpanel'] { min-width: 0; }
+@media (min-width: 80rem) {
+  .game-context-workspace.has-details { grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.85fr); gap: 0.75rem; }
+  .game-story-panel { grid-column: 1; grid-row: 1; }
+  .game-detail-panel { grid-column: 2; grid-row: 1; }
+}
+@media (max-width: 40rem) {
+  .game-play-nav .hud-tab-button { padding-inline: 0.5rem; }
+  .game-play-nav [role='tablist'] { gap: 0.25rem; }
+}
 /* Owner-selected A layout / B reading face (#55): Georgia story text, existing
    Marcellus headings and Josefin Sans controls. No additional font download. */
 .narrative-reader { overflow-anchor: none; scrollbar-gutter: stable; }

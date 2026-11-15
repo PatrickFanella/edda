@@ -30,8 +30,9 @@ for (const [width, height] of [[1366, 768], [1440, 900], [1920, 1080], [768, 102
     await log.evaluate(el => { el.scrollTop = el.scrollHeight; });
     expect(await page.evaluate(() => scrollY)).toBe(0);
     await page.screenshot({ path: testInfo.outputPath('viewport.png') });
-    await page.getByRole('tab', { name: 'Logs', exact: true }).click();
-    const details = page.getByRole('tabpanel', { name: 'Logs' }).locator(':scope > div');
+    await page.getByRole('tab', { name: 'Journal', exact: true }).click();
+    await page.locator('summary').filter({ hasText: 'Logs' }).click();
+    const details = page.getByRole('tabpanel', { name: 'Journal' }).locator('.overflow-y-auto').first();
     await expect(details).toBeInViewport();
     expect(await details.evaluate(el => el.scrollHeight)).toBeGreaterThan(await details.evaluate(el => el.clientHeight));
     expect(await details.evaluate(el => el.scrollWidth)).toBeLessThanOrEqual(await details.evaluate(el => el.clientWidth));
@@ -69,7 +70,7 @@ for (const [width, height] of [[360, 800], [390, 844]]) {
     await page.screenshot({ path: testInfo.outputPath('expanded-saves-viewport.png') });
     await page.setViewportSize({ width, height });
     await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
-    for (const name of ['Logs', 'Character', 'Narrative']) {
+    for (const name of ['Journal', 'Character', 'Play']) {
       await page.getByRole('tab', { name, exact: true }).click();
       await expect(page.getByRole('tabpanel', { name, exact: true })).toBeVisible();
       await expectDocumentFits(page);

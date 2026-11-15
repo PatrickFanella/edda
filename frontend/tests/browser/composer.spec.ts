@@ -12,7 +12,7 @@ for (const width of [360, 390, 1366]) {
   const choices = Array.from({ length: 8 }, (_, i) => ({ id: `choice-${i}`, text: `Option ${i + 1}: ${'The gate waits. '.repeat(40)}` }));
   game.sockets[0].send(JSON.stringify({ type: 'result', timestamp, payload: { narrative: 'The keeper waits.', state_changes: [], choices } }));
   await page.getByRole('tab', { name: 'Character', exact: true }).click();
-  await page.getByRole('tab', { name: 'Narrative', exact: true }).click();
+  await page.getByRole('tab', { name: 'Play', exact: true }).click();
   await expect(input).toHaveValue(draft);
   expect(await input.evaluate((el: HTMLTextAreaElement) => [el.selectionStart, el.selectionEnd])).toEqual([3, 15]);
   await expect(page.getByRole('button', { name: 'Send action' })).toBeInViewport();
