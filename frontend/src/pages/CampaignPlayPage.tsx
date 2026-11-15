@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router';
@@ -189,6 +189,7 @@ function CampaignPlayContent({
   readonly onTabChange: (tab: CampaignPlayTab) => void;
   readonly startupSeed: StartupPlaySeed | null;
 }) {
+  const tabIdPrefix = useId();
   const narrative = useNarrative();
   const audio = useAudio();
   useAudioEffects(narrative.latestResult, narrative.combatActive, audio);
@@ -291,7 +292,21 @@ function CampaignPlayContent({
         ) : null}
         <div className="game-hud-frame grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-hidden xl:grid-cols-[minmax(0,1fr)_18rem] xl:grid-rows-[minmax(0,1fr)_auto]">
           <div className="grid min-h-0 min-w-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden xl:col-start-1 xl:row-start-1">
-            <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />
+            {playTabs.map((tab) => (
+              <div
+                key={tab.key}
+                role="tabpanel"
+                id={`${tabIdPrefix}-panel-${tab.key}`}
+                aria-labelledby={`${tabIdPrefix}-tab-${tab.key}`}
+                hidden={activeTab !== tab.key}
+                tabIndex={0}
+                className="h-full min-h-0 overflow-hidden"
+              >
+                {activeTab === tab.key ? (
+                  <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />
+                ) : null}
+              </div>
+            ))}
             <div className="min-h-0 overflow-hidden">
               <TurnNotifications stateChanges={narrative.latestResult?.state_changes ?? []} />
             </div>
@@ -307,7 +322,7 @@ function CampaignPlayContent({
             suggestedChoiceCount={suggestedChoices.length}
           />
           <div className="game-hud-panel-scene flex max-h-14 shrink-0 items-center overflow-hidden border-2 bg-charcoal/75 p-1.5 xl:col-start-1 xl:row-start-2">
-            <TabBar tabs={badgedTabs} activeTab={activeTab} onChange={handleTabChange} />
+            <TabBar idPrefix={tabIdPrefix} tabs={badgedTabs} activeTab={activeTab} onChange={handleTabChange} />
           </div>
         </div>
       </div>
