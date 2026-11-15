@@ -554,7 +554,9 @@ function GameHudSidebar({
                 <span className="hud-badge hud-badge-jade">LV {character.level}</span>
               </div>
               <HudMeter label="HP" value={character.hp} max={character.max_hp} tone="jade" />
-              <HudMeter label="XP" value={character.experience} max={nextLevelThreshold(character.level)} tone="sapphire" />
+              {character.rules_version === 'srd-5.2.1'
+                ? character.sheet ? <HudMeter label="XP" value={character.sheet.progression.current_xp} max={character.sheet.progression.next_level_xp} tone="sapphire" /> : <p className="text-sm text-pewter">Rules projection unavailable</p>
+                : <HudMeter label="XP" value={character.experience} max={nextLevelThreshold(character.level)} tone="sapphire" />}
             </>
           ) : (
             <p className="text-sm leading-6 text-pewter">Character telemetry not loaded yet.</p>

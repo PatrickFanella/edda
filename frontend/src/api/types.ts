@@ -51,7 +51,25 @@ export interface CharacterAbility {
   description?: string;
 }
 
+export interface DerivedValue { value: number; derivation: { label: string; value: number; source_id: string }[] }
+export interface CharacterSheetProjection {
+  rules_version: string;
+  scope: string;
+  abilities: Record<string, { score: number; modifier: DerivedValue }>;
+  proficiency: DerivedValue;
+  saves: Record<string, DerivedValue>;
+  skills: Record<string, DerivedValue>;
+  hp: DerivedValue;
+  max_hp: DerivedValue;
+  defenses: Record<string, DerivedValue>;
+  resources: { id: string; label: string; current: number; maximum: number; source_id: string }[];
+  capabilities: { id: string; label: string; source_id: string; playable: boolean }[];
+  progression: { current_xp: number; level_xp: number; next_level_xp: number; source_id: string };
+}
 export interface CharacterResponse {
+  rules_version?: string;
+  sheet?: CharacterSheetProjection;
+  sheet_unavailable?: string;
   id: string;
   campaign_id: string;
   user_id: string;

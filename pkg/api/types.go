@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
+	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 )
 
@@ -52,19 +53,22 @@ type CharacterAbility struct {
 // Converters normalize Stats and Abilities to empty collections and omit
 // CurrentLocationID when unknown.
 type CharacterResponse struct {
-	ID                string             `json:"id"`
-	CampaignID        string             `json:"campaign_id"`
-	UserID            string             `json:"user_id"`
-	Name              string             `json:"name"`
-	Description       string             `json:"description"`
-	Stats             map[string]any     `json:"stats"`
-	HP                int                `json:"hp"`
-	MaxHP             int                `json:"max_hp"`
-	Experience        int                `json:"experience"`
-	Level             int                `json:"level"`
-	Status            string             `json:"status"`
-	Abilities         []CharacterAbility `json:"abilities"`
-	CurrentLocationID *string            `json:"current_location_id,omitempty"`
+	RulesVersion      string                 `json:"rules_version,omitempty"`
+	Sheet             *srd521.CharacterSheet `json:"sheet,omitempty"`
+	SheetUnavailable  string                 `json:"sheet_unavailable,omitempty"`
+	ID                string                 `json:"id"`
+	CampaignID        string                 `json:"campaign_id"`
+	UserID            string                 `json:"user_id"`
+	Name              string                 `json:"name"`
+	Description       string                 `json:"description"`
+	Stats             map[string]any         `json:"stats"`
+	HP                int                    `json:"hp"`
+	MaxHP             int                    `json:"max_hp"`
+	Experience        int                    `json:"experience"`
+	Level             int                    `json:"level"`
+	Status            string                 `json:"status"`
+	Abilities         []CharacterAbility     `json:"abilities"`
+	CurrentLocationID *string                `json:"current_location_id,omitempty"`
 }
 
 // LocationConnectionResponse describes a traversable connection from a location.

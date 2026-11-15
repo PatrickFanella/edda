@@ -1,0 +1,22 @@
+{
+  "srd521": {
+    "class": "fighter",
+    "fighting_style": "defense",
+    "abilities": {
+      "strength": 16,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 8
+    },
+    "skills": [
+      "athletics",
+      "perception"
+    ],
+    "armor": "chain-mail",
+    "shield": true,
+    "second_wind": 1,
+    "hit_dice": 1
+  }
+}

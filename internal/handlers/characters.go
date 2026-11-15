@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
@@ -28,7 +30,21 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	writeJSON(w, http.StatusOK, playerCharacterToResponse(pcs[0]))
+	campaign, err := h.Queries.GetCampaignByID(r.Context(), dbutil.ToPgtype(campaignID))
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, "failed to get character rules version")
+		return
+	}
+	response := playerCharacterToResponse(pcs[0])
+	response.RulesVersion = campaign.RulesVersion
+	if campaign.RulesVersion == string(domain.RulesVersionSRD521) {
+		pc := pcs[0]
+		response.Sheet, err = srd521.Project(pc.Stats, int(pc.Level), int(pc.Hp), int(pc.MaxHp), int(pc.Experience))
+		if err != nil {
+			response.SheetUnavailable = err.Error()
+		}
+	}
+	writeJSON(w, http.StatusOK, response)
 }
 
 // GetCharacterInventory returns the inventory items for the player character.
