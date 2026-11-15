@@ -38,7 +38,9 @@ func TestIntegrationWorkflowRoutes(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer func() {
-		if err := container.Terminate(context.Background()); err != nil {
+		cleanupCtx, cleanupCancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cleanupCancel()
+		if err := container.Terminate(cleanupCtx); err != nil {
 			t.Error(err)
 		}
 	}()

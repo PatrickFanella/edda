@@ -66,7 +66,9 @@ func TestMain(m *testing.M) {
 		return
 	}
 	defer func() {
-		if err := container.Terminate(context.Background()); err != nil {
+		cleanupCtx, cleanupCancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cleanupCancel()
+		if err := container.Terminate(cleanupCtx); err != nil {
 			fmt.Fprintf(os.Stderr, "failed to terminate container: %v\n", err)
 		}
 	}()

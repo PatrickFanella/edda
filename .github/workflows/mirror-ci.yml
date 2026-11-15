@@ -41,6 +41,27 @@ jobs:
       - name: Run tests
         run: go test ./...
 
+  integration:
+    name: PostgreSQL integration
+    if: github.repository == 'subculture-collective/edda'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version-file: go.mod
+          cache: true
+          cache-dependency-path: go.sum
+      # Each tagged suite owns a fresh pgvector container through Testcontainers.
+      # No application DSN or shared database is supplied to this job.
+      - name: Run database-backed suites
+        run: go test -tags integration -run Integration -count=1 -timeout 10m ./...
+
   frontend:
     name: Frontend image build
     if: github.repository == 'subculture-collective/edda'
@@ -93,6 +114,7 @@ jobs:
     if: always() && github.repository == 'subculture-collective/edda'
     needs:
       - test
+      - integration
       - frontend
       - frontend-behavior
     runs-on: ubuntu-24.04
@@ -105,7 +127,7 @@ jobs:
           python3 - <<'PY'
           import json, os
           results = json.loads(os.environ["RESULTS"])
-          expected = {'test', 'frontend', 'frontend-behavior'}
+          expected = {'test', 'integration', 'frontend', 'frontend-behavior'}
           assert set(results) == expected, results
           for name, result in results.items():
               assert result["result"] == "success", name + " did not pass"

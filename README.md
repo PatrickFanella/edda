@@ -89,6 +89,13 @@ task migrate:create    # new goose migration
 task reset:first-boot  # wipe local game data
 ```
 
+Pull requests require the PostgreSQL integration job as part of `Mirror CI gate`.
+It runs all tagged integration suites with `go test -tags integration -run Integration
+-count=1 -timeout 10m ./...`. Each suite starts its own disposable PostgreSQL 16
+container with pgvector, applies migrations, and removes the container on exit.
+Docker must be available locally; no application database or credentials are used.
+Container setup is limited to five minutes and cleanup to thirty seconds.
+
 ## Configuration
 
 Settings come from built-in defaults (`internal/config/config.go`), then
