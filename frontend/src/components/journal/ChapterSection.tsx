@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { ChapterReader } from './ChapterReader';
 import { generateChapter, listChapters, type GenerateChapterRequest } from '../../api/journal';
 
 export function ChapterSection({ campaignId }: { readonly campaignId: string }) {
@@ -43,14 +44,14 @@ export function ChapterSection({ campaignId }: { readonly campaignId: string }) 
       {chapters.isPending && <p className="text-sm text-pewter">Loading chapters...</p>}
       {chapters.isError && <p role="alert">Could not load chapters. <button type="button" className="hud-btn hud-text-button" onClick={() => void chapters.refetch()}>Retry loading chapters</button></p>}
       {chapters.data?.length === 0 && <p className="text-sm text-pewter">No chapters yet.</p>}
+      {chapters.data && <ChapterReader key={campaignId} campaignId={campaignId} chapters={chapters.data} />}
       {chapters.data?.map(chapter => (
         <article key={chapter.id} className="space-y-3 border-2 border-midnight/40 bg-obsidian p-5">
-          <h3 className="font-heading text-sm text-gold">Turns {chapter.from_turn} – {chapter.to_turn}</h3>
+          <h3 className="font-heading text-sm text-gold">Generation · Turns {chapter.from_turn} – {chapter.to_turn}</h3>
           <p className="text-xs text-pewter">{chapter.rules_version} · Player knowledge through turn {chapter.to_turn}</p>
           {chapter.revisions.map(revision => (
             <div key={revision.id} className="space-y-2">
               <p className="text-xs text-pewter">Revision {revision.revision} · {revision.status}</p>
-              {revision.content && <p className="whitespace-pre-wrap text-sm leading-7 text-champagne/80">{revision.content}</p>}
               {revision.error && <p className="text-sm text-ruby">{revision.error}</p>}
               {revision.status !== 'completed' && <button type="button" className="hud-btn hud-text-button" disabled={mutation.isPending} onClick={() => generate(chapter.id, revision.request_id)}>Retry revision {revision.revision}</button>}
             </div>

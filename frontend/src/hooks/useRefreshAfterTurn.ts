@@ -37,6 +37,8 @@ export function useRefreshAfterTurn(campaignId: string | null, latestResult: Tur
     prevResultRef.current = latestResult;
 
     void queryClient.invalidateQueries({ queryKey: ['campaign', campaignId, 'action-suggestions'] });
+    void queryClient.invalidateQueries({ queryKey: ['campaign', campaignId, 'history'] });
+    void queryClient.invalidateQueries({ queryKey: ['campaign', campaignId, 'journal'] });
     const changes = latestResult.state_changes;
     if (changes && changes.length > 0) {
       const segments = new Set<string>();

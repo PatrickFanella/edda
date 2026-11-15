@@ -31,6 +31,8 @@ test('Journal generates, retries and regenerates chapters while Play remains ava
   expect(requests[2].chapter_id).toBe('chapter');
   await page.reload();
   await page.getByRole('tab', { name: 'Journal', exact: true }).click();
+  await expect(page.getByText('Ada tried the gate. It stayed shut.', { exact: true })).toBeVisible();
+  await page.getByRole('combobox', { name: 'Saved revision', exact: true }).selectOption('revision-1');
   await expect(page.getByText('The gate stayed shut.', { exact: true })).toBeVisible();
   await expect(page.getByText('Revision 2 · completed')).toBeVisible();
 });

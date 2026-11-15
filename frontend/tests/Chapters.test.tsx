@@ -6,6 +6,7 @@ import { ChapterSection } from '../src/components/journal/ChapterSection';
 import { generateChapter, listChapters } from '../src/api/journal';
 import type { ChapterResponse, ChapterRevisionResponse } from '../src/api/types';
 
+vi.mock('../src/api/campaigns', () => ({ getSessionHistory: vi.fn().mockResolvedValue({ entries: [] }) }));
 vi.mock('../src/api/journal', () => ({ generateChapter: vi.fn(), listChapters: vi.fn() }));
 const revision: ChapterRevisionResponse = { id: 'revision', chapter_id: 'chapter', request_id: 'key', revision: 1, status: 'completed', content: 'The gate stayed shut.', error: '', prompt_version: 'faithful-chapter-v1', created_at: '2026-01-01T00:00:00Z' };
 const chapter: ChapterResponse = { id: 'chapter', campaign_id: 'alpha', from_turn: 1, to_turn: 2, source_hash: 'hash', source_turns: [], knowledge_boundary: 'player-visible-transcript-through-to-turn-v1', rules_version: 'srd-5.2.1', rules_mode: 'strict', created_at: revision.created_at, revisions: [revision] };

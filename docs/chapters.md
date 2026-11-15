@@ -39,3 +39,40 @@ pnpm --dir frontend lint
 ```
 
 The isolated frontend tests cover failure, same-key retry, regeneration, reload and continued play through fixture sockets. The existing frontend lint baseline has 22 errors outside the chapter files; do not suppress those errors to qualify this change.
+
+## Chapter reader (#76)
+
+Journal displays one completed saved revision at a time in a bounded prose pane.
+Chapters sort by source capture time, then turn range/identity, so retained
+chapters precede newer chapters after turn numbers restart. Previous/next and
+chapter selectors provide the same source-ordered reader on desktop and phone;
+a revision selector exposes earlier completed prose without showing failed or
+in-progress content as a finished chapter. Generation/retry controls and revision
+status remain available below the reader.
+
+Chapter/revision selection and relative reading offsets are retained per campaign
+and revision in local storage. Navigating between chapters, leaving Journal and
+reloading restores the saved position. Relative offsets adapt to layout changes;
+there is no cross-device preference synchronization. If storage is denied, an
+in-memory fallback retains position while the app remains loaded. Preferences
+contain identities and offsets, never copied story prose.
+
+Coverage displays the selected source range and player-knowledge boundary. A
+fresh history read reports completed turns that have no completed saved chapter.
+Turn-number coverage also requires the history entry to predate the chapter's
+capture, so restarted play is not claimed as covered merely because its turn
+numbers match an old chapter. Freshness failure is explicit and does not block
+reading. Completing a turn invalidates history/Journal queries. Pending mechanical
+work is not completed history and is not counted as chapter-ready play.
+
+“Read source history” opens and focuses the chapter's immutable captured source
+inside the reader. Source turns retain original player input, visible narration,
+log IDs and action IDs. This is the exact provenance used for generation, including
+when current campaign history has since been restored or restarted. Reading never
+changes history or generates another outcome. The existing outer gameplay frame
+retains its internal scroll ownership; the prose pane also owns its own scrolling.
+
+Deterministic frontend tests cover ordering, navigation, revision filtering,
+freshness failure, restarted-turn coverage and persisted preferences. Desktop and
+phone browser fixtures exercise actual scroll restoration across chapter changes,
+Journal unmounts and reloads, source inspection and document viewport bounds.
