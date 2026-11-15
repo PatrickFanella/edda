@@ -637,12 +637,7 @@ func TestOrchestrator_RunSuccess(t *testing.T) {
 		t.Errorf("starting location id: got %s, want %s", result.StartingLocationID, startingLocationID)
 	}
 
-	expectedStages := []string{
-		"Creating campaign…",
-		"Forging the world…",
-		"Bringing your character to life…",
-		"Setting the scene…",
-	}
+	expectedStages := []string{"Forging the world…", "Setting the scene…", "Creating campaign…", "Bringing your character to life…"}
 	if !equalStrings(stages, expectedStages) {
 		t.Errorf("stages: got %v, want %v", stages, expectedStages)
 	}
@@ -691,7 +686,7 @@ func TestOrchestrator_RunCreateCampaignError(t *testing.T) {
 			return statedb.Campaign{}, wantErr
 		},
 	}
-	orch := NewOrchestrator(&stubSkeletonLLM{content: "{}"}, q)
+	orch := NewOrchestrator(&sequentialStubLLM{t: t, scripts: []stubSkeletonLLM{{content: mustJSON(t, validResponse())}, {content: mustSceneJSON(t, validSceneResponse())}}}, q)
 
 	_, err := orch.Run(context.Background(), OrchestratorInput{
 		Name:             "Ashfall",
@@ -788,4 +783,8 @@ func equalStrings(got, want []string) bool {
 		}
 	}
 	return true
+}
+
+func (s *stubQuerier) RunInTransaction(ctx context.Context, fn func(statedb.Querier, statedb.DBTX) error) error {
+	return fn(s, nil)
 }

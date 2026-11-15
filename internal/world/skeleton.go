@@ -83,10 +83,8 @@ func NewSkeletonGenerator(provider llm.Provider, store SkeletonStore) *SkeletonG
 	return &SkeletonGenerator{llm: provider, store: store}
 }
 
-// Generate asks the LLM to produce a world skeleton for the given campaign
-// profile, persists all entities through the store, and returns the populated
-// skeleton with resolved IDs.
-func (g *SkeletonGenerator) Generate(ctx context.Context, campaignID uuid.UUID, profile *CampaignProfile) (*WorldSkeleton, error) {
+// Draft asks the LLM to produce a world skeleton without writing any entities.
+func (g *SkeletonGenerator) Draft(ctx context.Context, campaignID uuid.UUID, profile *CampaignProfile) (*WorldSkeleton, error) {
 	started := time.Now()
 	if profile == nil {
 		err := fmt.Errorf("generate skeleton: profile is nil")
@@ -140,47 +138,6 @@ func (g *SkeletonGenerator) Generate(ctx context.Context, campaignID uuid.UUID, 
 		"starting_location", parsed.StartingLocation,
 	)
 
-	factionIDs := make(map[string]uuid.UUID, len(parsed.Factions))
-	for _, f := range parsed.Factions {
-		id, err := g.store.CreateFaction(ctx, campaignID, f)
-		if err != nil {
-			logger().Error("skeleton faction persistence failed", "campaign_id", campaignID, "faction", f.Name, "error", err)
-			return nil, fmt.Errorf("generate skeleton: create faction %q: %w", f.Name, err)
-		}
-		factionIDs[f.Name] = id
-	}
-
-	locationIDs := make(map[string]uuid.UUID, len(parsed.Locations))
-	for _, l := range parsed.Locations {
-		id, err := g.store.CreateLocation(ctx, campaignID, l)
-		if err != nil {
-			logger().Error("skeleton location persistence failed", "campaign_id", campaignID, "location", l.Name, "error", err)
-			return nil, fmt.Errorf("generate skeleton: create location %q: %w", l.Name, err)
-		}
-		locationIDs[l.Name] = id
-	}
-
-	for _, n := range parsed.NPCs {
-		var factionID, locationID *uuid.UUID
-		if fid, ok := factionIDs[n.Faction]; ok {
-			factionID = &fid
-		}
-		if lid, ok := locationIDs[n.Location]; ok {
-			locationID = &lid
-		}
-		if _, err := g.store.CreateNPC(ctx, campaignID, n, factionID, locationID); err != nil {
-			logger().Error("skeleton npc persistence failed", "campaign_id", campaignID, "npc", n.Name, "error", err)
-			return nil, fmt.Errorf("generate skeleton: create npc %q: %w", n.Name, err)
-		}
-	}
-
-	for _, f := range parsed.WorldFacts {
-		if _, err := g.store.CreateWorldFact(ctx, campaignID, f); err != nil {
-			logger().Error("skeleton fact persistence failed", "campaign_id", campaignID, "category", f.Category, "error", err)
-			return nil, fmt.Errorf("generate skeleton: create world fact: %w", err)
-		}
-	}
-
 	result := &WorldSkeleton{
 		Factions:             parsed.Factions,
 		Locations:            parsed.Locations,
@@ -206,4 +163,62 @@ func buildSkeletonPrompt(p *CampaignProfile) string {
 		themes = strings.Join(p.Themes, ", ")
 	}
 	return prompt.BuildSkeletonPrompt(p.Genre, p.Tone, themes, p.WorldType, p.DangerLevel, p.PoliticalComplexity)
+}
+
+// Generate drafts and persists a skeleton for callers that do not need a larger transaction.
+func (g *SkeletonGenerator) Generate(ctx context.Context, campaignID uuid.UUID, profile *CampaignProfile) (*WorldSkeleton, error) {
+	skeleton, err := g.Draft(ctx, campaignID, profile)
+	if err != nil {
+		return nil, err
+	}
+	if err := g.Persist(ctx, campaignID, skeleton); err != nil {
+		return nil, err
+	}
+	return skeleton, nil
+}
+
+// Persist writes an already generated skeleton without calling the model.
+func (g *SkeletonGenerator) Persist(ctx context.Context, campaignID uuid.UUID, skeleton *WorldSkeleton) error {
+	factionIDs := make(map[string]uuid.UUID, len(skeleton.Factions))
+	for _, f := range skeleton.Factions {
+		id, err := g.store.CreateFaction(ctx, campaignID, f)
+		if err != nil {
+			logger().Error("skeleton faction persistence failed", "campaign_id", campaignID, "faction", f.Name, "error", err)
+			return fmt.Errorf("generate skeleton: create faction %q: %w", f.Name, err)
+		}
+		factionIDs[f.Name] = id
+	}
+
+	locationIDs := make(map[string]uuid.UUID, len(skeleton.Locations))
+	for _, l := range skeleton.Locations {
+		id, err := g.store.CreateLocation(ctx, campaignID, l)
+		if err != nil {
+			logger().Error("skeleton location persistence failed", "campaign_id", campaignID, "location", l.Name, "error", err)
+			return fmt.Errorf("generate skeleton: create location %q: %w", l.Name, err)
+		}
+		locationIDs[l.Name] = id
+	}
+
+	for _, n := range skeleton.NPCs {
+		var factionID, locationID *uuid.UUID
+		if fid, ok := factionIDs[n.Faction]; ok {
+			factionID = &fid
+		}
+		if lid, ok := locationIDs[n.Location]; ok {
+			locationID = &lid
+		}
+		if _, err := g.store.CreateNPC(ctx, campaignID, n, factionID, locationID); err != nil {
+			logger().Error("skeleton npc persistence failed", "campaign_id", campaignID, "npc", n.Name, "error", err)
+			return fmt.Errorf("generate skeleton: create npc %q: %w", n.Name, err)
+		}
+	}
+
+	for _, f := range skeleton.WorldFacts {
+		if _, err := g.store.CreateWorldFact(ctx, campaignID, f); err != nil {
+			logger().Error("skeleton fact persistence failed", "campaign_id", campaignID, "category", f.Category, "error", err)
+			return fmt.Errorf("generate skeleton: create world fact: %w", err)
+		}
+	}
+
+	return nil
 }

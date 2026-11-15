@@ -562,3 +562,7 @@ func decodeStartupJSON[T any](t *testing.T, rec *httptest.ResponseRecorder) T {
 	}
 	return v
 }
+
+func (s *startupStubQuerier) RunInTransaction(ctx context.Context, fn func(statedb.Querier, statedb.DBTX) error) error {
+	return fn(s, nil)
+}

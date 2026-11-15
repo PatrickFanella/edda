@@ -37,10 +37,9 @@ type OrchestratorInput struct {
 }
 
 // Orchestrator chains the full new-campaign pipeline:
-// 1. Insert campaign row
-// 2. Generate world skeleton → persist factions/locations/NPCs/facts
-// 3. Persist player character
-// 4. Generate opening scene → persist session log
+// 1. Draft world skeleton and opening scene in memory (no database transaction).
+// 2. Persist campaign, world, character, spawn package and scene in one transaction.
+// Failed or interrupted creation leaves no partial campaign to resume.
 //
 // Progress is reported through the callback so the TUI can display stage messages.
 type Orchestrator struct {
@@ -81,79 +80,92 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 		}
 	}
 
-	report("Creating campaign…")
-	campaign, err := o.queries.CreateCampaign(ctx, statedb.CreateCampaignParams{
-		Name:                input.Name,
-		Description:         pgtype.Text{String: input.Summary, Valid: input.Summary != ""},
-		Genre:               pgtype.Text{String: input.Profile.Genre, Valid: input.Profile.Genre != ""},
-		Tone:                pgtype.Text{String: input.Profile.Tone, Valid: input.Profile.Tone != ""},
-		Themes:              input.Profile.Themes,
-		WorldType:           pgtype.Text{String: input.Profile.WorldType, Valid: input.Profile.WorldType != ""},
-		DangerLevel:         pgtype.Text{String: input.Profile.DangerLevel, Valid: input.Profile.DangerLevel != ""},
-		PoliticalComplexity: pgtype.Text{String: input.Profile.PoliticalComplexity, Valid: input.Profile.PoliticalComplexity != ""},
-		Status:              "active",
-		CreatedBy:           pgtype.UUID{Bytes: input.UserID, Valid: input.UserID != uuid.Nil},
+	transactionStore, ok := o.queries.(interface {
+		RunInTransaction(context.Context, func(statedb.Querier, statedb.DBTX) error) error
 	})
-	if err != nil {
-		logger().Error("orchestrator campaign creation failed", "campaign", input.Name, "error", err)
-		return nil, fmt.Errorf("orchestrator: create campaign: %w", err)
+	if !ok {
+		return nil, fmt.Errorf("orchestrator: transactional creation unavailable")
 	}
-	campaignUUID := campaignID(campaign)
-
 	report("Forging the world…")
-	store := NewSkeletonStoreAdapter(o.queries)
-	skeletonGen := NewSkeletonGenerator(o.llm, store)
-	skeleton, err := skeletonGen.Generate(ctx, campaignUUID, input.Profile)
+	skeleton, err := NewSkeletonGenerator(o.llm, nil).Draft(ctx, uuid.Nil, input.Profile)
 	if err != nil {
-		logger().Error("orchestrator skeleton generation failed", "campaign_id", campaignUUID, "error", err)
 		return nil, fmt.Errorf("orchestrator: generate skeleton: %w", err)
 	}
-
-	startingLocationID, err := resolveStartingLocation(ctx, o.queries, campaign.ID, skeleton.StartingLocationName)
-	if err != nil {
-		logger().Error("orchestrator starting location resolution failed", "campaign_id", campaignUUID, "starting_location", skeleton.StartingLocationName, "error", err)
-		return nil, fmt.Errorf("orchestrator: resolve starting location: %w", err)
-	}
-	logger().Debug("orchestrator resolved starting location",
-		"campaign_id", campaignUUID,
-		"starting_location", skeleton.StartingLocationName,
-		"starting_location_id", startingLocationID,
-	)
-
-	report("Bringing your character to life…")
-	var locPtr *uuid.UUID
-	if startingLocationID != uuid.Nil {
-		locPtr = &startingLocationID
-	}
-	characterRow, err := PersistCharacterProfile(ctx, o.queries, campaignUUID, input.UserID, input.CharacterProfile, locPtr)
-	if err != nil {
-		logger().Error("orchestrator character persistence failed", "campaign_id", campaignUUID, "error", err)
-		return nil, fmt.Errorf("orchestrator: persist character: %w", err)
-	}
-	logger().Info("orchestrator character persisted", "campaign_id", campaignUUID, "character_id", dbCharacterID(characterRow), "character", characterRow.Name)
-	if err := ApplySpawnPackage(ctx, o.queries, campaignUUID, dbCharacterID(characterRow), input.SpawnPackage); err != nil {
-		logger().Error("orchestrator spawn package application failed", "campaign_id", campaignUUID, "character_id", dbCharacterID(characterRow), "error", err)
-		return nil, fmt.Errorf("orchestrator: apply spawn package: %w", err)
-	}
-
 	report("Setting the scene…")
-	sceneGen := NewSceneGenerator(o.llm, store)
-	scene, err := sceneGen.Generate(ctx, campaignUUID, input.Profile, skeleton)
+	scene, err := NewSceneGenerator(o.llm, nil).Draft(ctx, uuid.Nil, input.Profile, skeleton)
 	if err != nil {
-		logger().Error("orchestrator scene generation failed", "campaign_id", campaignUUID, "error", err)
 		return nil, fmt.Errorf("orchestrator: generate scene: %w", err)
 	}
-	orchestrateStartupWorldSetup(ctx, input.RulesMode, input.Pool, campaignUUID)
+	var result *OrchestratorResult
+	err = transactionStore.RunInTransaction(ctx, func(queries statedb.Querier, tx statedb.DBTX) error {
+		report("Creating campaign…")
+		campaign, err := queries.CreateCampaign(ctx, statedb.CreateCampaignParams{
+			Name:                input.Name,
+			Description:         pgtype.Text{String: input.Summary, Valid: input.Summary != ""},
+			Genre:               pgtype.Text{String: input.Profile.Genre, Valid: input.Profile.Genre != ""},
+			Tone:                pgtype.Text{String: input.Profile.Tone, Valid: input.Profile.Tone != ""},
+			Themes:              input.Profile.Themes,
+			WorldType:           pgtype.Text{String: input.Profile.WorldType, Valid: input.Profile.WorldType != ""},
+			DangerLevel:         pgtype.Text{String: input.Profile.DangerLevel, Valid: input.Profile.DangerLevel != ""},
+			PoliticalComplexity: pgtype.Text{String: input.Profile.PoliticalComplexity, Valid: input.Profile.PoliticalComplexity != ""},
+			Status:              "active",
+			CreatedBy:           pgtype.UUID{Bytes: input.UserID, Valid: input.UserID != uuid.Nil},
+		})
+		if err != nil {
+			logger().Error("orchestrator campaign creation failed", "campaign", input.Name, "error", err)
+			return fmt.Errorf("orchestrator: create campaign: %w", err)
+		}
+		campaignUUID := campaignID(campaign)
 
-	result := &OrchestratorResult{
-		Campaign:           campaign,
-		Scene:              scene,
-		StartingLocationID: startingLocationID,
+		store := NewSkeletonStoreAdapter(queries)
+		if err := NewSkeletonGenerator(o.llm, store).Persist(ctx, campaignUUID, skeleton); err != nil {
+			return fmt.Errorf("orchestrator: persist skeleton: %w", err)
+		}
+		startingLocationID, err := resolveStartingLocation(ctx, queries, campaign.ID, skeleton.StartingLocationName)
+		if err != nil {
+			logger().Error("orchestrator starting location resolution failed", "campaign_id", campaignUUID, "starting_location", skeleton.StartingLocationName, "error", err)
+			return fmt.Errorf("orchestrator: resolve starting location: %w", err)
+		}
+		logger().Debug("orchestrator resolved starting location",
+			"campaign_id", campaignUUID,
+			"starting_location", skeleton.StartingLocationName,
+			"starting_location_id", startingLocationID,
+		)
+
+		report("Bringing your character to life…")
+		var locPtr *uuid.UUID
+		if startingLocationID != uuid.Nil {
+			locPtr = &startingLocationID
+		}
+		characterRow, err := PersistCharacterProfile(ctx, queries, campaignUUID, input.UserID, input.CharacterProfile, locPtr)
+		if err != nil {
+			logger().Error("orchestrator character persistence failed", "campaign_id", campaignUUID, "error", err)
+			return fmt.Errorf("orchestrator: persist character: %w", err)
+		}
+		logger().Info("orchestrator character persisted", "campaign_id", campaignUUID, "character_id", dbCharacterID(characterRow), "character", characterRow.Name)
+		if err := ApplySpawnPackage(ctx, queries, campaignUUID, dbCharacterID(characterRow), input.SpawnPackage); err != nil {
+			logger().Error("orchestrator spawn package application failed", "campaign_id", campaignUUID, "character_id", dbCharacterID(characterRow), "error", err)
+			return fmt.Errorf("orchestrator: apply spawn package: %w", err)
+		}
+
+		if err := NewSceneGenerator(o.llm, store).Persist(ctx, campaignUUID, scene); err != nil {
+			return fmt.Errorf("orchestrator: persist scene: %w", err)
+		}
+		setupPool := input.Pool
+		if setupPool != nil {
+			setupPool = tx
+		}
+		orchestrateStartupWorldSetup(ctx, input.RulesMode, setupPool, campaignUUID)
+		result = &OrchestratorResult{Campaign: campaign, Scene: scene, StartingLocationID: startingLocationID}
+		return nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("orchestrator: persist world: %w", err)
 	}
 	logger().Info("orchestrator completed",
-		"campaign_id", campaignUUID,
+		"campaign_id", campaignID(result.Campaign),
 		"duration_ms", time.Since(started).Milliseconds(),
-		"starting_location_id", startingLocationID,
+		"starting_location_id", result.StartingLocationID,
 		"choices", len(scene.Choices),
 	)
 	return result, nil

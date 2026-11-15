@@ -45,9 +45,8 @@ type sceneLLMResponse struct {
 	Choices   []string `json:"choices"`
 }
 
-// Generate asks the LLM to produce an opening scene for the given campaign,
-// persists the narrative as a session log, and returns the scene result.
-func (g *SceneGenerator) Generate(ctx context.Context, campaignID uuid.UUID, profile *CampaignProfile, skeleton *WorldSkeleton) (*SceneResult, error) {
+// Draft asks the LLM to produce an opening scene without writing a session log.
+func (g *SceneGenerator) Draft(ctx context.Context, campaignID uuid.UUID, profile *CampaignProfile, skeleton *WorldSkeleton) (*SceneResult, error) {
 	started := time.Now()
 	if profile == nil {
 		err := fmt.Errorf("generate scene: profile is nil")
@@ -101,20 +100,6 @@ func (g *SceneGenerator) Generate(ctx context.Context, campaignID uuid.UUID, pro
 		err := fmt.Errorf("generate scene: narrative is empty")
 		logger().Error("scene generation failed", "campaign_id", campaignID, "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return nil, err
-	}
-
-	log := domain.SessionLog{
-		ID:          uuid.New(),
-		CampaignID:  campaignID,
-		TurnNumber:  1,
-		PlayerInput: "[scene_generation]",
-		InputType:   domain.InputTypeNarrative,
-		LLMResponse: parsed.Narrative,
-		ToolCalls:   openingChoicesToolCalls(parsed.Choices),
-	}
-	if err := g.store.SaveSessionLog(ctx, log); err != nil {
-		logger().Error("scene session log persistence failed", "campaign_id", campaignID, "error", err)
-		return nil, fmt.Errorf("generate scene: save session log: %w", err)
 	}
 
 	result := &SceneResult{
@@ -183,4 +168,35 @@ func buildScenePrompt(profile *CampaignProfile, skeleton *WorldSkeleton) string 
 	}
 
 	return prompt.BuildScenePrompt(profile.Genre, profile.Tone, themes, startingLocation, npcList, factList)
+}
+
+// Generate drafts and persists an opening scene for standalone callers.
+func (g *SceneGenerator) Generate(ctx context.Context, campaignID uuid.UUID, profile *CampaignProfile, skeleton *WorldSkeleton) (*SceneResult, error) {
+	scene, err := g.Draft(ctx, campaignID, profile, skeleton)
+	if err != nil {
+		return nil, err
+	}
+	if err := g.Persist(ctx, campaignID, scene); err != nil {
+		return nil, err
+	}
+	return scene, nil
+}
+
+// Persist writes an already generated scene without calling the model.
+func (g *SceneGenerator) Persist(ctx context.Context, campaignID uuid.UUID, scene *SceneResult) error {
+	log := domain.SessionLog{
+		ID:          uuid.New(),
+		CampaignID:  campaignID,
+		TurnNumber:  1,
+		PlayerInput: "[scene_generation]",
+		InputType:   domain.InputTypeNarrative,
+		LLMResponse: scene.Narrative,
+		ToolCalls:   openingChoicesToolCalls(scene.Choices),
+	}
+	if err := g.store.SaveSessionLog(ctx, log); err != nil {
+		logger().Error("scene session log persistence failed", "campaign_id", campaignID, "error", err)
+		return fmt.Errorf("generate scene: save session log: %w", err)
+	}
+
+	return nil
 }
