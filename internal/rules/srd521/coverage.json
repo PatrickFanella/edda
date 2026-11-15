@@ -80,8 +80,8 @@
       ],
       "status": "unsupported",
       "fixtures": [],
-      "follow_up": 82,
-      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+      "follow_up": 144,
+      "notes": "Legacy connected-location movement and clock updates are not SRD exploration evidence. #144 starts the bounded travel slice; #145/#146/#147 and #150 cover light, objects, falling and remaining hazard decisions."
     },
     {
       "id": "srd-5.2.1:family/toolbox",
@@ -93,8 +93,8 @@
       ],
       "status": "unsupported",
       "fixtures": [],
-      "follow_up": 82,
-      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+      "follow_up": 149,
+      "notes": "No full toolbox conformance. #149 is encounter-budget calculation only; #150 must split remaining named environment, curse, contagion, poison and trap scopes before #183 full qualification."
     },
     {
       "id": "srd-5.2.1:family/character-creation",
@@ -197,8 +197,8 @@
       ],
       "status": "unsupported",
       "fixtures": [],
-      "follow_up": 82,
-      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+      "follow_up": 143,
+      "notes": "The generic two-actor fixture is not SRD monster coverage. #82 inventories every indexed block; #143 defines the fail-closed catalogue contract and #183 gates full world qualification."
     },
     {
       "id": "srd-5.2.1:family/animals",
@@ -210,8 +210,8 @@
       ],
       "status": "unsupported",
       "fixtures": [],
-      "follow_up": 82,
-      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+      "follow_up": 179,
+      "notes": "All indexed animals remain unsupported. #82 maps exact catalogue batches; #179 is the narrow Wolf fixture and #183 gates full world qualification."
     },
     {
       "id": "srd-5.2.1:class/barbarian",

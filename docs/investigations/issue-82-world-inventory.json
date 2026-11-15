@@ -1,0 +1,3167 @@
+{
+  "schema_version": 1,
+  "observed_head": "f88d2ac",
+  "source": {
+    "version": "5.2.1",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "license": "CC-BY-4.0",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Edda planning metadata adapted from the source index and spell-created block headings. No stat values or descriptive prose imported. IDs are reserved for the future catalogue."
+  },
+  "indexed_records": 331,
+  "spell_created_records": 4,
+  "records": [
+    {
+      "id": "srd-5.2.1:content/monsters/aboleth",
+      "name": "Aboleth",
+      "source_page": 258,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-black-dragon",
+      "name": "Adult Black Dragon",
+      "source_page": 264,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-blue-dragon",
+      "name": "Adult Blue Dragon",
+      "source_page": 266,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-brass-dragon",
+      "name": "Adult Brass Dragon",
+      "source_page": 268,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-bronze-dragon",
+      "name": "Adult Bronze Dragon",
+      "source_page": 270,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-copper-dragon",
+      "name": "Adult Copper Dragon",
+      "source_page": 276,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-gold-dragon",
+      "name": "Adult Gold Dragon",
+      "source_page": 291,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-green-dragon",
+      "name": "Adult Green Dragon",
+      "source_page": 294,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-red-dragon",
+      "name": "Adult Red Dragon",
+      "source_page": 318,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-silver-dragon",
+      "name": "Adult Silver Dragon",
+      "source_page": 324,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-white-dragon",
+      "name": "Adult White Dragon",
+      "source_page": 340,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/air-elemental",
+      "name": "Air Elemental",
+      "source_page": 258,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 151
+    },
+    {
+      "id": "srd-5.2.1:content/animals/allosaurus",
+      "name": "Allosaurus",
+      "source_page": 344,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ancient-black-dragon",
+      "name": "Ancient Black Dragon",
+      "source_page": 265,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ancient-blue-dragon",
+      "name": "Ancient Blue Dragon",
+      "source_page": 267,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ancient-brass-dragon",
+      "name": "Ancient Brass Dragon",
+      "source_page": 269,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ancient-bronze-dragon",
+      "name": "Ancient Bronze Dragon",
+      "source_page": 271,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ancient-copper-dragon",
+      "name": "Ancient Copper Dragon",
+      "source_page": 277,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ancient-gold-dragon",
+      "name": "Ancient Gold Dragon",
+      "source_page": 292,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ancient-green-dragon",
+      "name": "Ancient Green Dragon",
+      "source_page": 294,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ancient-red-dragon",
+      "name": "Ancient Red Dragon",
+      "source_page": 319,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ancient-silver-dragon",
+      "name": "Ancient Silver Dragon",
+      "source_page": 325,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ancient-white-dragon",
+      "name": "Ancient White Dragon",
+      "source_page": 341,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/animals/animals",
+      "name": "Animals",
+      "source_page": 344,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 152
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/animated-armor",
+      "name": "Animated Armor",
+      "source_page": 259,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/animated-flying-sword",
+      "name": "Animated Flying Sword",
+      "source_page": 259,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/animated-rug-of-smothering",
+      "name": "Animated Rug of Smothering",
+      "source_page": 259,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ankheg",
+      "name": "Ankheg",
+      "source_page": 259,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/animals/ankylosaurus",
+      "name": "Ankylosaurus",
+      "source_page": 344,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/animals/ape",
+      "name": "Ape",
+      "source_page": 344,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/animals/archelon",
+      "name": "Archelon",
+      "source_page": 344,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/archmage",
+      "name": "Archmage",
+      "source_page": 305,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/assassin",
+      "name": "Assassin",
+      "source_page": 260,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/awakened-shrub",
+      "name": "Awakened Shrub",
+      "source_page": 260,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/awakened-tree",
+      "name": "Awakened Tree",
+      "source_page": 260,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/axe-beak",
+      "name": "Axe Beak",
+      "source_page": 260,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 153
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/azer-sentinel",
+      "name": "Azer Sentinel",
+      "source_page": 261,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/animals/baboon",
+      "name": "Baboon",
+      "source_page": 345,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/animals/badger",
+      "name": "Badger",
+      "source_page": 345,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/balor",
+      "name": "Balor",
+      "source_page": 261,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bandit",
+      "name": "Bandit",
+      "source_page": 261,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bandit-captain",
+      "name": "Bandit Captain",
+      "source_page": 261,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/barbed-devil",
+      "name": "Barbed Devil",
+      "source_page": 262,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/basilisk",
+      "name": "Basilisk",
+      "source_page": 262,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/animals/bat",
+      "name": "Bat",
+      "source_page": 345,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bearded-devil",
+      "name": "Bearded Devil",
+      "source_page": 262,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/behir",
+      "name": "Behir",
+      "source_page": 263,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/berserker",
+      "name": "Berserker",
+      "source_page": 263,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 154
+    },
+    {
+      "id": "srd-5.2.1:content/animals/black-bear",
+      "name": "Black Bear",
+      "source_page": 345,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/black-dragon-wyrmling",
+      "name": "Black Dragon Wyrmling",
+      "source_page": 263,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/black-pudding",
+      "name": "Black Pudding",
+      "source_page": 265,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/blink-dog",
+      "name": "Blink Dog",
+      "source_page": 266,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/animals/blood-hawk",
+      "name": "Blood Hawk",
+      "source_page": 345,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/blue-dragon-wyrmling",
+      "name": "Blue Dragon Wyrmling",
+      "source_page": 266,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/animals/boar",
+      "name": "Boar",
+      "source_page": 346,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bone-devil",
+      "name": "Bone Devil",
+      "source_page": 267,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/brass-dragon-wyrmling",
+      "name": "Brass Dragon Wyrmling",
+      "source_page": 268,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bronze-dragon-wyrmling",
+      "name": "Bronze Dragon Wyrmling",
+      "source_page": 269,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/animals/brown-bear",
+      "name": "Brown Bear",
+      "source_page": 346,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bugbear-stalker",
+      "name": "Bugbear Stalker",
+      "source_page": 271,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 155
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bugbear-warrior",
+      "name": "Bugbear Warrior",
+      "source_page": 272,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bulette",
+      "name": "Bulette",
+      "source_page": 272,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/animals/camel",
+      "name": "Camel",
+      "source_page": 346,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/animals/cat",
+      "name": "Cat",
+      "source_page": 346,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/centaur-trooper",
+      "name": "Centaur Trooper",
+      "source_page": 272,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/chain-devil",
+      "name": "Chain Devil",
+      "source_page": 272,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/chimera",
+      "name": "Chimera",
+      "source_page": 273,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/chuul",
+      "name": "Chuul",
+      "source_page": 273,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/clay-golem",
+      "name": "Clay Golem",
+      "source_page": 274,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/cloaker",
+      "name": "Cloaker",
+      "source_page": 274,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/cloud-giant",
+      "name": "Cloud Giant",
+      "source_page": 275,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/cockatrice",
+      "name": "Cockatrice",
+      "source_page": 275,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 156
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/commoner",
+      "name": "Commoner",
+      "source_page": 275,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/animals/constrictor-snake",
+      "name": "Constrictor Snake",
+      "source_page": 346,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/copper-dragon-wyrmling",
+      "name": "Copper Dragon Wyrmling",
+      "source_page": 275,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/couatl",
+      "name": "Couatl",
+      "source_page": 277,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/animals/crab",
+      "name": "Crab",
+      "source_page": 347,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/animals/crocodile",
+      "name": "Crocodile",
+      "source_page": 347,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/cultist",
+      "name": "Cultist",
+      "source_page": 278,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/cultist-fanatic",
+      "name": "Cultist Fanatic",
+      "source_page": 278,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/darkmantle",
+      "name": "Darkmantle",
+      "source_page": 278,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/death-dog",
+      "name": "Death Dog",
+      "source_page": 279,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/animals/deer",
+      "name": "Deer",
+      "source_page": 347,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/deva",
+      "name": "Deva",
+      "source_page": 279,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 157
+    },
+    {
+      "id": "srd-5.2.1:content/animals/dire-wolf",
+      "name": "Dire Wolf",
+      "source_page": 347,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/djinni",
+      "name": "Djinni",
+      "source_page": 280,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/doppelganger",
+      "name": "Doppelganger",
+      "source_page": 280,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/animals/draft-horse",
+      "name": "Draft Horse",
+      "source_page": 347,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/dragon-turtle",
+      "name": "Dragon Turtle",
+      "source_page": 281,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/dretch",
+      "name": "Dretch",
+      "source_page": 281,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/drider",
+      "name": "Drider",
+      "source_page": 281,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/druid",
+      "name": "Druid",
+      "source_page": 282,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/dryad",
+      "name": "Dryad",
+      "source_page": 282,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/dust-mephit",
+      "name": "Dust Mephit",
+      "source_page": 307,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/animals/eagle",
+      "name": "Eagle",
+      "source_page": 348,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/earth-elemental",
+      "name": "Earth Elemental",
+      "source_page": 282,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 158
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/efreeti",
+      "name": "Efreeti",
+      "source_page": 283,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/animals/elephant",
+      "name": "Elephant",
+      "source_page": 348,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/animals/elk",
+      "name": "Elk",
+      "source_page": 348,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/erinyes",
+      "name": "Erinyes",
+      "source_page": 283,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ettercap",
+      "name": "Ettercap",
+      "source_page": 284,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ettin",
+      "name": "Ettin",
+      "source_page": 284,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/fire-elemental",
+      "name": "Fire Elemental",
+      "source_page": 284,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/fire-giant",
+      "name": "Fire Giant",
+      "source_page": 285,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/flesh-golem",
+      "name": "Flesh Golem",
+      "source_page": 285,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/animals/flying-snake",
+      "name": "Flying Snake",
+      "source_page": 348,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/animals/frog",
+      "name": "Frog",
+      "source_page": 348,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/frost-giant",
+      "name": "Frost Giant",
+      "source_page": 285,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 159
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gargoyle",
+      "name": "Gargoyle",
+      "source_page": 286,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gelatinous-cube",
+      "name": "Gelatinous Cube",
+      "source_page": 286,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ghast",
+      "name": "Ghast",
+      "source_page": 287,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ghost",
+      "name": "Ghost",
+      "source_page": 287,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ghoul",
+      "name": "Ghoul",
+      "source_page": 288,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-ape",
+      "name": "Giant Ape",
+      "source_page": 349,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-badger",
+      "name": "Giant Badger",
+      "source_page": 349,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-bat",
+      "name": "Giant Bat",
+      "source_page": 349,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-boar",
+      "name": "Giant Boar",
+      "source_page": 349,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-centipede",
+      "name": "Giant Centipede",
+      "source_page": 349,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-constrictor-snake",
+      "name": "Giant Constrictor Snake",
+      "source_page": 350,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-crab",
+      "name": "Giant Crab",
+      "source_page": 350,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 160
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-crocodile",
+      "name": "Giant Crocodile",
+      "source_page": 350,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-eagle",
+      "name": "Giant Eagle",
+      "source_page": 350,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-elk",
+      "name": "Giant Elk",
+      "source_page": 351,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-fire-beetle",
+      "name": "Giant Fire Beetle",
+      "source_page": 351,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-frog",
+      "name": "Giant Frog",
+      "source_page": 351,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-goat",
+      "name": "Giant Goat",
+      "source_page": 351,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-hyena",
+      "name": "Giant Hyena",
+      "source_page": 352,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-lizard",
+      "name": "Giant Lizard",
+      "source_page": 352,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-octopus",
+      "name": "Giant Octopus",
+      "source_page": 352,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-owl",
+      "name": "Giant Owl",
+      "source_page": 352,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-rat",
+      "name": "Giant Rat",
+      "source_page": 353,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-scorpion",
+      "name": "Giant Scorpion",
+      "source_page": 353,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 161
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-seahorse",
+      "name": "Giant Seahorse",
+      "source_page": 353,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-shark",
+      "name": "Giant Shark",
+      "source_page": 353,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-spider",
+      "name": "Giant Spider",
+      "source_page": 353,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-toad",
+      "name": "Giant Toad",
+      "source_page": 354,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-venomous-snake",
+      "name": "Giant Venomous Snake",
+      "source_page": 354,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-vulture",
+      "name": "Giant Vulture",
+      "source_page": 354,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-wasp",
+      "name": "Giant Wasp",
+      "source_page": 354,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-weasel",
+      "name": "Giant Weasel",
+      "source_page": 355,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-wolf-spider",
+      "name": "Giant Wolf Spider",
+      "source_page": 355,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gibbering-mouther",
+      "name": "Gibbering Mouther",
+      "source_page": 288,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/glabrezu",
+      "name": "Glabrezu",
+      "source_page": 289,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gladiator",
+      "name": "Gladiator",
+      "source_page": 289,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 162
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gnoll-warrior",
+      "name": "Gnoll Warrior",
+      "source_page": 289,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/animals/goat",
+      "name": "Goat",
+      "source_page": 355,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/goblin-boss",
+      "name": "Goblin Boss",
+      "source_page": 290,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/goblin-minion",
+      "name": "Goblin Minion",
+      "source_page": 290,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/goblin-warrior",
+      "name": "Goblin Warrior",
+      "source_page": 290,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gold-dragon-wyrmling",
+      "name": "Gold Dragon Wyrmling",
+      "source_page": 290,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gorgon",
+      "name": "Gorgon",
+      "source_page": 292,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gray-ooze",
+      "name": "Gray Ooze",
+      "source_page": 293,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/green-dragon-wyrmling",
+      "name": "Green Dragon Wyrmling",
+      "source_page": 293,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/green-hag",
+      "name": "Green Hag",
+      "source_page": 295,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/grick",
+      "name": "Grick",
+      "source_page": 295,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/griffon",
+      "name": "Griffon",
+      "source_page": 295,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 163
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/grimlock",
+      "name": "Grimlock",
+      "source_page": 296,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/guard",
+      "name": "Guard",
+      "source_page": 296,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/guard-captain",
+      "name": "Guard Captain",
+      "source_page": 296,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/guardian-naga",
+      "name": "Guardian Naga",
+      "source_page": 296,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/half-dragon",
+      "name": "Half-Dragon",
+      "source_page": 297,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/harpy",
+      "name": "Harpy",
+      "source_page": 297,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/animals/hawk",
+      "name": "Hawk",
+      "source_page": 355,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hell-hound",
+      "name": "Hell Hound",
+      "source_page": 297,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hezrou",
+      "name": "Hezrou",
+      "source_page": 298,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hill-giant",
+      "name": "Hill Giant",
+      "source_page": 298,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hippogriff",
+      "name": "Hippogriff",
+      "source_page": 298,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/animals/hippopotamus",
+      "name": "Hippopotamus",
+      "source_page": 355,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 164
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hobgoblin-captain",
+      "name": "Hobgoblin Captain",
+      "source_page": 299,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hobgoblin-warrior",
+      "name": "Hobgoblin Warrior",
+      "source_page": 298,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/homunculus",
+      "name": "Homunculus",
+      "source_page": 299,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/horned-devil",
+      "name": "Horned Devil",
+      "source_page": 299,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/animals/hunter-shark",
+      "name": "Hunter Shark",
+      "source_page": 356,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hydra",
+      "name": "Hydra",
+      "source_page": 300,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/animals/hyena",
+      "name": "Hyena",
+      "source_page": 356,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ice-devil",
+      "name": "Ice Devil",
+      "source_page": 300,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ice-mephit",
+      "name": "Ice Mephit",
+      "source_page": 307,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/imp",
+      "name": "Imp",
+      "source_page": 300,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/incubus",
+      "name": "Incubus",
+      "source_page": 301,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/invisible-stalker",
+      "name": "Invisible Stalker",
+      "source_page": 301,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 165
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/iron-golem",
+      "name": "Iron Golem",
+      "source_page": 302,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/animals/jackal",
+      "name": "Jackal",
+      "source_page": 356,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/animals/killer-whale",
+      "name": "Killer Whale",
+      "source_page": 356,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/knight",
+      "name": "Knight",
+      "source_page": 302,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/kobold-warrior",
+      "name": "Kobold Warrior",
+      "source_page": 302,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/kraken",
+      "name": "Kraken",
+      "source_page": 303,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/lamia",
+      "name": "Lamia",
+      "source_page": 303,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/lemure",
+      "name": "Lemure",
+      "source_page": 304,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/lich",
+      "name": "Lich",
+      "source_page": 304,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/animals/lion",
+      "name": "Lion",
+      "source_page": 356,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/animals/lizard",
+      "name": "Lizard",
+      "source_page": 357,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/mage",
+      "name": "Mage",
+      "source_page": 305,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 166
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/magma-mephit",
+      "name": "Magma Mephit",
+      "source_page": 307,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/magmin",
+      "name": "Magmin",
+      "source_page": 305,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/animals/mammoth",
+      "name": "Mammoth",
+      "source_page": 357,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/manticore",
+      "name": "Manticore",
+      "source_page": 306,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/marilith",
+      "name": "Marilith",
+      "source_page": 306,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/animals/mastiff",
+      "name": "Mastiff",
+      "source_page": 357,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/medusa",
+      "name": "Medusa",
+      "source_page": 306,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/merfolk-skirmisher",
+      "name": "Merfolk Skirmisher",
+      "source_page": 308,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/merrow",
+      "name": "Merrow",
+      "source_page": 308,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/mimic",
+      "name": "Mimic",
+      "source_page": 308,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/minotaur-skeleton",
+      "name": "Minotaur Skeleton",
+      "source_page": 326,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/minotaur-of-baphomet",
+      "name": "Minotaur of Baphomet",
+      "source_page": 309,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 167
+    },
+    {
+      "id": "srd-5.2.1:content/animals/mule",
+      "name": "Mule",
+      "source_page": 357,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/mummy",
+      "name": "Mummy",
+      "source_page": 309,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/mummy-lord",
+      "name": "Mummy Lord",
+      "source_page": 309,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/nalfeshnee",
+      "name": "Nalfeshnee",
+      "source_page": 310,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/night-hag",
+      "name": "Night Hag",
+      "source_page": 311,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/nightmare",
+      "name": "Nightmare",
+      "source_page": 311,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/noble",
+      "name": "Noble",
+      "source_page": 312,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ochre-jelly",
+      "name": "Ochre Jelly",
+      "source_page": 312,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/animals/octopus",
+      "name": "Octopus",
+      "source_page": 357,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ogre",
+      "name": "Ogre",
+      "source_page": 312,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ogre-zombie",
+      "name": "Ogre Zombie",
+      "source_page": 344,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/oni",
+      "name": "Oni",
+      "source_page": 312,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 168
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/otyugh",
+      "name": "Otyugh",
+      "source_page": 313,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/animals/owl",
+      "name": "Owl",
+      "source_page": 358,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/owlbear",
+      "name": "Owlbear",
+      "source_page": 313,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/animals/panther",
+      "name": "Panther",
+      "source_page": 358,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/pegasus",
+      "name": "Pegasus",
+      "source_page": 313,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/phase-spider",
+      "name": "Phase Spider",
+      "source_page": 313,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/animals/piranha",
+      "name": "Piranha",
+      "source_page": 358,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/pirate",
+      "name": "Pirate",
+      "source_page": 314,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/pirate-captain",
+      "name": "Pirate Captain",
+      "source_page": 314,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/pit-fiend",
+      "name": "Pit Fiend",
+      "source_page": 314,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/planetar",
+      "name": "Planetar",
+      "source_page": 315,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/animals/plesiosaurus",
+      "name": "Plesiosaurus",
+      "source_page": 358,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 169
+    },
+    {
+      "id": "srd-5.2.1:content/animals/polar-bear",
+      "name": "Polar Bear",
+      "source_page": 359,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/animals/pony",
+      "name": "Pony",
+      "source_page": 359,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/priest",
+      "name": "Priest",
+      "source_page": 316,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/priest-acolyte",
+      "name": "Priest Acolyte",
+      "source_page": 316,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/pseudodragon",
+      "name": "Pseudodragon",
+      "source_page": 316,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/animals/pteranodon",
+      "name": "Pteranodon",
+      "source_page": 359,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/purple-worm",
+      "name": "Purple Worm",
+      "source_page": 316,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/quasit",
+      "name": "Quasit",
+      "source_page": 317,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/rakshasa",
+      "name": "Rakshasa",
+      "source_page": 317,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/animals/rat",
+      "name": "Rat",
+      "source_page": 359,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/animals/raven",
+      "name": "Raven",
+      "source_page": 359,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/red-dragon-wyrmling",
+      "name": "Red Dragon Wyrmling",
+      "source_page": 318,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 170
+    },
+    {
+      "id": "srd-5.2.1:content/animals/reef-shark",
+      "name": "Reef Shark",
+      "source_page": 360,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/remorhaz",
+      "name": "Remorhaz",
+      "source_page": 319,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/animals/rhinoceros",
+      "name": "Rhinoceros",
+      "source_page": 360,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/animals/riding-horse",
+      "name": "Riding Horse",
+      "source_page": 360,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/roc",
+      "name": "Roc",
+      "source_page": 320,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/roper",
+      "name": "Roper",
+      "source_page": 320,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/rust-monster",
+      "name": "Rust Monster",
+      "source_page": 320,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/animals/saber-toothed-tiger",
+      "name": "Saber-Toothed Tiger",
+      "source_page": 360,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/sahuagin-warrior",
+      "name": "Sahuagin Warrior",
+      "source_page": 321,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/salamander",
+      "name": "Salamander",
+      "source_page": 321,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/satyr",
+      "name": "Satyr",
+      "source_page": 321,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/animals/scorpion",
+      "name": "Scorpion",
+      "source_page": 360,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 171
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/scout",
+      "name": "Scout",
+      "source_page": 322,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/sea-hag",
+      "name": "Sea Hag",
+      "source_page": 322,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/animals/seahorse",
+      "name": "Seahorse",
+      "source_page": 361,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/shadow",
+      "name": "Shadow",
+      "source_page": 322,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/shambling-mound",
+      "name": "Shambling Mound",
+      "source_page": 323,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/shield-guardian",
+      "name": "Shield Guardian",
+      "source_page": 323,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/shrieker-fungus",
+      "name": "Shrieker Fungus",
+      "source_page": 286,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/silver-dragon-wyrmling",
+      "name": "Silver Dragon Wyrmling",
+      "source_page": 324,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/skeleton",
+      "name": "Skeleton",
+      "source_page": 325,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/solar",
+      "name": "Solar",
+      "source_page": 326,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/specter",
+      "name": "Specter",
+      "source_page": 327,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/sphinx-of-lore",
+      "name": "Sphinx of Lore",
+      "source_page": 327,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 172
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/sphinx-of-valor",
+      "name": "Sphinx of Valor",
+      "source_page": 328,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/sphinx-of-wonder",
+      "name": "Sphinx of Wonder",
+      "source_page": 327,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/animals/spider",
+      "name": "Spider",
+      "source_page": 361,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/spirit-naga",
+      "name": "Spirit Naga",
+      "source_page": 329,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/sprite",
+      "name": "Sprite",
+      "source_page": 329,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/spy",
+      "name": "Spy",
+      "source_page": 329,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/steam-mephit",
+      "name": "Steam Mephit",
+      "source_page": 308,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/stirge",
+      "name": "Stirge",
+      "source_page": 329,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/stone-giant",
+      "name": "Stone Giant",
+      "source_page": 330,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/stone-golem",
+      "name": "Stone Golem",
+      "source_page": 330,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/storm-giant",
+      "name": "Storm Giant",
+      "source_page": 330,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/succubus",
+      "name": "Succubus",
+      "source_page": 331,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 173
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-bats",
+      "name": "Swarm of Bats",
+      "source_page": 361,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/swarm-of-crawling-claws",
+      "name": "Swarm of Crawling Claws",
+      "source_page": 278,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-insects",
+      "name": "Swarm of Insects",
+      "source_page": 361,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-piranhas",
+      "name": "Swarm of Piranhas",
+      "source_page": 362,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-rats",
+      "name": "Swarm of Rats",
+      "source_page": 362,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-ravens",
+      "name": "Swarm of Ravens",
+      "source_page": 362,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-venomous-snakes",
+      "name": "Swarm of Venomous Snakes",
+      "source_page": 362,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/tarrasque",
+      "name": "Tarrasque",
+      "source_page": 331,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/animals/tiger",
+      "name": "Tiger",
+      "source_page": 363,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/tough",
+      "name": "Tough",
+      "source_page": 332,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/tough-boss",
+      "name": "Tough Boss",
+      "source_page": 332,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/treant",
+      "name": "Treant",
+      "source_page": 333,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 174
+    },
+    {
+      "id": "srd-5.2.1:content/animals/triceratops",
+      "name": "Triceratops",
+      "source_page": 363,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/troll",
+      "name": "Troll",
+      "source_page": 333,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/troll-limb",
+      "name": "Troll Limb",
+      "source_page": 333,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/animals/tyrannosaurus-rex",
+      "name": "Tyrannosaurus Rex",
+      "source_page": 363,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/unicorn",
+      "name": "Unicorn",
+      "source_page": 334,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/vampire",
+      "name": "Vampire",
+      "source_page": 335,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/vampire-familiar",
+      "name": "Vampire Familiar",
+      "source_page": 334,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/vampire-spawn",
+      "name": "Vampire Spawn",
+      "source_page": 334,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/animals/venomous-snake",
+      "name": "Venomous Snake",
+      "source_page": 363,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/violet-fungus",
+      "name": "Violet Fungus",
+      "source_page": 286,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/vrock",
+      "name": "Vrock",
+      "source_page": 336,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/animals/vulture",
+      "name": "Vulture",
+      "source_page": 363,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 175
+    },
+    {
+      "id": "srd-5.2.1:content/animals/warhorse",
+      "name": "Warhorse",
+      "source_page": 364,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/warhorse-skeleton",
+      "name": "Warhorse Skeleton",
+      "source_page": 326,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/warrior-infantry",
+      "name": "Warrior Infantry",
+      "source_page": 336,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/warrior-veteran",
+      "name": "Warrior Veteran",
+      "source_page": 337,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/water-elemental",
+      "name": "Water Elemental",
+      "source_page": 337,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/animals/weasel",
+      "name": "Weasel",
+      "source_page": 364,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/werebear",
+      "name": "Werebear",
+      "source_page": 337,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/wereboar",
+      "name": "Wereboar",
+      "source_page": 338,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/wererat",
+      "name": "Wererat",
+      "source_page": 338,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/weretiger",
+      "name": "Weretiger",
+      "source_page": 339,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/werewolf",
+      "name": "Werewolf",
+      "source_page": 339,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/white-dragon-wyrmling",
+      "name": "White Dragon Wyrmling",
+      "source_page": 339,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 176
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/wight",
+      "name": "Wight",
+      "source_page": 341,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/will-o-wisp",
+      "name": "Will-o’-Wisp",
+      "source_page": 341,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/winter-wolf",
+      "name": "Winter Wolf",
+      "source_page": 342,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/animals/wolf",
+      "name": "Wolf",
+      "source_page": 364,
+      "family": "animals",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/worg",
+      "name": "Worg",
+      "source_page": 342,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/wraith",
+      "name": "Wraith",
+      "source_page": 342,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/wyvern",
+      "name": "Wyvern",
+      "source_page": 343,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/xorn",
+      "name": "Xorn",
+      "source_page": 343,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-black-dragon",
+      "name": "Young Black Dragon",
+      "source_page": 264,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-blue-dragon",
+      "name": "Young Blue Dragon",
+      "source_page": 266,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-brass-dragon",
+      "name": "Young Brass Dragon",
+      "source_page": 268,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-bronze-dragon",
+      "name": "Young Bronze Dragon",
+      "source_page": 270,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 177
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-copper-dragon",
+      "name": "Young Copper Dragon",
+      "source_page": 276,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 178
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-gold-dragon",
+      "name": "Young Gold Dragon",
+      "source_page": 291,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 178
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-green-dragon",
+      "name": "Young Green Dragon",
+      "source_page": 293,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 178
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-red-dragon",
+      "name": "Young Red Dragon",
+      "source_page": 318,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 178
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-silver-dragon",
+      "name": "Young Silver Dragon",
+      "source_page": 324,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 178
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-white-dragon",
+      "name": "Young White Dragon",
+      "source_page": 340,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 178
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/zombie",
+      "name": "Zombie",
+      "source_page": 343,
+      "family": "monsters",
+      "status": "unsupported",
+      "catalogue_issue": 178
+    },
+    {
+      "id": "srd-5.2.1:content/spell-creatures/animated-object",
+      "name": "Animated Object",
+      "source_page": 109,
+      "family": "spell-creatures",
+      "status": "unsupported",
+      "catalogue_issue": 184
+    },
+    {
+      "id": "srd-5.2.1:content/spell-creatures/otherworldly-steed",
+      "name": "Otherworldly Steed",
+      "source_page": 131,
+      "family": "spell-creatures",
+      "status": "unsupported",
+      "catalogue_issue": 184
+    },
+    {
+      "id": "srd-5.2.1:content/spell-creatures/giant-insect",
+      "name": "Giant Insect",
+      "source_page": 136,
+      "family": "spell-creatures",
+      "status": "unsupported",
+      "catalogue_issue": 184
+    },
+    {
+      "id": "srd-5.2.1:content/spell-creatures/draconic-spirit",
+      "name": "Draconic Spirit",
+      "source_page": 166,
+      "family": "spell-creatures",
+      "status": "unsupported",
+      "catalogue_issue": 184
+    }
+  ],
+  "batches": [
+    {
+      "key": "schema",
+      "issue": 143,
+      "title": "Validate versioned SRD monster records and fail closed on unsupported mechanics",
+      "kind": "task",
+      "blocked_by": [
+        82
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "bandit",
+      "issue": 148,
+      "title": "Run a Bandit attack from its pinned stat block through durable encounters",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "wolf",
+      "issue": 179,
+      "title": "Resolve Wolf Pack Tactics and size-gated Bite Prone through durable encounters",
+      "kind": "task",
+      "blocked_by": [
+        148
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "multiattack",
+      "issue": 180,
+      "title": "Resolve the Brown Bear Multiattack as one atomic NPC action",
+      "kind": "task",
+      "blocked_by": [
+        148
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "encounter-budget",
+      "issue": 149,
+      "title": "Calculate SRD encounter XP budgets without inventing rewards",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "travel",
+      "issue": 144,
+      "title": "Prepare and commit a one-hour SRD travel segment with explicit pace",
+      "kind": "task",
+      "blocked_by": [
+        82
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "vision",
+      "issue": 145,
+      "title": "Adjudicate declared light and Darkvision for narrative target visibility",
+      "kind": "task",
+      "blocked_by": [
+        82
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "objects",
+      "issue": 146,
+      "title": "Confirm opening an ordinary unlocked door through narrative-space facts",
+      "kind": "task",
+      "blocked_by": [
+        82
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "falling",
+      "issue": 147,
+      "title": "Resolve one declared fall with inspectable damage and Prone state",
+      "kind": "task",
+      "blocked_by": [
+        82
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "summon",
+      "issue": 181,
+      "title": "Bind one Find Familiar creature to its summoner and turn permissions",
+      "kind": "spike",
+      "blocked_by": [
+        80,
+        148
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "hazards",
+      "issue": 150,
+      "title": "Split the remaining named environmental hazards into bounded rules PRs",
+      "kind": "spike",
+      "blocked_by": [
+        144,
+        147
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "advanced",
+      "issue": 182,
+      "title": "Split unimplemented monster mechanic keys into exact fixture PRs",
+      "kind": "spike",
+      "blocked_by": [
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        184
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "catalogue-01",
+      "issue": 151,
+      "title": "Catalogue SRD stat blocks 01: Aboleth to Air Elemental",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-02",
+      "issue": 152,
+      "title": "Catalogue SRD stat blocks 02: Allosaurus to Animals",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-03",
+      "issue": 153,
+      "title": "Catalogue SRD stat blocks 03: Animated Armor to Axe Beak",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-04",
+      "issue": 154,
+      "title": "Catalogue SRD stat blocks 04: Azer Sentinel to Berserker",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-05",
+      "issue": 155,
+      "title": "Catalogue SRD stat blocks 05: Black Bear to Bugbear Stalker",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-06",
+      "issue": 156,
+      "title": "Catalogue SRD stat blocks 06: Bugbear Warrior to Cockatrice",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-07",
+      "issue": 157,
+      "title": "Catalogue SRD stat blocks 07: Commoner to Deva",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-08",
+      "issue": 158,
+      "title": "Catalogue SRD stat blocks 08: Dire Wolf to Earth Elemental",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-09",
+      "issue": 159,
+      "title": "Catalogue SRD stat blocks 09: Efreeti to Frost Giant",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-10",
+      "issue": 160,
+      "title": "Catalogue SRD stat blocks 10: Gargoyle to Giant Crab",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-11",
+      "issue": 161,
+      "title": "Catalogue SRD stat blocks 11: Giant Crocodile to Giant Scorpion",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-12",
+      "issue": 162,
+      "title": "Catalogue SRD stat blocks 12: Giant Seahorse to Gladiator",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-13",
+      "issue": 163,
+      "title": "Catalogue SRD stat blocks 13: Gnoll Warrior to Griffon",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-14",
+      "issue": 164,
+      "title": "Catalogue SRD stat blocks 14: Grimlock to Hippopotamus",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-15",
+      "issue": 165,
+      "title": "Catalogue SRD stat blocks 15: Hobgoblin Captain to Invisible Stalker",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-16",
+      "issue": 166,
+      "title": "Catalogue SRD stat blocks 16: Iron Golem to Mage",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-17",
+      "issue": 167,
+      "title": "Catalogue SRD stat blocks 17: Magma Mephit to Minotaur of Baphomet",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-18",
+      "issue": 168,
+      "title": "Catalogue SRD stat blocks 18: Mule to Oni",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-19",
+      "issue": 169,
+      "title": "Catalogue SRD stat blocks 19: Otyugh to Plesiosaurus",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-20",
+      "issue": 170,
+      "title": "Catalogue SRD stat blocks 20: Polar Bear to Red Dragon Wyrmling",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-21",
+      "issue": 171,
+      "title": "Catalogue SRD stat blocks 21: Reef Shark to Scorpion",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-22",
+      "issue": 172,
+      "title": "Catalogue SRD stat blocks 22: Scout to Sphinx of Lore",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-23",
+      "issue": 173,
+      "title": "Catalogue SRD stat blocks 23: Sphinx of Valor to Succubus",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-24",
+      "issue": 174,
+      "title": "Catalogue SRD stat blocks 24: Swarm of Bats to Treant",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-25",
+      "issue": 175,
+      "title": "Catalogue SRD stat blocks 25: Triceratops to Vulture",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-26",
+      "issue": 176,
+      "title": "Catalogue SRD stat blocks 26: Warhorse to White Dragon Wyrmling",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-27",
+      "issue": 177,
+      "title": "Catalogue SRD stat blocks 27: Wight to Young Bronze Dragon",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 12
+    },
+    {
+      "key": "catalogue-28",
+      "issue": 178,
+      "title": "Catalogue SRD stat blocks 28: Young Copper Dragon to Zombie",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 7
+    },
+    {
+      "key": "catalogue-summons",
+      "issue": 184,
+      "title": "Catalogue spell-created Animated Object, Otherworldly Steed, Giant Insect and Draconic Spirit",
+      "kind": "task",
+      "blocked_by": [
+        143
+      ],
+      "record_count": 4
+    },
+    {
+      "key": "summon-effects",
+      "issue": 185,
+      "title": "Split remaining spell-created creature control and scaling into fixture PRs",
+      "kind": "spike",
+      "blocked_by": [
+        80,
+        184
+      ],
+      "record_count": 0
+    },
+    {
+      "key": "world-qualification",
+      "issue": 183,
+      "title": "Qualify complete monster and exploration coverage before advertising full support",
+      "kind": "task",
+      "blocked_by": [
+        145,
+        146,
+        149,
+        150,
+        179,
+        180,
+        181,
+        182,
+        185
+      ],
+      "record_count": 0
+    }
+  ]
+}
