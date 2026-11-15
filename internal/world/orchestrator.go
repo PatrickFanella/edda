@@ -151,11 +151,11 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 		if err := NewSceneGenerator(o.llm, store).Persist(ctx, campaignUUID, scene); err != nil {
 			return fmt.Errorf("orchestrator: persist scene: %w", err)
 		}
-		setupPool := input.Pool
-		if setupPool != nil {
-			setupPool = tx
+		rulesMode, err := orchestrateStartupWorldSetup(ctx, input.RulesMode, tx, campaignUUID)
+		if err != nil {
+			return fmt.Errorf("orchestrator: initialize starting state: %w", err)
 		}
-		orchestrateStartupWorldSetup(ctx, input.RulesMode, setupPool, campaignUUID)
+		campaign.RulesMode = rulesMode
 		result = &OrchestratorResult{Campaign: campaign, Scene: scene, StartingLocationID: startingLocationID}
 		return nil
 	})
@@ -171,34 +171,35 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 	return result, nil
 }
 
-func orchestrateStartupWorldSetup(ctx context.Context, rulesMode string, pool db.DBTX, campaignUUID uuid.UUID) {
+// orchestrateStartupWorldSetup runs required writes on the creation transaction.
+// The returned mode comes from PostgreSQL, so a success response matches the save.
+func orchestrateStartupWorldSetup(ctx context.Context, rulesMode string, pool db.DBTX, campaignUUID uuid.UUID) (string, error) {
 	if pool == nil {
-		return
+		return "", fmt.Errorf("starting-state database unavailable")
 	}
 	if _, err := pool.Exec(ctx,
-		"INSERT INTO campaign_time (campaign_id, day, hour, minute) VALUES ($1, 1, 8, 0) ON CONFLICT (campaign_id) DO NOTHING",
-		campaignUUID,
+		"INSERT INTO campaign_time (campaign_id, day, hour, minute) VALUES ($1, 1, 8, 0) ON CONFLICT (campaign_id) DO NOTHING", campaignUUID,
 	); err != nil {
-		logger().Error("orchestrator campaign time init failed", "campaign_id", campaignUUID, "error", err)
+		return "", fmt.Errorf("initialize campaign clock: %w", err)
 	}
 	if rulesMode == "" {
-		return
+		rulesMode = "narrative"
 	}
-	if _, err := pool.Exec(ctx,
-		"UPDATE campaigns SET rules_mode = $1 WHERE id = $2",
-		rulesMode, campaignUUID,
-	); err != nil {
-		logger().Error("orchestrator rules mode update failed", "campaign_id", campaignUUID, "rules_mode", rulesMode, "error", err)
+	var savedMode string
+	if err := pool.QueryRow(ctx,
+		"UPDATE campaigns SET rules_mode = $1 WHERE id = $2 RETURNING rules_mode", rulesMode, campaignUUID,
+	).Scan(&savedMode); err != nil {
+		return "", fmt.Errorf("save campaign rules mode: %w", err)
 	}
-	if rulesMode != "crunch" {
-		return
+	if savedMode == "crunch" {
+		if err := rules.SeedDefaultFeats(ctx, pool, campaignUUID); err != nil {
+			return "", fmt.Errorf("initialize starting feats: %w", err)
+		}
+		if err := rules.SeedDefaultSkills(ctx, pool, campaignUUID); err != nil {
+			return "", fmt.Errorf("initialize starting skills: %w", err)
+		}
 	}
-	if err := rules.SeedDefaultFeats(ctx, pool, campaignUUID); err != nil {
-		logger().Error("orchestrator seed default feats failed", "campaign_id", campaignUUID, "error", err)
-	}
-	if err := rules.SeedDefaultSkills(ctx, pool, campaignUUID); err != nil {
-		logger().Error("orchestrator seed default skills failed", "campaign_id", campaignUUID, "error", err)
-	}
+	return savedMode, nil
 }
 
 // campaignID extracts a uuid.UUID from a statedb.Campaign's pgtype.UUID ID.

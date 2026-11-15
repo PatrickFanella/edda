@@ -786,5 +786,5 @@ func equalStrings(got, want []string) bool {
 }
 
 func (s *stubQuerier) RunInTransaction(ctx context.Context, fn func(statedb.Querier, statedb.DBTX) error) error {
-	return fn(s, nil)
+	return fn(s, &setupDB{})
 }

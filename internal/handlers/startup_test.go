@@ -12,6 +12,8 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
@@ -564,5 +566,18 @@ func decodeStartupJSON[T any](t *testing.T, rec *httptest.ResponseRecorder) T {
 }
 
 func (s *startupStubQuerier) RunInTransaction(ctx context.Context, fn func(statedb.Querier, statedb.DBTX) error) error {
-	return fn(s, nil)
+	return fn(s, startupSetupDB{})
 }
+
+type startupSetupDB struct{ campaignRulesDB }
+
+func (startupSetupDB) Exec(context.Context, string, ...any) (pgconn.CommandTag, error) {
+	return pgconn.NewCommandTag("INSERT 0 1"), nil
+}
+func (startupSetupDB) QueryRow(_ context.Context, _ string, args ...any) pgx.Row {
+	return startupSetupRow{mode: args[0].(string)}
+}
+
+type startupSetupRow struct{ mode string }
+
+func (r startupSetupRow) Scan(dest ...any) error { *dest[0].(*string) = r.mode; return nil }

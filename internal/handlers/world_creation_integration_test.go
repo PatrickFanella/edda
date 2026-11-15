@@ -3,15 +3,26 @@
 package handlers_test
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
 
+	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/handlers"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/rules"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
+	"github.com/charmbracelet/log"
+	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 )
 
@@ -192,4 +203,124 @@ func TestIntegrationWorldCreationRollbackAndRetry(t *testing.T) {
 		}
 		assertNoCreationRows(t, userID)
 	})
+}
+
+func TestIntegrationWorldCreationRequiredSetup(t *testing.T) {
+	ctx := context.Background()
+	q := statedb.New(testPool)
+	user, err := q.CreateUser(ctx, "setup-"+uuid.NewString())
+	if err != nil {
+		t.Fatal(err)
+	}
+	userID := dbutil.FromPgtype(user.ID)
+	input := creationInput(userID)
+	request := func(t *testing.T, mode string) *httptest.ResponseRecorder {
+		t.Helper()
+		// Required setup uses the transaction's database, even without a separate pool.
+		h := handlers.NewStartupHandlers(&creationProvider{t: t}, q, log.Default(), nil)
+		router := chi.NewRouter()
+		router.Use(auth.NewNoOpMiddleware(userID).Authenticate)
+		router.Post("/world", h.BuildWorld)
+		body, err := json.Marshal(api.WorldBuildRequest{Name: input.Name, Profile: input.Profile, CharacterProfile: input.CharacterProfile, RulesMode: mode})
+		if err != nil {
+			t.Fatal(err)
+		}
+		rec := httptest.NewRecorder()
+		router.ServeHTTP(rec, httptest.NewRequest(http.MethodPost, "/world", bytes.NewReader(body)))
+		return rec
+	}
+	_, err = testPool.Exec(ctx, `CREATE FUNCTION fail_required_setup() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RAISE EXCEPTION 'injected required setup failure'; END $$`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() {
+		if _, err := testPool.Exec(ctx, "DROP FUNCTION fail_required_setup() CASCADE"); err != nil {
+			t.Error(err)
+		}
+	}()
+	for _, stage := range []struct{ name, table, event string }{
+		{"clock", "campaign_time", "INSERT"},
+		{"rules", "campaigns", "UPDATE"},
+		{"feats", "feat_definitions", "INSERT"},
+		{"skills", "skill_definitions", "INSERT"},
+	} {
+		t.Run(stage.name, func(t *testing.T) {
+			sql := fmt.Sprintf("CREATE TRIGGER fail_setup BEFORE %s ON %s FOR EACH ROW EXECUTE FUNCTION fail_required_setup()", stage.event, stage.table)
+			if _, err := testPool.Exec(ctx, sql); err != nil {
+				t.Fatal(err)
+			}
+			rec := request(t, "crunch")
+			if _, err := testPool.Exec(ctx, "DROP TRIGGER fail_setup ON "+stage.table); err != nil {
+				t.Fatal(err)
+			}
+			if rec.Code != http.StatusInternalServerError {
+				t.Fatalf("got %d: %s", rec.Code, rec.Body.String())
+			}
+			if strings.Contains(rec.Body.String(), `"campaign"`) {
+				t.Fatalf("failed setup returned a campaign: %s", rec.Body.String())
+			}
+			assertNoCreationRows(t, userID)
+			for _, table := range []string{"campaign_time", "feat_definitions", "skill_definitions"} {
+				var count int
+				if err := testPool.QueryRow(ctx, "SELECT count(*) FROM "+table+" c LEFT JOIN campaigns p ON p.id=c.campaign_id WHERE p.id IS NULL").Scan(&count); err != nil {
+					t.Fatal(err)
+				}
+				if count != 0 {
+					t.Fatalf("%s has %d orphan rows", table, count)
+				}
+			}
+		})
+	}
+	for _, mode := range []string{"", "narrative", "crunch"} {
+		t.Run("success "+mode, func(t *testing.T) {
+			rec := request(t, mode)
+			if rec.Code != http.StatusOK {
+				t.Fatalf("got %d: %s", rec.Code, rec.Body.String())
+			}
+			var resp api.WorldBuildResponse
+			if err := json.Unmarshal(rec.Body.Bytes(), &resp); err != nil {
+				t.Fatal(err)
+			}
+			id, err := uuid.Parse(resp.Campaign.ID)
+			if err != nil {
+				t.Fatal(err)
+			}
+			saved, err := q.GetCampaignByID(ctx, dbutil.ToPgtype(id))
+			if err != nil {
+				t.Fatal(err)
+			}
+			want := mode
+			if want == "" {
+				want = "narrative"
+			}
+			if resp.Campaign.RulesMode != want || saved.RulesMode != want {
+				t.Fatalf("response mode=%s saved=%s want=%s", resp.Campaign.RulesMode, saved.RulesMode, want)
+			}
+			var day, hour, minute int
+			if err := testPool.QueryRow(ctx, "SELECT day,hour,minute FROM campaign_time WHERE campaign_id=$1", id).Scan(&day, &hour, &minute); err != nil {
+				t.Fatal(err)
+			}
+			if day != 1 || hour != 8 || minute != 0 {
+				t.Fatalf("clock=%d/%d:%d", day, hour, minute)
+			}
+			for table, wantCount := range map[string]int{"player_characters": 1, "session_logs": 1, "feat_definitions": 0, "skill_definitions": 0} {
+				if want == "crunch" && table == "feat_definitions" {
+					wantCount = len(rules.DefaultFeats)
+				}
+				if want == "crunch" && table == "skill_definitions" {
+					wantCount = len(rules.DefaultSkills)
+				}
+				var count int
+				if err := testPool.QueryRow(ctx, "SELECT count(*) FROM "+table+" WHERE campaign_id=$1", id).Scan(&count); err != nil {
+					t.Fatal(err)
+				}
+				if count != wantCount {
+					t.Fatalf("%s count=%d want=%d", table, count, wantCount)
+				}
+			}
+			if err := q.DeleteCampaign(ctx, saved.ID); err != nil {
+				t.Fatal(err)
+			}
+		})
+	}
 }
