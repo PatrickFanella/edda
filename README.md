@@ -101,6 +101,7 @@ config key by section: `EDDA_LLM_OLLAMA_MODEL` sets `llm.ollama.model`.
 | `EDDA_LLM_PROVIDER`                        | `ollama`, `claude`, `openrouter` or `chatgpt`.                                                                |
 | `EDDA_LLM_FALLBACKPROVIDER`                | Optional provider that gets a request when `EDDA_LLM_PROVIDER` fails.                                         |
 | `EDDA_LLM_OLLAMA_*`                        | Endpoint, model, API key, context budget, timeout and embedding model.                                        |
+| `EDDA_LLM_MEMORYEMBEDDING_*`               | Independent semantic memory: enabled, provider, endpoint, model, dimension and optional API key.              |
 | `EDDA_LLM_CLAUDE_*`                        | Model, reasoning effort and context budget. The key can also come from `ANTHROPIC_API_KEY`.                   |
 | `EDDA_LLM_OPENROUTER_*`                    | Model, fallback models, reasoning effort and context budget. The key can also come from `OPENROUTER_API_KEY`. |
 | `EDDA_LLM_CHATGPT_*`                       | Credentials file, model, reasoning effort and context budget for the ChatGPT-plan provider.                   |
@@ -120,6 +121,66 @@ EDDA_LLM_OPENROUTER_MODEL=anthropic/claude-sonnet-5.5
 EDDA_LLM_OPENROUTER_FALLBACKMODELS=openai/gpt-6.1-terra
 EDDA_LLM_OPENROUTER_REASONINGEFFORT=high
 ```
+
+### Semantic campaign memory
+
+The HTTP server configures semantic memory independently of the game-master
+provider, including a GM selected through `llm.routes.gmturn` or a fallback.
+The supported embedding protocol is Ollama's `POST /api/embed`, served by
+Ollama or a compatible broker. The optional embedding API key is sent as a
+Bearer token; JSON responses and broker SSE framing are supported.
+
+| Game-master provider | Embedding configuration | Behavior |
+| --- | --- | --- |
+| `ollama`, `claude`, `openrouter`, `chatgpt`, `claudecode` | Explicit `llm.memoryembedding` with `enabled: true` and provider omitted or `ollama` | Records memories through world-building tools, adds relevant memories to turn context, and enables `search_memory`. |
+| Top-level `ollama` | `llm.memoryembedding` omitted | Uses legacy `llm.ollama.embeddingendpoint` (or `llm.ollama.endpoint` when empty), `embeddingmodel`, `embeddingdimension` and `apikey`. |
+| Any | Explicit `llm.memoryembedding.enabled: false` | Disables semantic recording, retrieval and `search_memory`, even with legacy Ollama settings present. Logs a startup warning. |
+| Non-Ollama top-level provider | `llm.memoryembedding` omitted | Semantic memory is unavailable; startup logs how to configure it. Normal state and recent-turn context remain available. |
+| Any | Enabled memory with another embedding provider, such as `openai` | Configuration error; startup stops. OpenAI-style `/v1/embeddings` is not supported. |
+
+For a non-Ollama GM, keep its existing provider settings and configure memory
+separately. For example, this uses a local Ollama-compatible embedder with the
+repository's default `vector(768)` schema:
+
+```bash
+EDDA_LLM_MEMORYEMBEDDING_ENABLED=true
+EDDA_LLM_MEMORYEMBEDDING_PROVIDER=ollama
+EDDA_LLM_MEMORYEMBEDDING_ENDPOINT=http://localhost:11434
+EDDA_LLM_MEMORYEMBEDDING_MODEL=nomic-embed-text
+EDDA_LLM_MEMORYEMBEDDING_DIMENSION=768
+```
+
+Enabled explicit memory requires all of `endpoint`, `model` and a positive
+`dimension`; it never borrows them or its API key from the GM configuration.
+The endpoint must be an absolute HTTP(S) base URL, without `/api/embed`, URL
+credentials, query parameters or a fragment. A broker path prefix is allowed.
+Set `EDDA_LLM_MEMORYEMBEDDING_APIKEY` only when that endpoint needs a Bearer
+token. Embedding requests use the existing `llm.ollama.timeoutseconds` timeout.
+
+An explicit `memoryembedding` block takes precedence over legacy settings;
+its `enabled` field defaults to false. Leave the entire block and its
+environment variables unset to retain legacy Ollama behavior.
+
+Configuration errors and a mismatch with the database's `memories.embedding`
+dimension stop startup. Startup does not call the embedding model: it reports
+that availability is checked on use. An unavailable endpoint, unsupported API,
+missing model or wrong output dimension produces a retrieval warning; the
+turn continues without semantic memories. A fact-recording tool returns a
+`memory_warning` if its embedding fails after the fact was saved. Failed
+embeddings are not automatically retried or backfilled.
+
+Keep the same embedding model and dimension for an existing memory collection.
+A new model with the same dimension can produce incompatible vectors; this
+check cannot detect that. This setting does not convert, delete or re-embed
+existing memories. Full turn-summary embedding and journal summarization are
+separate facilities; this startup wiring records through existing tools.
+
+The deterministic acceptance tests use local HTTP fixtures for a Claude GM
+and an Ollama-compatible embedder, plus an in-memory persistence double. They
+check fact recording, recall beyond recent history, delivery to the GM's turn
+context, campaign scoping, `search_memory`, explicit disable, schema mismatch
+and provider failures. They require no accounts or paid inference and do not
+measure live-model retrieval quality or PostgreSQL ranking.
 
 ### Running on a ChatGPT plan
 

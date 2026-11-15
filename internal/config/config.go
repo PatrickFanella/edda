@@ -114,17 +114,29 @@ type LLMRoutesConfig struct {
 // FallbackProvider is set, a request that fails on Provider is sent again to
 // FallbackProvider.
 type LLMConfig struct {
-	Provider         string           `koanf:"provider"`
-	FallbackProvider string           `koanf:"fallbackprovider"`
-	Ollama           OllamaConfig     `koanf:"ollama"`
-	Claude           ClaudeConfig     `koanf:"claude"`
-	OpenRouter       OpenRouterConfig `koanf:"openrouter"`
-	ChatGPT          ChatGPTConfig    `koanf:"chatgpt"`
-	ClaudeCode       ClaudeCodeConfig `koanf:"claudecode"`
+	Provider         string                 `koanf:"provider"`
+	FallbackProvider string                 `koanf:"fallbackprovider"`
+	Ollama           OllamaConfig           `koanf:"ollama"`
+	MemoryEmbedding  *MemoryEmbeddingConfig `koanf:"memoryembedding"`
+	Claude           ClaudeConfig           `koanf:"claude"`
+	OpenRouter       OpenRouterConfig       `koanf:"openrouter"`
+	ChatGPT          ChatGPTConfig          `koanf:"chatgpt"`
+	ClaudeCode       ClaudeCodeConfig       `koanf:"claudecode"`
 	// SkillsDir holds the skills that profiles with skills can load.
 	SkillsDir string                      `koanf:"skillsdir"`
 	Profiles  map[string]LLMProfileConfig `koanf:"profiles"`
 	Routes    LLMRoutesConfig             `koanf:"routes"`
+}
+
+// MemoryEmbeddingConfig configures semantic memory independently of the GM provider.
+// An omitted block preserves legacy Ollama settings; an explicit block takes precedence.
+type MemoryEmbeddingConfig struct {
+	Enabled   bool   `koanf:"enabled"`
+	Provider  string `koanf:"provider"`
+	Endpoint  string `koanf:"endpoint"`
+	Model     string `koanf:"model"`
+	Dimension int    `koanf:"dimension"`
+	APIKey    string `koanf:"apikey"`
 }
 
 // ContextTokenBudget returns the configured context token budget for the active provider.
@@ -209,8 +221,8 @@ func (c *Config) Validate() error {
 	if !openRouterReasoningEfforts[c.LLM.OpenRouter.ReasoningEffort] {
 		return fmt.Errorf("unknown openrouter reasoning effort: %q (use none, minimal, low, medium, high, xhigh or max)", c.LLM.OpenRouter.ReasoningEffort)
 	}
-	if c.LLM.Provider == "ollama" && c.LLM.Ollama.EmbeddingDimension <= 0 {
-		return errors.New("ollama embedding dimension must be positive")
+	if _, err := c.LLM.ResolveMemoryEmbedding(); err != nil {
+		return err
 	}
 	for name, profile := range c.LLM.Profiles {
 		provider := profile.Provider

@@ -6,6 +6,15 @@ llm:
     endpoint: http://localhost:11434
     model: llama3.2
     contexttokenbudget: 8000
+  # Independent semantic memory for any GM provider. Uncomment the entire block
+  # to enable; leave it absent to retain legacy Ollama embedding settings.
+  # memoryembedding:
+  #   enabled: true
+  #   provider: ollama # Ollama-compatible POST /api/embed, not /v1/embeddings
+  #   endpoint: http://localhost:11434 # base URL, without /api/embed
+  #   model: nomic-embed-text
+  #   dimension: 768 # must match memories.embedding and model output
+  # Set memoryembedding.enabled: false explicitly to disable even for Ollama.
   claude:
     # apikey: sk-ant-...
     model: claude-sonnet-5-5

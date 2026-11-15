@@ -15,13 +15,11 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"git.subcult.tv/subculture-collective/edda/internal/assembly"
 	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
 	"git.subcult.tv/subculture-collective/edda/internal/config"
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/logging"
-	"git.subcult.tv/subculture-collective/edda/internal/memory"
 	"git.subcult.tv/subculture-collective/edda/internal/saves"
 	serverroutes "git.subcult.tv/subculture-collective/edda/internal/server"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
@@ -92,29 +90,12 @@ func run(args []string) int {
 			ContextTokenBudget: roster.Info(llm.FlowGMTurn).ContextTokenBudget,
 		}),
 	}
-	if cfg.LLM.Provider == "ollama" {
-		if err := memory.ValidateMemoryEmbeddingDimension(ctx, pool, cfg.LLM.Ollama.EmbeddingDimension); err != nil {
-			logger.Errorf("validate memory embedding dimension: %v", err)
-			return 1
-		}
-		embedEndpoint := cfg.LLM.Ollama.EmbeddingEndpoint
-		if embedEndpoint == "" {
-			embedEndpoint = cfg.LLM.Ollama.Endpoint
-		}
-		embedder := memory.NewOllamaEmbedder(
-			embedEndpoint, cfg.LLM.Ollama.EmbeddingModel,
-			memory.WithOllamaEmbedderDimension(cfg.LLM.Ollama.EmbeddingDimension),
-			memory.WithOllamaEmbedderTimeout(cfg.LLM.Ollama.RequestTimeout()),
-			memory.WithOllamaEmbedderAPIKey(cfg.LLM.Ollama.APIKey),
-		)
-		searcher := memory.NewSearcher(embedder, queries)
-		tier3 := assembly.NewTier3Retriever(searcher, 5, slog.Default().WithGroup("tier3"))
-		engineOpts = append(engineOpts,
-			engine.WithTier3Retriever(tier3),
-			engine.WithEmbedder(embedder),
-			engine.WithSearcher(searcher),
-		)
+	memoryOpts, err := engine.SemanticMemoryOptions(ctx, cfg.LLM, pool, queries, slog.Default().WithGroup("memory"))
+	if err != nil {
+		logger.Errorf("configure semantic campaign memory: %v", err)
+		return 1
 	}
+	engineOpts = append(engineOpts, memoryOpts...)
 
 	gameEngine, err := engine.New(pool, gmProvider, cfg.LLM, engineOpts...)
 	if err != nil {

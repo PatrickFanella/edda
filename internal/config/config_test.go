@@ -310,7 +310,7 @@ func TestValidateAcceptsValidProviders(t *testing.T) {
 		t.Run(provider, func(t *testing.T) {
 			cfg := Config{LLM: LLMConfig{Provider: provider}}
 			if provider == "ollama" {
-				cfg.LLM.Ollama.EmbeddingDimension = 768
+				cfg.LLM.Ollama = OllamaConfig{Endpoint: "http://localhost:11434", EmbeddingModel: "nomic-embed-text", EmbeddingDimension: 768}
 			}
 			if provider == "claude" {
 				cfg.LLM.Claude.APIKey = "sk-ant-test"
