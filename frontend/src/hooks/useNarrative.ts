@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 
 import { getSessionHistory } from '../api/campaigns';
 import type { WebSocketStatusPayload } from '../api/types';
@@ -9,6 +9,7 @@ import {
   initialNarrativeState,
   type NarrativeEntry,
   type NarrativeEntryKind,
+  type NarrativeAction,
 } from './narrativeReducer';
 
 export type { NarrativeEntry, NarrativeEntryKind };
@@ -29,13 +30,13 @@ export interface UseNarrativeResult {
 
 export function useNarrative(): UseNarrativeResult {
   const { campaignId } = useCampaign();
-  const { connectionStatus, error: socketError, events, isLoading, currentStatus, combatActive, sendAction: sendSocketAction } = useWebSocket(campaignId);
-  const [state, dispatch] = useReducer(narrativeReducer, initialNarrativeState);
-  const [stateCampaignId, setStateCampaignId] = useState(campaignId);
-  if (stateCampaignId !== campaignId) {
-    setStateCampaignId(campaignId);
-    dispatch({ type: 'RESET' });
-  }
+  const [store, setStore] = useState(() => createNarrativeStore(campaignId));
+  if (store.campaignId !== campaignId) setStore(createNarrativeStore(campaignId));
+  const state = useSyncExternalStore(store.subscribe, store.getSnapshot);
+  const dispatch = store.dispatch;
+  const { connectionStatus, error: socketError, isLoading, currentStatus, combatActive, sendAction: sendSocketAction } = useWebSocket(campaignId, (event) => {
+    dispatch({ type: 'LIVE_EVENT', event });
+  });
 
   // Effect 1: campaign change + history load
   useEffect(() => {
@@ -76,7 +77,7 @@ export function useNarrative(): UseNarrativeResult {
         dispatch({ type: 'HISTORY_FAILED', error: 'Failed to load history' });
       });
     return () => { active = false; };
-  }, [campaignId]);
+  }, [campaignId, dispatch]);
 
   // Effect 2: propagate socket-level error
   useEffect(() => {
@@ -85,37 +86,14 @@ export function useNarrative(): UseNarrativeResult {
     } else {
       dispatch({ type: 'SOCKET_ERROR_CLEARED' });
     }
-  }, [socketError]);
+  }, [socketError, dispatch]);
 
   // Effect 3: connection lost
   useEffect(() => {
     if (connectionStatus === 'closed' || connectionStatus === 'error') {
       dispatch({ type: 'CONNECTION_LOST' });
     }
-  }, [connectionStatus]);
-
-  // Effect 4: process new events
-  useEffect(() => {
-    const newEvents = events.slice(state.processedEventCount);
-    if (newEvents.length === 0) return;
-
-    for (const event of newEvents) {
-      switch (event.kind) {
-        case 'chunk':
-          dispatch({ type: 'CHUNK_RECEIVED', text: event.payload.text, timestamp: event.envelope.timestamp });
-          break;
-        case 'result':
-          dispatch({ type: 'RESULT_RECEIVED', payload: event.payload, timestamp: event.envelope.timestamp, entryCount: state.entries.length });
-          break;
-        case 'error':
-          dispatch({ type: 'ERROR_RECEIVED', error: event.payload.error, timestamp: event.envelope.timestamp, entryCount: state.entries.length });
-          break;
-        case 'status':
-          break;
-      }
-    }
-    dispatch({ type: 'EVENTS_PROCESSED', count: events.length });
-  }, [events, state.processedEventCount, state.entries.length]);
+  }, [connectionStatus, dispatch]);
 
   const sendAction = useCallback(
     (input: string): boolean => {
@@ -140,7 +118,7 @@ export function useNarrative(): UseNarrativeResult {
 
       return true;
     },
-    [sendSocketAction, state.entries.length],
+    [dispatch, sendSocketAction, state.entries.length],
   );
 
   const streamingEntry = useMemo<NarrativeEntry | null>(() => {
@@ -170,5 +148,21 @@ export function useNarrative(): UseNarrativeResult {
     isLoading,
     error: state.error,
     sendAction,
+  };
+}
+
+// Reduce synchronously so even a burst larger than the pending-queue limit is
+// consumed before React renders. React observes snapshots, never transport frames.
+function createNarrativeStore(campaignId: string | null) {
+  let state = initialNarrativeState;
+  const listeners = new Set<() => void>();
+  return {
+    campaignId,
+    getSnapshot: () => state,
+    subscribe: (listener: () => void) => { listeners.add(listener); return () => { listeners.delete(listener); }; },
+    dispatch: (action: NarrativeAction) => {
+      state = narrativeReducer(state, action);
+      listeners.forEach(listener => listener());
+    },
   };
 }

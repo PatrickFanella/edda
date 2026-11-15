@@ -1,4 +1,5 @@
 import type { ResolutionEvent, StateChange } from '../api/types';
+import type { SequencedEvent } from './useWebSocket';
 import type { NarrativeChoice, TurnResponseWithChoices } from './useWebSocket';
 
 export type NarrativeEntryKind = 'player' | 'gm' | 'system';
@@ -25,7 +26,7 @@ export interface NarrativeState {
   latestResult: TurnResponseWithChoices | null;
   suggestedChoices: NarrativeChoice[];
   error: string | null;
-  processedEventCount: number;
+  acknowledgedSequence: number;
 }
 
 export const initialNarrativeState: NarrativeState = {
@@ -36,11 +37,12 @@ export const initialNarrativeState: NarrativeState = {
   latestResult: null,
   suggestedChoices: [],
   error: null,
-  processedEventCount: 0,
+  acknowledgedSequence: 0,
 };
 
 export type NarrativeAction =
   | { type: 'RESET' }
+  | { type: 'LIVE_EVENT'; event: SequencedEvent }
   | { type: 'HISTORY_LOADED'; entries: NarrativeEntry[] }
   | { type: 'HISTORY_FAILED'; error: string }
   | { type: 'ACTION_SENT'; input: string; timestamp: string; entryCount: number }
@@ -51,15 +53,28 @@ export type NarrativeAction =
   | { type: 'CONNECTION_LOST' }
   | { type: 'SOCKET_ERROR'; error: string }
   | { type: 'SOCKET_ERROR_CLEARED' }
-  | { type: 'EVENTS_PROCESSED'; count: number };
+;
 
 export function narrativeReducer(state: NarrativeState, action: NarrativeAction): NarrativeState {
   switch (action.type) {
+    case 'LIVE_EVENT': {
+      const event = action.event;
+      if (event.sequence <= state.acknowledgedSequence) return state;
+      const next = { ...state, acknowledgedSequence: event.sequence };
+      const timestamp = event.envelope.timestamp;
+      switch (event.kind) {
+        case 'chunk': return narrativeReducer(next, { type: 'CHUNK_RECEIVED', text: event.payload.text, timestamp });
+        case 'result': return narrativeReducer(next, { type: 'RESULT_RECEIVED', payload: event.payload, timestamp, entryCount: event.sequence });
+        case 'error': return narrativeReducer(next, { type: 'ERROR_RECEIVED', error: event.payload.error, timestamp, entryCount: event.sequence });
+        case 'status': return next;
+      }
+      return next;
+    }
     case 'RESET':
       return initialNarrativeState;
 
     case 'HISTORY_LOADED':
-      return { ...state, phase: 'ready', entries: action.entries, error: null };
+      return { ...state, phase: state.entries.length ? state.phase : 'ready', entries: [...action.entries.filter(entry => !state.entries.some(live => live.id === entry.id)), ...state.entries], error: state.error };
 
     case 'HISTORY_FAILED':
       return { ...state, phase: 'ready', error: action.error };
@@ -93,11 +108,14 @@ export function narrativeReducer(state: NarrativeState, action: NarrativeAction)
 
     case 'RESULT_RECEIVED': {
       const choices = action.payload.choices ?? [];
+      const id = action.payload.turn_number ? `history-gm-${action.payload.turn_number}` : `${action.timestamp}-gm-${action.entryCount}`;
+      if (state.entries.some(entry => entry.id === id)) return state;
       return {
         ...state,
         phase: 'ready',
-        entries: [...state.entries, {
-          id: `${action.timestamp}-gm-${action.entryCount}`,
+        entries: [...state.entries.map(entry => action.payload.turn_number && state.pendingTimestamp && entry.kind === 'player' && entry.timestamp === state.pendingTimestamp
+          ? { ...entry, id: `history-player-${action.payload.turn_number}` } : entry), {
+          id,
           kind: 'gm',
           text: action.payload.narrative,
           timestamp: action.timestamp,
@@ -143,8 +161,6 @@ export function narrativeReducer(state: NarrativeState, action: NarrativeAction)
     case 'SOCKET_ERROR_CLEARED':
       return { ...state, error: null };
 
-    case 'EVENTS_PROCESSED':
-      return { ...state, processedEventCount: action.count };
 
     default:
       return state;

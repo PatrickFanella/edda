@@ -217,6 +217,7 @@ func skillCheckResolutionEvent(call engine.AppliedToolCall) (api.ResolutionEvent
 
 func engineTurnResultToAPI(tr *engine.TurnResult) api.TurnResponse {
 	return api.TurnResponse{
+		TurnNumber:       tr.TurnNumber,
 		Narrative:        engine.CleanNarrativeText(tr.Narrative),
 		StateChanges:     engineStateChangesToAPI(tr.StateChanges),
 		ResolutionEvents: engineResolutionEventsToAPI(tr.AppliedToolCalls),

@@ -18,3 +18,16 @@ it('rejects malformed live messages and resets narrative state', () => {
   expect(decodeWebSocketEvent(JSON.stringify({ type: 'result', timestamp, payload: { narrative: 'missing changes' } }))).toBeNull();
   expect(narrativeReducer({ ...initialNarrativeState, error: 'old campaign' }, { type: 'RESET' })).toEqual(initialNarrativeState);
 });
+
+it('reconciles the optimistic player and live result with a delayed history snapshot', () => {
+  let state = narrativeReducer(initialNarrativeState, { type: 'ACTION_SENT', input: 'Search', timestamp, entryCount: 0 });
+  const decoded = decodeWebSocketEvent(JSON.stringify({ type: 'result', timestamp, payload: { ...result, turn_number: 3 } }));
+  if (decoded?.kind !== 'result') throw new Error('Invalid fixture');
+  state = narrativeReducer(state, { type: 'LIVE_EVENT', event: { ...decoded, sequence: 1 } });
+  state = narrativeReducer(state, { type: 'HISTORY_LOADED', entries: [
+    { id: 'history-player-3', kind: 'player', text: 'Search', timestamp },
+    { id: 'history-gm-3', kind: 'gm', text: result.narrative, timestamp },
+  ] });
+  expect(state.entries.map(e => e.text)).toEqual(['Search', result.narrative]);
+  expect(narrativeReducer(state, { type: 'LIVE_EVENT', event: { ...decoded, sequence: 1 } })).toBe(state);
+});

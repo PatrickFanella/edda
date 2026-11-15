@@ -190,7 +190,7 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 		return nil, err
 	}
 
-	result := &TurnResult{
+	result := &TurnResult{TurnNumber: tc.TurnNumber,
 		Narrative:        tc.Narrative,
 		AppliedToolCalls: tc.Applied,
 		StateChanges:     tc.StateChanges,
@@ -348,7 +348,7 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		emitPhase("finalizing", "Turn persisted.", persistStarted)
 
 		// Emit combat lifecycle status events based on applied tool calls.
-		result := &TurnResult{Narrative: tc.Narrative, AppliedToolCalls: tc.Applied, StateChanges: tc.StateChanges, Choices: tc.Choices, CombatActive: tc.CombatActive}
+		result := &TurnResult{TurnNumber: tc.TurnNumber, Narrative: tc.Narrative, AppliedToolCalls: tc.Applied, StateChanges: tc.StateChanges, Choices: tc.Choices, CombatActive: tc.CombatActive}
 		for _, atc := range result.AppliedToolCalls {
 			switch atc.Tool {
 			case "initiate_combat":

@@ -149,6 +149,7 @@ function normalizeTurnResponse(value: unknown): TurnResponseWithChoices | null {
   }
 
   return {
+    turn_number: typeof value.turn_number === 'number' ? value.turn_number : undefined,
     narrative: value.narrative,
     state_changes: stateChanges,
     resolution_events: resolutionEvents,

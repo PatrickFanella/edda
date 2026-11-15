@@ -165,6 +165,7 @@ export interface ResolutionEvent {
 }
 
 export interface TurnResult {
+  turn_number?: number;
   narrative: string;
   state_changes: StateChange[];
   resolution_events: ResolutionEvent[];

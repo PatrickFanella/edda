@@ -83,6 +83,7 @@ type StreamEvent struct {
 
 // TurnResult holds the outcome of a single player turn.
 type TurnResult struct {
+	TurnNumber int
 	// Narrative is the descriptive text generated for this turn.
 	Narrative string
 	// AppliedToolCalls lists the tool invocations that were executed

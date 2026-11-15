@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 
 import type { ActionRequest, WebSocketStatusPayload } from '../api/types';
 import { buildCampaignWebSocketURL, decodeWebSocketEvent, type ParsedWebSocketEvent } from '../api/websocket';
@@ -6,12 +6,17 @@ export type { NarrativeChoice, TurnResponseWithChoices } from '../api/websocketP
 
 export type ConnectionStatus = 'idle' | 'connecting' | 'open' | 'closed' | 'error';
 
+export type SequencedEvent = ParsedWebSocketEvent & { sequence: number };
+// 256 frames is over 23 turns at the #43 baseline (11 frames/turn).
+export const MAX_PENDING_EVENTS = 256;
+
 export interface UseWebSocketResult {
   connectionStatus: ConnectionStatus;
   isConnected: boolean;
   isLoading: boolean;
   error: string | null;
-  events: ParsedWebSocketEvent[];
+  events: SequencedEvent[];
+  acknowledge: (sequence: number) => void;
   currentStatus: WebSocketStatusPayload | null;
   combatActive: boolean;
   sendAction: (input: string) => boolean;
@@ -28,10 +33,10 @@ const RECONNECT_BASE_DELAY_MS = 1000;
 const RECONNECT_MAX_DELAY_MS = 30000;
 const RECONNECT_MAX_ATTEMPTS = 10;
 
-export function useWebSocket(campaignId: string | null | undefined): UseWebSocketResult {
+export function useWebSocket(campaignId: string | null | undefined, consume?: (event: SequencedEvent) => void): UseWebSocketResult {
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('idle');
   const [error, setError] = useState<string | null>(null);
-  const [events, setEvents] = useState<ParsedWebSocketEvent[]>([]);
+  const [events, setEvents] = useState<SequencedEvent[]>([]);
   const [isAwaitingResponse, setIsAwaitingResponse] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<WebSocketStatusPayload | null>(null);
   const [combatActive, setCombatActive] = useState(false);
@@ -48,11 +53,25 @@ export function useWebSocket(campaignId: string | null | undefined): UseWebSocke
     setCombatActive(false);
     setConnectionStatus(campaignId ? 'connecting' : 'idle');
   }
+  const cursor = useRef({ campaignId, next: 0, pending: [] as SequencedEvent[], blocked: false });
+  const consumeEvent = useEffectEvent((event: SequencedEvent) => {
+    if (!consume) return false;
+    consume(event); // Synchronous reduction acknowledges the frame before releasing it.
+    return true;
+  });
+  const acknowledge = useCallback((sequence: number) => {
+    if (cursor.current.campaignId !== campaignId) return;
+    cursor.current.pending = cursor.current.pending.filter(event => event.sequence > sequence);
+    setEvents(cursor.current.pending);
+  }, [campaignId]);
   const socketRef = useRef<WebSocket | null>(null);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reconnectAttemptsRef = useRef(0);
 
   useEffect(() => {
+    if (cursor.current.campaignId !== campaignId) {
+      cursor.current = { campaignId, next: 0, pending: [], blocked: false };
+    }
     const activeCampaignId = campaignId?.trim() ?? '';
 
     if (reconnectTimerRef.current) {
@@ -61,16 +80,9 @@ export function useWebSocket(campaignId: string | null | undefined): UseWebSocke
     }
 
     if (!activeCampaignId) {
-      setEvents([]);
-      setError(null);
-      setIsAwaitingResponse(false);
-      setCurrentStatus(null);
-      setConnectionStatus('idle');
       socketRef.current = null;
       return undefined;
     }
-
-    setConnectionStatus('connecting');
 
     let allowReconnect = true;
     let socket: WebSocket | null = null;
@@ -120,7 +132,7 @@ export function useWebSocket(campaignId: string | null | undefined): UseWebSocke
       }
 
       setConnectionStatus('open');
-      setError(null);
+      if (!cursor.current.blocked) setError(null);
       reconnectAttemptsRef.current = 0;
     };
 
@@ -144,7 +156,22 @@ export function useWebSocket(campaignId: string | null | undefined): UseWebSocke
         return;
       }
 
-      setEvents((current) => [...current, decodedEvent]);
+      if (cursor.current.blocked) return;
+      const sequenced = { ...decodedEvent, sequence: ++cursor.current.next };
+      if (!consumeEvent(sequenced) && decodedEvent.kind !== 'status') {
+        if (cursor.current.pending.length >= MAX_PENDING_EVENTS) {
+          // Never silently slice results/errors. Stop accepting actions and require
+          // an explicit refresh to reload committed history after consumer failure.
+          cursor.current.blocked = true;
+          allowReconnect = false;
+          socket?.close(1008, 'consumer_overflow');
+          setError('Live updates paused: refresh to recover committed history. Do not resend your last action.');
+          setIsAwaitingResponse(false);
+          return;
+        }
+        cursor.current.pending = [...cursor.current.pending, sequenced];
+        setEvents(cursor.current.pending);
+      }
 
       if (decodedEvent.kind === 'status') {
         setCurrentStatus(decodedEvent.payload);
@@ -181,6 +208,7 @@ export function useWebSocket(campaignId: string | null | undefined): UseWebSocke
         return;
       }
 
+      setConnectionStatus('connecting');
       socket = new WebSocket(buildCampaignWebSocketURL(activeCampaignId));
       socketRef.current = socket;
 
@@ -231,6 +259,7 @@ export function useWebSocket(campaignId: string | null | undefined): UseWebSocke
       }
 
       const socket = socketRef.current;
+      if (cursor.current.blocked) return false;
       if (socket === null || socket.readyState !== WebSocket.OPEN) {
         setError(SOCKET_UNAVAILABLE_MESSAGE);
         return false;
@@ -265,10 +294,11 @@ export function useWebSocket(campaignId: string | null | undefined): UseWebSocke
       isLoading,
       error,
       events,
+      acknowledge,
       currentStatus,
       combatActive,
       sendAction,
     }),
-    [combatActive, connectionStatus, currentStatus, error, events, isConnected, isLoading, sendAction],
+    [acknowledge, combatActive, connectionStatus, currentStatus, error, events, isConnected, isLoading, sendAction],
   );
 }

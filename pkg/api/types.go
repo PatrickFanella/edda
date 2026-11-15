@@ -183,6 +183,7 @@ type ResolutionEvent struct {
 
 // TurnResult describes the narrative and state changes produced by a turn.
 type TurnResult struct {
+	TurnNumber       int               `json:"turn_number,omitempty"`
 	Narrative        string            `json:"narrative"`
 	StateChanges     []StateChange     `json:"state_changes"`
 	ResolutionEvents []ResolutionEvent `json:"resolution_events"`

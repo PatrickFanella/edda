@@ -69,3 +69,30 @@ it.each(['resolve', 'reject'] as const)('isolates a direct campaign switch from 
   expect(remounted.result.current.entries).toEqual(betaEntries);
   expect(remounted.result.current.combatActive).toBe(false);
 });
+
+it('consumes a burst beyond the bound in order and keeps live completion during history loading', async () => {
+  vi.useFakeTimers(); Socket.instances = []; vi.stubGlobal('WebSocket', Socket);
+  let resolveHistory!: (response: SessionHistoryResponse) => void;
+  vi.mocked(getSessionHistory).mockReturnValue(new Promise(resolve => { resolveHistory = resolve; }));
+  vi.mocked(useCampaign).mockReturnValue({ campaignId: 'alpha' } as ReturnType<typeof useCampaign>);
+  const hook = renderHook(() => useNarrative());
+  await act(() => vi.advanceTimersByTimeAsync(0));
+  const socket = Socket.instances[0]; act(() => socket.open());
+  act(() => {
+    for (let n = 1; n <= 600; n++) {
+      socket.receive('chunk', { text: `Chunk ${n}` });
+      socket.receive('result', { ...result, narrative: `Result ${n}`, turn_number: n + 2 });
+      socket.receive('error', { error: `Error ${n}` });
+    }
+  });
+  expect(hook.result.current.entries).toHaveLength(1200);
+  expect(new Set(hook.result.current.entries.map(entry => entry.id)).size).toBe(1200);
+  await act(async () => resolveHistory({ entries: [...history(), { turn_number: 3, player_input: '', input_type: 'narrative', llm_response: 'Result 1', created_at: timestamp }] }));
+  expect(hook.result.current.entries.filter(entry => entry.text === 'Result 1')).toHaveLength(1);
+  expect(hook.result.current.entries).toHaveLength(1203);
+  act(() => socket.close());
+  await act(() => vi.advanceTimersByTimeAsync(1000)); await act(() => vi.advanceTimersByTimeAsync(0));
+  act(() => { Socket.instances[1].open(); Socket.instances[1].receive('result', { ...result, narrative: 'After reconnect', turn_number: 603 }); });
+  expect(hook.result.current.entries.at(-1)?.text).toBe('After reconnect');
+  hook.unmount(); socket.receive('result', result);
+});
