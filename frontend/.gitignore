@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Behavior test artifacts
+playwright-report/
+test-results/
