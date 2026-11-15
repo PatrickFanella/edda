@@ -42,6 +42,11 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	switch intent.Kind {
 	case combat.EncounterStart, combat.EncounterReact:
 		base.Kind = srd521.MartialAttack
+		if intent.Kind == combat.EncounterStart && intent.EntryID == "" {
+			if sheet, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience); err == nil && sheet.Spellcasting != nil {
+				base = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "wisdom"}
+			}
+		}
 	case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline:
 		base = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}
 	}
@@ -49,7 +54,42 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if err != nil {
 		return nil, err
 	}
+	if intent.Kind == combat.EncounterStart && base.Kind == srd521.AbilityCheck {
+		if intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 {
+			result.Preview.Available = false
+		} else {
+			result.Targets, err = readMartialTargets(ctx, database, campaign, pc, lock)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
 	p := result.Preview
+	result.Clock, err = ReadSpellClock(ctx, database, campaign.ID)
+	if err != nil {
+		return nil, err
+	}
+	encodedClock, err := json.Marshal([]any{p.ExpectedRevision, result.Clock})
+	if err != nil {
+		return nil, err
+	}
+	if srd521.IsLifecycle(intent.Kind) || intent.Kind == srd521.SpellCast || intent.Kind == combat.EncounterEndTurn || intent.Kind == combat.EncounterStart || intent.Kind == combat.EncounterReact || intent.Kind == combat.EncounterDecline || intent.Kind == combat.EncounterMove || intent.Kind == combat.EncounterDash || intent.Kind == combat.EncounterApproach || intent.Kind == combat.EncounterRetreat {
+		p.ExpectedRevision = fmt.Sprintf("clock-v1:%x", sha256.Sum256(encodedClock))
+	}
+	if sheet, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience); err == nil && sheet.Spellcasting != nil {
+		var envelope struct {
+			Build srd521.Build `json:"srd521"`
+		}
+		if err := json.Unmarshal(pc.Stats, &envelope); err != nil {
+			return nil, err
+		}
+		c := envelope.Build.Casting
+		if intent.Kind == srd521.LongRest && c.LastLongRest != nil && result.Clock-*c.LastLongRest < 16*3600 {
+			p.Available = false
+			p.Reason = "Wait 16 hours after the previous Long Rest before starting another."
+		}
+	}
+
 	defer func() {
 		if p.Encounter != nil {
 			p.Encounter = p.Encounter.Public()
@@ -201,7 +241,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	switch intent.Kind {
 	case srd521.MartialAttack:
 
-	case srd521.SpellCast, srd521.ConsumableUse:
+	case srd521.EndConcentration, srd521.SpellCast, srd521.ConsumableUse:
 	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline:
 		if intent.EntryID != "" || intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 {
 			return unavailable("Choose a supported encounter action.")
@@ -231,9 +271,16 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	// Spend only on a copy so previews remain read-only.
 	copy := *encounter
-	if err := copy.Spend(pc.ID, intent.Kind); err != nil {
-		return unavailable(err.Error())
+	if intent.Kind == srd521.SpellCast {
+		if err := copy.SpendSpell(pc.ID, intent.EntryID == "shield-of-faith"); err != nil {
+			return unavailable(err.Error())
+		}
+	} else if intent.Kind != srd521.EndConcentration {
+		if err := copy.Spend(pc.ID, intent.Kind); err != nil {
+			return unavailable(err.Error())
+		}
 	}
+
 	p.CostStatus = "encounter"
 	p.SourceIDs = append(p.SourceIDs, "srd-5.2.1:content/combat/initiative", "srd-5.2.1:content/combat/your-turn")
 	return result, nil

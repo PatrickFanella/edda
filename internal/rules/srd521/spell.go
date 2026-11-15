@@ -8,11 +8,15 @@ const SpellCast = "spell-cast"
 // CastingBuild stores only the resources and component rulings for this fixture.
 // Prepared refers to Cure Wounds; it is not a general spell catalogue.
 type CastingBuild struct {
-	Choices  *CasterChoices `json:"choices,omitempty"`
-	Prepared bool           `json:"prepared"`
-	Slots    int            `json:"slots"`
-	Verbal   bool           `json:"verbal"`
-	Somatic  bool           `json:"somatic"`
+	Concentration  *Concentration `json:"concentration,omitempty"`
+	LastLongRest   *int           `json:"last_long_rest,omitempty"`
+	ShieldPrepared bool           `json:"shield_prepared"`
+	Focus          bool           `json:"focus"`
+	Choices        *CasterChoices `json:"choices,omitempty"`
+	Prepared       bool           `json:"prepared"`
+	Slots          int            `json:"slots"`
+	Verbal         bool           `json:"verbal"`
+	Somatic        bool           `json:"somatic"`
 }
 
 // Spell is a player-visible supported spell and its casting requirements.
@@ -56,7 +60,7 @@ type SpellReceipt struct {
 }
 
 // ResolveCureWounds resolves a level-one slot on a conscious self target.
-// Other targets, higher slots and lifecycle effects are not supported.
+// Other targets and higher slots are not supported.
 func ResolveCureWounds(sheet *CharacterSheet, dice Dice) (*SpellReceipt, error) {
 	if sheet == nil || sheet.Spellcasting == nil || sheet.Scope != "cleric-1-cure-wounds-self-fixture" || len(sheet.Resources) == 0 || sheet.Resources[0].ID != "spell-slot-1" || sheet.HP.Value <= 0 || sheet.HP.Value > sheet.MaxHP.Value || dice == nil {
 		return nil, fmt.Errorf("supported conscious caster required")

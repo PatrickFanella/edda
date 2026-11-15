@@ -200,7 +200,7 @@ export function CharacterGuidedForm({
           Mirror the TUI flow: lock in name, race, class, background, and alignment before the final confirmation step.
         </p>
         {requiresSupportedBuild ? (
-          <p className="text-sm leading-6 text-gold">Choose Human Soldier Fighter for melee or Human Acolyte Cleric for Cure Wounds on self. Each uses fixed standard-array abilities, proficiencies, starting equipment and resources; the confirmation lists every starting choice. Wider rules remain unavailable.</p>
+          <p className="text-sm leading-6 text-gold">Choose Human Soldier Fighter for melee or Human Acolyte Cleric for Cure Wounds and Shield of Faith on self. Each uses fixed standard-array abilities, proficiencies, starting equipment and resources; the confirmation lists every starting choice. Wider rules remain unavailable.</p>
         ) : null}
       </div>
 

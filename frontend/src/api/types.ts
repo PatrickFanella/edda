@@ -71,6 +71,15 @@ export interface Spellcasting {
  choices?: { divine_order: string; cantrips: string[]; prepared_spells: string[]; magic_initiate_cantrips: string[]; magic_initiate_spell: string; magic_initiate_ability: string; magic_initiate_uses: number };
  spells: { playable?: boolean; id: string; label: string; known: boolean; prepared: boolean; components: string[]; components_available: boolean; slot_levels: number[]; source_id: string }[];
 }
+export interface Concentration { id: string; spell: string; started_at: number; expires_at: number }
+export interface EffectReceipt {
+ rules_version: string; kind: string; reason: string;
+ before?: Concentration; after?: Concentration;
+ time_before: number; time_after: number;
+ slots_before: number; slots_after: number; hp_before: number; hp_after: number;
+ hit_dice_before: number; hit_dice_after: number; healing_die?: number;
+ check?: CheckReceipt; source_ids: string[];
+}
 export interface SpellReceipt {
  rules_version: string;
  kind: 'spell-cast';
@@ -89,6 +98,7 @@ export interface SpellReceipt {
  source_ids: string[];
 }
 export interface CharacterSheetProjection {
+ concentration?: Concentration;
   spellcasting?: Spellcasting;
   rules_version: string;
   scope: string;
@@ -625,5 +635,5 @@ export interface Encounter {
  round: number;
  turn: number;
  actors: { id: string; name: string; player: boolean; hp?: number; max_hp?: number; initiative: number; initiative_die: number }[];
- budget: { action: boolean; bonus_action: boolean; movement: number };
+ budget: { spell_slot_spent?: boolean; action: boolean; bonus_action: boolean; movement: number };
 }

@@ -57,7 +57,7 @@ func (b *SupportedBuild) Stats() ([]byte, error) {
 	}
 	mechanics := Build{Class: "fighter", FightingStyle: "defense", Abilities: b.Abilities, Skills: b.Proficiencies, Armor: "chain-mail", Shield: true, SecondWind: 2, HitDice: 1}
 	if b.Class == "Cleric" {
-		mechanics = Build{Class: "cleric", Abilities: b.Abilities, Skills: b.Proficiencies, Armor: "none", HitDice: 1, Casting: &CastingBuild{Prepared: true, Slots: 2, Verbal: true, Somatic: true, Choices: b.CastingChoices()}}
+		mechanics = Build{Class: "cleric", Abilities: b.Abilities, Skills: b.Proficiencies, Armor: "none", HitDice: 1, Casting: &CastingBuild{Prepared: true, Slots: 2, Verbal: true, Somatic: true, Choices: b.CastingChoices(), ShieldPrepared: true, Focus: true}}
 	}
 	return json.Marshal(map[string]any{
 		"srd521": mechanics,

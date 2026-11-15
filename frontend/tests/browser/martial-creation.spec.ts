@@ -7,6 +7,8 @@ test(`guided ${build.class} creation at ${width} shows derived choices and retai
  await page.setViewportSize({width,height:1000});
  let attempts=0;
  const requests:unknown[]=[];
+ // The play screen probes the durable encounter as soon as creation hands off.
+ await page.route('**/api/v1/campaigns/alpha/character/action-preview?*', route => route.fulfill({json:{intent:{actor_id:'hero',kind:'combat-end-turn'},rules_version:'srd-5.2.1',expected_revision:'creation-fixture',available:false,reason:'No supported encounter is active.',targets:[],options:[],costs:[],cost_status:'fixture-only',source_ids:[]}}));
  await page.route('**/campaigns/start/world',route=>{
   attempts++;requests.push(route.request().postDataJSON());
   if(attempts===1) return route.fulfill({status:500,json:{error:'Fixture generation failed'}});

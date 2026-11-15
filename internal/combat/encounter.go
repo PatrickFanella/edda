@@ -42,9 +42,10 @@ func (e *Encounter) Public() *Encounter {
 
 // TurnBudget persists the current actor's remaining turn resources.
 type TurnBudget struct {
-	Action      bool `json:"action"`
-	BonusAction bool `json:"bonus_action"`
-	Movement    int  `json:"movement"`
+	SpellSlotSpent bool `json:"spell_slot_spent,omitempty"`
+	Action         bool `json:"action"`
+	BonusAction    bool `json:"bonus_action"`
+	Movement       int  `json:"movement"`
 }
 
 // Encounter is the supported ordinary melee fixture, separate from legacy combat.
@@ -73,7 +74,7 @@ func NewEncounter(player, foe EncounterActor, dexterity int, dice srd521.Dice) (
 	if foe.Initiative > player.Initiative {
 		actors[0], actors[1] = foe, player
 	}
-	return &Encounter{Reaction: &ReactionState{Available: true}, ID: uuid.New(), Status: "active", Round: 1, Actors: actors, Budget: TurnBudget{true, true, 30}}, nil
+	return &Encounter{Reaction: &ReactionState{Available: true}, ID: uuid.New(), Status: "active", Round: 1, Actors: actors, Budget: TurnBudget{Action: true, BonusAction: true, Movement: 30}}, nil
 }
 
 // Active returns the actor whose turn owns the budget.
@@ -131,7 +132,7 @@ func (e *Encounter) Advance() {
 		e.Turn = 0
 		e.Round++
 	}
-	e.Budget = TurnBudget{true, true, 30}
+	e.Budget = TurnBudget{Action: true, BonusAction: true, Movement: 30}
 	if e.Active().Player && e.Reaction != nil {
 		e.Reaction.Available = true
 	}
@@ -149,4 +150,21 @@ func (e *Encounter) SetHP(id uuid.UUID, hp int) {
 			e.Status = "completed"
 		}
 	}
+}
+
+// SpendSpell enforces the SRD one-spell-slot-per-turn limit independently of
+// action versus Bonus Action costs. It resets with the actor's turn budget.
+func (e *Encounter) SpendSpell(actor uuid.UUID, bonus bool) error {
+	if e.Budget.SpellSlotSpent {
+		return fmt.Errorf("one spell slot can be spent per turn")
+	}
+	kind := srd521.SpellCast
+	if bonus {
+		kind = srd521.ConsumableUse
+	}
+	if err := e.Spend(actor, kind); err != nil {
+		return err
+	}
+	e.Budget.SpellSlotSpent = true
+	return nil
 }

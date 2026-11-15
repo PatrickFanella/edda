@@ -27,7 +27,7 @@ entire actor snapshot, including casting resources; confirmation reloads and
 locks them. A failed history write rolls back both HP and slots. Supported
 encounters enforce their action budget; active legacy combat is rejected.
 The current Cleric fixture does not start the Fighter's longsword encounter.
-Concentration, duration and rest recovery remain #77; the wider catalogue and
+Concentration, duration and rest recovery use the [bounded lifecycle fixture](caster-lifecycle.md) from #77; the wider catalogue and
 additional Cure Wounds targets/levels remain #80. The full spell entry stays
 unsupported in the coverage register.
 
@@ -67,7 +67,7 @@ Class skills are Medicine and Persuasion; Divine Order is Protector. Human adds
 Perception and Skilled (Athletics, Survival, Nature). Three class cantrips are
 Guidance, Sacred Flame and Thaumaturgy; four prepared spells are Bless, Cure
 Wounds, Guiding Bolt and Shield of Faith. These choices are recorded, but only
-Cure Wounds on self has an executable spell action in this slice. Feat spells
+Cure Wounds on self has an executable spell action from #68; #77 adds Shield of Faith on self. Feat spells
 and unimplemented class spells do not acquire actions merely by being recorded.
 
 Cleric equipment option B contributes 110 GP. Acolyte option A contributes

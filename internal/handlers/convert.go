@@ -168,6 +168,22 @@ func engineStateChangesToAPI(changes []engine.StateChange) []api.StateChange {
 func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.ResolutionEvent {
 	out := make([]api.ResolutionEvent, 0)
 	for _, call := range applied {
+		if call.Tool == "srd_effect" || call.Tool == "srd_encounter" || call.Tool == "srd_spell" || call.Tool == "srd_attack" || call.Tool == "srd_consumable" {
+			var result struct {
+				Receipt *srd521.EffectReceipt   `json:"receipt"`
+				Effects []*srd521.EffectReceipt `json:"concentration_receipts"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil {
+				if call.Tool == "srd_effect" {
+					result.Effects = append(result.Effects, result.Receipt)
+				}
+				for _, r := range result.Effects {
+					if r != nil && r.RulesVersion == "srd-5.2.1" {
+						out = append(out, api.ResolutionEvent{Type: "srd_effect", Label: "Caster effects and recovery", Outcome: r.Reason, Details: map[string]any{"receipt": r}})
+					}
+				}
+			}
+		}
 		if call.Tool == "srd_encounter" {
 			var result struct {
 				NPCReceipts []*srd521.AttackReceipt `json:"npc_receipts"`

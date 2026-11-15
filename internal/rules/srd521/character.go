@@ -58,19 +58,20 @@ type Progression struct {
 
 // CharacterSheet is derived on the server; clients display values and sources.
 type CharacterSheet struct {
-	RulesVersion string             `json:"rules_version"`
-	Scope        string             `json:"scope"`
-	Abilities    map[string]Ability `json:"abilities"`
-	Proficiency  Value              `json:"proficiency"`
-	Saves        map[string]Value   `json:"saves"`
-	Skills       map[string]Value   `json:"skills"`
-	HP           Value              `json:"hp"`
-	MaxHP        Value              `json:"max_hp"`
-	Defenses     map[string]Value   `json:"defenses"`
-	Resources    []Resource         `json:"resources"`
-	Capabilities []Capability       `json:"capabilities"`
-	Progression  Progression        `json:"progression"`
-	Spellcasting *Spellcasting      `json:"spellcasting,omitempty"`
+	Concentration *Concentration     `json:"concentration,omitempty"`
+	RulesVersion  string             `json:"rules_version"`
+	Scope         string             `json:"scope"`
+	Abilities     map[string]Ability `json:"abilities"`
+	Proficiency   Value              `json:"proficiency"`
+	Saves         map[string]Value   `json:"saves"`
+	Skills        map[string]Value   `json:"skills"`
+	HP            Value              `json:"hp"`
+	MaxHP         Value              `json:"max_hp"`
+	Defenses      map[string]Value   `json:"defenses"`
+	Resources     []Resource         `json:"resources"`
+	Capabilities  []Capability       `json:"capabilities"`
+	Progression   Progression        `json:"progression"`
+	Spellcasting  *Spellcasting      `json:"spellcasting,omitempty"`
 }
 
 var abilityNames = []string{"strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"}
@@ -189,6 +190,27 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		}
 	}
 
+	if b.Class == "cleric" {
+		if c := b.Casting.Concentration; c != nil {
+			if c.ID == "" || c.Spell != "shield-of-faith" || c.StartedAt < 0 || c.ExpiresAt-c.StartedAt != 600 {
+				return nil, fmt.Errorf("invalid saved concentration")
+			}
+			sheet.Concentration = c
+			ac := sheet.Defenses["armor-class"]
+			sheet.Defenses["armor-class"] = derived(append(ac.Derivation, term("Shield of Faith", 2, "spells/shield-of-faith"))...)
+		}
+		// The old Cure Wounds fixture can opt into the second spell explicitly.
+		found := false
+		for i := range sheet.Spellcasting.Spells {
+			if sheet.Spellcasting.Spells[i].ID == "shield-of-faith" {
+				found = true
+				sheet.Spellcasting.Spells[i] = shieldSpell(b.Casting)
+			}
+		}
+		if !found && b.Casting.ShieldPrepared {
+			sheet.Spellcasting.Spells = append(sheet.Spellcasting.Spells, shieldSpell(b.Casting))
+		}
+	}
 	sheet.Progression = Progression{xp, 0, 300, prefix + "character/level-advancement"}
 	return sheet, nil
 }
@@ -198,4 +220,8 @@ func classLabel(class string) string {
 		return "Cleric"
 	}
 	return "Fighter"
+}
+
+func shieldSpell(c *CastingBuild) Spell {
+	return Spell{ID: "shield-of-faith", Label: "Shield of Faith", Known: true, Prepared: c.ShieldPrepared, Playable: true, Components: []string{"verbal", "somatic", "material (Holy Symbol focus)"}, ComponentsAvailable: c.Verbal && c.Somatic && c.Focus, SlotLevels: []int{1}, SourceID: prefix + "spells/shield-of-faith"}
 }

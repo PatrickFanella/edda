@@ -129,10 +129,21 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	tool := "srd_check"
 	narrative := ""
 	encounter := prepared.Encounter
-	if encounter != nil && encounter.Status == "active" && request.Intent.Kind != combat.EncounterReact && request.Intent.Kind != combat.EncounterDecline {
-		if err := encounter.Spend(pc.ID, request.Intent.Kind); err != nil {
+	if encounter != nil && encounter.Status == "active" && request.Intent.Kind != combat.EncounterReact && request.Intent.Kind != combat.EncounterDecline && request.Intent.Kind != srd521.EndConcentration {
+		var spendErr error
+		if request.Intent.Kind == srd521.SpellCast {
+			spendErr = encounter.SpendSpell(pc.ID, request.Intent.EntryID == "shield-of-faith")
+		} else {
+			spendErr = encounter.Spend(pc.ID, request.Intent.Kind)
+		}
+		if spendErr != nil {
 			return nil, ErrActionRefresh
 		}
+
+	}
+	initialRound := 0
+	if encounter != nil {
+		initialRound = encounter.Round
 	}
 	if request.Intent.Kind == combat.EncounterStart {
 		var target *game.MartialTarget
@@ -217,6 +228,39 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		label = "Decline reaction"
 		narrative = "Opportunity attack declined. No reaction spent; the NPC withdrawal resumes."
 		finishWithdrawal(encounter)
+	} else if srd521.IsLifecycle(request.Intent.Kind) || (request.Intent.Kind == srd521.SpellCast && request.Intent.EntryID == "shield-of-faith") {
+		var envelope struct {
+			Build srd521.Build `json:"srd521"`
+		}
+		if err := json.Unmarshal(pc.Stats, &envelope); err != nil {
+			return nil, err
+		}
+		effect, err := srd521.Lifecycle(&envelope.Build, sheet, request.Intent.Kind, request.Intent.EntryID, request.ActionID.String(), prepared.Clock, dice)
+		if err != nil {
+			return nil, ErrActionRefresh
+		}
+		if err := saveCaster(ctx, tx, campaignID, pc.ID, &envelope.Build, effect.HPAfter); err != nil {
+			return nil, err
+		}
+		if effect.TimeAfter != effect.TimeBefore {
+			if err := saveSpellClock(ctx, tx, campaignID, effect.TimeAfter); err != nil {
+				return nil, err
+			}
+		}
+		receipt = effect
+		tool = "srd_effect"
+		label = request.Intent.Kind
+		narrative = effect.Reason
+		narrative += fmt.Sprintf(" Time advanced %d seconds; HP %d to %d; slots %d to %d; Hit Dice %d to %d.", effect.TimeAfter-effect.TimeBefore, effect.HPBefore, effect.HPAfter, effect.SlotsBefore, effect.SlotsAfter, effect.HitDiceBefore, effect.HitDiceAfter)
+		// A same-turn NPC attack must use the newly granted AC, not the preview AC.
+		var stats []byte
+		if err := tx.QueryRow(ctx, `SELECT stats FROM player_characters WHERE id=$1`, pc.ID).Scan(&stats); err != nil {
+			return nil, err
+		}
+		sheet, err = srd521.Project(stats, pc.Level, effect.HPAfter, pc.MaxHP, pc.Experience)
+		if err != nil {
+			return nil, err
+		}
 	} else if request.Intent.Kind == srd521.SpellCast {
 		cast, err := srd521.ResolveCureWounds(sheet, dice)
 		if err != nil {
@@ -281,12 +325,44 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		payload["reaction_cost"] = 0
 	}
 	if encounter != nil {
-		npcReceipts, err := resolveEncounterNPC(ctx, tx, campaignID, encounter, sheet, dice)
+		npcReceipts, concentrationReceipts, err := resolveEncounterNPC(ctx, tx, campaignID, encounter, sheet, dice)
 		if err != nil {
 			return nil, err
 		}
 		payload["encounter"] = encounter
 		payload["npc_receipts"] = npcReceipts
+		payload["concentration_receipts"] = concentrationReceipts
+		for _, r := range concentrationReceipts {
+			narrative += " " + r.Reason
+		}
+		if initialRound > 0 && encounter.Round > initialRound {
+			// One complete ordinary combat round advances six seconds.
+			now := prepared.Clock + 6*(encounter.Round-initialRound)
+			if err := saveSpellClock(ctx, tx, campaignID, now); err != nil {
+				return nil, err
+			}
+			var stats []byte
+			var hp int
+			if err := tx.QueryRow(ctx, `SELECT stats,hp FROM player_characters WHERE id=$1`, pc.ID).Scan(&stats, &hp); err != nil {
+				return nil, err
+			}
+			var envelope struct {
+				Build srd521.Build `json:"srd521"`
+			}
+			if err := json.Unmarshal(stats, &envelope); err != nil {
+				return nil, err
+			}
+			if c := envelope.Build.Casting; c != nil && c.Concentration != nil && c.Concentration.ExpiresAt <= now {
+				expiry := &srd521.EffectReceipt{RulesVersion: "srd-5.2.1", Kind: "concentration-expired", Reason: "Shield of Faith expired.", Before: c.Concentration, TimeBefore: prepared.Clock, TimeAfter: now, HPBefore: hp, HPAfter: hp, SlotsBefore: c.Slots, SlotsAfter: c.Slots, HitDiceBefore: envelope.Build.HitDice, HitDiceAfter: envelope.Build.HitDice, SourceIDs: []string{"srd-5.2.1:content/spells/shield-of-faith"}}
+				c.Concentration = nil
+				if err := saveCaster(ctx, tx, campaignID, pc.ID, &envelope.Build, hp); err != nil {
+					return nil, err
+				}
+				concentrationReceipts = append(concentrationReceipts, expiry)
+				payload["concentration_receipts"] = concentrationReceipts
+				narrative += " " + expiry.Reason
+			}
+		}
 		for _, attack := range npcReceipts {
 			narrative += fmt.Sprintf(" %s: %s (d20 %d + %d = %d), %d bludgeoning damage.", attack.Weapon, attack.Outcome, attack.Die, attack.Modifier.Value, attack.Total, attack.Damage)
 		}

@@ -1,5 +1,6 @@
 import type { ResolutionEvent, StateChange } from '../../api/types';
 import { cn } from '../../lib/cn';
+import { EffectReceipt } from '../character/EffectReceipt';
 import { SpellReceipt } from '../character/SpellReceipt';
 import { HealingReceipt } from '../character/HealingReceipt';
 import { AttackReceipt } from '../character/AttackReceipt';
@@ -115,6 +116,7 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
 }
 
 function ResolutionEventBadge({ event }: { readonly event: ResolutionEvent }) {
+  if (event.type === 'srd_effect' && event.details.receipt) return <EffectReceipt receipt={event.details.receipt as import('../../api/types').EffectReceipt} />;
   if (event.type === 'srd_spell' && event.details.receipt) return <SpellReceipt receipt={event.details.receipt as import('../../api/types').SpellReceipt} />;
   if (event.type === 'srd_consumable' && event.details.receipt) return <HealingReceipt receipt={event.details.receipt as import('../../api/types').HealingReceipt} />;
   if (event.type === 'srd_attack' && event.details.receipt) return <AttackReceipt receipt={event.details.receipt as import('../../api/types').AttackReceipt} />;
