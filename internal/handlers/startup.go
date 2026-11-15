@@ -271,8 +271,12 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusUnauthorized, "authentication required")
 		return
 	}
-	provider, ok := h.requireProvider(w)
-	if !ok {
+	provider := h.WorldgenProvider
+	if provider == nil {
+		provider = h.Provider
+	}
+	if provider == nil {
+		writeError(w, http.StatusInternalServerError, "llm provider is not configured")
 		return
 	}
 	if h.Queries == nil {

@@ -47,11 +47,12 @@ type ActionHandlers struct {
 
 // StartupHandlers handles campaign creation wizard (interviews, proposals, world build).
 type StartupHandlers struct {
-	Provider llm.Provider
-	Queries  statedb.Querier
-	Logger   *log.Logger
-	Pool     db.DBTX
-	sessions *startupSessionStore
+	Provider         llm.Provider
+	WorldgenProvider llm.Provider
+	Queries          statedb.Querier
+	Logger           *log.Logger
+	Pool             db.DBTX
+	sessions         *startupSessionStore
 }
 
 // NewStartupHandlers creates a StartupHandlers with an initialized session store.

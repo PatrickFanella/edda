@@ -121,7 +121,7 @@ func run(args []string) int {
 		logger.Errorf("create engine: %v", err)
 		return 1
 	}
-	router := serverroutes.NewRouterWithProvider(logger, gameEngine, queries, provider, pool, defaultUserID, cfg, saveStore)
+	router := serverroutes.NewRouterWithProviders(logger, gameEngine, queries, provider, roster.Provider(llm.FlowWorldgen), roster.Provider(llm.FlowSummary), pool, defaultUserID, cfg, saveStore)
 
 	addr := fmt.Sprintf(":%d", cfg.Server.Port)
 	server := &http.Server{
