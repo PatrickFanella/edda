@@ -28,6 +28,6 @@ export function getCampaignCharacterSkills(campaignId: string): Promise<SkillRes
 
 export function previewCharacterAction(campaignId: string, intent: ActionIntent): Promise<ActionPreview> {
   const params = new URLSearchParams();
-  Object.entries(intent).forEach(([key, value]) => { if (value) params.set(key, value); });
+  Object.entries(intent).forEach(([key, value]) => { if (value) params.set(key, String(value)); });
   return apiFetch<ActionPreview>(`${buildCampaignPath(campaignId, 'character', 'action-preview')}?${params}`);
 }

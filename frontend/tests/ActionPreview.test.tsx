@@ -148,3 +148,20 @@ it('requires an explicit encounter target and shows the durable budget', async (
  expect(screen.getByRole('list',{name:'Initiative order'})).toHaveTextContent('Practice foe: initiative 19');
  expect(screen.getByText('Action: spent · Bonus action: available · Movement: 15 ft')).toBeVisible();
 });
+
+it('requires an explicit casting slot and self target before confirmation', async () => {
+ const caster = {...sheet, spellcasting: { ability:'wisdom', modifier:sheet.skills.athletics, spells:[{id:'cure-wounds',label:'Cure Wounds',known:true,prepared:true,components:['verbal','somatic'],components_available:true,slot_levels:[1],source_id:'spell'}] }};
+ vi.mocked(previewCharacterAction).mockResolvedValueOnce({...ready,intent:{actor_id:'hero',kind:'spell-cast',entry_id:'cure-wounds',slot_level:1},targets:[{id:'hero',label:'Mira (self; touch)'}],costs:[{resource_id:'spell-slot-1',amount:1},{resource_id:'magic-action',amount:1}]});
+ vi.mocked(confirmCharacterAction).mockResolvedValueOnce({action_id:'cast',turn_number:1,narrative:'Cure Wounds saved.',state_changes:[],combat_active:false,resolution_events:[]});
+ render(<QueryClientProvider client={new QueryClient()}><ActionPreviewPanel campaignId="casting" actorId="hero" sheet={caster} /></QueryClientProvider>);
+ await userEvent.selectOptions(screen.getByLabelText('Character action'),'spell-cast:cure-wounds');
+ expect(screen.getByLabelText('Spell slot level')).toHaveValue('1');
+ await userEvent.click(screen.getByRole('button',{name:'Preview action'}));
+ expect(await screen.findByRole('button',{name:'Confirm action'})).toBeDisabled();
+ expect(previewCharacterAction).toHaveBeenCalledWith('casting',{actor_id:'hero',kind:'spell-cast',entry_id:'cure-wounds',slot_level:1});
+ await userEvent.selectOptions(screen.getByLabelText('Spell target'),'hero');
+ expect(confirmCharacterAction).not.toHaveBeenCalled();
+ await userEvent.click(screen.getByRole('button',{name:'Confirm action'}));
+ expect(await screen.findByText('Action saved.')).toBeVisible();
+ expect(vi.mocked(confirmCharacterAction).mock.calls[0][1]).toMatchObject({target_id:'hero',intent:{kind:'spell-cast',entry_id:'cure-wounds',slot_level:1}});
+});

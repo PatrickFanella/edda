@@ -10,7 +10,7 @@ import (
 
 func TestSRDItemReceiptsExcludePrivateEnvelopes(t *testing.T) {
 	for _, tc := range []struct{ tool, kind string }{
-		{"srd_attack", "martial-attack"}, {"srd_consumable", "consumable-use"},
+		{"srd_spell", "spell-cast"}, {"srd_attack", "martial-attack"}, {"srd_consumable", "consumable-use"},
 	} {
 		t.Run(tc.kind, func(t *testing.T) {
 			call := engine.AppliedToolCall{Tool: tc.tool, Arguments: json.RawMessage(`{"secret":"hidden ambusher"}`), Result: mustJSON(t, map[string]any{"secret": "hidden ambusher", "receipt": map[string]any{"rules_version": "srd-5.2.1", "kind": tc.kind, "outcome": "hit", "secret": "hidden ambusher"}})}

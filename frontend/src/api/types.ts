@@ -65,7 +65,30 @@ export interface CheckReceipt {
   outcome: 'unknown' | 'success' | 'failure';
   source_ids: string[];
 }
+export interface Spellcasting {
+ ability: string;
+ modifier: DerivedValue;
+ spells: { id: string; label: string; known: boolean; prepared: boolean; components: string[]; components_available: boolean; slot_levels: number[]; source_id: string }[];
+}
+export interface SpellReceipt {
+ rules_version: string;
+ kind: 'spell-cast';
+ spell: string;
+ target_id: string;
+ target: string;
+ slot_level: number;
+ slots_before: number;
+ slots_after: number;
+ dice: number[];
+ modifier: DerivedValue;
+ rolled_healing: number;
+ healing: number;
+ hp_before: number;
+ hp_after: number;
+ source_ids: string[];
+}
 export interface CharacterSheetProjection {
+  spellcasting?: Spellcasting;
   rules_version: string;
   scope: string;
   abilities: Record<string, { score: number; modifier: DerivedValue }>;
@@ -508,6 +531,7 @@ export interface ActionIntent {
   ability?: string;
   skill?: string;
   entry_id?: string;
+  slot_level?: number;
 }
 export interface ActionPreview {
   encounter?: Encounter;

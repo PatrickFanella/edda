@@ -164,7 +164,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			return unavailable("Choose or decline the pending reaction before continuing.")
 		}
 		trigger := encounter.Reaction.Pending
-		if intent.Ability != "" || intent.Skill != "" || encounter.Active().Player || encounter.Active().ID != trigger.TargetID {
+		if intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 || encounter.Active().Player || encounter.Active().ID != trigger.TargetID {
 			return unavailable("This reaction trigger is unavailable.")
 		}
 		p.Options = []string{"Opportunity attack before the visible foe leaves your reach. Declining spends no reaction. The NPC withdrawal then resumes."}
@@ -201,9 +201,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	switch intent.Kind {
 	case srd521.MartialAttack:
 
-	case srd521.ConsumableUse:
+	case srd521.SpellCast, srd521.ConsumableUse:
 	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline:
-		if intent.EntryID != "" || intent.Ability != "" || intent.Skill != "" {
+		if intent.EntryID != "" || intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 {
 			return unavailable("Choose a supported encounter action.")
 		}
 		p.Modifier = nil

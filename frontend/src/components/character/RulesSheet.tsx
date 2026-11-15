@@ -4,7 +4,7 @@ import { CheckReceipt } from './CheckReceipt';
 
 export function RulesSheet({ sheet, receipts = [], campaignId, actorId }: { readonly campaignId?: string; readonly actorId?: string; readonly sheet: CharacterSheetProjection; readonly receipts?: readonly Receipt[] }) {
   return <section aria-label="SRD character sheet" className="space-y-5 text-champagne">
-    <p className="text-sm text-pewter">SRD 5.2.1 · Level 1 Fighter · Sheet values and previews</p>
+    <p className="text-sm text-pewter">SRD 5.2.1 · Level 1 {sheet.spellcasting ? 'Cleric fixture' : 'Fighter'} · Sheet values and previews</p>
     <p>HP {sheet.hp.value} / {sheet.max_hp.value} · XP {sheet.progression.current_xp} / {sheet.progression.next_level_xp}</p>
     <p className="text-sm text-pewter">Inspect a value to see its calculation and source identifiers.</p>
     <dl className="grid gap-3 sm:grid-cols-2">
@@ -18,6 +18,12 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId }: { read
       <RuleValue label={`${name} modifier`} value={ability.modifier} />
       <RuleValue label={`${name} save`} value={sheet.saves[name]} />
     </div>)}</dl>
+    {sheet.spellcasting && <section aria-label="Spellcasting" className="space-y-2">
+      <h3 className="font-heading text-gold">Spellcasting</h3>
+      <p>Casting ability: {sheet.spellcasting.ability} ({sheet.spellcasting.modifier.value >= 0 ? '+' : ''}{sheet.spellcasting.modifier.value})</p>
+      {sheet.spellcasting.spells.map(spell => <p key={spell.id}>{spell.label} · {spell.known ? 'Known' : 'Unknown'} · {spell.prepared ? 'Prepared' : 'Not prepared'} · Components: {spell.components.join(', ')} ({spell.components_available ? 'available' : 'unavailable'}) · Supported slots: {spell.slot_levels.join(', ')}</p>)}
+      <p className="text-sm text-pewter">Cure Wounds on self only. Other spells, targets and caster creation are not supported by this fixture.</p>
+    </section>}
     <h3 className="font-heading text-gold">Skills</h3>
     <dl className="grid gap-3 sm:grid-cols-2">{Object.entries(sheet.skills).map(([name,value]) => <RuleValue key={name} label={name} value={value} />)}</dl>
     {campaignId && actorId && <ActionPreviewPanel key={`${campaignId}:${actorId}`} campaignId={campaignId} actorId={actorId} sheet={sheet} />}

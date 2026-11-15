@@ -86,7 +86,7 @@ func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 		return fmt.Errorf("not this actor's turn")
 	}
 	switch kind {
-	case srd521.MartialAttack, EncounterDash:
+	case srd521.SpellCast, srd521.MartialAttack, EncounterDash:
 		if !e.Budget.Action {
 			return fmt.Errorf("action already spent")
 		}

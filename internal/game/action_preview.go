@@ -16,11 +16,12 @@ import (
 // ActionIntent identifies a sheet selection, never client-supplied modifiers,
 // disclosure flags, dice, or model instructions.
 type ActionIntent struct {
-	ActorID uuid.UUID `json:"actor_id"`
-	Kind    string    `json:"kind"`
-	Ability string    `json:"ability,omitempty"`
-	Skill   string    `json:"skill,omitempty"`
-	EntryID string    `json:"entry_id,omitempty"`
+	ActorID   uuid.UUID `json:"actor_id"`
+	Kind      string    `json:"kind"`
+	Ability   string    `json:"ability,omitempty"`
+	Skill     string    `json:"skill,omitempty"`
+	EntryID   string    `json:"entry_id,omitempty"`
+	SlotLevel int       `json:"slot_level,omitempty"`
 }
 
 // ActionTarget is an explicitly player-known target option.
@@ -87,7 +88,7 @@ func PrepareCharacterAction(ctx context.Context, campaign domain.Campaign, pc do
 	if err != nil {
 		return unavailable("Action previews are unavailable for this character build.")
 	}
-	if intent.EntryID != "" {
+	if intent.EntryID != "" || intent.SlotLevel != 0 {
 		return unavailable("This sheet entry does not support action previews yet.")
 	}
 	if intent.Kind == srd521.AbilityCheck && intent.Skill != "" && intent.Ability == "" {

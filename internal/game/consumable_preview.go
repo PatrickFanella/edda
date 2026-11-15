@@ -28,7 +28,7 @@ func prepareConsumable(ctx context.Context, database statedb.DBTX, campaign doma
 	preview.Available = false
 	preview.Modifier = nil
 	preview.Reason = "Only an owned Potion of Healing supports self-use."
-	if intent.Ability != "" || intent.Skill != "" {
+	if intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 {
 		return result, nil
 	}
 	itemID, err := uuid.Parse(intent.EntryID)

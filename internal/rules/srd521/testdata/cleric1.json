@@ -1,0 +1,7 @@
+{
+  "srd521": {
+    "class": "cleric", "abilities": {"strength": 10, "dexterity": 12, "constitution": 14, "intelligence": 8, "wisdom": 16, "charisma": 13},
+    "skills": ["insight", "religion"], "armor": "none", "shield": false, "hit_dice": 1,
+    "casting": {"prepared": true, "slots": 2, "verbal": true, "somatic": true}
+  }
+}

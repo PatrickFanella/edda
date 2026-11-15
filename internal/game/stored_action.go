@@ -37,6 +37,9 @@ type StoredAction struct {
 // The narrow fixture is a one-handed longsword against a colocated, previously
 // encountered unarmored target explicitly assigned to this actor at five feet.
 func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
+	if intent.Kind == srd521.SpellCast {
+		return prepareSpell(ctx, campaign, pc, intent)
+	}
 	if intent.Kind == srd521.ConsumableUse {
 		return prepareConsumable(ctx, database, campaign, pc, intent, lock)
 	}
@@ -58,7 +61,7 @@ func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaig
 	}
 	preview.Available = false
 	preview.Reason = "Only an equipped SRD longsword and a prepared ordinary fixture target are supported."
-	if intent.Ability != "" || intent.Skill != "" {
+	if intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 {
 		return result, nil
 	}
 	itemID, err := uuid.Parse(intent.EntryID)
@@ -107,6 +110,10 @@ func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaig
 	sheet, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience)
 	if err != nil {
 		return nil, err
+	}
+	if sheet.Spellcasting != nil {
+		preview.Reason = "Martial attacks require the supported Fighter fixture."
+		return result, nil
 	}
 	modifier := srd521.LongswordModifier(sheet)
 	preview.Modifier = &modifier

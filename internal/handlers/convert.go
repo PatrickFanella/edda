@@ -185,6 +185,13 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if event, ok := skillCheckResolutionEvent(call); ok {
 				out = append(out, event)
 			}
+		case "srd_spell":
+			var result struct {
+				Receipt *srd521.SpellReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.SpellCast {
+				out = append(out, api.ResolutionEvent{Type: "srd_spell", Label: "Cure Wounds", Outcome: "healed", Details: map[string]any{"receipt": result.Receipt}})
+			}
 		case "srd_consumable":
 			var result struct {
 				Receipt *srd521.HealingReceipt `json:"receipt"`

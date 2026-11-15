@@ -9,6 +9,7 @@ import (
 // Build is an explicit read-only fixture contract, not a character creator.
 // Stored beneath stats.srd521, it never interprets legacy free-form stats.
 type Build struct {
+	Casting       *CastingBuild  `json:"casting,omitempty"`
 	FightingStyle string         `json:"fighting_style"`
 	Class         string         `json:"class"`
 	Abilities     map[string]int `json:"abilities"`
@@ -67,6 +68,7 @@ type CharacterSheet struct {
 	Resources    []Resource         `json:"resources"`
 	Capabilities []Capability       `json:"capabilities"`
 	Progression  Progression        `json:"progression"`
+	Spellcasting *Spellcasting      `json:"spellcasting,omitempty"`
 }
 
 var abilityNames = []string{"strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"}
@@ -85,7 +87,7 @@ func derived(terms ...Term) Value {
 }
 func term(label string, value int, source string) Term { return Term{label, value, prefix + source} }
 
-// Project supports a level-one Fighter with chain mail and the Defense style.
+// Project supports the level-one Fighter and unarmored Cleric casting fixtures.
 // It rejects unsupported input rather than manufacturing unearned features.
 func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 	var envelope struct {
@@ -95,8 +97,8 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		return nil, fmt.Errorf("invalid SRD build data")
 	}
 	b := envelope.Build
-	if b == nil || b.Class != "fighter" || b.FightingStyle != "defense" || level != 1 || b.Armor != "chain-mail" {
-		return nil, fmt.Errorf("supported projection: level 1 Fighter, chain mail, Defense style")
+	if b == nil || level != 1 || (b.Class != "fighter" && b.Class != "cleric") || (b.Class == "fighter" && (b.FightingStyle != "defense" || b.Armor != "chain-mail")) || (b.Class == "cleric" && (b.Armor != "none" || b.Shield || b.FightingStyle != "" || b.SecondWind != 0)) {
+		return nil, fmt.Errorf("supported projection: level 1 Fighter with chain mail and Defense, or unarmored Cleric fixture")
 	}
 	if len(b.Abilities) != 6 {
 		return nil, fmt.Errorf("six explicit ability scores required")
@@ -111,8 +113,8 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		modifier := int(math.Floor(float64(score-10) / 2))
 		sheet.Abilities[name] = Ability{score, derived(term("Ability modifier", modifier, "character/ability-modifiers"))}
 		terms := []Term{term(name, modifier, "character/ability-modifiers")}
-		if name == "strength" || name == "constitution" {
-			terms = append(terms, term("Fighter saving throw proficiency", 2, "fighter/core-traits"))
+		if (b.Class == "fighter" && (name == "strength" || name == "constitution")) || (b.Class == "cleric" && (name == "wisdom" || name == "charisma")) {
+			terms = append(terms, term(classLabel(b.Class)+" saving throw proficiency", 2, b.Class+"/core-traits"))
 		}
 		sheet.Saves[name] = derived(terms...)
 	}
@@ -139,7 +141,11 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		}
 		sheet.Skills[skill] = derived(terms...)
 	}
-	sheet.MaxHP = derived(term("Fighter first-level Hit Die", 10, "fighter/core-traits"), term("constitution", sheet.Abilities["constitution"].Modifier.Value, "character/hit-points"))
+	hitDie := 10
+	if b.Class == "cleric" {
+		hitDie = 8
+	}
+	sheet.MaxHP = derived(term(classLabel(b.Class)+" first-level Hit Die", hitDie, b.Class+"/core-traits"), term("constitution", sheet.Abilities["constitution"].Modifier.Value, "character/hit-points"))
 	if maxHP != sheet.MaxHP.Value || hp < 0 || hp > maxHP || xp < 0 || xp >= 300 || b.SecondWind < 0 || b.SecondWind > 2 || b.HitDice < 0 || b.HitDice > 1 {
 		return nil, fmt.Errorf("invalid level-one vitals or resources")
 	}
@@ -152,6 +158,23 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 	sheet.Defenses["initiative"] = derived(term("dexterity", sheet.Abilities["dexterity"].Modifier.Value, "combat/initiative"))
 	sheet.Resources = []Resource{{"second-wind", "Second Wind", b.SecondWind, 2, prefix + "fighter/second-wind"}, {"hit-dice", "Hit Dice (d10)", b.HitDice, 1, prefix + "character/hit-dice"}}
 	sheet.Capabilities = []Capability{{"attack", "Attack", prefix + "actions/attack", false}, {"second-wind", "Second Wind", prefix + "fighter/second-wind", false}, {"weapon-mastery", "Weapon Mastery", prefix + "fighter/weapon-mastery", false}}
+	if b.Class == "cleric" {
+		if b.Casting == nil || b.Casting.Slots < 0 || b.Casting.Slots > 2 {
+			return nil, fmt.Errorf("explicit level-one cleric casting resources required")
+		}
+		sheet.Scope = "cleric-1-cure-wounds-self-fixture"
+		sheet.Defenses["armor-class"] = derived(term("Unarmored", 10, "armor/unarmored"), term("dexterity", sheet.Abilities["dexterity"].Modifier.Value, "character/ability-modifiers"))
+		sheet.Resources = []Resource{{"spell-slot-1", "Level 1 spell slots", b.Casting.Slots, 2, prefix + "cleric/spellcasting"}, {"hit-dice", "Hit Dice (d8)", b.HitDice, 1, prefix + "character/hit-dice"}}
+		sheet.Capabilities = []Capability{}
+		sheet.Spellcasting = &Spellcasting{Ability: "wisdom", Modifier: sheet.Abilities["wisdom"].Modifier, Spells: []Spell{{ID: "cure-wounds", Label: "Cure Wounds", Known: true, Prepared: b.Casting.Prepared, Components: []string{"verbal", "somatic"}, ComponentsAvailable: b.Casting.Verbal && b.Casting.Somatic, SlotLevels: []int{1}, SourceID: prefix + "spells/cure-wounds"}}}
+	}
 	sheet.Progression = Progression{xp, 0, 300, prefix + "character/level-advancement"}
 	return sheet, nil
+}
+
+func classLabel(class string) string {
+	if class == "cleric" {
+		return "Cleric"
+	}
+	return "Fighter"
 }

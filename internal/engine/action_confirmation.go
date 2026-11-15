@@ -99,7 +99,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		return nil, ErrActionRefresh
 	}
 	// Only prepared targets can cross the confirmation boundary.
-	if request.Intent.Kind == srd521.SavingThrow || request.Intent.Kind == srd521.ConsumableUse {
+	if request.Intent.Kind == srd521.SpellCast || request.Intent.Kind == srd521.SavingThrow || request.Intent.Kind == srd521.ConsumableUse {
 		if request.TargetID != pc.ID {
 			return nil, ErrActionRefresh
 		}
@@ -217,6 +217,22 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		label = "Decline reaction"
 		narrative = "Opportunity attack declined. No reaction spent; the NPC withdrawal resumes."
 		finishWithdrawal(encounter)
+	} else if request.Intent.Kind == srd521.SpellCast {
+		cast, err := srd521.ResolveCureWounds(sheet, dice)
+		if err != nil {
+			return nil, err
+		}
+		if _, err := tx.Exec(ctx, `UPDATE player_characters SET hp=$1,stats=jsonb_set(stats,'{srd521,casting,slots}',to_jsonb($2::int)),updated_at=clock_timestamp() WHERE id=$3 AND campaign_id=$4`, cast.HPAfter, cast.SlotsAfter, db.ToPgUUID(pc.ID), db.ToPgUUID(campaignID)); err != nil {
+			return nil, err
+		}
+		cast.TargetID, cast.Target = pc.ID.String(), pc.Name
+		if encounter != nil && encounter.Status == "active" {
+			encounter.SetHP(pc.ID, cast.HPAfter)
+		}
+		receipt = cast
+		tool = "srd_spell"
+		label = "Cure Wounds"
+		narrative = fmt.Sprintf("%s casts Cure Wounds on self using a level 1 slot: regains %d HP (%d to %d). Magic action recorded; %d level 1 slots remain.", pc.Name, cast.Healing, cast.HPBefore, cast.HPAfter, cast.SlotsAfter)
 	} else if request.Intent.Kind == srd521.ConsumableUse {
 		healing, err := srd521.ResolveHealingPotion(pc.HP, pc.MaxHP, dice)
 		if err != nil {

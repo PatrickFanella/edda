@@ -3,6 +3,7 @@ package handlers
 import (
 	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
@@ -26,8 +27,17 @@ func (h *CharacterHandlers) PreviewAction(w http.ResponseWriter, r *http.Request
 	}
 	values := r.URL.Query()
 	for name, entries := range values {
-		if len(entries) != 1 || (name != "actor_id" && name != "kind" && name != "ability" && name != "skill" && name != "entry_id") {
+		if len(entries) != 1 || (name != "actor_id" && name != "kind" && name != "ability" && name != "skill" && name != "entry_id" && name != "slot_level") {
 			writeError(w, http.StatusBadRequest, "invalid action preview parameters")
+			return
+		}
+	}
+	slotLevel := 0
+	if raw := values.Get("slot_level"); raw != "" {
+		var err error
+		slotLevel, err = strconv.Atoi(raw)
+		if err != nil || slotLevel < 1 || slotLevel > 9 {
+			writeError(w, http.StatusBadRequest, "invalid slot level")
 			return
 		}
 	}
@@ -50,7 +60,7 @@ func (h *CharacterHandlers) PreviewAction(w http.ResponseWriter, r *http.Request
 		writeError(w, http.StatusInternalServerError, "failed to prepare action preview")
 		return
 	}
-	prepared, err := game.PrepareStoredAction(r.Context(), h.Pool, campaign, pc, game.ActionIntent{ActorID: actorID, Kind: values.Get("kind"), Ability: values.Get("ability"), Skill: values.Get("skill"), EntryID: values.Get("entry_id")}, false)
+	prepared, err := game.PrepareStoredAction(r.Context(), h.Pool, campaign, pc, game.ActionIntent{ActorID: actorID, Kind: values.Get("kind"), Ability: values.Get("ability"), Skill: values.Get("skill"), EntryID: values.Get("entry_id"), SlotLevel: slotLevel}, false)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, "failed to prepare action preview")
 		return

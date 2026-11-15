@@ -817,5 +817,23 @@
       "follow_up": 79,
       "notes": "Conscious self-use basic healing fixture only. Administration, unconscious targets, combat action economy and improved potions remain unqualified."
     }
+,
+    {
+      "id": "srd-5.2.1:content/spells/cure-wounds",
+      "family": "spells",
+      "name": "Cure Wounds (all eligible targets and slot levels)",
+      "source_pages": [
+        121,
+        121
+      ],
+      "status": "unsupported",
+      "fixtures": [
+        "internal/rules/srd521/spell_test.go",
+        "internal/rules/srd521/testdata/cleric1.json",
+        "internal/handlers/spell_action_integration_test.go"
+      ],
+      "follow_up": 80,
+      "notes": "Issue #68 implements only conscious self-casting by the unarmored level-one Cleric fixture, level 1 slot, explicit prepared/component rulings, capped 2d8 + Wisdom healing and durable slot consumption. Other targets, higher slots, conditions, caster creation and recovery are not qualified. #72, #77 and #80 retain those boundaries."
+    }
   ]
 }
