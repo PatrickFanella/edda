@@ -103,7 +103,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if request.TargetID != pc.ID {
 			return nil, ErrActionRefresh
 		}
-	} else if request.Intent.Kind != srd521.MartialAttack && request.Intent.Kind != combat.EncounterStart && request.TargetID != uuid.Nil {
+	} else if request.Intent.Kind != srd521.MartialAttack && request.Intent.Kind != combat.EncounterStart && request.Intent.Kind != combat.EncounterReact && request.TargetID != uuid.Nil {
 		return nil, ErrActionRefresh
 	}
 	var inCombat bool
@@ -129,7 +129,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	tool := "srd_check"
 	narrative := ""
 	encounter := prepared.Encounter
-	if encounter != nil && encounter.Status == "active" {
+	if encounter != nil && encounter.Status == "active" && request.Intent.Kind != combat.EncounterReact && request.Intent.Kind != combat.EncounterDecline {
 		if err := encounter.Spend(pc.ID, request.Intent.Kind); err != nil {
 			return nil, ErrActionRefresh
 		}
@@ -150,6 +150,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			return nil, err
 		}
 		encounter.Space = &target.Space
+		encounter.NPCTactic = target.Tactic
 		label = "Initiative"
 		tool = "srd_encounter"
 		narrative = "Initiative rolled for the ordinary melee fixture."
@@ -170,7 +171,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			encounter.Advance()
 			narrative = "Player turn ended."
 		}
-	} else if request.Intent.Kind == srd521.MartialAttack {
+	} else if request.Intent.Kind == srd521.MartialAttack || request.Intent.Kind == combat.EncounterReact {
 		var target *game.MartialTarget
 		for i := range prepared.Targets {
 			if prepared.Targets[i].ID == request.TargetID {
@@ -180,6 +181,14 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		if target == nil {
 			return nil, ErrActionRefresh
+		}
+		if request.Intent.Kind == combat.EncounterReact {
+			if encounter.Reaction.Pending.TargetID != request.TargetID {
+				return nil, ErrActionRefresh
+			}
+			if err := encounter.SpendReaction(); err != nil {
+				return nil, ErrActionRefresh
+			}
 		}
 		attack, err := srd521.ResolveLongsword(sheet, 10+target.Space.CoverBonus(), dice)
 		if err != nil {
@@ -198,7 +207,16 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		receipt = attack
 		tool = "srd_attack"
 		label = "Longsword"
-		narrative = fmt.Sprintf("Longsword attack against %s: %s (total %d), %d slashing damage. One fixture Attack action recorded; mastery and reactions are not implemented.", target.Name, attack.Outcome, attack.Total, attack.Damage)
+		narrative = fmt.Sprintf("Longsword attack against %s: %s (total %d), %d slashing damage. One fixture Attack action recorded; mastery is not implemented.", target.Name, attack.Outcome, attack.Total, attack.Damage)
+		if request.Intent.Kind == combat.EncounterReact {
+			narrative = fmt.Sprintf("Opportunity attack against %s: %s (total %d), %d slashing damage. One reaction spent; it recovers at the start of your next turn.", target.Name, attack.Outcome, attack.Total, attack.Damage)
+			finishWithdrawal(encounter)
+		}
+	} else if request.Intent.Kind == combat.EncounterDecline {
+		tool = "srd_encounter"
+		label = "Decline reaction"
+		narrative = "Opportunity attack declined. No reaction spent; the NPC withdrawal resumes."
+		finishWithdrawal(encounter)
 	} else if request.Intent.Kind == srd521.ConsumableUse {
 		healing, err := srd521.ResolveHealingPotion(pc.HP, pc.MaxHP, dice)
 		if err != nil {
@@ -240,6 +258,12 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		narrative = fmt.Sprintf("%s %s recorded: total %d. The outcome requires adjudication; no scene effect or time cost has been applied.", label, preview.Intent.Kind, check.Total)
 	}
 	payload := map[string]any{"receipt": receipt}
+	if request.Intent.Kind == combat.EncounterReact {
+		payload["reaction_cost"] = 1
+	}
+	if request.Intent.Kind == combat.EncounterDecline {
+		payload["reaction_cost"] = 0
+	}
 	if encounter != nil {
 		npcReceipts, err := resolveEncounterNPC(ctx, tx, campaignID, encounter, sheet, dice)
 		if err != nil {
@@ -249,6 +273,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		payload["npc_receipts"] = npcReceipts
 		for _, attack := range npcReceipts {
 			narrative += fmt.Sprintf(" %s: %s (d20 %d + %d = %d), %d bludgeoning damage.", attack.Weapon, attack.Outcome, attack.Die, attack.Modifier.Value, attack.Total, attack.Damage)
+		}
+		if encounter.Reaction.Pending != nil {
+			narrative += " A visible foe is about to leave your reach. Choose an opportunity attack or decline; no reaction has been spent."
 		}
 		narrative += fmt.Sprintf(" Round %d; %s. Action: %t; bonus action: %t; movement: %d feet; encounter %s.", encounter.Round, encounter.Active().Name, encounter.Budget.Action, encounter.Budget.BonusAction, encounter.Budget.Movement, encounter.Status)
 	}

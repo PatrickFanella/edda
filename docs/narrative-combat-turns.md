@@ -43,7 +43,7 @@ and saved dice results; Read combat story returns to the transcript. Character
 exposes the same preparation path. A completed encounter returns to normal play.
 Unsupported checks during an active fixture require a different supported action.
 SRD campaigns retain the existing guard against legacy model-driven mechanics.
-Reactions, mastery effects, general monster statistics, spatial adjudication,
+Other reactions, mastery effects, general monster statistics, broader spatial adjudication,
 conditions, spellcasting and the wider catalogue remain later roadmap work.
 
 Verification includes deterministic economy/initiative tests, an isolated
@@ -83,3 +83,40 @@ this fixture. NPCs hold position and end their turn when a resolved distance,
 sight or cover ruling blocks their attack. They do not teleport or invent a path.
 Unknown spatial facts pause NPC resolution without rolling. General unseen
 attacks, obstacles, asymmetric cover and arbitrary movement remain unsupported.
+
+
+## Explicit opportunity attacks (#81)
+
+A spatial fixture target can declare the server-owned `tactic: "withdraw"`.
+After its ordinary attack, that NPC attempts one voluntary five-foot retreat on
+the fixture's clear path. When that step would leave five-foot reach, the player
+is conscious, has a reaction and still has an equipped supported longsword, the
+engine saves a pending opportunity-attack trigger **before movement**. The NPC's
+already-resolved attack is committed with that trigger. No player roll or reaction
+cost happens automatically. Other tactics retain the original stationary behavior.
+
+Play offers **Preview opportunity attack** and **Preview decline** in the current
+combat frame. Both open the existing read-only preparation and explicit confirmation
+flow. The trigger chooses the known target and supported weapon; there is no
+additional dice prompt. The character panel also offers the pending responses after
+a preview reads the trigger. Preview and confirmation reject other actions until
+the choice is answered. Current NPC HP and unplayed tactics stay out of previews.
+
+Confirming uses the existing longsword resolver and records exactly one reaction
+cost, damage and dice receipt. Declining rolls nothing and spends no reaction.
+Both resume the suspended movement once and return to the player, whose reaction
+recovers at the start of that turn. If a new ruling blocks the retreat path, decline
+cancels that step and ends the NPC turn instead of inventing movement. An attack
+that defeats the NPC completes the encounter without taking the suspended step.
+
+Trigger identity, eligibility, equipment and the spatial fingerprint are checked
+again on confirmation. Stale responses require a fresh preview; a changed weapon
+can still be declined. Same-ID confirmation retries and fresh-engine reconnects
+return the saved result without repeated attacks, resource use or movement. Legacy
+model tools remain blocked from mutating versioned campaigns by the existing
+production-tool rules guard; the model cannot consent to a player reaction.
+
+This is one ordinary opportunity-attack fixture, not general NPC movement policy,
+Disengage, forced movement, reach weapons, condition handling or other reaction
+features. Tests cover saved triggers, acceptance/decline, stale rulings, changed
+gear, duplicate/reconnect responses, resource recovery and desktop/phone controls.

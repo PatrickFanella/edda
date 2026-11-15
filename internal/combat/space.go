@@ -63,7 +63,7 @@ func (s *Space) Move(kind string) error {
 	distance := *s.DistanceFeet
 	switch kind {
 	case EncounterApproach:
-		if distance < 5 {
+		if distance <= 5 {
 			return fmt.Errorf("Already within 5 feet; cannot approach further.")
 		}
 		distance -= 5

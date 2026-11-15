@@ -8,12 +8,14 @@ import { AttackReceipt } from './AttackReceipt';
 import { CheckReceipt } from './CheckReceipt';
 import type { CheckReceipt as Receipt, TurnResponse } from '../../api/types';
 import { getCampaignCharacterInventory, previewCharacterAction } from '../../api/characters';
-import type { CharacterSheetProjection } from '../../api/types';
+import type { CharacterSheetProjection, Encounter } from '../../api/types';
 
-export function ActionPreviewPanel({ campaignId, actorId, sheet }: {
+export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelection = '', reaction }: {
   readonly campaignId: string;
   readonly actorId: string;
   readonly sheet: CharacterSheetProjection;
+  readonly initialSelection?: string;
+  readonly reaction?: Encounter['reaction'];
 }) {
   const client = useQueryClient();
   const inventory = useQuery({ queryKey: ['campaign', campaignId, 'inventory'], queryFn: () => getCampaignCharacterInventory(campaignId) });
@@ -29,7 +31,7 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet }: {
     setPending(null);
 
     try { sessionStorage.removeItem(storageKey); } catch { /* Storage is optional. */ }
-    publishConfirmedAction(campaignId, result, requestRef.current?.intent.kind === 'consumable-use' ? 'Confirm Potion of Healing' : requestRef.current?.intent.kind === 'martial-attack' ? 'Confirm Longsword attack' : `Confirm ${requestRef.current?.intent.skill ?? requestRef.current?.intent.ability ?? 'character'} check`);
+    publishConfirmedAction(campaignId, result, requestRef.current?.intent.kind === 'consumable-use' ? 'Confirm Potion of Healing' : requestRef.current?.intent.kind === 'combat-react' ? 'Confirm opportunity attack' : requestRef.current?.intent.kind === 'combat-decline-reaction' ? 'Decline opportunity attack' : requestRef.current?.intent.kind === 'martial-attack' ? 'Confirm Longsword attack' : `Confirm ${requestRef.current?.intent.skill ?? requestRef.current?.intent.ability ?? 'character'} check`);
     requestRef.current = null;
     void client.invalidateQueries({ queryKey: ['campaign', campaignId] });
   };
@@ -54,16 +56,17 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet }: {
       }
     },
   });
-  const [selection, setSelection] = useState('');
+  const [selection, setSelection] = useState(initialSelection);
   const preview = useMutation({ mutationFn: (value: string) => {
     const [kind, name] = value.split(':');
     return previewCharacterAction(campaignId, {
       actor_id: actorId,
       kind: kind === 'skill' ? 'ability-check' : kind,
-      ...(kind === 'skill' ? { skill: name } : kind === 'entry' || kind === 'martial-attack' || kind === 'combat-start' || kind === 'consumable-use' ? { entry_id: name } : { ability: name }),
+      ...(kind === 'skill' ? { skill: name } : kind === 'entry' || kind === 'martial-attack' || kind === 'combat-start' || kind === 'combat-react' || kind === 'consumable-use' ? { entry_id: name } : { ability: name }),
     });
   } });
   const result = preview.data;
+  const trigger = (reaction ?? result?.encounter?.reaction)?.pending;
   return <section aria-label="Action preview" className="space-y-3 border-y border-gold/20 py-4">
     <h3 className="font-heading text-gold">Preview a character action</h3>
     <p className="text-sm text-pewter">Inspect an action without rolling dice or changing resources, time or history.</p>
@@ -74,6 +77,7 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet }: {
         <optgroup label="Skills">{Object.keys(sheet.skills).map(name => <option key={name} value={`skill:${name}`}>{name.replaceAll('-', ' ')} check</option>)}</optgroup>
         <optgroup label="Saving throws">{Object.keys(sheet.saves).map(name => <option key={name} value={`saving-throw:${name}`}>{name} save</option>)}</optgroup>
         <optgroup label="Equipped weapons">{inventory.data?.filter(item => item.equipped && item.quantity > 0 && item.item_type === 'weapon' && item.properties.srd521_id === 'longsword').map(item => <option key={item.id} value={`martial-attack:${item.id}`}>{item.name} (one hand)</option>)}</optgroup>
+        {trigger && <optgroup label="Pending reaction"><option value={`combat-react:${trigger.weapon_id}`}>Longsword opportunity attack (reaction)</option><option value="combat-decline-reaction">Decline opportunity attack (no cost)</option></optgroup>}
         <optgroup label="Encounter turns"><option value="combat-end-turn">End turn</option><option value="combat-move">Spend 5 feet of movement</option><option value="combat-dash">Dash (action)</option><option value="combat-approach">Approach target 5 feet</option><option value="combat-retreat">Retreat from target 5 feet</option>{inventory.data?.filter(item => item.equipped && item.quantity > 0 && item.properties.srd521_id === 'longsword').map(item => <option key={item.id} value={`combat-start:${item.id}`}>Start ordinary melee encounter ({item.name})</option>)}</optgroup>
         <optgroup label="Consumables">{inventory.data?.filter(item => item.quantity > 0 && item.item_type === 'consumable' && item.properties.srd521_id === 'potion-of-healing').map(item => <option key={item.id} value={`consumable-use:${item.id}`}>{item.name} (quantity {item.quantity}, self)</option>)}</optgroup>
         <optgroup label="Sheet entries">{sheet.capabilities.map(entry => <option key={entry.id} value={`entry:${entry.id}`}>{entry.label}</option>)}</optgroup>
@@ -101,12 +105,12 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet }: {
         </details>
       </> : <p>{result.reason}</p>}
       {result.available && !completed && <button type="button" disabled={confirmation.isPending || ((result.intent.kind === 'martial-attack' || result.intent.kind === 'combat-start') && !target && !pending)} className="min-h-11 border border-gold px-4 text-gold disabled:opacity-50" onClick={() => {
-        const request = requestRef.current ?? { action_id: crypto.randomUUID(), expected_revision: result.expected_revision, intent: result.intent, ...(result.intent.kind === 'saving-throw' || result.intent.kind === 'consumable-use' ? { target_id: actorId } : result.intent.kind === 'martial-attack' || result.intent.kind === 'combat-start' ? { target_id: target } : {}) };
+        const request = requestRef.current ?? { action_id: crypto.randomUUID(), expected_revision: result.expected_revision, intent: result.intent, ...(result.intent.kind === 'saving-throw' || result.intent.kind === 'consumable-use' ? { target_id: actorId } : result.intent.kind === 'combat-react' ? { target_id: trigger?.target_id } : result.intent.kind === 'martial-attack' || result.intent.kind === 'combat-start' ? { target_id: target } : {}) };
         requestRef.current = request; setPending(request);
         try { sessionStorage.setItem(storageKey, JSON.stringify(request)); } catch { /* In-memory retry still keeps the ID. */ }
         confirmation.mutate(request);
       }}>{confirmation.isPending ? 'Confirming…' : pending ? 'Retry same action' : 'Confirm action'}</button>}
-      <p className="text-pewter">Potion of Healing supports conscious self-use only. Checks require scene adjudication. Martial attacks support only the prepared one-handed longsword fixture; encounter turns are limited to the ordinary two-actor fixture; mastery and reactions remain unavailable.</p>
+      <p className="text-pewter">Potion of Healing supports conscious self-use only. Checks require scene adjudication. Martial attacks support only the prepared one-handed longsword fixture; encounter turns are limited to the ordinary two-actor fixture; mastery and other reaction features remain unavailable. Opportunity attacks require a saved explicit trigger.</p>
     </div>}
   </section>;
 }

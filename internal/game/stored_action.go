@@ -17,10 +17,11 @@ import (
 
 // MartialTarget is a server-only, explicitly ordinary fixture target.
 type MartialTarget struct {
-	ID    uuid.UUID
-	Name  string
-	HP    int
-	Space combat.Space
+	ID     uuid.UUID
+	Name   string
+	HP     int
+	Space  combat.Space
+	Tactic string
 }
 
 // StoredAction adds persisted equipment and legal fixture targets to preparation.
@@ -158,6 +159,12 @@ func readMartialTargets(ctx context.Context, database statedb.DBTX, campaign dom
 			return nil, err
 		}
 		target.Space = fixtureSpace(facts)
+		var tactic struct {
+			Tactic string `json:"tactic"`
+		}
+		if err := json.Unmarshal(facts, &tactic); err == nil && tactic.Tactic == "withdraw" {
+			target.Tactic = "withdraw"
+		}
 		result = append(result, target)
 	}
 	if err := targets.Err(); err != nil {

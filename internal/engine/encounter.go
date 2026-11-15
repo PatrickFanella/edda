@@ -13,7 +13,7 @@ import (
 // transaction. Both HP effects and dice receipts commit with the turn cursor.
 func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, encounter *combat.Encounter, sheet *srd521.CharacterSheet, dice srd521.Dice) ([]*srd521.AttackReceipt, error) {
 	receipts := []*srd521.AttackReceipt{}
-	if encounter.Status != "active" || encounter.Active().Player {
+	if encounter.Status != "active" || encounter.Active().Player || encounter.Reaction.Pending != nil {
 		return receipts, nil
 	}
 	// An out-of-reach NPC holds position. Unknown facts pause resolution rather
@@ -50,6 +50,36 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 	}
 	encounter.SetHP(player.ID, hp)
 	receipts = append(receipts, attack)
+	if encounter.Status == "active" && encounter.NPCTactic == "withdraw" && encounter.Space.Cover == "none" && *encounter.Space.DistanceFeet == 5 {
+		// A voluntary step from five to ten feet is this fixture's one supported
+		// opportunity trigger. Suspend BEFORE movement, after the NPC's attack.
+		var weapon uuid.UUID
+		err := tx.QueryRow(ctx, `SELECT id FROM items WHERE campaign_id=$1 AND player_character_id=$2 AND item_type='weapon' AND equipped AND quantity>0 AND properties->>'srd521_id'='longsword' ORDER BY id LIMIT 1 FOR UPDATE`, dbutil.ToPgtype(campaignID), dbutil.ToPgtype(player.ID)).Scan(&weapon)
+		if err != nil && err != pgx.ErrNoRows {
+			return nil, err
+		}
+		if err == nil && encounter.Reaction.Available {
+			encounter.Reaction.Pending = &combat.ReactionTrigger{ID: uuid.New(), TargetID: npc.ID, WeaponID: weapon, SpaceRevision: encounter.Space.Revision}
+			return receipts, nil
+		}
+		finishWithdrawal(encounter)
+		return receipts, nil
+	}
 	encounter.Advance()
 	return receipts, nil
+}
+
+// finishWithdrawal consumes the pending NPC movement once, then returns control
+// to the player. A changed/unclear path cancels the step rather than guessing.
+func finishWithdrawal(encounter *combat.Encounter) {
+	encounter.Reaction.Pending = nil
+	if encounter.Status != "active" {
+		return
+	}
+	if err := encounter.Spend(encounter.Active().ID, combat.EncounterRetreat); err != nil {
+		// Retaining position is safe when a new scene ruling blocks the path.
+		encounter.Advance()
+		return
+	}
+	encounter.Advance()
 }

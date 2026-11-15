@@ -56,3 +56,36 @@ func TestEncounterEconomyAndInitiative(t *testing.T) {
 		t.Fatal("completed encounter accepted action")
 	}
 }
+
+func TestReactionConsentAndRecovery(t *testing.T) {
+	p, n := uuid.New(), uuid.New()
+	e, err := NewEncounter(EncounterActor{ID: p, HP: 12}, EncounterActor{ID: n, HP: 20}, 0, fixedEncounterDice(9))
+	if err != nil {
+		t.Fatal(err)
+	}
+	distance, sight := 5, true
+	e.Space = &Space{DistanceFeet: &distance, LineOfSight: &sight, Cover: "none", Revision: "scene"}
+	e.Advance()
+	if err := e.SpendReaction(); err == nil {
+		t.Fatal("reaction without trigger")
+	}
+	e.Reaction.Pending = &ReactionTrigger{ID: uuid.New(), TargetID: n, SpaceRevision: "old"}
+	if err := e.SpendReaction(); err == nil || !e.Reaction.Available {
+		t.Fatal("stale trigger spent reaction")
+	}
+	e.Reaction.Pending.SpaceRevision = "scene"
+	if err := e.SpendReaction(); err != nil {
+		t.Fatal(err)
+	}
+	if e.Reaction.Available {
+		t.Fatal("reaction not spent")
+	}
+	if err := e.SpendReaction(); err == nil {
+		t.Fatal("double reaction")
+	}
+	e.Reaction.Pending = nil
+	e.Advance()
+	if !e.Reaction.Available {
+		t.Fatal("reaction not restored at start of own turn")
+	}
+}

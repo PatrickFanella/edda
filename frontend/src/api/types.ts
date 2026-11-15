@@ -592,11 +592,13 @@ export interface HealingReceipt {
 }
 
 export interface Encounter {
+ reaction?: { available: boolean; pending?: { id: string; target_id: string; weapon_id: string; space_revision: string } };
+ npc_tactic?: string;
  space?: { distance_feet: number | null; line_of_sight: boolean | null; cover: string; revision: string };
  id: string;
  status: 'active' | 'completed';
  round: number;
  turn: number;
- actors: { id: string; name: string; player: boolean; hp: number; max_hp: number; initiative: number; initiative_die: number }[];
+ actors: { id: string; name: string; player: boolean; hp?: number; max_hp?: number; initiative: number; initiative_die: number }[];
  budget: { action: boolean; bonus_action: boolean; movement: number };
 }

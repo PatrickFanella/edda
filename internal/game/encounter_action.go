@@ -29,6 +29,9 @@ func ReadEncounter(ctx context.Context, database statedb.DBTX, campaignID uuid.U
 	if encounter != nil && (len(encounter.Actors) != 2 || encounter.Turn < 0 || encounter.Turn >= 2 || encounter.Round < 1) {
 		return nil, fmt.Errorf("invalid saved encounter")
 	}
+	if encounter != nil && encounter.Reaction == nil {
+		encounter.Reaction = &combat.ReactionState{Available: true}
+	}
 	return encounter, nil
 }
 
@@ -37,9 +40,9 @@ func ReadEncounter(ctx context.Context, database statedb.DBTX, campaignID uuid.U
 func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
 	base := intent
 	switch intent.Kind {
-	case combat.EncounterStart:
+	case combat.EncounterStart, combat.EncounterReact:
 		base.Kind = srd521.MartialAttack
-	case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat:
+	case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline:
 		base = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}
 	}
 	result, err := prepareStoredActionBase(ctx, database, campaign, pc, base, lock)
@@ -47,6 +50,11 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		return nil, err
 	}
 	p := result.Preview
+	defer func() {
+		if p.Encounter != nil {
+			p.Encounter = p.Encounter.Public()
+		}
+	}()
 	if base != intent {
 		p.Intent = intent
 	}
@@ -100,7 +108,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if !p.Available {
 		return result, nil
 	}
-	if intent.Kind == combat.EncounterStart || intent.Kind == srd521.MartialAttack {
+	if intent.Kind == combat.EncounterStart || intent.Kind == srd521.MartialAttack || intent.Kind == combat.EncounterReact {
 		legal := []MartialTarget{}
 		p.Targets = []ActionTarget{}
 		for _, target := range result.Targets {
@@ -146,10 +154,45 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	if !active {
 		switch intent.Kind {
-		case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat:
+		case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline, combat.EncounterReact:
 			return unavailable("No supported encounter is active.")
 		}
 		return result, nil
+	}
+	if encounter.Reaction.Pending != nil {
+		if intent.Kind != combat.EncounterReact && intent.Kind != combat.EncounterDecline {
+			return unavailable("Choose or decline the pending reaction before continuing.")
+		}
+		trigger := encounter.Reaction.Pending
+		if intent.Ability != "" || intent.Skill != "" || encounter.Active().Player || encounter.Active().ID != trigger.TargetID {
+			return unavailable("This reaction trigger is unavailable.")
+		}
+		p.Options = []string{"Opportunity attack before the visible foe leaves your reach. Declining spends no reaction. The NPC withdrawal then resumes."}
+		p.CostStatus = "encounter"
+		p.SourceIDs = append(p.SourceIDs, "srd-5.2.1:content/combat/opportunity-attacks", "srd-5.2.1:content/combat/reactions")
+		if intent.Kind == combat.EncounterDecline {
+			if intent.EntryID != "" {
+				return unavailable("Choose the supported reaction response.")
+			}
+			p.Modifier = nil
+			p.Targets = []ActionTarget{}
+			p.Costs = []ActionCost{}
+			return result, nil
+		}
+		if intent.EntryID != trigger.WeaponID.String() {
+			return unavailable("The trigger requires its prepared equipped longsword.")
+		}
+		copy := *encounter
+		state := *encounter.Reaction
+		copy.Reaction = &state
+		if err := copy.SpendReaction(); err != nil {
+			return unavailable(err.Error())
+		}
+		p.Costs = []ActionCost{{ResourceID: "reaction", Amount: 1}}
+		return result, nil
+	}
+	if intent.Kind == combat.EncounterReact || intent.Kind == combat.EncounterDecline {
+		return unavailable("No eligible reaction is pending.")
 	}
 	if encounter.Active().ID != pc.ID {
 		return unavailable("Wait for the active actor's turn.")
@@ -159,7 +202,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	case srd521.MartialAttack:
 
 	case srd521.ConsumableUse:
-	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn, combat.EncounterApproach, combat.EncounterRetreat:
+	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline:
 		if intent.EntryID != "" || intent.Ability != "" || intent.Skill != "" {
 			return unavailable("Choose a supported encounter action.")
 		}

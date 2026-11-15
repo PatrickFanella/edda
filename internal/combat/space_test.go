@@ -39,6 +39,9 @@ func TestMovementCopiesAndExactDistance(t *testing.T) {
 	if *original.DistanceFeet != 10 || *copy.DistanceFeet != 5 {
 		t.Fatal("movement changed the preview's source")
 	}
+	if err := copy.Move(EncounterApproach); err == nil {
+		t.Fatal("approached into the foe's occupied space")
+	}
 	if err := copy.Move(EncounterRetreat); err != nil || *copy.DistanceFeet != 10 {
 		t.Fatal("retreat did not change distance")
 	}

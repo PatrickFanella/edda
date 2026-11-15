@@ -21,11 +21,19 @@ import (
 	"github.com/google/uuid"
 )
 
-type spatialDice struct{ calls, roll int }
+type spatialDice struct {
+	calls, roll int
+	d20         []int
+}
 
 func (d *spatialDice) Intn(n int) int {
 	d.calls++
 	if n == 20 {
+		if len(d.d20) > 0 {
+			value := d.d20[0]
+			d.d20 = d.d20[1:]
+			return value
+		}
 		return d.roll
 	}
 	return 0
@@ -80,7 +88,7 @@ func (f *spatialFixture) prepare(kind string) *game.ActionPreview {
 	c, pc, err := game.ReadActionSnapshot(ctx, testPool, f.campaign, f.actor, testUserID, false)
 	f.must(err)
 	intent := game.ActionIntent{ActorID: f.actor, Kind: kind}
-	if kind == combat.EncounterStart || kind == srd521.MartialAttack {
+	if kind == combat.EncounterStart || kind == srd521.MartialAttack || kind == combat.EncounterReact {
 		intent.EntryID = f.weapon.String()
 	}
 	a, err := game.PrepareStoredAction(ctx, testPool, c, pc, intent, false)
@@ -99,7 +107,7 @@ func (f *spatialFixture) confirm(p *game.ActionPreview) (engine.PreparedAction, 
 		f.t.Fatalf("unavailable: %+v", p)
 	}
 	r := engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: p.ExpectedRevision, Intent: p.Intent}
-	if p.Intent.Kind == combat.EncounterStart || p.Intent.Kind == srd521.MartialAttack {
+	if p.Intent.Kind == combat.EncounterStart || p.Intent.Kind == srd521.MartialAttack || p.Intent.Kind == combat.EncounterReact {
 		r.TargetID = f.target
 	}
 	result, err := f.engine().ConfirmAction(context.Background(), f.campaign, r)
