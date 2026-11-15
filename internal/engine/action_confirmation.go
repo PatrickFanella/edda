@@ -149,16 +149,20 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if err != nil {
 			return nil, err
 		}
+		encounter.Space = &target.Space
 		label = "Initiative"
 		tool = "srd_encounter"
 		narrative = "Initiative rolled for the ordinary melee fixture."
-	} else if request.Intent.Kind == combat.EncounterEndTurn || request.Intent.Kind == combat.EncounterMove || request.Intent.Kind == combat.EncounterDash {
+	} else if request.Intent.Kind == combat.EncounterEndTurn || request.Intent.Kind == combat.EncounterMove || request.Intent.Kind == combat.EncounterDash || request.Intent.Kind == combat.EncounterApproach || request.Intent.Kind == combat.EncounterRetreat {
 		if encounter == nil || encounter.Status != "active" {
 			return nil, ErrActionRefresh
 		}
 		tool = "srd_encounter"
 		label = request.Intent.Kind
-		narrative = "Moved 5 feet; scene position requires adjudication."
+		narrative = "Spent 5 feet of movement without changing distance."
+		if request.Intent.Kind == combat.EncounterApproach || request.Intent.Kind == combat.EncounterRetreat {
+			narrative = fmt.Sprintf("Moved 5 feet; target distance is now %d feet.", *encounter.Space.DistanceFeet)
+		}
 		if request.Intent.Kind == combat.EncounterDash {
 			narrative = "Dash: 30 feet added to this turn's movement."
 		}
@@ -177,7 +181,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if target == nil {
 			return nil, ErrActionRefresh
 		}
-		attack, err := srd521.ResolveLongsword(sheet, 10, dice)
+		attack, err := srd521.ResolveLongsword(sheet, 10+target.Space.CoverBonus(), dice)
 		if err != nil {
 			return nil, err
 		}

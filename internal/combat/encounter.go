@@ -7,10 +7,12 @@ import (
 )
 
 const (
-	EncounterStart   = "combat-start"
-	EncounterEndTurn = "combat-end-turn"
-	EncounterMove    = "combat-move"
-	EncounterDash    = "combat-dash"
+	EncounterStart    = "combat-start"
+	EncounterEndTurn  = "combat-end-turn"
+	EncounterMove     = "combat-move"
+	EncounterDash     = "combat-dash"
+	EncounterApproach = "combat-approach"
+	EncounterRetreat  = "combat-retreat"
 )
 
 // EncounterActor is public state for the explicitly known two-actor fixture.
@@ -34,6 +36,7 @@ type TurnBudget struct {
 // Encounter is the supported ordinary melee fixture, separate from legacy combat.
 // Initiative is rolled once. Equal totals put the player first (declared tie choice).
 type Encounter struct {
+	Space  *Space           `json:"space,omitempty"`
 	ID     uuid.UUID        `json:"id"`
 	Status string           `json:"status"`
 	Round  int              `json:"round"`
@@ -80,9 +83,19 @@ func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 			return fmt.Errorf("bonus action already spent")
 		}
 		e.Budget.BonusAction = false
-	case EncounterMove:
+	case EncounterMove, EncounterApproach, EncounterRetreat:
 		if e.Budget.Movement < 5 {
 			return fmt.Errorf("insufficient movement")
+		}
+		if kind != EncounterMove {
+			if e.Space == nil {
+				return fmt.Errorf("Clarify spatial facts before moving.")
+			}
+			space := *e.Space
+			if err := space.Move(kind); err != nil {
+				return err
+			}
+			e.Space = &space
 		}
 		e.Budget.Movement -= 5
 	case EncounterEndTurn:

@@ -9,6 +9,8 @@ for (const [width,height] of [[1366,768],[360,800],[390,844]]) {
  test(`durable encounter summary fits and reloads at ${width}x${height}`, async ({page,game}) => {
   await page.setViewportSize({width,height});
   const encounter = {id:'fixture',status:'active',round:3,turn:0,actors:[{id:'hero',name:'Mira',player:true,hp:11,max_hp:12,initiative:20,initiative_die:19},{id:'foe',name:'Practice foe',player:false,hp:18,max_hp:20,initiative:19,initiative_die:19}],budget:{action:false,bonus_action:true,movement:15}};
+  const space = {distance_feet:10,line_of_sight:true,cover:'none',revision:'declared'};
+  Object.assign(encounter,{space});
   await page.route('**/campaigns/alpha',route=>route.fulfill({json:{...campaign(),rules_version:'srd-5.2.1',rules_mode:'crunch'}}));
   await page.route('**/campaigns/alpha/character',route=>route.fulfill({json:{...character(),id:'hero',rules_version:'srd-5.2.1',sheet:sheetFixture.sheet}}));
   await page.route('**/campaigns/alpha/character/action-preview?**',route=>route.fulfill({json:{intent:{actor_id:'hero',kind:'combat-end-turn'},rules_version:'srd-5.2.1',expected_revision:'fixture',available:true,targets:[],options:[],costs:[],cost_status:'encounter',source_ids:[],encounter}}));
@@ -17,6 +19,7 @@ for (const [width,height] of [[1366,768],[360,800],[390,844]]) {
   const summary=page.getByRole('region',{name:'Encounter turns'});
   await expect(summary).toContainText("Round 3 · Mira's turn");
   await expect(summary).toContainText('Action: spent · Bonus action: available · Movement: 15 ft');
+  await expect(summary).toContainText('Distance: 10 ft · Sight: clear · Cover: none');
   await expectDocumentFits(page);
   await expectReachable(page.getByRole('button',{name:'Choose combat action'}));
   await page.reload();

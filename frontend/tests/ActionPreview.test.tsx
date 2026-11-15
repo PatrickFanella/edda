@@ -20,6 +20,15 @@ const ready: ActionPreview = {
 function mount(campaignId = 'alpha', actorId = 'hero') {
   return render(<QueryClientProvider client={new QueryClient()}><ActionPreviewPanel key={`${campaignId}:${actorId}`} campaignId={campaignId} actorId={actorId} sheet={sheet} /></QueryClientProvider>);
 }
+it('shows exact reach and clarification before an unavailable attack can be confirmed', async () => {
+  vi.mocked(previewCharacterAction).mockResolvedValueOnce({ ...ready, available: false, reason: 'No legal target.', targets: [{id:'foe', label:'Practice foe', distance_feet:15, reach_feet:5, unavailable_reason:'Out of reach.'}] });
+  mount('spatial');
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'skill:athletics');
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  expect(await screen.findByRole('list', { name: 'Target ranges' })).toHaveTextContent('Practice foe: 15 ft · reach 5 ft. Out of reach.');
+  expect(screen.queryByRole('button', {name:'Confirm action'})).not.toBeInTheDocument();
+  expect(confirmCharacterAction).not.toHaveBeenCalled();
+});
 it('previews a selected sheet skill without confirming or performing an action', async () => {
   vi.mocked(previewCharacterAction).mockResolvedValue(ready);
   mount();

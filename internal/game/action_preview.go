@@ -25,8 +25,11 @@ type ActionIntent struct {
 
 // ActionTarget is an explicitly player-known target option.
 type ActionTarget struct {
-	ID    uuid.UUID `json:"id"`
-	Label string    `json:"label"`
+	ID                uuid.UUID `json:"id"`
+	Label             string    `json:"label"`
+	DistanceFeet      *int      `json:"distance_feet,omitempty"`
+	ReachFeet         int       `json:"reach_feet,omitempty"`
+	UnavailableReason string    `json:"unavailable_reason,omitempty"`
 }
 
 // ActionCost describes a known resource cost. Contextual action/time costs need

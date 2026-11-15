@@ -51,3 +51,35 @@ PostgreSQL journey for initiative, attacks, potion cost, movement exhaustion,
 round advancement, reload and duplicate confirmation, frontend interaction tests,
 and isolated Chromium layout/reload checks at 1366×768, 360×800 and 390×844.
 These fixtures do not qualify a live provider or a physical phone keyboard.
+
+
+## Exact spatial rulings (#67)
+
+The `ordinary-spatial-fixture-v1` target profile extends the same two-actor
+fixture. Its server-owned `srd521_target` properties declare `actor_id`, exact
+`distance_feet`, `line_of_sight` and `cover` (`none`, `half`, `three-quarters`, or
+`total`). Missing or invalid facts require clarification in those scene properties
+before a roll. The original `unarmored-fixture-v1` declaration at exactly five
+feet retains its ordinary clear-sight/no-cover contract. Other distances on that
+old profile receive no compatibility defaults.
+
+Previews show player-known targets with distance, five-foot reach and a reason
+when an attack is unavailable. Confirmation rechecks current campaign membership,
+location, encounter membership, visibility and spatial rulings. Unencountered
+NPCs, `hidden: true` targets and private properties are excluded, including from
+encounter summaries and accessibility text. Hidden or relocated encounter members
+pause the fixture until the scene membership is clarified.
+
+Starting an encounter records the declared spatial ruling with its source hash.
+Approach and Retreat each spend five movement feet and change the saved distance
+by five feet on the declared unobstructed, visible, no-cover path. The old Spend
+5 feet action only spends budget. Distance survives turns and reloads. A changed
+server ruling replaces the prior spatial snapshot on the next committed action
+and invalidates old previews. No model or client-supplied modifier decides reach.
+
+Ordinary attacks require sight, no total cover and at most five feet of reach.
+Half and three-quarters cover add +2 and +5 AC respectively, symmetrically for
+this fixture. NPCs hold position and end their turn when a resolved distance,
+sight or cover ruling blocks their attack. They do not teleport or invent a path.
+Unknown spatial facts pause NPC resolution without rolling. General unseen
+attacks, obstacles, asymmetric cover and arbitrary movement remain unsupported.

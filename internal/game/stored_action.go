@@ -17,9 +17,10 @@ import (
 
 // MartialTarget is a server-only, explicitly ordinary fixture target.
 type MartialTarget struct {
-	ID   uuid.UUID
-	Name string
-	HP   int
+	ID    uuid.UUID
+	Name  string
+	HP    int
+	Space combat.Space
 }
 
 // StoredAction adds persisted equipment and legal fixture targets to preparation.
@@ -90,20 +91,8 @@ func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaig
 	if !found || json.Unmarshal(properties, &item) != nil || item.ID != "longsword" {
 		return result, nil
 	}
-	targets, err := database.Query(ctx, `SELECT n.id,n.name,n.hp FROM npcs n WHERE n.campaign_id=$1 AND n.alive AND n.hp>0 AND n.location_id=$2 AND n.properties->'srd521_target'=jsonb_build_object('profile','unarmored-fixture-v1','actor_id',$3::text,'distance_feet',5) AND EXISTS(SELECT 1 FROM session_logs l WHERE l.campaign_id=n.campaign_id AND n.id=ANY(l.npcs_involved)) ORDER BY n.id`+locking, dbutil.ToPgtype(campaign.ID), pc.CurrentLocationID, pc.ID.String())
+	result.Targets, err = readMartialTargets(ctx, database, campaign, pc, lock)
 	if err != nil {
-		return nil, err
-	}
-	defer targets.Close()
-	for targets.Next() {
-		var target MartialTarget
-		if err := targets.Scan(&target.ID, &target.Name, &target.HP); err != nil {
-			return nil, err
-		}
-		result.Targets = append(result.Targets, target)
-		preview.Targets = append(preview.Targets, ActionTarget{ID: target.ID, Label: target.Name})
-	}
-	if err := targets.Err(); err != nil {
 		return nil, err
 	}
 	encoded, err := json.Marshal([]any{preview.ExpectedRevision, itemID, properties, updated, result.Targets})
@@ -126,5 +115,54 @@ func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaig
 	preview.Costs = []ActionCost{{ResourceID: "attack-action", Amount: 1}}
 	preview.CostStatus = "fixture-only"
 	preview.SourceIDs = []string{"srd-5.2.1:content/d20-tests/attack-rolls", "srd-5.2.1:content/weapons/longsword", "srd-5.2.1:content/damage/critical-hits"}
+	return result, nil
+}
+
+// fixtureSpace preserves the original explicitly ordinary five-foot contract.
+// The spatial profile requires explicit facts; it never infers them from prose.
+func fixtureSpace(data []byte) combat.Space {
+	var props struct {
+		Profile string `json:"profile"`
+		combat.Space
+	}
+	if json.Unmarshal(data, &props) != nil {
+		return combat.Space{}
+	}
+	space := props.Space
+	if props.Profile == "unarmored-fixture-v1" {
+		distance, sight := 5, true
+		// Only the exact original fixture gets compatibility defaults.
+		if space.DistanceFeet != nil && *space.DistanceFeet == 5 && space.LineOfSight == nil && space.Cover == "" {
+			space.DistanceFeet, space.LineOfSight, space.Cover = &distance, &sight, "none"
+		}
+	}
+	space.Revision = fmt.Sprintf("%x", sha256.Sum256(data))
+	return space
+}
+
+func readMartialTargets(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, lock bool) ([]MartialTarget, error) {
+	locking := ""
+	if lock {
+		locking = " FOR UPDATE"
+	}
+	result := []MartialTarget{}
+	targets, err := database.Query(ctx, `SELECT n.id,n.name,n.hp,n.properties->'srd521_target' FROM npcs n WHERE n.campaign_id=$1 AND n.alive AND n.hp>0 AND n.location_id=$2 AND n.properties->'srd521_target'->>'profile' IN ('unarmored-fixture-v1','ordinary-spatial-fixture-v1') AND n.properties->'srd521_target'->>'actor_id'=$3::text AND COALESCE(n.properties->'srd521_target'->>'hidden','false')='false' AND EXISTS(SELECT 1 FROM session_logs l WHERE l.campaign_id=n.campaign_id AND n.id=ANY(l.npcs_involved)) ORDER BY n.id`+locking, dbutil.ToPgtype(campaign.ID), pc.CurrentLocationID, pc.ID.String())
+	if err != nil {
+		return nil, err
+	}
+	defer targets.Close()
+	for targets.Next() {
+		var target MartialTarget
+		var facts []byte
+		if err := targets.Scan(&target.ID, &target.Name, &target.HP, &facts); err != nil {
+			return nil, err
+		}
+		target.Space = fixtureSpace(facts)
+		result = append(result, target)
+	}
+	if err := targets.Err(); err != nil {
+		return nil, err
+	}
+
 	return result, nil
 }

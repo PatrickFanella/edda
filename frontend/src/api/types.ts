@@ -517,7 +517,7 @@ export interface ActionPreview {
   available: boolean;
   reason?: string;
   modifier?: DerivedValue;
-  targets: { id: string; label: string }[];
+  targets: { id: string; label: string; distance_feet?: number; reach_feet?: number; unavailable_reason?: string }[];
   options: string[];
   costs: { resource_id: string; amount: number }[];
   cost_status: 'requires-adjudication' | 'fixture-only' | 'encounter';
@@ -592,6 +592,7 @@ export interface HealingReceipt {
 }
 
 export interface Encounter {
+ space?: { distance_feet: number | null; line_of_sight: boolean | null; cover: string; revision: string };
  id: string;
  status: 'active' | 'completed';
  round: number;

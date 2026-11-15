@@ -8,6 +8,7 @@ export function EncounterSummary({ encounter }: { readonly encounter: Encounter 
    <ol aria-label="Initiative order" className="flex flex-wrap gap-x-4 gap-y-1">
     {encounter.actors.map(a => <li key={a.id} aria-current={encounter.status === 'active' && a.id === actor.id ? 'step' : undefined}>{a.name}: initiative {a.initiative} (d20 {a.initiative_die})</li>)}
    </ol>
+   {encounter.space && <p>Distance: {encounter.space.distance_feet === null ? 'needs clarification' : `${encounter.space.distance_feet} ft`} · Sight: {encounter.space.line_of_sight === null ? 'needs clarification' : encounter.space.line_of_sight ? 'clear' : 'blocked'} · Cover: {encounter.space.cover || 'needs clarification'}</p>}
    {encounter.status === 'active' && <p>Action: {encounter.budget.action ? 'available' : 'spent'} · Bonus action: {encounter.budget.bonus_action ? 'available' : 'spent'} · Movement: {encounter.budget.movement} ft</p>}
  </section>;
 }

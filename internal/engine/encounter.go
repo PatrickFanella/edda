@@ -16,6 +16,18 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 	if encounter.Status != "active" || encounter.Active().Player {
 		return receipts, nil
 	}
+	// An out-of-reach NPC holds position. Unknown facts pause resolution rather
+	// than manufacturing a hit or a path through an obstacle.
+	if encounter.Space == nil {
+		return nil, ErrActionRefresh
+	}
+	if err := encounter.Space.Validate(); err != nil {
+		return nil, ErrActionRefresh
+	}
+	if err := encounter.Space.Melee(); err != nil {
+		encounter.Advance()
+		return receipts, nil
+	}
 	npc := encounter.Active()
 	if err := encounter.Spend(npc.ID, srd521.MartialAttack); err != nil {
 		return nil, err
@@ -26,7 +38,7 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 			player = &encounter.Actors[i]
 		}
 	}
-	attack, err := srd521.ResolveFixtureUnarmed(sheet.Defenses["armor-class"].Value, dice)
+	attack, err := srd521.ResolveFixtureUnarmed(sheet.Defenses["armor-class"].Value+encounter.Space.CoverBonus(), dice)
 	if err != nil {
 		return nil, err
 	}

@@ -39,7 +39,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	switch intent.Kind {
 	case combat.EncounterStart:
 		base.Kind = srd521.MartialAttack
-	case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash:
+	case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat:
 		base = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}
 	}
 	result, err := prepareStoredActionBase(ctx, database, campaign, pc, base, lock)
@@ -64,10 +64,77 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		p.ExpectedRevision = fmt.Sprintf("encounter-v1:%x", sha256.Sum256(encoded))
 	}
 	unavailable := func(reason string) (*StoredAction, error) { p.Available = false; p.Reason = reason; return result, nil }
+	active := encounter != nil && encounter.Status == "active"
+	// Revalidate membership on every encounter action, including NPC resolution.
+	// Never send stale encounter actors/stats when a target is no longer public.
+	if encounter != nil {
+		members, err := readMartialTargets(ctx, database, campaign, pc, lock)
+		if err != nil {
+			return nil, err
+		}
+		var member *MartialTarget
+		for i := range members {
+			for _, actor := range encounter.Actors {
+				if !actor.Player && actor.ID == members[i].ID {
+					member = &members[i]
+				}
+			}
+		}
+		if member == nil && active {
+			p.Encounter = nil
+			return unavailable("The encounter target is no longer available; clarify scene membership.")
+		}
+		if member == nil {
+			p.Encounter = nil
+		}
+		if member != nil && (encounter.Space == nil || encounter.Space.Revision != member.Space.Revision) {
+			encounter.Space = &member.Space
+		}
+		// Include membership, current HP and new rulings in stale-preview detection.
+		encoded, err := json.Marshal([]any{p.ExpectedRevision, encounter, members})
+		if err != nil {
+			return nil, err
+		}
+		p.ExpectedRevision = fmt.Sprintf("space-v1:%x", sha256.Sum256(encoded))
+	}
 	if !p.Available {
 		return result, nil
 	}
-	active := encounter != nil && encounter.Status == "active"
+	if intent.Kind == combat.EncounterStart || intent.Kind == srd521.MartialAttack {
+		legal := []MartialTarget{}
+		p.Targets = []ActionTarget{}
+		for _, target := range result.Targets {
+			if active {
+				belongs := false
+				for _, actor := range encounter.Actors {
+					if !actor.Player && actor.ID == target.ID {
+						belongs = true
+					}
+				}
+				if !belongs {
+					continue
+				}
+				target.Space = *encounter.Space
+			}
+			option := ActionTarget{ID: target.ID, Label: target.Name, DistanceFeet: target.Space.DistanceFeet, ReachFeet: 5}
+			var spatialErr error
+			if intent.Kind == combat.EncounterStart {
+				spatialErr = target.Space.Validate()
+			} else {
+				spatialErr = target.Space.Melee()
+			}
+			if spatialErr != nil {
+				option.UnavailableReason = spatialErr.Error()
+			} else {
+				legal = append(legal, target)
+			}
+			p.Targets = append(p.Targets, option)
+		}
+		result.Targets = legal
+		if len(legal) == 0 {
+			return unavailable("No legal target. Clarify unresolved scene facts or choose a target within reach.")
+		}
+	}
 	if intent.Kind == combat.EncounterStart {
 		if active {
 			return unavailable("An encounter is already active.")
@@ -79,7 +146,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	if !active {
 		switch intent.Kind {
-		case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash:
+		case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat:
 			return unavailable("No supported encounter is active.")
 		}
 		return result, nil
@@ -90,23 +157,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	// Do not pretend arbitrary checks are encounter actions in this slice.
 	switch intent.Kind {
 	case srd521.MartialAttack:
-		allowed := []ActionTarget{}
-		targets := []MartialTarget{}
-		for _, t := range result.Targets {
-			for _, a := range encounter.Actors {
-				if !a.Player && a.ID == t.ID {
-					allowed = append(allowed, ActionTarget{ID: t.ID, Label: t.Name})
-					targets = append(targets, t)
-				}
-			}
-		}
-		result.Targets = targets
-		p.Targets = allowed
-		if len(targets) == 0 {
-			return unavailable("The encounter target is no longer available.")
-		}
+
 	case srd521.ConsumableUse:
-	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn:
+	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn, combat.EncounterApproach, combat.EncounterRetreat:
 		if intent.EntryID != "" || intent.Ability != "" || intent.Skill != "" {
 			return unavailable("Choose a supported encounter action.")
 		}
@@ -114,9 +167,12 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		p.Targets = []ActionTarget{}
 		p.Costs = []ActionCost{}
 		p.Options = []string{"End turn resolves the NPC turn through saved dice mechanics."}
-		if intent.Kind == combat.EncounterMove {
+		if intent.Kind == combat.EncounterMove || intent.Kind == combat.EncounterApproach || intent.Kind == combat.EncounterRetreat {
 			p.Costs = []ActionCost{{ResourceID: "movement-feet", Amount: 5}}
-			p.Options = []string{"Spend 5 feet of movement; position and range changes require adjudication."}
+			p.Options = []string{"Spend 5 feet of movement without changing distance."}
+			if intent.Kind != combat.EncounterMove {
+				p.Options = []string{"Change the declared exact distance by 5 feet on a clear path."}
+			}
 		}
 		if intent.Kind == combat.EncounterDash {
 			p.Costs = []ActionCost{{ResourceID: "action", Amount: 1}}
@@ -124,6 +180,11 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		}
 	default:
 		return unavailable("Use a supported encounter action or end your turn.")
+	}
+	if intent.Kind == combat.EncounterEndTurn {
+		if err := encounter.Space.Validate(); err != nil {
+			return unavailable(err.Error())
+		}
 	}
 	// Spend only on a copy so previews remain read-only.
 	copy := *encounter
