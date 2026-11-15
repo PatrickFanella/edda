@@ -118,3 +118,24 @@ it('previews a potion quantity and effect and confirms self-use only', async () 
  expect(await screen.findByText('Action saved.')).toBeVisible();
  expect(vi.mocked(confirmCharacterAction).mock.calls[0][1]).toMatchObject({target_id:'hero',intent:{kind:'consumable-use',entry_id:'potion'}});
 });
+
+
+it('requires an explicit encounter target and shows the durable budget', async () => {
+ vi.mocked(getCampaignCharacterInventory).mockResolvedValueOnce([{ id:'sword',campaign_id:'turns',name:'Longsword',description:'',rarity:'common',item_type:'weapon',properties:{srd521_id:'longsword'},equipped:true,quantity:1 }]);
+ vi.mocked(previewCharacterAction).mockResolvedValueOnce({...ready,intent:{actor_id:'hero',kind:'combat-start',entry_id:'sword'},targets:[{id:'foe',label:'Practice foe'}],costs:[],cost_status:'encounter'}).mockResolvedValueOnce({...ready,intent:{actor_id:'hero',kind:'combat-end-turn'},costs:[],cost_status:'encounter',encounter:{id:'encounter',status:'active',round:2,turn:0,actors:[{id:'hero',name:'Mira',player:true,hp:11,max_hp:12,initiative:20,initiative_die:19},{id:'foe',name:'Practice foe',player:false,hp:18,max_hp:20,initiative:19,initiative_die:19}],budget:{action:false,bonus_action:true,movement:15}}});
+ vi.mocked(confirmCharacterAction).mockResolvedValueOnce({action_id:'saved',turn_number:2,narrative:'Initiative rolled.',state_changes:[],resolution_events:[],combat_active:false});
+ mount('turns');
+ await screen.findByRole('option',{name:'Start ordinary melee encounter (Longsword)'});
+ await userEvent.selectOptions(screen.getByLabelText('Character action'),'combat-start:sword');
+ await userEvent.click(screen.getByRole('button',{name:'Preview action'}));
+ expect(await screen.findByRole('button',{name:'Confirm action'})).toBeDisabled();
+ await userEvent.selectOptions(screen.getByLabelText('Attack target'),'foe');
+ await userEvent.click(screen.getByRole('button',{name:'Confirm action'}));
+ expect(await screen.findByText('Action saved.')).toBeVisible();
+ expect(vi.mocked(confirmCharacterAction).mock.calls[0][1]).toMatchObject({target_id:'foe',intent:{kind:'combat-start',entry_id:'sword'}});
+ await userEvent.selectOptions(screen.getByLabelText('Character action'),'combat-end-turn');
+ await userEvent.click(screen.getByRole('button',{name:'Preview action'}));
+ expect(await screen.findByText("Round 2 · Mira's turn")).toBeVisible();
+ expect(screen.getByRole('list',{name:'Initiative order'})).toHaveTextContent('Practice foe: initiative 19');
+ expect(screen.getByText('Action: spent · Bonus action: available · Movement: 15 ft')).toBeVisible();
+});

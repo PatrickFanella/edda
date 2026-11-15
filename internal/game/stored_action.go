@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"time"
 
+	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
@@ -24,15 +25,16 @@ type MartialTarget struct {
 // StoredAction adds persisted equipment and legal fixture targets to preparation.
 // Only its Preview is public. Targets deliberately exclude arbitrary NPC stats.
 type StoredAction struct {
-	Preview  *ActionPreview
-	Targets  []MartialTarget
-	Quantity int
+	Preview   *ActionPreview
+	Targets   []MartialTarget
+	Quantity  int
+	Encounter *combat.Encounter
 }
 
 // PrepareStoredAction is shared by API preparation and transactional confirmation.
 // The narrow fixture is a one-handed longsword against a colocated, previously
 // encountered unarmored target explicitly assigned to this actor at five feet.
-func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
+func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
 	if intent.Kind == srd521.ConsumableUse {
 		return prepareConsumable(ctx, database, campaign, pc, intent, lock)
 	}

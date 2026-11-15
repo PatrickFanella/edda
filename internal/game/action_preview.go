@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 
+	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 )
@@ -37,6 +38,7 @@ type ActionCost struct {
 
 // ActionPreview is read-only preparation, not a reservation or confirmation token.
 type ActionPreview struct {
+	Encounter        *combat.Encounter   `json:"encounter,omitempty"`
 	Intent           ActionIntent        `json:"intent"`
 	RulesVersion     domain.RulesVersion `json:"rules_version"`
 	ExpectedRevision string              `json:"expected_revision"`

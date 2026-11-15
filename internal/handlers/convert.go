@@ -168,6 +168,18 @@ func engineStateChangesToAPI(changes []engine.StateChange) []api.StateChange {
 func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.ResolutionEvent {
 	out := make([]api.ResolutionEvent, 0)
 	for _, call := range applied {
+		if call.Tool == "srd_encounter" {
+			var result struct {
+				NPCReceipts []*srd521.AttackReceipt `json:"npc_receipts"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil {
+				for _, receipt := range result.NPCReceipts {
+					if receipt != nil && receipt.RulesVersion == "srd-5.2.1" && receipt.Weapon == "Unarmed Strike" {
+						out = append(out, api.ResolutionEvent{Type: "srd_attack", Label: "NPC Unarmed Strike", Outcome: receipt.Outcome, Details: map[string]any{"receipt": receipt}})
+					}
+				}
+			}
+		}
 		switch call.Tool {
 		case "skill_check":
 			if event, ok := skillCheckResolutionEvent(call); ok {

@@ -509,6 +509,7 @@ export interface ActionIntent {
   entry_id?: string;
 }
 export interface ActionPreview {
+  encounter?: Encounter;
   intent: ActionIntent;
   rules_version: string;
   expected_revision: string;
@@ -518,7 +519,7 @@ export interface ActionPreview {
   targets: { id: string; label: string }[];
   options: string[];
   costs: { resource_id: string; amount: number }[];
-  cost_status: 'requires-adjudication' | 'fixture-only';
+  cost_status: 'requires-adjudication' | 'fixture-only' | 'encounter';
   source_ids: string[];
 }
 
@@ -587,4 +588,13 @@ export interface HealingReceipt {
  quantity_before: number;
  quantity_after: number;
  source_ids: string[];
+}
+
+export interface Encounter {
+ id: string;
+ status: 'active' | 'completed';
+ round: number;
+ turn: number;
+ actors: { id: string; name: string; player: boolean; hp: number; max_hp: number; initiative: number; initiative_die: number }[];
+ budget: { action: boolean; bonus_action: boolean; movement: number };
 }

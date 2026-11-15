@@ -5,11 +5,13 @@ import { Link, useLocation, useParams } from 'react-router';
 
 import { getActionSuggestions } from '../api/suggestions';
 import { createManualSave, getCampaign, startOverCampaign } from '../api/campaigns';
-import { getCampaignCharacter, getCampaignCharacterInventory } from '../api/characters';
+import { getCampaignCharacter, getCampaignCharacterInventory, previewCharacterAction } from '../api/characters';
 import { listCampaignQuests } from '../api/quests';
 import type { CampaignResponse, CharacterResponse, ItemResponse, OpeningSceneResponse, QuestResponse } from '../api/types';
 import { AudioControls } from '../components/audio/AudioControls';
 import { CharacterSheet } from '../components/character/CharacterSheet';
+import { EncounterCombatView } from '../components/combat/EncounterCombatView';
+import { EncounterSummary } from '../components/combat/EncounterSummary';
 import { CombatView } from '../components/combat/CombatView';
 import { ExportDialog } from '../components/export/ExportDialog';
 import { ConfirmationDialog } from '../components/layout/ConfirmationDialog';
@@ -390,10 +392,16 @@ function NarrativeTab({
   const { campaign, campaignId } = useCampaign();
   const assistance = useQuery({ queryKey: ['campaign', campaignId, 'action-suggestions'], queryFn: () => getActionSuggestions(campaignId!), enabled: !!campaignId, retry: false });
   const { connectionStatus, streamingEntry, currentStatus, combatActive, isLoading, error, sendAction } = narrative;
+  const character = useQuery({ queryKey: ['campaign', campaignId, 'character'], queryFn: () => getCampaignCharacter(campaignId!), enabled: campaign?.rules_version === 'srd-5.2.1' });
+  const encounter = useQuery({ queryKey: ['campaign', campaignId, 'encounter'], queryFn: () => previewCharacterAction(campaignId!, { actor_id: character.data!.id, kind: 'combat-end-turn' }), enabled: campaign?.rules_version === 'srd-5.2.1' && !!character.data, refetchOnWindowFocus: true });
 
   // Issue #410: Only show combat UI in light/crunch rules modes.
   const rulesMode = campaign?.rules_mode ?? 'narrative';
   const showCombatUI = combatActive && rulesMode !== 'narrative';
+
+  if (encounter.data?.encounter?.status === 'active' && character.data?.sheet && campaignId) {
+    return <EncounterCombatView campaignId={campaignId} actorId={character.data.id} sheet={character.data.sheet} encounter={encounter.data.encounter} entries={seededNarrative.entries} />;
+  }
 
   if (showCombatUI) {
     return (
@@ -422,6 +430,8 @@ function NarrativeTab({
 
   return (
     <div className="game-narrative-layout flex h-full min-h-0 flex-col gap-3 overflow-y-auto">
+      {encounter.data?.encounter && <EncounterSummary encounter={encounter.data.encounter} />}
+      {encounter.isError && <p role="alert" className="text-ruby">Could not load encounter turns. Refresh before acting.</p>}
       <NarrativePanel
         className="min-h-24 flex-1 overflow-hidden bg-charcoal/70"
         contentClassName="h-full max-h-none min-h-0 text-[1.12rem] leading-6"

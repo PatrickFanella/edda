@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"math/rand/v2"
 
+	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/db"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
@@ -97,13 +98,12 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	if !preview.Available || preview.ExpectedRevision != request.ExpectedRevision {
 		return nil, ErrActionRefresh
 	}
-	// This slice has no scene-target resolver or combat action economy. A save
-	// targets the actor; an ability/skill check has no selected scene target.
+	// Only prepared targets can cross the confirmation boundary.
 	if request.Intent.Kind == srd521.SavingThrow || request.Intent.Kind == srd521.ConsumableUse {
 		if request.TargetID != pc.ID {
 			return nil, ErrActionRefresh
 		}
-	} else if request.Intent.Kind != srd521.MartialAttack && request.TargetID != uuid.Nil {
+	} else if request.Intent.Kind != srd521.MartialAttack && request.Intent.Kind != combat.EncounterStart && request.TargetID != uuid.Nil {
 		return nil, ErrActionRefresh
 	}
 	var inCombat bool
@@ -128,7 +128,45 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	var receipt any
 	tool := "srd_check"
 	narrative := ""
-	if request.Intent.Kind == srd521.MartialAttack {
+	encounter := prepared.Encounter
+	if encounter != nil && encounter.Status == "active" {
+		if err := encounter.Spend(pc.ID, request.Intent.Kind); err != nil {
+			return nil, ErrActionRefresh
+		}
+	}
+	if request.Intent.Kind == combat.EncounterStart {
+		var target *game.MartialTarget
+		for i := range prepared.Targets {
+			if prepared.Targets[i].ID == request.TargetID {
+				target = &prepared.Targets[i]
+				break
+			}
+		}
+		if target == nil {
+			return nil, ErrActionRefresh
+		}
+		encounter, err = combat.NewEncounter(combat.EncounterActor{ID: pc.ID, Name: pc.Name, HP: pc.HP, MaxHP: pc.MaxHP}, combat.EncounterActor{ID: target.ID, Name: target.Name, HP: target.HP, MaxHP: target.HP}, sheet.Defenses["initiative"].Value, dice)
+		if err != nil {
+			return nil, err
+		}
+		label = "Initiative"
+		tool = "srd_encounter"
+		narrative = "Initiative rolled for the ordinary melee fixture."
+	} else if request.Intent.Kind == combat.EncounterEndTurn || request.Intent.Kind == combat.EncounterMove || request.Intent.Kind == combat.EncounterDash {
+		if encounter == nil || encounter.Status != "active" {
+			return nil, ErrActionRefresh
+		}
+		tool = "srd_encounter"
+		label = request.Intent.Kind
+		narrative = "Moved 5 feet; scene position requires adjudication."
+		if request.Intent.Kind == combat.EncounterDash {
+			narrative = "Dash: 30 feet added to this turn's movement."
+		}
+		if request.Intent.Kind == combat.EncounterEndTurn {
+			encounter.Advance()
+			narrative = "Player turn ended."
+		}
+	} else if request.Intent.Kind == srd521.MartialAttack {
 		var target *game.MartialTarget
 		for i := range prepared.Targets {
 			if prepared.Targets[i].ID == request.TargetID {
@@ -150,10 +188,13 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 				return nil, err
 			}
 		}
+		if encounter != nil && encounter.Status == "active" {
+			encounter.SetHP(target.ID, max(0, target.HP-attack.Damage))
+		}
 		receipt = attack
 		tool = "srd_attack"
 		label = "Longsword"
-		narrative = fmt.Sprintf("Longsword attack against %s: %s (total %d), %d slashing damage. One fixture Attack action recorded; initiative, mastery and reactions are not implemented.", target.Name, attack.Outcome, attack.Total, attack.Damage)
+		narrative = fmt.Sprintf("Longsword attack against %s: %s (total %d), %d slashing damage. One fixture Attack action recorded; mastery and reactions are not implemented.", target.Name, attack.Outcome, attack.Total, attack.Damage)
 	} else if request.Intent.Kind == srd521.ConsumableUse {
 		healing, err := srd521.ResolveHealingPotion(pc.HP, pc.MaxHP, dice)
 		if err != nil {
@@ -178,10 +219,13 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		healing.Target = pc.Name
 		healing.QuantityBefore = prepared.Quantity
 		healing.QuantityAfter = prepared.Quantity - 1
+		if encounter != nil && encounter.Status == "active" {
+			encounter.SetHP(pc.ID, healing.HPAfter)
+		}
 		receipt = healing
 		tool = "srd_consumable"
 		label = "Potion of Healing"
-		narrative = fmt.Sprintf("%s drinks a Potion of Healing: regains %d HP (%d to %d). One potion consumed; %d remain. Bonus action recorded; combat action economy is not yet tracked.", pc.Name, healing.Healing, healing.HPBefore, healing.HPAfter, healing.QuantityAfter)
+		narrative = fmt.Sprintf("%s drinks a Potion of Healing: regains %d HP (%d to %d). One potion consumed; %d remain. Bonus action recorded; a supported encounter tracks its turn budget.", pc.Name, healing.Healing, healing.HPBefore, healing.HPAfter, healing.QuantityAfter)
 	} else {
 		resolution, err := srd521.ResolveCheck(sheet, srd521.Check{Kind: preview.Intent.Kind, Ability: preview.Intent.Ability, Skill: preview.Intent.Skill}, srd521.Difficulty{}, dice)
 		if err != nil {
@@ -191,7 +235,20 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		receipt = check
 		narrative = fmt.Sprintf("%s %s recorded: total %d. The outcome requires adjudication; no scene effect or time cost has been applied.", label, preview.Intent.Kind, check.Total)
 	}
-	encoded, err := json.Marshal(map[string]any{"receipt": receipt})
+	payload := map[string]any{"receipt": receipt}
+	if encounter != nil {
+		npcReceipts, err := resolveEncounterNPC(ctx, tx, campaignID, encounter, sheet, dice)
+		if err != nil {
+			return nil, err
+		}
+		payload["encounter"] = encounter
+		payload["npc_receipts"] = npcReceipts
+		for _, attack := range npcReceipts {
+			narrative += fmt.Sprintf(" %s: %s (d20 %d + %d = %d), %d bludgeoning damage.", attack.Weapon, attack.Outcome, attack.Die, attack.Modifier.Value, attack.Total, attack.Damage)
+		}
+		narrative += fmt.Sprintf(" Round %d; %s. Action: %t; bonus action: %t; movement: %d feet; encounter %s.", encounter.Round, encounter.Active().Name, encounter.Budget.Action, encounter.Budget.BonusAction, encounter.Budget.Movement, encounter.Status)
+	}
+	encoded, err := json.Marshal(payload)
 	if err != nil {
 		return nil, err
 	}
