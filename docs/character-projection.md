@@ -18,6 +18,9 @@ closed. The sheet exposes all six ability modifiers/saves, all 18 skills,
 proficiency, HP, AC/initiative, resources, capabilities and the server XP threshold.
 Every derived value carries its calculation terms and stable source identifiers.
 Capabilities are explicitly read only; no rolls, costs or class features execute.
+The separate [check resolver and receipt fixture](srd-checks.md) consumes this
+projection and supports optional recorded skill expertise. It does not execute
+these capabilities or enable live character-sheet actions.
 
 Source identifiers use srd-5.2.1:content/<family>/<slug>. The source map is:
 

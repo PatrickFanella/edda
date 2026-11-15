@@ -113,14 +113,17 @@ func TestValidateRejectsInvalidRegister(t *testing.T) {
 		{"reversed pages", func(r *Register) { r.Entries[0].SourcePages = []int{8, 6} }, "page range"},
 		{"page overflow", func(r *Register) { r.Entries[0].SourcePages = []int{6, 365} }, "page range"},
 		{"unknown status", func(r *Register) { r.Entries[0].Status = "fully-implemented" }, "status"},
-		{"unproven support", func(r *Register) { r.Entries[0].Status = "implemented" }, "requires conformance fixtures"},
+		{"implemented without fixtures", func(r *Register) {
+			r.Entries[0].Status = "implemented"
+			r.Entries[0].Fixtures = []string{}
+		}, "requires conformance fixtures"},
 		{"null fixtures", func(r *Register) { r.Entries[0].Fixtures = nil }, "explicit array"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			r := loadRegister(t)
 			tc.edit(&r)
-			if err := r.Validate(nil); err == nil || !strings.Contains(err.Error(), tc.want) {
+			if err := r.Validate(os.DirFS("../../..")); err == nil || !strings.Contains(err.Error(), tc.want) {
 				t.Fatalf("Validate() = %v, want error containing %q", err, tc.want)
 			}
 		})
@@ -172,7 +175,7 @@ func TestLoadReturnsIndependentCopy(t *testing.T) {
 	r := loadRegister(t)
 	r.Entries[0].SourcePages[0] = 999
 	r.Entries[0].Status = "implemented"
-	if err := loadRegister(t).Validate(nil); err != nil {
+	if err := loadRegister(t).Validate(os.DirFS("../../..")); err != nil {
 		t.Fatalf("mutating a loaded copy changed the bundled register: %v", err)
 	}
 }

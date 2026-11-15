@@ -1,5 +1,5 @@
-// Package srd521 records conformance to the pinned English SRD 5.2.1.
-// It does not implement rules or change the legacy rules package.
+// Package srd521 records conformance to the pinned English SRD 5.2.1 and
+// implements narrow character-sheet fixtures without changing legacy rules.
 package srd521
 
 import (

@@ -21,9 +21,9 @@
       "name": "D20 tests, ability checks and saving throws",
       "source_pages": [6, 8],
       "status": "unsupported",
-      "fixtures": [],
+      "fixtures": ["internal/rules/srd521/check_test.go", "internal/game/check_test.go"],
       "follow_up": 61,
-      "notes": "No SRD 5.2.1 conformance fixture exists for this family."
+      "notes": "Partial sheet-fixture evidence for ability checks, saving throws, proficiency/expertise and advantage/disadvantage. Attacks, death saves, rerolls and situational features remain unsupported; this does not qualify the whole family."
     },
     {
       "id": "srd-5.2.1:family/actions",

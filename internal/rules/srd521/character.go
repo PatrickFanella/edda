@@ -13,6 +13,7 @@ type Build struct {
 	Class         string         `json:"class"`
 	Abilities     map[string]int `json:"abilities"`
 	Skills        []string       `json:"skills"`
+	Expertise     []string       `json:"expertise,omitempty"`
 	Armor         string         `json:"armor"`
 	Shield        bool           `json:"shield"`
 	SecondWind    int            `json:"second_wind"`
@@ -122,9 +123,18 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		}
 		trained[skill] = true
 	}
+	expertise := map[string]bool{}
+	for _, skill := range b.Expertise {
+		if !trained[skill] || expertise[skill] {
+			return nil, fmt.Errorf("expertise requires a distinct proficient skill: %s", skill)
+		}
+		expertise[skill] = true
+	}
 	for skill, ability := range skillAbilities {
 		terms := []Term{term(ability, sheet.Abilities[ability].Modifier.Value, "character/ability-modifiers")}
-		if trained[skill] {
+		if expertise[skill] {
+			terms = append(terms, term("Recorded skill expertise (2 × proficiency)", 2*sheet.Proficiency.Value, "character/expertise"))
+		} else if trained[skill] {
 			terms = append(terms, term("Recorded skill proficiency", 2, "character/skill-proficiencies"))
 		}
 		sheet.Skills[skill] = derived(terms...)

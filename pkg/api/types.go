@@ -48,6 +48,10 @@ type CharacterAbility struct {
 	Description string `json:"description,omitempty"`
 }
 
+// CheckReceipt exposes only the rules resolver's player-safe projection. Private
+// adjudication context must never be copied into an API response beside it.
+type CheckReceipt = srd521.CheckReceipt
+
 // CharacterResponse describes a player character returned by the API.
 //
 // Converters normalize Stats and Abilities to empty collections and omit

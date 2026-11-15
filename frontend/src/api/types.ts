@@ -52,6 +52,19 @@ export interface CharacterAbility {
 }
 
 export interface DerivedValue { value: number; derivation: { label: string; value: number; source_id: string }[] }
+export interface CheckReceipt {
+  rules_version: string;
+  kind: 'ability-check' | 'saving-throw';
+  ability: string;
+  skill?: string;
+  mode: 'ordinary' | 'advantage' | 'disadvantage';
+  dice: { sides: number; value: number; kept: boolean }[];
+  modifier: DerivedValue;
+  total: number;
+  dc?: number;
+  outcome: 'unknown' | 'success' | 'failure';
+  source_ids: string[];
+}
 export interface CharacterSheetProjection {
   rules_version: string;
   scope: string;

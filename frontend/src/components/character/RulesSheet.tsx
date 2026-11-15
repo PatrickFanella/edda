@@ -1,6 +1,7 @@
-import type { CharacterSheetProjection, DerivedValue } from '../../api/types';
+import type { CharacterSheetProjection, CheckReceipt as Receipt, DerivedValue } from '../../api/types';
+import { CheckReceipt } from './CheckReceipt';
 
-export function RulesSheet({ sheet }: { readonly sheet: CharacterSheetProjection }) {
+export function RulesSheet({ sheet, receipts = [] }: { readonly sheet: CharacterSheetProjection; readonly receipts?: readonly Receipt[] }) {
   return <section aria-label="SRD character sheet" className="space-y-5 text-champagne">
     <p className="text-sm text-pewter">SRD 5.2.1 · Level 1 Fighter · Read-only projection</p>
     <p>HP {sheet.hp.value} / {sheet.max_hp.value} · XP {sheet.progression.current_xp} / {sheet.progression.next_level_xp}</p>
@@ -22,6 +23,10 @@ export function RulesSheet({ sheet }: { readonly sheet: CharacterSheetProjection
     {sheet.resources.map(resource => <p key={resource.id}>{resource.label}: {resource.current} / {resource.maximum}<small className="block break-all text-pewter">{resource.source_id}</small></p>)}
     <h3 className="font-heading text-gold">Capabilities</h3>
     {sheet.capabilities.map(capability => <p key={capability.id}>{capability.label} (read only)<small className="block break-all text-pewter">{capability.source_id}</small></p>)}
+    {receipts.length > 0 && <section aria-label="Check receipts" className="space-y-3">
+      <h3 className="font-heading text-gold">Check receipts</h3>
+      {receipts.map((receipt, index) => <CheckReceipt key={index} receipt={receipt} />)}
+    </section>}
     <a className="text-gold underline" href="https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf">SRD 5.2.1 reference</a>
   </section>;
 }

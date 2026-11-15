@@ -1,0 +1,610 @@
+{
+  "sheet": {
+    "rules_version": "srd-5.2.1",
+    "scope": "fighter-1-chain-mail-defense-read-only",
+    "abilities": {
+      "charisma": {
+        "score": 8,
+        "modifier": {
+          "value": -1,
+          "derivation": [
+            {
+              "label": "Ability modifier",
+              "value": -1,
+              "source_id": "srd-5.2.1:content/character/ability-modifiers"
+            }
+          ]
+        }
+      },
+      "constitution": {
+        "score": 14,
+        "modifier": {
+          "value": 2,
+          "derivation": [
+            {
+              "label": "Ability modifier",
+              "value": 2,
+              "source_id": "srd-5.2.1:content/character/ability-modifiers"
+            }
+          ]
+        }
+      },
+      "dexterity": {
+        "score": 12,
+        "modifier": {
+          "value": 1,
+          "derivation": [
+            {
+              "label": "Ability modifier",
+              "value": 1,
+              "source_id": "srd-5.2.1:content/character/ability-modifiers"
+            }
+          ]
+        }
+      },
+      "intelligence": {
+        "score": 10,
+        "modifier": {
+          "value": 0,
+          "derivation": [
+            {
+              "label": "Ability modifier",
+              "value": 0,
+              "source_id": "srd-5.2.1:content/character/ability-modifiers"
+            }
+          ]
+        }
+      },
+      "strength": {
+        "score": 16,
+        "modifier": {
+          "value": 3,
+          "derivation": [
+            {
+              "label": "Ability modifier",
+              "value": 3,
+              "source_id": "srd-5.2.1:content/character/ability-modifiers"
+            }
+          ]
+        }
+      },
+      "wisdom": {
+        "score": 13,
+        "modifier": {
+          "value": 1,
+          "derivation": [
+            {
+              "label": "Ability modifier",
+              "value": 1,
+              "source_id": "srd-5.2.1:content/character/ability-modifiers"
+            }
+          ]
+        }
+      }
+    },
+    "proficiency": {
+      "value": 2,
+      "derivation": [
+        {
+          "label": "Level 1 proficiency",
+          "value": 2,
+          "source_id": "srd-5.2.1:content/character/proficiency"
+        }
+      ]
+    },
+    "saves": {
+      "charisma": {
+        "value": -1,
+        "derivation": [
+          {
+            "label": "charisma",
+            "value": -1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "constitution": {
+        "value": 4,
+        "derivation": [
+          {
+            "label": "constitution",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          },
+          {
+            "label": "Fighter saving throw proficiency",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/fighter/core-traits"
+          }
+        ]
+      },
+      "dexterity": {
+        "value": 1,
+        "derivation": [
+          {
+            "label": "dexterity",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "intelligence": {
+        "value": 0,
+        "derivation": [
+          {
+            "label": "intelligence",
+            "value": 0,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "strength": {
+        "value": 5,
+        "derivation": [
+          {
+            "label": "strength",
+            "value": 3,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          },
+          {
+            "label": "Fighter saving throw proficiency",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/fighter/core-traits"
+          }
+        ]
+      },
+      "wisdom": {
+        "value": 1,
+        "derivation": [
+          {
+            "label": "wisdom",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      }
+    },
+    "skills": {
+      "acrobatics": {
+        "value": 1,
+        "derivation": [
+          {
+            "label": "dexterity",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "animal-handling": {
+        "value": 1,
+        "derivation": [
+          {
+            "label": "wisdom",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "arcana": {
+        "value": 0,
+        "derivation": [
+          {
+            "label": "intelligence",
+            "value": 0,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "athletics": {
+        "value": 5,
+        "derivation": [
+          {
+            "label": "strength",
+            "value": 3,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          },
+          {
+            "label": "Recorded skill proficiency",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/character/skill-proficiencies"
+          }
+        ]
+      },
+      "deception": {
+        "value": -1,
+        "derivation": [
+          {
+            "label": "charisma",
+            "value": -1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "history": {
+        "value": 0,
+        "derivation": [
+          {
+            "label": "intelligence",
+            "value": 0,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "insight": {
+        "value": 1,
+        "derivation": [
+          {
+            "label": "wisdom",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "intimidation": {
+        "value": -1,
+        "derivation": [
+          {
+            "label": "charisma",
+            "value": -1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "investigation": {
+        "value": 0,
+        "derivation": [
+          {
+            "label": "intelligence",
+            "value": 0,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "medicine": {
+        "value": 1,
+        "derivation": [
+          {
+            "label": "wisdom",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "nature": {
+        "value": 0,
+        "derivation": [
+          {
+            "label": "intelligence",
+            "value": 0,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "perception": {
+        "value": 3,
+        "derivation": [
+          {
+            "label": "wisdom",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          },
+          {
+            "label": "Recorded skill proficiency",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/character/skill-proficiencies"
+          }
+        ]
+      },
+      "performance": {
+        "value": -1,
+        "derivation": [
+          {
+            "label": "charisma",
+            "value": -1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "persuasion": {
+        "value": -1,
+        "derivation": [
+          {
+            "label": "charisma",
+            "value": -1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "religion": {
+        "value": 0,
+        "derivation": [
+          {
+            "label": "intelligence",
+            "value": 0,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "sleight-of-hand": {
+        "value": 1,
+        "derivation": [
+          {
+            "label": "dexterity",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "stealth": {
+        "value": 1,
+        "derivation": [
+          {
+            "label": "dexterity",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      },
+      "survival": {
+        "value": 1,
+        "derivation": [
+          {
+            "label": "wisdom",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          }
+        ]
+      }
+    },
+    "hp": {
+      "value": 9,
+      "derivation": [
+        {
+          "label": "Current hit points",
+          "value": 9,
+          "source_id": "srd-5.2.1:content/character/hit-points"
+        }
+      ]
+    },
+    "max_hp": {
+      "value": 12,
+      "derivation": [
+        {
+          "label": "Fighter first-level Hit Die",
+          "value": 10,
+          "source_id": "srd-5.2.1:content/fighter/core-traits"
+        },
+        {
+          "label": "constitution",
+          "value": 2,
+          "source_id": "srd-5.2.1:content/character/hit-points"
+        }
+      ]
+    },
+    "defenses": {
+      "armor-class": {
+        "value": 19,
+        "derivation": [
+          {
+            "label": "Chain mail",
+            "value": 16,
+            "source_id": "srd-5.2.1:content/armor/chain-mail"
+          },
+          {
+            "label": "Defense fighting style",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/feats/defense"
+          },
+          {
+            "label": "Shield",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/armor/shield"
+          }
+        ]
+      },
+      "initiative": {
+        "value": 1,
+        "derivation": [
+          {
+            "label": "dexterity",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/combat/initiative"
+          }
+        ]
+      }
+    },
+    "resources": [
+      {
+        "id": "second-wind",
+        "label": "Second Wind",
+        "current": 1,
+        "maximum": 2,
+        "source_id": "srd-5.2.1:content/fighter/second-wind"
+      },
+      {
+        "id": "hit-dice",
+        "label": "Hit Dice (d10)",
+        "current": 1,
+        "maximum": 1,
+        "source_id": "srd-5.2.1:content/character/hit-dice"
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "attack",
+        "label": "Attack",
+        "source_id": "srd-5.2.1:content/actions/attack",
+        "playable": false
+      },
+      {
+        "id": "second-wind",
+        "label": "Second Wind",
+        "source_id": "srd-5.2.1:content/fighter/second-wind",
+        "playable": false
+      },
+      {
+        "id": "weapon-mastery",
+        "label": "Weapon Mastery",
+        "source_id": "srd-5.2.1:content/fighter/weapon-mastery",
+        "playable": false
+      }
+    ],
+    "progression": {
+      "current_xp": 125,
+      "level_xp": 0,
+      "next_level_xp": 300,
+      "source_id": "srd-5.2.1:content/character/level-advancement"
+    }
+  },
+  "receipts": [
+    {
+      "rules_version": "srd-5.2.1",
+      "kind": "ability-check",
+      "ability": "strength",
+      "skill": "athletics",
+      "mode": "ordinary",
+      "dice": [
+        {
+          "sides": 20,
+          "value": 10,
+          "kept": true
+        }
+      ],
+      "modifier": {
+        "value": 5,
+        "derivation": [
+          {
+            "label": "strength",
+            "value": 3,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          },
+          {
+            "label": "Recorded skill proficiency",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/character/skill-proficiencies"
+          }
+        ]
+      },
+      "total": 15,
+      "dc": 15,
+      "outcome": "success",
+      "source_ids": [
+        "srd-5.2.1:content/d20-tests/ability-checks"
+      ]
+    },
+    {
+      "rules_version": "srd-5.2.1",
+      "kind": "ability-check",
+      "ability": "strength",
+      "skill": "athletics",
+      "mode": "advantage",
+      "dice": [
+        {
+          "sides": 20,
+          "value": 3,
+          "kept": false
+        },
+        {
+          "sides": 20,
+          "value": 15,
+          "kept": true
+        }
+      ],
+      "modifier": {
+        "value": 5,
+        "derivation": [
+          {
+            "label": "strength",
+            "value": 3,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          },
+          {
+            "label": "Recorded skill proficiency",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/character/skill-proficiencies"
+          }
+        ]
+      },
+      "total": 20,
+      "outcome": "success",
+      "source_ids": [
+        "srd-5.2.1:content/d20-tests/ability-checks",
+        "srd-5.2.1:content/d20-tests/advantage-disadvantage"
+      ]
+    },
+    {
+      "rules_version": "srd-5.2.1",
+      "kind": "saving-throw",
+      "ability": "constitution",
+      "mode": "disadvantage",
+      "dice": [
+        {
+          "sides": 20,
+          "value": 17,
+          "kept": false
+        },
+        {
+          "sides": 20,
+          "value": 4,
+          "kept": true
+        }
+      ],
+      "modifier": {
+        "value": 4,
+        "derivation": [
+          {
+            "label": "constitution",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          },
+          {
+            "label": "Fighter saving throw proficiency",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/fighter/core-traits"
+          }
+        ]
+      },
+      "total": 8,
+      "dc": 12,
+      "outcome": "failure",
+      "source_ids": [
+        "srd-5.2.1:content/d20-tests/saving-throws",
+        "srd-5.2.1:content/d20-tests/advantage-disadvantage"
+      ]
+    },
+    {
+      "rules_version": "srd-5.2.1",
+      "kind": "ability-check",
+      "ability": "wisdom",
+      "skill": "perception",
+      "mode": "ordinary",
+      "dice": [
+        {
+          "sides": 20,
+          "value": 10,
+          "kept": true
+        }
+      ],
+      "modifier": {
+        "value": 3,
+        "derivation": [
+          {
+            "label": "wisdom",
+            "value": 1,
+            "source_id": "srd-5.2.1:content/character/ability-modifiers"
+          },
+          {
+            "label": "Recorded skill proficiency",
+            "value": 2,
+            "source_id": "srd-5.2.1:content/character/skill-proficiencies"
+          }
+        ]
+      },
+      "total": 13,
+      "outcome": "unknown",
+      "source_ids": [
+        "srd-5.2.1:content/d20-tests/ability-checks"
+      ]
+    }
+  ]
+}

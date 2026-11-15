@@ -172,9 +172,40 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if event, ok := skillCheckResolutionEvent(call); ok {
 				out = append(out, event)
 			}
+		case "srd_check":
+			if event, ok := srdCheckResolutionEvent(call); ok {
+				out = append(out, event)
+			}
 		}
 	}
 	return out
+}
+
+// SRD results use only the typed player receipt, never the raw argument/result
+// merging used by legacy skill_check. This also protects history/action readback.
+func srdCheckResolutionEvent(call engine.AppliedToolCall) (api.ResolutionEvent, bool) {
+	var result struct {
+		Receipt *api.CheckReceipt `json:"receipt"`
+	}
+	if err := json.Unmarshal(call.Result, &result); err != nil || result.Receipt == nil {
+		return api.ResolutionEvent{}, false
+	}
+	receipt := result.Receipt
+	if receipt.RulesVersion != "srd-5.2.1" || (receipt.Kind != "ability-check" && receipt.Kind != "saving-throw") ||
+		(receipt.Outcome != "unknown" && receipt.Outcome != "success" && receipt.Outcome != "failure") {
+		return api.ResolutionEvent{}, false
+	}
+	label := receipt.Ability + " saving throw"
+	if receipt.Kind == "ability-check" {
+		label = receipt.Ability + " check"
+		if receipt.Skill != "" {
+			label = receipt.Skill + " check"
+		}
+	}
+	return api.ResolutionEvent{
+		Type: "srd_check", Label: label, Outcome: receipt.Outcome,
+		Details: map[string]any{"receipt": receipt},
+	}, true
 }
 
 func skillCheckResolutionEvent(call engine.AppliedToolCall) (api.ResolutionEvent, bool) {
