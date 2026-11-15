@@ -173,11 +173,18 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if event, ok := skillCheckResolutionEvent(call); ok {
 				out = append(out, event)
 			}
+		case "srd_consumable":
+			var result struct {
+				Receipt *srd521.HealingReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.ConsumableUse {
+				out = append(out, api.ResolutionEvent{Type: "srd_consumable", Label: "Potion of Healing", Outcome: "healed", Details: map[string]any{"receipt": result.Receipt}})
+			}
 		case "srd_attack":
 			var result struct {
 				Receipt *srd521.AttackReceipt `json:"receipt"`
 			}
-			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.MartialAttack {
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.MartialAttack && (result.Receipt.Outcome == "hit" || result.Receipt.Outcome == "miss" || result.Receipt.Outcome == "critical-hit") {
 				out = append(out, api.ResolutionEvent{Type: "srd_attack", Label: "Longsword attack", Outcome: result.Receipt.Outcome, Details: map[string]any{"receipt": result.Receipt}})
 			}
 		case "srd_check":

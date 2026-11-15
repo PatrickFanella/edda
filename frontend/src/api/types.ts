@@ -570,3 +570,21 @@ export interface AttackReceipt {
  damage_type: string;
  source_ids: string[];
 }
+
+export interface HealingReceipt {
+ rules_version: string;
+ kind: 'consumable-use';
+ item_id: string;
+ item: string;
+ target_id: string;
+ target: string;
+ dice: number[];
+ bonus: number;
+ rolled_healing: number;
+ healing: number;
+ hp_before: number;
+ hp_after: number;
+ quantity_before: number;
+ quantity_after: number;
+ source_ids: string[];
+}

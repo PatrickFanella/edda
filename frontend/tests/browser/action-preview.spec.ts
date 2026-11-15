@@ -62,3 +62,22 @@ for (const width of [1440, 390]) {
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  });
 }
+
+for (const width of [1440,390]) {
+ test(`uses one potion and refreshes inventory at ${width}px`,async({page,game})=>{
+  await page.setViewportSize({width,height:844});
+  let quantity=2,hp=1,confirmations=0;
+  await page.route('**/api/v1/campaigns/alpha/character',route=>route.fulfill({json:{...character(),hp,rules_version:'srd-5.2.1',sheet:{...fixture.sheet,hp:{...fixture.sheet.hp,value:hp}}}}));
+  await page.route('**/api/v1/campaigns/alpha/character/inventory',route=>route.fulfill({json:[{id:'potion',campaign_id:'alpha',name:'Potion of Healing',description:'Fixture potion',rarity:'common',item_type:'consumable',properties:{srd521_id:'potion-of-healing'},equipped:false,quantity}]}));
+  await page.route('**/api/v1/campaigns/alpha/character/action-preview?*',route=>route.fulfill({json:{intent:{actor_id:'hero',kind:'consumable-use',entry_id:'potion'},rules_version:'srd-5.2.1',expected_revision:'consumable-v1:fixture',available:true,targets:[{id:'hero',label:'Mira (self)'}],options:['Quantity: 2; regain 2d4 + 2 HP, capped at 12 (current 1); self-use only'],costs:[{resource_id:'item:potion',amount:1},{resource_id:'bonus-action',amount:1}],cost_status:'fixture-only',source_ids:[]}}));
+  await page.route('**/api/v1/campaigns/alpha/action?*',route=>route.fulfill({json:null}));
+  await page.route('**/api/v1/campaigns/alpha/action/confirm',route=>{confirmations++;expect(route.request().postDataJSON().target_id).toBe('hero');quantity=1;hp=7;return route.fulfill({json:{action_id:'saved',turn_number:3,narrative:'Mira drinks a Potion of Healing: regains 6 HP.',combat_active:false,state_changes:[],resolution_events:[]}})});
+  await signIn(page);await page.goto('/play/alpha');await page.getByRole('tab',{name:'Character',exact:true}).click();
+  await page.getByLabel('Character action').selectOption('consumable-use:potion');await page.getByRole('button',{name:'Preview action',exact:true}).click();
+  await expect(page.getByText(/Roll options: Quantity: 2/)).toBeVisible();expect(confirmations).toBe(0);expect(game.actions).toEqual([]);
+  await page.getByRole('button',{name:'Confirm action',exact:true}).click();await expect(page.getByText('Action saved.')).toBeVisible();expect(confirmations).toBe(1);
+  await expect(page.getByRole('option',{name:'Potion of Healing (quantity 1, self)'})).toBeAttached();
+  await page.getByRole('tab',{name:'Play',exact:true}).click();await expect(page.getByText('Mira drinks a Potion of Healing: regains 6 HP.',{exact:true})).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ });
+}

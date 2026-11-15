@@ -24,14 +24,18 @@ type MartialTarget struct {
 // StoredAction adds persisted equipment and legal fixture targets to preparation.
 // Only its Preview is public. Targets deliberately exclude arbitrary NPC stats.
 type StoredAction struct {
-	Preview *ActionPreview
-	Targets []MartialTarget
+	Preview  *ActionPreview
+	Targets  []MartialTarget
+	Quantity int
 }
 
 // PrepareStoredAction is shared by API preparation and transactional confirmation.
 // The narrow fixture is a one-handed longsword against a colocated, previously
 // encountered unarmored target explicitly assigned to this actor at five feet.
 func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
+	if intent.Kind == srd521.ConsumableUse {
+		return prepareConsumable(ctx, database, campaign, pc, intent, lock)
+	}
 	baseIntent := intent
 	if intent.Kind == srd521.MartialAttack {
 		baseIntent = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}

@@ -99,7 +99,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	}
 	// This slice has no scene-target resolver or combat action economy. A save
 	// targets the actor; an ability/skill check has no selected scene target.
-	if request.Intent.Kind == srd521.SavingThrow {
+	if request.Intent.Kind == srd521.SavingThrow || request.Intent.Kind == srd521.ConsumableUse {
 		if request.TargetID != pc.ID {
 			return nil, ErrActionRefresh
 		}
@@ -154,6 +154,34 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		tool = "srd_attack"
 		label = "Longsword"
 		narrative = fmt.Sprintf("Longsword attack against %s: %s (total %d), %d slashing damage. One fixture Attack action recorded; initiative, mastery and reactions are not implemented.", target.Name, attack.Outcome, attack.Total, attack.Damage)
+	} else if request.Intent.Kind == srd521.ConsumableUse {
+		healing, err := srd521.ResolveHealingPotion(pc.HP, pc.MaxHP, dice)
+		if err != nil {
+			return nil, err
+		}
+		itemID, err := uuid.Parse(request.Intent.EntryID)
+		if err != nil {
+			return nil, ErrActionRefresh
+		}
+		tag, err := tx.Exec(ctx, `UPDATE items SET quantity=quantity-1,updated_at=clock_timestamp() WHERE id=$1 AND campaign_id=$2 AND player_character_id=$3 AND quantity=$4 AND quantity>0`, db.ToPgUUID(itemID), db.ToPgUUID(campaignID), db.ToPgUUID(pc.ID), prepared.Quantity)
+		if err != nil {
+			return nil, err
+		}
+		if tag.RowsAffected() != 1 {
+			return nil, ErrActionRefresh
+		}
+		if _, err := tx.Exec(ctx, `UPDATE player_characters SET hp=$1,updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3`, healing.HPAfter, db.ToPgUUID(pc.ID), db.ToPgUUID(campaignID)); err != nil {
+			return nil, err
+		}
+		healing.ItemID = itemID.String()
+		healing.TargetID = pc.ID.String()
+		healing.Target = pc.Name
+		healing.QuantityBefore = prepared.Quantity
+		healing.QuantityAfter = prepared.Quantity - 1
+		receipt = healing
+		tool = "srd_consumable"
+		label = "Potion of Healing"
+		narrative = fmt.Sprintf("%s drinks a Potion of Healing: regains %d HP (%d to %d). One potion consumed; %d remain. Bonus action recorded; combat action economy is not yet tracked.", pc.Name, healing.Healing, healing.HPBefore, healing.HPAfter, healing.QuantityAfter)
 	} else {
 		resolution, err := srd521.ResolveCheck(sheet, srd521.Check{Kind: preview.Intent.Kind, Ability: preview.Intent.Ability, Skill: preview.Intent.Skill}, srd521.Difficulty{}, dice)
 		if err != nil {

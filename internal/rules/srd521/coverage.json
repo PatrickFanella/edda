@@ -800,6 +800,22 @@
       ],
       "follow_up": 65,
       "notes": "Only the ordinary one-handed level-one Fighter fixture is playable. Versatile damage, mastery, conditions and broader combat are not qualified."
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-healing",
+      "family": "magic-items",
+      "name": "Potion of Healing",
+      "source_pages": [
+        99,
+        99
+      ],
+      "status": "unsupported",
+      "fixtures": [
+        "internal/rules/srd521/consumable_test.go",
+        "internal/handlers/consumable_action_integration_test.go"
+      ],
+      "follow_up": 79,
+      "notes": "Conscious self-use basic healing fixture only. Administration, unconscious targets, combat action economy and improved potions remain unqualified."
     }
   ]
 }
