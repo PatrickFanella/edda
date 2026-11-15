@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgxpool"
 
 	"git.subcult.tv/subculture-collective/edda/internal/assembly"
 	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
@@ -25,6 +26,7 @@ import (
 
 // Engine is the concrete GameEngine implementation used by the TUI.
 type Engine struct {
+	turnLock           turnLock
 	logger             *slog.Logger
 	state              game.StateManager
 	queries            statedb.Querier
@@ -114,6 +116,16 @@ func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts .
 		state:   game.NewStateManager(db),
 		queries: queries,
 	}
+	if db != nil {
+		beginner, ok := db.(transactionBeginner)
+		if !ok {
+			return nil, fmt.Errorf("database must support transactions for campaign turn locking")
+		}
+		e.turnLock = postgresTurnLock(beginner)
+		if pool, ok := db.(*pgxpool.Pool); ok {
+			e.turnLock = poolTurnLock(pool)
+		}
+	}
 	for _, opt := range opts {
 		opt(e)
 	}
@@ -147,6 +159,12 @@ func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts .
 var _ GameEngine = (*Engine)(nil)
 
 func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerInput string) (*TurnResult, error) {
+	release, err := e.acquireTurn(ctx, campaignID)
+	if err != nil {
+		return nil, err
+	}
+	defer release()
+
 	if e.logger == nil {
 		e.logger = slog.Default()
 	}
@@ -249,6 +267,13 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 				ch <- StreamEvent{Type: "error", Err: fmt.Errorf("process turn panic: %v", r)}
 			}
 		}()
+
+		release, err := e.acquireTurn(ctx, campaignID)
+		if err != nil {
+			ch <- StreamEvent{Type: "error", Err: err}
+			return
+		}
+		defer release()
 
 		tc := &TurnContext{CampaignID: campaignID, PlayerInput: playerInput, Logger: e.logger, Started: time.Now()}
 		emitStatus := func(stage, description string) {
