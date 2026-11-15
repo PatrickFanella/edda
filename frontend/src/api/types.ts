@@ -360,6 +360,7 @@ export interface CharacterSpawnPackage {
 }
 
 export interface BuildWorldRequest {
+  rules_version?: string;
   name: string;
   summary: string;
   profile: CampaignProfile;

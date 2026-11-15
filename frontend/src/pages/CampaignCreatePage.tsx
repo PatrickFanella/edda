@@ -379,9 +379,18 @@ export function CampaignCreatePage() {
     setWizardStep('confirmation');
   }
 
+  function supportsSRDMartialBuild(profile: CharacterProfile): boolean {
+    return profile.concept.trim().toLowerCase() === 'human fighter' && profile.background.trim().toLowerCase() === 'soldier';
+  }
+
   async function handleBeginAdventure() {
     if (!campaignProfile || !characterProfile) {
       setConfirmationError('Campaign and character details must be complete before world-building can begin.');
+      return;
+    }
+
+    if (rulesMode === 'crunch' && !supportsSRDMartialBuild(characterProfile)) {
+      setConfirmationError('Crunch currently requires the supported Human Soldier Fighter build. Return to guided creation to complete it.');
       return;
     }
 
@@ -396,6 +405,7 @@ export function CampaignCreatePage() {
         profile: campaignProfile,
         character_profile: characterProfile,
         rules_mode: rulesMode ?? undefined,
+        rules_version: rulesMode === 'crunch' ? 'srd-5.2.1' : undefined,
         spawn_package: buildCharacterSpawnPackage(characterProfile, campaignProfile, campaignSummary),
       });
 
@@ -511,7 +521,12 @@ export function CampaignCreatePage() {
         return (
           <RulesModeStep
             selectedMode={rulesMode}
-            onSelectMode={setRulesMode}
+            onSelectMode={(mode) => {
+              setRulesMode(mode);
+              if (mode === 'crunch' && characterMethod === 'interview') {
+                setCharacterMethod(null);
+              }
+            }}
             onContinue={() => setWizardStep('characterMethod')}
             onBack={() => {
               if (campaignMethod === 'interview') {
@@ -526,18 +541,18 @@ export function CampaignCreatePage() {
         return (
           <MethodPicker<CharacterCreationMethod>
             title="Choose how to create the hero"
-            description={
-              campaignName
+            description={rulesMode === 'crunch'
+              ? 'The SRD 5.2.1 slice currently supports one explicit martial build through guided choices. Interview-created SRD characters remain pending the shared catalogue validation work.'
+              : campaignName
                 ? `Campaign locked: ${campaignName}. Next, either talk through the character in an interview or build them from guided D&D-style attributes.`
-                : 'Choose how to create the hero who will enter the opening scene.'
-            }
+                : 'Choose how to create the hero who will enter the opening scene.'}
             methods={[
-              {
-                value: 'interview',
+              ...(rulesMode === 'crunch' ? [] : [{
+                value: 'interview' as const,
                 title: 'Character interview',
                 description: 'Let the guide ask natural follow-up questions and extract the complete CharacterProfile for world-building.',
                 eyebrow: 'Conversational',
-              },
+              }]),
               {
                 value: 'guided',
                 title: 'Guided character build',
@@ -592,6 +607,7 @@ export function CampaignCreatePage() {
             value={characterGuidedForm}
             onChange={setCharacterGuidedForm}
             onSubmit={handleGuidedCharacterSubmit}
+            requiresSupportedMartialBuild={rulesMode === 'crunch'}
             onBack={() => {
               setCharacterGuidedError(null);
               setWizardStep('characterMethod');
@@ -615,11 +631,20 @@ export function CampaignCreatePage() {
             campaignName={campaignName}
             campaignSummary={campaignSummary}
             campaignProfile={campaignProfile}
-            characterProfile={characterProfile}
+            characterProfile={{
+              ...characterProfile,
+              rulesSummary: rulesMode === 'crunch' && supportsSRDMartialBuild(characterProfile)
+                ? 'SRD 5.2.1 Human Soldier Fighter · standard array plus Soldier +1 STR/DEX/CON: STR 16, DEX 15, CON 14, INT 8, WIS 10, CHA 12 · Savage Attacker and Skilled · AC 19 · 12 HP · proficiency +2 · initiative +2 · Second Wind 2/2 · skills: Athletics, Intimidation, Perception, Survival, Insight, History, Medicine, Nature · Dice Set proficiency · Defense style · mastery choices: Longsword, Greatsword, Javelin · chain mail, shield, longsword, greatsword, flail, 8 javelins, Dungeoneer’s Pack, 29 GP · Required choices complete; wider feat and mastery effects remain unavailable.'
+                : undefined,
+            }}
+            canBegin={rulesMode !== 'crunch' || supportsSRDMartialBuild(characterProfile)}
+            incompleteMessage={rulesMode === 'crunch' && !supportsSRDMartialBuild(characterProfile)
+              ? 'This character does not meet the supported SRD 5.2.1 martial build. Return to guided creation; no campaign can be started from incomplete choices.'
+              : null}
             onBegin={handleBeginAdventure}
             onBack={() => {
               setConfirmationError(null);
-              setWizardStep('characterMethod');
+              setWizardStep(characterMethod === 'guided' ? 'characterGuided' : 'characterMethod');
             }}
             isBeginning={isBuildingWorld}
             errorMessage={confirmationError}

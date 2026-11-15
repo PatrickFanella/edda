@@ -15,6 +15,7 @@ export interface CharacterProfileSummary {
   readonly motivations?: readonly string[];
   readonly strengths?: readonly string[];
   readonly weaknesses?: readonly string[];
+  readonly rulesSummary?: string;
 }
 
 export interface ConfirmationPanelProps {
@@ -28,6 +29,8 @@ export interface ConfirmationPanelProps {
   readonly errorMessage?: string | null;
   readonly beginLabel?: string;
   readonly backLabel?: string;
+  readonly canBegin?: boolean;
+  readonly incompleteMessage?: string | null;
 }
 
 interface SummaryRowProps {
@@ -73,6 +76,8 @@ export function ConfirmationPanel({
   errorMessage,
   beginLabel = 'Begin adventure',
   backLabel = 'Back',
+  canBegin = true,
+  incompleteMessage = null,
 }: ConfirmationPanelProps) {
   return (
     <div className="deco-corners deco-pattern game-hud-panel game-hud-panel-setup space-y-6 border-2 border-sapphire/30 bg-charcoal p-6">
@@ -113,6 +118,7 @@ export function ConfirmationPanel({
             <SummaryList label="Motivations" values={characterProfile.motivations} />
             <SummaryList label="Strengths" values={characterProfile.strengths} />
             <SummaryList label="Weaknesses" values={characterProfile.weaknesses} />
+            <SummaryRow label="Rules build" value={characterProfile.rulesSummary} />
           </dl>
         </section>
       </div>
@@ -121,6 +127,10 @@ export function ConfirmationPanel({
         <div className="border border-ruby/40 bg-ruby/10 px-4 py-3 text-sm text-ruby">
           {errorMessage}
         </div>
+      ) : null}
+
+      {incompleteMessage ? (
+        <div className="border border-gold/40 bg-gold/10 px-4 py-3 text-sm text-gold">{incompleteMessage}</div>
       ) : null}
 
       <div className="flex flex-col gap-3 border-t-2 border-gold/20 pt-6 sm:flex-row sm:items-center sm:justify-between">
@@ -137,7 +147,7 @@ export function ConfirmationPanel({
           <button
             type="button"
             onClick={onBegin}
-            disabled={isBeginning}
+            disabled={isBeginning || !canBegin}
             className="hud-btn hud-text-button inline-flex items-center justify-center bg-ruby px-5 text-sm font-semibold uppercase tracking-wide text-champagne transition hover:bg-ruby-light focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter"
           >
             {isBeginning ? 'Starting adventure…' : beginLabel}

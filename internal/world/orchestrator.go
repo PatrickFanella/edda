@@ -3,6 +3,7 @@ package world
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -12,6 +13,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/rules"
+	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
@@ -32,6 +34,7 @@ type OrchestratorInput struct {
 	CharacterProfile *CharacterProfile
 	SpawnPackage     *CharacterSpawnPackage
 	RulesMode        string
+	RulesVersion     domain.RulesVersion
 	Pool             db.DBTX
 	UserID           uuid.UUID
 }
@@ -56,6 +59,11 @@ func NewOrchestrator(provider llm.Provider, queries statedb.Querier) *Orchestrat
 // before each stage with a human-readable description; it may be nil.
 func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progress func(stage string)) (*OrchestratorResult, error) {
 	started := time.Now()
+	version, err := domain.NormalizeRulesVersion(input.RulesVersion)
+	if err != nil {
+		return nil, err
+	}
+	input.RulesVersion = version
 	if input.Profile == nil {
 		err := fmt.Errorf("orchestrator: campaign profile is nil")
 		logger().Error("orchestrator failed", "duration_ms", time.Since(started).Milliseconds(), "error", err)
@@ -65,6 +73,25 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 		err := fmt.Errorf("orchestrator: character profile is nil")
 		logger().Error("orchestrator failed", "duration_ms", time.Since(started).Milliseconds(), "error", err)
 		return nil, err
+	}
+
+	var martialBuild *srd521.SupportedMartialBuild
+	if input.RulesVersion == domain.RulesVersionSRD521 {
+		if strings.TrimSpace(input.CharacterProfile.Name) == "" {
+			return nil, fmt.Errorf("character name is required")
+		}
+		var err error
+		martialBuild, err = srd521.MartialBuildForConcept(input.CharacterProfile.Concept, input.CharacterProfile.Background)
+		if err != nil {
+			return nil, err
+		}
+		// SRD equipment comes from the validated catalogue build, never legacy
+		// client-authored starter grants. Keep only the narrative spawn context.
+		if input.SpawnPackage != nil {
+			spawn := *input.SpawnPackage
+			spawn.Items = nil
+			input.SpawnPackage = &spawn
+		}
 	}
 
 	logger().Info("orchestrator started",
@@ -109,6 +136,7 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 			DangerLevel:         pgtype.Text{String: input.Profile.DangerLevel, Valid: input.Profile.DangerLevel != ""},
 			PoliticalComplexity: pgtype.Text{String: input.Profile.PoliticalComplexity, Valid: input.Profile.PoliticalComplexity != ""},
 			Status:              "active",
+			RulesVersion:        string(input.RulesVersion),
 			CreatedBy:           pgtype.UUID{Bytes: input.UserID, Valid: input.UserID != uuid.Nil},
 		})
 		if err != nil {
@@ -137,7 +165,12 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 		if startingLocationID != uuid.Nil {
 			locPtr = &startingLocationID
 		}
-		characterRow, err := PersistCharacterProfile(ctx, queries, campaignUUID, input.UserID, input.CharacterProfile, locPtr)
+		var characterRow statedb.PlayerCharacter
+		if input.RulesVersion == domain.RulesVersionSRD521 {
+			characterRow, err = PersistSupportedMartialCharacter(ctx, queries, campaignUUID, input.UserID, input.CharacterProfile, martialBuild, locPtr)
+		} else {
+			characterRow, err = PersistCharacterProfile(ctx, queries, campaignUUID, input.UserID, input.CharacterProfile, locPtr)
+		}
 		if err != nil {
 			logger().Error("orchestrator character persistence failed", "campaign_id", campaignUUID, "error", err)
 			return fmt.Errorf("orchestrator: persist character: %w", err)

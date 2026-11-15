@@ -15,9 +15,11 @@ import (
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/handlers"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/rules"
+	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
@@ -164,6 +166,9 @@ func TestIntegrationWorldCreationRollbackAndRetry(t *testing.T) {
 					t.Fatalf("%s count=%d want=%d", table, count, want)
 				}
 			}
+			if result.Campaign.RulesVersion != "legacy" {
+				t.Fatalf("omitted rules version = %q", result.Campaign.RulesVersion)
+			}
 			if result.Campaign.Status != "active" {
 				t.Fatalf("status=%s", result.Campaign.Status)
 			}
@@ -203,6 +208,95 @@ func TestIntegrationWorldCreationRollbackAndRetry(t *testing.T) {
 		}
 		assertNoCreationRows(t, userID)
 	})
+}
+
+func TestIntegrationSRDMartialCreationPersistsOnlySupportedBuild(t *testing.T) {
+	ctx := context.Background()
+	q := statedb.New(testPool)
+	user, err := q.CreateUser(ctx, "srd-creation-"+uuid.NewString())
+	if err != nil {
+		t.Fatal(err)
+	}
+	userID := dbutil.FromPgtype(user.ID)
+	input := creationInput(userID)
+	input.Name = "SRD creation " + uuid.NewString()
+	input.CharacterProfile = &world.CharacterProfile{Name: "Mira", Concept: "human fighter", Background: "Soldier", Personality: "Lawful Good"}
+	input.RulesVersion = domain.RulesVersionSRD521
+	input.SpawnPackage = &world.CharacterSpawnPackage{Items: []world.StarterItem{{Name: "Unearned magic sword", ItemType: "weapon", Quantity: 10}}}
+
+	// Incomplete choices fail before inference; generation and gear failures
+	// leave no playable campaign. The same complete input can then be retried.
+	invalid := input
+	invalid.CharacterProfile = &world.CharacterProfile{Name: "Mira", Concept: "elf fighter", Background: "Soldier"}
+	provider := &creationProvider{t: t}
+	if result, err := world.NewOrchestrator(provider, q).Run(ctx, invalid, nil); err == nil || result != nil || provider.calls != 0 {
+		t.Fatalf("incomplete creation result=%+v error=%v calls=%d", result, err, provider.calls)
+	}
+	assertNoCreationRows(t, userID)
+	invalidVersion := input
+	invalidVersion.RulesVersion = "unreleased"
+	provider = &creationProvider{t: t}
+	if result, err := world.NewOrchestrator(provider, q).Run(ctx, invalidVersion, nil); err == nil || result != nil || provider.calls != 0 {
+		t.Fatalf("unknown rules version admitted: result=%+v error=%v calls=%d", result, err, provider.calls)
+	}
+	if result, err := world.NewOrchestrator(&creationProvider{t: t, failAt: 2}, q).Run(ctx, input, nil); err == nil || result != nil {
+		t.Fatalf("generation failure result=%+v error=%v", result, err)
+	}
+	assertNoCreationRows(t, userID)
+	if _, err := testPool.Exec(ctx, `CREATE FUNCTION fail_srd_gear() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RAISE EXCEPTION 'injected SRD gear failure'; END $$; CREATE TRIGGER fail_srd_gear BEFORE INSERT ON items FOR EACH ROW WHEN (NEW.name='Shield') EXECUTE FUNCTION fail_srd_gear()`); err != nil {
+		t.Fatal(err)
+	}
+	failed, creationErr := world.NewOrchestrator(&creationProvider{t: t}, q).Run(ctx, input, nil)
+	if _, err := testPool.Exec(ctx, `DROP TRIGGER fail_srd_gear ON items; DROP FUNCTION fail_srd_gear()`); err != nil {
+		t.Fatal(err)
+	}
+	if creationErr == nil || failed != nil {
+		t.Fatalf("equipment failure result=%+v error=%v", failed, creationErr)
+	}
+	assertNoCreationRows(t, userID)
+	result, err := world.NewOrchestrator(&creationProvider{t: t}, q).Run(ctx, input, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() {
+		_, _ = testPool.Exec(context.Background(), `DELETE FROM campaigns WHERE id=$1`, result.Campaign.ID)
+	})
+	if result.Campaign.RulesVersion != string(domain.RulesVersionSRD521) {
+		t.Fatalf("rules version = %q", result.Campaign.RulesVersion)
+	}
+	pc, err := q.GetPlayerCharacterByCampaign(ctx, result.Campaign.ID)
+	if err != nil || len(pc) != 1 {
+		t.Fatalf("characters = %d, err = %v", len(pc), err)
+	}
+	if pc[0].Status != "active" || pc[0].Hp != 12 || pc[0].MaxHp != 12 {
+		t.Fatalf("character state = %+v", pc[0])
+	}
+	if !strings.Contains(string(pc[0].Stats), "Lawful Good") {
+		t.Fatal("descriptive guided choices were lost")
+	}
+	sheet, err := srd521.Project(pc[0].Stats, int(pc[0].Level), int(pc[0].Hp), int(pc[0].MaxHp), int(pc[0].Experience))
+	if err != nil || sheet.Defenses["armor-class"].Value != 19 || sheet.Skills["intimidation"].Value != 3 {
+		t.Fatalf("projected sheet = %+v, err = %v", sheet, err)
+	}
+	items, err := q.ListItemsByPlayer(ctx, statedb.ListItemsByPlayerParams{CampaignID: result.Campaign.ID, PlayerCharacterID: pc[0].ID})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(items) != 8 {
+		t.Fatalf("expected only eight catalogue inventory rows, got %+v", items)
+	}
+	gotEquipment := map[string]statedb.Item{}
+	for _, item := range items {
+		gotEquipment[item.Name] = item
+	}
+	for _, name := range []string{"Chain Mail", "Shield", "Longsword", "Greatsword", "Flail", "Javelin", "Dungeoneer's Pack", "Coin Pouch (29 GP)"} {
+		if _, ok := gotEquipment[name]; !ok {
+			t.Fatalf("missing initial equipment %q in %+v", name, items)
+		}
+	}
+	if !gotEquipment["Chain Mail"].Equipped || !gotEquipment["Shield"].Equipped || !gotEquipment["Longsword"].Equipped || !strings.Contains(string(gotEquipment["Longsword"].Properties), "longsword") {
+		t.Fatalf("items = %+v, err = %v", items, err)
+	}
 }
 
 func TestIntegrationWorldCreationRequiredSetup(t *testing.T) {

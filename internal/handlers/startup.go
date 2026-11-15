@@ -13,6 +13,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
@@ -290,8 +291,9 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "invalid request body")
 		return
 	}
-	if err := domain.RequireLegacyRules(domain.RulesVersion(req.RulesVersion)); err != nil {
-		writeError(w, http.StatusConflict, err.Error())
+	version, err := domain.NormalizeRulesVersion(domain.RulesVersion(req.RulesVersion))
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	if req.Profile == nil {
@@ -308,6 +310,18 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if version == domain.RulesVersionSRD521 {
+		if strings.TrimSpace(req.CharacterProfile.Name) == "" {
+			writeError(w, http.StatusBadRequest, "character name is required")
+			return
+		}
+		_, err = srd521.MartialBuildForConcept(req.CharacterProfile.Concept, req.CharacterProfile.Background)
+		if err != nil {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+	}
+
 	result, err := world.NewOrchestrator(provider, h.Queries).Run(r.Context(), world.OrchestratorInput{
 		Name:             strings.TrimSpace(req.Name),
 		Summary:          strings.TrimSpace(req.Summary),
@@ -315,6 +329,7 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 		CharacterProfile: req.CharacterProfile,
 		SpawnPackage:     spawnPackage,
 		RulesMode:        strings.TrimSpace(req.RulesMode),
+		RulesVersion:     version,
 		Pool:             h.Pool,
 		UserID:           userID,
 	}, nil)

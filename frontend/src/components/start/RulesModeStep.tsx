@@ -23,8 +23,8 @@ const rulesModeOptions: readonly RulesModeOption[] = [
   {
     value: 'crunch',
     title: 'Crunch',
-    eyebrow: 'Full mechanics',
-    description: 'Full mechanics. D&D 5e-style feats, skills, initiative, and tactical combat.',
+    eyebrow: 'Supported SRD slice',
+    description: 'SRD 5.2.1 level-one Human Soldier Fighter, inspectable checks and ordinary melee. Other builds and wider rules remain in progress.',
   },
 ];
 

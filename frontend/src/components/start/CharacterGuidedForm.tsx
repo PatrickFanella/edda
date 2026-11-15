@@ -17,6 +17,7 @@ export interface CharacterGuidedFormProps {
   readonly errorMessage?: string | null;
   readonly continueLabel?: string;
   readonly backLabel?: string;
+  readonly requiresSupportedMartialBuild?: boolean;
 }
 
 type CharacterGuidedField = keyof CharacterGuidedFormData;
@@ -111,11 +112,15 @@ const SELECT_FIELDS: readonly SelectFieldConfig[] = [
   },
 ] as const;
 
-function validateGuidedCharacter(value: CharacterGuidedFormData): CharacterGuidedErrors {
+function validateGuidedCharacter(value: CharacterGuidedFormData, requiresSupportedMartialBuild: boolean): CharacterGuidedErrors {
   const errors: CharacterGuidedErrors = {};
 
   if (value.name.trim().length === 0) {
     errors.name = 'Required';
+  }
+
+  if (requiresSupportedMartialBuild && (value.race !== 'Human' || value.class !== 'Fighter' || value.background !== 'Soldier')) {
+    errors.class = 'Crunch currently supports the Human Soldier Fighter build.';
   }
 
   for (const field of SELECT_FIELDS) {
@@ -140,6 +145,7 @@ export function CharacterGuidedForm({
   errorMessage,
   continueLabel = 'Continue to confirmation',
   backLabel = 'Back',
+  requiresSupportedMartialBuild = false,
 }: CharacterGuidedFormProps) {
   const [fieldErrors, setFieldErrors] = useState<CharacterGuidedErrors>({});
 
@@ -173,7 +179,7 @@ export function CharacterGuidedForm({
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const nextErrors = validateGuidedCharacter(value);
+    const nextErrors = validateGuidedCharacter(value, requiresSupportedMartialBuild);
     setFieldErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
       return;
@@ -193,6 +199,9 @@ export function CharacterGuidedForm({
         <p className="max-w-2xl text-sm leading-6 text-champagne/70">
           Mirror the TUI flow: lock in name, race, class, background, and alignment before the final confirmation step.
         </p>
+        {requiresSupportedMartialBuild ? (
+          <p className="text-sm leading-6 text-gold">Crunch starts with the supported SRD 5.2.1 Human Soldier Fighter: standard-array 16 Strength, Soldier increases, Savage Attacker and Skilled, eight recorded skills, chain mail, shield, and longsword.</p>
+        ) : null}
       </div>
 
       <form className="space-y-6" onSubmit={handleSubmit} noValidate>
@@ -213,6 +222,7 @@ export function CharacterGuidedForm({
             <span className="text-sm font-medium text-champagne/80">Character name</span>
             <input
               type="text"
+              aria-label="Character name"
               value={value.name}
               onChange={handleNameChange}
               aria-invalid={fieldErrors.name ? 'true' : 'false'}
@@ -240,6 +250,7 @@ export function CharacterGuidedForm({
                 <span className="text-sm font-medium text-champagne/80">{field.label}</span>
                 <select
                   value={selectedValue}
+                  aria-label={field.label}
                   onChange={handleSelectChange(field.key)}
                   aria-invalid={fieldError ? 'true' : 'false'}
                   aria-describedby={fieldError ? errorId : undefined}
