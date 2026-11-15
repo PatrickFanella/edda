@@ -709,3 +709,9 @@ body:has(.game-app-shell) > .subcult-identity {
 .game-composer-feedback { flex: none; max-height: min(10dvh, 6rem); overflow-y: auto; overflow-wrap: anywhere; overscroll-behavior: contain; }
 .game-composer-feedback:empty { display: none; }
 .game-action-form textarea { height: 4.5rem; min-height: 4.5rem; max-height: 7rem; overflow-y: auto; }
+
+/* Owner-selected A layout / B reading face (#55): Georgia story text, existing
+   Marcellus headings and Josefin Sans controls. No additional font download. */
+.narrative-reader { overflow-anchor: none; scrollbar-gutter: stable; }
+.narrative-entry { width: 100%; max-width: 70ch; margin-inline: auto; }
+.narrative-prose { font-family: Georgia, 'Times New Roman', serif; font-size: 1.125rem; line-height: 1.75; }

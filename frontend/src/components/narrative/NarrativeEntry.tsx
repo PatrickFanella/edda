@@ -28,19 +28,19 @@ interface NarrativeEntryProps {
 
 const ENTRY_STYLES: Record<NarrativeEntryKind, { shell: string; badge: string; accent: string; defaultSpeaker: string }> = {
   player: {
-    shell: 'border-jade/30 bg-jade/5 text-champagne hover:border-jade/50',
+    shell: 'border-l-2 border-jade/40 pl-4 text-champagne/85',
     badge: 'bg-jade/15 text-jade border border-jade/20',
     accent: 'text-jade',
     defaultSpeaker: 'You',
   },
   gm: {
-    shell: 'border-gold/30 bg-gold/5 text-champagne hover:border-gold/50',
+    shell: 'text-champagne',
     badge: 'bg-gold/15 text-gold border border-gold/20',
     accent: 'text-gold',
     defaultSpeaker: 'Edda',
   },
   system: {
-    shell: 'border-pewter/30 bg-pewter/5 text-champagne/90 hover:border-pewter/50',
+    shell: 'border-l-2 border-pewter/30 pl-4 text-pewter',
     badge: 'bg-pewter/15 text-pewter border border-pewter/20',
     accent: 'text-pewter',
     defaultSpeaker: 'System',
@@ -58,32 +58,29 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
   return (
     <article
       className={cn(
-        'border-2 px-4 py-4 transition-all duration-200 sm:px-5',
+        'narrative-entry shrink-0 py-2',
         styles.shell,
         className,
       )}
+      data-entry-id={entry.id}
+      aria-label={`${speaker} entry`}
       aria-live={entry.isStreaming ? 'polite' : undefined}
     >
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-center gap-3">
-          <span className={cn('hud-baseline-badge inline-flex rounded-sm px-2 text-[11px] font-semibold uppercase tracking-[0.2em]', styles.badge)}>
-            {entry.kind}
-          </span>
-          <p className={cn('translate-y-[1px] text-sm font-semibold leading-none', styles.accent)}>{speaker}</p>
-        </div>
-        <p className="text-xs uppercase tracking-[0.2em] text-pewter">{timestampLabel}</p>
-      </header>
+      <p className={cn('mb-2 text-sm font-semibold', styles.accent, entry.kind === 'gm' ? 'sr-only' : '')}>{speaker}</p>
 
-      <div className="mt-4 space-y-4">
+      <div className="space-y-4">
         {showStreamingState ? <LoadingIndicator label={`${speaker} is responding`} detail="Streaming the next beat…" /> : null}
 
         {hasText ? (
-          <p className="whitespace-pre-wrap wrap-break-word text-md leading-6 text-inherit">
-            {displayText}
-            {entry.isStreaming ? <span className="ml-2 inline-block h-4 w-2 animate-pulse bg-gold/80 align-middle" /> : null}
-          </p>
+          <div className={cn('space-y-5', entry.kind === 'gm' ? 'narrative-prose' : 'text-base leading-7')}>
+            {displayText.split(/\n\s*\n/).map((paragraph, index) => <p key={index} className="whitespace-pre-wrap wrap-break-word">{paragraph}</p>)}
+            {entry.isStreaming ? <span className="inline-block h-4 w-2 animate-pulse bg-gold/80 align-middle" /> : null}
+          </div>
         ) : null}
 
+        {!entry.isStreaming ? <details className="text-sm text-pewter">
+          <summary className="inline-flex min-h-11 cursor-pointer items-center py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold">Turn details</summary>
+          <time dateTime={entry.timestamp} className="block py-2">{timestampLabel}</time>
         {entry.stateChanges && entry.stateChanges.length > 0 ? (
           <div className="flex flex-wrap gap-2 border-t border-white/10 pt-3">
             {entry.stateChanges.map((change, index) => (
@@ -104,6 +101,7 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
             ))}
           </div>
         ) : null}
+        </details> : null}
       </div>
     </article>
   );

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 import { cn } from '../../lib/cn';
 import { NarrativeEntry, type NarrativeEntryItem, type NarrativeEntryKind } from './NarrativeEntry';
@@ -29,7 +29,6 @@ export function NarrativePanel({
   contentClassName,
   emptyState,
 }: NarrativePanelProps) {
-  const endRef = useRef<HTMLDivElement | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   // When non-null, the user has scrolled away from the bottom.
   // The value records the entry count at the moment they scrolled away.
@@ -72,14 +71,16 @@ export function NarrativePanel({
     }
   }, [entries.length]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (scrolledAwayAt === null) {
-      endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      const owner = scrollContainerRef.current;
+      if (owner && owner.clientHeight > 0) owner.scrollTo({ top: owner.scrollHeight, behavior: 'instant' });
     }
   }, [entries, activeStreamingEntry, scrolledAwayAt]);
 
   const scrollToBottom = useCallback(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    const owner = scrollContainerRef.current;
+    owner?.scrollTo({ top: owner.scrollHeight, behavior: 'instant' });
     setScrolledAwayAt(null);
   }, []);
 
@@ -101,7 +102,7 @@ export function NarrativePanel({
         role="log"
         aria-live="polite"
         aria-busy={activeStreamingEntry ? 'true' : 'false'}
-        className={cn('flex max-h-136 min-h-80 flex-col gap-4 overflow-y-auto px-4 py-4 sm:px-5', contentClassName)}
+        className={cn('narrative-reader flex max-h-136 min-h-80 flex-col gap-6 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6', contentClassName)}
       >
         {hasEntries ? (
           <>
@@ -120,16 +121,15 @@ export function NarrativePanel({
             </div>
           )
         )}
-        <div ref={endRef} aria-hidden="true" />
       </div>
 
-      {hasUnread ? (
+      {scrolledAwayAt !== null ? (
         <button
           type="button"
           onClick={scrollToBottom}
-          className="absolute bottom-16 left-1/2 z-10 -translate-x-1/2 rounded-full border border-pewter/40 bg-pewter/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-pewter shadow-lg backdrop-blur-sm transition-all hover:bg-pewter/20"
+          className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 min-h-11 border border-gold/40 bg-charcoal px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-pewter shadow-lg backdrop-blur-sm transition-all hover:bg-pewter/20"
         >
-          New response ↓
+          {hasUnread ? 'New response · ' : ''}Return to latest
         </button>
       ) : null}
     </section>
