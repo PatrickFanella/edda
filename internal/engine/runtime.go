@@ -40,6 +40,7 @@ type Engine struct {
 	searcher           tools.SearchMemorySearcher
 	saveStore          *saves.Store
 	summarizer         *journal.Summarizer
+	summaryContext     context.Context
 }
 
 const recentTurnLimit = 10
@@ -74,6 +75,12 @@ func WithSaveStore(s *saves.Store) Option {
 // WithSummarizer attaches a journal summarizer for auto-summarization after turns.
 func WithSummarizer(s *journal.Summarizer) Option {
 	return func(e *Engine) { e.summarizer = s }
+}
+
+// WithSummaryContext ties automatic summaries to the process lifetime rather
+// than to an individual HTTP request. Cancellation stops in-flight summaries.
+func WithSummaryContext(ctx context.Context) Option {
+	return func(e *Engine) { e.summaryContext = ctx }
 }
 
 // WithLogger sets the structured logger for the engine and its subsystems.
@@ -329,7 +336,7 @@ func (e *Engine) autoSummarizeIfNeeded(ctx context.Context, campaignID uuid.UUID
 	if e.summarizer == nil {
 		return
 	}
-	if turnNumber%10 != 0 {
+	if turnNumber <= 0 || turnNumber%10 != 0 {
 		return
 	}
 
@@ -340,8 +347,14 @@ func (e *Engine) autoSummarizeIfNeeded(ctx context.Context, campaignID uuid.UUID
 	toTurn := turnNumber
 
 	go func() {
-		// Use a background context since the request context may be cancelled.
-		bgCtx := context.Background()
+		// A completed request must not cancel its summary, but process shutdown
+		// and a fixed deadline must bound the provider and persistence calls.
+		parent := e.summaryContext
+		if parent == nil {
+			parent = context.Background()
+		}
+		bgCtx, cancel := context.WithTimeout(parent, 2*time.Minute)
+		defer cancel()
 		if _, err := e.summarizer.Summarize(bgCtx, campaignID, fromTurn, toTurn); err != nil {
 			e.logger.Warn("auto-summarize: failed", "campaign_id", campaignID, "from_turn", fromTurn, "to_turn", toTurn, "error", err)
 		} else {

@@ -17,7 +17,6 @@ import (
 
 	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
 	"git.subcult.tv/subculture-collective/edda/internal/config"
-	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/logging"
 	"git.subcult.tv/subculture-collective/edda/internal/saves"
@@ -77,27 +76,10 @@ func run(args []string) int {
 		return 1
 	}
 	provider := roster.Provider(llm.FlowDefault)
-	gmProvider := roster.Provider(llm.FlowGMTurn)
 
 	saveStore := saves.NewStore(pool)
 
-	engineOpts := []engine.Option{
-		engine.WithLogger(slog.Default().WithGroup("engine")),
-		engine.WithSaveStore(saveStore),
-		engine.WithLLMProviders(engine.EngineLLMProviders{
-			PostTurnState:      roster.Provider(llm.FlowPostTurnState),
-			ChoiceFallback:     roster.Provider(llm.FlowChoiceFallback),
-			ContextTokenBudget: roster.Info(llm.FlowGMTurn).ContextTokenBudget,
-		}),
-	}
-	memoryOpts, err := engine.SemanticMemoryOptions(ctx, cfg.LLM, pool, queries, slog.Default().WithGroup("memory"))
-	if err != nil {
-		logger.Errorf("configure semantic campaign memory: %v", err)
-		return 1
-	}
-	engineOpts = append(engineOpts, memoryOpts...)
-
-	gameEngine, err := engine.New(pool, gmProvider, cfg.LLM, engineOpts...)
+	gameEngine, err := newAPIEngine(ctx, pool, cfg, roster, saveStore)
 	if err != nil {
 		logger.Errorf("create engine: %v", err)
 		return 1

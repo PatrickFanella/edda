@@ -96,6 +96,12 @@ container with pgvector, applies migrations, and removes the container on exit.
 Docker must be available locally; no application database or credentials are used.
 Container setup is limited to five minutes and cleanup to thirty seconds.
 
+The API automatically summarizes each completed block of ten turns using the
+configured `llm.routes.summary` provider (or the default provider). Summary work
+runs after turn persistence, survives request completion, and stops on API
+shutdown or after two minutes. A failed summary is logged and does not fail the
+completed turn. Manual journal summarization remains available.
+
 ## Configuration
 
 Settings come from built-in defaults (`internal/config/config.go`), then
