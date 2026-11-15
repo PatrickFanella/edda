@@ -21,7 +21,7 @@ test(`guided ${build.class} creation at ${width} shows derived choices and retai
  await page.getByRole('button',{name:'Send reply'}).click();
  await page.getByRole('button',{name:/Supported SRD slice/}).click();
  await page.getByRole('button',{name:'Continue',exact:true}).click();
- await expect(page.getByRole('button',{name:/Character interview/})).toHaveCount(0);
+ await expect(page.getByRole('button',{name:/Character interview/})).toBeVisible();
  await page.getByRole('button',{name:/Guided character build/}).click();
  await page.getByRole('button',{name:'Continue',exact:true}).click();
  await page.getByLabel('Character name').fill('Mira');

@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
@@ -17,13 +18,14 @@ const extractCharacterToolName = "extract_character_profile"
 // CharacterProfile captures the player's character concept gathered during the
 // character-creation interview.
 type CharacterProfile struct {
-	Name        string   `json:"name"`
-	Concept     string   `json:"concept"` // e.g. "elven ranger", "street samurai"
-	Background  string   `json:"background"`
-	Personality string   `json:"personality"`
-	Motivations []string `json:"motivations"`
-	Strengths   []string `json:"strengths"`
-	Weaknesses  []string `json:"weaknesses"`
+	RulesChoices *RulesChoices `json:"rules_choices,omitempty"`
+	Name         string        `json:"name"`
+	Concept      string        `json:"concept"` // e.g. "elven ranger", "street samurai"
+	Background   string        `json:"background"`
+	Personality  string        `json:"personality"`
+	Motivations  []string      `json:"motivations"`
+	Strengths    []string      `json:"strengths"`
+	Weaknesses   []string      `json:"weaknesses"`
 }
 
 // Complete returns true when every field has been populated, indicating the
@@ -91,6 +93,7 @@ func extractCharacterProfileTool() llm.Tool {
 // accumulates conversation history and detects when the LLM signals completion
 // by calling the extract_character_profile tool.
 type CharacterInterviewer struct {
+	rulesVersion    domain.RulesVersion
 	provider        llm.Provider
 	history         []llm.Message
 	profile         *CharacterProfile
@@ -109,6 +112,27 @@ func NewCharacterInterviewer(provider llm.Provider, campaignProfile *CampaignPro
 			{Role: llm.RoleSystem, Content: buildCharacterSystemPrompt(campaignProfile)},
 		},
 	}
+}
+
+// NewRulesCharacterInterviewer applies the fixed catalogue to versioned interviews.
+func NewRulesCharacterInterviewer(provider llm.Provider, campaign *CampaignProfile, version domain.RulesVersion) *CharacterInterviewer {
+	ci := NewCharacterInterviewer(provider, campaign)
+	ci.rulesVersion = version
+	if version == domain.RulesVersionSRD521 {
+		ci.history[0].Content += "\nSRD 5.2.1: propose only Human Fighter with Soldier, or Human Cleric with Acolyte. Ask the player to choose explicitly; do not silently replace unsupported concepts. Extract rules_choices (origin, class, background) and matching concept/background. Each selects the fixed standard-array build, all feats, skills, equipment and recorded spell choices shown at confirmation. Strengths and backstory are narrative only, never mechanical abilities. Unimplemented effects remain unavailable. The player must review and confirm before generation."
+	}
+	return ci
+}
+
+func (ci *CharacterInterviewer) rulesTool() llm.Tool {
+	tool := extractCharacterProfileTool()
+	if ci.rulesVersion == domain.RulesVersionSRD521 {
+		properties := tool.Parameters["properties"].(map[string]any)
+		properties["rules_choices"] = map[string]any{"type": "object", "additionalProperties": false, "properties": map[string]any{"origin": map[string]any{"type": "string", "enum": []string{"Human"}}, "class": map[string]any{"type": "string", "enum": []string{"Fighter", "Cleric"}}, "background": map[string]any{"type": "string", "enum": []string{"Soldier", "Acolyte"}}}, "required": []string{"origin", "class", "background"}}
+		tool.Parameters["required"] = append(tool.Parameters["required"].([]string), "rules_choices")
+		tool.Parameters["additionalProperties"] = false
+	}
+	return tool
 }
 
 // CharacterInterviewResult holds the LLM's response from a single character
@@ -148,6 +172,7 @@ func (ci *CharacterInterviewer) Step(ctx context.Context, playerInput string) (*
 	}
 
 	logger().Debug("character interview step", "history", len(ci.history), "input_len", len(playerInput), "done", ci.done)
+	historyLength := len(ci.history)
 	if playerInput != "" {
 		ci.history = append(ci.history, llm.Message{
 			Role:    llm.RoleUser,
@@ -155,9 +180,10 @@ func (ci *CharacterInterviewer) Step(ctx context.Context, playerInput string) (*
 		})
 	}
 
-	tools := []llm.Tool{extractCharacterProfileTool()}
+	tools := []llm.Tool{ci.rulesTool()}
 	resp, err := ci.provider.Complete(ctx, ci.history, tools)
 	if err != nil {
+		ci.history = ci.history[:historyLength]
 		logger().Error("character interview llm call failed", "duration_ms", time.Since(started).Milliseconds(), "history", len(ci.history), "error", err)
 		return nil, fmt.Errorf("character interview LLM call: %w", err)
 	}
@@ -168,6 +194,34 @@ func (ci *CharacterInterviewer) Step(ctx context.Context, playerInput string) (*
 			continue
 		}
 		profile, parseErr := parseCharacterProfile(tc.Arguments)
+		if ci.rulesVersion == domain.RulesVersionSRD521 {
+			issue := ""
+			if parseErr != nil || profile == nil || !profile.Complete() {
+				issue = "Complete the character's name, background, personality, motivations, strengths and weaknesses."
+			} else if profile.RulesChoices == nil {
+				issue = "Choose structured origin, class and background before confirmation."
+			} else if _, err := ValidateRulesCharacter(profile); err != nil {
+				issue = err.Error()
+			}
+			properties := ci.rulesTool().Parameters["properties"].(map[string]any)
+			for key := range tc.Arguments {
+				if _, ok := properties[key]; !ok {
+					issue = "Unsupported mechanical fields are not allowed; choose a catalogue build."
+				}
+			}
+			if choices, ok := tc.Arguments["rules_choices"].(map[string]any); ok {
+				for key := range choices {
+					if key != "origin" && key != "class" && key != "background" {
+						issue = "Only origin, class and background can select the fixed catalogue build."
+					}
+				}
+			}
+			if issue != "" {
+				message := "Rules choices need correction: " + issue + " Supported builds: Human Soldier Fighter or Human Acolyte Cleric. Describe the correction to continue; no character has been created."
+				ci.history = append(ci.history, llm.Message{Role: llm.RoleAssistant, Content: message})
+				return &CharacterInterviewResult{Message: message}, nil
+			}
+		}
 		if parseErr != nil {
 			logger().Error("character interview profile parse failed", "duration_ms", time.Since(started).Milliseconds(), "error", parseErr)
 			return nil, fmt.Errorf("parse character profile from tool call: %w", parseErr)

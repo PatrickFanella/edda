@@ -326,9 +326,10 @@ export function CampaignCreatePage() {
 
       setIsStartingCharacterInterview(true);
       try {
-        const response = await startCharacterInterview(campaignProfile);
+        const response = await startCharacterInterview(campaignProfile, rulesMode === 'crunch' ? 'srd-5.2.1' : 'legacy');
         setCharacterInterviewSessionId(response.session_id);
         setCharacterInterviewTranscript([createTranscriptEntry('assistant', response.message)]);
+        if (response.done && response.profile) { setCharacterInterviewSessionId(null); setCharacterProfile(response.profile); setWizardStep('confirmation'); }
       } catch (error) {
         setCharacterInterviewError(mutationErrorMessage(error));
       } finally {
@@ -380,6 +381,9 @@ export function CampaignCreatePage() {
   }
 
   function supportsSRDBuild(profile: CharacterProfile): boolean {
+    if (!profile.name.trim()) return false;
+    const choices = profile.rules_choices;
+    if (choices && (`${choices.origin.trim()} ${choices.class.trim()}`.toLowerCase() !== profile.concept.trim().toLowerCase() || choices.background.trim().toLowerCase() !== profile.background.trim().toLowerCase())) return false;
     return (profile.concept.trim().toLowerCase() === 'human fighter' && profile.background.trim().toLowerCase() === 'soldier') || (profile.concept.trim().toLowerCase() === 'human cleric' && profile.background.trim().toLowerCase() === 'acolyte');
   }
 
@@ -523,9 +527,7 @@ export function CampaignCreatePage() {
             selectedMode={rulesMode}
             onSelectMode={(mode) => {
               setRulesMode(mode);
-              if (mode === 'crunch' && characterMethod === 'interview') {
-                setCharacterMethod(null);
-              }
+              if (mode !== rulesMode) resetCharacterFlow();
             }}
             onContinue={() => setWizardStep('characterMethod')}
             onBack={() => {
@@ -542,17 +544,17 @@ export function CampaignCreatePage() {
           <MethodPicker<CharacterCreationMethod>
             title="Choose how to create the hero"
             description={rulesMode === 'crunch'
-              ? 'The SRD 5.2.1 slice currently supports Human Soldier Fighter and Human Acolyte Cleric through guided choices. Interview-created SRD characters remain pending the shared catalogue validation work.'
+              ? 'Choose Human Soldier Fighter or Human Acolyte Cleric through guided choices or an interview. Both use the same fixed rules catalogue; review all choices before starting.'
               : campaignName
                 ? `Campaign locked: ${campaignName}. Next, either talk through the character in an interview or build them from guided D&D-style attributes.`
                 : 'Choose how to create the hero who will enter the opening scene.'}
             methods={[
-              ...(rulesMode === 'crunch' ? [] : [{
+              {
                 value: 'interview' as const,
                 title: 'Character interview',
                 description: 'Let the guide ask natural follow-up questions and extract the complete CharacterProfile for world-building.',
                 eyebrow: 'Conversational',
-              }]),
+              },
               {
                 value: 'guided',
                 title: 'Guided character build',
@@ -595,7 +597,7 @@ export function CampaignCreatePage() {
             inputPlaceholder="A scarred elven ranger who watches borders, trusts no throne, and still answers the call to defend the innocent…"
             emptyStateTitle="Starting interview"
             emptyStateMessage="The guide is opening the character interview and will ask the first question momentarily."
-            helperText="The backend interview stays authoritative here, so failures keep the transcript and session state in place whenever possible."
+            helperText={rulesMode === 'crunch' ? "Choose a fixed Human Soldier Fighter or Human Acolyte Cleric. Unsupported or missing choices require correction. Narrative strengths grant no abilities; review the catalogue choices at confirmation. Back retains this interview session." : "Failures keep the transcript and session state in place whenever possible."}
             errorMessage={characterInterviewError}
             isLoading={isStartingCharacterInterview || isSteppingCharacterInterview}
             autoFocus={characterInterviewTranscript.length > 0}

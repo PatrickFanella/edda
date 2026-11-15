@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -29,9 +30,10 @@ type startupScriptedResponse struct {
 }
 
 type startupScriptedProvider struct {
-	t       *testing.T
-	scripts []startupScriptedResponse
-	calls   int
+	t         *testing.T
+	scripts   []startupScriptedResponse
+	calls     int
+	lastTools []llm.Tool
 }
 
 func newStartupScriptedProvider(t *testing.T, scripts ...startupScriptedResponse) *startupScriptedProvider {
@@ -39,11 +41,12 @@ func newStartupScriptedProvider(t *testing.T, scripts ...startupScriptedResponse
 	return &startupScriptedProvider{t: t, scripts: scripts}
 }
 
-func (p *startupScriptedProvider) Complete(_ context.Context, _ []llm.Message, _ []llm.Tool) (*llm.Response, error) {
+func (p *startupScriptedProvider) Complete(_ context.Context, _ []llm.Message, offered []llm.Tool) (*llm.Response, error) {
 	p.t.Helper()
 	if p.calls >= len(p.scripts) {
 		p.t.Fatalf("Complete called %d time(s), but only %d response(s) were configured", p.calls+1, len(p.scripts))
 	}
+	p.lastTools = offered
 	script := p.scripts[p.calls]
 	p.calls++
 	return script.resp, script.err
@@ -600,3 +603,46 @@ func (startupSetupDB) QueryRow(_ context.Context, _ string, args ...any) pgx.Row
 type startupSetupRow struct{ mode string }
 
 func (r startupSetupRow) Scan(dest ...any) error { *dest[0].(*string) = r.mode; return nil }
+
+func TestRulesCharacterInterviewSessionCorrectionsAndFailure(t *testing.T) {
+	response := func(args map[string]any) *llm.Response {
+		return &llm.Response{ToolCalls: []llm.ToolCall{{Name: "extract_character_profile", Arguments: args}}}
+	}
+	valid := map[string]any{"name": "Mira", "concept": "Human Cleric", "background": "Acolyte", "personality": "Patient", "motivations": []any{"Help"}, "strengths": []any{"Patience"}, "weaknesses": []any{"Pride"}, "rules_choices": map[string]any{"origin": "Human", "class": "Cleric", "background": "Acolyte"}}
+	invalid := map[string]any{}
+	for k, v := range valid {
+		invalid[k] = v
+	}
+	delete(invalid, "rules_choices")
+	invented := map[string]any{}
+	for k, v := range valid {
+		invented[k] = v
+	}
+	invented["abilities"] = []any{"Teleport"}
+	provider := newStartupScriptedProvider(t, startupScriptedResponse{resp: &llm.Response{Content: "Choose your rules build."}}, startupScriptedResponse{resp: response(invalid)}, startupScriptedResponse{resp: response(invented)}, startupScriptedResponse{err: errors.New("unavailable")}, startupScriptedResponse{resp: response(valid)})
+	h := NewStartupHandlers(provider, &startupStubQuerier{}, log.Default(), nil)
+	router := newStartupRouter(h, true)
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, httptest.NewRequest(http.MethodPost, "/api/v1/campaigns/start/character-interview", bytes.NewBufferString(`{"campaign_profile":{},"rules_version":"srd-5.2.1"}`)))
+	if rec.Code != http.StatusOK {
+		t.Fatal(rec.Body.String())
+	}
+	start := decodeStartupJSON[api.CharacterInterviewResponse](t, rec)
+	if _, ok := provider.lastTools[0].Parameters["properties"].(map[string]any)["rules_choices"]; !ok {
+		t.Fatal("rules schema missing")
+	}
+	for i, want := range []int{200, 200, 500, 200} {
+		rec = httptest.NewRecorder()
+		router.ServeHTTP(rec, httptest.NewRequest(http.MethodPost, "/api/v1/campaigns/start/character-interview/"+start.SessionID, bytes.NewBufferString(`{"input":"Choose Human Cleric"}`)))
+		if rec.Code != want {
+			t.Fatalf("step %d: %d %s", i, rec.Code, rec.Body.String())
+		}
+		if want == 500 {
+			continue
+		}
+		result := decodeStartupJSON[api.CharacterInterviewResponse](t, rec)
+		if result.Done != (i == 3) {
+			t.Fatalf("step %d: %+v", i, result)
+		}
+	}
+}

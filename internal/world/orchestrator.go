@@ -81,7 +81,7 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 			return nil, fmt.Errorf("character name is required")
 		}
 		var err error
-		supportedBuild, err = srd521.SupportedBuildForConcept(input.CharacterProfile.Concept, input.CharacterProfile.Background)
+		supportedBuild, err = ValidateRulesCharacter(input.CharacterProfile)
 		if err != nil {
 			return nil, err
 		}

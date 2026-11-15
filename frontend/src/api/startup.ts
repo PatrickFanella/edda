@@ -45,10 +45,10 @@ export function generateCampaignName(profile: CampaignProfile): Promise<Generate
   });
 }
 
-export function startCharacterInterview(campaignProfile: CampaignProfile): Promise<CharacterInterviewResponse> {
+export function startCharacterInterview(campaignProfile: CampaignProfile, rulesVersion?: string): Promise<CharacterInterviewResponse> {
   return apiFetch<CharacterInterviewResponse>(buildStartupPath('character-interview'), {
     method: 'POST',
-    body: { campaign_profile: campaignProfile },
+    body: { campaign_profile: campaignProfile, rules_version: rulesVersion },
   });
 }
 

@@ -13,7 +13,6 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
-	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
@@ -209,7 +208,12 @@ func (h *StartupHandlers) StartCharacterInterview(w http.ResponseWriter, r *http
 		return
 	}
 
-	iv := world.NewCharacterInterviewer(provider, req.CampaignProfile)
+	version, err := domain.NormalizeRulesVersion(domain.RulesVersion(req.RulesVersion))
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	iv := world.NewRulesCharacterInterviewer(provider, req.CampaignProfile, version)
 	sessionID := h.sessions.createCharacterSession(iv)
 	result, err := iv.Start(r.Context())
 	if err != nil {
@@ -315,7 +319,7 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 			writeError(w, http.StatusBadRequest, "character name is required")
 			return
 		}
-		_, err = srd521.MartialBuildForConcept(req.CharacterProfile.Concept, req.CharacterProfile.Background)
+		_, err = world.ValidateRulesCharacter(req.CharacterProfile)
 		if err != nil {
 			writeError(w, http.StatusBadRequest, err.Error())
 			return

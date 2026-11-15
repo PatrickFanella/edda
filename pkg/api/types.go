@@ -269,6 +269,7 @@ type CampaignNameResponse struct {
 
 // CharacterInterviewStartRequest starts a character interview for a campaign profile.
 type CharacterInterviewStartRequest struct {
+	RulesVersion    string           `json:"rules_version,omitempty"`
 	CampaignProfile *CampaignProfile `json:"campaign_profile"`
 }
 

@@ -294,6 +294,7 @@ export interface CampaignProfile {
 }
 
 export interface CharacterProfile {
+  rules_choices?: { origin: string; class: string; background: string };
   name: string;
   concept: string;
   background: string;
@@ -351,6 +352,7 @@ export interface GenerateCampaignNameResponse {
 export type CharacterInterviewResponse = StartupInterviewResponse<CharacterProfile>;
 
 export interface CharacterInterviewStartRequest {
+  rules_version?: string;
   campaign_profile: CampaignProfile;
 }
 
