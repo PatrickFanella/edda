@@ -50,7 +50,7 @@ func (e *Engine) recoverNarration(ctx context.Context, tc *TurnContext, a stored
 			return &recoveryError{id: a.id, cause: err}
 		}
 		messages = append(messages, llm.Message{Role: llm.RoleUser, Content: fmt.Sprintf("Recover narration for the ORIGINAL action above. Its mechanical processing has stopped. The following receipts are already committed and are the authoritative outcomes: %s\nDescribe only these outcomes and the current player-visible scene. Preserve every recorded die and cost; do not roll, repeat tools, spend resources, or invent additional effects or hidden information. Unfinished effects did not happen. Return narrative with a Choices section; call no tools.", receipts)})
-		resp, err := e.provider.Complete(ctx, messages, nil)
+		resp, err := completeNarrative(ctx, e.provider, messages, nil, tc.NarrativeCallback)
 		if err != nil {
 			return &recoveryError{id: a.id, cause: err}
 		}

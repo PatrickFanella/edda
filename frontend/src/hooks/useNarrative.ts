@@ -129,7 +129,7 @@ export function useNarrative(): UseNarrativeResult {
     return {
       id: `${state.pendingTimestamp}-streaming`,
       kind: 'gm',
-      text: state.streamingChunks.join('') || 'Game Master is thinking\u2026',
+      text: state.streamingChunks.join(''),
       timestamp: state.pendingTimestamp,
       speaker: 'Game Master',
       isStreaming: true,

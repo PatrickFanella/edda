@@ -63,10 +63,12 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
         className,
       )}
       data-entry-id={entry.id}
-      aria-label={`${speaker} entry`}
+      aria-label={entry.isStreaming ? 'Provisional narration' : `${speaker} entry`}
       aria-live={entry.isStreaming ? 'polite' : undefined}
     >
       <p className={cn('mb-2 text-sm font-semibold', styles.accent, entry.kind === 'gm' ? 'sr-only' : '')}>{speaker}</p>
+
+      {entry.isStreaming ? <p className="mb-2 text-xs text-pewter">Provisional · not saved</p> : null}
 
       <div className="space-y-4">
         {showStreamingState ? <LoadingIndicator label={`${speaker} is responding`} detail="Streaming the next beat…" /> : null}

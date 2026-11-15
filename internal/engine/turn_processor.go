@@ -48,6 +48,7 @@ type TurnProcessor struct {
 	registry         *tools.Registry
 	validator        *tools.Validator
 	StatusCallback   StatusCallback
+	onNarrative      func(string)
 }
 
 // SetPostTurnProvider routes durable repair and post-turn extraction calls to a
@@ -67,6 +68,8 @@ func (tp *TurnProcessor) postTurnLLM() llm.Provider {
 type TurnProcessorOptions struct {
 	CandidateCallback func(string) error
 	StatusCallback    StatusCallback
+	// NarrativeCallback receives provisional fragments; an empty string clears them.
+	NarrativeCallback func(string)
 }
 
 // NewTurnProcessor creates a TurnProcessor backed by the given LLM provider,
@@ -123,6 +126,7 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 	opts TurnProcessorOptions,
 ) (narrative string, applied []AppliedToolCall, err error) {
 	local := *tp
+	local.onNarrative = opts.NarrativeCallback
 	if opts.StatusCallback != nil {
 		local.StatusCallback = opts.StatusCallback
 	}
@@ -172,6 +176,7 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 		return narrative, applied, nil
 	}
 
+	tp.clearProvisional()
 	tp.emitStatus(api.StatusPayload{Stage: "tools", Description: "Executing tool calls..."})
 	unresolvedDurableIssues := []DurableClaimIssue{}
 	unresolvedDurableRequirements := []durableRequirement{}
@@ -359,7 +364,7 @@ func (tp *TurnProcessor) regenerateEmptyInitialResponse(ctx context.Context, mes
 		Role:    llm.RoleUser,
 		Content: "Your previous response was empty. Regenerate the turn response now. Resolve the player's action with either player-facing narrative text, valid tool calls, or both. Do not return an empty response.",
 	})
-	resp, err := tp.provider.Complete(ctx, regenMessages, availableTools)
+	resp, err := completeNarrative(ctx, tp.provider, regenMessages, availableTools, tp.onNarrative)
 	if err != nil {
 		return nil, fmt.Errorf("empty-response regeneration LLM call: %w", err)
 	}
@@ -376,7 +381,7 @@ func (tp *TurnProcessor) completeInitialWithRetry(ctx context.Context, messages 
 		if ctx.Err() != nil {
 			return nil, ctx.Err()
 		}
-		resp, err := tp.provider.Complete(ctx, messages, availableTools)
+		resp, err := completeNarrative(ctx, tp.provider, messages, availableTools, tp.onNarrative)
 		if err == nil {
 			return resp, nil
 		}
@@ -555,12 +560,15 @@ func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm
 	repairMessages = append(repairMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
 	repairMessages = append(repairMessages, llm.Message{Role: llm.RoleUser, Content: durableRepairPrompt(narrative, applied, issues)})
 
-	resp, err := tp.postTurnLLM().Complete(ctx, repairMessages, repairTools)
+	resp, err := completeNarrative(ctx, tp.postTurnLLM(), repairMessages, repairTools, tp.onNarrative)
 	if err != nil {
 		tp.logger.Error("durable-claim repair call failed", "error", err)
 		return "", nil, fmt.Errorf("%w: repair call failed: %v", ErrUnresolvedDurableClaims, err)
 	}
 
+	if len(resp.ToolCalls) > 0 {
+		tp.clearProvisional()
+	}
 	allowed := toolNameSet(repairTools)
 	repairApplied := make([]AppliedToolCall, 0, len(resp.ToolCalls))
 	for _, tc := range resp.ToolCalls {
@@ -669,6 +677,7 @@ func durableLoreExtractionTools(availableTools []llm.Tool) []llm.Tool {
 
 func (tp *TurnProcessor) finalizeResponseState(ctx context.Context, messages []llm.Message, availableTools []llm.Tool, narrative string, applied []AppliedToolCall, unresolvedIssues []DurableClaimIssue, unresolvedRequirements []durableRequirement) (string, []AppliedToolCall, error) {
 	if issues := appendDurableIssues(AuditDurableClaims(narrative, applied, advertisedToolNames(availableTools)), unresolvedIssues...); len(issues) > 0 {
+		tp.clearProvisional()
 		var err error
 		narrative, applied, err = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, unresolvedRequirements)
 		if err != nil {
@@ -695,7 +704,7 @@ func (tp *TurnProcessor) rewriteUnsafeDurableClaimsAsProvisional(ctx context.Con
 	rewriteMessages = append(rewriteMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
 	rewriteMessages = append(rewriteMessages, llm.Message{Role: llm.RoleUser, Content: provisionalDurableRewritePrompt(narrative, applied, issues, repairErr)})
 
-	resp, err := tp.postTurnLLM().Complete(ctx, rewriteMessages, nil)
+	resp, err := completeNarrative(ctx, tp.postTurnLLM(), rewriteMessages, nil, tp.onNarrative)
 	if err != nil {
 		tp.logger.Warn("durable-claim provisional rewrite failed", "error", err)
 		return "", err
@@ -999,7 +1008,7 @@ func (tp *TurnProcessor) requestContinuation(
 		})
 	}
 
-	resp, err := tp.provider.Complete(ctx, contMessages, availableTools)
+	resp, err := completeNarrative(ctx, tp.provider, contMessages, availableTools, tp.onNarrative)
 	if err != nil {
 		return "", fmt.Errorf("continuation LLM call: %w", err)
 	}
@@ -1036,4 +1045,11 @@ func buildAppliedToolCall(tc llm.ToolCall, result *tools.ToolResult) (AppliedToo
 		Arguments: json.RawMessage(argsJSON),
 		Result:    json.RawMessage(resultJSON),
 	}, nil
+}
+
+// clearProvisional invalidates text before tool processing or correction.
+func (tp *TurnProcessor) clearProvisional() {
+	if tp.onNarrative != nil {
+		tp.onNarrative("")
+	}
 }

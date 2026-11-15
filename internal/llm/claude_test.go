@@ -800,7 +800,7 @@ func TestClaudeClientStreamMalformedDataSkipsEvent(t *testing.T) {
 	}
 }
 
-func TestClaudeClientStreamMalformedToolArgsSkipsToolCall(t *testing.T) {
+func TestClaudeClientStreamMalformedToolArgsRejectsResponse(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/event-stream")
 		// tool_use block with invalid JSON argument fragment
@@ -826,18 +826,8 @@ func TestClaudeClientStreamMalformedToolArgsSkipsToolCall(t *testing.T) {
 		chunks = append(chunks, chunk)
 	}
 
-	// The malformed tool call must be silently dropped; only the text delta and done chunk are emitted.
-	if len(chunks) != 2 {
-		t.Fatalf("chunks len = %d, want 2 (text delta + done); bad tool call must be skipped", len(chunks))
-	}
-	if chunks[0].ToolCallDelta != nil {
-		t.Fatalf("chunk[0] should not carry malformed tool call, got %#v", chunks[0])
-	}
-	if chunks[0].ContentDelta != "safe" {
-		t.Fatalf("chunk[0].ContentDelta = %q, want \"safe\"", chunks[0].ContentDelta)
-	}
-	if !chunks[1].Done {
-		t.Fatal("last chunk must have Done=true")
+	if len(chunks) != 0 {
+		t.Fatalf("malformed tool arguments must fail the response without completion: %+v", chunks)
 	}
 }
 

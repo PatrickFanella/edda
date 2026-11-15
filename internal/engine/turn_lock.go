@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"sync"
 	"time"
 
@@ -66,8 +67,17 @@ func dedicatedTurnLock(cfg *pgx.ConnConfig) turnLock {
 			closeConn()
 			return nil, ErrTurnInProgress
 		}
-		// Closing this dedicated connection releases its session lock. No open
-		// transaction or query-pool slot survives inference.
-		return closeConn, nil
+		// Wait for PostgreSQL to acknowledge unlock before returning a completed
+		// turn. Closing the socket alone does not wait for backend disconnect
+		// cleanup, so an immediate next request could otherwise see a stale lock.
+		return func() {
+			defer closeConn()
+			cleanup, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+			defer cancel()
+			var unlocked bool
+			if err := conn.QueryRow(cleanup, `SELECT pg_advisory_unlock(hashtextextended('edda:turn:' || $1::text, 0))`, id.String()).Scan(&unlocked); err != nil || !unlocked {
+				slog.Warn("turn lock release was not acknowledged; closing connection", "campaign_id", id, "error", err)
+			}
+		}, nil
 	}
 }

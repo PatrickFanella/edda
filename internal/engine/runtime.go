@@ -273,8 +273,8 @@ func (e *Engine) LoadCampaign(ctx context.Context, campaignID uuid.UUID) error {
 // the returned channel. The channel is closed when processing completes.
 // Callers must consume the channel or cancel ctx when abandoning the stream.
 //
-// In this initial implementation the full narrative is sent as a single
-// chunk followed by the complete TurnResult.
+// Provider fragments are provisional. A narrative_reset status invalidates
+// prior fragments; only the persisted TurnResult is committed history.
 func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, playerInput string) (<-chan StreamEvent, error) {
 	ch := make(chan StreamEvent, 16)
 	go func() {
@@ -292,12 +292,19 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 
 		release, err := e.acquireTurn(ctx, campaignID)
 		if err != nil {
-			ch <- StreamEvent{Type: "error", Err: err}
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
 			return
 		}
 		defer release()
 
 		tc = &TurnContext{CampaignID: campaignID, PlayerInput: playerInput, Logger: e.logger, Started: time.Now()}
+		tc.NarrativeCallback = func(text string) {
+			if text == "" {
+				sendStreamEvent(ctx, ch, StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: "narrative_reset", Description: "Revising provisional narration..."}})
+			} else {
+				sendStreamEvent(ctx, ch, StreamEvent{Type: "chunk", Text: text})
+			}
+		}
 		emitStatus := func(stage, description string) {
 			sendStreamEvent(ctx, ch, StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: stage, Description: description}})
 		}
@@ -353,7 +360,7 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		emitStatus("thinking", "Generating response...")
 		localProcessor := *e.processor
 		localProcessor.StatusCallback = func(s api.StatusPayload) { sendStreamEvent(ctx, ch, StreamEvent{Type: "status", Status: &s}) }
-		narrative, applied, err := localProcessor.ProcessWithRecoveryWithOptions(tc.Ctx, tc.Messages, tc.FilteredTools, TurnProcessorOptions{CandidateCallback: func(text string) error { return e.recordRawCandidate(tc.Ctx, text) }})
+		narrative, applied, err := localProcessor.ProcessWithRecoveryWithOptions(tc.Ctx, tc.Messages, tc.FilteredTools, TurnProcessorOptions{CandidateCallback: func(text string) error { return e.recordRawCandidate(tc.Ctx, text) }, NarrativeCallback: tc.NarrativeCallback})
 		if err != nil {
 			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: e.turnFailure(tc.Ctx, err)})
 			return
@@ -389,7 +396,6 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 			}
 		}
 
-		sendStreamEvent(ctx, ch, StreamEvent{Type: "chunk", Text: result.Narrative})
 		sendStreamEvent(ctx, ch, StreamEvent{Type: "result", Result: result})
 	}()
 	return ch, nil

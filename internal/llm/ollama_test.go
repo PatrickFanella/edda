@@ -447,6 +447,30 @@ func TestOllamaClientCompleteEncodesEmptyMessagesArray(t *testing.T) {
 	}
 }
 
+func TestOllamaStreamPreservesAllCallsInOneFrame(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, _ = w.Write([]byte(`{"message":{"content":"Checking.","tool_calls":[{"function":{"name":"first","arguments":{"n":1}}},{"function":{"name":"second","arguments":{"n":2}}}]},"done":true}` + "\n"))
+	}))
+	defer server.Close()
+	ch, err := NewOllamaClient(server.URL, "fixture").Stream(context.Background(), nil, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var chunks []StreamChunk
+	for chunk := range ch {
+		chunks = append(chunks, chunk)
+	}
+	if len(chunks) != 2 || chunks[0].ContentDelta != "Checking." || chunks[0].Done || !chunks[1].Done {
+		t.Fatalf("chunks = %+v", chunks)
+	}
+	for i, want := range []string{"first", "second"} {
+		call := chunks[i].ToolCallDelta
+		if call == nil || call.Name != want || call.Arguments["n"] != float64(i+1) {
+			t.Fatalf("call %d = %+v", i, call)
+		}
+	}
+}
+
 func TestOllamaClientStreamSendsDoneOnExplicitDoneOnly(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")

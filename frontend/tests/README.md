@@ -24,6 +24,14 @@ Import `test`, `expect` and `signIn` from `browser/fixtures.ts`. The `game` fixt
 
 `Frontend behavior` runs unit/interaction checks, browser journeys and the build on GitHub branch pushes, and is required by `Mirror CI gate`. Traces remain in ignored `test-results/` on failures. Full lint reports 22 existing source errors on the #78 starting revision cf0a61f (React hook/compiler and Fast Refresh rules); new harness files lint cleanly. That unrelated debt is not disabled or added to this CI gate.
 
+## Incremental narration
+
+Incremental narration checks live in `provisionalNarration.test.tsx` and
+`browser/provisional-narration.spec.ts`. They hold completion while fragments
+render, distinguish provisional text from committed GM entries, and exercise
+correction, failure, disconnect and same-ID recovery. The streaming contract is
+documented in [narrative-streaming.md](../../docs/narrative-streaming.md).
+
 ## Campaign tabs
 
 Tabs use automatic activation: Left/Right wrap through Play, Character, World and Journal; Home selects Play and End selects Journal. Only the selected tab participates in sequential keyboard focus. Selection retains focus on the tab, including when a panel has an autofocus input. Each tab controls a stable panel ID and each panel is labelled by its tab; inactive panel shells stay hidden while the story remains mounted to retain its draft and reading position. The selected panel is focusable.

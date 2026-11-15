@@ -57,8 +57,8 @@ func (p *narrationRecoveryProvider) Complete(ctx context.Context, messages []llm
 	}
 	return response, nil
 }
-func (*narrationRecoveryProvider) Stream(context.Context, []llm.Message, []llm.Tool) (<-chan llm.StreamChunk, error) {
-	return nil, errors.New("unused")
+func (p *narrationRecoveryProvider) Stream(ctx context.Context, messages []llm.Message, available []llm.Tool) (<-chan llm.StreamChunk, error) {
+	return streamReceiptResponse(p.Complete(ctx, messages, available))
 }
 
 func seedNarrationRecovery(t *testing.T, status string) (uuid.UUID, uuid.UUID, statedb.PlayerCharacter) {
@@ -137,13 +137,20 @@ func TestIntegrationNarrationRecoveryAfterRestart(t *testing.T) {
 				t.Fatal(err)
 			}
 			var result *engine.TurnResult
+			var preview string
 			for event := range events {
+				if event.Type == "chunk" {
+					preview += event.Text
+				}
 				if event.Err != nil {
 					t.Fatal(event.Err)
 				}
 				if event.Result != nil {
 					result = event.Result
 				}
+			}
+			if !strings.Contains(preview, "The recorded result holds.") {
+				t.Fatal("recovery did not stream provisional narration")
 			}
 			if result == nil || !result.Recovered || len(result.AppliedToolCalls) != 2 || len(result.Choices) != 3 || strings.Contains(result.Narrative, "Mechanical outcomes") {
 				t.Fatalf("recovery=%+v", result)

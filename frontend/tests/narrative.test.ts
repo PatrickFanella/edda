@@ -31,3 +31,16 @@ it('reconciles the optimistic player and live result with a delayed history snap
   expect(state.entries.map(e => e.text)).toEqual(['Search', result.narrative]);
   expect(narrativeReducer(state, { type: 'LIVE_EVENT', event: { ...decoded, sequence: 1 } })).toBe(state);
 });
+
+it('clears a recovered preview even when history already contains the committed result', () => {
+  let state = narrativeReducer(initialNarrativeState, { type: 'HISTORY_LOADED', entries: [
+    { id: 'history-gm-3', kind: 'gm', text: result.narrative, timestamp },
+  ] });
+  state = narrativeReducer(state, { type: 'ACTION_SENT', input: 'Search', timestamp, entryCount: 1 });
+  state = narrativeReducer(state, { type: 'CHUNK_RECEIVED', text: 'Recovery preview', timestamp });
+  state = narrativeReducer(state, { type: 'RESULT_RECEIVED', payload: { ...result, combat_active: false, turn_number: 3 }, timestamp, entryCount: 2 });
+  expect(state.entries.filter(entry => entry.kind === 'gm')).toHaveLength(1);
+  expect(state.streamingChunks).toEqual([]);
+  expect(state.pendingTimestamp).toBeNull();
+  expect(state.phase).toBe('ready');
+});

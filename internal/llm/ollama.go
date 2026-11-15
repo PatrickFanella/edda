@@ -264,23 +264,27 @@ func (o *OllamaClient) Stream(ctx context.Context, messages []Message, tools []T
 				return
 			}
 
-			var toolDelta *ToolCall
-			if len(chunkResp.Message.ToolCalls) > 0 {
-				calls, err := fromOllamaToolCalls(chunkResp.Message.ToolCalls)
-				if err == nil && len(calls) > 0 {
-					toolDelta = &calls[0]
+			calls, err := fromOllamaToolCalls(chunkResp.Message.ToolCalls)
+			if err != nil {
+				return
+			}
+			// Keep one frame for text-only replies and one per complete call.
+			count := max(1, len(calls))
+			for i := 0; i < count; i++ {
+				chunk := StreamChunk{Done: chunkResp.Done && i == count-1}
+				if i == 0 {
+					chunk.ContentDelta = chunkResp.Message.Content
+				}
+				if i < len(calls) {
+					chunk.ToolCallDelta = &calls[i]
+				}
+				select {
+				case ch <- chunk:
+				case <-ctx.Done():
+					return
 				}
 			}
 
-			select {
-			case ch <- StreamChunk{
-				ContentDelta:  chunkResp.Message.Content,
-				ToolCallDelta: toolDelta,
-				Done:          chunkResp.Done,
-			}:
-			case <-ctx.Done():
-				return
-			}
 			if chunkResp.Done {
 				return
 			}

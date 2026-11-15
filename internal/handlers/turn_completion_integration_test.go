@@ -59,8 +59,22 @@ func (p *receiptProvider) Complete(ctx context.Context, messages []llm.Message, 
 	}
 	return &llm.Response{Content: "A quiet pause.\n\nChoices:\n1. Wait.\n2. Look.\n3. Listen.", ToolCalls: []llm.ToolCall{{ID: "hp", Name: "update_player_hp", Arguments: map[string]any{"hp": 7}}}}, nil
 }
-func (*receiptProvider) Stream(context.Context, []llm.Message, []llm.Tool) (<-chan llm.StreamChunk, error) {
-	return nil, errors.New("unused")
+func (p *receiptProvider) Stream(ctx context.Context, messages []llm.Message, available []llm.Tool) (<-chan llm.StreamChunk, error) {
+	return streamReceiptResponse(p.Complete(ctx, messages, available))
+}
+
+func streamReceiptResponse(resp *llm.Response, err error) (<-chan llm.StreamChunk, error) {
+	if err != nil {
+		return nil, err
+	}
+	ch := make(chan llm.StreamChunk, len(resp.ToolCalls)+2)
+	ch <- llm.StreamChunk{ContentDelta: resp.Content}
+	for i := range resp.ToolCalls {
+		ch <- llm.StreamChunk{ToolCallDelta: &resp.ToolCalls[i]}
+	}
+	ch <- llm.StreamChunk{Done: true}
+	close(ch)
+	return ch, nil
 }
 func TestIntegrationDurableTurnCompletion(t *testing.T) {
 	ctx := context.Background()

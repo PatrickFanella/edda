@@ -67,7 +67,9 @@ type StreamEvent struct {
 	// Type is "chunk" for narrative fragments, "result" for the final outcome,
 	// "status" for processing stage updates, or "error" when streaming fails.
 	Type string
-	// Text is the narrative fragment (when Type is "chunk").
+	// Text is a provisional narrative fragment (when Type is "chunk").
+	// A status with stage narrative_reset clears prior fragments; only Result
+	// represents persisted history.
 	Text string
 	// Result is the complete turn result (when Type is "result").
 	Result *TurnResult

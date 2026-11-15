@@ -239,6 +239,20 @@ func TestChatGPTStreamEndingEarlyIsError(t *testing.T) {
 	if _, err := c.Complete(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil); err == nil {
 		t.Fatal("want an error when the stream ends before response.completed")
 	}
+	ch, err := c.Stream(context.Background(), []Message{{Role: RoleUser, Content: "hi"}}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var text string
+	for chunk := range ch {
+		if chunk.Done {
+			t.Fatal("failed stream was marked complete")
+		}
+		text += chunk.ContentDelta
+	}
+	if text != "Hel" {
+		t.Fatalf("partial text = %q", text)
+	}
 }
 
 func TestLoadChatGPTTokenStoreRejectsMissingPlanScope(t *testing.T) {

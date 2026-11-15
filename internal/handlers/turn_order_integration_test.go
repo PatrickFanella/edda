@@ -5,6 +5,8 @@ package handlers_test
 import (
 	"context"
 	"errors"
+	"strings"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -15,9 +17,24 @@ import (
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/internal/tools"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
+
+// Count acknowledged unlocks, rather than relying on asynchronous backend
+// disconnect cleanup to finish before the next independent turn connection.
+type turnUnlockTrace struct{ acknowledged atomic.Int32 }
+type turnUnlockTraceKey struct{}
+
+func (t *turnUnlockTrace) TraceQueryStart(ctx context.Context, _ *pgx.Conn, data pgx.TraceQueryStartData) context.Context {
+	return context.WithValue(ctx, turnUnlockTraceKey{}, strings.Contains(data.SQL, "pg_advisory_unlock"))
+}
+func (t *turnUnlockTrace) TraceQueryEnd(ctx context.Context, _ *pgx.Conn, data pgx.TraceQueryEndData) {
+	if unlocking, _ := ctx.Value(turnUnlockTraceKey{}).(bool); unlocking && data.Err == nil {
+		t.acknowledged.Add(1)
+	}
+}
 
 type turnBarrierProvider struct {
 	campaign uuid.UUID
@@ -64,6 +81,8 @@ func TestIntegrationCampaignTurnOrder(t *testing.T) {
 	p := &turnBarrierProvider{campaign: first, entered: make(chan struct{}, 1), release: make(chan struct{})}
 	poolCfg := testPool.Config()
 	poolCfg.MaxConns = 1
+	unlocks := &turnUnlockTrace{}
+	poolCfg.ConnConfig.Tracer = unlocks
 	turnPool, err := pgxpool.NewWithConfig(ctx, poolCfg)
 	if err != nil {
 		t.Fatal(err)
@@ -112,6 +131,9 @@ func TestIntegrationCampaignTurnOrder(t *testing.T) {
 	// The next accepted turn must see the completed first turn.
 	if _, err := e2.ProcessTurn(ctx, first, "Wait again."); err != nil {
 		t.Fatal(err)
+	}
+	if count := unlocks.acknowledged.Load(); count != 3 {
+		t.Fatalf("completed turns returned before acknowledged lock release: got %d unlocks, want 3", count)
 	}
 	logs, err := q.ListSessionLogsByCampaign(ctx, dbutil.ToPgtype(first))
 	if err != nil {

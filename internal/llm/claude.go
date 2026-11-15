@@ -228,6 +228,9 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 
 	toolUseByIndex := make(map[int]*claudeSSEToolUseState)
 	var eventType string
+	var stopReason, firstToolID string
+	var blockOrder []int
+	contentByIndex := make(map[int]map[string]any)
 
 	for scanner.Scan() {
 		select {
@@ -257,7 +260,35 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 		}
 
 		switch eventType {
+		case claudeSSEEventMessageDelta:
+			var ev struct {
+				Delta struct {
+					StopReason string `json:"stop_reason"`
+				} `json:"delta"`
+			}
+			if err := json.Unmarshal([]byte(data), &ev); err != nil {
+				return
+			}
+			stopReason = ev.Delta.StopReason
+			if stopReason == claudeStopReasonRefusal {
+				return
+			}
+
 		case claudeSSEEventMessageStop:
+			if stopReason == claudeStopReasonRefusal || len(toolUseByIndex) != 0 {
+				return
+			}
+			if firstToolID != "" {
+				content := make([]json.RawMessage, 0, len(blockOrder))
+				for _, index := range blockOrder {
+					raw, err := json.Marshal(contentByIndex[index])
+					if err != nil {
+						return
+					}
+					content = append(content, raw)
+				}
+				c.replay.save(firstToolID, content)
+			}
 			select {
 			case ch <- StreamChunk{Done: true}:
 			case <-ctx.Done():
@@ -276,6 +307,14 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 			if err := json.Unmarshal([]byte(data), &ev); err != nil {
 				continue
 			}
+			var raw struct {
+				ContentBlock map[string]any `json:"content_block"`
+			}
+			if err := json.Unmarshal([]byte(data), &raw); err != nil {
+				return
+			}
+			contentByIndex[ev.Index] = raw.ContentBlock
+			blockOrder = append(blockOrder, ev.Index)
 			if ev.ContentBlock.Type == claudeContentTypeToolUse {
 				toolUseByIndex[ev.Index] = &claudeSSEToolUseState{
 					id:   ev.ContentBlock.ID,
@@ -290,10 +329,29 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 					Type        string `json:"type"`
 					Text        string `json:"text"`
 					PartialJSON string `json:"partial_json"`
+					Thinking    string `json:"thinking"`
+					Signature   string `json:"signature"`
 				} `json:"delta"`
 			}
 			if err := json.Unmarshal([]byte(data), &ev); err != nil {
 				continue
+			}
+			// Keep signed/private blocks solely in the replay cache. Only text
+			// deltas are published to players.
+			if block := contentByIndex[ev.Index]; block != nil {
+				field, delta := "", ""
+				switch ev.Delta.Type {
+				case claudeDeltaTypeText:
+					field, delta = "text", ev.Delta.Text
+				case "thinking_delta":
+					field, delta = "thinking", ev.Delta.Thinking
+				case "signature_delta":
+					field, delta = "signature", ev.Delta.Signature
+				}
+				if field != "" {
+					previous, _ := block[field].(string)
+					block[field] = previous + delta
+				}
 			}
 			switch ev.Delta.Type {
 			case claudeDeltaTypeText:
@@ -318,14 +376,19 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 				continue
 			}
 			if tu, ok := toolUseByIndex[ev.Index]; ok {
-				var args map[string]any
+				args, _ := contentByIndex[ev.Index]["input"].(map[string]any)
 				if tu.jsonBuf.Len() > 0 {
 					if err := json.Unmarshal([]byte(tu.jsonBuf.String()), &args); err != nil {
-						// Malformed tool arguments JSON: skip emitting this tool call
-						// rather than forwarding nil/partial arguments to the caller.
-						delete(toolUseByIndex, ev.Index)
-						continue
+						// Reject the entire attempt. A partial set of tool results
+						// cannot safely replay the original assistant content.
+						return
 					}
+				}
+				if block := contentByIndex[ev.Index]; block != nil {
+					block["input"] = args
+				}
+				if firstToolID == "" {
+					firstToolID = tu.id
 				}
 				tc := &ToolCall{
 					ID:        tu.id,

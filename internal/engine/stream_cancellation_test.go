@@ -29,6 +29,10 @@ func (*backpressureProvider) Complete(ctx context.Context, _ []llm.Message, _ []
 	return &llm.Response{Content: "A quiet room.", ToolCalls: calls}, nil
 }
 
+func (p *backpressureProvider) Stream(ctx context.Context, messages []llm.Message, tools []llm.Tool) (<-chan llm.StreamChunk, error) {
+	return streamTestResponse(p.Complete(ctx, messages, tools))
+}
+
 type cancellationState struct {
 	stubStateManager
 	saved atomic.Int32
@@ -59,11 +63,14 @@ func TestProcessTurnStream_CancelWithFullBuffer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	// The provisional reset/chunk/reset adds three frames before tools.
+	// Wait for the fourth tool to finish, so the producer is blocked publishing
+	// the fifth status rather than still executing the fourth tool.
 	deadline := time.Now().Add(time.Second)
-	for (len(ch) < cap(ch) || executed.Load() < 7) && time.Now().Before(deadline) {
+	for (len(ch) < cap(ch) || executed.Load() < 4) && time.Now().Before(deadline) {
 		runtime.Gosched()
 	}
-	if len(ch) != cap(ch) || executed.Load() != 7 {
+	if len(ch) != cap(ch) || executed.Load() != 4 {
 		t.Fatal("fixture did not fill stream buffer")
 	}
 	before := executed.Load()

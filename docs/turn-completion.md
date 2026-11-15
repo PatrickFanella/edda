@@ -1,5 +1,9 @@
 # Durable turn completion and narration recovery (#30, #59)
 
+Live provider fragments are a provisional preview, separate from this durable
+completion path. See the [incremental narration contract](narrative-streaming.md)
+for reset, replacement and failure behavior.
+
 A mechanical tool commits its database effects and exact applied-call receipt in
 the same short transaction. A handler failure rolls that transaction back. Later
 provider/choice/history failures can leave partial mechanical progress, but it is

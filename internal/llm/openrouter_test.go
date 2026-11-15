@@ -5,8 +5,41 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
+
+func TestOpenRouterStreamAssemblesInterleavedToolArguments(t *testing.T) {
+	wire := strings.Join([]string{
+		`data: {"choices":[{"delta":{"content":"Checking. ","tool_calls":[{"index":0,"id":"a","function":{"name":"probe","arguments":"{\"name\":"}},{"index":1,"id":"b","function":{"name":"probe","arguments":"{\"name\":\"second\"}"}}]}}]}`,
+		`data: {"choices":[{"delta":{"tool_calls":[{"index":0,"function":{"arguments":"\"first\"}"}}]},"finish_reason":"tool_calls"}]}`,
+	}, "\n\n")
+	ch := make(chan StreamChunk, 4)
+	(&OpenRouterClient{}).parseSSEStream(context.Background(), strings.NewReader(wire), ch)
+	close(ch)
+	var chunks []StreamChunk
+	for chunk := range ch {
+		chunks = append(chunks, chunk)
+	}
+	if len(chunks) != 4 || chunks[0].ContentDelta != "Checking. " || !chunks[3].Done {
+		t.Fatalf("chunks = %+v", chunks)
+	}
+	for i, want := range []string{"first", "second"} {
+		call := chunks[i+1].ToolCallDelta
+		if call == nil || call.Name != "probe" || call.Arguments["name"] != want || call.ID != []string{"a", "b"}[i] {
+			t.Fatalf("call %d = %+v", i, call)
+		}
+	}
+}
+
+func TestOpenRouterStreamMalformedToolArgumentsNeverComplete(t *testing.T) {
+	wire := `data: {"choices":[{"delta":{"tool_calls":[{"index":0,"id":"a","function":{"name":"probe","arguments":"{"}}]},"finish_reason":"tool_calls"}]}`
+	ch := make(chan StreamChunk, 2)
+	(&OpenRouterClient{}).parseSSEStream(context.Background(), strings.NewReader(wire), ch)
+	if len(ch) != 0 {
+		t.Fatal("malformed tool arguments emitted a call or completion")
+	}
+}
 
 func newTestOpenRouterServer(t *testing.T, servedBy string, gotBody *map[string]any) *httptest.Server {
 	t.Helper()

@@ -75,8 +75,9 @@ func (c *ChatGPTClient) Stream(ctx context.Context, messages []Message, tools []
 			case <-ctx.Done():
 			}
 		}
-		_, _ = c.readStream(resp.Body, send)
-		send(StreamChunk{Done: true})
+		if _, err := c.readStream(resp.Body, send); err == nil {
+			send(StreamChunk{Done: true})
+		}
 	}()
 	return ch, nil
 }

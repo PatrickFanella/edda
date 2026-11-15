@@ -3,6 +3,7 @@ package llm
 import (
 	"context"
 	"errors"
+	"io"
 	"log/slog"
 )
 
@@ -29,18 +30,68 @@ func (f *FallbackProvider) Complete(ctx context.Context, messages []Message, too
 	return resp, nil
 }
 
-// Stream implements Provider. It falls back only when Primary fails before
-// its stream opens.
+// Stream implements Provider. An opened primary stream that fails without Done
+// is abandoned before trying Secondary. Reset invalidates its provisional text
+// and calls; consumers must not dispatch tool calls until successful completion.
 func (f *FallbackProvider) Stream(ctx context.Context, messages []Message, tools []Tool) (<-chan StreamChunk, error) {
-	ch, err := f.Primary.Stream(ctx, messages, tools)
-	if err == nil || !f.shouldFallBack(ctx, err) {
-		return ch, err
+	primaryCtx, cancelPrimary := context.WithCancel(ctx)
+	primary, err := f.Primary.Stream(primaryCtx, messages, tools)
+	if err != nil {
+		cancelPrimary()
+		if !f.shouldFallBack(ctx, err) {
+			return nil, err
+		}
+		secondary, secondaryErr := f.Secondary.Stream(ctx, messages, tools)
+		if secondaryErr != nil {
+			return nil, errors.Join(err, secondaryErr)
+		}
+		return secondary, nil
 	}
-	ch, err2 := f.Secondary.Stream(ctx, messages, tools)
-	if err2 != nil {
-		return nil, errors.Join(err, err2)
-	}
-	return ch, nil
+	out := make(chan StreamChunk)
+	go func() {
+		defer close(out)
+		defer cancelPrimary()
+		forward := func(source <-chan StreamChunk) bool {
+			for {
+				select {
+				case <-ctx.Done():
+					return false
+				case chunk, ok := <-source:
+					if !ok {
+						return false
+					}
+					select {
+					case out <- chunk:
+					case <-ctx.Done():
+						return false
+					}
+					if chunk.Done {
+						return true
+					}
+				}
+			}
+		}
+		if forward(primary) {
+			return
+		}
+		cancelPrimary()
+		if !f.shouldFallBack(ctx, io.ErrUnexpectedEOF) {
+			return
+		}
+		select {
+		case out <- StreamChunk{Reset: true}:
+		case <-ctx.Done():
+			return
+		}
+		secondaryCtx, cancelSecondary := context.WithCancel(ctx)
+		defer cancelSecondary()
+		secondary, err := f.Secondary.Stream(secondaryCtx, messages, tools)
+		if err != nil {
+			return
+		}
+		forward(secondary)
+	}()
+	return out, nil
 }
 
 func (f *FallbackProvider) shouldFallBack(ctx context.Context, err error) bool {

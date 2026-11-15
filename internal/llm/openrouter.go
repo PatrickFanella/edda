@@ -249,6 +249,30 @@ func (c *OpenRouterClient) toResponse(resp *openRouterChatResponse) (*Response, 
 }
 
 func (c *OpenRouterClient) parseSSEStream(ctx context.Context, body io.Reader, ch chan<- StreamChunk) {
+	// Tool argument strings arrive across frames, keyed by the provider index.
+	pending := map[int]*openRouterToolCall{}
+	var order []int
+	finish := func() {
+		for _, index := range order {
+			tc := pending[index]
+			var args map[string]any
+			if tc.Function.Arguments != "" {
+				if err := json.Unmarshal([]byte(tc.Function.Arguments), &args); err != nil {
+					return
+				}
+			}
+			select {
+			case ch <- StreamChunk{ToolCallDelta: &ToolCall{ID: tc.ID, Name: tc.Function.Name, Arguments: args}}:
+			case <-ctx.Done():
+				return
+			}
+		}
+		select {
+		case ch <- StreamChunk{Done: true}:
+		case <-ctx.Done():
+		}
+	}
+
 	scanner := bufio.NewScanner(body)
 	scanner.Buffer(make([]byte, 0, 64*1024), 10*1024*1024)
 
@@ -266,10 +290,7 @@ func (c *OpenRouterClient) parseSSEStream(ctx context.Context, body io.Reader, c
 		data := strings.TrimPrefix(line, "data: ")
 
 		if data == "[DONE]" {
-			select {
-			case ch <- StreamChunk{Done: true}:
-			case <-ctx.Done():
-			}
+			finish()
 			return
 		}
 
@@ -278,10 +299,16 @@ func (c *OpenRouterClient) parseSSEStream(ctx context.Context, body io.Reader, c
 			continue
 		}
 
+		if len(ev.Error) > 0 && string(ev.Error) != "null" {
+			return
+		}
 		if len(ev.Choices) == 0 {
 			continue
 		}
 		choice := ev.Choices[0]
+		if choice.FinishReason == "error" {
+			return
+		}
 
 		if choice.Delta.Content != "" {
 			select {
@@ -292,23 +319,21 @@ func (c *OpenRouterClient) parseSSEStream(ctx context.Context, body io.Reader, c
 		}
 
 		for _, tc := range choice.Delta.ToolCalls {
-			if tc.Function.Name != "" {
-				select {
-				case ch <- StreamChunk{ToolCallDelta: &ToolCall{
-					ID:   tc.ID,
-					Name: tc.Function.Name,
-				}}:
-				case <-ctx.Done():
-					return
-				}
+			call, ok := pending[tc.Index]
+			if !ok {
+				call = &openRouterToolCall{}
+				pending[tc.Index] = call
+				order = append(order, tc.Index)
 			}
+			if tc.ID != "" {
+				call.ID = tc.ID
+			}
+			call.Function.Name += tc.Function.Name
+			call.Function.Arguments += tc.Function.Arguments
 		}
 
 		if choice.FinishReason != "" {
-			select {
-			case ch <- StreamChunk{Done: true}:
-			case <-ctx.Done():
-			}
+			finish()
 			return
 		}
 	}
@@ -406,6 +431,7 @@ type openRouterMessage struct {
 }
 
 type openRouterToolCall struct {
+	Index    int                        `json:"index,omitempty"`
 	ID       string                     `json:"id"`
 	Type     string                     `json:"type"`
 	Function openRouterToolCallFunction `json:"function"`
@@ -452,6 +478,7 @@ type openRouterRespMessage struct {
 }
 
 type openRouterStreamChunk struct {
+	Error   json.RawMessage          `json:"error"`
 	Choices []openRouterStreamChoice `json:"choices"`
 }
 

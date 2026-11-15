@@ -184,8 +184,8 @@ func (p *echoStatusProvider) Complete(_ context.Context, messages []llm.Message,
 	return &llm.Response{Content: "done"}, nil
 }
 
-func (p *echoStatusProvider) Stream(_ context.Context, _ []llm.Message, _ []llm.Tool) (<-chan llm.StreamChunk, error) {
-	return nil, errors.New("not implemented")
+func (p *echoStatusProvider) Stream(ctx context.Context, messages []llm.Message, tools []llm.Tool) (<-chan llm.StreamChunk, error) {
+	return streamTestResponse(p.Complete(ctx, messages, tools))
 }
 
 type contextAwareProvider struct{}
@@ -199,8 +199,8 @@ func (p *contextAwareProvider) Complete(_ context.Context, _ []llm.Message, tool
 	return &llm.Response{Content: "done"}, nil
 }
 
-func (p *contextAwareProvider) Stream(_ context.Context, _ []llm.Message, _ []llm.Tool) (<-chan llm.StreamChunk, error) {
-	return nil, errors.New("not implemented")
+func (p *contextAwareProvider) Stream(ctx context.Context, messages []llm.Message, tools []llm.Tool) (<-chan llm.StreamChunk, error) {
+	return streamTestResponse(p.Complete(ctx, messages, tools))
 }
 
 type contextAwareStateManager struct {
@@ -475,4 +475,20 @@ func TestNewWithoutTier3Retriever_NilField(t *testing.T) {
 	if e.tier3 != nil {
 		t.Fatal("expected tier3 to be nil without WithTier3Retriever")
 	}
+}
+
+func streamTestResponse(resp *llm.Response, err error) (<-chan llm.StreamChunk, error) {
+	if err != nil {
+		return nil, err
+	}
+	ch := make(chan llm.StreamChunk, len(resp.ToolCalls)+2)
+	if resp.Content != "" {
+		ch <- llm.StreamChunk{ContentDelta: resp.Content}
+	}
+	for i := range resp.ToolCalls {
+		ch <- llm.StreamChunk{ToolCallDelta: &resp.ToolCalls[i]}
+	}
+	ch <- llm.StreamChunk{Done: true}
+	close(ch)
+	return ch, nil
 }

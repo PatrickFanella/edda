@@ -66,7 +66,8 @@ export function narrativeReducer(state: NarrativeState, action: NarrativeAction)
         case 'chunk': return narrativeReducer(next, { type: 'CHUNK_RECEIVED', text: event.payload.text, timestamp });
         case 'result': return narrativeReducer(next, { type: 'RESULT_RECEIVED', payload: event.payload, timestamp, entryCount: event.sequence });
         case 'error': return narrativeReducer(next, { type: 'ERROR_RECEIVED', error: event.payload.error, timestamp, entryCount: event.sequence });
-        case 'status': return next;
+        case 'status': return event.payload.stage === 'narrative_reset'
+          ? { ...next, phase: 'processing', streamingChunks: [] } : next;
       }
       return next;
     }
@@ -109,7 +110,7 @@ export function narrativeReducer(state: NarrativeState, action: NarrativeAction)
     case 'RESULT_RECEIVED': {
       const choices = action.payload.choices ?? [];
       const id = action.payload.turn_number ? `history-gm-${action.payload.turn_number}` : `${action.timestamp}-gm-${action.entryCount}`;
-      if (state.entries.some(entry => entry.id === id)) return state;
+      if (state.entries.some(entry => entry.id === id)) return { ...state, phase: 'ready', streamingChunks: [], pendingTimestamp: null };
       return {
         ...state,
         phase: 'ready',
@@ -153,10 +154,10 @@ export function narrativeReducer(state: NarrativeState, action: NarrativeAction)
       return state;
 
     case 'CONNECTION_LOST':
-      return { ...state, pendingTimestamp: null };
+      return { ...state, phase: 'ready', streamingChunks: [], pendingTimestamp: null };
 
     case 'SOCKET_ERROR':
-      return { ...state, error: action.error, pendingTimestamp: null };
+      return { ...state, phase: 'ready', streamingChunks: [], error: action.error, pendingTimestamp: null };
 
     case 'SOCKET_ERROR_CLEARED':
       return { ...state, error: null };

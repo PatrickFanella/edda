@@ -38,6 +38,8 @@ type TurnContext struct {
 	ToolCallsJSON json.RawMessage
 	Logger        *slog.Logger
 	Started       time.Time
+	// NarrativeCallback is request-local provisional output, used by live recovery too.
+	NarrativeCallback func(string)
 }
 
 // Stage is a single step in the turn pipeline.
