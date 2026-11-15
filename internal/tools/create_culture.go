@@ -255,22 +255,23 @@ func (h *CreateCultureHandler) Handle(ctx context.Context, args map[string]any) 
 	campaignID := dbutil.FromPgtype(language.CampaignID)
 	cultureID := dbutil.FromPgtype(culture.ID)
 	if h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedCultureMemory(
-			ctx,
-			campaignID,
-			cultureID,
-			name,
-			description,
-			values,
-			customs,
-			socialNorms,
-			artForms,
-			taboos,
-			greetingCustoms,
-			languageID,
-			beliefSystemID,
-			associatedFactions,
-		); err != nil {
+		if err := runMemoryEffect(ctx, func(ctx context.Context) error {
+			return h.embedCultureMemory(ctx,
+				campaignID,
+				cultureID,
+				name,
+				description,
+				values,
+				customs,
+				socialNorms,
+				artForms,
+				taboos,
+				greetingCustoms,
+				languageID,
+				beliefSystemID,
+				associatedFactions,
+			)
+		}); err != nil {
 			return &ToolResult{Success: true, Data: map[string]any{"id": cultureID.String(), "campaign_id": campaignID.String(), "language_id": languageID.String(), "belief_system_id": beliefSystemID.String(), "name": name, "description": description, "values": values, "customs": customs, "social_norms": socialNorms, "art_forms": artForms, "taboos": taboos, "greeting_customs": greetingCustoms, "associated_factions": associatedFactions, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("Culture %q created. Memory embedding failed: %v", name, err)}, nil
 		}
 	}
@@ -295,7 +296,6 @@ func (h *CreateCultureHandler) Handle(ctx context.Context, args map[string]any) 
 		Narrative: fmt.Sprintf("Culture %q created successfully.", name),
 	}, nil
 }
-
 
 func (h *CreateCultureHandler) validateAssociatedFactions(ctx context.Context, campaignID pgtype.UUID, factionIDs []uuid.UUID) error {
 	for i, factionID := range factionIDs {

@@ -56,6 +56,6 @@ func (e *Engine) gatherStage() Stage {
 		}
 		tc.RecentLogs = recentTurns
 
-		return nil
+		return e.startJournal(enriched, tc)
 	}
 }

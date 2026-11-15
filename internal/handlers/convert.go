@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"github.com/google/uuid"
 	"time"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -216,7 +217,12 @@ func skillCheckResolutionEvent(call engine.AppliedToolCall) (api.ResolutionEvent
 }
 
 func engineTurnResultToAPI(tr *engine.TurnResult) api.TurnResponse {
+	actionID := ""
+	if tr.ActionID != uuid.Nil {
+		actionID = tr.ActionID.String()
+	}
 	return api.TurnResponse{
+		ActionID: actionID, Recovered: tr.Recovered,
 		TurnNumber:       tr.TurnNumber,
 		Narrative:        engine.CleanNarrativeText(tr.Narrative),
 		StateChanges:     engineStateChangesToAPI(tr.StateChanges),

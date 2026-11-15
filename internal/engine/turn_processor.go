@@ -65,7 +65,8 @@ func (tp *TurnProcessor) postTurnLLM() llm.Provider {
 
 // TurnProcessorOptions configures per-call processor behavior.
 type TurnProcessorOptions struct {
-	StatusCallback StatusCallback
+	CandidateCallback func(string) error
+	StatusCallback    StatusCallback
 }
 
 // NewTurnProcessor creates a TurnProcessor backed by the given LLM provider,
@@ -149,6 +150,11 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 		tp.logger.Info("turn processor regenerated initial llm response", "tool_calls", len(resp.ToolCalls), "tool_call_names", toolCallNames(resp.ToolCalls), "narrative_len", len(narrative), "finish_reason", resp.FinishReason)
 	}
 
+	if opts.CandidateCallback != nil {
+		if err := opts.CandidateCallback(narrative); err != nil {
+			return "", nil, err
+		}
+	}
 	allowed := make(map[string]struct{}, len(availableTools))
 	for _, t := range availableTools {
 		allowed[t.Name] = struct{}{}
@@ -194,6 +200,9 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 			continue
 		}
 
+		if errors.Is(execErr, ErrTurnPersistence) {
+			return "", applied, execErr
+		}
 		tp.logger.Warn("tool call failed; requesting retry", "tool", tc.Name, "tool_call_id", tc.ID, "error", execErr.Error())
 		retryTC, retryLLMErr := tp.requestRetry(ctx, tc, execErr, messages, assistantContent, availableTools)
 		if retryLLMErr != nil {
@@ -211,6 +220,9 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 		tp.logger.Debug("retry tool call received", "tool", retryTC.Name, "tool_call_id", retryTC.ID)
 		retryResult, retryExecErr := tp.attemptToolCall(ctx, retryTC, allowed)
 		if retryExecErr != nil {
+			if errors.Is(retryExecErr, ErrTurnPersistence) {
+				return "", applied, retryExecErr
+			}
 			tp.logger.Error("tool call failed after retry; skipping",
 				"tool", tc.Name,
 				"tool_call_id", tc.ID,
@@ -558,6 +570,9 @@ func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm
 				repairApplied = append(repairApplied, atc)
 			}
 		} else {
+			if errors.Is(execErr, ErrTurnPersistence) {
+				return "", applied, execErr
+			}
 			tp.logger.Warn("durable-claim repair tool failed", "tool", tc.Name, "error", execErr)
 		}
 	}
@@ -657,6 +672,9 @@ func (tp *TurnProcessor) finalizeResponseState(ctx context.Context, messages []l
 		var err error
 		narrative, applied, err = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, unresolvedRequirements)
 		if err != nil {
+			if errors.Is(err, ErrTurnPersistence) {
+				return "", applied, err
+			}
 			fallback, fallbackErr := tp.rewriteUnsafeDurableClaimsAsProvisional(ctx, messages, narrative, applied, issues, err)
 			if fallbackErr != nil {
 				return "", nil, err
@@ -665,6 +683,9 @@ func (tp *TurnProcessor) finalizeResponseState(ctx context.Context, messages []l
 		}
 	}
 	applied = tp.extractDurableState(ctx, messages, availableTools, narrative, applied)
+	if err := turnPersistenceFailure(ctx); err != nil {
+		return "", applied, err
+	}
 	return narrative, applied, nil
 }
 
@@ -728,6 +749,9 @@ func (tp *TurnProcessor) extractDurableState(ctx context.Context, messages []llm
 		}
 	}
 
+	if turnPersistenceFailure(ctx) != nil {
+		return applied
+	}
 	// Pass 2: quest goals (single-purpose — create_quest / update_quest / complete_objective only).
 	if !hasQuest {
 		questTools := questOnlyExtractionTools(availableTools)
@@ -806,6 +830,9 @@ func (tp *TurnProcessor) runPostTurnExtractionTools(ctx context.Context, message
 		}
 		result, execErr := tp.attemptToolCall(ctx, tc, allowed)
 		if execErr != nil {
+			if errors.Is(execErr, ErrTurnPersistence) {
+				return applied
+			}
 			tp.logger.Warn(label+" tool failed", "tool", tc.Name, "error", execErr)
 			continue
 		}

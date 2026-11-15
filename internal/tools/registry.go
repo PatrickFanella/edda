@@ -24,6 +24,7 @@ type Handler func(ctx context.Context, args map[string]any) (*ToolResult, error)
 
 // Registry stores tool definitions and their handlers.
 type Registry struct {
+	aroundExecute func(context.Context, string, map[string]any, Handler) (*ToolResult, error)
 	beforeExecute func(context.Context) error
 	tools         []llm.Tool
 	handlers      map[string]Handler
@@ -179,5 +180,14 @@ func (r *Registry) Execute(ctx context.Context, name string, args map[string]any
 			return nil, err
 		}
 	}
+	if r.aroundExecute != nil {
+		return r.aroundExecute(ctx, name, args, h)
+	}
 	return h(ctx, args)
+}
+
+// AroundExecute installs a persistence boundary around each registered handler.
+// Configure it once before the registry is shared between turns.
+func (r *Registry) AroundExecute(fn func(context.Context, string, map[string]any, Handler) (*ToolResult, error)) {
+	r.aroundExecute = fn
 }

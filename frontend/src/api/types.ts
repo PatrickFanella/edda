@@ -165,6 +165,7 @@ export interface SessionHistoryResponse {
 }
 
 export interface ActionRequest {
+  action_id?: string;
   input: string;
 }
 
@@ -183,6 +184,8 @@ export interface ResolutionEvent {
 }
 
 export interface TurnResult {
+  action_id?: string;
+  recovered?: boolean;
   turn_number?: number;
   narrative: string;
   state_changes: StateChange[];
@@ -203,6 +206,7 @@ export interface WebSocketChunkPayload {
 }
 
 export interface WebSocketErrorPayload {
+  action_id?: string;
   error: string;
 }
 

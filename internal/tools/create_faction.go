@@ -196,7 +196,9 @@ func (h *CreateFactionHandler) Handle(ctx context.Context, args map[string]any) 
 	}
 
 	if h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedFactionMemory(ctx, campaignID, factionID, name, description, agenda, territory, properties, createdRelationships); err != nil {
+		if err := runMemoryEffect(ctx, func(ctx context.Context) error {
+			return h.embedFactionMemory(ctx, campaignID, factionID, name, description, agenda, territory, properties, createdRelationships)
+		}); err != nil {
 			return &ToolResult{Success: true, Data: map[string]any{"id": factionID.String(), "campaign_id": campaignID.String(), "name": name, "description": description, "agenda": agenda, "territory": territory, "properties": properties, "relationships": createdRelationships, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("Faction %q established. Memory embedding failed: %v", name, err)}, nil
 		}
 	}

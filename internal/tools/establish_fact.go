@@ -133,7 +133,7 @@ func (h *EstablishFactHandler) Handle(ctx context.Context, args map[string]any) 
 	campaignID := dbutil.FromPgtype(worldFact.CampaignID)
 
 	if h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedFactMemory(ctx, campaignID, factID, fact, category); err != nil {
+		if err := runMemoryEffect(ctx, func(ctx context.Context) error { return h.embedFactMemory(ctx, campaignID, factID, fact, category) }); err != nil {
 			return &ToolResult{
 				Success: true,
 				Data: map[string]any{

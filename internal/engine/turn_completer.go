@@ -69,7 +69,7 @@ func (c *TurnCompleter) CompleteAndPersist(ctx context.Context, tc *TurnContext)
 		ToolCalls:   toolCallsJSON,
 		LocationID:  finalLocationIDFromApplied(tc.State.Player.CurrentLocationID, tc.Applied),
 	}
-	if err := c.engine.state.SaveSessionLog(ctx, log); err != nil {
+	if err := c.engine.persistCompletedTurn(ctx, tc, log); err != nil {
 		tc.Logger.Error("process turn failed during session-log save",
 			"campaign_id", tc.CampaignID,
 			"duration_ms", time.Since(tc.Started).Milliseconds(),

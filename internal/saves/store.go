@@ -131,10 +131,12 @@ func (s *Store) GetLatestTurnNumber(ctx context.Context, campaignID uuid.UUID) (
 	return turnNumber, err
 }
 
-// A single statement makes all three deletes atomic, including when a trigger
+// A single statement makes all reset deletes atomic, including when a trigger
 // or constraint rejects any one of them. World and character state are retained.
 const startOverSQL = `
-WITH deleted_logs AS (
+WITH deleted_attempts AS (
+  DELETE FROM turn_attempts WHERE campaign_id = $1
+), deleted_logs AS (
   DELETE FROM session_logs WHERE campaign_id = $1
 ), deleted_saves AS (
   DELETE FROM save_points WHERE campaign_id = $1
@@ -142,7 +144,7 @@ WITH deleted_logs AS (
 DELETE FROM campaign_time WHERE campaign_id = $1
 `
 
-// StartOver atomically deletes session logs, save points, and campaign time.
+// StartOver atomically deletes turn attempts, session logs, save points, and campaign time.
 func (s *Store) StartOver(ctx context.Context, campaignID uuid.UUID) error {
 	_, err := s.db.Exec(ctx, startOverSQL, db.ToPgUUID(campaignID))
 	return err

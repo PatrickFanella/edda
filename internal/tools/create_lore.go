@@ -187,7 +187,9 @@ func (h *CreateLoreHandler) Handle(ctx context.Context, args map[string]any) (*T
 	}
 
 	if h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedLoreMemory(ctx, campaignID, factID, trimmedContent, category, createdRelationships); err != nil {
+		if err := runMemoryEffect(ctx, func(ctx context.Context) error {
+			return h.embedLoreMemory(ctx, campaignID, factID, trimmedContent, category, createdRelationships)
+		}); err != nil {
 			return &ToolResult{
 				Success: true,
 				Data: map[string]any{

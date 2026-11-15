@@ -83,6 +83,8 @@ type StreamEvent struct {
 
 // TurnResult holds the outcome of a single player turn.
 type TurnResult struct {
+	ActionID   uuid.UUID
+	Recovered  bool
 	TurnNumber int
 	// Narrative is the descriptive text generated for this turn.
 	Narrative string

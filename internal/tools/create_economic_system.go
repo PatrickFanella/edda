@@ -287,7 +287,9 @@ func (h *CreateEconomicSystemHandler) Handle(ctx context.Context, args map[strin
 	}
 
 	if h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedEconomicSystemMemory(ctx, campaignID, dbutil.FromPgtype(economicSystem.ID), name, details, dbutil.PgUUIDsToStrings(scopeFactionIDs), regionNames); err != nil {
+		if err := runMemoryEffect(ctx, func(ctx context.Context) error {
+			return h.embedEconomicSystemMemory(ctx, campaignID, dbutil.FromPgtype(economicSystem.ID), name, details, dbutil.PgUUIDsToStrings(scopeFactionIDs), regionNames)
+		}); err != nil {
 			return &ToolResult{Success: true, Data: map[string]any{"id": dbutil.FromPgtype(economicSystem.ID).String(), "campaign_id": dbutil.FromPgtype(economicSystem.CampaignID).String(), "name": economicSystem.Name, "currency": details["currency"], "primary_resources": primaryResources, "trade_routes": tradeRoutePayload, "class_structure": classStructure, "economic_type": economicType, "scope": map[string]any{"faction_ids": dbutil.PgUUIDsToStrings(scopeFactionIDs), "region_names": regionNames}, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("Economic system %q created. Memory embedding failed: %v", economicSystem.Name, err)}, nil
 		}
 	}

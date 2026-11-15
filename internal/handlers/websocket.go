@@ -3,7 +3,9 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	"net/http"
 	"time"
 
@@ -20,9 +22,7 @@ type wsActionMessage struct {
 }
 
 // wsActionPayload carries the player input within an action message.
-type wsActionPayload struct {
-	Input string `json:"input"`
-}
+type wsActionPayload = api.ActionRequest
 
 var websocketAcceptOptions = &websocket.AcceptOptions{
 	OriginPatterns: []string{
@@ -80,6 +80,12 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 		}
 
 		turnCtx, cancelTurn := h.turnContext(ctx)
+		turnCtx, err = actionContext(turnCtx, payload.ActionID)
+		if err != nil {
+			cancelTurn()
+			sendErrorEnvelope(ctx, conn, "invalid action_id")
+			continue
+		}
 		ch, err := h.Engine.ProcessTurnStream(turnCtx, campaignID, payload.Input)
 		if err != nil {
 			cancelTurn()
@@ -124,7 +130,14 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 				if event.Err != nil {
 					h.Logger.Errorf("stream event error for campaign %s: %v", campaignID, event.Err)
 				}
-				envelope.Payload, _ = json.Marshal(map[string]string{"error": errMsg})
+				if errors.Is(event.Err, engine.ErrActionIDConflict) {
+					errMsg = event.Err.Error()
+				}
+				if errors.Is(event.Err, engine.ErrTurnRecoveryRequired) {
+					envelope.Payload, _ = json.Marshal(map[string]string{"error": event.Err.Error(), "action_id": engine.RecoveryActionID(event.Err)})
+				} else {
+					envelope.Payload, _ = json.Marshal(map[string]string{"error": errMsg})
+				}
 			default:
 				continue
 			}

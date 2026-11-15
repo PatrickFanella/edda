@@ -212,7 +212,7 @@ func (h *CreateNPCHandler) Handle(ctx context.Context, args map[string]any) (*To
 
 	role := deriveNPCRole(description, propertiesObj)
 	if h.embedder != nil && h.memoryStore != nil {
-		_ = h.embedNPCMemory(ctx, npc, role)
+		_ = runMemoryEffect(ctx, func(ctx context.Context) error { return h.embedNPCMemory(ctx, npc, role) })
 	}
 
 	statsData, err := rawJSONToObject(npc.Stats, "stats")

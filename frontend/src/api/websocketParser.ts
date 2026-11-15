@@ -130,7 +130,7 @@ function isStatusPayload(value: unknown): value is WebSocketStatusPayload {
 }
 
 function isErrorPayload(value: unknown): value is WebSocketErrorPayload {
-  return isRecord(value) && typeof value.error === 'string';
+  return isRecord(value) && typeof value.error === 'string' && (value.action_id === undefined || typeof value.action_id === 'string');
 }
 
 function normalizeTurnResponse(value: unknown): TurnResponseWithChoices | null {
@@ -149,6 +149,8 @@ function normalizeTurnResponse(value: unknown): TurnResponseWithChoices | null {
   }
 
   return {
+    action_id: typeof value.action_id === 'string' ? value.action_id : undefined,
+    recovered: value.recovered === true,
     turn_number: typeof value.turn_number === 'number' ? value.turn_number : undefined,
     narrative: value.narrative,
     state_changes: stateChanges,

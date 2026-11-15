@@ -213,7 +213,9 @@ func (h *CreateLocationHandler) Handle(ctx context.Context, args map[string]any)
 	}
 
 	if !reused && h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedLocationMemory(ctx, campaignID, locationID, name, description, region, locationType, properties, len(createdConnections)); err != nil {
+		if err := runMemoryEffect(ctx, func(ctx context.Context) error {
+			return h.embedLocationMemory(ctx, campaignID, locationID, name, description, region, locationType, properties, len(createdConnections))
+		}); err != nil {
 			data := locationResultData(createdLocation, campaignID, locationID, resultProperties, createdConnections, reused)
 			data["memory_warning"] = err.Error()
 			mergeLocationResultData(data, movementData)

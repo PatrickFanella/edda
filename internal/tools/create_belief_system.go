@@ -256,26 +256,31 @@ func (h *CreateBeliefSystemHandler) Handle(ctx context.Context, args map[string]
 		if err != nil {
 			return h.beliefSystemWarningResult(beliefSystem, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos, followerFactionIDs, followerCultureIDs, "memory_warning", fmt.Errorf("build belief system memory content: %w", err), fmt.Sprintf("Belief system %q created, but memory sync failed: %v", beliefSystem.Name, err)), nil
 		}
-		embedding, err := h.embedder.Embed(ctx, memoryContent)
-		if err != nil {
-			return h.beliefSystemWarningResult(beliefSystem, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos, followerFactionIDs, followerCultureIDs, "memory_warning", fmt.Errorf("embed belief system memory: %w", err), fmt.Sprintf("Belief system %q created, but memory sync failed: %v", beliefSystem.Name, err)), nil
-		}
-		metadata, err := json.Marshal(map[string]any{
-			"belief_system_id":     dbutil.FromPgtype(beliefSystem.ID).String(),
-			"follower_faction_ids": dbutil.PgUUIDsToStrings(followerFactionIDs),
-			"follower_culture_ids": dbutil.PgUUIDsToStrings(followerCultureIDs),
-		})
-		if err != nil {
-			return h.beliefSystemWarningResult(beliefSystem, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos, followerFactionIDs, followerCultureIDs, "memory_warning", fmt.Errorf("marshal belief system memory metadata: %w", err), fmt.Sprintf("Belief system %q created, but memory sync failed: %v", beliefSystem.Name, err)), nil
-		}
-		if err := h.memoryStore.CreateMemory(ctx, CreateMemoryParams{
-			CampaignID: campaignID,
-			Content:    memoryContent,
-			Embedding:  embedding,
-			MemoryType: string(domain.MemoryTypeWorldFact),
-			Metadata:   metadata,
+		if err := runMemoryEffect(ctx, func(ctx context.Context) error {
+			embedding, err := h.embedder.Embed(ctx, memoryContent)
+			if err != nil {
+				return err
+			}
+			metadata, err := json.Marshal(map[string]any{
+				"belief_system_id":     dbutil.FromPgtype(beliefSystem.ID).String(),
+				"follower_faction_ids": dbutil.PgUUIDsToStrings(followerFactionIDs),
+				"follower_culture_ids": dbutil.PgUUIDsToStrings(followerCultureIDs),
+			})
+			if err != nil {
+				return err
+			}
+			if err := h.memoryStore.CreateMemory(ctx, CreateMemoryParams{
+				CampaignID: campaignID,
+				Content:    memoryContent,
+				Embedding:  embedding,
+				MemoryType: string(domain.MemoryTypeWorldFact),
+				Metadata:   metadata,
+			}); err != nil {
+				return err
+			}
+			return nil
 		}); err != nil {
-			return h.beliefSystemWarningResult(beliefSystem, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos, followerFactionIDs, followerCultureIDs, "memory_warning", fmt.Errorf("create belief system memory: %w", err), fmt.Sprintf("Belief system %q created, but memory sync failed: %v", beliefSystem.Name, err)), nil
+			return h.beliefSystemWarningResult(beliefSystem, description, deitiesOrPrinciples, practices, institutions, moralFramework, taboos, followerFactionIDs, followerCultureIDs, "memory_warning", err, fmt.Sprintf("Belief system %q created, but memory sync failed: %v", beliefSystem.Name, err)), nil
 		}
 	}
 

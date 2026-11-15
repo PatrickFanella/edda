@@ -200,7 +200,9 @@ func (h *CreateLanguageHandler) Handle(ctx context.Context, args map[string]any)
 	}
 
 	if h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedLanguageMemory(ctx, campaignID, languageID, name, description, phonologicalRules, namingConventions, sampleVocabulary, spokenByFactionIDs, spokenByCultureIDs); err != nil {
+		if err := runMemoryEffect(ctx, func(ctx context.Context) error {
+			return h.embedLanguageMemory(ctx, campaignID, languageID, name, description, phonologicalRules, namingConventions, sampleVocabulary, spokenByFactionIDs, spokenByCultureIDs)
+		}); err != nil {
 			return &ToolResult{Success: true, Data: map[string]any{"id": languageID.String(), "campaign_id": campaignID.String(), "name": name, "description": description, "phonological_rules": phonologicalRules, "naming_conventions": namingConventions, "sample_vocabulary": sampleVocabulary, "spoken_by_faction_ids": spokenByFactionIDs, "spoken_by_culture_ids": spokenByCultureIDs, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("Language %q created. Memory embedding failed: %v", name, err)}, nil
 		}
 	}

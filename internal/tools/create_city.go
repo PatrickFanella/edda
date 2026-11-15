@@ -238,7 +238,9 @@ func (h *CreateCityHandler) Handle(ctx context.Context, args map[string]any) (*T
 
 	campaignID := dbutil.FromPgtype(city.CampaignID)
 	if h.embedder != nil && h.memoryStore != nil {
-		if err := h.embedCityMemory(ctx, campaignID, cityID, parentLocationID, name, description, population, districts, landmarks, governance, economySummary, demographics); err != nil {
+		if err := runMemoryEffect(ctx, func(ctx context.Context) error {
+			return h.embedCityMemory(ctx, campaignID, cityID, parentLocationID, name, description, population, districts, landmarks, governance, economySummary, demographics)
+		}); err != nil {
 			return &ToolResult{Success: true, Data: map[string]any{"id": cityID.String(), "campaign_id": campaignID.String(), "name": name, "description": description, "population": population, "districts": districts, "landmarks": landmarks, "governance": governance, "economy_summary": economySummary, "demographics": demographics, "location_id": parentLocationID.String(), "action": action, "district_location_ids": createdDistrictLocationIDs, "memory_warning": err.Error()}, Narrative: fmt.Sprintf("City %q %s successfully. Memory embedding failed: %v", name, action, err)}, nil
 		}
 	}

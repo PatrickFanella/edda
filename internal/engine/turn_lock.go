@@ -9,7 +9,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // ErrTurnInProgress tells clients to retry after the active campaign turn ends.
@@ -35,34 +34,6 @@ func localTurnLock(ctx context.Context, id uuid.UUID) (func(), error) {
 	return func() { localTurns.Delete(id) }, nil
 }
 
-func postgresTurnLock(db transactionBeginner) turnLock {
-	return func(ctx context.Context, id uuid.UUID) (func(), error) {
-		tx, err := db.Begin(ctx)
-		if err != nil {
-			return nil, fmt.Errorf("begin turn lock: %w", err)
-		}
-		release := func() {
-			// Request cancellation must not strand a lock/connection.
-			cleanup, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-			defer cancel()
-			// Rollback releases the transaction advisory lock. pgx discards the
-			// connection if rollback fails, releasing its locks server-side as well.
-			_ = tx.Rollback(cleanup)
-		}
-		var acquired bool
-		err = tx.QueryRow(ctx, `SELECT pg_try_advisory_xact_lock(hashtextextended('edda:turn:' || $1::text, 0))`, id.String()).Scan(&acquired)
-		if err != nil {
-			release()
-			return nil, fmt.Errorf("acquire turn lock: %w", err)
-		}
-		if !acquired {
-			release()
-			return nil, ErrTurnInProgress
-		}
-		return release, nil
-	}
-}
-
 func (e *Engine) acquireTurn(ctx context.Context, id uuid.UUID) (func(), error) {
 	if e.turnLock != nil {
 		return e.turnLock(ctx, id)
@@ -70,11 +41,10 @@ func (e *Engine) acquireTurn(ctx context.Context, id uuid.UUID) (func(), error) 
 	return localTurnLock(ctx, id)
 }
 
-// poolTurnLock uses a dedicated connection rather than holding a query-pool
+// dedicatedTurnLock uses a dedicated connection rather than holding a query-pool
 // slot across inference. Otherwise concurrent campaigns could exhaust the pool
 // with lock holders that are all waiting for a connection to load/save state.
-func poolTurnLock(pool *pgxpool.Pool) turnLock {
-	cfg := pool.Config().ConnConfig.Copy()
+func dedicatedTurnLock(cfg *pgx.ConnConfig) turnLock {
 	return func(ctx context.Context, id uuid.UUID) (func(), error) {
 		conn, err := pgx.ConnectConfig(ctx, cfg.Copy())
 		if err != nil {
@@ -85,11 +55,19 @@ func poolTurnLock(pool *pgxpool.Pool) turnLock {
 			defer cancel()
 			_ = conn.Close(cleanup)
 		}
-		release, err := postgresTurnLock(conn)(ctx, id)
+
+		var acquired bool
+		err = conn.QueryRow(ctx, `SELECT pg_try_advisory_lock(hashtextextended('edda:turn:' || $1::text, 0))`, id.String()).Scan(&acquired)
 		if err != nil {
 			closeConn()
-			return nil, err
+			return nil, fmt.Errorf("acquire turn lock: %w", err)
 		}
-		return func() { release(); closeConn() }, nil
+		if !acquired {
+			closeConn()
+			return nil, ErrTurnInProgress
+		}
+		// Closing this dedicated connection releases its session lock. No open
+		// transaction or query-pool slot survives inference.
+		return closeConn, nil
 	}
 }

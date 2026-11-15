@@ -164,7 +164,8 @@ type SessionHistoryResponse struct {
 
 // ActionRequest describes player input submitted for a turn.
 type ActionRequest struct {
-	Input string `json:"input"`
+	ActionID string `json:"action_id,omitempty"`
+	Input    string `json:"input"`
 }
 
 // StateChange describes a state update that occurred during a turn.
@@ -187,6 +188,8 @@ type ResolutionEvent struct {
 
 // TurnResult describes the narrative and state changes produced by a turn.
 type TurnResult struct {
+	ActionID         string            `json:"action_id,omitempty"`
+	Recovered        bool              `json:"recovered,omitempty"`
 	TurnNumber       int               `json:"turn_number,omitempty"`
 	Narrative        string            `json:"narrative"`
 	StateChanges     []StateChange     `json:"state_changes"`

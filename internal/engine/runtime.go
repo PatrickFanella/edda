@@ -3,11 +3,13 @@ package engine
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log/slog"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"git.subcult.tv/subculture-collective/edda/internal/assembly"
@@ -26,6 +28,8 @@ import (
 
 // Engine is the concrete GameEngine implementation used by the TUI.
 type Engine struct {
+	turnDB             transactionBeginner
+	baseDB             statedb.DBTX
 	turnLock           turnLock
 	logger             *slog.Logger
 	state              game.StateManager
@@ -121,9 +125,15 @@ func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts .
 		if !ok {
 			return nil, fmt.Errorf("database must support transactions for campaign turn locking")
 		}
-		e.turnLock = postgresTurnLock(beginner)
-		if pool, ok := db.(*pgxpool.Pool); ok {
-			e.turnLock = poolTurnLock(pool)
+		e.turnDB = beginner
+		e.baseDB = db
+		switch configured := db.(type) {
+		case interface{ Config() *pgxpool.Config }:
+			e.turnLock = dedicatedTurnLock(configured.Config().ConnConfig.Copy())
+		case interface{ Config() *pgx.ConnConfig }:
+			e.turnLock = dedicatedTurnLock(configured.Config().Copy())
+		default:
+			return nil, fmt.Errorf("database must expose pgx connection configuration for inference-safe turn locking")
 		}
 	}
 	for _, opt := range opts {
@@ -134,7 +144,14 @@ func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts .
 	}
 	registry := tools.NewRegistry()
 	// Pass db as TimeStore for the advance_time tool (DBTX satisfies TimeStore).
-	if err := registerAllTools(registry, queries, e.embedder, e.searcher, db); err != nil {
+	toolQueries := queries
+	var toolTimeDB statedb.DBTX = db
+	if db != nil {
+		toolTimeDB = toolDB{base: db}
+		toolQueries = statedb.New(toolTimeDB)
+		registry.AroundExecute(e.journalTool)
+	}
+	if err := registerAllTools(registry, toolQueries, e.embedder, e.searcher, toolTimeDB); err != nil {
 		return nil, fmt.Errorf("register tools: %w", err)
 	}
 
@@ -186,11 +203,11 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 		e.completeStage(),
 	)
 
-	if err := pipeline.Execute(ctx, tc); err != nil {
-		return nil, err
+	if err := pipeline.Execute(ctx, tc); err != nil && !errors.Is(err, errRecoveredTurn) {
+		return nil, e.turnFailure(tc.Ctx, err)
 	}
 
-	result := &TurnResult{TurnNumber: tc.TurnNumber,
+	result := &TurnResult{ActionID: tc.ActionID, Recovered: tc.Recovered, TurnNumber: tc.TurnNumber,
 		Narrative:        tc.Narrative,
 		AppliedToolCalls: tc.Applied,
 		StateChanges:     tc.StateChanges,
@@ -261,10 +278,15 @@ func (e *Engine) LoadCampaign(ctx context.Context, campaignID uuid.UUID) error {
 func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, playerInput string) (<-chan StreamEvent, error) {
 	ch := make(chan StreamEvent, 16)
 	go func() {
+		var tc *TurnContext
 		defer close(ch)
 		defer func() {
 			if r := recover(); r != nil {
-				sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: fmt.Errorf("process turn panic: %v", r)})
+				err := fmt.Errorf("process turn panic: %v", r)
+				if tc != nil {
+					err = e.turnFailure(tc.Ctx, err)
+				}
+				sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
 			}
 		}()
 
@@ -275,7 +297,7 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		}
 		defer release()
 
-		tc := &TurnContext{CampaignID: campaignID, PlayerInput: playerInput, Logger: e.logger, Started: time.Now()}
+		tc = &TurnContext{CampaignID: campaignID, PlayerInput: playerInput, Logger: e.logger, Started: time.Now()}
 		emitStatus := func(stage, description string) {
 			sendStreamEvent(ctx, ch, StreamEvent{Type: "status", Status: &api.StatusPayload{Stage: stage, Description: description}})
 		}
@@ -289,7 +311,12 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		gatherStarted := time.Now()
 		emitStatus("gathering", "Gathering world state...")
 		if err := e.gatherStage()(ctx, tc); err != nil {
-			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
+			if errors.Is(err, errRecoveredTurn) {
+				result := &TurnResult{ActionID: tc.ActionID, Recovered: tc.Recovered, TurnNumber: tc.TurnNumber, Narrative: tc.Narrative, AppliedToolCalls: tc.Applied, StateChanges: tc.StateChanges, Choices: tc.Choices, CombatActive: tc.CombatActive}
+				sendStreamEvent(ctx, ch, StreamEvent{Type: "result", Result: result})
+				return
+			}
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: e.turnFailure(tc.Ctx, err)})
 			return
 		}
 		if tc.Ctx == nil {
@@ -303,7 +330,7 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		memoryStarted := time.Now()
 		emitStatus("memory_retrieval", "Retrieving relevant memories...")
 		if err := e.memoryStage()(tc.Ctx, tc); err != nil {
-			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: e.turnFailure(tc.Ctx, err)})
 			return
 		}
 		emitPhase("memory_retrieval", "Relevant memories retrieved.", memoryStarted)
@@ -314,7 +341,7 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		assembleStarted := time.Now()
 		emitStatus("context_assembly", "Assembling turn context...")
 		if err := e.assembleStage()(tc.Ctx, tc); err != nil {
-			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: e.turnFailure(tc.Ctx, err)})
 			return
 		}
 		emitPhase("context_assembly", "Turn context assembled.", assembleStarted)
@@ -326,15 +353,19 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		emitStatus("thinking", "Generating response...")
 		localProcessor := *e.processor
 		localProcessor.StatusCallback = func(s api.StatusPayload) { sendStreamEvent(ctx, ch, StreamEvent{Type: "status", Status: &s}) }
-		narrative, applied, err := localProcessor.ProcessWithRecoveryWithOptions(tc.Ctx, tc.Messages, tc.FilteredTools, TurnProcessorOptions{})
+		narrative, applied, err := localProcessor.ProcessWithRecoveryWithOptions(tc.Ctx, tc.Messages, tc.FilteredTools, TurnProcessorOptions{CandidateCallback: func(text string) error { return e.recordRawCandidate(tc.Ctx, text) }})
 		if err != nil {
-			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: e.turnFailure(tc.Ctx, err)})
 			return
 		}
 		emitPhase("thinking", "Response generated.", thinkingStarted)
 
 		tc.Narrative = narrative
 		tc.Applied = applied
+		if err := e.recordCandidate(tc.Ctx, tc); err != nil {
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: e.turnFailure(tc.Ctx, err)})
+			return
+		}
 
 		if ctx.Err() != nil {
 			return
@@ -342,13 +373,13 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		persistStarted := time.Now()
 		emitStatus("finalizing", "Finalizing and persisting turn...")
 		if err := e.completeStage()(tc.Ctx, tc); err != nil {
-			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: err})
+			sendStreamEvent(ctx, ch, StreamEvent{Type: "error", Err: e.turnFailure(tc.Ctx, err)})
 			return
 		}
 		emitPhase("finalizing", "Turn persisted.", persistStarted)
 
 		// Emit combat lifecycle status events based on applied tool calls.
-		result := &TurnResult{TurnNumber: tc.TurnNumber, Narrative: tc.Narrative, AppliedToolCalls: tc.Applied, StateChanges: tc.StateChanges, Choices: tc.Choices, CombatActive: tc.CombatActive}
+		result := &TurnResult{ActionID: tc.ActionID, Recovered: tc.Recovered, TurnNumber: tc.TurnNumber, Narrative: tc.Narrative, AppliedToolCalls: tc.Applied, StateChanges: tc.StateChanges, Choices: tc.Choices, CombatActive: tc.CombatActive}
 		for _, atc := range result.AppliedToolCalls {
 			switch atc.Tool {
 			case "initiate_combat":

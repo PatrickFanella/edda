@@ -11,7 +11,7 @@ import (
 // turn completion stage.
 func (e *Engine) processStage() Stage {
 	return func(ctx context.Context, tc *TurnContext) error {
-		narrative, applied, err := e.processor.ProcessWithRecovery(ctx, tc.Messages, tc.FilteredTools)
+		narrative, applied, err := e.processor.ProcessWithRecoveryWithOptions(ctx, tc.Messages, tc.FilteredTools, TurnProcessorOptions{CandidateCallback: func(text string) error { return e.recordRawCandidate(ctx, text) }})
 		if err != nil {
 			tc.Logger.Error("process turn failed during turn processor",
 				"campaign_id", tc.CampaignID,
@@ -24,6 +24,6 @@ func (e *Engine) processStage() Stage {
 		tc.Narrative = narrative
 		tc.Applied = applied
 
-		return nil
+		return e.recordCandidate(ctx, tc)
 	}
 }

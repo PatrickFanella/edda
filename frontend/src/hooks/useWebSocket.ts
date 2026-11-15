@@ -64,6 +64,7 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
     cursor.current.pending = cursor.current.pending.filter(event => event.sequence > sequence);
     setEvents(cursor.current.pending);
   }, [campaignId]);
+  const pendingActionRef = useRef<{ campaignId: string | null | undefined; input: string; id: string } | null>(null);
   const socketRef = useRef<WebSocket | null>(null);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reconnectAttemptsRef = useRef(0);
@@ -189,6 +190,7 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
       }
 
       if (decodedEvent.kind === 'result') {
+        pendingActionRef.current = null;
         setError(null);
         setCurrentStatus(null);
         setIsAwaitingResponse(false);
@@ -198,6 +200,9 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
         return;
       }
 
+      if (decodedEvent.payload.action_id && pendingActionRef.current && pendingActionRef.current.campaignId === campaignId) {
+        pendingActionRef.current.id = decodedEvent.payload.action_id;
+      }
       setError(decodedEvent.payload.error);
       setCurrentStatus(null);
       setIsAwaitingResponse(false);
@@ -267,11 +272,12 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
 
       const message: OutboundActionEnvelope = {
         type: 'action',
-        payload: { input: trimmedInput },
+        payload: { input: trimmedInput, action_id: pendingActionRef.current?.campaignId === campaignId && pendingActionRef.current.input === trimmedInput ? pendingActionRef.current.id : crypto.randomUUID() },
       };
 
       try {
         socket.send(JSON.stringify(message));
+        pendingActionRef.current = { campaignId, input: trimmedInput, id: message.payload.action_id! };
         setError(null);
         setIsAwaitingResponse(true);
         return true;

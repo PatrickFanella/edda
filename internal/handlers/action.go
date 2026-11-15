@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/google/uuid"
 	"net/http"
 
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
@@ -32,10 +33,19 @@ func (h *ActionHandlers) ProcessAction(w http.ResponseWriter, r *http.Request) {
 	turnCtx, cancel := h.turnContext(r.Context())
 	defer cancel()
 
+	turnCtx, err = actionContext(turnCtx, req.ActionID)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, "invalid action_id")
+		return
+	}
 	result, err := h.Engine.ProcessTurn(turnCtx, campaignID, req.Input)
 	if err != nil {
 		h.Logger.Errorf("process turn for campaign %s: %v", campaignID, err)
-		if errors.Is(err, engine.ErrTurnInProgress) {
+		if errors.Is(err, engine.ErrTurnRecoveryRequired) {
+			writeJSON(w, http.StatusConflict, map[string]string{"error": err.Error(), "action_id": engine.RecoveryActionID(err)})
+			return
+		}
+		if errors.Is(err, engine.ErrTurnInProgress) || errors.Is(err, engine.ErrActionIDConflict) {
 			writeError(w, http.StatusConflict, err.Error())
 			return
 		}
@@ -56,4 +66,15 @@ func (h *ActionHandlers) turnContext(parent context.Context) (context.Context, c
 		return context.WithCancel(base)
 	}
 	return context.WithTimeout(base, h.TurnTimeout)
+}
+
+func actionContext(ctx context.Context, raw string) (context.Context, error) {
+	if raw == "" {
+		return ctx, nil
+	}
+	id, err := uuid.Parse(raw)
+	if err != nil || id == uuid.Nil {
+		return nil, fmt.Errorf("invalid action id")
+	}
+	return engine.WithActionID(ctx, id), nil
 }

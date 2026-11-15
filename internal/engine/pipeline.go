@@ -18,6 +18,8 @@ import (
 // automatically see the updated value because Pipeline reads tc.Ctx before
 // each invocation.
 type TurnContext struct {
+	ActionID      uuid.UUID
+	Recovered     bool
 	Ctx           context.Context
 	CampaignID    uuid.UUID
 	PlayerInput   string
