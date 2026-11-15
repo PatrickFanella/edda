@@ -131,20 +131,20 @@ func (s *Store) GetLatestTurnNumber(ctx context.Context, campaignID uuid.UUID) (
 	return turnNumber, err
 }
 
-const deleteSessionLogsByCampaignSQL = `DELETE FROM session_logs WHERE campaign_id = $1`
-const deleteSavePointsByCampaignSQL = `DELETE FROM save_points WHERE campaign_id = $1`
-const deleteCampaignTimeSQL = `DELETE FROM campaign_time WHERE campaign_id = $1`
+// A single statement makes all three deletes atomic, including when a trigger
+// or constraint rejects any one of them. World and character state are retained.
+const startOverSQL = `
+WITH deleted_logs AS (
+  DELETE FROM session_logs WHERE campaign_id = $1
+), deleted_saves AS (
+  DELETE FROM save_points WHERE campaign_id = $1
+)
+DELETE FROM campaign_time WHERE campaign_id = $1
+`
 
-// StartOver deletes all session logs, save points, and campaign time for a campaign.
+// StartOver atomically deletes session logs, save points, and campaign time.
 func (s *Store) StartOver(ctx context.Context, campaignID uuid.UUID) error {
-	pgCID := db.ToPgUUID(campaignID)
-	if _, err := s.db.Exec(ctx, deleteSessionLogsByCampaignSQL, pgCID); err != nil {
-		return err
-	}
-	if _, err := s.db.Exec(ctx, deleteSavePointsByCampaignSQL, pgCID); err != nil {
-		return err
-	}
-	_, err := s.db.Exec(ctx, deleteCampaignTimeSQL, pgCID)
+	_, err := s.db.Exec(ctx, startOverSQL, db.ToPgUUID(campaignID))
 	return err
 }
 
