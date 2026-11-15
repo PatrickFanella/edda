@@ -2,8 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { apiFetchBlob } from '../../api/backend';
 import { cn } from '../../lib/cn';
+import { ChapterExportOptions } from './ChapterExportOptions';
 
-type ExportFormat = 'json' | 'transcript' | 'character';
+type ExportFormat = 'json' | 'transcript' | 'character' | 'chapters';
 
 interface ExportDialogProps {
   readonly open: boolean;
@@ -11,14 +12,14 @@ interface ExportDialogProps {
   readonly onClose: () => void;
 }
 
-async function downloadExport(campaignId: string, format: ExportFormat) {
-  const blob = await apiFetchBlob(`/campaigns/${campaignId}/export/${format}`, {
+async function downloadExport(campaignId: string, format: ExportFormat, query = '') {
+  const blob = await apiFetchBlob(`/campaigns/${campaignId}/export/${format}${query ? `?${query}` : ''}`, {
     method: 'GET',
   });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `campaign-${format}.${format === 'json' ? 'json' : 'md'}`;
+  a.download = `campaign-${format}.${format === 'json' || new URLSearchParams(query).get('format') === 'json' ? 'json' : 'md'}`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -51,11 +52,11 @@ export function ExportDialog({ open, campaignId, onClose }: ExportDialogProps) {
   }, [onClose]);
 
   const handleDownload = useCallback(
-    async (format: ExportFormat) => {
+    async (format: ExportFormat, query = '') => {
       setLoadingFormat(format);
       setError(null);
       try {
-        await downloadExport(campaignId, format);
+        await downloadExport(campaignId, format, query);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Export failed');
       } finally {
@@ -71,7 +72,7 @@ export function ExportDialog({ open, campaignId, onClose }: ExportDialogProps) {
     <dialog
       ref={dialogRef}
       onCancel={handleCancel}
-      className="m-auto max-w-lg border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80"
+      className="m-auto max-h-[90dvh] max-w-lg overflow-y-auto border-2 border-gold/30 bg-charcoal p-0 text-champagne backdrop:bg-obsidian/80"
     >
       <div className="space-y-4 p-6">
         <h2 className="font-heading text-lg font-semibold uppercase tracking-wide">Export Campaign</h2>
@@ -103,7 +104,13 @@ export function ExportDialog({ open, campaignId, onClose }: ExportDialogProps) {
           })}
         </div>
 
-        {error ? <p className="text-xs text-ruby">{error}</p> : null}
+        <ChapterExportOptions key={campaignId} campaignId={campaignId} disabled={loadingFormat !== null} onDownload={(ids, format) => {
+          const query = new URLSearchParams({ format });
+          ids.forEach(id => query.append('revision_id', id));
+          void handleDownload('chapters', query.toString());
+        }} />
+
+        {error ? <p role="alert" className="text-xs text-ruby">{error}</p> : null}
       </div>
 
       <div className="flex justify-end border-t border-gold/15 px-6 py-4">

@@ -158,6 +158,7 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.Cam
 						r.Get("/export/json", exportH.ExportJSON)
 						r.Get("/export/transcript", exportH.ExportTranscript)
 						r.Get("/export/character", exportH.ExportCharacterSheet)
+						r.Get("/export/chapters", exportH.ExportChapters)
 						journalStore := journal.NewStore(pool)
 						journalH := journal.NewHandlersWithSummarizer(journalStore, journal.NewSummarizer(provider, journalStore))
 						r.Route("/journal", func(r chi.Router) {

@@ -76,3 +76,54 @@ Deterministic frontend tests cover ordering, navigation, revision filtering,
 freshness failure, restarted-turn coverage and persisted preferences. Desktop and
 phone browser fixtures exercise actual scroll restoration across chapter changes,
 Journal unmounts and reloads, source inspection and document viewport bounds.
+
+## Saved chapter export (#86)
+
+Open **Export → Saved Chapters**, check the chapters to include, choose each saved
+revision, then download Markdown or JSON. Only completed revisions are offered.
+The revision currently selected in the reader is the default for that chapter;
+other chapters default to their latest completed revision. Selection is explicit:
+newer generated revisions cannot silently replace the requested text during a
+download. Nothing is regenerated or rerolled.
+
+Both formats retain the selected prose, chapter and revision identities, request
+ID, capture/save timestamps, turn coverage, source log/action IDs, immutable
+player-visible source history, source SHA-256, knowledge boundary, rules
+version/mode and prompt version. They include the canonical SRD 5.2.1 attribution
+and an Edda adaptation/generated-prose notice. Rules metadata comes from the
+captured chapter, even if the campaign's current mode has changed. Captured
+sources may predate restored or restarted play, exactly as in the reader.
+
+`GET /api/v1/campaigns/{id}/export/chapters` uses the existing campaign
+authentication and ownership middleware. Supply one or more repeated
+`revision_id` UUID parameters (1–100 unique values), and optionally
+`format=markdown` (default) or `format=json`. The UI selects one revision per
+chapter; API callers may explicitly select multiple completed revisions of the
+same chapter. Chapters use the reader's source-capture order, including ranges
+retained from earlier play. Revisions keep their saved version order.
+
+A missing, foreign-campaign, failed or generating revision returns 404 for the
+entire selection; invalid selections/formats return 400. Anonymous requests
+return 401 when authentication is enabled; another owner's campaign is 404.
+Downloads are private/no-store. Empty campaigns show guidance to create a chapter
+in Journal. Loading and download failures leave an explicit retry path.
+
+This chapter-only export reads the same saved projection as the reader. It does
+not add campaign descriptions, current world state, hidden lore, raw tool data,
+pending narration, unselected prose, failed-attempt details, notes or legacy
+summaries. Existing full-data, transcript and character exports keep their
+existing contracts; this privacy boundary describes the Saved Chapters option.
+Markdown retains raw saved text; JSON retains its exact string values for
+machine comparison. Neither format certifies model prose semantically faithful
+beyond the existing chapter-generation constraints.
+
+Deterministic checks live in `internal/export/chapters_test.go`,
+`internal/handlers/chapter_export_integration_test.go`,
+`frontend/tests/chapterExport.test.tsx` and
+`frontend/tests/browser/chapter-export.spec.ts`. The backend integration test uses
+the production router, disposable Testcontainers PostgreSQL and a recording model
+double; it compares exports with the reader's saved snapshot after regeneration
+and transcript changes, tests JWT ownership/selection failures and poison-marker
+exclusions, and checks that export makes no generation calls or revision writes.
+Frontend fixtures cover exact revision selection, loading/download recovery,
+empty campaigns and desktop/phone-sized downloads without external services.
