@@ -134,6 +134,7 @@ export function CampaignPlayPage() {
 
   return (
     <CampaignPlayWorkspace
+      key={campaignId}
       campaignId={campaignId}
       campaign={campaignQuery.data}
       activeTab={activeTab}
@@ -301,8 +302,8 @@ function CampaignPlayContent({
                 tabIndex={0}
                 className="h-full min-h-0 overflow-hidden"
               >
-                {activeTab === tab.key ? (
-                  <PlayTabContent campaignId={campaignId} activeTab={activeTab} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />
+                {activeTab === tab.key || tab.key === 'narrative' ? (
+                  <PlayTabContent campaignId={campaignId} activeTab={tab.key} narrative={narrative} seededNarrative={seededNarrative} suggestedChoices={suggestedChoices} />
                 ) : null}
               </div>
             ))}
@@ -479,11 +480,13 @@ function NarrativeTab({
         disabled={isLoading}
       />
 
-      <ThinkingIndicator status={currentStatus} />
+      <div className="game-composer-feedback" aria-live="polite">
+        <ThinkingIndicator status={currentStatus} />
+        {error ? <ErrorPanel message={error} /> : null}
+      </div>
 
       <PlayerInput className="game-action-form" onSendAction={sendAction} disabled={connectionStatus === 'connecting'} isLoading={isLoading} autoFocus />
 
-      {error ? <ErrorPanel message={error} /> : null}
     </div>
   );
 }

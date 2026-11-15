@@ -703,3 +703,9 @@ body:has(.game-app-shell) > .subcult-identity {
   max-height: calc(var(--game-viewport-height, 100dvh) - 10rem);
   overflow: auto;
 }
+
+/* The composer keeps its submit row outside the scrolling choices, draft and
+   feedback regions. Short/zoomed workspaces retain their internal reflow escape. */
+.game-composer-feedback { flex: none; max-height: min(10dvh, 6rem); overflow-y: auto; overflow-wrap: anywhere; overscroll-behavior: contain; }
+.game-composer-feedback:empty { display: none; }
+.game-action-form textarea { height: 4.5rem; min-height: 4.5rem; max-height: 7rem; overflow-y: auto; }

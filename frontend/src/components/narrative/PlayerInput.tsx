@@ -66,18 +66,18 @@ export function PlayerInput({
             setValue(event.target.value);
           }}
           onKeyDown={handleKeyDown}
-          rows={3}
+          rows={2}
           autoFocus={autoFocus}
           disabled={isDisabled}
           placeholder={placeholder}
-          className="min-h-28 w-full resize-none border-2 border-gold/20 bg-obsidian px-4 py-3 text-sm leading-6 text-champagne transition-all duration-200 placeholder:text-pewter/60 focus:border-gold focus:outline-none disabled:cursor-not-allowed disabled:border-gold/10 disabled:bg-charcoal disabled:text-pewter"
+          className="min-h-16 max-h-28 overflow-y-auto w-full resize-none border-2 border-gold/20 bg-obsidian px-4 py-3 text-sm leading-6 text-champagne transition-all duration-200 placeholder:text-pewter/60 focus:border-gold focus:outline-none disabled:cursor-not-allowed disabled:border-gold/10 disabled:bg-charcoal disabled:text-pewter"
         />
       </label>
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-pewter">Press Enter to act. Use Shift+Enter for a line break.</p>
         <button
           type="submit"
-          disabled={isDisabled}
+          disabled={isDisabled || value.trim().length === 0}
           className="hud-text-button inline-flex items-center justify-center bg-ruby px-5 text-sm font-semibold uppercase tracking-[0.15em] text-champagne transition-all duration-200 hover:bg-ruby-light hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-ruby focus:ring-offset-2 focus:ring-offset-obsidian disabled:cursor-not-allowed disabled:bg-charcoal disabled:text-pewter disabled:hover:scale-100"
         >
           {isLoading || isSubmitting ? 'Sending…' : 'Send action'}
