@@ -101,6 +101,7 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.Cam
 						r.Post("/world", startupH.BuildWorld)
 					})
 					r.Route("/{id}", func(r chi.Router) {
+						r.Use(campaignH.RequireOwnership)
 						r.Get("/", campaignH.GetCampaign)
 						r.Put("/", campaignH.UpdateCampaign)
 						r.Delete("/", campaignH.DeleteCampaign)

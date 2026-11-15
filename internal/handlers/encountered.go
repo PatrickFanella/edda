@@ -8,9 +8,10 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
-	"git.subcult.tv/subculture-collective/edda/pkg/api"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // ListEncounteredNPCs returns NPCs that appear in session logs (npcs_involved).
@@ -79,6 +80,13 @@ func (h *WorldHandlers) GetNPCDialogue(w http.ResponseWriter, r *http.Request) {
 	npcID, err := uuid.Parse(npcIDStr)
 	if err != nil {
 		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid npc id: %v", err))
+		return
+	}
+
+	if _, err := h.Queries.GetNPCByID(r.Context(), statedb.GetNPCByIDParams{
+		ID: db.ToPgUUID(npcID), CampaignID: db.ToPgUUID(campaignID),
+	}); err != nil {
+		writeError(w, http.StatusNotFound, "npc not found")
 		return
 	}
 

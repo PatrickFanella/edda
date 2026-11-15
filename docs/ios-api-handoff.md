@@ -39,6 +39,12 @@ The backend has two modes:
 1. **JWT mode**: if the server has `JWTSecret` configured, auth endpoints are enabled and all `/api/v1` non-auth routes require a token.
 2. **No-op mode**: if no JWT secret is configured, auth routes may not exist and the server uses a default user. This is mainly for local/TUI use.
 
+Campaign ownership is enforced on every `/api/v1/campaigns/{id}` route after authentication, including actions, saves, exports, journal routes and WebSocket upgrades. Only the campaign's `created_by` user can access it. Foreign and nonexistent campaign IDs both return `404 {"error":"campaign not found"}`. A database lookup failure returns 500 and does not run the action. No-op mode applies the same ownership check using the configured default user.
+
+Nested location, NPC and quest IDs must belong to the campaign in the URL. Quest notes and history validate their parent quest before access; note deletion also scopes the note to that quest. Journal entry deletion includes the campaign ID in its SQL predicate. Deleting an absent or differently scoped note/entry remains an idempotent 204 without changing it.
+
+The shared engine and local TUI retain their existing campaign-ID interface; HTTP authorization lives at the router boundary. Keep future campaign endpoints in the guarded route group. Ownership is checked before a WebSocket upgrade; this change does not add mid-connection revocation or campaign ownership transfer. Security review by a human is required before merging ownership changes.
+
 The web app also receives an HttpOnly cookie named `gm_token`, but native iOS should treat the JSON `token` field as the primary credential and send it in the `Authorization` header.
 
 ### Auth endpoints

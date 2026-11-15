@@ -154,13 +154,18 @@ func (h *Handlers) CreateEntry(w http.ResponseWriter, r *http.Request) {
 
 // DeleteEntry handles DELETE /api/v1/campaigns/{id}/journal/entries/{eid}.
 func (h *Handlers) DeleteEntry(w http.ResponseWriter, r *http.Request) {
+	campaignID, err := campaignIDFromURL(r)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, "invalid campaign id")
+		return
+	}
 	entryID, err := uuid.Parse(chi.URLParam(r, "eid"))
 	if err != nil {
 		writeError(w, http.StatusBadRequest, "invalid entry id")
 		return
 	}
 
-	if err := h.store.DeleteEntry(r.Context(), entryID); err != nil {
+	if err := h.store.DeleteEntry(r.Context(), entryID, campaignID); err != nil {
 		writeError(w, http.StatusInternalServerError, "failed to delete journal entry")
 		return
 	}

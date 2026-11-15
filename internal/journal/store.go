@@ -220,11 +220,11 @@ func (s *Store) CreateEntry(ctx context.Context, campaignID uuid.UUID, title, co
 	return e, nil
 }
 
-const deleteEntrySQL = `DELETE FROM player_journal_entries WHERE id = $1`
+const deleteEntrySQL = `DELETE FROM player_journal_entries WHERE id = $1 AND campaign_id = $2`
 
-// DeleteEntry removes a journal entry by ID.
-func (s *Store) DeleteEntry(ctx context.Context, entryID uuid.UUID) error {
+// DeleteEntry removes a journal entry only within the specified campaign.
+func (s *Store) DeleteEntry(ctx context.Context, entryID, campaignID uuid.UUID) error {
 	pgID := db.ToPgUUID(entryID)
-	_, err := s.db.Exec(ctx, deleteEntrySQL, pgID)
+	_, err := s.db.Exec(ctx, deleteEntrySQL, pgID, db.ToPgUUID(campaignID))
 	return err
 }
