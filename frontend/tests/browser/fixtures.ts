@@ -2,14 +2,14 @@ import { test as base, expect, type WebSocketRoute } from '@playwright/test';
 import { campaign, character, history, heroProfile, profile, result, timestamp, user } from '../fixtures/data';
 
 export const test = base.extend<{ game: { sockets: WebSocketRoute[]; actions: string[]; requests: string[] } }>({
-  game: async ({ page }, provide) => {
+  game: async ({ page, baseURL }, provide) => {
     const sockets: WebSocketRoute[] = [], actions: string[] = [], requests: string[] = [];
     let created = false;
     const unmapped: string[] = [];
     // Fail closed: no API request, socket or external resource reaches a real service.
     await page.route('**/*', async route => {
       const url = new URL(route.request().url());
-      if (url.origin !== 'http://127.0.0.1:4175') return route.abort('blockedbyclient');
+      if (url.origin !== baseURL) return route.abort('blockedbyclient');
       if (!url.pathname.startsWith('/api/')) return route.continue();
       const path = url.pathname.replace('/api/v1', '');
       requests.push(`${route.request().method()} ${path}`);

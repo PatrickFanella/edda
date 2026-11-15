@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 
 import { getSessionHistory } from '../api/campaigns';
 import type { WebSocketStatusPayload } from '../api/types';
@@ -31,15 +31,20 @@ export function useNarrative(): UseNarrativeResult {
   const { campaignId } = useCampaign();
   const { connectionStatus, error: socketError, events, isLoading, currentStatus, combatActive, sendAction: sendSocketAction } = useWebSocket(campaignId);
   const [state, dispatch] = useReducer(narrativeReducer, initialNarrativeState);
+  const [stateCampaignId, setStateCampaignId] = useState(campaignId);
+  if (stateCampaignId !== campaignId) {
+    setStateCampaignId(campaignId);
+    dispatch({ type: 'RESET' });
+  }
 
   // Effect 1: campaign change + history load
   useEffect(() => {
-    dispatch({ type: 'RESET' });
-
     if (!campaignId) return;
+    let active = true;
 
     getSessionHistory(campaignId)
       .then((resp) => {
+        if (!active) return;
         const restored: NarrativeEntry[] = [];
         for (const entry of resp.entries) {
           if (entry.input_type !== 'narrative' && entry.player_input) {
@@ -66,9 +71,11 @@ export function useNarrative(): UseNarrativeResult {
         dispatch({ type: 'HISTORY_LOADED', entries: restored });
       })
       .catch((err) => {
+        if (!active) return;
         console.warn('Failed to load session history:', err);
         dispatch({ type: 'HISTORY_FAILED', error: 'Failed to load history' });
       });
+    return () => { active = false; };
   }, [campaignId]);
 
   // Effect 2: propagate socket-level error

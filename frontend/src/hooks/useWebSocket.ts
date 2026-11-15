@@ -36,6 +36,18 @@ export function useWebSocket(campaignId: string | null | undefined): UseWebSocke
   const [currentStatus, setCurrentStatus] = useState<WebSocketStatusPayload | null>(null);
   const [combatActive, setCombatActive] = useState(false);
   const [reconnectNonce, setReconnectNonce] = useState(0);
+  const [stateCampaignId, setStateCampaignId] = useState(campaignId);
+  // Reset before committing a render for another campaign. Reconnects keep
+  // their event cursor; a campaign switch starts a separate live session.
+  if (stateCampaignId !== campaignId) {
+    setStateCampaignId(campaignId);
+    setEvents([]);
+    setError(null);
+    setIsAwaitingResponse(false);
+    setCurrentStatus(null);
+    setCombatActive(false);
+    setConnectionStatus(campaignId ? 'connecting' : 'idle');
+  }
   const socketRef = useRef<WebSocket | null>(null);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reconnectAttemptsRef = useRef(0);
