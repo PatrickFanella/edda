@@ -1,0 +1,11 @@
+# Campaign rules compatibility
+
+`rules_mode` controls detail (`narrative`, `light`, `crunch`). `rules_version` identifies mechanics independently. Migration 38 adds explicit `legacy` metadata to existing campaigns without changing character statistics, custom XP, skill points, feats or world data.
+
+Create a campaign with `POST /api/v1/campaigns` and `{"name":"SRD campaign","rules_mode":"light","rules_version":"srd-5.2.1"}` to record the pinned SRD version. Omitted versions default to `legacy`; unsupported version names are rejected. Campaign list and detail responses expose `rules_version`, and the shared domain state carries it to engine callers. Existing web and TUI creation flows continue to create legacy campaigns.
+
+Metadata does not establish SRD conformance or enable the legacy engine to run SRD characters. Until the version-specific creation and gameplay slices land, versioned campaigns are readable but legacy mutation routes return HTTP 409. The shared engine refuses synchronous and streaming turns before inference, so the local TUI cannot bypass the HTTP check. The production tool registry also checks persisted campaign metadata before execution and refuses a missing campaign context. Legacy world building explicitly refuses a versioned request instead of constructing a legacy character under an SRD label.
+
+Rules versions cannot be converted with a campaign update. No character mechanics are inferred from old prose, and no XP or skill-point conversion is offered. The owner has declared the pre-SRD data disposable: resetting that database at release is supported instead of conversion. This implementation does not wipe any production database. Apply migration 38 before starting a binary that reads the new metadata; roll back the binary before removing the column.
+
+Run `go test -short -race ./...`, `go vet ./...`, and `go test -tags integration -race -run Integration ./...`. `TestIntegrationRulesVersionCompatibility` uses isolated PostgreSQL and checks stored versions, legacy mode/data behavior, conversion refusal, HTTP/WebSocket guards, shared web/TUI engine refusal, and tool execution without the pipeline. The API golden files record the additive response field.

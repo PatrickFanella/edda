@@ -565,6 +565,25 @@ func decodeStartupJSON[T any](t *testing.T, rec *httptest.ResponseRecorder) T {
 	return v
 }
 
+func TestBuildWorld_RefusesVersionedLegacyCharacterCreation(t *testing.T) {
+	provider := newStartupScriptedProvider(t)
+	q := &startupStubQuerier{createCampaignFn: func(context.Context, statedb.CreateCampaignParams) (statedb.Campaign, error) {
+		t.Fatal("versioned request reached legacy persistence")
+		return statedb.Campaign{}, nil
+	}}
+	h := NewStartupHandlers(provider, q, log.Default(), nil)
+	router := newStartupRouter(h, true)
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/campaigns/start/world", bytes.NewBufferString(`{"rules_version":"srd-5.2.1","profile":{},"character_profile":{}}`))
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, req)
+	if rec.Code != http.StatusConflict {
+		t.Fatalf("status = %d, body = %s", rec.Code, rec.Body.String())
+	}
+	if provider.calls != 0 {
+		t.Fatalf("legacy inference calls = %d", provider.calls)
+	}
+}
+
 func (s *startupStubQuerier) RunInTransaction(ctx context.Context, fn func(statedb.Querier, statedb.DBTX) error) error {
 	return fn(s, startupSetupDB{})
 }

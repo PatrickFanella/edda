@@ -22,7 +22,8 @@ INSERT INTO campaigns (
   danger_level,
   political_complexity,
   status,
-  created_by
+  created_by,
+  rules_version
 ) VALUES (
   $1,
   $2,
@@ -33,9 +34,10 @@ INSERT INTO campaigns (
   $7,
   $8,
   $9,
-  $10
+  $10,
+  COALESCE(NULLIF($11::text, ''), 'legacy')
 )
-RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode
+RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode, rules_version
 `
 
 type CreateCampaignParams struct {
@@ -49,6 +51,7 @@ type CreateCampaignParams struct {
 	PoliticalComplexity pgtype.Text
 	Status              string
 	CreatedBy           pgtype.UUID
+	RulesVersion        string
 }
 
 func (q *Queries) CreateCampaign(ctx context.Context, arg CreateCampaignParams) (Campaign, error) {
@@ -63,6 +66,7 @@ func (q *Queries) CreateCampaign(ctx context.Context, arg CreateCampaignParams) 
 		arg.PoliticalComplexity,
 		arg.Status,
 		arg.CreatedBy,
+		arg.RulesVersion,
 	)
 	var i Campaign
 	err := row.Scan(
@@ -80,6 +84,7 @@ func (q *Queries) CreateCampaign(ctx context.Context, arg CreateCampaignParams) 
 		&i.DangerLevel,
 		&i.PoliticalComplexity,
 		&i.RulesMode,
+		&i.RulesVersion,
 	)
 	return i, err
 }
@@ -95,7 +100,7 @@ func (q *Queries) DeleteCampaign(ctx context.Context, id pgtype.UUID) error {
 }
 
 const getCampaignByID = `-- name: GetCampaignByID :one
-SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode
+SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode, rules_version
 FROM campaigns
 WHERE id = $1
 `
@@ -118,12 +123,13 @@ func (q *Queries) GetCampaignByID(ctx context.Context, id pgtype.UUID) (Campaign
 		&i.DangerLevel,
 		&i.PoliticalComplexity,
 		&i.RulesMode,
+		&i.RulesVersion,
 	)
 	return i, err
 }
 
 const listCampaignsByUser = `-- name: ListCampaignsByUser :many
-SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode
+SELECT id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode, rules_version
 FROM campaigns
 WHERE created_by = $1
 ORDER BY created_at, id
@@ -153,6 +159,7 @@ func (q *Queries) ListCampaignsByUser(ctx context.Context, createdBy pgtype.UUID
 			&i.DangerLevel,
 			&i.PoliticalComplexity,
 			&i.RulesMode,
+			&i.RulesVersion,
 		); err != nil {
 			return nil, err
 		}
@@ -177,7 +184,7 @@ SET
   political_complexity = $8,
   updated_at = now()
 WHERE id = $9
-RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode
+RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode, rules_version
 `
 
 type UpdateCampaignParams struct {
@@ -220,6 +227,7 @@ func (q *Queries) UpdateCampaign(ctx context.Context, arg UpdateCampaignParams) 
 		&i.DangerLevel,
 		&i.PoliticalComplexity,
 		&i.RulesMode,
+		&i.RulesVersion,
 	)
 	return i, err
 }
@@ -230,7 +238,7 @@ SET
   status = $1,
   updated_at = now()
 WHERE id = $2
-RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode
+RETURNING id, name, description, genre, tone, themes, status, created_by, created_at, updated_at, world_type, danger_level, political_complexity, rules_mode, rules_version
 `
 
 type UpdateCampaignStatusParams struct {
@@ -256,6 +264,7 @@ func (q *Queries) UpdateCampaignStatus(ctx context.Context, arg UpdateCampaignSt
 		&i.DangerLevel,
 		&i.PoliticalComplexity,
 		&i.RulesMode,
+		&i.RulesVersion,
 	)
 	return i, err
 }

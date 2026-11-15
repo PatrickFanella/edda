@@ -23,17 +23,18 @@ func campaignToDomain(c statedb.Campaign) domain.Campaign {
 		rulesMode = domain.RulesModeNarrative
 	}
 	return domain.Campaign{
-		ID:          dbutil.FromPgtype(c.ID),
-		Name:        c.Name,
-		Description: c.Description.String,
-		Genre:       c.Genre.String,
-		Tone:        c.Tone.String,
-		Themes:      c.Themes,
-		Status:      domain.CampaignStatus(c.Status),
-		RulesMode:   rulesMode,
-		CreatedBy:   dbutil.FromPgtype(c.CreatedBy),
-		CreatedAt:   c.CreatedAt.Time,
-		UpdatedAt:   c.UpdatedAt.Time,
+		ID:           dbutil.FromPgtype(c.ID),
+		Name:         c.Name,
+		Description:  c.Description.String,
+		Genre:        c.Genre.String,
+		Tone:         c.Tone.String,
+		Themes:       c.Themes,
+		Status:       domain.CampaignStatus(c.Status),
+		RulesMode:    rulesMode,
+		RulesVersion: domain.RulesVersion(c.RulesVersion),
+		CreatedBy:    dbutil.FromPgtype(c.CreatedBy),
+		CreatedAt:    c.CreatedAt.Time,
+		UpdatedAt:    c.UpdatedAt.Time,
 	}
 }
 

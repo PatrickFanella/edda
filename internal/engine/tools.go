@@ -81,6 +81,7 @@ var toolMetas = []tools.ToolMeta{
 // if any registration fails. The embedder may be nil; tools that support
 // auto-embedding will skip it when nil.
 func registerAllTools(registry *tools.Registry, queries statedb.Querier, embedder tools.Embedder, searcher tools.SearchMemorySearcher, timeDB ...tools.TimeStore) error {
+	registry.RequireLegacyCampaign(queries)
 	locSvc := game.NewLocationService(queries)
 	var stateStore *game.StateStore
 	if len(timeDB) > 0 && timeDB[0] != nil {

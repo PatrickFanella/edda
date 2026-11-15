@@ -34,6 +34,7 @@ type Campaign struct {
 	DangerLevel         pgtype.Text
 	PoliticalComplexity pgtype.Text
 	RulesMode           string
+	RulesVersion        string
 }
 
 type CampaignTime struct {

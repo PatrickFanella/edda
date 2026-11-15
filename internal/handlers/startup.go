@@ -11,6 +11,7 @@ import (
 	"github.com/google/uuid"
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
@@ -287,6 +288,10 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 	var req api.WorldBuildRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		writeError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+	if err := domain.RequireLegacyRules(domain.RulesVersion(req.RulesVersion)); err != nil {
+		writeError(w, http.StatusConflict, err.Error())
 		return
 	}
 	if req.Profile == nil {

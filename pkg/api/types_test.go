@@ -32,7 +32,7 @@ func TestCampaignTypesJSONShape(t *testing.T) {
 		CreatedAt:   time.Unix(100, 0).UTC(),
 		UpdatedAt:   time.Unix(200, 0).UTC(),
 	}
-	assertJSONKeys(t, response, "id", "name", "description", "genre", "tone", "themes", "status", "rules_mode", "created_by", "created_at", "updated_at")
+	assertJSONKeys(t, response, "id", "name", "description", "genre", "tone", "themes", "status", "rules_mode", "rules_version", "created_by", "created_at", "updated_at")
 
 	list := CampaignListResponse{Campaigns: []CampaignResponse{response}}
 	assertJSONKeys(t, list, "campaigns")
@@ -245,17 +245,18 @@ func TestAPIResponseGoldenShapes(t *testing.T) {
 
 	got := map[string]any{
 		"campaign": CampaignResponse{
-			ID:          "camp-1",
-			Name:        "The Iron Road",
-			Description: "A frontier campaign",
-			Genre:       "fantasy",
-			Tone:        "gritty",
-			Themes:      []string{"exploration", "survival"},
-			Status:      "active",
-			RulesMode:   "narrative",
-			CreatedBy:   "user-1",
-			CreatedAt:   createdAt,
-			UpdatedAt:   updatedAt,
+			ID:           "camp-1",
+			Name:         "The Iron Road",
+			Description:  "A frontier campaign",
+			Genre:        "fantasy",
+			Tone:         "gritty",
+			Themes:       []string{"exploration", "survival"},
+			Status:       "active",
+			RulesMode:    "narrative",
+			RulesVersion: "legacy",
+			CreatedBy:    "user-1",
+			CreatedAt:    createdAt,
+			UpdatedAt:    updatedAt,
 		},
 		"character": CharacterResponse{
 			ID:                "pc-1",

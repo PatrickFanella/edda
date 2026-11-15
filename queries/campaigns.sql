@@ -9,7 +9,8 @@ INSERT INTO campaigns (
   danger_level,
   political_complexity,
   status,
-  created_by
+  created_by,
+  rules_version
 ) VALUES (
   sqlc.arg(name),
   sqlc.arg(description),
@@ -20,7 +21,8 @@ INSERT INTO campaigns (
   sqlc.arg(danger_level),
   sqlc.arg(political_complexity),
   sqlc.arg(status),
-  sqlc.arg(created_by)
+  sqlc.arg(created_by),
+  COALESCE(NULLIF(sqlc.arg(rules_version)::text, ''), 'legacy')
 )
 RETURNING *;
 

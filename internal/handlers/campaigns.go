@@ -9,6 +9,7 @@ import (
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
@@ -50,6 +51,11 @@ func (h *CampaignHandlers) CreateCampaign(w http.ResponseWriter, r *http.Request
 		writeError(w, http.StatusBadRequest, "invalid request body")
 		return
 	}
+	version, err := domain.NormalizeRulesVersion(domain.RulesVersion(req.RulesVersion))
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
 	if req.Name == "" {
 		writeError(w, http.StatusBadRequest, "name is required")
 		return
@@ -66,13 +72,14 @@ func (h *CampaignHandlers) CreateCampaign(w http.ResponseWriter, r *http.Request
 	}
 
 	campaign, err := h.Queries.CreateCampaign(r.Context(), statedb.CreateCampaignParams{
-		Name:        req.Name,
-		Description: pgtype.Text{String: req.Description, Valid: req.Description != ""},
-		Genre:       pgtype.Text{String: req.Genre, Valid: req.Genre != ""},
-		Tone:        pgtype.Text{String: req.Tone, Valid: req.Tone != ""},
-		Themes:      themes,
-		Status:      "active",
-		CreatedBy:   dbutil.ToPgtype(userID),
+		Name:         req.Name,
+		RulesVersion: string(version),
+		Description:  pgtype.Text{String: req.Description, Valid: req.Description != ""},
+		Genre:        pgtype.Text{String: req.Genre, Valid: req.Genre != ""},
+		Tone:         pgtype.Text{String: req.Tone, Valid: req.Tone != ""},
+		Themes:       themes,
+		Status:       "active",
+		CreatedBy:    dbutil.ToPgtype(userID),
 	})
 	if err != nil {
 		h.Logger.Errorf("create campaign: %v", err)
@@ -135,6 +142,18 @@ func (h *CampaignHandlers) UpdateCampaign(w http.ResponseWriter, r *http.Request
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		writeError(w, http.StatusBadRequest, "invalid request body")
 		return
+	}
+
+	if req.RulesVersion != "" {
+		campaign, err := h.Queries.GetCampaignByID(r.Context(), dbutil.ToPgtype(id))
+		if err != nil {
+			writeError(w, http.StatusNotFound, "campaign not found")
+			return
+		}
+		if req.RulesVersion != campaign.RulesVersion {
+			writeError(w, http.StatusConflict, "rules_version is immutable; character conversion is not supported")
+			return
+		}
 	}
 
 	themes := req.Themes

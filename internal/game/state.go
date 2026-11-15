@@ -35,12 +35,13 @@ type GameState struct {
 
 // CreateCampaignParams holds parameters for creating a new campaign.
 type CreateCampaignParams struct {
-	Name        string
-	Description string
-	Genre       string
-	Tone        string
-	Themes      []string
-	UserID      uuid.UUID
+	RulesVersion domain.RulesVersion
+	Name         string
+	Description  string
+	Genre        string
+	Tone         string
+	Themes       []string
+	UserID       uuid.UUID
 }
 
 // StateManager provides campaign-level composite operations over the database.

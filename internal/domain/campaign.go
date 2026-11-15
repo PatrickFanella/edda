@@ -25,17 +25,18 @@ const (
 )
 
 type Campaign struct {
-	ID          uuid.UUID
-	Name        string
-	Description string
-	Genre       string
-	Tone        string
-	Themes      []string
-	Status      CampaignStatus
-	RulesMode   RulesMode
-	CreatedBy   uuid.UUID
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	ID           uuid.UUID
+	Name         string
+	Description  string
+	Genre        string
+	Tone         string
+	Themes       []string
+	Status       CampaignStatus
+	RulesVersion RulesVersion
+	RulesMode    RulesMode
+	CreatedBy    uuid.UUID
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }
 
 func (c *Campaign) Validate() error {

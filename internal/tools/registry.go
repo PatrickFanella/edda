@@ -24,9 +24,10 @@ type Handler func(ctx context.Context, args map[string]any) (*ToolResult, error)
 
 // Registry stores tool definitions and their handlers.
 type Registry struct {
-	tools    []llm.Tool
-	handlers map[string]Handler
-	metas    map[string]ToolMeta
+	beforeExecute func(context.Context) error
+	tools         []llm.Tool
+	handlers      map[string]Handler
+	metas         map[string]ToolMeta
 }
 
 // NewRegistry creates an empty tool registry.
@@ -172,6 +173,11 @@ func (r *Registry) Execute(ctx context.Context, name string, args map[string]any
 	h, ok := r.handlers[name]
 	if !ok {
 		return nil, fmt.Errorf("tool %q is not registered", name)
+	}
+	if r.beforeExecute != nil {
+		if err := r.beforeExecute(ctx); err != nil {
+			return nil, err
+		}
 	}
 	return h(ctx, args)
 }

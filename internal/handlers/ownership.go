@@ -3,11 +3,13 @@ package handlers
 import (
 	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/jackc/pgx/v5"
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 )
 
 // RequireOwnership protects every campaign HTTP route, including WebSocket upgrades.
@@ -34,6 +36,14 @@ func (h *CampaignHandlers) RequireOwnership(next http.Handler) http.Handler {
 			h.Logger.Errorf("authorize campaign %s: %v", campaignID, err)
 			writeError(w, http.StatusInternalServerError, "failed to authorize campaign")
 			return
+		}
+		// All existing write routes implement legacy mechanics. Keep reads
+		// available, but refuse mutations and legacy WebSocket actions.
+		if r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket") {
+			if err := domain.RequireLegacyRules(domain.RulesVersion(campaign.RulesVersion)); err != nil {
+				writeError(w, http.StatusConflict, err.Error())
+				return
+			}
 		}
 		next.ServeHTTP(w, r)
 	})

@@ -1,4 +1,5 @@
 export interface CampaignCreateRequest {
+  rules_version?: string;
   name: string;
   description: string;
   genre: string;
@@ -27,6 +28,7 @@ export interface SkillResponse {
 }
 
 export interface CampaignResponse {
+  rules_version?: string;
   id: string;
   name: string;
   description: string;

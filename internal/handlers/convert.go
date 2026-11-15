@@ -21,17 +21,18 @@ func campaignToResponse(c statedb.Campaign) api.CampaignResponse {
 		rulesMode = "narrative"
 	}
 	return api.CampaignResponse{
-		ID:          dbutil.FromPgtype(c.ID).String(),
-		Name:        c.Name,
-		Description: c.Description.String,
-		Genre:       c.Genre.String,
-		Tone:        c.Tone.String,
-		Themes:      themes,
-		Status:      c.Status,
-		RulesMode:   rulesMode,
-		CreatedBy:   dbutil.FromPgtype(c.CreatedBy).String(),
-		CreatedAt:   timestamptzValue(c.CreatedAt),
-		UpdatedAt:   timestamptzValue(c.UpdatedAt),
+		ID:           dbutil.FromPgtype(c.ID).String(),
+		Name:         c.Name,
+		Description:  c.Description.String,
+		Genre:        c.Genre.String,
+		Tone:         c.Tone.String,
+		Themes:       themes,
+		Status:       c.Status,
+		RulesMode:    rulesMode,
+		RulesVersion: c.RulesVersion,
+		CreatedBy:    dbutil.FromPgtype(c.CreatedBy).String(),
+		CreatedAt:    timestamptzValue(c.CreatedAt),
+		UpdatedAt:    timestamptzValue(c.UpdatedAt),
 	}
 }
 

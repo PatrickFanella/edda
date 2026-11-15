@@ -59,14 +59,19 @@ func (sm *pgStateManager) GetOrCreateDefaultUser(ctx context.Context) (*domain.U
 }
 
 func (sm *pgStateManager) CreateCampaign(ctx context.Context, params CreateCampaignParams) (*domain.Campaign, error) {
+	version, err := domain.NormalizeRulesVersion(params.RulesVersion)
+	if err != nil {
+		return nil, err
+	}
 	campaign, err := sm.queries.CreateCampaign(ctx, statedb.CreateCampaignParams{
-		Name:        params.Name,
-		Description: pgtype.Text{String: params.Description, Valid: params.Description != ""},
-		Genre:       pgtype.Text{String: params.Genre, Valid: params.Genre != ""},
-		Tone:        pgtype.Text{String: params.Tone, Valid: params.Tone != ""},
-		Themes:      params.Themes,
-		Status:      "active",
-		CreatedBy:   dbutil.ToPgtype(params.UserID),
+		Name:         params.Name,
+		RulesVersion: string(version),
+		Description:  pgtype.Text{String: params.Description, Valid: params.Description != ""},
+		Genre:        pgtype.Text{String: params.Genre, Valid: params.Genre != ""},
+		Tone:         pgtype.Text{String: params.Tone, Valid: params.Tone != ""},
+		Themes:       params.Themes,
+		Status:       "active",
+		CreatedBy:    dbutil.ToPgtype(params.UserID),
 	})
 	if err != nil {
 		return nil, fmt.Errorf("create campaign: %w", err)
@@ -117,7 +122,6 @@ func uuidOrNil(id *uuid.UUID) uuid.UUID {
 	}
 	return *id
 }
-
 
 func (sm *pgStateManager) ListRecentSessionLogs(ctx context.Context, campaignID uuid.UUID, limit int) ([]domain.SessionLog, error) {
 	logs, err := sm.queries.ListRecentSessionLogs(ctx, statedb.ListRecentSessionLogsParams{

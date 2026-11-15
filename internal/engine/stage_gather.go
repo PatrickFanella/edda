@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
@@ -23,6 +24,9 @@ func (e *Engine) gatherStage() Stage {
 				"error", err,
 			)
 			return fmt.Errorf("gather state: %w", err)
+		}
+		if err := domain.RequireLegacyRules(state.Campaign.RulesVersion); err != nil {
+			return err
 		}
 		tc.State = state
 		tc.Logger.Debug("state gathered",

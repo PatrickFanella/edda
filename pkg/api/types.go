@@ -9,29 +9,31 @@ import (
 
 // CampaignCreateRequest describes the payload used to create a campaign.
 type CampaignCreateRequest struct {
-	Name        string   `json:"name"`
-	Description string   `json:"description"`
-	Genre       string   `json:"genre"`
-	Tone        string   `json:"tone"`
-	Themes      []string `json:"themes"`
-	RulesMode   string   `json:"rules_mode,omitempty"`
+	RulesVersion string   `json:"rules_version,omitempty"`
+	Name         string   `json:"name"`
+	Description  string   `json:"description"`
+	Genre        string   `json:"genre"`
+	Tone         string   `json:"tone"`
+	Themes       []string `json:"themes"`
+	RulesMode    string   `json:"rules_mode,omitempty"`
 }
 
 // CampaignResponse describes a campaign returned by the API.
 //
 // Converters keep Themes non-nil and preserve timestamp JSON shape as time.Time.
 type CampaignResponse struct {
-	ID          string    `json:"id"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Genre       string    `json:"genre"`
-	Tone        string    `json:"tone"`
-	Themes      []string  `json:"themes"`
-	Status      string    `json:"status"`
-	RulesMode   string    `json:"rules_mode"`
-	CreatedBy   string    `json:"created_by"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID           string    `json:"id"`
+	Name         string    `json:"name"`
+	Description  string    `json:"description"`
+	Genre        string    `json:"genre"`
+	Tone         string    `json:"tone"`
+	Themes       []string  `json:"themes"`
+	Status       string    `json:"status"`
+	RulesMode    string    `json:"rules_mode"`
+	RulesVersion string    `json:"rules_version"`
+	CreatedBy    string    `json:"created_by"`
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
 }
 
 // CampaignListResponse describes the payload returned when listing campaigns.
@@ -273,6 +275,7 @@ type OpeningSceneResponse struct {
 
 // WorldBuildRequest finalizes startup choices and creates the campaign world.
 type WorldBuildRequest struct {
+	RulesVersion     string                 `json:"rules_version,omitempty"`
 	Name             string                 `json:"name"`
 	Summary          string                 `json:"summary"`
 	Profile          *CampaignProfile       `json:"profile"`
