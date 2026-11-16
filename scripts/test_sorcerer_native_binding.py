@@ -37,6 +37,25 @@ class NativeBindingTests(unittest.TestCase):
     def test_complete_independent_frozen_semantic_graph(self):
         self.assertEqual(self.validate(self.receipt)['own_nodes'],305)
 
+    def test_decision_closure_cannot_bypass_any_implementation_gate(self):
+        candidate=deepcopy(self.receipt)
+        for row in candidate['graph']:
+            if row['number'] in [330,331,332]:row['state']='closed'
+        self.assertEqual(self.validate(candidate)['global_nodes'],1888)
+        aggregate=self.registry['nodes']['330:shared-aggregate']['number']
+        row=next(n for n in candidate['graph'] if n['number']==aggregate)
+        row['blocked_by'].pop()
+        with self.assertRaises(AssertionError):self.validate(candidate)
+
+    def test_unrelated_shared_root_addition_preserves_all_frozen_paths(self):
+        candidate=deepcopy(self.receipt)
+        candidate['graph'].append(dict(number=99999,title='Unrelated later qualification',body='',state='open',parent=None,blocked_by=[]))
+        next(n for n in candidate['graph'] if n['number']==280)['blocked_by'].append(99999)
+        self.assertEqual(self.validate(candidate)['global_nodes'],1889)
+        row=next(n for n in candidate['graph'] if n['number']==280)
+        row['blocked_by'].remove(self.registry['nodes']['330:shared-aggregate']['number'])
+        with self.assertRaises(AssertionError):self.validate(candidate)
+
     def test_every_actual_body_and_protocol_edge_is_mandatory(self):
         # Representative source kinds, nested choices, foreign cohorts and exact
         # terminal obligations; all871 complete bodies are checked on each run.

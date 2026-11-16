@@ -6,7 +6,7 @@ import unittest
 
 from caster_native_publication import (
     APPROVAL_SHA, RENDERER_SHA, allocation_body,
-    final_body, check_registry, caps,
+    final_body, check_registry, caps, uncertain_creation,
 )
 
 
@@ -68,6 +68,12 @@ class PublicationTest(unittest.TestCase):
         node['blocked_by_refs'] = ['67', '067']
         with self.assertRaises(AssertionError):
             final_body(node, self.vectors['example_registry'], self.coordinator.contract)
+
+    def test_ambiguous_creation_never_retries_without_readable_identity(self):
+        for status in ['INTENT','RECONCILE_REQUIRED']:
+            self.assertTrue(uncertain_creation({'operations':[dict(operation='create 330:hp',status=status)]},'330:hp'))
+        self.assertFalse(uncertain_creation({'operations':[dict(operation='size-M 330:hp',status='RECONCILE_REQUIRED')]},'330:hp'))
+        self.assertFalse(uncertain_creation({'operations':[dict(operation='create 330:hp',status='ACKNOWLEDGED')]},'330:hp'))
 
     def test_both_dags_and_three_independent_caps(self):
         graph = {str(i): [] for i in range(105)}

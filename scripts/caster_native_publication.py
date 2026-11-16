@@ -89,6 +89,11 @@ def check_registry(registry, nodes, baseline, complete):
         assert len(set(values)) == len(values), 'duplicate registry ' + key
 
 
+def uncertain_creation(journal, alias):
+    return any(entry['operation'] == 'create ' + alias and entry['status'] in ['INTENT','RECONCILE_REQUIRED']
+               for entry in journal['operations'])
+
+
 def caps(graph, parents):
     assert all(len(v) == len(set(v)) and len(v) <= 100 for v in graph.values())
     assert all(d in graph for deps in graph.values() for d in deps), 'missing dependency'
@@ -298,6 +303,7 @@ class Coordinator:
                 by_marker[alias] = item
         assert set(by_marker) <= {n['alias'] for n in self.nodes}, 'unapproved marker'
         assert set(live) == {n['number'] for n in self.baseline['graph']} | {n['number'] for n in by_marker.values()}, 'unapproved new identity'
+        existing_metadata = self.metadata(sorted(value['number'] for value in self.registry['nodes'].values()))
         for index, n in enumerate(self.nodes, 1):
             alias = n['alias']; existing = by_marker.get(alias)
             if alias in self.registry['nodes']:
@@ -309,13 +315,16 @@ class Coordinator:
             else:
                 # Full marker scan above is the read-before-create boundary. On any
                 # uncertain API failure the process stops; resume scans again.
+                assert not uncertain_creation(self.journal, alias), 'ambiguous prior creation has no readable marker; do not create a duplicate: ' + alias
                 data = self.api('''mutation($input:CreateIssueInput!){createIssue(input:$input){issue{number databaseId id}}}''',
                                 {'input': dict(repositoryId=REPO, title=n['title'], body=allocation_body(n, self.contract), issueTypeId=TASK,
                                                projectV2Ids=[PROJECT], clientMutationId=alias)}, 'create ' + alias)['createIssue']['issue']
                 self.registry['nodes'][alias] = dict(number=data['number'], id=data['databaseId'], node_id=data['id'])
                 self.save_registry('ALLOCATING')
             identity = self.registry['nodes'][alias]
-            current = self.metadata([identity['number']])[identity['number']]
+            current = existing_metadata.get(identity['number'])
+            if current is None:
+                current = self.metadata([identity['number']])[identity['number']]
             assert current['id'] == identity['node_id'] and current['databaseId'] == identity['id'] and current['state'] == 'OPEN'
             assert current['title'] == n['title'] and current['body'] == allocation_body(n, self.contract)
             assert current['issueType']['name'] == 'Task'
