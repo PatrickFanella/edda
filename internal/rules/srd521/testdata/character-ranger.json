@@ -1,0 +1,2492 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Ranger identities, all 20 progression rows, nested choices, predicates, numeric resources and improvements on PDF pp57-59 adapted into unavailable metadata. Mechanic keys and graph are Edda additions. Referenced spells, feats and subclasses remain opaque; no executable support imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/class/ranger",
+      "kind": "class",
+      "name": "Ranger",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/skills",
+        "srd-5.2.1:character/choice/ranger/multiclass-skill",
+        "srd-5.2.1:character/choice/ranger/starting-equipment"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/primary-ability/dexterity",
+        "srd-5.2.1:mechanic/ranger/primary-ability/wisdom",
+        "srd-5.2.1:mechanic/ranger/hit-die-sides",
+        "srd-5.2.1:mechanic/saving-throws/strength",
+        "srd-5.2.1:mechanic/saving-throws/dexterity",
+        "srd-5.2.1:mechanic/weapons/simple",
+        "srd-5.2.1:mechanic/weapons/martial",
+        "srd-5.2.1:mechanic/armor/light",
+        "srd-5.2.1:mechanic/armor/medium",
+        "srd-5.2.1:mechanic/armor/shields",
+        "srd-5.2.1:mechanic/ranger/level-one/all-core-traits-and-features",
+        "srd-5.2.1:mechanic/ranger/multiclass/hit-die-martial-weapons-one-class-skill-light-medium-shields",
+        "srd-5.2.1:mechanic/ranger/multiclass/level-one-features-multiclass-slot-rules"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/ranger/hit-die-sides": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/skills",
+      "kind": "choice",
+      "name": "Skills",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/skills"
+      ],
+      "select": 3,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/animal-handling",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/nature",
+        "srd-5.2.1:mechanic/skills/perception",
+        "srd-5.2.1:mechanic/skills/stealth",
+        "srd-5.2.1:mechanic/skills/survival"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/multiclass-skill",
+      "kind": "choice",
+      "name": "Multiclass Skill",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/multiclass-entry"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/multiclass-skill"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/animal-handling",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/nature",
+        "srd-5.2.1:mechanic/skills/perception",
+        "srd-5.2.1:mechanic/skills/stealth",
+        "srd-5.2.1:mechanic/skills/survival"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/multiclass-entry",
+      "kind": "prerequisite",
+      "name": "Multiclass Entry",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/multiclass-skill",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/multiclass-entry-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/multiclass-entry-only",
+        "record_refs": [
+          "srd-5.2.1:character/class/ranger",
+          "srd-5.2.1:character/choice/ranger/multiclass-skill"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/starting-equipment",
+      "kind": "choice",
+      "name": "Starting Equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/studded-leather-armor",
+        "srd-5.2.1:mechanic/equipment/scimitar",
+        "srd-5.2.1:mechanic/equipment/shortsword",
+        "srd-5.2.1:mechanic/equipment/longbow",
+        "srd-5.2.1:mechanic/equipment/arrows",
+        "srd-5.2.1:mechanic/equipment/quiver",
+        "srd-5.2.1:mechanic/equipment/druidic-focus-sprig-of-mistletoe",
+        "srd-5.2.1:mechanic/equipment/explorers-pack",
+        "srd-5.2.1:mechanic/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/ranger/equipment/a",
+        "srd-5.2.1:mechanic/ranger/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/ranger/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/studded-leather-armor": 1,
+            "srd-5.2.1:mechanic/equipment/scimitar": 1,
+            "srd-5.2.1:mechanic/equipment/shortsword": 1,
+            "srd-5.2.1:mechanic/equipment/longbow": 1,
+            "srd-5.2.1:mechanic/equipment/arrows": 20,
+            "srd-5.2.1:mechanic/equipment/quiver": 1,
+            "srd-5.2.1:mechanic/equipment/druidic-focus-sprig-of-mistletoe": 1,
+            "srd-5.2.1:mechanic/equipment/explorers-pack": 1,
+            "srd-5.2.1:mechanic/currency/gp": 7
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/ranger/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/currency/gp": 150
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/1",
+      "kind": "level",
+      "name": "Ranger level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 1,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/spellcasting",
+          "srd-5.2.1:character/feature/ranger/favored-enemy",
+          "srd-5.2.1:character/feature/ranger/weapon-mastery"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/spellcasting",
+      "kind": "feature",
+      "name": "Spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-spellcasting",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/prepared-spells"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/ranger/spell-slot-1",
+        "srd-5.2.1:character/resource/ranger/spell-slot-2",
+        "srd-5.2.1:character/resource/ranger/spell-slot-3",
+        "srd-5.2.1:character/resource/ranger/spell-slot-4",
+        "srd-5.2.1:character/resource/ranger/spell-slot-5"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/spellcasting/wisdom",
+        "srd-5.2.1:mechanic/ranger/spellcasting/druidic-focus",
+        "srd-5.2.1:mechanic/ranger/spellcasting/always-prepared-excluded-still-ranger-spells",
+        "srd-5.2.1:mechanic/ranger/recommended-spell/cure-wounds",
+        "srd-5.2.1:mechanic/ranger/recommended-spell/ensnaring-strike",
+        "srd-5.2.1:mechanic/ranger/spellcasting/long-rest-replace-one-eligible-spell",
+        "srd-5.2.1:mechanic/ranger/prepared-replacements",
+        "srd-5.2.1:mechanic/ranger/feature/spellcasting"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/ranger/prepared-replacements": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/favored-enemy",
+      "kind": "feature",
+      "name": "Favored Enemy",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-favored-enemy",
+          "page": 58
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/1",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/ranger/favored-enemy"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/favored-enemy/source-5-2-1-always-prepared-hunters-mark",
+        "srd-5.2.1:mechanic/spells/hunters-mark",
+        "srd-5.2.1:mechanic/ranger/favored-enemy/no-slot-cast",
+        "srd-5.2.1:mechanic/ranger/uses-per-cast",
+        "srd-5.2.1:mechanic/ranger/feature/favored-enemy"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 1,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/hunters-mark"
+          ]
+        }
+      ],
+      "parameters": {
+        "srd-5.2.1:mechanic/ranger/uses-per-cast": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/weapon-mastery",
+      "kind": "feature",
+      "name": "Weapon Mastery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-weapon-mastery",
+          "page": 58
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/weapon-mastery"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/mastery/long-rest-replace-kinds",
+        "srd-5.2.1:mechanic/ranger/feature/weapon-mastery"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/2",
+      "kind": "level",
+      "name": "Ranger level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 2,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/deft-explorer",
+          "srd-5.2.1:character/feature/ranger/fighting-style"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/deft-explorer",
+      "kind": "feature",
+      "name": "Deft Explorer",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-2-deft-explorer",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/2",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/deft-explorer-expertise",
+        "srd-5.2.1:character/choice/ranger/languages"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/feature/deft-explorer"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/fighting-style",
+      "kind": "feature",
+      "name": "Fighting Style",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-2-fighting-style",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/2",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/fighting-style"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/druidic-warrior/replace-one-on-ranger-level",
+        "srd-5.2.1:mechanic/ranger/cantrip-replacements",
+        "srd-5.2.1:mechanic/ranger/feature/fighting-style"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/ranger/cantrip-replacements": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/3",
+      "kind": "level",
+      "name": "Ranger level 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 3,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/ranger-subclass"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/ranger-subclass",
+      "kind": "feature",
+      "name": "Ranger Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-3-ranger-subclass",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/3",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/subclass"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/subclass/features-at-or-below-ranger-level",
+        "srd-5.2.1:mechanic/ranger/feature/ranger-subclass"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/4",
+      "kind": "level",
+      "name": "Ranger level 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 4,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/ability-score-improvement",
+      "kind": "feature",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-4-ability-score-improvement",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/4",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/ability-score-improvement"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/asi-repeat-at-8-12-16",
+        "srd-5.2.1:mechanic/ranger/feature/ability-score-improvement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/5",
+      "kind": "level",
+      "name": "Ranger level 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 5,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/extra-attack"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/extra-attack",
+      "kind": "feature",
+      "name": "Extra Attack",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-5-extra-attack",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/5",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/extra-attack/own-turn-attack-action",
+        "srd-5.2.1:mechanic/ranger/attacks",
+        "srd-5.2.1:mechanic/ranger/feature/extra-attack"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/ranger/attacks": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/6",
+      "kind": "level",
+      "name": "Ranger level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 6,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/roving"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/roving",
+      "kind": "feature",
+      "name": "Roving",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-6-roving",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/6",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/roving-armor"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/roving/speed-increase-when-not-heavy-armor",
+        "srd-5.2.1:mechanic/ranger/speed-bonus-feet",
+        "srd-5.2.1:mechanic/ranger/roving/climb-and-swim-equal-speed",
+        "srd-5.2.1:mechanic/ranger/feature/roving"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/ranger/speed-bonus-feet": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/7",
+      "kind": "level",
+      "name": "Ranger level 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 7,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression",
+        "srd-5.2.1:mechanic/ranger/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/ranger/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/8",
+      "kind": "level",
+      "name": "Ranger level 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 8,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/9",
+      "kind": "level",
+      "name": "Ranger level 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 9,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/expertise"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/expertise",
+      "kind": "feature",
+      "name": "Expertise",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-9-expertise",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/9",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/expertise-expertise"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/feature/expertise"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/10",
+      "kind": "level",
+      "name": "Ranger level 10",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 10,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/tireless"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/tireless",
+      "kind": "feature",
+      "name": "Tireless",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-10-tireless",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/10",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/ranger/tireless"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/tireless-exhaustion"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/tireless/magic-action-self-temporary-hp",
+        "srd-5.2.1:mechanic/ranger/tireless/temp-hp-die-plus-wisdom-minimum-one",
+        "srd-5.2.1:mechanic/ranger/temporary-hp-dice",
+        "srd-5.2.1:mechanic/ranger/temporary-hp-die-sides",
+        "srd-5.2.1:mechanic/ranger/temporary-hp-minimum",
+        "srd-5.2.1:mechanic/ranger/tireless/short-rest-decrease-exhaustion-if-any",
+        "srd-5.2.1:mechanic/ranger/exhaustion-reduction",
+        "srd-5.2.1:mechanic/ranger/feature/tireless"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/ranger/temporary-hp-dice": 1,
+        "srd-5.2.1:mechanic/ranger/temporary-hp-die-sides": 8,
+        "srd-5.2.1:mechanic/ranger/temporary-hp-minimum": 1,
+        "srd-5.2.1:mechanic/ranger/exhaustion-reduction": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/11",
+      "kind": "level",
+      "name": "Ranger level 11",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 11,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression",
+        "srd-5.2.1:mechanic/ranger/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/ranger/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/12",
+      "kind": "level",
+      "name": "Ranger level 12",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 12,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/13",
+      "kind": "level",
+      "name": "Ranger level 13",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 13,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/relentless-hunter"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/relentless-hunter",
+      "kind": "feature",
+      "name": "Relentless Hunter",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-13-relentless-hunter",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/13",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/relentless-mark"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/relentless-hunter/damage-cannot-break-hunters-mark-concentration",
+        "srd-5.2.1:mechanic/ranger/feature/relentless-hunter"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/14",
+      "kind": "level",
+      "name": "Ranger level 14",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 14,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/natures-veil"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/natures-veil",
+      "kind": "feature",
+      "name": "Nature\u2019s Veil",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-14-natures-veil",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/14",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/ranger/natures-veil"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/veil/bonus-action-self-invisible-until-end-next-turn",
+        "srd-5.2.1:mechanic/ranger/feature/natures-veil"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/15",
+      "kind": "level",
+      "name": "Ranger level 15",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 15,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression",
+        "srd-5.2.1:mechanic/ranger/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/ranger/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/16",
+      "kind": "level",
+      "name": "Ranger level 16",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 16,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/17",
+      "kind": "level",
+      "name": "Ranger level 17",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 17,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/precise-hunter"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/precise-hunter",
+      "kind": "feature",
+      "name": "Precise Hunter",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-17-precise-hunter",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/17",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/precise-mark"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/precise-hunter/advantage-on-attacks-against-own-current-mark",
+        "srd-5.2.1:mechanic/ranger/feature/precise-hunter"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/18",
+      "kind": "level",
+      "name": "Ranger level 18",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 18,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/feral-senses"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/feral-senses",
+      "kind": "feature",
+      "name": "Feral Senses",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-18-feral-senses",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/18",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/feral-senses/blindsight",
+        "srd-5.2.1:mechanic/ranger/blindsight-feet",
+        "srd-5.2.1:mechanic/ranger/feature/feral-senses"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/ranger/blindsight-feet": 30
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/19",
+      "kind": "level",
+      "name": "Ranger level 19",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 19,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/epic-boon"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/epic-boon",
+      "kind": "feature",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-19-epic-boon",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/19",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/epic-boon"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/recommended-feat/boon-of-dimensional-travel",
+        "srd-5.2.1:mechanic/ranger/feature/epic-boon"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/ranger/20",
+      "kind": "level",
+      "name": "Ranger level 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/ranger",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 20,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/ranger/foe-slayer"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/foe-slayer",
+      "kind": "feature",
+      "name": "Foe Slayer",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-20-foe-slayer",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/ranger/20",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/foe-slayer-mark"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/foe-slayer/replace-hunters-mark-damage-die",
+        "srd-5.2.1:mechanic/ranger/original-die-sides",
+        "srd-5.2.1:mechanic/ranger/replacement-die-sides",
+        "srd-5.2.1:mechanic/ranger/feature/foe-slayer"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/ranger/original-die-sides": 6,
+        "srd-5.2.1:mechanic/ranger/replacement-die-sides": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/prepared-spells",
+      "kind": "choice",
+      "name": "Prepared Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-spellcasting",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/prepared-slot-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/spellcasting/prepare-to-table-count-on-increase"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/ranger-list"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 3
+        },
+        {
+          "level": 3,
+          "value": 4
+        },
+        {
+          "level": 4,
+          "value": 5
+        },
+        {
+          "level": 5,
+          "value": 6
+        },
+        {
+          "level": 6,
+          "value": 6
+        },
+        {
+          "level": 7,
+          "value": 7
+        },
+        {
+          "level": 8,
+          "value": 7
+        },
+        {
+          "level": 9,
+          "value": 9
+        },
+        {
+          "level": 10,
+          "value": 9
+        },
+        {
+          "level": 11,
+          "value": 10
+        },
+        {
+          "level": 12,
+          "value": 10
+        },
+        {
+          "level": 13,
+          "value": 11
+        },
+        {
+          "level": 14,
+          "value": 11
+        },
+        {
+          "level": 15,
+          "value": 12
+        },
+        {
+          "level": 16,
+          "value": 12
+        },
+        {
+          "level": 17,
+          "value": 14
+        },
+        {
+          "level": 18,
+          "value": 14
+        },
+        {
+          "level": 19,
+          "value": 15
+        },
+        {
+          "level": 20,
+          "value": 15
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/prepared-slot-level",
+      "kind": "prerequisite",
+      "name": "Prepared Slot Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-spellcasting",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/prepared-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/spell-level-with-available-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/spell-level-with-available-slot",
+        "record_refs": [
+          "srd-5.2.1:character/feature/ranger/spellcasting",
+          "srd-5.2.1:character/choice/ranger/prepared-spells"
+        ],
+        "parameters": {
+          "minimum-spell-level": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/ranger/spell-slot-1",
+      "kind": "resource",
+      "name": "Spell Slot 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-spellcasting",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/spell-slot-1/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 3
+        },
+        {
+          "level": 4,
+          "value": 3
+        },
+        {
+          "level": 5,
+          "value": 4
+        },
+        {
+          "level": 6,
+          "value": 4
+        },
+        {
+          "level": 7,
+          "value": 4
+        },
+        {
+          "level": 8,
+          "value": 4
+        },
+        {
+          "level": 9,
+          "value": 4
+        },
+        {
+          "level": 10,
+          "value": 4
+        },
+        {
+          "level": 11,
+          "value": 4
+        },
+        {
+          "level": 12,
+          "value": 4
+        },
+        {
+          "level": 13,
+          "value": 4
+        },
+        {
+          "level": 14,
+          "value": 4
+        },
+        {
+          "level": 15,
+          "value": 4
+        },
+        {
+          "level": 16,
+          "value": 4
+        },
+        {
+          "level": 17,
+          "value": 4
+        },
+        {
+          "level": 18,
+          "value": 4
+        },
+        {
+          "level": 19,
+          "value": 4
+        },
+        {
+          "level": 20,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/ranger/spell-slot-2",
+      "kind": "resource",
+      "name": "Spell Slot 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-spellcasting",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/spell-slot-2/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 5,
+          "value": 2
+        },
+        {
+          "level": 6,
+          "value": 2
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/ranger/spell-slot-3",
+      "kind": "resource",
+      "name": "Spell Slot 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-spellcasting",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/spell-slot-3/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 9,
+          "value": 2
+        },
+        {
+          "level": 10,
+          "value": 2
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/ranger/spell-slot-4",
+      "kind": "resource",
+      "name": "Spell Slot 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-spellcasting",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/spell-slot-4/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 13,
+          "value": 1
+        },
+        {
+          "level": 14,
+          "value": 1
+        },
+        {
+          "level": 15,
+          "value": 2
+        },
+        {
+          "level": 16,
+          "value": 2
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/ranger/spell-slot-5",
+      "kind": "resource",
+      "name": "Spell Slot 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-spellcasting",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/spell-slot-5/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 2
+        },
+        {
+          "level": 20,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/ranger/favored-enemy",
+      "kind": "resource",
+      "name": "Favored Enemy",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-favored-enemy",
+          "page": 58
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/favored-enemy",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/favored-enemy/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 2
+        },
+        {
+          "level": 5,
+          "value": 3
+        },
+        {
+          "level": 6,
+          "value": 3
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 4
+        },
+        {
+          "level": 10,
+          "value": 4
+        },
+        {
+          "level": 11,
+          "value": 4
+        },
+        {
+          "level": 12,
+          "value": 4
+        },
+        {
+          "level": 13,
+          "value": 5
+        },
+        {
+          "level": 14,
+          "value": 5
+        },
+        {
+          "level": 15,
+          "value": 5
+        },
+        {
+          "level": 16,
+          "value": 5
+        },
+        {
+          "level": 17,
+          "value": 6
+        },
+        {
+          "level": 18,
+          "value": 6
+        },
+        {
+          "level": 19,
+          "value": 6
+        },
+        {
+          "level": 20,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/weapon-mastery",
+      "kind": "choice",
+      "name": "Weapon Mastery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-weapon-mastery",
+          "page": 58
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/weapon-mastery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/mastery-proficiency"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/weapon-mastery"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/weapons/proficient-kinds"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/mastery-proficiency",
+      "kind": "prerequisite",
+      "name": "Mastery Proficiency",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-1-weapon-mastery",
+          "page": 58
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/weapon-mastery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/selected-weapon-proficient"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/selected-weapon-proficient",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ranger/weapon-mastery"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/deft-explorer-expertise",
+      "kind": "choice",
+      "name": "Deft Explorer Expertise",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-2-deft-explorer",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/deft-explorer",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/deft-explorer-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/deft-explorer-expertise"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/proficient-without-expertise"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/deft-explorer-eligibility",
+      "kind": "prerequisite",
+      "name": "Deft Explorer Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-2-deft-explorer",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/deft-explorer-expertise",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/proficient-skill-lacking-expertise"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/proficient-skill-lacking-expertise",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ranger/deft-explorer-expertise"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/expertise-expertise",
+      "kind": "choice",
+      "name": "Expertise Expertise",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-9-expertise",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/expertise",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/expertise-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/expertise-expertise"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/proficient-without-expertise"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/expertise-eligibility",
+      "kind": "prerequisite",
+      "name": "Expertise Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-9-expertise",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/expertise-expertise",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/proficient-skill-lacking-expertise"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/proficient-skill-lacking-expertise",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ranger/expertise-expertise"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/languages",
+      "kind": "choice",
+      "name": "Languages",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-2-deft-explorer",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/deft-explorer",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/languages"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/languages/character-creation-tables"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/fighting-style",
+      "kind": "choice",
+      "name": "Fighting Style",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-2-fighting-style",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/fighting-style",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/druidic-warrior-cantrips"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/fighting-style"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/fighting-style",
+        "srd-5.2.1:mechanic/ranger/druidic-warrior"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/druidic-warrior-cantrips",
+      "kind": "choice",
+      "name": "Druidic Warrior Cantrips",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-2-fighting-style",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/fighting-style",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/druidic-warrior-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/druidic-warrior-cantrips",
+        "srd-5.2.1:mechanic/ranger/druidic-warrior/count-as-ranger-spells-wisdom",
+        "srd-5.2.1:mechanic/ranger/recommended-cantrip/guidance",
+        "srd-5.2.1:mechanic/ranger/recommended-cantrip/starry-wisp"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/druid-cantrips"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/druidic-warrior-selected",
+      "kind": "prerequisite",
+      "name": "Druidic Warrior Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-2-fighting-style",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/druidic-warrior-cantrips",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/druidic-warrior-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/druidic-warrior-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ranger/fighting-style"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/subclass",
+      "kind": "choice",
+      "name": "Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-3-ranger-subclass",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/ranger-subclass",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/subclass"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/subclasses/ranger",
+        "srd-5.2.1:mechanic/subclasses/ranger/hunter"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/ability-score-improvement",
+      "kind": "choice",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-4-ability-score-improvement",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/ability-score-improvement-qualified"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/ability-score-improvement"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/ability-score-improvement-qualified",
+      "kind": "prerequisite",
+      "name": "Ability Score Improvement Qualified",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-4-ability-score-improvement",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/selected-feat-qualified"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/selected-feat-qualified",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ranger/ability-score-improvement"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/epic-boon",
+      "kind": "choice",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-19-epic-boon",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/epic-boon-qualified"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/epic-boon"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/epic-boon",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/epic-boon-qualified",
+      "kind": "prerequisite",
+      "name": "Epic Boon Qualified",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-19-epic-boon",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/selected-feat-qualified"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/selected-feat-qualified",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ranger/epic-boon"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/roving-armor",
+      "kind": "prerequisite",
+      "name": "Roving Armor",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-6-roving",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/roving",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/not-wearing-heavy-armor"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/not-wearing-heavy-armor",
+        "record_refs": [
+          "srd-5.2.1:character/feature/ranger/roving"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/ranger/tireless",
+      "kind": "resource",
+      "name": "Tireless",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-10-tireless",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/tireless",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/tireless/long-rest-recover-all",
+        "srd-5.2.1:mechanic/ranger/wisdom-modifier-minimum-one"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "capacity_mechanic": "srd-5.2.1:mechanic/ranger/wisdom-modifier-minimum-one"
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/tireless-exhaustion",
+      "kind": "prerequisite",
+      "name": "Tireless Exhaustion",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-10-tireless",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/tireless",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/exhaustion-present"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/exhaustion-present",
+        "record_refs": [
+          "srd-5.2.1:character/feature/ranger/tireless"
+        ],
+        "parameters": {
+          "minimum-exhaustion": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/relentless-mark",
+      "kind": "prerequisite",
+      "name": "Relentless Mark",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-13-relentless-hunter",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/relentless-hunter",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/concentrating-on-hunters-mark"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/concentrating-on-hunters-mark",
+        "record_refs": [
+          "srd-5.2.1:character/feature/ranger/favored-enemy"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/ranger/natures-veil",
+      "kind": "resource",
+      "name": "Natures Veil",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-14-natures-veil",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/natures-veil",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/natures-veil/long-rest-recover-all",
+        "srd-5.2.1:mechanic/ranger/wisdom-modifier-minimum-one"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "capacity_mechanic": "srd-5.2.1:mechanic/ranger/wisdom-modifier-minimum-one"
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/precise-mark",
+      "kind": "prerequisite",
+      "name": "Precise Mark",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-17-precise-hunter",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/precise-hunter",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/target-is-own-current-hunters-mark"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/target-is-own-current-hunters-mark",
+        "record_refs": [
+          "srd-5.2.1:character/feature/ranger/favored-enemy"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/foe-slayer-mark",
+      "kind": "prerequisite",
+      "name": "Foe Slayer Mark",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/ranger-level-20-foe-slayer",
+          "page": 59
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/foe-slayer",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunters-mark-damage"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunters-mark-damage",
+        "record_refs": [
+          "srd-5.2.1:character/feature/ranger/favored-enemy"
+        ],
+        "parameters": {}
+      }
+    }
+  ]
+}
