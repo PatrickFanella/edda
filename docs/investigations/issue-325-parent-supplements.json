@@ -1,0 +1,46 @@
+[
+  {
+    "issue": 47,
+    "previous_sha256": "a7af6cb235ff236c5b40d50431b9879e6632a3420599c897e0f3f41825c1f454",
+    "append": "\n\n<!-- edda-325:start -->\nFighter325 -> gate728; 44 Fighter+1 shared/38 reused. Exact matrix: docs/investigations/issue-325-fighter-scope.json.\n<!-- edda-325:end -->\n",
+    "publication": "pending parent serial application",
+    "baseline_status": "published snapshot; awaiting parent final accepted append-only baseline",
+    "previous_chars": 64273,
+    "append_chars": 166,
+    "result_chars": 64439,
+    "maximum_chars": 65536
+  },
+  {
+    "issue": 54,
+    "previous_sha256": "2bd7e91c6c25a63df78d08abdd762f2cd95dec5b350c43c97e5ed07060837c01",
+    "append": "\n\n<!-- edda-325:start -->\nFighter decision #325 publishes qualification gate #728 (parent325 under283), 44 Fighter terminals, one shared Heroic Inspiration terminal and 38 reused owners; native gate has84 blockers and directly blocks337. Exact records, all20 rows, mechanic ownership, leaf paths and evidence: docs/investigations/issue-325-fighter-scope.json; readable decision: docs/investigations/issue-325-fighter-decision.md. Source/implementation planning only; all feature/admission implementation and qualification remain open. Decision closure grants no broader support.\n<!-- edda-325:end -->\n",
+    "publication": "pending parent serial application",
+    "baseline_status": "published snapshot; awaiting parent final accepted append-only baseline",
+    "previous_chars": 38457,
+    "append_chars": 601,
+    "result_chars": 39058,
+    "maximum_chars": 65536
+  },
+  {
+    "issue": 283,
+    "previous_sha256": "bb9823b7425178d99670f52edda2c66529913576c0587a509adb0ea44dae4c6e",
+    "append": "\n\n<!-- edda-325:start -->\nFighter decision #325 publishes qualification gate #728 (parent325 under283), 44 Fighter terminals, one shared Heroic Inspiration terminal and 38 reused owners; native gate has84 blockers and directly blocks337. Exact records, all20 rows, mechanic ownership, leaf paths and evidence: docs/investigations/issue-325-fighter-scope.json; readable decision: docs/investigations/issue-325-fighter-decision.md. Source/implementation planning only; all feature/admission implementation and qualification remain open. Decision closure grants no broader support.\n<!-- edda-325:end -->\n",
+    "publication": "pending parent serial application",
+    "baseline_status": "published snapshot; awaiting parent final accepted append-only baseline",
+    "previous_chars": 26923,
+    "append_chars": 601,
+    "result_chars": 27524,
+    "maximum_chars": 65536
+  },
+  {
+    "issue": 337,
+    "previous_sha256": "7b46232d3d72130c14d3c97436d19adf248fbaa028cacd0ab0cefc660e66c0ae",
+    "append": "\n\n<!-- edda-325:start -->\nFighter decision #325 publishes qualification gate #728 (parent325 under283), 44 Fighter terminals, one shared Heroic Inspiration terminal and 38 reused owners; native gate has84 blockers and directly blocks337. Exact records, all20 rows, mechanic ownership, leaf paths and evidence: docs/investigations/issue-325-fighter-scope.json; readable decision: docs/investigations/issue-325-fighter-decision.md. Source/implementation planning only; all feature/admission implementation and qualification remain open. Decision closure grants no broader support.\n<!-- edda-325:end -->\n",
+    "publication": "pending parent serial application",
+    "baseline_status": "published snapshot; awaiting parent final accepted append-only baseline",
+    "previous_chars": 25906,
+    "append_chars": 601,
+    "result_chars": 26507,
+    "maximum_chars": 65536
+  }
+]
