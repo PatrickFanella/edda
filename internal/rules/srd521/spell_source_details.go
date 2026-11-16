@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"reflect"
 	"slices"
 	"strings"
 )
@@ -11,21 +12,33 @@ import (
 // SpellSourceDetails retains the batch's additional source shapes as offline
 // metadata. These fields never select or implement a runtime resolver.
 type SpellSourceDetails struct {
-	CastingSeconds  int               `json:"casting_seconds"`
-	CastingTriggers []string          `json:"casting_triggers"`
-	EndTiming       string            `json:"end_timing"`
-	Rays            *SpellRays        `json:"rays,omitempty"`
-	Scrying         *SpellScrying     `json:"scrying,omitempty"`
-	Smite           *SpellSmite       `json:"smite,omitempty"`
-	Chest           *SpellChest       `json:"chest,omitempty"`
-	Vision          *SpellVision      `json:"vision,omitempty"`
-	Seeming         *SpellSeeming     `json:"seeming,omitempty"`
-	Sending         *SpellSending     `json:"sending,omitempty"`
-	Sequester       *SpellSequester   `json:"sequester,omitempty"`
-	Shapechange     *SpellShapechange `json:"shapechange,omitempty"`
-	Shatter         *SpellShatter     `json:"shatter,omitempty"`
-	Shield          *SpellShield      `json:"shield,omitempty"`
-	Faith           *SpellFaith       `json:"faith,omitempty"`
+	Barkskin        *SpellBarkskin     `json:"barkskin,omitempty"`
+	Beacon          *SpellBeacon       `json:"beacon,omitempty"`
+	Befuddlement    *SpellBefuddlement `json:"befuddlement,omitempty"`
+	Curse           *SpellCurse        `json:"curse,omitempty"`
+	Tentacles       *SpellTentacles    `json:"tentacles,omitempty"`
+	Barrier         *SpellBarrier      `json:"barrier,omitempty"`
+	Bless           *SpellBless        `json:"bless,omitempty"`
+	Blight          *SpellBlight       `json:"blight,omitempty"`
+	Blindness       *SpellBlindness    `json:"blindness,omitempty"`
+	Blink           *SpellBlink        `json:"blink,omitempty"`
+	Blur            *SpellBlur         `json:"blur,omitempty"`
+	Burning         *SpellBurning      `json:"burning,omitempty"`
+	CastingSeconds  int                `json:"casting_seconds"`
+	CastingTriggers []string           `json:"casting_triggers"`
+	EndTiming       string             `json:"end_timing"`
+	Rays            *SpellRays         `json:"rays,omitempty"`
+	Scrying         *SpellScrying      `json:"scrying,omitempty"`
+	Smite           *SpellSmite        `json:"smite,omitempty"`
+	Chest           *SpellChest        `json:"chest,omitempty"`
+	Vision          *SpellVision       `json:"vision,omitempty"`
+	Seeming         *SpellSeeming      `json:"seeming,omitempty"`
+	Sending         *SpellSending      `json:"sending,omitempty"`
+	Sequester       *SpellSequester    `json:"sequester,omitempty"`
+	Shapechange     *SpellShapechange  `json:"shapechange,omitempty"`
+	Shatter         *SpellShatter      `json:"shatter,omitempty"`
+	Shield          *SpellShield       `json:"shield,omitempty"`
+	Faith           *SpellFaith        `json:"faith,omitempty"`
 }
 
 // SpellRays describes independently aimed ranged spell attacks.
@@ -206,11 +219,18 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	for _, key := range []string{"casting_seconds", "casting_triggers", "end_timing"} {
-		if len(fields[key]) == 0 || bytes.Equal(fields[key], []byte("null")) {
+		if len(fields[key]) == 0 || bytes.Equal(bytes.TrimSpace(fields[key]), []byte("null")) {
 			return fmt.Errorf("source details require %s", key)
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
+	for key, template := range spell198Templates() {
+		if raw, ok := fields[key]; ok {
+			if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
+				return err
+			}
+		}
+	}
 	for key, template := range templates {
 		raw, ok := fields[key]
 		if !ok {
@@ -282,14 +302,22 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 
 func validSpellTarget(t SpellTarget) bool {
 	switch t.Shape {
+	case "square":
+		return t.Count == 0 && t.Eligibility == "creatures-in-visible-ground-area"
+	case "wall":
+		return t.Count == 0 && t.Eligibility == "creatures-in-wall"
+	case "cone":
+		return t.Count == 0 && t.Eligibility == "creatures-and-flammable-unattended-objects"
+	case "up-to-count":
+		return (t.Count == 3 && t.Eligibility == "creatures-in-range") || (t.Count == 1 && t.Eligibility == "visible-creatures-in-range")
 	case "single":
-		return t.Count == 1 && slices.Contains([]string{"target-in-range", "creature-in-range", "conscious-self", "self", "hit-target", "object-or-willing-creature", "chest-and-replica"}, t.Eligibility)
+		return t.Count == 1 && slices.Contains([]string{"target-in-range", "creature-in-range", "conscious-self", "self", "hit-target", "object-or-willing-creature", "chest-and-replica", "willing-creature-touch", "creature-touch", "visible-creature-in-range"}, t.Eligibility)
 	case "rays":
 		return t.Count == 3 && t.Eligibility == "targets-in-range"
 	case "choice":
-		return t.Count == 1 && t.Eligibility == "same-plane-creature-or-seen-location"
+		return t.Count == 1 && (t.Eligibility == "same-plane-creature-or-seen-location" || t.Eligibility == "visible-creature-or-nonmagical-noncreature-plant")
 	case "selected-creatures":
-		return t.Count == 0 && t.Eligibility == "visible-creatures-in-range"
+		return t.Count == 0 && (t.Eligibility == "visible-creatures-in-range" || t.Eligibility == "creatures-in-range")
 	case "sphere":
 		return t.Count == 0 && t.Eligibility == "creatures-and-eligible-objects"
 	default:
@@ -298,6 +326,9 @@ func validSpellTarget(t SpellTarget) bool {
 }
 
 func (s SpellRecord) validateSourceDetails() error {
+	if handled, err := s.validateSpell198(); handled || err != nil {
+		return err
+	}
 	d := s.SourceDetails
 	if d == nil {
 		if s.Scope == "complete-source-record" && slices.Contains([]string{"Scorching Ray", "Scrying", "Searing Smite", "Secret Chest", "See Invisibility", "Seeming", "Sending", "Sequester", "Shapechange", "Shatter", "Shield", "Shield of Faith"}, s.Name) {

@@ -152,3 +152,50 @@ attempts to attach source metadata to bounded compatibility records.
 The source-derived JSON retains the pinned source, CC-BY-4.0 attribution and an
 adaptation notice. It is an adaptation into structured metadata under the source
 license described above; the repository software license does not replace it.
+
+## Issue #198: Barkskin through Burning Hands
+
+`testdata/spells_198.json` imports the exact twelve families on PDF pp.112–114.
+Bestow Curse retains its p.113 continuation and Blink its p.114 continuation in
+explicit `source_pages` lists. All records retain the pinned source attribution
+and adaptation notice. `spells_198_test.go` supplies literal source-value fixtures
+for every header, choice, effect, dependency and scaling value.
+
+The typed extensions retain Barkskin's AC 17 and willing target; Beacon of Hope's
+Wisdom/Death save Advantage and maximum healing; Befuddlement's damage, Magic
+restrictions, 30-day repeat save and three restoration alternatives; all four
+Bestow Curse choices, six ability options and five slot-duration bands; Black
+Tentacles' Strength saves, once-per-turn triggers and Athletics escape; both Blade
+Barrier forms, dimensions, cover and Force damage; Bless's unconsumed Holy Symbol
+worth at least 5 GP and target scaling; both Blight target modes; both
+Blindness/Deafness conditions and repeat saves; Blink's d6, Ethereal interaction
+and return cases; Blur's perception exceptions; and Burning Hands' Cone damage
+and eligible object ignition.
+
+`slot-targets` references the typed additional-target count for Bless and
+Blindness/Deafness. `slot-duration` references Bestow Curse's slot table, including
+concentration removal at slot 5 and indefinite duration at slot 9. Zero seconds
+with `until_dispelled=true` is explicit source data. Curse choices use `none` or
+`not-applicable` for fields outside the selected choice rather than omitting
+required values. These fields are metadata; no effect resolver reads them.
+
+Every new payload field is required recursively. Null, omitted values, blank
+labels, empty required lists (including `[ ]`), mixed entries, duplicate keys,
+case aliases and unknown fields fail offline decoding. Required common numeric
+fields also distinguish omission/null from explicit zero. Negative Scrying
+modifiers in the earlier batch remain supported. Composition of #194, #218 and
+#198 yields 25 unique complete source records and excludes both bounded fixtures.
+Their exact availability checks are unchanged; every imported record remains
+unavailable. No runtime, inventory, tool, action, coverage or Full Rules behavior
+is added.
+
+To recheck the PDF pin, inventory identities/pages and edition-specific source
+anchors, run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_198.py /tmp/edda-wave1/SRD_CC_v5.2.1.pdf
+```
+
+The source check supplements the full offline literal fixtures; it is not an
+automatic conformance proof. The PDF and extracted text are not vendored. No
+network, inference, UI or database tests are needed for this data-only batch.

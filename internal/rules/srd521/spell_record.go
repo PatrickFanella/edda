@@ -215,6 +215,30 @@ func (s SpellRecord) validate() error {
 		if sc.AboveLevel != 0 || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) != 0 {
 			return fmt.Errorf("unexpected scaling payload")
 		}
+	case "slot-targets", "slot-duration":
+		if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) == 0 || !uniqueNames(sc.EffectIDs) || s.SourceDetails == nil {
+			return fmt.Errorf("invalid typed slot scaling")
+		}
+		d := s.SourceDetails
+		if sc.Kind == "slot-targets" {
+			base, additional := 0, 0
+			if d.Bless != nil {
+				base, additional = d.Bless.BaseTargets, d.Bless.AdditionalTargetsPerSlot
+			} else if d.Blindness != nil {
+				base, additional = d.Blindness.BaseTargets, d.Blindness.AdditionalTargetsPerSlot
+			}
+			if base != s.Target.Count || additional <= 0 || !slices.Contains(s.RequiredMechanics, "scaling.targets-per-slot") {
+				return fmt.Errorf("target scaling requires consistent base and positive increment")
+			}
+		}
+		if sc.Kind == "slot-duration" && (d.Curse == nil || !slices.Contains(s.RequiredMechanics, "scaling.curse-slot-duration-concentration")) {
+			return fmt.Errorf("duration scaling requires typed slot table")
+		}
+		for _, id := range sc.EffectIDs {
+			if !effects[id] {
+				return fmt.Errorf("unknown scaling effect")
+			}
+		}
 	case "slot-count":
 		if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || s.SourceDetails == nil || s.SourceDetails.Rays == nil || s.SourceDetails.Rays.AdditionalPerSlot <= 0 || len(sc.EffectIDs) != 1 || !effects[sc.EffectIDs[0]] || !slices.Contains(s.RequiredMechanics, "scaling.per-slot-ray") {
 			return fmt.Errorf("invalid ray scaling")
@@ -304,4 +328,52 @@ func ComposeSpellSourceCatalogue(catalogues ...SpellRecords) (SpellRecords, erro
 		return SpellRecords{}, err
 	}
 	return result, nil
+}
+
+// UnmarshalJSON distinguishes required numeric zero values from omitted/null
+// fields; pointer flags and structural requirements are checked by Validate.
+func (s *SpellRecord) UnmarshalJSON(data []byte) error {
+	type plain SpellRecord
+	d := json.NewDecoder(bytes.NewReader(data))
+	d.DisallowUnknownFields()
+	var decoded plain
+	if err := d.Decode(&decoded); err != nil {
+		return err
+	}
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	require := func(fields map[string]json.RawMessage, keys ...string) error {
+		for _, key := range keys {
+			raw := bytes.TrimSpace(fields[key])
+			if len(raw) == 0 || bytes.Equal(raw, []byte("null")) {
+				return fmt.Errorf("spell requires explicit %s", key)
+			}
+		}
+		return nil
+	}
+	if err := require(fields, "level", "source_page", "duration_seconds"); err != nil {
+		return err
+	}
+	for object, keys := range map[string][]string{"range": {"feet"}, "target": {"count"}, "scaling": {"above_level", "dice_count", "die_sides"}} {
+		var nested map[string]json.RawMessage
+		if err := json.Unmarshal(fields[object], &nested); err != nil {
+			return err
+		}
+		if err := require(nested, keys...); err != nil {
+			return err
+		}
+	}
+	var effects []map[string]json.RawMessage
+	if err := json.Unmarshal(fields["effects"], &effects); err != nil {
+		return err
+	}
+	for _, effect := range effects {
+		if err := require(effect, "dice_count", "die_sides", "bonus"); err != nil {
+			return err
+		}
+	}
+	*s = SpellRecord(decoded)
+	return nil
 }
