@@ -1,0 +1,500 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "College of Lore and four named features on PDF p35 adapted into unavailable structured metadata. Mechanic keys, choices and prerequisite graph are Edda additions. Canonical Bard and its Inspiration resource are referenced, not copied. No executable effects or adjacent definitions imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/bard/college-of-lore",
+      "kind": "subclass",
+      "name": "College of Lore",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/bard-college-of-lore",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/college-of-lore/college-of-lore-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/subclasses/college-of-lore"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/college-of-lore/college-of-lore-level",
+      "kind": "prerequisite",
+      "name": "College of Lore level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/bard-college-of-lore",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/bard/college-of-lore",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/bard"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/college-of-lore/bonus-proficiencies",
+      "kind": "feature",
+      "name": "Bonus Proficiencies",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-3-bonus-proficiencies",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/bard/college-of-lore",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/college-of-lore/bonus-proficiencies"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/college-of-lore/bonus-proficiencies-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/college-of-lore/bonus-proficiencies/gain-proficiency-with-selected-skills"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/college-of-lore/bonus-proficiencies-level",
+      "kind": "prerequisite",
+      "name": "Bonus Proficiencies level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-3-bonus-proficiencies",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/college-of-lore/bonus-proficiencies",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/bard"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/college-of-lore/cutting-words",
+      "kind": "feature",
+      "name": "Cutting Words",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-3-cutting-words",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/bard/college-of-lore",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/college-of-lore/cutting-words-level",
+        "srd-5.2.1:character/prerequisite/bard/college-of-lore/cutting-words-inspiration"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/target/creature-you-can-see",
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/trigger/damage-roll-or-successful-ability-check-or-attack-roll",
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/timing/reaction",
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/expend-bardic-inspiration",
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/roll-canonical-bardic-inspiration-die",
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/subtract-from-creature-roll",
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/reduce-damage-or-potentially-turn-success-into-failure",
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/range-feet",
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/uses-expended"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/range-feet": 60,
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/uses-expended": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/college-of-lore/cutting-words-level",
+      "kind": "prerequisite",
+      "name": "Cutting Words level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-3-cutting-words",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/college-of-lore/cutting-words",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/bard"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/college-of-lore/cutting-words-inspiration",
+      "kind": "prerequisite",
+      "name": "Cutting Words Inspiration requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-3-cutting-words",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/college-of-lore/cutting-words",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/requires-bardic-inspiration-use"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/college-of-lore/cutting-words/requires-bardic-inspiration-use",
+        "record_refs": [
+          "srd-5.2.1:character/resource/bard/bardic-inspiration"
+        ],
+        "parameters": {
+          "uses-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/college-of-lore/magical-discoveries",
+      "kind": "feature",
+      "name": "Magical Discoveries",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-6-magical-discoveries",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/bard/college-of-lore",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/college-of-lore/magical-discoveries"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/college-of-lore/magical-discoveries-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/learn-chosen-spells",
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/always-have-chosen-spells-prepared",
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/replace-one-on-gaining-bard-level",
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/replacement-meets-same-list-and-cantrip-or-slot-requirements",
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/lists/any-combination",
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/spells-learned",
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/replacements-per-bard-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/spells-learned": 2,
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/replacements-per-bard-level": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/college-of-lore/magical-discoveries-level",
+      "kind": "prerequisite",
+      "name": "Magical Discoveries level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-6-magical-discoveries",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/college-of-lore/magical-discoveries",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/bard"
+        ],
+        "parameters": {
+          "minimum-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/college-of-lore/peerless-skill",
+      "kind": "feature",
+      "name": "Peerless Skill",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-14-peerless-skill",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/bard/college-of-lore",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/college-of-lore/peerless-skill-level",
+        "srd-5.2.1:character/prerequisite/bard/college-of-lore/peerless-skill-inspiration"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/college-of-lore/peerless-skill/trigger/own-failed-ability-check-or-attack-roll",
+        "srd-5.2.1:mechanic/bard/college-of-lore/peerless-skill/expend-bardic-inspiration",
+        "srd-5.2.1:mechanic/bard/college-of-lore/peerless-skill/roll-canonical-bardic-inspiration-die",
+        "srd-5.2.1:mechanic/bard/college-of-lore/peerless-skill/add-number-to-d20",
+        "srd-5.2.1:mechanic/bard/college-of-lore/peerless-skill/potentially-turn-failure-into-success",
+        "srd-5.2.1:mechanic/bard/college-of-lore/peerless-skill/on-failure-inspiration-not-expended",
+        "srd-5.2.1:mechanic/bard/college-of-lore/peerless-skill/uses-expended-on-success"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/college-of-lore/peerless-skill/uses-expended-on-success": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/college-of-lore/peerless-skill-level",
+      "kind": "prerequisite",
+      "name": "Peerless Skill level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-14-peerless-skill",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/college-of-lore/peerless-skill",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/bard"
+        ],
+        "parameters": {
+          "minimum-level": 14
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/college-of-lore/peerless-skill-inspiration",
+      "kind": "prerequisite",
+      "name": "Peerless Skill Inspiration requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-14-peerless-skill",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/college-of-lore/peerless-skill",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/college-of-lore/peerless-skill/requires-bardic-inspiration-use"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/college-of-lore/peerless-skill/requires-bardic-inspiration-use",
+        "record_refs": [
+          "srd-5.2.1:character/resource/bard/bardic-inspiration"
+        ],
+        "parameters": {
+          "uses-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/college-of-lore/bonus-proficiencies",
+      "kind": "choice",
+      "name": "Bonus Proficiencies choice",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-3-bonus-proficiencies",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/college-of-lore/bonus-proficiencies",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/college-of-lore/bonus-proficiencies/any-skills"
+      ],
+      "select": 3,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/acrobatics",
+        "srd-5.2.1:mechanic/skills/animal-handling",
+        "srd-5.2.1:mechanic/skills/arcana",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/deception",
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/intimidation",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/medicine",
+        "srd-5.2.1:mechanic/skills/nature",
+        "srd-5.2.1:mechanic/skills/perception",
+        "srd-5.2.1:mechanic/skills/performance",
+        "srd-5.2.1:mechanic/skills/persuasion",
+        "srd-5.2.1:mechanic/skills/religion",
+        "srd-5.2.1:mechanic/skills/sleight-of-hand",
+        "srd-5.2.1:mechanic/skills/stealth",
+        "srd-5.2.1:mechanic/skills/survival"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/college-of-lore/magical-discoveries",
+      "kind": "choice",
+      "name": "Magical Discoveries choice",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-6-magical-discoveries",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/college-of-lore/magical-discoveries",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/college-of-lore/magical-discoveries-spell-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/choose-spells-from-listed-lists-in-any-combination"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/spell-list/cantrip-or-slot-eligible",
+        "srd-5.2.1:mechanic/druid/spell-list/cantrip-or-slot-eligible",
+        "srd-5.2.1:mechanic/wizard/spell-list/cantrip-or-slot-eligible"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/college-of-lore/magical-discoveries-spell-eligibility",
+      "kind": "prerequisite",
+      "name": "Magical Discoveries spell eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/bard-level-6-magical-discoveries",
+          "page": 35
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/college-of-lore/magical-discoveries",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/cantrip-or-level-with-slots-in-bard-features-table"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/college-of-lore/magical-discoveries/cantrip-or-level-with-slots-in-bard-features-table",
+        "record_refs": [
+          "srd-5.2.1:character/class/bard",
+          "srd-5.2.1:character/resource/bard/spell-slot-1",
+          "srd-5.2.1:character/resource/bard/spell-slot-2",
+          "srd-5.2.1:character/resource/bard/spell-slot-3",
+          "srd-5.2.1:character/resource/bard/spell-slot-4",
+          "srd-5.2.1:character/resource/bard/spell-slot-5",
+          "srd-5.2.1:character/resource/bard/spell-slot-6",
+          "srd-5.2.1:character/resource/bard/spell-slot-7",
+          "srd-5.2.1:character/resource/bard/spell-slot-8",
+          "srd-5.2.1:character/resource/bard/spell-slot-9"
+        ],
+        "parameters": {}
+      }
+    }
+  ]
+}
