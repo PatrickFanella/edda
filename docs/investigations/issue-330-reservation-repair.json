@@ -1,0 +1,27 @@
+{
+  "status": "PENDING native publication; ROOT reservation witness repair only",
+  "review": "/tmp/edda-reservation-independent-review.txt",
+  "parent_head": "5142864946471a9db75f1ba6429eed13eaa2db35",
+  "observed_at": "2026-11-16T21:35:06.937291+00:00",
+  "changed_contract": "innate-benefits",
+  "changed_fields": [
+    "fixture",
+    "body"
+  ],
+  "source": {
+    "pin": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "facts": "PDF23 DC=8+CHA+PB; PDF66 Innate+1; CHA3/PB3 gives14->15"
+  },
+  "independent_guard": "Rejects original wrong witness even with agreeing oracle; exact parent accepts original",
+  "focused_tests": {
+    "count": 22,
+    "seconds": 20.084,
+    "result": "PASS"
+  },
+  "source_proof": "PASS; nine comparators+339header reconciliation",
+  "preserved": "All source records, ownership, dependencies, parents, counts, scope restrictions, typed form bindings and PENDING parent artifacts unchanged",
+  "combined_graph": "305+281+285 proposed+1017native=1888;caps100/100/95,bothDAGs;old183 unchanged,worldcohort mandatory through330shared-output",
+  "full_go_vet": "Original single runs retained; not repeated",
+  "native_writes": false,
+  "final_seal": false
+}

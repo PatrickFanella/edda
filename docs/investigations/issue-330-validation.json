@@ -1,0 +1,229 @@
+{
+  "status": "PENDING; ROOT one-attempt consumed, second ambiguous response, all native writes halted",
+  "comparators": [
+    {
+      "check": "sorcerer",
+      "exit_code": 0,
+      "seconds": 0.22,
+      "output": "Sorcerer: 63 graph records, 11 identities, 20 progression rows, 9 slot columns and 5 conversion rows match pinned pp64\u201366; 11 semantic controls rejected\n"
+    },
+    {
+      "check": "metamagic",
+      "exit_code": 0,
+      "seconds": 0.36,
+      "output": "Metamagic: ten identities, costs, conditions, alternatives, exceptions and canonical operands match pinned PDF\n"
+    },
+    {
+      "check": "draconic",
+      "exit_code": 0,
+      "seconds": 0.31,
+      "output": "Sorcerer: 63 graph records, 11 identities, 20 progression rows, 9 slot columns and 5 conversion rows match pinned pp64\u201366; 11 semantic controls rejected\npp69\u201370: six identities and 18 complete records match independent source facts\n"
+    },
+    {
+      "check": "advancement",
+      "exit_code": 0,
+      "seconds": 0.07,
+      "output": "SRD 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87: all 20 identities/pages and XP/proficiency values match PDF p23\n"
+    },
+    {
+      "check": "multiclass",
+      "exit_code": 0,
+      "seconds": 1.23,
+      "output": "PASS: all 12 classes, 180 actual PDF cells, all requirement fields and canonical source bindings\n"
+    },
+    {
+      "check": "origin_feats",
+      "exit_code": 0,
+      "seconds": 0.11,
+      "output": "SRD 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87: exact four Origin feat identities, p87, choices, numeric limits, conditions, recovery and repeatability anchors match\n"
+    },
+    {
+      "check": "general_feats",
+      "exit_code": 0,
+      "seconds": 0.11,
+      "output": "SRD 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87: exact two General feat identities on PDF p87; complete source text, prerequisites, alternatives, nested choices, caps and conditional benefits agree\n"
+    },
+    {
+      "check": "fighting_styles",
+      "exit_code": 0,
+      "seconds": 0.15,
+      "output": "SRD 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87: exact four Fighting Style identities/pages; category, general prerequisite, acquisition limit, all benefits/numbers/conditions agree with PDF pp87-88\n"
+    },
+    {
+      "check": "epic_boon_feats",
+      "exit_code": 0,
+      "seconds": 0.44,
+      "output": "Rejected 255 contrary-source comparator fixtures\nSRD 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87: exact seven Epic Boon identities, complete PDF pp87\u201388 source and complete metadata graph agree\n"
+    }
+  ],
+  "full_short_race": {
+    "command": "GOMAXPROCS=2 go test -p 2 -short -race ./...",
+    "exit_code": 0,
+    "srd521_package_seconds": 209.746,
+    "total_wall_seconds": null,
+    "runs": 1
+  },
+  "vet": {
+    "command": "GOMAXPROCS=2 go vet -p 2 ./...",
+    "exit_code": 0,
+    "seconds": 2.728,
+    "output": ""
+  },
+  "contrary_tests": {
+    "command": "PYTHONPATH=scripts python3 -m unittest test_verify_sorcerer_scope test_caster_native_publication test_sorcerer_native_binding test_caster_null_recovery -q",
+    "methods": 42,
+    "seconds": 21.4,
+    "exit_code": 0,
+    "scope": "22 source controls;8 null/fence/coordinator controls;7 independent full871 body/graph controls;5 one-use recovery/HTTP-sanitization/halt controls"
+  },
+  "not_verified": [
+    "remaining157 native allocations",
+    "all871 final bodies/parents/prerequisites/readback",
+    "ROOT parent supplement publication/final seal",
+    "actual runtime qualification",
+    "PostgreSQL integration",
+    "browser/device",
+    "independent final PR acceptance/CI/merge"
+  ],
+  "unavailable_tools": {
+    "golangci-lint": "mise: not provided by active go@1.27.3",
+    "ruff": "mise: no version set for shim"
+  },
+  "shared_source_semantics": {
+    "spell_names": 98,
+    "spell_parts": 204,
+    "missing_seams": 3,
+    "casting_lifecycle_adapters": 4,
+    "shared_leaves": 211,
+    "class_leaves": 67,
+    "qualification_nodes": 27,
+    "all_own_source_contracts_complete": true,
+    "native_publication_complete": false
+  },
+  "combined_structural_snapshot": {
+    "own_nodes": 305,
+    "warlock_nodes": 281,
+    "wizard_nodes": 285,
+    "total_new_nodes": 871,
+    "baseline_nodes": 1017,
+    "root279_incoming": 100,
+    "root280_incoming": 95,
+    "root337_incoming": 59,
+    "root429_outgoing": 100,
+    "root487_outgoing": 86,
+    "root67_outgoing": 100,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "old183_prerequisites": "EXACTLY unchanged;world-cohort is an additional shared-output prerequisite",
+    "native_approval": false
+  },
+  "root_reservation_repair": {
+    "status": "PENDING native publication; ROOT reservation witness repair only",
+    "review": "/tmp/edda-reservation-independent-review.txt",
+    "parent_head": "5142864946471a9db75f1ba6429eed13eaa2db35",
+    "observed_at": "2026-11-16T21:35:06.937291+00:00",
+    "changed_contract": "innate-benefits",
+    "changed_fields": [
+      "fixture",
+      "body"
+    ],
+    "source": {
+      "pin": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+      "facts": "PDF23 DC=8+CHA+PB; PDF66 Innate+1; CHA3/PB3 gives14->15"
+    },
+    "independent_guard": "Rejects original wrong witness even with agreeing oracle; exact parent accepts original",
+    "focused_tests": {
+      "count": 22,
+      "seconds": 20.084,
+      "result": "PASS"
+    },
+    "source_proof": "PASS; nine comparators+339header reconciliation",
+    "preserved": "All source records, ownership, dependencies, parents, counts, scope restrictions, typed form bindings and PENDING parent artifacts unchanged",
+    "combined_graph": "305+281+285 proposed+1017native=1888;caps100/100/95,bothDAGs;old183 unchanged,worldcohort mandatory through330shared-output",
+    "full_go_vet": "Original single runs retained; not repeated",
+    "native_writes": false,
+    "final_seal": false
+  },
+  "native_allocation_checkpoint": {
+    "status": "PENDING; blocked ambiguous createIssue null response; NOT publication proof",
+    "observed_at": "2026-11-16T22:56:14.510031+00:00",
+    "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+    "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+    "registry_count": 714,
+    "class_counts": {
+      "330": 305,
+      "331": 281,
+      "332": 128
+    },
+    "failed_alias": "332:spell-guards-and-wards-dancing-lights",
+    "failed_response": {
+      "data": {
+        "createIssue": {
+          "issue": null
+        }
+      }
+    },
+    "exact_marker_matches": 0,
+    "duplicate_creation_retried": false,
+    "final_wiring_started": false,
+    "report": {
+      "nodes": 1731,
+      "max_incoming": 99,
+      "max_outgoing": 100,
+      "max_children": 95,
+      "incoming279": 99,
+      "incoming280": 94,
+      "incoming337": 56,
+      "outgoing429": 100,
+      "outgoing285": 80,
+      "children283": 95
+    },
+    "actual_partial_receipt_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/blocked-allocation-readback.json",
+    "actual_partial_receipt_sha256": "31c03aa1d85c4c54d22f351fa495bf3a27ae83366be25a8e7324af53011999d6",
+    "all714_allocated_Task_Size_M_OPEN": true,
+    "remaining_aliases": 157,
+    "ids_allocated_milestone": false,
+    "source_contracts_unchanged": true,
+    "recovery": "ROOT explicitly holds retry/WIRING. Ordinary allocate restart cannot cross any prior creation intent without readable exact identity. Root reconciliation and bounded one-attempt authorization required."
+  },
+  "root_one_attempt_recovery": {
+    "status": "PENDING; ROOT one-attempt consumed, second ambiguous response, all native writes halted",
+    "authorization_sha256": "a0f47a7feae2d058813822cca8b4d3b7f9330d63a77ac9c6155cfd467bf82c6f",
+    "consumed_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/recovery-20261116-null-create/one-attempt-consumed.json",
+    "consumed_sha256": "6af1771e61275d50558a8dfb78ef38b209ff6e959e3d84f2d74256be781730bd",
+    "result_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/recovery-20261116-null-create/one-attempt-result.json",
+    "result_sha256": "1c9c43ce8a87dda1778fcc74f88122f5d6b79b4593ac6c06b1676c6b753a0264",
+    "result": {
+      "authorization_sha256": "a0f47a7feae2d058813822cca8b4d3b7f9330d63a77ac9c6155cfd467bf82c6f",
+      "alias": "332:spell-guards-and-wards-dancing-lights",
+      "original_intent_sha256": "463189eda52ff60234ecb2b3557beaba52a0c0a3d887af38c58cf2d60b7d95fe",
+      "observed_at": "2026-11-16T23:04:48.831277+00:00",
+      "attempts": 1,
+      "status": "AMBIGUOUS; ALL NATIVE WRITES HELD",
+      "request_sha256": "463189eda52ff60234ecb2b3557beaba52a0c0a3d887af38c58cf2d60b7d95fe",
+      "response": {
+        "status": 200,
+        "headers": {
+          "date": "Mon, 16 Nov 2026 23:04:49 GMT",
+          "x-github-request-id": "670A:11DBB0:2FF46FF:96603EB:6AFB8C11",
+          "x-ratelimit-limit": "5000",
+          "x-ratelimit-remaining": "2248",
+          "x-ratelimit-reset": "1794870500",
+          "x-ratelimit-resource": "graphql",
+          "x-ratelimit-used": "2752"
+        },
+        "body": "{\"data\":{\"createIssue\":{\"issue\":null}}}",
+        "exit_code": 0
+      },
+      "error": "AssertionError: "
+    },
+    "native_write_halt_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/native-write-halt.json",
+    "registry_count": 714,
+    "remaining_aliases": 157,
+    "ids_allocated_milestone": false,
+    "wiring_started": false,
+    "root_appends_published": false,
+    "final_publication_proof": false
+  }
+}
