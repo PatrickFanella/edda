@@ -1,0 +1,645 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Hunter and five features on PDF p61 adapted into unavailable source metadata. Mechanic keys and predicates are Edda additions. Canonical Ranger is referenced externally; no executable effects or adjacent definitions imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/ranger/hunter/identity",
+      "kind": "subclass",
+      "name": "Hunter",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/ranger-hunter",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/ranger",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/hunter/identity-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/subclass"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/identity-level",
+      "kind": "prerequisite",
+      "name": "Hunter level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/ranger-hunter",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/ranger/hunter/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/ranger"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/hunter/hunters-lore",
+      "kind": "feature",
+      "name": "Hunter’s Lore",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-3-hunters-lore",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/ranger/hunter/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/hunter/hunters-lore-level",
+        "srd-5.2.1:character/prerequisite/ranger/hunter/hunters-lore-mark"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/hunters-lore/know-whether-marked-creature-has-immunities-resistances-vulnerabilities-and-what-they-are"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/hunters-lore-level",
+      "kind": "prerequisite",
+      "name": "Hunter’s Lore level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-3-hunters-lore",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/hunter/hunters-lore",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/ranger"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/hunters-lore-mark",
+      "kind": "prerequisite",
+      "name": "Hunter’s Lore mark",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-3-hunters-lore",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/hunter/hunters-lore",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/target-marked-by-your-hunters-mark"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/target-marked-by-your-hunters-mark",
+        "record_refs": [
+          "srd-5.2.1:character/feature/ranger/favored-enemy"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/hunter/hunters-prey",
+      "kind": "feature",
+      "name": "Hunter’s Prey",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-3-hunters-prey",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/ranger/hunter/identity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/hunter/hunters-prey"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/hunter/hunters-prey-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/hunters-prey/gain-one-chosen-option"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/hunters-prey-level",
+      "kind": "prerequisite",
+      "name": "Hunter’s Prey level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-3-hunters-prey",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/hunter/hunters-prey",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/ranger"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/hunter/hunters-prey",
+      "kind": "choice",
+      "name": "Hunter’s Prey options",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-3-hunters-prey",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/hunter/hunters-prey",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/hunter/colossus-slayer",
+        "srd-5.2.1:character/prerequisite/ranger/hunter/horde-breaker"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/choose-one",
+        "srd-5.2.1:mechanic/ranger/hunter/replace-chosen-option-with-other-on-finish-short-or-long-rest"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/ranger/hunter/colossus-slayer",
+        "srd-5.2.1:mechanic/ranger/hunter/horde-breaker"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/colossus-slayer",
+      "kind": "prerequisite",
+      "name": "Colossus Slayer",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-3-hunters-prey",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/hunter/hunters-prey",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/colossus-slayer/only-while-chosen",
+        "srd-5.2.1:mechanic/ranger/hunter/colossus-slayer/on-weapon-hit-creature",
+        "srd-5.2.1:mechanic/ranger/hunter/colossus-slayer/weapon-extra-damage-to-hit-target",
+        "srd-5.2.1:mechanic/ranger/hunter/colossus-slayer/only-if-target-missing-any-hit-points",
+        "srd-5.2.1:mechanic/ranger/hunter/colossus-slayer/once-per-turn",
+        "srd-5.2.1:mechanic/ranger/hunter/colossus-slayer/damage-dice",
+        "srd-5.2.1:mechanic/ranger/hunter/colossus-slayer/damage-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/colossus-slayer/only-while-chosen",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ranger/hunter/hunters-prey"
+        ],
+        "parameters": {
+          "damage-dice": 1,
+          "damage-die-sides": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/horde-breaker",
+      "kind": "prerequisite",
+      "name": "Horde Breaker",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-3-hunters-prey",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/hunter/hunters-prey",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/horde-breaker/only-while-chosen",
+        "srd-5.2.1:mechanic/ranger/hunter/horde-breaker/once-on-each-of-your-turns-when-making-weapon-attack",
+        "srd-5.2.1:mechanic/ranger/hunter/horde-breaker/optional-another-attack-with-same-weapon",
+        "srd-5.2.1:mechanic/ranger/hunter/horde-breaker/target-different-creature-within-weapon-range-not-attacked-this-turn",
+        "srd-5.2.1:mechanic/ranger/hunter/horde-breaker/target-within-feet-of-original-target"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/horde-breaker/only-while-chosen",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ranger/hunter/hunters-prey"
+        ],
+        "parameters": {
+          "target-within-feet-of-original-target": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/hunter/defensive-tactics",
+      "kind": "feature",
+      "name": "Defensive Tactics",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-7-defensive-tactics",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/ranger/hunter/identity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ranger/hunter/defensive-tactics"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/hunter/defensive-tactics-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/defensive-tactics/gain-one-chosen-option"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/defensive-tactics-level",
+      "kind": "prerequisite",
+      "name": "Defensive Tactics level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-7-defensive-tactics",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/hunter/defensive-tactics",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/ranger"
+        ],
+        "parameters": {
+          "minimum-level": 7
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ranger/hunter/defensive-tactics",
+      "kind": "choice",
+      "name": "Defensive Tactics options",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-7-defensive-tactics",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/hunter/defensive-tactics",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/hunter/escape-the-horde",
+        "srd-5.2.1:character/prerequisite/ranger/hunter/multiattack-defense"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/choose-one",
+        "srd-5.2.1:mechanic/ranger/hunter/replace-chosen-option-with-other-on-finish-short-or-long-rest"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/ranger/hunter/escape-the-horde",
+        "srd-5.2.1:mechanic/ranger/hunter/multiattack-defense"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/escape-the-horde",
+      "kind": "prerequisite",
+      "name": "Escape the Horde",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-7-defensive-tactics",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/hunter/defensive-tactics",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/escape-the-horde/only-while-chosen",
+        "srd-5.2.1:mechanic/ranger/hunter/escape-the-horde/opportunity-attacks-against-you-have-disadvantage"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/escape-the-horde/only-while-chosen",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ranger/hunter/defensive-tactics"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/multiattack-defense",
+      "kind": "prerequisite",
+      "name": "Multiattack Defense",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-7-defensive-tactics",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ranger/hunter/defensive-tactics",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/multiattack-defense/only-while-chosen",
+        "srd-5.2.1:mechanic/ranger/hunter/multiattack-defense/when-creature-hits-you-with-attack-roll",
+        "srd-5.2.1:mechanic/ranger/hunter/multiattack-defense/that-creature-disadvantage-on-all-other-attack-rolls-against-you-this-turn"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/multiattack-defense/only-while-chosen",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ranger/hunter/defensive-tactics"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/hunter/superior-hunters-prey",
+      "kind": "feature",
+      "name": "Superior Hunter’s Prey",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-11-superior-hunters-prey",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/ranger/hunter/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/hunter/superior-hunters-prey-level",
+        "srd-5.2.1:character/prerequisite/ranger/hunter/superior-hunters-prey-mark",
+        "srd-5.2.1:character/prerequisite/ranger/hunter/superior-hunters-prey-damage"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-prey/once-per-turn-when-you-deal-damage-to-marked-creature",
+        "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-prey/optional-deal-that-spells-extra-damage",
+        "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-prey/target-different-creature-you-can-see",
+        "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-prey/target-within-feet-of-first-creature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-prey/target-within-feet-of-first-creature": 30
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/superior-hunters-prey-level",
+      "kind": "prerequisite",
+      "name": "Superior Hunter’s Prey level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-11-superior-hunters-prey",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/hunter/superior-hunters-prey",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/ranger"
+        ],
+        "parameters": {
+          "minimum-level": 11
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/superior-hunters-prey-mark",
+      "kind": "prerequisite",
+      "name": "Superior Hunter’s Prey mark",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-11-superior-hunters-prey",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/hunter/superior-hunters-prey",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/target-marked-by-your-hunters-mark"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/target-marked-by-your-hunters-mark",
+        "record_refs": [
+          "srd-5.2.1:character/feature/ranger/favored-enemy"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/superior-hunters-prey-damage",
+      "kind": "prerequisite",
+      "name": "Superior Hunter’s Prey damage",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-11-superior-hunters-prey",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/hunter/superior-hunters-prey",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-prey/use-current-canonical-hunters-mark-extra-damage"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-prey/use-current-canonical-hunters-mark-extra-damage",
+        "record_refs": [
+          "srd-5.2.1:character/feature/ranger/favored-enemy",
+          "srd-5.2.1:character/feature/ranger/foe-slayer"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/ranger/hunter/superior-hunters-defense",
+      "kind": "feature",
+      "name": "Superior Hunter’s Defense",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-15-superior-hunters-defense",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/ranger/hunter/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ranger/hunter/superior-hunters-defense-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-defense/when-you-take-damage",
+        "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-defense/optional-reaction",
+        "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-defense/self-resistance-to-triggering-damage-and-any-other-damage-of-same-type",
+        "srd-5.2.1:mechanic/ranger/hunter/superior-hunters-defense/until-end-of-current-turn"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ranger/hunter/superior-hunters-defense-level",
+      "kind": "prerequisite",
+      "name": "Superior Hunter’s Defense level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/ranger-level-15-superior-hunters-defense",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/ranger/hunter/superior-hunters-defense",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/ranger/hunter/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/ranger/hunter/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/ranger"
+        ],
+        "parameters": {
+          "minimum-level": 15
+        }
+      }
+    }
+  ]
+}
