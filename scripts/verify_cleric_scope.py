@@ -157,11 +157,14 @@ def validate(m, receipt):
     for n, old in {**m['protected'], **m['consumed_contracts']}.items():
         actual=graph[int(n)]
         assert actual['parent']==old['parent'] and set(old['blocked_by'])<=set(actual['blocked_by']), f'legacy edge{n}'
-        allowed=[old['body']]
+        body_valid=actual['body']==old['body']
         if int(n) in [47,54,283,337]:
             append=next(x['append'] for x in m['supplements'] if x['issue']==int(n))
-            allowed.append(old['body']+append)
-        assert actual['body'] in allowed and actual['title']==old['title'], f'legacy body{n}'
+            sealed=old['body']+append
+            body_valid=(actual['body'].startswith(sealed) and actual['body'].count(append)==1
+                        and actual['body'].count('<!-- edda-323-followups:start -->')==1
+                        and actual['body'].count('<!-- edda-323-followups:end -->')==1)
+        assert body_valid and actual['title']==old['title'], f'legacy body{n}'
         if int(n) in [334,382,498,501] or n in m['consumed_contracts']:assert actual['blocked_by']==old['blocked_by']
     assert graph[382]['parent']==323 and 351 in graph[382]['blocked_by']
     assert all(382 in graph[n]['blocked_by'] for n in [279,280,337])

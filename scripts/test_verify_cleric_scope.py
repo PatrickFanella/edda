@@ -2,6 +2,7 @@
 """Bounded API pagination fixtures and complete receipt corruption probes."""
 import json
 import unittest
+from copy import deepcopy
 from unittest.mock import patch
 from urllib.parse import parse_qs, urlsplit
 
@@ -59,6 +60,24 @@ class Receipt(unittest.TestCase):
         graph[gate]['blocked_by'].remove(m['issues'][0]['issue'])
         with self.assertRaisesRegex(AssertionError,'terminal gate edge'):
             scope.validate(m,r)
+
+    def test_sealed_shared_supplements_survive_later_appends(self):
+        m=json.loads(scope.MANIFEST.read_text());r=json.loads(scope.RECEIPT.read_text())
+        later='\n\n<!-- later-class:start -->\nA later bounded decision.\n<!-- later-class:end -->\n'
+        for supplement in m['supplements']:
+            n=supplement['issue'];old=m['protected'][str(n)]['body'];append=supplement['append']
+            with self.subTest(issue=n,case='later append'):
+                candidate=deepcopy(r)
+                next(x for x in candidate['graph'] if x['number']==n)['body']=old+append+later
+                scope.validate(m,candidate)
+            cases={'removed':old,'changed supplement':old+append.replace('Cleric decision','Changed decision',1),
+                   'changed original prefix':'Changed prefix'+old+append,'duplicate supplement':old+append+append}
+            for case,value in cases.items():
+                with self.subTest(issue=n,case=case):
+                    candidate=deepcopy(r)
+                    next(x for x in candidate['graph'] if x['number']==n)['body']=value
+                    with self.assertRaisesRegex(AssertionError,'legacy body'):
+                        scope.validate(m,candidate)
 
     def test_full_source_body_edge_and_separate_cycle_guards(self):
         m=json.loads(scope.MANIFEST.read_text());r=json.loads(scope.RECEIPT.read_text())
