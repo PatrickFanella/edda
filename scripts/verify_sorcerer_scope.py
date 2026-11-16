@@ -5,6 +5,7 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
+import re
 import subprocess
 from urllib.parse import parse_qs, urlsplit
 
@@ -141,6 +142,11 @@ def validate_plan(m):
         actual.extend(data['records'])
     assert exact(actual,m['records']) and len(actual)==103, 'complete source records'
     assert len(m['record_matrix'])==103
+    innate=next(t for t in m['tasks'] if t['key']=='innate-benefits')
+    witness=re.search(r'Positive:\s*CHA([+-]?\d+) PB(\d+) DC(\d+)->(\d+)',innate['fixture'])
+    assert witness, 'Innate Sorcery DC witness'
+    cha,pb,before,after=map(int,witness.groups())
+    assert (before,after)==(8+cha+pb,9+cha+pb), 'Innate Sorcery DC formula'
     expected_tasks, expected_shared, expected_gates, routes = complete_plan(actual)
     for record, context in zip(actual,m['record_matrix']):
         assert exact(context['record'],record) and context['id']==record['id']

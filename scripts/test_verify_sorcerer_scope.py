@@ -22,6 +22,22 @@ class SorcererCheckpointTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, 'native publication identities incomplete'):
             proof.validate_publication(forged, dict(publication_complete=True))
 
+    def test_innate_dc_arithmetic_rejects_a_coherently_wrong_oracle(self):
+        from unittest.mock import patch
+        import re
+        import sorcerer_contract_oracle as oracle
+        row=next(t for t in self.manifest['tasks'] if t['key']=='innate-benefits')
+        cha,pb,before,after=map(int,re.search(r'CHA([+-]?\d+) PB(\d+) DC(\d+)->(\d+)',row['fixture']).groups())
+        self.assertEqual((before,after),(8+cha+pb,9+cha+pb))
+        candidate=deepcopy(self.manifest)
+        bad=next(t for t in candidate['tasks'] if t['key']=='innate-benefits')
+        bad['fixture']=bad['fixture'].replace('DC14->15','DC15->16')
+        bad['body']=proof.expected_body(bad)
+        title,_,pre=oracle.CONTRACTS['innate-benefits']
+        with patch.dict(oracle.CONTRACTS,{'innate-benefits':(title,bad['fixture'],pre)}):
+            with self.assertRaisesRegex(AssertionError,'Innate Sorcery DC formula'):
+                proof.validate_plan(candidate)
+
     def test_all103_source_contexts_cannot_coherently_reroute_to_asi(self):
         for i, original in enumerate(self.manifest['record_matrix']):
             candidate = deepcopy(self.manifest)

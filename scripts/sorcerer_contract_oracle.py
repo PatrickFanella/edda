@@ -92,7 +92,7 @@ CONTRACTS = {'hp': ('D6/fixed4 HP adapter',
                        []),
  'innate-benefits': ('Innate Sorcery spell benefits',
                      'PDF66: while own InnateSorcery active,+1DC for own Sorcerer spells and Advantage on '
-                     'attacks of Sorcerer spells you cast. Positive:CHA3 PB3 DC15->16 and advantage; '
+                     'attacks of Sorcerer spells you cast. Positive:CHA3 PB3 DC14->15 and advantage; '
                      'negatives:otherclassDC,weaponattack,expired effect,stacked+2.',
                      []),
  'innate-recovery': ('Innate Sorcery recovery',
