@@ -1,0 +1,595 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Fiend Patron and five features from PDF p76 adapted into unavailable source metadata. Mechanic keys and predicates are Edda additions. Canonical Warlock is referenced externally; no executable effects or adjacent definitions imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/warlock/fiend-patron/identity",
+      "kind": "subclass",
+      "name": "Fiend Patron",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/warlock-fiend-patron",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/fiend-patron/identity-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/subclass"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/fiend-patron/identity-level",
+      "kind": "prerequisite",
+      "name": "Fiend Patron level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/warlock-fiend-patron",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/warlock/fiend-patron/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/fiend-patron/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/fiend-patron/dark-ones-blessing",
+      "kind": "feature",
+      "name": "Dark One\u2019s Blessing",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-3-dark-ones-blessing",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/warlock/fiend-patron/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/fiend-patron/dark-ones-blessing-level",
+        "srd-5.2.1:character/prerequisite/warlock/fiend-patron/dark-ones-blessing-formula"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/blessing/when-you-reduce-enemy-to-zero-hit-points",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/blessing/alternative/someone-else-reduces-enemy-within-range-of-you-to-zero-hit-points",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/blessing/self-temporary-hit-points/charisma-modifier-plus-warlock-level-minimum-one",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/blessing/other-killer-enemy-range-feet",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/blessing/temporary-hit-points-minimum"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/fiend-patron/blessing/other-killer-enemy-range-feet": 10,
+        "srd-5.2.1:mechanic/warlock/fiend-patron/blessing/temporary-hit-points-minimum": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/fiend-patron/dark-ones-blessing-level",
+      "kind": "prerequisite",
+      "name": "Dark One\u2019s Blessing level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-3-dark-ones-blessing",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/fiend-patron/dark-ones-blessing",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/fiend-patron/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/fiend-patron/dark-ones-blessing-formula",
+      "kind": "prerequisite",
+      "name": "Dark One\u2019s Blessing formula",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-3-dark-ones-blessing",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/fiend-patron/dark-ones-blessing",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/blessing/formula-uses-canonical-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/fiend-patron/blessing/formula-uses-canonical-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/fiend-patron/fiend-spells",
+      "kind": "feature",
+      "name": "Fiend Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-3-fiend-spells",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/warlock/fiend-patron/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/fiend-patron/fiend-spells-level",
+        "srd-5.2.1:character/prerequisite/warlock/fiend-patron/fiend-spells-preparation"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/fiend-spells/thereafter-always-prepared-from-specified-warlock-level",
+        "srd-5.2.1:mechanic/spells/burning-hands",
+        "srd-5.2.1:mechanic/spells/command",
+        "srd-5.2.1:mechanic/spells/scorching-ray",
+        "srd-5.2.1:mechanic/spells/suggestion",
+        "srd-5.2.1:mechanic/spells/fireball",
+        "srd-5.2.1:mechanic/spells/stinking-cloud",
+        "srd-5.2.1:mechanic/spells/fire-shield",
+        "srd-5.2.1:mechanic/spells/wall-of-fire",
+        "srd-5.2.1:mechanic/spells/geas",
+        "srd-5.2.1:mechanic/spells/insect-plague"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 3,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/burning-hands",
+            "srd-5.2.1:mechanic/spells/command",
+            "srd-5.2.1:mechanic/spells/scorching-ray",
+            "srd-5.2.1:mechanic/spells/suggestion"
+          ]
+        },
+        {
+          "level": 5,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/fireball",
+            "srd-5.2.1:mechanic/spells/stinking-cloud"
+          ]
+        },
+        {
+          "level": 7,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/fire-shield",
+            "srd-5.2.1:mechanic/spells/wall-of-fire"
+          ]
+        },
+        {
+          "level": 9,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/geas",
+            "srd-5.2.1:mechanic/spells/insect-plague"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/fiend-patron/fiend-spells-level",
+      "kind": "prerequisite",
+      "name": "Fiend Spells level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-3-fiend-spells",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/fiend-patron/fiend-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/fiend-patron/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/fiend-patron/fiend-spells-preparation",
+      "kind": "prerequisite",
+      "name": "Fiend Spells preparation",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-3-fiend-spells",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/fiend-patron/fiend-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/fiend-spells/canonical-pact-magic-preparation-and-spellcasting"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/fiend-patron/fiend-spells/canonical-pact-magic-preparation-and-spellcasting",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/pact-magic",
+          "srd-5.2.1:character/choice/warlock/prepared-spells"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/fiend-patron/dark-ones-own-luck",
+      "kind": "feature",
+      "name": "Dark One\u2019s Own Luck",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-6-dark-ones-own-luck",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/warlock/fiend-patron/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/fiend-patron/dark-ones-own-luck-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/optional-on-your-ability-check-or-saving-throw",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/add-die-to-your-roll",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/after-seeing-roll-before-any-roll-effects",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/uses-equal-charisma-modifier-minimum-one",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/recover-all-expended-uses-on-finish-long-rest",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/dice",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/die-sides",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/minimum-uses",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/maximum-uses-per-roll"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/dice": 1,
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/die-sides": 10,
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/minimum-uses": 1,
+        "srd-5.2.1:mechanic/warlock/fiend-patron/luck/maximum-uses-per-roll": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/fiend-patron/dark-ones-own-luck-level",
+      "kind": "prerequisite",
+      "name": "Dark One\u2019s Own Luck level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-6-dark-ones-own-luck",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/fiend-patron/dark-ones-own-luck",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/fiend-patron/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/fiend-patron/fiendish-resilience",
+      "kind": "feature",
+      "name": "Fiendish Resilience",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-10-fiendish-resilience",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/warlock/fiend-patron/identity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/fiend-patron/resistance-type"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/fiend-patron/fiendish-resilience-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/choose-on-finish-short-or-long-rest",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/self-resistance-to-chosen-type",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/until-choose-different-type-with-this-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/fiend-patron/fiendish-resilience-level",
+      "kind": "prerequisite",
+      "name": "Fiendish Resilience level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-10-fiendish-resilience",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/fiend-patron/fiendish-resilience",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/fiend-patron/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/fiend-patron/resistance-type",
+      "kind": "choice",
+      "name": "Fiendish Resilience damage type",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-10-fiendish-resilience",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/fiend-patron/fiendish-resilience",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/choose-one-damage-type-other-than-force"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/acid",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/bludgeoning",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/cold",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/fire",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/lightning",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/necrotic",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/piercing",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/poison",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/psychic",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/radiant",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/slashing",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/resilience/damage-type/thunder"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/fiend-patron/hurl-through-hell",
+      "kind": "feature",
+      "name": "Hurl Through Hell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-14-hurl-through-hell",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/warlock/fiend-patron/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/fiend-patron/hurl-through-hell-level",
+        "srd-5.2.1:character/prerequisite/warlock/fiend-patron/hurl-through-hell-save",
+        "srd-5.2.1:character/prerequisite/warlock/fiend-patron/hurl-through-hell-restore"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/optional-on-hit-creature-with-attack-roll",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/target-charisma-save-against-your-spell-save-dc",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/on-failed-save/target-disappears-through-lower-planes",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/on-failed-save/psychic-damage-only-if-target-not-fiend",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/on-failed-save/incapacitated-until-end-of-your-next-turn",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/return-at-end-of-your-next-turn/previous-space-or-nearest-unoccupied-space",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/recover-use-on-finish-long-rest",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/restore-use/expend-pact-magic-slot-no-action",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/maximum-uses-per-turn",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/damage-dice",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/damage-die-sides",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/uses",
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/restore-slot-cost"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/maximum-uses-per-turn": 1,
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/damage-dice": 8,
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/damage-die-sides": 10,
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/uses": 1,
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/restore-slot-cost": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/fiend-patron/hurl-through-hell-level",
+      "kind": "prerequisite",
+      "name": "Hurl Through Hell level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-14-hurl-through-hell",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/fiend-patron/hurl-through-hell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/fiend-patron/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 14
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/fiend-patron/hurl-through-hell-save",
+      "kind": "prerequisite",
+      "name": "Hurl Through Hell save",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-14-hurl-through-hell",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/fiend-patron/hurl-through-hell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/canonical-charisma-spell-save-dc"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/canonical-charisma-spell-save-dc",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/fiend-patron/hurl-through-hell-restore",
+      "kind": "prerequisite",
+      "name": "Hurl Through Hell restore",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/warlock-level-14-hurl-through-hell",
+          "page": 76
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/fiend-patron/hurl-through-hell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/restore-expended-use-with-canonical-pact-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/fiend-patron/hurl/restore-expended-use-with-canonical-pact-slot",
+        "record_refs": [
+          "srd-5.2.1:character/resource/warlock/pact-slots",
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {
+          "slots-required": 1
+        }
+      }
+    }
+  ]
+}
