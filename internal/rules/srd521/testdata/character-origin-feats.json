@@ -1,0 +1,624 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Four Origin feat identities and nested choices, predicates, numeric limits and recovery on PDF p87 adapted into offline metadata. Mechanic keys and graph are Edda additions. No executable mechanics or adjacent definitions imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/feat/alert",
+      "kind": "feat",
+      "name": "Alert",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/alert",
+          "page": 87
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/alert/initiative-swap"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/alert",
+        "srd-5.2.1:mechanic/feats/category/origin",
+        "srd-5.2.1:mechanic/feats/repeatability/once",
+        "srd-5.2.1:mechanic/feats/alert/initiative-proficiency/when-you-roll-initiative",
+        "srd-5.2.1:mechanic/feats/alert/initiative-proficiency/optional-add-proficiency-bonus",
+        "srd-5.2.1:mechanic/feats/alert/initiative-swap/optional-exchange-initiative"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/alert/initiative-swap",
+      "kind": "choice",
+      "name": "Initiative Swap",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/alert",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/alert",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/alert/initiative-swap/same-combat",
+        "srd-5.2.1:character/prerequisite/alert/initiative-swap/self-not-incapacitated",
+        "srd-5.2.1:character/prerequisite/alert/initiative-swap/ally-not-incapacitated"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/alert/initiative-swap/immediately-after-you-roll-initiative"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/targets/willing-ally"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/alert/initiative-swap/same-combat",
+      "kind": "prerequisite",
+      "name": "Same combat",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/alert",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/alert/initiative-swap",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/alert-ally-in-same-combat"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/alert-ally-in-same-combat",
+        "record_refs": [
+          "srd-5.2.1:character/feat/alert",
+          "srd-5.2.1:character/choice/alert/initiative-swap"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/alert/initiative-swap/self-not-incapacitated",
+      "kind": "prerequisite",
+      "name": "Self not incapacitated",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/alert",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/alert/initiative-swap",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/alert-self-not-incapacitated"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/alert-self-not-incapacitated",
+        "record_refs": [
+          "srd-5.2.1:character/feat/alert"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/alert/initiative-swap/ally-not-incapacitated",
+      "kind": "prerequisite",
+      "name": "Ally not incapacitated",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/alert",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/alert/initiative-swap",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/alert-ally-not-incapacitated"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/alert-ally-not-incapacitated",
+        "record_refs": [
+          "srd-5.2.1:character/choice/alert/initiative-swap"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feat/magic-initiate",
+      "kind": "feat",
+      "name": "Magic Initiate",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/magic-initiate/spell-list",
+        "srd-5.2.1:character/choice/magic-initiate/spellcasting-ability",
+        "srd-5.2.1:character/choice/magic-initiate/cantrips",
+        "srd-5.2.1:character/choice/magic-initiate/level-one-spell",
+        "srd-5.2.1:character/choice/magic-initiate/spell-change"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/magic-initiate/free-cast"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/magic-initiate/repeatability"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/magic-initiate",
+        "srd-5.2.1:mechanic/feats/category/origin",
+        "srd-5.2.1:mechanic/feats/repeatability/different-spell-list",
+        "srd-5.2.1:mechanic/feats/magic-initiate/two-cantrips/learn",
+        "srd-5.2.1:mechanic/feats/magic-initiate/level-one-spell/always-prepared",
+        "srd-5.2.1:mechanic/feats/magic-initiate/level-one-spell/cast-using-any-owned-spell-slots",
+        "srd-5.2.1:mechanic/feats/magic-initiate/spell-change/optional-on-gaining-new-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/magic-initiate/spell-list",
+      "kind": "choice",
+      "name": "Spell list",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/magic-initiate/choose-one-spell-list"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spell-lists/cleric",
+        "srd-5.2.1:mechanic/spell-lists/druid",
+        "srd-5.2.1:mechanic/spell-lists/wizard"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/magic-initiate/spellcasting-ability",
+      "kind": "choice",
+      "name": "Spellcasting ability",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/magic-initiate/ability/chosen-when-selecting-feat",
+        "srd-5.2.1:mechanic/feats/magic-initiate/ability/applies-to-this-feats-spells"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/magic-initiate/cantrips",
+      "kind": "choice",
+      "name": "Two Cantrips",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/magic-initiate/cantrips/selected-list"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/magic-initiate/cantrips/from-selected-list"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/selected-list/cantrips"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/magic-initiate/cantrips/selected-list",
+      "kind": "prerequisite",
+      "name": "Selected list",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/magic-initiate/cantrips",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/magic-initiate-from-selected-spell-list"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/magic-initiate-from-selected-spell-list",
+        "record_refs": [
+          "srd-5.2.1:character/choice/magic-initiate/spell-list"
+        ],
+        "parameters": {
+          "spell-level": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/magic-initiate/level-one-spell",
+      "kind": "choice",
+      "name": "Level 1 Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/magic-initiate/level-one-spell/selected-list"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/magic-initiate/level-one-spell/from-same-list-as-cantrips"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/selected-list/level-one"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/magic-initiate/level-one-spell/selected-list",
+      "kind": "prerequisite",
+      "name": "Selected list",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/magic-initiate/level-one-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/magic-initiate-from-selected-spell-list"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/magic-initiate-from-selected-spell-list",
+        "record_refs": [
+          "srd-5.2.1:character/choice/magic-initiate/spell-list",
+          "srd-5.2.1:character/choice/magic-initiate/cantrips"
+        ],
+        "parameters": {
+          "spell-level": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/magic-initiate/free-cast",
+      "kind": "resource",
+      "name": "Level 1 spell without a spell slot",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/magic-initiate/free-cast/selected-level-one-spell",
+        "srd-5.2.1:mechanic/feats/magic-initiate/free-cast/without-spell-slot",
+        "srd-5.2.1:mechanic/feats/magic-initiate/free-cast/regain-on-finish-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/choice/magic-initiate/spell-change",
+      "kind": "choice",
+      "name": "Spell Change",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/magic-initiate/spell-change/new-level",
+        "srd-5.2.1:character/prerequisite/magic-initiate/spell-change/same-list-and-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/magic-initiate/spell-change/replace-one-spell-chosen-for-this-feat"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/selected-list/replacement"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/magic-initiate/spell-change/new-level",
+      "kind": "prerequisite",
+      "name": "New level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/magic-initiate/spell-change",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/magic-initiate-on-gaining-new-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/magic-initiate-on-gaining-new-level",
+        "record_refs": [
+          "srd-5.2.1:character/feat/magic-initiate"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/magic-initiate/spell-change/same-list-and-level",
+      "kind": "prerequisite",
+      "name": "Same list and level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/magic-initiate/spell-change",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/magic-initiate-replacement-same-level-from-selected-list"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/magic-initiate-replacement-same-level-from-selected-list",
+        "record_refs": [
+          "srd-5.2.1:character/choice/magic-initiate/spell-list",
+          "srd-5.2.1:character/choice/magic-initiate/cantrips",
+          "srd-5.2.1:character/choice/magic-initiate/level-one-spell",
+          "srd-5.2.1:character/choice/magic-initiate/spell-change"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/magic-initiate/repeatability",
+      "kind": "prerequisite",
+      "name": "Repeatability",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/magic-initiate-different-spell-list-each-time"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/magic-initiate-different-spell-list-each-time",
+        "record_refs": [
+          "srd-5.2.1:character/feat/magic-initiate",
+          "srd-5.2.1:character/choice/magic-initiate/spell-list"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feat/savage-attacker",
+      "kind": "feat",
+      "name": "Savage Attacker",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/savage-attacker",
+          "page": 87
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/savage-attacker/damage-roll"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/savage-attacker",
+        "srd-5.2.1:mechanic/feats/category/origin",
+        "srd-5.2.1:mechanic/feats/repeatability/once",
+        "srd-5.2.1:mechanic/feats/savage-attacker/optional-on-hit-target-with-weapon",
+        "srd-5.2.1:mechanic/feats/savage-attacker/roll-weapons-damage-dice-twice",
+        "srd-5.2.1:mechanic/feats/savage-attacker/use-either-roll-against-target",
+        "srd-5.2.1:mechanic/feats/savage-attacker/roll-count",
+        "srd-5.2.1:mechanic/feats/savage-attacker/uses-per-turn"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/savage-attacker/roll-count": 2,
+        "srd-5.2.1:mechanic/feats/savage-attacker/uses-per-turn": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/savage-attacker/damage-roll",
+      "kind": "choice",
+      "name": "Weapon damage roll",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/savage-attacker",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/savage-attacker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/savage-attacker/use-either-roll-against-target"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/savage-attacker/damage-roll/first",
+        "srd-5.2.1:mechanic/feats/savage-attacker/damage-roll/second"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feat/skilled",
+      "kind": "feat",
+      "name": "Skilled",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/skilled",
+          "page": 87
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/skilled/proficiencies"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/skilled",
+        "srd-5.2.1:mechanic/feats/category/origin",
+        "srd-5.2.1:mechanic/feats/repeatability/unrestricted",
+        "srd-5.2.1:mechanic/feats/skilled/gain-proficiency"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/skilled/proficiencies",
+      "kind": "choice",
+      "name": "Skill or tool proficiencies",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/skilled",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/skilled",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/skilled/any-combination-of-skills-or-tools"
+      ],
+      "select": 3,
+      "option_keys": [
+        "srd-5.2.1:mechanic/proficiencies/any-skill",
+        "srd-5.2.1:mechanic/proficiencies/any-tool"
+      ],
+      "capacity": 0
+    }
+  ]
+}
