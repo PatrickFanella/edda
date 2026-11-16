@@ -1,0 +1,866 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Four background identities and nested choices, limits and quantities on PDF p83 adapted into offline metadata. Mechanic keys, enumerated ability distributions and graph are Edda additions. No rule prose or executable mechanics imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/origin/acolyte",
+      "kind": "origin",
+      "name": "Acolyte",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/acolyte",
+          "page": 83
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/acolyte/ability-increases",
+        "srd-5.2.1:character/choice/acolyte/starting-equipment"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/acolyte",
+        "srd-5.2.1:mechanic/feats/magic-initiate/cleric",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/religion",
+        "srd-5.2.1:mechanic/tools/calligraphers-supplies"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/acolyte/ability-increases",
+      "kind": "choice",
+      "name": "Ability score increases",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/acolyte",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/acolyte",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/acolyte/ability-score-cap"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/ability-increases/distinct-listed-scores",
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/intelligence-2-wisdom-1",
+        "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/intelligence-2-charisma-1",
+        "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/wisdom-2-intelligence-1",
+        "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/wisdom-2-charisma-1",
+        "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/charisma-2-intelligence-1",
+        "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/charisma-2-wisdom-1",
+        "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/all-three-1"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/intelligence-2-wisdom-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/intelligence": 2,
+            "srd-5.2.1:mechanic/abilities/wisdom": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/intelligence-2-charisma-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/intelligence": 2,
+            "srd-5.2.1:mechanic/abilities/charisma": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/wisdom-2-intelligence-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/wisdom": 2,
+            "srd-5.2.1:mechanic/abilities/intelligence": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/wisdom-2-charisma-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/wisdom": 2,
+            "srd-5.2.1:mechanic/abilities/charisma": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/charisma-2-intelligence-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/charisma": 2,
+            "srd-5.2.1:mechanic/abilities/intelligence": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/charisma-2-wisdom-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/charisma": 2,
+            "srd-5.2.1:mechanic/abilities/wisdom": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/acolyte/ability-increases/all-three-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/intelligence": 1,
+            "srd-5.2.1:mechanic/abilities/wisdom": 1,
+            "srd-5.2.1:mechanic/abilities/charisma": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/acolyte/ability-score-cap",
+      "kind": "prerequisite",
+      "name": "Ability increases cannot exceed 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/acolyte",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/acolyte/ability-increases",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/background-ability-score-maximum"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/background-ability-score-maximum",
+        "record_refs": [
+          "srd-5.2.1:character/choice/acolyte/ability-increases"
+        ],
+        "parameters": {
+          "maximum-score": 20
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/acolyte/starting-equipment",
+      "kind": "choice",
+      "name": "Starting equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/acolyte",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/acolyte",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/calligraphers-supplies",
+        "srd-5.2.1:mechanic/equipment/book/prayers",
+        "srd-5.2.1:mechanic/equipment/holy-symbol",
+        "srd-5.2.1:mechanic/equipment/parchment/sheets",
+        "srd-5.2.1:mechanic/equipment/robe",
+        "srd-5.2.1:mechanic/equipment/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/backgrounds/acolyte/equipment/a",
+        "srd-5.2.1:mechanic/backgrounds/acolyte/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/acolyte/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/calligraphers-supplies": 1,
+            "srd-5.2.1:mechanic/equipment/book/prayers": 1,
+            "srd-5.2.1:mechanic/equipment/holy-symbol": 1,
+            "srd-5.2.1:mechanic/equipment/parchment/sheets": 10,
+            "srd-5.2.1:mechanic/equipment/robe": 1,
+            "srd-5.2.1:mechanic/equipment/currency/gp": 8
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/acolyte/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/currency/gp": 50
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/origin/criminal",
+      "kind": "origin",
+      "name": "Criminal",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/criminal",
+          "page": 83
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/criminal/ability-increases",
+        "srd-5.2.1:character/choice/criminal/starting-equipment"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/criminal",
+        "srd-5.2.1:mechanic/feats/alert",
+        "srd-5.2.1:mechanic/skills/sleight-of-hand",
+        "srd-5.2.1:mechanic/skills/stealth",
+        "srd-5.2.1:mechanic/tools/thieves-tools"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/criminal/ability-increases",
+      "kind": "choice",
+      "name": "Ability score increases",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/criminal",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/criminal",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/criminal/ability-score-cap"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/ability-increases/distinct-listed-scores",
+        "srd-5.2.1:mechanic/abilities/dexterity",
+        "srd-5.2.1:mechanic/abilities/constitution",
+        "srd-5.2.1:mechanic/abilities/intelligence"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/dexterity-2-constitution-1",
+        "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/dexterity-2-intelligence-1",
+        "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/constitution-2-dexterity-1",
+        "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/constitution-2-intelligence-1",
+        "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/intelligence-2-dexterity-1",
+        "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/intelligence-2-constitution-1",
+        "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/all-three-1"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/dexterity-2-constitution-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/dexterity": 2,
+            "srd-5.2.1:mechanic/abilities/constitution": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/dexterity-2-intelligence-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/dexterity": 2,
+            "srd-5.2.1:mechanic/abilities/intelligence": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/constitution-2-dexterity-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/constitution": 2,
+            "srd-5.2.1:mechanic/abilities/dexterity": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/constitution-2-intelligence-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/constitution": 2,
+            "srd-5.2.1:mechanic/abilities/intelligence": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/intelligence-2-dexterity-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/intelligence": 2,
+            "srd-5.2.1:mechanic/abilities/dexterity": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/intelligence-2-constitution-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/intelligence": 2,
+            "srd-5.2.1:mechanic/abilities/constitution": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/criminal/ability-increases/all-three-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/dexterity": 1,
+            "srd-5.2.1:mechanic/abilities/constitution": 1,
+            "srd-5.2.1:mechanic/abilities/intelligence": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/criminal/ability-score-cap",
+      "kind": "prerequisite",
+      "name": "Ability increases cannot exceed 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/criminal",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/criminal/ability-increases",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/background-ability-score-maximum"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/background-ability-score-maximum",
+        "record_refs": [
+          "srd-5.2.1:character/choice/criminal/ability-increases"
+        ],
+        "parameters": {
+          "maximum-score": 20
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/criminal/starting-equipment",
+      "kind": "choice",
+      "name": "Starting equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/criminal",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/criminal",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/dagger",
+        "srd-5.2.1:mechanic/equipment/thieves-tools",
+        "srd-5.2.1:mechanic/equipment/crowbar",
+        "srd-5.2.1:mechanic/equipment/pouch",
+        "srd-5.2.1:mechanic/equipment/travelers-clothes",
+        "srd-5.2.1:mechanic/equipment/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/backgrounds/criminal/equipment/a",
+        "srd-5.2.1:mechanic/backgrounds/criminal/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/criminal/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/dagger": 2,
+            "srd-5.2.1:mechanic/equipment/thieves-tools": 1,
+            "srd-5.2.1:mechanic/equipment/crowbar": 1,
+            "srd-5.2.1:mechanic/equipment/pouch": 2,
+            "srd-5.2.1:mechanic/equipment/travelers-clothes": 1,
+            "srd-5.2.1:mechanic/equipment/currency/gp": 16
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/criminal/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/currency/gp": 50
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/origin/sage",
+      "kind": "origin",
+      "name": "Sage",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/sage",
+          "page": 83
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sage/ability-increases",
+        "srd-5.2.1:character/choice/sage/starting-equipment"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/sage",
+        "srd-5.2.1:mechanic/feats/magic-initiate/wizard",
+        "srd-5.2.1:mechanic/skills/arcana",
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/tools/calligraphers-supplies"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sage/ability-increases",
+      "kind": "choice",
+      "name": "Ability score increases",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/sage",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/sage",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sage/ability-score-cap"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/ability-increases/distinct-listed-scores",
+        "srd-5.2.1:mechanic/abilities/constitution",
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/constitution-2-intelligence-1",
+        "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/constitution-2-wisdom-1",
+        "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/intelligence-2-constitution-1",
+        "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/intelligence-2-wisdom-1",
+        "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/wisdom-2-constitution-1",
+        "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/wisdom-2-intelligence-1",
+        "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/all-three-1"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/constitution-2-intelligence-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/constitution": 2,
+            "srd-5.2.1:mechanic/abilities/intelligence": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/constitution-2-wisdom-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/constitution": 2,
+            "srd-5.2.1:mechanic/abilities/wisdom": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/intelligence-2-constitution-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/intelligence": 2,
+            "srd-5.2.1:mechanic/abilities/constitution": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/intelligence-2-wisdom-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/intelligence": 2,
+            "srd-5.2.1:mechanic/abilities/wisdom": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/wisdom-2-constitution-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/wisdom": 2,
+            "srd-5.2.1:mechanic/abilities/constitution": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/wisdom-2-intelligence-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/wisdom": 2,
+            "srd-5.2.1:mechanic/abilities/intelligence": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/sage/ability-increases/all-three-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/constitution": 1,
+            "srd-5.2.1:mechanic/abilities/intelligence": 1,
+            "srd-5.2.1:mechanic/abilities/wisdom": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sage/ability-score-cap",
+      "kind": "prerequisite",
+      "name": "Ability increases cannot exceed 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/sage",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sage/ability-increases",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/background-ability-score-maximum"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/background-ability-score-maximum",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sage/ability-increases"
+        ],
+        "parameters": {
+          "maximum-score": 20
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sage/starting-equipment",
+      "kind": "choice",
+      "name": "Starting equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/sage",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/sage",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/quarterstaff",
+        "srd-5.2.1:mechanic/equipment/calligraphers-supplies",
+        "srd-5.2.1:mechanic/equipment/book/history",
+        "srd-5.2.1:mechanic/equipment/parchment/sheets",
+        "srd-5.2.1:mechanic/equipment/robe",
+        "srd-5.2.1:mechanic/equipment/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/backgrounds/sage/equipment/a",
+        "srd-5.2.1:mechanic/backgrounds/sage/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/sage/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/quarterstaff": 1,
+            "srd-5.2.1:mechanic/equipment/calligraphers-supplies": 1,
+            "srd-5.2.1:mechanic/equipment/book/history": 1,
+            "srd-5.2.1:mechanic/equipment/parchment/sheets": 8,
+            "srd-5.2.1:mechanic/equipment/robe": 1,
+            "srd-5.2.1:mechanic/equipment/currency/gp": 8
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/sage/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/currency/gp": 50
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/origin/soldier",
+      "kind": "origin",
+      "name": "Soldier",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/soldier",
+          "page": 83
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/soldier/ability-increases",
+        "srd-5.2.1:character/choice/soldier/starting-equipment",
+        "srd-5.2.1:character/choice/soldier/gaming-set"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/soldier",
+        "srd-5.2.1:mechanic/feats/savage-attacker",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/intimidation"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/soldier/ability-increases",
+      "kind": "choice",
+      "name": "Ability score increases",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/soldier",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/soldier",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/soldier/ability-score-cap"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/ability-increases/distinct-listed-scores",
+        "srd-5.2.1:mechanic/abilities/strength",
+        "srd-5.2.1:mechanic/abilities/dexterity",
+        "srd-5.2.1:mechanic/abilities/constitution"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/strength-2-dexterity-1",
+        "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/strength-2-constitution-1",
+        "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/dexterity-2-strength-1",
+        "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/dexterity-2-constitution-1",
+        "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/constitution-2-strength-1",
+        "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/constitution-2-dexterity-1",
+        "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/all-three-1"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/strength-2-dexterity-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/strength": 2,
+            "srd-5.2.1:mechanic/abilities/dexterity": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/strength-2-constitution-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/strength": 2,
+            "srd-5.2.1:mechanic/abilities/constitution": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/dexterity-2-strength-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/dexterity": 2,
+            "srd-5.2.1:mechanic/abilities/strength": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/dexterity-2-constitution-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/dexterity": 2,
+            "srd-5.2.1:mechanic/abilities/constitution": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/constitution-2-strength-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/constitution": 2,
+            "srd-5.2.1:mechanic/abilities/strength": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/constitution-2-dexterity-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/constitution": 2,
+            "srd-5.2.1:mechanic/abilities/dexterity": 1
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/soldier/ability-increases/all-three-1",
+          "quantities": {
+            "srd-5.2.1:mechanic/abilities/strength": 1,
+            "srd-5.2.1:mechanic/abilities/dexterity": 1,
+            "srd-5.2.1:mechanic/abilities/constitution": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/soldier/ability-score-cap",
+      "kind": "prerequisite",
+      "name": "Ability increases cannot exceed 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/soldier",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/soldier/ability-increases",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/background-ability-score-maximum"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/background-ability-score-maximum",
+        "record_refs": [
+          "srd-5.2.1:character/choice/soldier/ability-increases"
+        ],
+        "parameters": {
+          "maximum-score": 20
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/soldier/starting-equipment",
+      "kind": "choice",
+      "name": "Starting equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/soldier",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/soldier",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/soldier/equipment-gaming-set"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/spear",
+        "srd-5.2.1:mechanic/equipment/shortbow",
+        "srd-5.2.1:mechanic/equipment/arrow",
+        "srd-5.2.1:mechanic/equipment/gaming-set/selected",
+        "srd-5.2.1:mechanic/equipment/healers-kit",
+        "srd-5.2.1:mechanic/equipment/quiver",
+        "srd-5.2.1:mechanic/equipment/travelers-clothes",
+        "srd-5.2.1:mechanic/equipment/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/backgrounds/soldier/equipment/a",
+        "srd-5.2.1:mechanic/backgrounds/soldier/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/soldier/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/spear": 1,
+            "srd-5.2.1:mechanic/equipment/shortbow": 1,
+            "srd-5.2.1:mechanic/equipment/arrow": 20,
+            "srd-5.2.1:mechanic/equipment/gaming-set/selected": 1,
+            "srd-5.2.1:mechanic/equipment/healers-kit": 1,
+            "srd-5.2.1:mechanic/equipment/quiver": 1,
+            "srd-5.2.1:mechanic/equipment/travelers-clothes": 1,
+            "srd-5.2.1:mechanic/equipment/currency/gp": 14
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/backgrounds/soldier/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/currency/gp": 50
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/soldier/gaming-set",
+      "kind": "choice",
+      "name": "Gaming Set proficiency",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/soldier",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/soldier",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/backgrounds/soldier/one-kind-of-gaming-set"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/tools/gaming-set"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/soldier/equipment-gaming-set",
+      "kind": "prerequisite",
+      "name": "Package A Gaming Set matches proficiency",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/backgrounds/soldier",
+          "page": 83
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/soldier/starting-equipment",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/equipment-a-matches-selected-gaming-set"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/equipment-a-matches-selected-gaming-set",
+        "record_refs": [
+          "srd-5.2.1:character/choice/soldier/gaming-set"
+        ],
+        "parameters": {}
+      }
+    }
+  ]
+}

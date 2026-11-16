@@ -242,3 +242,64 @@ critical ranges, movement fraction, Survivor numbers and choice/condition text
 anchors. Go fixtures independently assert exact mechanic keys. These checks
 establish metadata transcription; they do not qualify playable Champion,
 feat eligibility, creation, grants, advancement, combat or Full Rules.
+
+
+## Background catalogue (#306)
+
+`testdata/character-backgrounds.json` adds exactly four canonical `origin`
+identities: Acolyte, Criminal, Sage and Soldier, all on PDF page 83. Fourteen
+owned choice and prerequisite records retain their nested metadata. It uses the
+existing schema with no validator or runtime changes. The source retains the
+full PDF pin, CC-BY-4.0 attribution and adaptation notice.
+
+Each background records its exact three ability scores through seven complete
+alternatives: the six ordered +2/+1 distributions to distinct listed scores,
+and +1 to all three. A choice selects one distribution. Quantities record the
+increases; an owned prerequisite refers to that choice and records the maximum
+resulting score of 20. These are the page 83 background rules, also confirmed
+in the creation instructions on page 21. They do not impose a minimum score.
+
+Required keys retain each specified feat, both skills and the fixed tool
+proficiency. Magic Initiate retains its Cleric or Wizard reference. Soldier
+instead owns a one-kind-of-Gaming-Set choice. A prerequisite on its equipment
+choice records that package A uses that same selected kind. Choice records are
+siblings owned by the origin; the predicate links their dependency. The Gaming
+Set domain and the referenced feats, tools and items remain opaque keys. This
+batch imports no adjacent definitions or feat-internal choices.
+
+Equipment alternatives preserve the entire package A or 50 GP for package B.
+The packages retain prayer/history book distinctions, parchment sheet counts,
+two Criminal daggers and pouches, Soldier’s 20 arrows and all other item counts.
+Package A currency is 8/16/8/14 GP for Acolyte/Criminal/Sage/Soldier respectively.
+No starting inventory, currency, grants or fixed Human Soldier/Acolyte creation
+behavior changes. Every catalogue mechanic remains unavailable; structural
+validation does not promote coverage or qualify Full Rules.
+
+`catalogue_backgrounds_test.go` independently transcribes the four IDs/pages,
+all ability distributions, exact feat/skill/tool keys, both equipment bundles,
+and both prerequisite predicates and operands. It composes advancement, Fighter,
+Champion and backgrounds once each, validating duplicate IDs, ownership and
+references across the complete canonical graph. The level-one Fighter subset
+manifest is a reference, not another canonical catalogue to concatenate.
+Negative cases cover source/pin/notice changes, malformed and unknown keys,
+missing or wrong-owner references, quantities, counts, prerequisites and
+JSON-supplied availability. Unknown well-formed mechanics pass structural
+validation but fail readiness. Fixed creation snapshots, including existing
+currency, and unchanged coverage are checked around background validation;
+the existing creation tests additionally assert derived statistics and feats.
+
+Run from the repository root:
+
+```sh
+rtk proxy python3 scripts/verify_srd_backgrounds.py /tmp/edda-wave1/SRD_CC_v5.2.1.pdf
+rtk proxy go test -short -race ./...
+rtk proxy go vet ./...
+```
+
+The comparator verifies the full PDF hash, reads the two page 83 columns and
+compares the four inventory identities/pages, parsed ability/feat/skill/tool
+labels, enumerated distributions, maximum-score rule, equipment quantities and
+currency, and Soldier’s matching choice. Go fixtures require neither the PDF
+nor Poppler. These checks establish metadata transcription and graph integrity;
+independent source review and hosted qualification remain separate. Database,
+browser and paid inference checks are outside this metadata-only scope.
