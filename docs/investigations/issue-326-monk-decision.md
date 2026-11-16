@@ -131,3 +131,12 @@ Exact native bodies/titles/parents/prerequisites and Task/Project Size metadata 
 Shared bodies47/54/283/337 were not edited. Parent must serially publish issue-326-parent-supplements.json, preserving current prefixes, then run scripts/verify_monk_scope.py --live --require-supplements --probes --pdf /tmp/edda-wave1/SRD_CC_v5.2.1.pdf. The #47 section is under100 characters; fuller references live here and in native hierarchy. Published seals reject original-only rollback, changed/duplicate sections and partial markers while allowing later unrelated appends.
 
 Full Go short race and vet passed once using GOMAXPROCS=2 and -p2 with default assertions and limits. Source comparators passed. These checks establish planning/source consistency and existing-suite regression evidence, not new executable feature or UI/database journey qualification. Hosted CI and independent parent review remain separate.
+
+Parent publication from this checkout (serially, after review):
+
+```sh
+rtk proxy python3 scripts/publish_monk_supplements.py --apply
+rtk proxy python3 scripts/verify_monk_scope.py --live --require-supplements --probes --pdf /tmp/edda-wave1/SRD_CC_v5.2.1.pdf
+```
+
+The default publisher invocation is a read-only preflight. All four pending sections and the accepted baseline are immutable inputs; fresh-prefix and exact-section guards preserve unrelated later appends, reject rollback/partial/duplicate sections, and stop on concurrent edits before PATCH. The implementation child executed preflight only.

@@ -57,6 +57,16 @@ class MonkProof(unittest.TestCase):
    b=deepcopy(r);node=next(x for x in b['graph'] if x['number']==n)
    node['blocked_by'].remove(429 if n==783 else 783)
    with self.assertRaises(AssertionError):v.validate(m,b)
+ def test_parent_publication_preserves_appends_and_rejects_corruption(self):
+  from publish_monk_supplements import plan
+  m=json.loads(v.MANIFEST.read_text())
+  for s in m['supplements']:
+   prefix=m['preserved'][str(s['issue'])]['body']
+   self.assertEqual(plan(prefix,s,prefix),prefix+s['append'])
+   later=prefix+'\nUnrelated later append.\n'+s['append']
+   self.assertEqual(plan(later,s,prefix),later)
+   for corrupt in [prefix+s['append']*2,prefix+v.START,prefix+v.END,prefix+s['append'].replace('#326','#325'),'prefix rollback']:
+    with self.assertRaises(AssertionError):plan(corrupt,s,prefix)
  def test_read_call_cap(self):
   reader=v.Reader();reader.calls=350
   with self.assertRaisesRegex(AssertionError,'cap'):reader('graphql')

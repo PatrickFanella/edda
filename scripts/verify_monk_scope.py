@@ -15,6 +15,7 @@ ROOT=Path(__file__).resolve().parents[1]
 MANIFEST=ROOT/'docs/investigations/issue-326-monk-scope.json'
 RECEIPT=ROOT/'docs/investigations/issue-326-link-verification.json'
 PIN='8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
+ACCEPTED_PREFIX_SHA256={'47': '2e392b2ef553de2444c1c46ba8136d28c6ecd8f88e59abf2ae70d859beca5191', '54': '91c24ff513de979743f15cb6a5f683ada04b5f10ee3d49d424f0efbfc052a15f', '283': '34dc91ed4bca31cd38abdb780e0a404203274c1f56c7da4ffaba2c9dd8a40da4', '337': 'b5930003dfd217148acd3657817d5f7170cabf98af6251d1a31de3fa404aa0ac'}
 START='<!-- edda-326:start -->'
 END='<!-- edda-326:end -->'
 def sha(b):return hashlib.sha256(b.encode() if isinstance(b,str) else b).hexdigest()
@@ -61,6 +62,9 @@ def read_live(m):
 
 def validate(m,r,require=False):
  assert m['source']['sha256']==PIN
+ for n,h in ACCEPTED_PREFIX_SHA256.items():
+  assert sha(m['preserved'][n]['body'])==h, 'immutable accepted prefix'
+  assert m['accepted_parent_baseline']['body_seals'][n]['sha256']==h
  assert len(m['records'])==94
  assert len(m['record_matrix'])==94
  for rec,entry in zip(m['records'],m['record_matrix']):
@@ -203,6 +207,8 @@ def probes(m,r):
   n=s['issue']
   for suffix in [START,END,s['append']+s['append'],s['append'].replace('#326','#325')]:
    tests.append((f'section{n}',lambda a,b,n=n,t=suffix:node(b,n).update(body=node(b,n)['body']+t)))
+ for prefix_n in ACCEPTED_PREFIX_SHA256:
+  tests.append((f'immutable prefix{prefix_n}',lambda a,b,n=prefix_n:a['preserved'][n].update(body=a['preserved'][n]['body']+'forged prefix')))
  for label,fn in tests:reject(label,fn)
  # Closed planning decision cannot erase any terminal requirement.
  b=deepcopy(r);node(b,326)['state']='closed';validate(m,b)
