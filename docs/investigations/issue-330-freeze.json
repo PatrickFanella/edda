@@ -9,7 +9,7 @@
   "source_body_plan_sha256": "921975be13d50036a256a42076680217b797d5d2ac0e37dee5173452e2fab139",
   "files": {
     "docs/investigations/issue-330-sorcerer-scope.json": "c480453eb559f9240a6a5122d593ec49dae9bf05cc9c6cba9e3307ec676aeb25",
-    "docs/investigations/issue-330-shared-contracts.md": "7ff584e81d818058b6615d68cfe34e4dedf5249cfc3dd823508fd1643543aed9",
+    "docs/investigations/issue-330-shared-contracts.md": "2dc1e6d7d575e3ed3b41466aeea3c8e7d997c0bf537d50169b56515749533f7c",
     "docs/investigations/issue-330-native-plan.md": "ae71db729c209120c9b4a1e731261010da81e2819273a73692cb5d00260f4c23",
     "docs/investigations/issue-330-shared-reservation-proposal.md": "1eb30d7733c955c905d4affa71d99063e0c9459abf562f8f153091459460fc6d",
     "docs/investigations/issue-330-root-review-delta.json": "24d95704f5a77882ed90fad78079414472bafa327a9fd6bca615b4964953f683",

@@ -1271,4 +1271,3 @@ Exact old outputs: #273, #353, #487. Native old prerequisites: [273, 353]. Owned
 PDF106 finite245sourceidentities: ownONGOINGTIME-SPANspellCASTERmaydismissNOACTIONifNOTIncapacitated487,notownturnrestricted. SAMEspelloverlapsDONOTCOMBINE,strongestapplies,latestEQUAL;expired/endedsourcecannotreturn,olderstilllivecanresumeonnewerend. Positive:twoindependentHasteeffectsone+2AC,olderresumeswithoutclockreset; negatives:stack+4,clearallrecipientlinks,Incapacitateddismissal,Actioncost,foreigncaster,Instantaneousconsequencedismissal. Reuse351cast/recipientidentityAPIwithanewboundednonShieldFaithadapter,notduplicateitsoldbehavior.
 
 Exact old outputs: #351, #487. Native old prerequisites: [351]. Owned prerequisites: execution-gateway-3, incapacitated-output-gateway. Containment: spell-cohort-11.
-
