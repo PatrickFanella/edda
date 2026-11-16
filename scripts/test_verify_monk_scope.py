@@ -57,6 +57,37 @@ class MonkProof(unittest.TestCase):
    b=deepcopy(r);node=next(x for x in b['graph'] if x['number']==n)
    node['blocked_by'].remove(429 if n==783 else 783)
    with self.assertRaises(AssertionError):v.validate(m,b)
+ def test_evasion_has_independent_execution_ownership_and_level7_path(self):
+  m=json.loads(v.MANIFEST.read_text());r=json.loads(v.RECEIPT.read_text());rows={x['key']:x for x in m['issues']}
+  self.assertEqual(set(rows['evasion']['owned_keys']),v.EVASION_KEYS)
+  self.assertEqual({x['id'].rsplit('/',1)[-1] for x in rows['evasion']['source_records']},{'evasion','evasion-eligibility'})
+  a=deepcopy(m)
+  for key in v.EVASION_KEYS:a['source_key_owners'][key]='asi'
+  for entry in a['record_matrix']:
+   for key in v.EVASION_KEYS:
+    if key in entry['key_owners']:entry['key_owners'][key]='asi'
+  a['ownership_sha256']=v.sha(json.dumps(a['source_key_owners'],sort_keys=True))
+  with self.assertRaisesRegex(AssertionError,'Evasion execution ownership'):v.validate(a,r)
+  a,b=deepcopy(m),deepcopy(r);row=next(x for x in a['issues'] if x['key']=='level-7')
+  row['depends']=sorted('asi' if k=='evasion' else k for k in row['depends']);row['blocked_by_issues']=sorted((set(row['blocked_by_issues'])-{804})|{799})
+  row['body']=row['body'].replace('#804','#799');node=next(x for x in b['graph'] if x['number']==829);node['body']=row['body'];node['blocked_by']=row['blocked_by_issues']
+  a['contracts_sha256']=v.sha(json.dumps([{k:x[k] for k in ['key','fixture','depends','prerequisites','owned_keys','source_records']} for x in a['issues']],sort_keys=True))
+  with self.assertRaisesRegex(AssertionError,'level7 Evasion contract'):v.validate(a,b)
+ def test_advancement_selects_total_level_independently_of_monk_level(self):
+  m=json.loads(v.MANIFEST.read_text());r=json.loads(v.RECEIPT.read_text());w=m['deterministic_witnesses']['unequal-class-total-advancement']
+  self.assertEqual(w['classes_before'],{'fighter':4,'monk':1});self.assertEqual(w['classes_after'],{'fighter':4,'monk':2})
+  self.assertEqual((w['monk_level'],w['total_level'],w['experience_points'],w['proficiency_bonus']),(2,6,14000,3))
+  self.assertEqual((w['martial_die_sides'],w['focus_points'],w['movement_feet']),(6,2,10))
+  later=m['deterministic_witnesses']['later-class-total-advancement'];self.assertEqual((later['monk_level'],later['total_level'],later['experience_points'],later['proficiency_bonus']),(1,5,6500,3))
+  for field,value,message in [('experience_points',300,'total-level XP/PB'),('proficiency_bonus',2,'total-level XP/PB'),('total_level',2,'unequal class/total witness')]:
+   a=deepcopy(m);a['deterministic_witnesses']['unequal-class-total-advancement'][field]=value
+   with self.assertRaisesRegex(AssertionError,message):v.validate(a,r)
+  a=deepcopy(m);a['advancement_selection']['row_index']='Monk-class-level'
+  with self.assertRaisesRegex(AssertionError,'class/total advancement selector'):v.validate(a,r)
+  a=deepcopy(m);row=next(x for x in a['issues'] if x['key']=='level-2')
+  row['source_records'].append(next(x for x in a['catalogues'][v.ADVANCEMENT_TABLE]['records'] if x['level']==2))
+  a['contracts_sha256']=v.sha(json.dumps([{k:x[k] for k in ['key','fixture','depends','prerequisites','owned_keys','source_records']} for x in a['issues']],sort_keys=True))
+  with self.assertRaisesRegex(AssertionError,'Monk class row only; advancement selected separately'):v.validate(a,r)
  def test_parent_publication_preserves_appends_and_rejects_corruption(self):
   from publish_monk_supplements import plan
   m=json.loads(v.MANIFEST.read_text())

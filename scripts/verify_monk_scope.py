@@ -18,6 +18,11 @@ PIN='8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
 ACCEPTED_PREFIX_SHA256={'47': '2e392b2ef553de2444c1c46ba8136d28c6ecd8f88e59abf2ae70d859beca5191', '54': '91c24ff513de979743f15cb6a5f683ada04b5f10ee3d49d424f0efbfc052a15f', '283': '34dc91ed4bca31cd38abdb780e0a404203274c1f56c7da4ffaba2c9dd8a40da4', '337': 'b5930003dfd217148acd3657817d5f7170cabf98af6251d1a31de3fa404aa0ac'}
 START='<!-- edda-326:start -->'
 END='<!-- edda-326:end -->'
+ADVANCEMENT_TABLE='internal/rules/srd521/testdata/character-advancement.json'
+EVASION_KEYS={
+ 'srd-5.2.1:mechanic/monk/evasion/dexterity-save-for-half-damage/success-none-failure-half',
+ 'srd-5.2.1:mechanic/monk/evasion/not-incapacitated',
+}
 def sha(b):return hashlib.sha256(b.encode() if isinstance(b,str) else b).hexdigest()
 def next_cursor(info,seen):
  cursor=info['endCursor']
@@ -80,6 +85,9 @@ def validate(m,r,require=False):
  assert len(rows)==66 and len(m['reused_terminals'])==32
  assert sha(json.dumps(m['source_key_owners'],sort_keys=True))==m['ownership_sha256'],'owner drift'
  assert sha(json.dumps([{k:x[k] for k in ['key','fixture','depends','prerequisites','owned_keys','source_records']} for x in m['issues']],sort_keys=True))==m['contracts_sha256'],'contract drift'
+ assert all(m['source_key_owners'][k]=='evasion' for k in EVASION_KEYS),'Evasion execution ownership'
+ assert set(rows['evasion']['owned_keys'])==EVASION_KEYS and not EVASION_KEYS.intersection(rows['asi']['owned_keys']),'Evasion/ASI separation'
+ assert rows['evasion']['source_records']==[x for x in records if x['id'].endswith(('/feature/monk/evasion','/prerequisite/monk/evasion-eligibility'))],'Evasion source operands'
  for k,v in m['source_key_owners'].items():assert (v in rows and k in rows[v]['owned_keys']) or v in {'external:384','external:389','external:488','external:727'}
  for x in rows.values():assert x['owned_keys']==sorted(k for k,v in m['source_key_owners'].items() if v==x['key'])
  for p,h in m['evidence_hashes'].items():assert sha((ROOT/p).read_bytes())==h,'runtime evidence drift'
@@ -149,10 +157,30 @@ def validate(m,r,require=False):
  for path in m['auxiliary_paths'].values():
   for a,b in zip(path,path[1:]):assert a in graph[b]['blocked_by']
  assert rows['d8']['issue'] in graph[rows['later']['issue']]['blocked_by'] and 429 not in graph[rows['later']['issue']]['blocked_by']
+ selection=dict(table=ADVANCEMENT_TABLE,record_kind='advancement',row_index='sum-of-authoritative-admitted-class-levels-after-transition',owner=429,monk_row_index='authoritative-Monk-class-level-after-transition',monk_table_proficiency_bonus='single-class-context-only')
+ assert m['advancement_selection']==selection,'class/total advancement selector'
+ for key in ['d8','later']+[f'level-{n}' for n in range(1,21)]:
+  assert rows[key]['advancement_selector']==selection['row_index'],'total-level application operand'
+  assert json.dumps(selection,indent=2) in rows[key]['body'],'published advancement selector'
+ assert 'evasion' in rows['level-7']['depends'] and 'asi' not in rows['level-7']['depends'],'level7 Evasion contract'
+ assert rows['evasion']['issue'] in graph[rows['level-7']['issue']]['blocked_by'],'level7 Evasion prerequisite'
+ assert 'later' in rows['level-2']['depends'] and rows['later']['issue'] in graph[rows['level-2']['issue']]['blocked_by'],'later-class entry consumer'
+ advancement={x['level']:x for x in m['catalogues'][ADVANCEMENT_TABLE]['records']}
+ for name in ['unequal-class-total-advancement','later-class-total-advancement']:
+  witness=m['deterministic_witnesses'][name];before=witness['classes_before'];after=witness['classes_after']
+  assert all(type(n) is int and 1<=n<=20 for n in list(before.values())+list(after.values())),'authoritative class levels'
+  assert set(after)==set(before)|{'monk'} and after['monk']==before.get('monk',0)+1 and all(after[k]==v for k,v in before.items() if k!='monk'),'one adjacent Monk level'
+  total=sum(after.values());monk=after['monk'];assert total!=monk and witness['total_level']==total and witness['monk_level']==monk,'unequal class/total witness'
+  assert total in advancement and witness['advancement_record_id']==advancement[total]['id'],'total-level advancement record'
+  assert witness['experience_points']==advancement[total]['advancement']['experience_points'] and witness['proficiency_bonus']==advancement[total]['advancement']['proficiency_bonus'],'total-level XP/PB'
+  if name=='unequal-class-total-advancement':
+   row=next(x for x in records if x['kind']=='level' and x['level']==monk)
+   for field,suffix in [('martial_die_sides','martial-arts-die-sides'),('focus_points','focus-points'),('movement_feet','unarmored-movement-feet')]:
+    assert witness[field]==row['parameters']['srd-5.2.1:mechanic/monk/table/'+suffix],'Monk-level feature operands'
  for level in range(1,21):
   x=rows['level-'+str(level)]
-  expected=[y for y in records if y['kind']=='level' and y['level']==level]+[y for y in m['catalogues']['internal/rules/srd521/testdata/character-advancement.json']['records'] if y['level']==level]
-  assert x['source_records']==expected and 'd8' in x['depends']
+  expected=[y for y in records if y['kind']=='level' and y['level']==level]
+  assert x['source_records']==expected and 'd8' in x['depends'],'Monk class row only; advancement selected separately'
   assert not {285,336,429}.intersection(x['prerequisites']), 'redundant cross-class edge'
   assert rows['d8']['issue'] in graph[x['issue']]['blocked_by'] and 429 in graph[rows['d8']['issue']]['blocked_by']
   assert 336 in graph[429]['blocked_by'] and 285 in graph[429]['blocked_by'] and 285 in graph[336]['blocked_by']
@@ -177,6 +205,10 @@ def probes(m,r):
  ('Palm extra die',lambda a,b:a['deterministic_witnesses']['quivering-palm']['faces'].append(12)),
  ('Palm half damage',lambda a,b:a['deterministic_witnesses']['quivering-palm'].update(successful_damage=33)),
  ('Martial ability modifier',lambda a,b:a['deterministic_witnesses']['martial-arts'].update(monk_damage=4)),
+ ('class-level XP substitution',lambda a,b:a['deterministic_witnesses']['unequal-class-total-advancement'].update(experience_points=300)),
+ ('class-level PB substitution',lambda a,b:a['deterministic_witnesses']['unequal-class-total-advancement'].update(proficiency_bonus=2)),
+ ('class-level total substitution',lambda a,b:a['deterministic_witnesses']['unequal-class-total-advancement'].update(total_level=2)),
+ ('class-level selector',lambda a,b:a['advancement_selection'].update(row_index='Monk-class-level')),
  ('numeric',lambda a,b:a['catalogues'][next(iter(a['catalogues']))]['records'][0]['parameters'].update({'srd-5.2.1:mechanic/monk/hit-die-sides':9})),
  ('pin',lambda a,b:a['source'].update(sha256='bad')),
  ('operand',lambda a,b:a['issues'][0].update(fixture='wrong clause')),
