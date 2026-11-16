@@ -1,0 +1,46 @@
+[
+  {
+    "issue": 47,
+    "previous_sha256": "bbd8bd860ccc5e27cb61251e76d1138abace0efe66463acecb7e003cb86ff1b4",
+    "append": "\n\n<!-- edda-325:start -->\nFighter325 -> gate728; 44 Fighter+1 shared/38 reused. Exact matrix: docs/investigations/issue-325-fighter-scope.json.\n<!-- edda-325:end -->\n",
+    "publication": "published by parent serial application",
+    "baseline_status": "accepted Druid prefix retained; exact Fighter append published and read back",
+    "previous_chars": 64551,
+    "append_chars": 166,
+    "result_chars": 64717,
+    "maximum_chars": 65536
+  },
+  {
+    "issue": 54,
+    "previous_sha256": "5acc32c577df7e016e0c589a7b95dc710a2a4147ae599fd7b97fed1129532c86",
+    "append": "\n\n<!-- edda-325:start -->\nFighter decision #325 publishes qualification gate #728 (parent325 under283), 44 Fighter terminals, one shared Heroic Inspiration terminal and 38 reused owners; native gate has84 blockers and directly blocks337. Exact records, all20 rows, mechanic ownership, leaf paths and evidence: docs/investigations/issue-325-fighter-scope.json; readable decision: docs/investigations/issue-325-fighter-decision.md. Source/implementation planning only; all feature/admission implementation and qualification remain open. Decision closure grants no broader support.\n<!-- edda-325:end -->\n",
+    "publication": "published by parent serial application",
+    "baseline_status": "accepted Druid prefix retained; exact Fighter append published and read back",
+    "previous_chars": 38735,
+    "append_chars": 601,
+    "result_chars": 39336,
+    "maximum_chars": 65536
+  },
+  {
+    "issue": 283,
+    "previous_sha256": "c1d03df3d4aeda65d2869c2cb0de3bb42a8695a15fa3e5a9397fc67c69b1816a",
+    "append": "\n\n<!-- edda-325:start -->\nFighter decision #325 publishes qualification gate #728 (parent325 under283), 44 Fighter terminals, one shared Heroic Inspiration terminal and 38 reused owners; native gate has84 blockers and directly blocks337. Exact records, all20 rows, mechanic ownership, leaf paths and evidence: docs/investigations/issue-325-fighter-scope.json; readable decision: docs/investigations/issue-325-fighter-decision.md. Source/implementation planning only; all feature/admission implementation and qualification remain open. Decision closure grants no broader support.\n<!-- edda-325:end -->\n",
+    "publication": "published by parent serial application",
+    "baseline_status": "accepted Druid prefix retained; exact Fighter append published and read back",
+    "previous_chars": 27201,
+    "append_chars": 601,
+    "result_chars": 27802,
+    "maximum_chars": 65536
+  },
+  {
+    "issue": 337,
+    "previous_sha256": "7aae57ec2c0f8815c7ef8ef7284276694e31f7a855e452f8e22af4f460d22194",
+    "append": "\n\n<!-- edda-325:start -->\nFighter decision #325 publishes qualification gate #728 (parent325 under283), 44 Fighter terminals, one shared Heroic Inspiration terminal and 38 reused owners; native gate has84 blockers and directly blocks337. Exact records, all20 rows, mechanic ownership, leaf paths and evidence: docs/investigations/issue-325-fighter-scope.json; readable decision: docs/investigations/issue-325-fighter-decision.md. Source/implementation planning only; all feature/admission implementation and qualification remain open. Decision closure grants no broader support.\n<!-- edda-325:end -->\n",
+    "publication": "published by parent serial application",
+    "baseline_status": "accepted Druid prefix retained; exact Fighter append published and read back",
+    "previous_chars": 26184,
+    "append_chars": 601,
+    "result_chars": 26785,
+    "maximum_chars": 65536
+  }
+]
