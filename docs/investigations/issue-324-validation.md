@@ -1,0 +1,11 @@
+# Druid decision validation receipt
+
+Base: `9dd5cac8b90eee89dfaa0b3555e8fc107c18601a`; branch `feat/druid-playable-fixtures`; isolated checkout `/home/onnwee/Work/Worktrees/edda/t3-2117a462-03eb67a7a2e9e93c`. No runtime files changed.
+
+Native observation: 2026-11-16T15:56:24.124204+00:00; read-only full GraphQL receipt uses 11 calls. All 98 newly published issue/gate rows read back with exact body/title/parent/prerequisites and Project Task/Size. There are 95 implementation leaves plus 46 reused leaves, 141 total. Feature/shared gates have 64/77 blockers; top630 has six mandatory blockers and directly blocks337. Shared source-owner parents are191 and270. Existing qualification counts279/280/337 are80/75/51. The complete graph has581nodes and 2923 prerequisite edges; prerequisite and parent graphs are separately acyclic. No original native edge or parent was removed.
+
+Source comparators and strict Druid source/record/operand/body/metadata/edge/cycle guards pass. All965 corruption probes reject their intended defect; exact-query pagination, repeated-page/cursor and call-cap controls pass. The decision-closed regression leaves every gate required. All four parent future-append regressions pass; all four published-prefix-to-original rollback regressions reject even without the require-supplements flag.
+
+One full `GOMAXPROCS=2 go test -p 2 -short -race ./...` passed, with default assertions/timeouts; SRD package221.261s. Full `go vet -p 2 ./...` passed. Existing `python3 scripts/verify_feat_scope.py` passed unchanged:17feats/146keys/18issue bodies and native gates. Python compilation and final diff/format guards pass. Lint could not start: active Go1.27.3 mise shim has no golangci-lint binary; no installation or toolchain change.
+
+The exact supplements47/54/283/337 remain pending and their 661-character append artifacts are committed. `--require-supplements` was explicitly checked to fail with `parent-body publication pending`. Fresh prefixes include the parent's completed Cleric acceptance appends. Parent serial application and refreshed strict acceptance remain required. This receipt establishes planning/publication consistency only: it supplies no new feature execution, PostgreSQL mutation, browser/device/TUI journey, production admission or Full Rules qualification. Druid remains unavailable.
