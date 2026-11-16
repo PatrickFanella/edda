@@ -143,6 +143,16 @@ def source_check(m,pdf):
     for a,e in zip(actual_dispatch,expected_dispatch):
         assert {k:a[k] for k in e if k!='execution_status'}=={k:v for k,v in e.items() if k!='execution_status'},'complete actual typed dispatch eligibility'
         assert bool(a['proposed_output_bindings'])==(a['name'] in ['Baboon','Badger','Bat','Cat','Crab','Deer','Eagle','Frog','Giant Fire Beetle','Goat','Hawk','Hyena','Jackal','Lizard','Octopus','Owl','Piranha','Rat','Raven','Scorpion','Seahorse','Spider','Vulture','Weasel','Riding Horse','Commoner']),'bounded actual form output binding'
+    # Bind actual form fixture operands to their exact printed statblocks,
+    # including Riding Horse continuation in the opposite column of PDF360.
+    horse_left=column(pdf,360,0);horse_right=column(pdf,360,297)
+    horse=horse_left[horse_left.index('Riding Horse'):]+horse_right[:horse_right.index('Saber-Toothed Tiger')]
+    commoner=column(pdf,275,297);commoner=commoner[commoner.index('Commoner'):commoner.index('Copper Dragons')]
+    horse=' '.join(horse.split());commoner=' '.join(commoner.split())
+    for clause in ['Large Beast, Unaligned','HP 13 (2d10 + 2)','Speed 60 ft.','Str 16 +3 +3','Dex 13 +1 +1','Con 12 +1 +1','Int 2 −4 −4','Wis 11 +0 +0','Cha 7 −2 −2','CR 1/4','Hooves. Melee Attack Roll: +5, reach 5 ft.','1d8 + 3','Bludgeoning damage']:
+        assert clause in horse,('actual Riding Horse source operand',clause)
+    for clause in ['Medium or Small Humanoid, Neutral','HP 4 (1d8)','Speed 30 ft.','Gear Club','Languages Common','CR 0','proficiency in one skill','Advantage whenever it makes an ability check using that skill','Club. Melee Attack Roll: +2, reach 5 ft.','1d4','Bludgeoning damage']:
+        assert clause in commoner,('actual Commoner source operand',clause)
     return conflicts
 
 def main():

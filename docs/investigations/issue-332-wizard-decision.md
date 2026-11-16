@@ -99,7 +99,7 @@ The reserved union remains 245; Phantasmal Force is not a silently added 246th.
   Humanoid witnesses. Shapechange and Simulacrum permission does not execute unbound
   statblocks. Named interoperability owners are explicit candidate dependencies.
 - The complete combined proposal currently passes all three caps and both DAGs:
-  1,017 native + 305 Sorcerer + 282 Warlock + 285 Wizard = 1,889 nodes. The
+  1,017 native + 305 Sorcerer + 281 Warlock + 285 Wizard = 1,888 nodes. The
   proposal receipt records exact input hashes. #285 has 82 outgoing, #67 has 100,
   #279 has 100 incoming, #280 has 95, #283 has 95 children and #429 has 100
   outgoing. Recheck changed inputs and obtain root publication approval. This is
@@ -118,6 +118,7 @@ checks the ACTUAL candidate fixtures and source texts, complete metadata graphs,
 217-entry roster, 339 headers and source conflicts. `--final` deliberately refuses
 this unpublished checkpoint. It must not produce a final native proof.
 
+Thirteen focused tests passed in 9.364 seconds.
 `python -m unittest discover -s scripts -p test_wizard_scope.py` rejects coherent
 context rerouting, actual fixture/body weakening, changed numeric spell operands,
 missing alternatives, multiclass HP dependency removal, adjacent transition removal

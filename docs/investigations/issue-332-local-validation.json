@@ -37,7 +37,7 @@
     }
   ],
   "source": "PASS actual PDF/candidate checkpoint",
-  "python": "9 tests PASS in8.585seconds",
+  "python": "13 tests PASS in9.364seconds; actual candidate contracts and protocol/native-reader contrary controls",
   "evidence_hashes": {
     "internal/rules/srd521/character.go": "33ecc9a817f601f5d4255235463743bd75e13f039fdff56e3c264d0d52dab327",
     "internal/rules/srd521/advancement.go": "9cebf34ab743e37038264058cd7d961cc85b1e9153d4b06586cf28cf46763dd2",
@@ -45,5 +45,7 @@
     "internal/game/spell_preview.go": "15e97f6bb569b65fcbfdb50f93aa41385d9ab006da61963fc9839651d771a0c0",
     "internal/game/advancement_preview.go": "126dcb6304e0b20e3420eb381d0cb2d9dbe5aaaea521be6f9c0853f7da1f0da1",
     "frontend/src/lib/startupWorkflow.ts": "3488d57ac02e39a08b6ca6f67a53cf046f0444435707bb0bfc8b7ab0bbe2b9b2"
-  }
+  },
+  "source_log_sha256": "a2f34fe5dcf6e86c1fb24160260c3da3bec148be8c2b782bc57d84d5ded2afa9",
+  "python_log_sha256": "fd3d68e671998ef4dbe039db079a8f0f9af060052a32849b30e2ee936d3d022e"
 }

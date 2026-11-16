@@ -1,9 +1,9 @@
 {
   "status": "PROPOSAL ONLY; not published/native final seal",
-  "nodes": 1889,
+  "nodes": 1888,
   "counts": {
     "330": 305,
-    "331": 282,
+    "331": 281,
     "332": 285
   },
   "errors": {
@@ -9629,7 +9629,7 @@
       "331:provenance-output"
     ],
     "331:skills": [
-      "331:execution-cohort-3",
+      "331:execution-cohort-2",
       "331:provenance-output"
     ],
     "331:equipment": [
@@ -9650,13 +9650,14 @@
       "331:provenance-output"
     ],
     "331:warlock-list": [
-      "331:execution-cohort-4"
+      "331:execution-cohort-3"
     ],
     "331:pact-cross-casting": [
       "331:casting-output",
       "331:execution-cohort-2"
     ],
     "331:hp": [
+      "774",
       "968"
     ],
     "331:creation": [
@@ -9691,7 +9692,7 @@
       "331:provenance-output"
     ],
     "331:slots": [
-      "331:execution-cohort-3",
+      "331:execution-cohort-2",
       "427",
       "428"
     ],
@@ -9701,7 +9702,7 @@
       "428"
     ],
     "331:warlock-subclass": [
-      "331:execution-cohort-4"
+      "331:execution-cohort-3"
     ],
     "331:ability-score-improvement": [
       "331:execution-cohort-1",
@@ -9762,14 +9763,14 @@
       "331:magical-cunning"
     ],
     "331:dark-ones-blessing": [
-      "331:execution-cohort-2"
+      "331:execution-cohort-1"
     ],
     "331:fiend-spells": [
       "331:execution-cohort-2",
       "331:provenance-output"
     ],
     "331:dark-ones-own-luck": [
-      "331:execution-cohort-2"
+      "331:execution-cohort-1"
     ],
     "331:fiendish-resilience": [
       "331:execution-cohort-2"
@@ -9880,7 +9881,7 @@
       "331:tome-focus"
     ],
     "331:repelling-blast": [
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:thirsting-blade": [
       "331:execution-cohort-3"
@@ -9891,12 +9892,12 @@
       "331:execution-cohort-3"
     ],
     "331:whispers-of-the-grave": [
-      "331:execution-cohort-4",
+      "331:execution-cohort-3",
       "331:spell-speak-with-dead-corpse-questions",
       "331:spell-speak-with-dead-knowledge-ending"
     ],
     "331:witch-sight": [
-      "331:execution-cohort-4"
+      "331:execution-cohort-3"
     ],
     "331:blade-bond": [
       "331:execution-cohort-1"
@@ -9971,9 +9972,119 @@
       "331:execution-cohort-1"
     ],
     "331:chain-form-choice": [
+      "331:creature-baboon-bounded-stat-actions",
+      "331:creature-badger-bounded-stat-actions",
+      "331:creature-bat-bounded-stat-actions",
+      "331:creature-cat-bounded-stat-actions",
+      "331:creature-crab-bounded-stat-actions",
+      "331:creature-deer-bounded-stat-actions",
+      "331:creature-eagle-bounded-stat-actions",
+      "331:creature-find-familiar-familiar-cast-form",
+      "331:creature-find-familiar-familiar-dismiss-reappear",
+      "331:creature-find-familiar-familiar-initiative-control",
+      "331:creature-find-familiar-familiar-single-reform",
+      "331:creature-find-familiar-familiar-telepathy",
+      "331:creature-find-familiar-familiar-touch-delivery",
+      "331:creature-frog-bounded-stat-actions",
+      "331:creature-giant-fire-beetle-bounded-stat-actions",
+      "331:creature-goat-bounded-stat-actions",
+      "331:creature-hawk-bounded-stat-actions",
+      "331:creature-hyena-bounded-stat-actions",
+      "331:creature-imp-invisibility",
+      "331:creature-imp-shape-shift",
+      "331:creature-imp-statistics",
+      "331:creature-imp-sting",
+      "331:creature-jackal-bounded-stat-actions",
+      "331:creature-lizard-bounded-stat-actions",
+      "331:creature-octopus-bounded-stat-actions",
+      "331:creature-octopus-octopus-ink",
+      "331:creature-owl-bounded-stat-actions",
+      "331:creature-piranha-bounded-stat-actions",
+      "331:creature-pseudodragon-bite-multiattack",
+      "331:creature-pseudodragon-statistics",
+      "331:creature-pseudodragon-sting",
+      "331:creature-quasit-invisibility",
+      "331:creature-quasit-rend",
+      "331:creature-quasit-scare",
+      "331:creature-quasit-shape-shift",
+      "331:creature-quasit-statistics",
+      "331:creature-rat-bounded-stat-actions",
+      "331:creature-raven-bounded-stat-actions",
+      "331:creature-scorpion-bounded-stat-actions",
+      "331:creature-seahorse-bounded-stat-actions",
+      "331:creature-skeleton-attacks",
+      "331:creature-skeleton-statistics",
+      "331:creature-sphinx-of-wonder-burst-ingenuity",
+      "331:creature-sphinx-of-wonder-rend",
+      "331:creature-sphinx-of-wonder-statistics",
+      "331:creature-spider-bounded-stat-actions",
+      "331:creature-sprite-enchanting-bow",
+      "331:creature-sprite-heart-sight",
+      "331:creature-sprite-invisibility",
+      "331:creature-sprite-needle-sword",
+      "331:creature-sprite-statistics",
+      "331:creature-venomous-snake-bite",
+      "331:creature-venomous-snake-statistics",
+      "331:creature-vulture-bounded-stat-actions",
+      "331:creature-weasel-bounded-stat-actions",
       "331:execution-cohort-1"
     ],
     "331:chain-attack-exchange": [
+      "331:creature-baboon-bounded-stat-actions",
+      "331:creature-badger-bounded-stat-actions",
+      "331:creature-bat-bounded-stat-actions",
+      "331:creature-cat-bounded-stat-actions",
+      "331:creature-crab-bounded-stat-actions",
+      "331:creature-deer-bounded-stat-actions",
+      "331:creature-eagle-bounded-stat-actions",
+      "331:creature-find-familiar-familiar-cast-form",
+      "331:creature-find-familiar-familiar-dismiss-reappear",
+      "331:creature-find-familiar-familiar-initiative-control",
+      "331:creature-find-familiar-familiar-single-reform",
+      "331:creature-find-familiar-familiar-telepathy",
+      "331:creature-find-familiar-familiar-touch-delivery",
+      "331:creature-frog-bounded-stat-actions",
+      "331:creature-giant-fire-beetle-bounded-stat-actions",
+      "331:creature-goat-bounded-stat-actions",
+      "331:creature-hawk-bounded-stat-actions",
+      "331:creature-hyena-bounded-stat-actions",
+      "331:creature-imp-invisibility",
+      "331:creature-imp-shape-shift",
+      "331:creature-imp-statistics",
+      "331:creature-imp-sting",
+      "331:creature-jackal-bounded-stat-actions",
+      "331:creature-lizard-bounded-stat-actions",
+      "331:creature-octopus-bounded-stat-actions",
+      "331:creature-octopus-octopus-ink",
+      "331:creature-owl-bounded-stat-actions",
+      "331:creature-piranha-bounded-stat-actions",
+      "331:creature-pseudodragon-bite-multiattack",
+      "331:creature-pseudodragon-statistics",
+      "331:creature-pseudodragon-sting",
+      "331:creature-quasit-invisibility",
+      "331:creature-quasit-rend",
+      "331:creature-quasit-scare",
+      "331:creature-quasit-shape-shift",
+      "331:creature-quasit-statistics",
+      "331:creature-rat-bounded-stat-actions",
+      "331:creature-raven-bounded-stat-actions",
+      "331:creature-scorpion-bounded-stat-actions",
+      "331:creature-seahorse-bounded-stat-actions",
+      "331:creature-skeleton-attacks",
+      "331:creature-skeleton-statistics",
+      "331:creature-sphinx-of-wonder-burst-ingenuity",
+      "331:creature-sphinx-of-wonder-rend",
+      "331:creature-sphinx-of-wonder-statistics",
+      "331:creature-spider-bounded-stat-actions",
+      "331:creature-sprite-enchanting-bow",
+      "331:creature-sprite-heart-sight",
+      "331:creature-sprite-invisibility",
+      "331:creature-sprite-needle-sword",
+      "331:creature-sprite-statistics",
+      "331:creature-venomous-snake-bite",
+      "331:creature-venomous-snake-statistics",
+      "331:creature-vulture-bounded-stat-actions",
+      "331:creature-weasel-bounded-stat-actions",
       "331:execution-cohort-1"
     ],
     "331:tome-conjuration-ending": [
@@ -10002,15 +10113,70 @@
       "331:execution-cohort-2"
     ],
     "331:protectors-inscription": [
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:protectors-rescue": [
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:investment-movement": [
       "331:execution-cohort-2"
     ],
     "331:investment-command": [
+      "331:creature-baboon-bounded-stat-actions",
+      "331:creature-badger-bounded-stat-actions",
+      "331:creature-bat-bounded-stat-actions",
+      "331:creature-cat-bounded-stat-actions",
+      "331:creature-crab-bounded-stat-actions",
+      "331:creature-deer-bounded-stat-actions",
+      "331:creature-eagle-bounded-stat-actions",
+      "331:creature-find-familiar-familiar-cast-form",
+      "331:creature-find-familiar-familiar-dismiss-reappear",
+      "331:creature-find-familiar-familiar-initiative-control",
+      "331:creature-find-familiar-familiar-single-reform",
+      "331:creature-find-familiar-familiar-telepathy",
+      "331:creature-find-familiar-familiar-touch-delivery",
+      "331:creature-frog-bounded-stat-actions",
+      "331:creature-giant-fire-beetle-bounded-stat-actions",
+      "331:creature-goat-bounded-stat-actions",
+      "331:creature-hawk-bounded-stat-actions",
+      "331:creature-hyena-bounded-stat-actions",
+      "331:creature-imp-invisibility",
+      "331:creature-imp-shape-shift",
+      "331:creature-imp-statistics",
+      "331:creature-imp-sting",
+      "331:creature-jackal-bounded-stat-actions",
+      "331:creature-lizard-bounded-stat-actions",
+      "331:creature-octopus-bounded-stat-actions",
+      "331:creature-octopus-octopus-ink",
+      "331:creature-owl-bounded-stat-actions",
+      "331:creature-piranha-bounded-stat-actions",
+      "331:creature-pseudodragon-bite-multiattack",
+      "331:creature-pseudodragon-statistics",
+      "331:creature-pseudodragon-sting",
+      "331:creature-quasit-invisibility",
+      "331:creature-quasit-rend",
+      "331:creature-quasit-scare",
+      "331:creature-quasit-shape-shift",
+      "331:creature-quasit-statistics",
+      "331:creature-rat-bounded-stat-actions",
+      "331:creature-raven-bounded-stat-actions",
+      "331:creature-scorpion-bounded-stat-actions",
+      "331:creature-seahorse-bounded-stat-actions",
+      "331:creature-skeleton-attacks",
+      "331:creature-skeleton-statistics",
+      "331:creature-sphinx-of-wonder-burst-ingenuity",
+      "331:creature-sphinx-of-wonder-rend",
+      "331:creature-sphinx-of-wonder-statistics",
+      "331:creature-spider-bounded-stat-actions",
+      "331:creature-sprite-enchanting-bow",
+      "331:creature-sprite-heart-sight",
+      "331:creature-sprite-invisibility",
+      "331:creature-sprite-needle-sword",
+      "331:creature-sprite-statistics",
+      "331:creature-venomous-snake-bite",
+      "331:creature-venomous-snake-statistics",
+      "331:creature-vulture-bounded-stat-actions",
+      "331:creature-weasel-bounded-stat-actions",
       "331:execution-cohort-2"
     ],
     "331:investment-damage": [
@@ -10352,47 +10518,47 @@
     ],
     "331:spell-astral-projection-projection": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-astral-projection-cord-travel": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-astral-projection-damage-ending": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-bane-save-penalty": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-befuddlement-damage-block": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-befuddlement-ending": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-contact-other-plane-contact-questions": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-contact-other-plane-failed-contact": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-create-undead-animate": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-create-undead-command": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-create-undead-control-renewal": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-create-undead-upcast": [
       "331:casting-output",
@@ -10411,19 +10577,19 @@
       "331:creature-wight-statistics-sunlight",
       "331:creature-wight-weapon-multiattack",
       "331:creature-wight-zombie-rise",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-dream-messenger": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-dream-awake-wait": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-dream-nightmare": [
       "331:casting-output",
-      "331:execution-cohort-3"
+      "331:execution-cohort-2"
     ],
     "331:spell-eldritch-blast-beams": [
       "331:casting-output",
@@ -10716,10 +10882,10 @@
       "331:execution-cohort-1"
     ],
     "331:creature-vulture-bounded-stat-actions": [
-      "331:execution-cohort-2"
+      "331:execution-cohort-1"
     ],
     "331:creature-weasel-bounded-stat-actions": [
-      "331:execution-cohort-2"
+      "331:execution-cohort-1"
     ],
     "331:creature-imp-statistics": [
       "331:execution-cohort-1"
@@ -10752,7 +10918,8 @@
       "331:execution-cohort-1"
     ],
     "331:creature-quasit-scare": [
-      "331:execution-cohort-1"
+      "331:execution-cohort-1",
+      "428"
     ],
     "331:creature-quasit-invisibility": [
       "330:spell-invisibility-admission",
@@ -10776,7 +10943,8 @@
       "331:execution-cohort-1"
     ],
     "331:creature-sphinx-of-wonder-burst-ingenuity": [
-      "331:execution-cohort-1"
+      "331:execution-cohort-1",
+      "428"
     ],
     "331:creature-sprite-statistics": [
       "331:execution-cohort-1"
@@ -10797,10 +10965,10 @@
       "331:execution-cohort-1"
     ],
     "331:creature-venomous-snake-statistics": [
-      "331:execution-cohort-2"
+      "331:execution-cohort-1"
     ],
     "331:creature-venomous-snake-bite": [
-      "331:execution-cohort-2"
+      "331:execution-cohort-1"
     ],
     "331:creature-ghoul-statistics": [
       "331:execution-cohort-1"
@@ -10824,18 +10992,18 @@
       "331:execution-cohort-1"
     ],
     "331:creature-wight-statistics-sunlight": [
-      "331:execution-cohort-2"
+      "331:execution-cohort-1"
     ],
     "331:creature-wight-weapon-multiattack": [
-      "331:execution-cohort-2"
+      "331:execution-cohort-1"
     ],
     "331:creature-wight-life-drain": [
-      "331:execution-cohort-2"
+      "331:execution-cohort-1"
     ],
     "331:creature-wight-zombie-rise": [
       "330:zombie-stat-actions",
       "330:zombie-undead-fortitude",
-      "331:execution-cohort-2"
+      "331:execution-cohort-1"
     ],
     "331:creature-mummy-statistics": [
       "331:execution-cohort-1"
@@ -10868,7 +11036,8 @@
       "331:execution-cohort-1"
     ],
     "331:creature-octopus-octopus-ink": [
-      "331:execution-cohort-1"
+      "331:execution-cohort-1",
+      "428"
     ],
     "331:gear-leather-armor": [
       "331:execution-cohort-2"
@@ -10923,7 +11092,11 @@
       "64",
       "65",
       "66",
-      "67"
+      "67",
+      "774",
+      "780",
+      "781",
+      "782"
     ],
     "331:execution-cohort-1": [
       "331:condition-output",
@@ -10937,16 +11110,18 @@
       "331:condition-output",
       "331:execution-output"
     ],
-    "331:execution-cohort-4": [
-      "331:condition-output",
-      "331:execution-output"
-    ],
     "331:condition-output": [
       "487",
       "488",
       "504",
       "727",
-      "962"
+      "777",
+      "778",
+      "960",
+      "961",
+      "962",
+      "963",
+      "964"
     ],
     "331:casting-output": [
       "330:cast-components",
@@ -11760,6 +11935,7 @@
       "332:potent-save",
       "332:preparation",
       "332:savant-initial",
+      "332:savant-new-slots",
       "332:slots",
       "332:source-advancement-output",
       "332:subclass"
@@ -15266,7 +15442,6 @@
     "331:execution-cohort-1": "331",
     "331:execution-cohort-2": "331",
     "331:execution-cohort-3": "331",
-    "331:execution-cohort-4": "331",
     "331:condition-output": "331",
     "331:casting-output": "331",
     "331:provenance-output": "331",
@@ -15579,7 +15754,7 @@
   "input_sha256": {
     "/tmp/edda-332/native-checkpoint.json": "c5514d9f55ba936c4787fd472d37ef26f7e8d928b773dcdce8fc1295f429f092",
     "/home/shared/Work/Worktrees/edda/t3-1cd94a74-1dc9a0e2b4b7efd2/docs/investigations/issue-330-sorcerer-scope.json": "09668d7f85c4265eb36abff2ff7ce354093aecf7e7e8ac2e1fd812f562190abb",
-    "/home/shared/Work/Worktrees/edda/t3-e95d4d18-a58f8fc1027feb81/docs/investigations/issue-331-native-proposal.json": "54905832a584c69780262240587166b20f44e6b8eb9d4676ab19c3b8bce34836",
-    "docs/investigations/issue-332-wizard-scope.json": "c211724f17eb857c31e26b86f75b3500a567fe5b358766ed18cd90b7f0359bc9"
+    "/home/shared/Work/Worktrees/edda/t3-e95d4d18-a58f8fc1027feb81/docs/investigations/issue-331-native-proposal.json": "c0f928558a9e5063cf8e9a056c52bf877304ec48d3b61666a2d35aebb4212c36",
+    "docs/investigations/issue-332-wizard-scope.json": "760b67e6bf1babf3d94517aaba7cc3511943d83065f3e1e01a7e086686ab31da"
   }
 }

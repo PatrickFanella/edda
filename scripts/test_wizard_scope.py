@@ -55,4 +55,29 @@ class WizardScopeTests(unittest.TestCase):
     def test_ordinary_feat_has_no_caster_gate(self):
         self.reject(lambda m:next(t for t in m['tasks'] if t['key']=='asi')['prerequisites'].append(428))
 
+    def test_actual_qualification_bodies_and_owner_rosters_cannot_weaken_together(self):
+        for i in range(len(self.base['gates'])):
+            def change(m,i=i):
+                t=m['gates'][i];t['fixture']='Source metadata qualifies execution.';t['body']='Source metadata qualifies execution.';t['depends']=[];t['prerequisites']=[]
+            self.reject(change)
+        self.reject(lambda m:m['spell_owners']['Acid Arrow'].remove('354'))
+    def test_each6_actual_form_semantics(self):
+        for k in ['form-riding-horse-statistics','form-riding-horse-hooves','form-commoner-statistics','form-commoner-training','form-commoner-club','form-qualified-snapshot']:
+            def change(m,k=k):
+                t=next(t for t in m['tasks'] if t['key']==k);old=t['fixture'];t['fixture']='Any metadata form executes';t['body']=t['body'].replace(old,t['fixture'])
+            self.reject(change)
+    def test_native_reader_repeated_page_and_missing_foreign_nodes(self):
+        from unittest.mock import patch
+        from types import SimpleNamespace
+        from wizard_native_checkpoint import collect
+        def page(number,blocked=(),more=True):
+            issue=dict(number=number,title='Source output',body='exact',state='OPEN',issueType=dict(name='Task'),parent=None,blockedBy=dict(pageInfo=dict(hasNextPage=False),nodes=[dict(number=x) for x in blocked]),projectItems=dict(pageInfo=dict(hasNextPage=False),nodes=[]))
+            return SimpleNamespace(stdout=json.dumps(dict(data=dict(repository=dict(issues=dict(pageInfo=dict(hasNextPage=more,endCursor='same-cursor'),nodes=[issue]))))))
+        for pages in [[page(1),page(1)], [page(1),page(2)], [page(1,blocked=[2],more=False)]]:
+            with patch('wizard_native_checkpoint.subprocess.run',side_effect=pages):
+                with self.assertRaises(AssertionError):collect()
+    def test_native_both_dags_reject_closed_dependency_cycles(self):
+        from wizard_native_checkpoint import acyclic
+        with self.assertRaises(AssertionError):acyclic({'closed-decision':['effect'],'effect':['closed-decision']})
+
 if __name__=='__main__':unittest.main()
