@@ -289,7 +289,7 @@ protected dependency. Subsequent class-gate additions can further change availab
 
 Final strict live and offline verification passed: 80 exact source records, 20 rows,
 189 unique keys, 71 implementation bodies plus qualification #498, all native parents/
-prerequisites/Task M fields and357 acyclic issue nodes. #498 has72 exact blockers
-(71 terminals plus #321); #337 has48 blockers in this receipt.
+prerequisites/Task M fields and 406 acyclic issue nodes. #498 has72 exact blockers
+(71 terminals plus #321); #337 has 49 blockers in this receipt.
 The unchanged #334 validator also passed against this final native graph, including
 its independent missing-source-edge probes.
