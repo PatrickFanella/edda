@@ -45,6 +45,15 @@ The expected root incoming counts are #279=100, #280=95 and #337=59; #429 retain
 100. `VERIFIED` retains immutable registry and actual receipt bytes, with the same
 nodes-map hash delivered at allocation.
 
+`scripts/finalize_sorcerer_native.py` consumes the retained VERIFIED evidence and
+binds only real identity metadata into Sorcerer's frozen 305-row source plan. It
+checks the immutable delivery hashes before writing local artifacts, retains a
+compressed offline evidence bundle with the original JSON bytes, and prepares
+four compact supplements for ROOT. It makes no GitHub calls. A partial registry
+is rejected before any local source-plan write. ROOT alone publishes the
+supplements; the final live proof still requires their exact sections against the
+accepted POST-ROGUE prefixes.
+
 `scripts/sorcerer_native_binding.py` provides a separate read-only reproduction
 of the literal renderer and full frozen native obligations. It does not trust
 candidate body hashes, claimed publication status or a generated expected receipt
