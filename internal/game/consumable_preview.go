@@ -27,7 +27,7 @@ func prepareConsumable(ctx context.Context, database statedb.DBTX, campaign doma
 	}
 	preview.Available = false
 	preview.Modifier = nil
-	preview.Reason = "Only an owned Potion of Healing supports self-use."
+	preview.Reason = "Only an owned Potion of Healing supports self-use or a prepared willing conscious ally."
 	if intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 {
 		return result, nil
 	}
@@ -68,5 +68,16 @@ func prepareConsumable(ctx context.Context, database statedb.DBTX, campaign doma
 	preview.Costs = []ActionCost{{ResourceID: "item:" + itemID.String(), Amount: 1}, {ResourceID: "bonus-action", Amount: 1}}
 	preview.CostStatus = "fixture-only"
 	preview.SourceIDs = []string{"srd-5.2.1:content/items/potion-of-healing", "srd-5.2.1:content/damage/healing"}
+	if err := appendHealingTargets(ctx, database, campaign, pc, result, "potion-healing-ally-v1", lock); err != nil {
+		return nil, err
+	}
+	if len(result.HealingTargets) > 0 {
+		encoded, err := json.Marshal([]any{preview.ExpectedRevision, result.HealingTargets})
+		if err != nil {
+			return nil, err
+		}
+		preview.ExpectedRevision = fmt.Sprintf("potion-ally-v1:%x", sha256.Sum256(encoded))
+		preview.Options = []string{fmt.Sprintf("Quantity: %d; regain 2d4 + 2 HP capped at target maximum HP; self or one prepared willing conscious ally within 5 feet; one potion and one Bonus Action; outside encounters only for allies", quantity)}
+	}
 	return result, nil
 }

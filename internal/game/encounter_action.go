@@ -119,6 +119,11 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		p.Targets = []ActionTarget{{ID: pc.ID, Label: pc.Name + " (self; touch)"}}
 		p.Options = []string{"Cure Wounds; self only in the two-actor encounter; verbal and somatic components; 2d8 + Wisdom capped at maximum HP; one level 1 slot; Magic action."}
 	}
+	if active && intent.Kind == srd521.ConsumableUse {
+		result.HealingTargets = nil
+		p.Targets = []ActionTarget{{ID: pc.ID, Label: pc.Name + " (self)"}}
+		p.Options = []string{fmt.Sprintf("Quantity: %d; regain 2d4 + 2 HP, capped at %d (current %d); self-use only in the two-actor encounter", result.Quantity, pc.MaxHP, pc.HP)}
+	}
 	// Revalidate membership on every encounter action, including NPC resolution.
 	// Never send stale encounter actors/stats when a target is no longer public.
 	if encounter != nil {

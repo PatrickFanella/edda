@@ -185,7 +185,7 @@
       "status": "unsupported",
       "fixtures": [],
       "follow_up": 195,
-      "notes": "Basic Potion of Healing conscious-self fixture only. #80 inventories 258 magic-item headings and source-listed nested variants; #195 starts the record contract. Attunement, charges, item spells, curses and broader effects remain unavailable."
+      "notes": "Basic Potion of Healing conscious-self or qualified adjacent willing conscious ally fixture only. #80 inventories 258 magic-item headings and source-listed nested variants; #195 starts the record contract. Attunement, charges, item spells, curses and broader effects remain unavailable."
     },
     {
       "id": "srd-5.2.1:family/monsters",
@@ -815,7 +815,7 @@
         "internal/handlers/consumable_action_integration_test.go"
       ],
       "follow_up": 79,
-      "notes": "Conscious self-use basic healing fixture only. Administration, unconscious targets, combat action economy and improved potions remain unqualified."
+      "notes": "Conscious self-use or one qualified willing conscious adjacent ally outside encounters; basic 2d4+2 only. Unconscious targets, ally combat participation and improved potions remain unqualified."
     },
     {
       "id": "srd-5.2.1:content/spells/cure-wounds",

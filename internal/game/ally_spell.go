@@ -57,18 +57,33 @@ func prepareStoredSpell(ctx context.Context, database statedb.DBTX, campaign dom
 	if err != nil || !result.Preview.Available || intent.EntryID != "cure-wounds" {
 		return result, err
 	}
+	if err := appendHealingTargets(ctx, database, campaign, pc, result, "cure-wounds-ally-v1", lock); err != nil {
+		return nil, err
+	}
+	encoded, err := json.Marshal([]any{result.Preview.ExpectedRevision, result.HealingTargets})
+	if err != nil {
+		return nil, err
+	}
+	result.Preview.ExpectedRevision = fmt.Sprintf("cure-ally-v1:%x", sha256.Sum256(encoded))
+	result.Preview.Options = []string{"Cure Wounds; prepared Cleric spell; Wisdom; verbal and somatic components; self or one explicitly willing conscious known allied creature within 5 feet with clear touch reach and ordinary conditions; instantaneous; 2d8 + Wisdom capped at target maximum HP; one level 1 slot. Other targets, conditions and slots unavailable."}
+	return result, nil
+}
+
+// appendHealingTargets shares strict scene-bound eligibility without broadening
+// either caller's reserved fixture profile.
+func appendHealingTargets(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, result *StoredAction, profile string, lock bool) error {
 	locking := ""
 	if lock {
 		locking = " FOR UPDATE OF n"
 	}
 	rows, err := database.Query(ctx, `SELECT n.id,n.name,n.hp,n.updated_at,n.properties->'srd521_ally'
  FROM npcs n WHERE n.campaign_id=$1 AND n.location_id=$2 AND n.alive AND n.hp>0
- AND n.properties->'srd521_ally'->>'profile'='cure-wounds-ally-v1'
+ AND n.properties->'srd521_ally'->>'profile'=$4
  AND n.properties->'srd521_ally'->>'actor_id'=$3
  AND EXISTS(SELECT 1 FROM session_logs l WHERE l.campaign_id=n.campaign_id AND n.id=ANY(l.npcs_involved))
- ORDER BY n.id`+locking, dbutil.ToPgtype(campaign.ID), pc.CurrentLocationID, pc.ID.String())
+ ORDER BY n.id`+locking, dbutil.ToPgtype(campaign.ID), pc.CurrentLocationID, pc.ID.String(), profile)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer rows.Close()
 	yes := func(v *bool) bool { return v != nil && *v }
@@ -76,7 +91,7 @@ func prepareStoredSpell(ctx context.Context, database statedb.DBTX, campaign dom
 		var target HealingTarget
 		var data []byte
 		if err := rows.Scan(&target.ID, &target.Name, &target.HP, &target.UpdatedAt, &data); err != nil {
-			return nil, err
+			return err
 		}
 		// Require the exact documented vocabulary before Go's case-insensitive
 		// struct decoding. Every fixture field is explicit and non-null.
@@ -97,7 +112,7 @@ func prepareStoredSpell(ctx context.Context, database statedb.DBTX, campaign dom
 			continue
 		}
 		space := combat.Space{DistanceFeet: facts.DistanceFeet, LineOfSight: facts.LineOfSight, Cover: facts.Cover}
-		if facts.Profile != "cure-wounds-ally-v1" || facts.ActorID != pc.ID || facts.LocationID == uuid.Nil || pc.CurrentLocationID == nil || facts.LocationID != *pc.CurrentLocationID || !yes(facts.Allied) || !yes(facts.Willing) || !yes(facts.Conscious) || facts.Hidden == nil || *facts.Hidden || facts.Conditions != "ordinary" || facts.MaxHP < target.HP || space.Melee() != nil || facts.Cover != "none" {
+		if facts.Profile != profile || facts.ActorID != pc.ID || facts.LocationID == uuid.Nil || pc.CurrentLocationID == nil || facts.LocationID != *pc.CurrentLocationID || !yes(facts.Allied) || !yes(facts.Willing) || !yes(facts.Conscious) || facts.Hidden == nil || *facts.Hidden || facts.Conditions != "ordinary" || facts.MaxHP < target.HP || space.Melee() != nil || facts.Cover != "none" {
 			continue
 		}
 		target.MaxHP, target.Space = facts.MaxHP, space
@@ -106,13 +121,7 @@ func prepareStoredSpell(ctx context.Context, database statedb.DBTX, campaign dom
 		result.Preview.Targets = append(result.Preview.Targets, ActionTarget{ID: target.ID, Label: target.Name + " (willing conscious ally; touch)", DistanceFeet: target.Space.DistanceFeet, ReachFeet: 5})
 	}
 	if err := rows.Err(); err != nil {
-		return nil, err
+		return err
 	}
-	encoded, err := json.Marshal([]any{result.Preview.ExpectedRevision, result.HealingTargets})
-	if err != nil {
-		return nil, err
-	}
-	result.Preview.ExpectedRevision = fmt.Sprintf("cure-ally-v1:%x", sha256.Sum256(encoded))
-	result.Preview.Options = []string{"Cure Wounds; prepared Cleric spell; Wisdom; verbal and somatic components; self or one explicitly willing conscious known allied creature within 5 feet with clear touch reach and ordinary conditions; instantaneous; 2d8 + Wisdom capped at target maximum HP; one level 1 slot. Other targets, conditions and slots unavailable."}
-	return result, nil
+	return nil
 }

@@ -2,7 +2,7 @@ package srd521
 
 import "fmt"
 
-// ConsumableUse is the self-use Potion of Healing slice.
+// ConsumableUse is the basic Potion of Healing slice.
 const ConsumableUse = "consumable-use"
 
 // HealingReceipt records dice, capped HP and the exact inventory cost.
@@ -28,7 +28,7 @@ type HealingReceipt struct {
 // Quantity is revalidated and decremented by the transactional engine caller.
 func ResolveHealingPotion(hp, maxHP int, dice Dice) (*HealingReceipt, error) {
 	if hp <= 0 || maxHP < hp || dice == nil {
-		return nil, fmt.Errorf("conscious self-use target and dice required")
+		return nil, fmt.Errorf("conscious target and dice required")
 	}
 	r := &HealingReceipt{RulesVersion: "srd-5.2.1", Kind: ConsumableUse, Item: "Potion of Healing", Bonus: 2, HPBefore: hp, SourceIDs: []string{prefix + "items/potion-of-healing", prefix + "damage/healing"}}
 	r.RolledHealing = 2

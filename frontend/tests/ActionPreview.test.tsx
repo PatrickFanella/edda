@@ -138,10 +138,12 @@ it('previews a potion quantity and effect and confirms self-use only', async () 
  vi.mocked(previewCharacterAction).mockResolvedValueOnce({...ready,intent:{actor_id:'hero',kind:'consumable-use',entry_id:'potion'},modifier:undefined,targets:[{id:'hero',label:'Mira (self)'}],options:['Quantity: 2; regain 2d4 + 2 HP, capped at 12 (current 1); self-use only'],costs:[{resource_id:'item:potion',amount:1},{resource_id:'bonus-action',amount:1}],cost_status:'fixture-only'});
  vi.mocked(confirmCharacterAction).mockResolvedValueOnce({action_id:'saved',turn_number:2,narrative:'Mira regains 6 HP.',state_changes:[],resolution_events:[],combat_active:false});
  mount('healing');
- await screen.findByRole('option',{name:'Potion of Healing (quantity 2, self)'});
+ await screen.findByRole('option',{name:'Potion of Healing (quantity 2, select target)'});
  await userEvent.selectOptions(screen.getByLabelText('Character action'),'consumable-use:potion');
  await userEvent.click(screen.getByRole('button',{name:'Preview action'}));
  expect(await screen.findByText(/Roll options: Quantity: 2; regain 2d4/)).toBeVisible();
+ expect(screen.getByRole('button',{name:'Confirm action'})).toBeDisabled();
+ await userEvent.selectOptions(screen.getByLabelText('Potion target'),'hero');
  expect(confirmCharacterAction).not.toHaveBeenCalled();
  await userEvent.click(screen.getByRole('button',{name:'Confirm action'}));
  expect(await screen.findByText('Action saved.')).toBeVisible();

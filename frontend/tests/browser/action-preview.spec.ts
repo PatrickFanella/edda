@@ -74,9 +74,11 @@ for (const width of [1440,390]) {
   await page.route('**/api/v1/campaigns/alpha/action/confirm',route=>{confirmations++;expect(route.request().postDataJSON().target_id).toBe('hero');quantity=1;hp=7;return route.fulfill({json:{action_id:'saved',turn_number:3,narrative:'Mira drinks a Potion of Healing: regains 6 HP.',combat_active:false,state_changes:[],resolution_events:[]}})});
   await signIn(page);await page.goto('/play/alpha');await page.getByRole('tab',{name:'Character',exact:true}).click();
   await page.getByLabel('Character action').selectOption('consumable-use:potion');await page.getByRole('button',{name:'Preview action',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Confirm action',exact:true})).toBeDisabled();
+  await page.getByLabel('Potion target').selectOption('hero');
   await expect(page.getByText(/Roll options: Quantity: 2/)).toBeVisible();expect(confirmations).toBe(0);expect(game.actions).toEqual([]);
   await page.getByRole('button',{name:'Confirm action',exact:true}).click();await expect(page.getByText('Action saved.')).toBeVisible();expect(confirmations).toBe(1);
-  await expect(page.getByRole('option',{name:'Potion of Healing (quantity 1, self)'})).toBeAttached();
+  await expect(page.getByRole('option',{name:'Potion of Healing (quantity 1, select target)'})).toBeAttached();
   await page.getByRole('tab',{name:'Play',exact:true}).click();await expect(page.getByText('Mira drinks a Potion of Healing: regains 6 HP.',{exact:true})).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  });
@@ -152,6 +154,51 @@ for (const width of [1440,390]) {
   await page.getByRole('tab',{name:'Play',exact:true}).click();await expect(page.getByText('Mira casts Cure Wounds on Rowan: regains 7 HP.',{exact:true})).toBeVisible();
   await page.getByRole('article',{name:'Game Master entry'}).last().getByText('Turn details').click();
   await page.getByRole('tabpanel',{name:'Play',exact:true}).getByText('Cure Wounds: Rowan regains 7 HP').click();await expect(page.getByText('Level 1 slots 2 → 1')).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ });
+ }
+}
+
+for (const width of [1440,390]) {
+ for (const recovery of ['confirm','retry','reload']) {
+ test(`administers basic potion to ally with ${recovery} at ${width}px`,async({page,game})=>{
+  await page.setViewportSize({width,height:844});
+  let quantity=2,confirmations=0, reconcile=false;
+  const hp=1;
+  let requestId='';
+  await page.route('**/api/v1/campaigns/alpha/character',route=>route.fulfill({json:{...character(),hp,rules_version:'srd-5.2.1',sheet:fixture.sheet}}));
+  await page.route('**/api/v1/campaigns/alpha/character/inventory',route=>route.fulfill({json:[{id:'potion',campaign_id:'alpha',name:'Potion of Healing',description:'',rarity:'common',item_type:'consumable',properties:{srd521_id:'potion-of-healing'},equipped:false,quantity}]}));
+  await page.route('**/api/v1/campaigns/alpha/character/action-preview?*',route=>{
+   return route.fulfill({json:{intent:{actor_id:'hero',kind:'consumable-use',entry_id:'potion'},rules_version:'srd-5.2.1',expected_revision:'casting-fixture',available:true,targets:[{id:'hero',label:'Mira (self; touch)'},{id:'ally',label:'Rowan (willing conscious ally; touch)',distance_feet:5,reach_feet:5}],options:['Quantity: 2; 2d4 + 2 capped at target maximum HP; willing conscious ally within 5 feet'],costs:[{resource_id:'item:potion',amount:1},{resource_id:'bonus-action',amount:1}],cost_status:'fixture-only',source_ids:[]}});
+  });
+  const saved={action_id:'saved',turn_number:3,narrative:'Mira administers a Potion of Healing to Rowan: regains 6 HP.',combat_active:false,state_changes:[],resolution_events:[{type:'srd_consumable',label:'Potion of Healing',outcome:'healed',details:{receipt:{rules_version:'srd-5.2.1',kind:'consumable-use',item:'Potion of Healing',item_id:'potion',target:'Rowan',target_id:'ally',quantity_before:2,quantity_after:1,dice:[2,2],bonus:2,rolled_healing:6,healing:6,hp_before:1,hp_after:7,source_ids:[]}}}]};
+  await page.route('**/api/v1/campaigns/alpha/action?*',route=>{if(reconcile) expect(new URL(route.request().url()).searchParams.get('action_id')).toBe(requestId);return route.fulfill({json:reconcile?{result:saved}:null})});
+  await page.route('**/api/v1/campaigns/alpha/action/confirm',route=>{
+   confirmations++;
+   const body=route.request().postDataJSON();
+   expect(body).toMatchObject({target_id:'ally',intent:{kind:'consumable-use',entry_id:'potion'}});
+   if(requestId) expect(body.action_id).toBe(requestId);
+   requestId=body.action_id;saved.action_id=requestId;quantity=1;
+   if(recovery!=='confirm' && confirmations===1) return route.abort('failed');
+   return route.fulfill({json:saved});
+  });
+  await signIn(page);await page.goto('/play/alpha');await page.getByRole('tab',{name:'Character',exact:true}).click();
+  await page.getByLabel('Character action').selectOption('consumable-use:potion');
+  await page.getByRole('button',{name:'Preview action',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Confirm action',exact:true})).toBeDisabled();
+  await expect(page.getByText('item:potion: 1, bonus-action: 1', {exact:false})).toBeVisible();
+  await page.getByLabel('Potion target').selectOption('ally');expect(confirmations).toBe(0);expect(game.actions).toEqual([]);
+  await page.getByRole('button',{name:'Confirm action',exact:true}).click();
+  if(recovery!=='confirm') {
+   await expect(page.getByRole('button',{name:'Retry same action',exact:true})).toBeVisible();
+   if(recovery==='reload') {reconcile=true;await page.reload();await page.getByRole('tab',{name:'Character',exact:true}).click();}
+   else await page.getByRole('button',{name:'Retry same action',exact:true}).click();
+  }
+  await expect(page.getByText('Action saved.')).toBeVisible();expect(confirmations).toBe(recovery==='retry'?2:1);
+  await expect(page.getByRole('option',{name:'Potion of Healing (quantity 1, select target)'})).toBeAttached();
+  await page.getByRole('tab',{name:'Play',exact:true}).click();await expect(page.getByText('Mira administers a Potion of Healing to Rowan: regains 6 HP.',{exact:true})).toBeVisible();
+  await page.getByRole('article',{name:'Game Master entry'}).last().getByText('Turn details').click();
+  await page.getByRole('tabpanel',{name:'Play',exact:true}).getByText('Potion of Healing: Rowan regains 6 HP').click();await expect(page.getByText('Quantity 2 → 1')).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  });
  }
