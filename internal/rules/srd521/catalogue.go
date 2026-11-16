@@ -291,7 +291,11 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 			allowed = parent.Kind == "class"
 		case "feature":
 			allowed = parent.Kind == "level" || parent.Kind == "subclass"
-		case "choice", "resource":
+		// A choice may own conditional subchoices; the same source,
+		// reciprocal-reference and cycle guards still apply.
+		case "choice":
+			allowed = parent.ID != "" && parent.Kind != "resource" && parent.Kind != "prerequisite"
+		case "resource":
 			allowed = parent.ID != "" && parent.Kind != "choice" && parent.Kind != "resource" && parent.Kind != "prerequisite"
 		case "prerequisite":
 			allowed = parent.ID != "" && parent.Kind != "resource" && parent.Kind != "prerequisite"

@@ -1,0 +1,29 @@
+{
+  "catalogue": "character-cleric.json",
+  "record_ids": [
+    "srd-5.2.1:character/class/cleric",
+    "srd-5.2.1:character/level/cleric/1",
+    "srd-5.2.1:character/feature/cleric/spellcasting",
+    "srd-5.2.1:character/feature/cleric/divine-order",
+    "srd-5.2.1:character/choice/cleric/skills",
+    "srd-5.2.1:character/choice/cleric/starting-equipment",
+    "srd-5.2.1:character/choice/cleric/cantrips",
+    "srd-5.2.1:character/choice/cleric/prepared-spells",
+    "srd-5.2.1:character/prerequisite/cleric/prepared-slot-level",
+    "srd-5.2.1:character/resource/cleric/spell-slot-1",
+    "srd-5.2.1:character/resource/cleric/spell-slot-2",
+    "srd-5.2.1:character/resource/cleric/spell-slot-3",
+    "srd-5.2.1:character/resource/cleric/spell-slot-4",
+    "srd-5.2.1:character/resource/cleric/spell-slot-5",
+    "srd-5.2.1:character/resource/cleric/spell-slot-6",
+    "srd-5.2.1:character/resource/cleric/spell-slot-7",
+    "srd-5.2.1:character/resource/cleric/spell-slot-8",
+    "srd-5.2.1:character/resource/cleric/spell-slot-9",
+    "srd-5.2.1:character/choice/cleric/divine-order",
+    "srd-5.2.1:character/choice/cleric/protector",
+    "srd-5.2.1:character/prerequisite/cleric/protector-selected",
+    "srd-5.2.1:character/choice/cleric/thaumaturge",
+    "srd-5.2.1:character/prerequisite/cleric/thaumaturge-selected",
+    "srd-5.2.1:character/prerequisite/cleric/multiclass-eligibility"
+  ]
+}

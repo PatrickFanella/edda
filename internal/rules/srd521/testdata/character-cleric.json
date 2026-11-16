@@ -1,0 +1,2764 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Cleric identities, core and conditional choices, resources and all 20 class progression rows on PDF pp36-38 adapted into offline metadata; mechanic keys and graph are Edda additions. Spell-list and other referenced definitions remain opaque keys. No rule prose, Life Domain features or executable mechanics imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/class/cleric",
+      "kind": "class",
+      "name": "Cleric",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/skills",
+        "srd-5.2.1:character/choice/cleric/starting-equipment"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/multiclass-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/core-traits",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/saves/wisdom",
+        "srd-5.2.1:mechanic/saves/charisma",
+        "srd-5.2.1:mechanic/weapons/simple",
+        "srd-5.2.1:mechanic/armor/light",
+        "srd-5.2.1:mechanic/armor/medium",
+        "srd-5.2.1:mechanic/armor/shields",
+        "srd-5.2.1:mechanic/cleric/first-class-all-traits",
+        "srd-5.2.1:mechanic/cleric/multiclass-hit-die-armor-level-1-features",
+        "srd-5.2.1:mechanic/cleric/multiclass-slot-rules-p25",
+        "srd-5.2.1:mechanic/cleric/hit-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/hit-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/1",
+      "kind": "level",
+      "name": "Cleric level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 1,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/spellcasting",
+          "srd-5.2.1:character/feature/cleric/divine-order"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/2",
+      "kind": "level",
+      "name": "Cleric level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 2,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/channel-divinity"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/3",
+      "kind": "level",
+      "name": "Cleric level 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 3,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/cleric-subclass"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/4",
+      "kind": "level",
+      "name": "Cleric level 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 4,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/5",
+      "kind": "level",
+      "name": "Cleric level 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 5,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/sear-undead"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/6",
+      "kind": "level",
+      "name": "Cleric level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 6,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression",
+        "srd-5.2.1:mechanic/cleric/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/cleric/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/7",
+      "kind": "level",
+      "name": "Cleric level 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 7,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/blessed-strikes"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/8",
+      "kind": "level",
+      "name": "Cleric level 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 8,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/9",
+      "kind": "level",
+      "name": "Cleric level 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 9,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/10",
+      "kind": "level",
+      "name": "Cleric level 10",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 10,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/divine-intervention"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/11",
+      "kind": "level",
+      "name": "Cleric level 11",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 11,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/12",
+      "kind": "level",
+      "name": "Cleric level 12",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 12,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/13",
+      "kind": "level",
+      "name": "Cleric level 13",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 13,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/14",
+      "kind": "level",
+      "name": "Cleric level 14",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 14,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/improved-blessed-strikes"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/15",
+      "kind": "level",
+      "name": "Cleric level 15",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 15,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/16",
+      "kind": "level",
+      "name": "Cleric level 16",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 16,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/17",
+      "kind": "level",
+      "name": "Cleric level 17",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 17,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression",
+        "srd-5.2.1:mechanic/cleric/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/cleric/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/18",
+      "kind": "level",
+      "name": "Cleric level 18",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 18,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/19",
+      "kind": "level",
+      "name": "Cleric level 19",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 19,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/epic-boon"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/cleric/20",
+      "kind": "level",
+      "name": "Cleric level 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 20,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/cleric/greater-divine-intervention"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "kind": "feature",
+      "name": "Spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/cantrips",
+        "srd-5.2.1:character/choice/cleric/prepared-spells"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/cleric/spell-slot-1",
+        "srd-5.2.1:character/resource/cleric/spell-slot-2",
+        "srd-5.2.1:character/resource/cleric/spell-slot-3",
+        "srd-5.2.1:character/resource/cleric/spell-slot-4",
+        "srd-5.2.1:character/resource/cleric/spell-slot-5",
+        "srd-5.2.1:character/resource/cleric/spell-slot-6",
+        "srd-5.2.1:character/resource/cleric/spell-slot-7",
+        "srd-5.2.1:character/resource/cleric/spell-slot-8",
+        "srd-5.2.1:character/resource/cleric/spell-slot-9"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/spellcasting",
+        "srd-5.2.1:mechanic/cleric/spellcasting/wisdom",
+        "srd-5.2.1:mechanic/cleric/spellcasting/holy-symbol-focus-p97",
+        "srd-5.2.1:mechanic/cleric/spellcasting/cleric-spell-list-p38-40",
+        "srd-5.2.1:mechanic/cleric/spellcasting/spells-rules-p104-106",
+        "srd-5.2.1:mechanic/cleric/spellcasting/replace-one-cantrip-on-cleric-level",
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-all-slots",
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-replace-prepared-spells",
+        "srd-5.2.1:mechanic/cleric/spellcasting/always-prepared-excluded-from-count",
+        "srd-5.2.1:mechanic/cleric/spellcasting/always-prepared-count-as-cleric-spells",
+        "srd-5.2.1:mechanic/cleric/spellcasting/recommended-guidance-sacred-flame-thaumaturgy",
+        "srd-5.2.1:mechanic/cleric/spellcasting/recommended-bless-cure-wounds-guiding-bolt-shield-of-faith"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/divine-order",
+      "kind": "feature",
+      "name": "Divine Order",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-divine-order",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/divine-order"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-order",
+        "srd-5.2.1:mechanic/cleric/thaumaturge-extra-cantrips",
+        "srd-5.2.1:mechanic/cleric/thaumaturge-minimum-check-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/thaumaturge-extra-cantrips": 1,
+        "srd-5.2.1:mechanic/cleric/thaumaturge-minimum-check-bonus": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/channel-divinity",
+      "kind": "feature",
+      "name": "Channel Divinity",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-2-channel-divinity",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/2",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/channel-divinity"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/cleric/channel-divinity"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/channel-divinity",
+        "srd-5.2.1:mechanic/cleric/turn-undead/magic-action-holy-symbol",
+        "srd-5.2.1:mechanic/cleric/turn-undead/chosen-undead-within-30-feet",
+        "srd-5.2.1:mechanic/cleric/turn-undead/wisdom-save",
+        "srd-5.2.1:mechanic/cleric/turn-undead/frightened-incapacitated-1-minute",
+        "srd-5.2.1:mechanic/cleric/turn-undead/move-away-on-turns",
+        "srd-5.2.1:mechanic/cleric/turn-undead/ends-on-damage-or-cleric-incapacitated-or-dead",
+        "srd-5.2.1:mechanic/cleric/divine-spark-range-feet",
+        "srd-5.2.1:mechanic/cleric/divine-spark-die-sides",
+        "srd-5.2.1:mechanic/cleric/turn-undead-range-feet",
+        "srd-5.2.1:mechanic/cleric/turn-undead-duration-minutes",
+        "srd-5.2.1:mechanic/cleric/short-rest-recovered-uses",
+        "srd-5.2.1:mechanic/cleric/divine-spark-dice-at-level-2",
+        "srd-5.2.1:mechanic/cleric/divine-spark-dice-at-level-7",
+        "srd-5.2.1:mechanic/cleric/divine-spark-dice-at-level-13",
+        "srd-5.2.1:mechanic/cleric/divine-spark-dice-at-level-18"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/divine-spark-range-feet": 30,
+        "srd-5.2.1:mechanic/cleric/divine-spark-die-sides": 8,
+        "srd-5.2.1:mechanic/cleric/turn-undead-range-feet": 30,
+        "srd-5.2.1:mechanic/cleric/turn-undead-duration-minutes": 1,
+        "srd-5.2.1:mechanic/cleric/short-rest-recovered-uses": 1,
+        "srd-5.2.1:mechanic/cleric/divine-spark-dice-at-level-2": 1,
+        "srd-5.2.1:mechanic/cleric/divine-spark-dice-at-level-7": 2,
+        "srd-5.2.1:mechanic/cleric/divine-spark-dice-at-level-13": 3,
+        "srd-5.2.1:mechanic/cleric/divine-spark-dice-at-level-18": 4
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/cleric-subclass",
+      "kind": "feature",
+      "name": "Cleric Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-3-cleric-subclass",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/3",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/cleric-subclass"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/cleric-subclass"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/ability-score-improvement",
+      "kind": "feature",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-4-ability-score-improvement",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/4",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/ability-score-improvement"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/ability-score-improvement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/sear-undead",
+      "kind": "feature",
+      "name": "Sear Undead",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-5-sear-undead",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/5",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/sear-undead-turn"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/sear-undead",
+        "srd-5.2.1:mechanic/cleric/sear-undead/on-turn-undead-failed-save",
+        "srd-5.2.1:mechanic/cleric/sear-undead/d8-count-wisdom-modifier-minimum-1",
+        "srd-5.2.1:mechanic/cleric/sear-undead/radiant-damage",
+        "srd-5.2.1:mechanic/cleric/sear-undead/damage-does-not-end-turn-effect",
+        "srd-5.2.1:mechanic/cleric/sear-undead-die-sides",
+        "srd-5.2.1:mechanic/cleric/sear-undead-minimum-dice"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/sear-undead-die-sides": 8,
+        "srd-5.2.1:mechanic/cleric/sear-undead-minimum-dice": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/blessed-strikes",
+      "kind": "feature",
+      "name": "Blessed Strikes",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-7-blessed-strikes",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/7",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/blessed-strikes"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/blessed-strikes",
+        "srd-5.2.1:mechanic/cleric/potent-spellcasting/add-wisdom-modifier-to-cleric-cantrip-damage",
+        "srd-5.2.1:mechanic/cleric/divine-strike-dice",
+        "srd-5.2.1:mechanic/cleric/divine-strike-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/divine-strike-dice": 1,
+        "srd-5.2.1:mechanic/cleric/divine-strike-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/divine-intervention",
+      "kind": "feature",
+      "name": "Divine Intervention",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-10-divine-intervention",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/10",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/divine-intervention-spell"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/cleric/divine-intervention"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-intervention"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/improved-blessed-strikes",
+      "kind": "feature",
+      "name": "Improved Blessed Strikes",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-14-improved-blessed-strikes",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/14",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/improved-blessed-strikes-choice"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/improved-blessed-strikes",
+        "srd-5.2.1:mechanic/cleric/improved-blessed-strikes/improves-only-chosen-option",
+        "srd-5.2.1:mechanic/cleric/improved-blessed-strikes/divine-strike-extra-2d8",
+        "srd-5.2.1:mechanic/cleric/improved-blessed-strikes/potent-on-cleric-cantrip-damage",
+        "srd-5.2.1:mechanic/cleric/improved-blessed-strikes/potent-self-or-other-within-60-feet",
+        "srd-5.2.1:mechanic/cleric/improved-blessed-strikes/potent-temporary-hp-twice-wisdom-modifier",
+        "srd-5.2.1:mechanic/cleric/divine-strike-dice",
+        "srd-5.2.1:mechanic/cleric/divine-strike-die-sides",
+        "srd-5.2.1:mechanic/cleric/potent-range-feet",
+        "srd-5.2.1:mechanic/cleric/potent-wisdom-multiplier"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/divine-strike-dice": 2,
+        "srd-5.2.1:mechanic/cleric/divine-strike-die-sides": 8,
+        "srd-5.2.1:mechanic/cleric/potent-range-feet": 60,
+        "srd-5.2.1:mechanic/cleric/potent-wisdom-multiplier": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/epic-boon",
+      "kind": "feature",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-19-epic-boon",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/19",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/epic-boon"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/epic-boon"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/greater-divine-intervention",
+      "kind": "feature",
+      "name": "Greater Divine Intervention",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-20-greater-divine-intervention",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/cleric/20",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/greater-divine-intervention-use"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/greater-divine-intervention",
+        "srd-5.2.1:mechanic/cleric/greater-divine-intervention/wish-option",
+        "srd-5.2.1:mechanic/cleric/greater-divine-intervention/wish-locks-divine-intervention-2d4-long-rests",
+        "srd-5.2.1:mechanic/cleric/wish-recovery-dice",
+        "srd-5.2.1:mechanic/cleric/wish-recovery-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/wish-recovery-dice": 2,
+        "srd-5.2.1:mechanic/cleric/wish-recovery-die-sides": 4
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/skills",
+      "kind": "choice",
+      "name": "Skills",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/skills"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/medicine",
+        "srd-5.2.1:mechanic/skills/persuasion",
+        "srd-5.2.1:mechanic/skills/religion"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/starting-equipment",
+      "kind": "choice",
+      "name": "Starting Equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/chain-shirt",
+        "srd-5.2.1:mechanic/equipment/shield",
+        "srd-5.2.1:mechanic/equipment/mace",
+        "srd-5.2.1:mechanic/equipment/holy-symbol",
+        "srd-5.2.1:mechanic/equipment/priests-pack",
+        "srd-5.2.1:mechanic/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/equipment/a",
+        "srd-5.2.1:mechanic/cleric/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/cleric/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/chain-shirt": 1,
+            "srd-5.2.1:mechanic/equipment/shield": 1,
+            "srd-5.2.1:mechanic/equipment/mace": 1,
+            "srd-5.2.1:mechanic/equipment/holy-symbol": 1,
+            "srd-5.2.1:mechanic/equipment/priests-pack": 1,
+            "srd-5.2.1:mechanic/currency/gp": 7
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/cleric/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/currency/gp": 110
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/cantrips",
+      "kind": "choice",
+      "name": "Cantrips",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/cantrips"
+      ],
+      "select": 3,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/spell-list/p38-40/cantrips"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 3
+        },
+        {
+          "level": 2,
+          "value": 3
+        },
+        {
+          "level": 3,
+          "value": 3
+        },
+        {
+          "level": 4,
+          "value": 4
+        },
+        {
+          "level": 5,
+          "value": 4
+        },
+        {
+          "level": 6,
+          "value": 4
+        },
+        {
+          "level": 7,
+          "value": 4
+        },
+        {
+          "level": 8,
+          "value": 4
+        },
+        {
+          "level": 9,
+          "value": 4
+        },
+        {
+          "level": 10,
+          "value": 5
+        },
+        {
+          "level": 11,
+          "value": 5
+        },
+        {
+          "level": 12,
+          "value": 5
+        },
+        {
+          "level": 13,
+          "value": 5
+        },
+        {
+          "level": 14,
+          "value": 5
+        },
+        {
+          "level": 15,
+          "value": 5
+        },
+        {
+          "level": 16,
+          "value": 5
+        },
+        {
+          "level": 17,
+          "value": 5
+        },
+        {
+          "level": 18,
+          "value": 5
+        },
+        {
+          "level": 19,
+          "value": 5
+        },
+        {
+          "level": 20,
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/prepared-spells",
+      "kind": "choice",
+      "name": "Prepared Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/prepared-slot-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/prepared-spells"
+      ],
+      "select": 4,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/spell-list/p38-40/level-1-plus"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 4
+        },
+        {
+          "level": 2,
+          "value": 5
+        },
+        {
+          "level": 3,
+          "value": 6
+        },
+        {
+          "level": 4,
+          "value": 7
+        },
+        {
+          "level": 5,
+          "value": 9
+        },
+        {
+          "level": 6,
+          "value": 10
+        },
+        {
+          "level": 7,
+          "value": 11
+        },
+        {
+          "level": 8,
+          "value": 12
+        },
+        {
+          "level": 9,
+          "value": 14
+        },
+        {
+          "level": 10,
+          "value": 15
+        },
+        {
+          "level": 11,
+          "value": 16
+        },
+        {
+          "level": 12,
+          "value": 16
+        },
+        {
+          "level": 13,
+          "value": 17
+        },
+        {
+          "level": 14,
+          "value": 17
+        },
+        {
+          "level": 15,
+          "value": 18
+        },
+        {
+          "level": 16,
+          "value": 18
+        },
+        {
+          "level": 17,
+          "value": 19
+        },
+        {
+          "level": 18,
+          "value": 20
+        },
+        {
+          "level": 19,
+          "value": 21
+        },
+        {
+          "level": 20,
+          "value": 22
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/prepared-slot-level",
+      "kind": "prerequisite",
+      "name": "Prepared Slot Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/prepared-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/prepared-spell-level-has-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/prepared-spell-level-has-slot",
+        "record_refs": [
+          "srd-5.2.1:character/feature/cleric/spellcasting"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/spell-slot-1",
+      "kind": "resource",
+      "name": "Spell Slot 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-all-slots",
+        "srd-5.2.1:mechanic/cleric/spell-slot-level-1"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 3
+        },
+        {
+          "level": 3,
+          "value": 4
+        },
+        {
+          "level": 4,
+          "value": 4
+        },
+        {
+          "level": 5,
+          "value": 4
+        },
+        {
+          "level": 6,
+          "value": 4
+        },
+        {
+          "level": 7,
+          "value": 4
+        },
+        {
+          "level": 8,
+          "value": 4
+        },
+        {
+          "level": 9,
+          "value": 4
+        },
+        {
+          "level": 10,
+          "value": 4
+        },
+        {
+          "level": 11,
+          "value": 4
+        },
+        {
+          "level": 12,
+          "value": 4
+        },
+        {
+          "level": 13,
+          "value": 4
+        },
+        {
+          "level": 14,
+          "value": 4
+        },
+        {
+          "level": 15,
+          "value": 4
+        },
+        {
+          "level": 16,
+          "value": 4
+        },
+        {
+          "level": 17,
+          "value": 4
+        },
+        {
+          "level": 18,
+          "value": 4
+        },
+        {
+          "level": 19,
+          "value": 4
+        },
+        {
+          "level": 20,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/spell-slot-2",
+      "kind": "resource",
+      "name": "Spell Slot 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-all-slots",
+        "srd-5.2.1:mechanic/cleric/spell-slot-level-2"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 3
+        },
+        {
+          "level": 5,
+          "value": 3
+        },
+        {
+          "level": 6,
+          "value": 3
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/spell-slot-3",
+      "kind": "resource",
+      "name": "Spell Slot 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-all-slots",
+        "srd-5.2.1:mechanic/cleric/spell-slot-level-3"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 5,
+          "value": 2
+        },
+        {
+          "level": 6,
+          "value": 3
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/spell-slot-4",
+      "kind": "resource",
+      "name": "Spell Slot 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-all-slots",
+        "srd-5.2.1:mechanic/cleric/spell-slot-level-4"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 7,
+          "value": 1
+        },
+        {
+          "level": 8,
+          "value": 2
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/spell-slot-5",
+      "kind": "resource",
+      "name": "Spell Slot 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-all-slots",
+        "srd-5.2.1:mechanic/cleric/spell-slot-level-5"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 9,
+          "value": 1
+        },
+        {
+          "level": 10,
+          "value": 2
+        },
+        {
+          "level": 11,
+          "value": 2
+        },
+        {
+          "level": 12,
+          "value": 2
+        },
+        {
+          "level": 13,
+          "value": 2
+        },
+        {
+          "level": 14,
+          "value": 2
+        },
+        {
+          "level": 15,
+          "value": 2
+        },
+        {
+          "level": 16,
+          "value": 2
+        },
+        {
+          "level": 17,
+          "value": 2
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/spell-slot-6",
+      "kind": "resource",
+      "name": "Spell Slot 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-all-slots",
+        "srd-5.2.1:mechanic/cleric/spell-slot-level-6"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 11,
+          "value": 1
+        },
+        {
+          "level": 12,
+          "value": 1
+        },
+        {
+          "level": 13,
+          "value": 1
+        },
+        {
+          "level": 14,
+          "value": 1
+        },
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 2
+        },
+        {
+          "level": 20,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/spell-slot-7",
+      "kind": "resource",
+      "name": "Spell Slot 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-all-slots",
+        "srd-5.2.1:mechanic/cleric/spell-slot-level-7"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 13,
+          "value": 1
+        },
+        {
+          "level": 14,
+          "value": 1
+        },
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/spell-slot-8",
+      "kind": "resource",
+      "name": "Spell Slot 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-all-slots",
+        "srd-5.2.1:mechanic/cleric/spell-slot-level-8"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/spell-slot-9",
+      "kind": "resource",
+      "name": "Spell Slot 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-spellcasting",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/spellcasting/long-rest-all-slots",
+        "srd-5.2.1:mechanic/cleric/spell-slot-level-9"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/divine-order",
+      "kind": "choice",
+      "name": "Divine Order",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-divine-order",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/divine-order",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/protector",
+        "srd-5.2.1:character/choice/cleric/thaumaturge"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-order"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/divine-order/protector",
+        "srd-5.2.1:mechanic/cleric/divine-order/thaumaturge"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/protector",
+      "kind": "choice",
+      "name": "Protector",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-divine-order",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/divine-order",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/protector-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/protector",
+        "srd-5.2.1:mechanic/weapons/martial",
+        "srd-5.2.1:mechanic/armor/heavy"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/divine-order/protector/grant-martial-weapons-and-heavy-armor"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/protector-selected",
+      "kind": "prerequisite",
+      "name": "Protector Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-divine-order",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/protector",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-order/protector-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/divine-order/protector-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/cleric/divine-order"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/thaumaturge",
+      "kind": "choice",
+      "name": "Thaumaturge",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-divine-order",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/divine-order",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/thaumaturge-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-order/thaumaturge/extra-cantrip",
+        "srd-5.2.1:mechanic/cleric/divine-order/thaumaturge/arcana-religion-wisdom-modifier-minimum-1"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/spell-list/p38-40/cantrips"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/thaumaturge-selected",
+      "kind": "prerequisite",
+      "name": "Thaumaturge Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-1-divine-order",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/thaumaturge",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-order/thaumaturge-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/divine-order/thaumaturge-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/cleric/divine-order"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/channel-divinity",
+      "kind": "resource",
+      "name": "Channel Divinity",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-2-channel-divinity",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/channel-divinity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/channel-divinity/short-rest-recover-one",
+        "srd-5.2.1:mechanic/cleric/channel-divinity/long-rest-recover-all",
+        "srd-5.2.1:mechanic/cleric/channel-divinity/save-dc-spellcasting"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 2
+        },
+        {
+          "level": 5,
+          "value": 2
+        },
+        {
+          "level": 6,
+          "value": 3
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 4
+        },
+        {
+          "level": 19,
+          "value": 4
+        },
+        {
+          "level": 20,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/channel-divinity",
+      "kind": "choice",
+      "name": "Channel Divinity",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-2-channel-divinity",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/channel-divinity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/divine-spark"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/channel-divinity/choose-effect-per-use",
+        "srd-5.2.1:mechanic/cleric/channel-divinity/additional-effects-at-higher-levels"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/channel-divinity/divine-spark",
+        "srd-5.2.1:mechanic/cleric/channel-divinity/turn-undead"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/divine-spark",
+      "kind": "choice",
+      "name": "Divine Spark",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-2-channel-divinity",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/channel-divinity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/divine-spark-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-spark/magic-action",
+        "srd-5.2.1:mechanic/cleric/divine-spark/holy-symbol-other-visible-creature-30-feet",
+        "srd-5.2.1:mechanic/cleric/divine-spark/d8-plus-wisdom-modifier",
+        "srd-5.2.1:mechanic/cleric/divine-spark/constitution-save-half-round-down"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/divine-spark/healing",
+        "srd-5.2.1:mechanic/damage/necrotic",
+        "srd-5.2.1:mechanic/damage/radiant"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/divine-spark-selected",
+      "kind": "prerequisite",
+      "name": "Divine Spark Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-2-channel-divinity",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/divine-spark",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/channel-divinity/divine-spark-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/channel-divinity/divine-spark-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/cleric/channel-divinity"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/cleric-subclass",
+      "kind": "choice",
+      "name": "Cleric Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-3-cleric-subclass",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/cleric-subclass",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/subclass-features-at-or-below-cleric-level"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/subclasses",
+        "srd-5.2.1:mechanic/cleric/subclasses/life-domain"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/ability-score-improvement",
+      "kind": "choice",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-4-ability-score-improvement",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/ability-score-improvement-qualification"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/ability-score-improvement",
+        "srd-5.2.1:mechanic/cleric/asi-repeat-at-8-12-16"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/ability-score-improvement-qualification",
+      "kind": "prerequisite",
+      "name": "Ability Score Improvement Qualification",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-4-ability-score-improvement",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/feat-qualification"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/feat-qualification",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/epic-boon",
+      "kind": "choice",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-19-epic-boon",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/epic-boon-qualification"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/epic-boon",
+        "srd-5.2.1:mechanic/cleric/epic-boon/recommended-boon-of-fate"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/epic-boon",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/epic-boon-qualification",
+      "kind": "prerequisite",
+      "name": "Epic Boon Qualification",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-19-epic-boon",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/feat-qualification"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/feat-qualification",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/sear-undead-turn",
+      "kind": "prerequisite",
+      "name": "Sear Undead Turn",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-5-sear-undead",
+          "page": 37
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/sear-undead",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/requires-turn-undead"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/requires-turn-undead",
+        "record_refs": [
+          "srd-5.2.1:character/feature/cleric/channel-divinity"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/blessed-strikes",
+      "kind": "choice",
+      "name": "Blessed Strikes",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-7-blessed-strikes",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/blessed-strikes",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/cleric/divine-strike"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/blessed-strikes/only-chosen-option-including-older-subclass"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/blessed-strikes/divine-strike",
+        "srd-5.2.1:mechanic/cleric/blessed-strikes/potent-spellcasting"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/divine-strike",
+      "kind": "choice",
+      "name": "Divine Strike",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-7-blessed-strikes",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/blessed-strikes",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/divine-strike-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-strike/once-on-own-turn-weapon-attack-roll-hit",
+        "srd-5.2.1:mechanic/cleric/divine-strike/extra-1d8"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/damage/necrotic",
+        "srd-5.2.1:mechanic/damage/radiant"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/divine-strike-selected",
+      "kind": "prerequisite",
+      "name": "Divine Strike Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-7-blessed-strikes",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/divine-strike",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/blessed-strikes/divine-strike-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/blessed-strikes/divine-strike-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/cleric/blessed-strikes"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/improved-blessed-strikes-choice",
+      "kind": "prerequisite",
+      "name": "Improved Blessed Strikes Choice",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-14-improved-blessed-strikes",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/improved-blessed-strikes",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/requires-blessed-strikes-choice"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/requires-blessed-strikes-choice",
+        "record_refs": [
+          "srd-5.2.1:character/choice/cleric/blessed-strikes"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/cleric/divine-intervention",
+      "kind": "resource",
+      "name": "Divine Intervention",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-10-divine-intervention",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/divine-intervention",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-intervention/long-rest-recovery"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 10,
+          "value": 1
+        },
+        {
+          "level": 11,
+          "value": 1
+        },
+        {
+          "level": 12,
+          "value": 1
+        },
+        {
+          "level": 13,
+          "value": 1
+        },
+        {
+          "level": 14,
+          "value": 1
+        },
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/cleric/divine-intervention-spell",
+      "kind": "choice",
+      "name": "Divine Intervention Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-10-divine-intervention",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/divine-intervention",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/divine-intervention-non-reaction"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-intervention/magic-action-cast-same-action",
+        "srd-5.2.1:mechanic/cleric/divine-intervention/no-slot-or-material-components"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/cleric/spell-list/p38-40/level-5-or-lower"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/divine-intervention-non-reaction",
+      "kind": "prerequisite",
+      "name": "Divine Intervention Non Reaction",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-10-divine-intervention",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/cleric/divine-intervention-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/divine-intervention/non-reaction-casting-time"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/divine-intervention/non-reaction-casting-time",
+        "record_refs": [],
+        "parameters": {
+          "maximum-spell-level": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/greater-divine-intervention-use",
+      "kind": "prerequisite",
+      "name": "Greater Divine Intervention Use",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/cleric-level-20-greater-divine-intervention",
+          "page": 38
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/greater-divine-intervention",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/requires-divine-intervention"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/requires-divine-intervention",
+        "record_refs": [
+          "srd-5.2.1:character/feature/cleric/divine-intervention"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/multiclass-eligibility",
+      "kind": "prerequisite",
+      "name": "Multiclass eligibility (only when multiclassing)",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/cleric",
+          "page": 36
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/multiclass-wisdom-and-current-class-primary-abilities-p24"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/multiclass-wisdom-and-current-class-primary-abilities-p24",
+        "record_refs": [],
+        "parameters": {
+          "minimum-wisdom": 13,
+          "minimum-current-class-primary-abilities": 13
+        }
+      }
+    }
+  ]
+}
