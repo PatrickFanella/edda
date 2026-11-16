@@ -67,7 +67,7 @@ class Receipt(unittest.TestCase):
     def test_sealed_append_contract(self):
         sealed=deepcopy(self.r)
         for s in self.m['supplements']:
-            next(x for x in sealed['graph'] if x['number']==s['issue'])['body']+=s['append']
+            next(x for x in sealed['graph'] if x['number']==s['issue'])['body']=self.m['protected'][str(s['issue'])]['body']+s['append']
         scope.validate(self.m,sealed,sealed=True)
         for s in self.m['supplements']:
             n=s['issue'];original=self.m['protected'][str(n)]['body'];owned=s['append']
@@ -75,6 +75,13 @@ class Receipt(unittest.TestCase):
             for value in [original,'changed'+original+owned,original+owned.replace('Fighter','Changed',1),original+owned+owned,original+owned+'\n<!-- edda-325:start -->',original+owned+'\n<!-- edda-325:end -->']:
                 candidate=deepcopy(sealed);next(x for x in candidate['graph'] if x['number']==n)['body']=value
                 with self.assertRaises(AssertionError):scope.validate(self.m,candidate,sealed=True)
+    def test_future_root_edge_is_not_a_fighter_requirement(self):
+        candidate=deepcopy(self.r);n=max(x['number'] for x in candidate['graph'])+1
+        candidate['graph'].append({'number':n,'title':'Future unrelated gate','body':'','state':'open','parent':None,'blocked_by':[]})
+        next(x for x in candidate['graph'] if x['number']==337)['blocked_by'].append(n)
+        scope.validate(self.m,candidate)
+        scope.probes(self.m,candidate)
+
     def test_all_twenty_readable_rows(self):
         records=[x['record'] for x in self.m['records']];owners={x['key']:x['issue'] for x in self.m['issues']}
         doc=(scope.ROOT/'docs/investigations/issue-325-fighter-decision.md').read_text()

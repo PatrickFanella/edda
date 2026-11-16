@@ -201,9 +201,11 @@ def validate(m,r,sealed=False):
     return len(keys),len(graph)
 
 
-def probes(m,r):
+def probes(m,r,sealed=False):
+    sealed=sealed or m.get("supplement_publication")=="sealed"
+    validate(m,r,sealed)
     def reject(mm,rr):
-        try:validate(mm,rr)
+        try:validate(mm,rr,sealed)
         except (AssertionError,KeyError):return
         raise AssertionError('accepted corruption')
     mm=deepcopy(m);mm['source']['sha256']='bad';reject(mm,r)
@@ -217,8 +219,8 @@ def probes(m,r):
             rr=deepcopy(r);next(z for z in rr['graph'] if z['number']==x['issue'])[field]=val;reject(m,rr)
     for target in [279,280]:
         rr=deepcopy(r);next(x for x in rr['graph'] if x['number']==target)['blocked_by'].remove(next(x['issue'] for x in m['issues'] if x['key']=='heroic-inspiration'));reject(m,rr)
-    for target in [337,334]:
-        rr=deepcopy(r);next(x for x in rr['graph'] if x['number']==target)['blocked_by'].pop();reject(m,rr)
+    for target,edge in [(337,m['qualification_gate']['issue']),(334,298)]:
+        rr=deepcopy(r);next(x for x in rr['graph'] if x['number']==target)['blocked_by'].remove(edge);reject(m,rr)
     rr=deepcopy(r);next(x for x in rr['graph'] if x['number']==283)['parent']=m['qualification_gate']['issue'];reject(m,rr)
     rr=deepcopy(r);next(x for x in rr['graph'] if x['number']==m['issues'][0]['issue'])['blocked_by'].append(337);reject(m,rr)
     rr=deepcopy(r);rr['project'][str(m['issues'][0]['issue'])]['size']='XL';reject(m,rr)
@@ -237,10 +239,11 @@ def main():
         for name in ['fighter','champion','advancement','multiclass','origin_feats','general_feats','fighting_styles','epic_boon_feats']:
             subprocess.run(['rtk','proxy','python3',str(ROOT/f'scripts/verify_srd_{name}.py'),str(a.pdf)],check=True)
     r=live(m) if a.live else json.loads(RECEIPT.read_text())
-    keys,nodes=validate(m,r,a.sealed)
-    if not a.sealed:probes(m,r)
+    sealed=a.sealed or m.get('supplement_publication')=='sealed'
+    keys,nodes=validate(m,r,sealed)
+    probes(m,r,sealed)
     if a.live:RECEIPT.write_text(json.dumps(r,indent=2)+'\n')
-    print(f'PASS:67 records/20 rows/{keys} keys;45 terminals (44 Fighter +1 shared);84 gate blockers;{nodes} nodes;exact bodies/parents/Task sizes;separate DAGs; supplements '+('sealed' if a.sealed else 'PENDING parent publication'))
+    print(f'PASS:67 records/20 rows/{keys} keys;45 terminals (44 Fighter +1 shared);84 gate blockers;{nodes} nodes;exact bodies/parents/Task sizes;separate DAGs; supplements '+('sealed' if sealed else 'PENDING parent publication'))
 
 
 if __name__=='__main__':main()
