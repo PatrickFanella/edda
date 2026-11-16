@@ -243,6 +243,13 @@ anchors. Go fixtures independently assert exact mechanic keys. These checks
 establish metadata transcription; they do not qualify playable Champion,
 feat eligibility, creation, grants, advancement, combat or Full Rules.
 
+Life Domain's fixed domain-spell table uses feature-only `always_prepared` rows
+with `level` and `spell_keys`. Rows have increasing class levels (1–20) and
+nonempty, unique spell references that also appear in `required_mechanics`.
+These rows describe fixed preparation after reaching the listed Cleric level;
+they carry no selection count and do not resolve or import spell definitions.
+Readiness still rejects every unqualified key. See `life-domain-catalogue.md`
+for the exact p40 source scope and offline comparator.
 
 ## Background catalogue (#306)
 

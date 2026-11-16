@@ -1,0 +1,465 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Life Domain and its five named features on PDF p40 adapted into offline metadata. Edda adds mechanic keys, numeric parameters, fixed always-prepared rows and prerequisites; canonical Cleric is referenced without duplication. No executable effects or adjacent spell definitions imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/cleric/life-domain",
+      "kind": "subclass",
+      "name": "Life Domain",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/cleric-life-domain",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/cleric",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/life-domain/life-domain-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/subclasses/life-domain"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/life-domain/life-domain-level",
+      "kind": "prerequisite",
+      "name": "Life Domain level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/cleric-life-domain",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/cleric/life-domain",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/cleric"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/life-domain/disciple-of-life",
+      "kind": "feature",
+      "name": "Disciple of Life",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-3-disciple-of-life",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/cleric/life-domain",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/life-domain/disciple-of-life-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/life-domain/disciple-of-life/spell-cast-with-spell-slot",
+        "srd-5.2.1:mechanic/cleric/life-domain/disciple-of-life/restores-hit-points-to-creature",
+        "srd-5.2.1:mechanic/cleric/life-domain/disciple-of-life/additional-healing/on-casting-turn",
+        "srd-5.2.1:mechanic/cleric/life-domain/disciple-of-life/additional-healing/plus-slot-level",
+        "srd-5.2.1:mechanic/cleric/life-domain/disciple-of-life/additional-healing/base"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/life-domain/disciple-of-life/additional-healing/base": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/life-domain/disciple-of-life-level",
+      "kind": "prerequisite",
+      "name": "Disciple of Life level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-3-disciple-of-life",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/life-domain/disciple-of-life",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/cleric"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/life-domain/life-domain-spells",
+      "kind": "feature",
+      "name": "Life Domain Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-3-life-domain-spells",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/cleric/life-domain",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/life-domain/life-domain-spells-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/life-domain/life-domain-spells/always-prepared/thereafter-at-cleric-level",
+        "srd-5.2.1:mechanic/spells/aid",
+        "srd-5.2.1:mechanic/spells/bless",
+        "srd-5.2.1:mechanic/spells/cure-wounds",
+        "srd-5.2.1:mechanic/spells/lesser-restoration",
+        "srd-5.2.1:mechanic/spells/mass-healing-word",
+        "srd-5.2.1:mechanic/spells/revivify",
+        "srd-5.2.1:mechanic/spells/aura-of-life",
+        "srd-5.2.1:mechanic/spells/death-ward",
+        "srd-5.2.1:mechanic/spells/greater-restoration",
+        "srd-5.2.1:mechanic/spells/mass-cure-wounds"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 3,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/aid",
+            "srd-5.2.1:mechanic/spells/bless",
+            "srd-5.2.1:mechanic/spells/cure-wounds",
+            "srd-5.2.1:mechanic/spells/lesser-restoration"
+          ]
+        },
+        {
+          "level": 5,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/mass-healing-word",
+            "srd-5.2.1:mechanic/spells/revivify"
+          ]
+        },
+        {
+          "level": 7,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/aura-of-life",
+            "srd-5.2.1:mechanic/spells/death-ward"
+          ]
+        },
+        {
+          "level": 9,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/greater-restoration",
+            "srd-5.2.1:mechanic/spells/mass-cure-wounds"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/life-domain/life-domain-spells-level",
+      "kind": "prerequisite",
+      "name": "Life Domain Spells level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-3-life-domain-spells",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/life-domain/life-domain-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/cleric"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/life-domain/preserve-life",
+      "kind": "feature",
+      "name": "Preserve Life",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-3-preserve-life",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/cleric/life-domain",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/life-domain/preserve-life-level",
+        "srd-5.2.1:character/prerequisite/cleric/life-domain/preserve-life-channel-divinity"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/magic-action",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/present-holy-symbol",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/expend-channel-divinity-use",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/healing-pool/per-cleric-level",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/targets/bloodied-creatures",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/targets/can-include-self",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/targets/divide-hit-points",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/healing-cap/half-target-hit-point-maximum",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/channel-divinity/uses-expended",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/healing-pool/cleric-level-multiplier",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/targets/range-feet",
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/healing-cap/hit-point-maximum-divisor"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/channel-divinity/uses-expended": 1,
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/healing-pool/cleric-level-multiplier": 5,
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/targets/range-feet": 30,
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/healing-cap/hit-point-maximum-divisor": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/life-domain/preserve-life-level",
+      "kind": "prerequisite",
+      "name": "Preserve Life level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-3-preserve-life",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/life-domain/preserve-life",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/cleric"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/life-domain/preserve-life-channel-divinity",
+      "kind": "prerequisite",
+      "name": "Preserve Life Channel Divinity requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-3-preserve-life",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/life-domain/preserve-life",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/requires-channel-divinity-use"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/cleric/life-domain/preserve-life/requires-channel-divinity-use",
+        "record_refs": [
+          "srd-5.2.1:character/resource/cleric/channel-divinity"
+        ],
+        "parameters": {
+          "uses-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/life-domain/blessed-healer",
+      "kind": "feature",
+      "name": "Blessed Healer",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-6-blessed-healer",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/cleric/life-domain",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/life-domain/blessed-healer-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/life-domain/blessed-healer/spell-cast-with-spell-slot",
+        "srd-5.2.1:mechanic/cleric/life-domain/blessed-healer/restores-hit-points-to-one-or-more-other-creatures",
+        "srd-5.2.1:mechanic/cleric/life-domain/blessed-healer/self-healing/immediately-after-casting",
+        "srd-5.2.1:mechanic/cleric/life-domain/blessed-healer/self-healing/plus-slot-level",
+        "srd-5.2.1:mechanic/cleric/life-domain/blessed-healer/self-healing/base"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/life-domain/blessed-healer/self-healing/base": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/life-domain/blessed-healer-level",
+      "kind": "prerequisite",
+      "name": "Blessed Healer level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-6-blessed-healer",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/life-domain/blessed-healer",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/cleric"
+        ],
+        "parameters": {
+          "minimum-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/cleric/life-domain/supreme-healing",
+      "kind": "feature",
+      "name": "Supreme Healing",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-17-supreme-healing",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/cleric/life-domain",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/cleric/life-domain/supreme-healing-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/cleric/life-domain/supreme-healing/when-would-roll-one-or-more-healing-dice",
+        "srd-5.2.1:mechanic/cleric/life-domain/supreme-healing/healing/from-spell-or-channel-divinity",
+        "srd-5.2.1:mechanic/cleric/life-domain/supreme-healing/healing/creature",
+        "srd-5.2.1:mechanic/cleric/life-domain/supreme-healing/healing/replace-each-die-with-maximum",
+        "srd-5.2.1:mechanic/cleric/life-domain/supreme-healing/example/dice-count",
+        "srd-5.2.1:mechanic/cleric/life-domain/supreme-healing/example/die-sides",
+        "srd-5.2.1:mechanic/cleric/life-domain/supreme-healing/example/healing"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/cleric/life-domain/supreme-healing/example/dice-count": 2,
+        "srd-5.2.1:mechanic/cleric/life-domain/supreme-healing/example/die-sides": 6,
+        "srd-5.2.1:mechanic/cleric/life-domain/supreme-healing/example/healing": 12
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/cleric/life-domain/supreme-healing-level",
+      "kind": "prerequisite",
+      "name": "Supreme Healing level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/cleric-level-17-supreme-healing",
+          "page": 40
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/cleric/life-domain/supreme-healing",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/cleric"
+        ],
+        "parameters": {
+          "minimum-level": 17
+        }
+      }
+    }
+  ]
+}
