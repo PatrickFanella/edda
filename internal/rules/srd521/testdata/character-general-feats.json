@@ -1,0 +1,372 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Ability Score Improvement and Grappler (PDF p87) adapted into offline character metadata. Category, repeatability, prerequisites, conditional nested choices, numerical limits and benefit mechanic keys are Edda adaptations. No executable effects or adjacent feats imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/feat/ability-score-improvement",
+      "kind": "feat",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+          "page": 87
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ability-score-improvement/level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/general",
+        "srd-5.2.1:mechanic/feats/repeatability/unrestricted",
+        "srd-5.2.1:mechanic/feats/ability-score-improvement/maximum-ability-score"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/ability-score-improvement/maximum-ability-score": 20
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ability-score-improvement/level",
+      "kind": "prerequisite",
+      "name": "Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+        "record_refs": [],
+        "parameters": {
+          "minimum-level": 4
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern",
+      "kind": "choice",
+      "name": "Ability increase pattern",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/one-score",
+        "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/two-scores"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement/choose-one-increase-pattern",
+        "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-per-score"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement/one-score-plus-two",
+        "srd-5.2.1:mechanic/feats/ability-score-improvement/two-scores-plus-one"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/feats/ability-score-improvement/one-score-plus-two",
+          "quantities": {
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-per-score": 2
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/feats/ability-score-improvement/two-scores-plus-one",
+          "quantities": {
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-per-score": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/one-score",
+      "kind": "choice",
+      "name": "One ability score",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ability-score-improvement/increase-pattern/one-score/selected-pattern"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-selected-scores",
+        "srd-5.2.1:mechanic/feats/ability-score-improvement/subject-to-maximum-ability-score"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/strength",
+        "srd-5.2.1:mechanic/abilities/dexterity",
+        "srd-5.2.1:mechanic/abilities/constitution",
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ability-score-improvement/increase-pattern/one-score/selected-pattern",
+      "kind": "prerequisite",
+      "name": "Selected pattern",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/one-score",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/ability-score-improvement/one-score-plus-two-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/ability-score-improvement/one-score-plus-two-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/two-scores",
+      "kind": "choice",
+      "name": "Two distinct ability scores",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/ability-score-improvement/increase-pattern/two-scores/selected-pattern"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-selected-scores",
+        "srd-5.2.1:mechanic/feats/ability-score-improvement/subject-to-maximum-ability-score"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/strength",
+        "srd-5.2.1:mechanic/abilities/dexterity",
+        "srd-5.2.1:mechanic/abilities/constitution",
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/ability-score-improvement/increase-pattern/two-scores/selected-pattern",
+      "kind": "prerequisite",
+      "name": "Selected pattern",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/two-scores",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/ability-score-improvement/two-scores-plus-one-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/ability-score-improvement/two-scores-plus-one-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feat/grappler",
+      "kind": "feat",
+      "name": "Grappler",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/grappler",
+          "page": 87
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/grappler/ability-score"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/grappler/level",
+        "srd-5.2.1:character/prerequisite/grappler/ability"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/general",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/grappler/ability-score-increase",
+        "srd-5.2.1:mechanic/feats/grappler/maximum-ability-score",
+        "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/optional-on-hit-creature",
+        "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/unarmed-strike",
+        "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/part-of-attack-action-on-your-turn",
+        "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/use-both-damage-and-grapple-options",
+        "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/uses-per-turn",
+        "srd-5.2.1:mechanic/feats/grappler/attack-advantage/on-attack-rolls-against-creature-grappled-by-you",
+        "srd-5.2.1:mechanic/feats/grappler/fast-wrestler/no-extra-movement-to-move-creature-grappled-by-you",
+        "srd-5.2.1:mechanic/feats/grappler/fast-wrestler/only-if-creature-your-size-or-smaller"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/grappler/ability-score-increase": 1,
+        "srd-5.2.1:mechanic/feats/grappler/maximum-ability-score": 20,
+        "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/uses-per-turn": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/grappler/level",
+      "kind": "prerequisite",
+      "name": "Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/grappler",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/grappler",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+        "record_refs": [],
+        "parameters": {
+          "minimum-level": 4
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/grappler/ability",
+      "kind": "prerequisite",
+      "name": "Ability",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/grappler",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/grappler",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/strength-or-dexterity-at-least"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/strength-or-dexterity-at-least",
+        "record_refs": [],
+        "parameters": {
+          "minimum-score": 13
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/grappler/ability-score",
+      "kind": "choice",
+      "name": "Ability Score Increase",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/grappler",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/grappler",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/grappler/increase-one-selected-ability",
+        "srd-5.2.1:mechanic/feats/grappler/subject-to-maximum-ability-score"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/strength",
+        "srd-5.2.1:mechanic/abilities/dexterity"
+      ],
+      "capacity": 0
+    }
+  ]
+}
