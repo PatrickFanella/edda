@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 99 and 236 adapted into a versioned item family with explicit variant identities, structured requirements and healing dice. Names and numeric rules are adapted; no rules prose is reproduced. Source presentations are deduplicated; prices absent from the family table remain unspecified. Catalogue data grants no inventory or gameplay permissions."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/potion-of-healing",
+      "name": "Potion of Healing",
+      "kind": "magic",
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/potion-of-healing",
+          "pages": [
+            99,
+            99
+          ]
+        },
+        {
+          "id": "srd-5.2.1:content/magic-items/potions-of-healing",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-healing/variant/basic",
+          "name": "Potion of Healing",
+          "rarity": "common",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "drink-or-administer",
+            "restrictions": [
+              "bonus-action",
+              "consume-one",
+              "administer-within-5-feet"
+            ]
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "healing": {
+            "dice": 2,
+            "sides": 4,
+            "bonus": 2
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "item.bonus-action",
+            "item.administer-within-5-feet",
+            "healing.roll",
+            "healing.cap-at-max-hp"
+          ]
+        },
+        {
+          "id": "srd-5.2.1:content/items/potion-of-healing/variant/greater",
+          "name": "Potion of Healing (greater)",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "drink-or-administer",
+            "restrictions": [
+              "bonus-action",
+              "consume-one",
+              "administer-within-5-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "healing": {
+            "dice": 4,
+            "sides": 4,
+            "bonus": 4
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "item.bonus-action",
+            "item.administer-within-5-feet",
+            "healing.roll",
+            "healing.cap-at-max-hp"
+          ]
+        },
+        {
+          "id": "srd-5.2.1:content/items/potion-of-healing/variant/superior",
+          "name": "Potion of Healing (superior)",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "drink-or-administer",
+            "restrictions": [
+              "bonus-action",
+              "consume-one",
+              "administer-within-5-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "healing": {
+            "dice": 8,
+            "sides": 4,
+            "bonus": 8
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "item.bonus-action",
+            "item.administer-within-5-feet",
+            "healing.roll",
+            "healing.cap-at-max-hp"
+          ]
+        },
+        {
+          "id": "srd-5.2.1:content/items/potion-of-healing/variant/supreme",
+          "name": "Potion of Healing (supreme)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "drink-or-administer",
+            "restrictions": [
+              "bonus-action",
+              "consume-one",
+              "administer-within-5-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "healing": {
+            "dice": 10,
+            "sides": 4,
+            "bonus": 20
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "item.bonus-action",
+            "item.administer-within-5-feet",
+            "healing.roll",
+            "healing.cap-at-max-hp"
+          ]
+        }
+      ]
+    }
+  ]
+}

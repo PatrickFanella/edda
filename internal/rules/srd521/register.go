@@ -184,19 +184,8 @@ func (r Register) Validate(repo fs.FS) error {
 	if r.SchemaVersion != 1 {
 		return fmt.Errorf("unsupported register schema %d", r.SchemaVersion)
 	}
-	s := r.Source
-	if s.Version != Version || s.Language != "en" ||
-		s.LandingURL != "https://www.dndbeyond.com/srd" ||
-		s.ArtifactURL != "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf" ||
-		s.SHA256 != artifactSHA256 || s.Bytes != artifactBytes || s.Pages != 364 {
-		return fmt.Errorf("source does not match the pinned English SRD %s artifact", Version)
-	}
-	if s.License != "CC-BY-4.0" || s.LicenseURL != "https://creativecommons.org/licenses/by/4.0/legalcode" ||
-		s.Attribution != Attribution || strings.TrimSpace(s.Changes) == "" {
-		return fmt.Errorf("source must retain its license, exact attribution and change notice")
-	}
-	if _, err := time.Parse(time.DateOnly, s.RetrievedAt); err != nil {
-		return fmt.Errorf("invalid source retrieval date: %w", err)
+	if err := validateSource(r.Source); err != nil {
+		return err
 	}
 	if len(r.Entries) == 0 {
 		return fmt.Errorf("register must contain coverage entries")
@@ -210,7 +199,7 @@ func (r Register) Validate(repo fs.FS) error {
 		if !familyName.MatchString(e.Family) || strings.TrimSpace(e.Name) == "" || strings.TrimSpace(e.Notes) == "" || e.FollowUp < 0 {
 			return fmt.Errorf("%s: missing or invalid family, name, notes or follow-up", e.ID)
 		}
-		if len(e.SourcePages) != 2 || e.SourcePages[0] < 1 || e.SourcePages[0] > e.SourcePages[1] || e.SourcePages[1] > s.Pages {
+		if len(e.SourcePages) != 2 || e.SourcePages[0] < 1 || e.SourcePages[0] > e.SourcePages[1] || e.SourcePages[1] > r.Source.Pages {
 			return fmt.Errorf("%s: invalid inclusive source page range", e.ID)
 		}
 		switch e.Status {
@@ -260,6 +249,24 @@ func VerifyArtifact(pdf io.Reader) error {
 	}
 	if n != artifactBytes || fmt.Sprintf("%x", h.Sum(nil)) != artifactSHA256 {
 		return fmt.Errorf("artifact does not match pinned SRD %s size and SHA-256", Version)
+	}
+	return nil
+}
+
+// validateSource keeps catalogue and coverage provenance on the same pin.
+func validateSource(s Source) error {
+	if s.Version != Version || s.Language != "en" ||
+		s.LandingURL != "https://www.dndbeyond.com/srd" ||
+		s.ArtifactURL != "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf" ||
+		s.SHA256 != artifactSHA256 || s.Bytes != artifactBytes || s.Pages != 364 {
+		return fmt.Errorf("source does not match the pinned English SRD %s artifact", Version)
+	}
+	if s.License != "CC-BY-4.0" || s.LicenseURL != "https://creativecommons.org/licenses/by/4.0/legalcode" ||
+		s.Attribution != Attribution || strings.TrimSpace(s.Changes) == "" {
+		return fmt.Errorf("source must retain its license, exact attribution and change notice")
+	}
+	if _, err := time.Parse(time.DateOnly, s.RetrievedAt); err != nil {
+		return fmt.Errorf("invalid source retrieval date: %w", err)
 	}
 	return nil
 }
