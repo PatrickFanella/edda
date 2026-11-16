@@ -1,0 +1,559 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Character Advancement table names, pages, XP thresholds and proficiency bonuses adapted into Edda global advancement metadata; IDs and mechanic keys are Edda additions. No rules prose or executable mechanics imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/advancement/1",
+      "kind": "advancement",
+      "name": "Character level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-1",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 1,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 0,
+        "proficiency_bonus": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/2",
+      "kind": "advancement",
+      "name": "Character level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-2",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 2,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 300,
+        "proficiency_bonus": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/3",
+      "kind": "advancement",
+      "name": "Character level 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-3",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 3,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 900,
+        "proficiency_bonus": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/4",
+      "kind": "advancement",
+      "name": "Character level 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-4",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 4,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 2700,
+        "proficiency_bonus": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/5",
+      "kind": "advancement",
+      "name": "Character level 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-5",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 5,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 6500,
+        "proficiency_bonus": 3
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/6",
+      "kind": "advancement",
+      "name": "Character level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-6",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 6,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 14000,
+        "proficiency_bonus": 3
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/7",
+      "kind": "advancement",
+      "name": "Character level 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-7",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 7,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 23000,
+        "proficiency_bonus": 3
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/8",
+      "kind": "advancement",
+      "name": "Character level 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-8",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 8,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 34000,
+        "proficiency_bonus": 3
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/9",
+      "kind": "advancement",
+      "name": "Character level 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-9",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 9,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 48000,
+        "proficiency_bonus": 4
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/10",
+      "kind": "advancement",
+      "name": "Character level 10",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-10",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 10,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 64000,
+        "proficiency_bonus": 4
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/11",
+      "kind": "advancement",
+      "name": "Character level 11",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-11",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 11,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 85000,
+        "proficiency_bonus": 4
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/12",
+      "kind": "advancement",
+      "name": "Character level 12",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-12",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 12,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 100000,
+        "proficiency_bonus": 4
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/13",
+      "kind": "advancement",
+      "name": "Character level 13",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-13",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 13,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 120000,
+        "proficiency_bonus": 5
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/14",
+      "kind": "advancement",
+      "name": "Character level 14",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-14",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 14,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 140000,
+        "proficiency_bonus": 5
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/15",
+      "kind": "advancement",
+      "name": "Character level 15",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-15",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 15,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 165000,
+        "proficiency_bonus": 5
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/16",
+      "kind": "advancement",
+      "name": "Character level 16",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-16",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 16,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 195000,
+        "proficiency_bonus": 5
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/17",
+      "kind": "advancement",
+      "name": "Character level 17",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-17",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 17,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 225000,
+        "proficiency_bonus": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/18",
+      "kind": "advancement",
+      "name": "Character level 18",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-18",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 18,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 265000,
+        "proficiency_bonus": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/19",
+      "kind": "advancement",
+      "name": "Character level 19",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-19",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 19,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 305000,
+        "proficiency_bonus": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/advancement/20",
+      "kind": "advancement",
+      "name": "Character level 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/levels/character-level-20",
+          "page": 23
+        }
+      ],
+      "parent_id": "",
+      "level": 20,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/experience-threshold",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "advancement": {
+        "experience_points": 355000,
+        "proficiency_bonus": 6
+      }
+    }
+  ]
+}

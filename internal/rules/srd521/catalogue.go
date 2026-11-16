@@ -24,7 +24,7 @@ type CharacterSource struct {
 	Page        int    `json:"page"`
 }
 
-// CharacterRecord is a tagged record. Kind is class, level, feature, subclass,
+// CharacterRecord is a tagged record. Kind is advancement, class, level, feature, subclass,
 // origin, feat, prerequisite, choice or resource. IDs are immutable within this
 // schema; the rules namespace and Source.Version must both match the pin.
 // Parent ownership forms an acyclic graph. OptionKeys and
@@ -46,9 +46,18 @@ type CharacterRecord struct {
 	OptionKeys []string `json:"option_keys"`
 	// Capacity is a source-defined resource maximum, not a mutable balance.
 	Capacity int `json:"capacity"`
+	// Advancement holds global character-level table values, never class progression.
+	Advancement *CharacterAdvancement `json:"advancement,omitempty"`
 	// Requirement is an unevaluated prerequisite predicate. Its key must also
 	// appear in RequiredMechanics. Parameters are source metadata, never code.
 	Requirement *CharacterRequirement `json:"requirement,omitempty"`
+}
+
+// CharacterAdvancement records source numbers. Pointers distinguish an omitted
+// value from the valid zero XP threshold at level one.
+type CharacterAdvancement struct {
+	ExperiencePoints *int `json:"experience_points"`
+	ProficiencyBonus *int `json:"proficiency_bonus"`
 }
 
 // CharacterRequirement describes an opaque, source-defined predicate with
@@ -60,7 +69,7 @@ type CharacterRequirement struct {
 	Parameters map[string]int `json:"parameters"`
 }
 
-var characterID = regexp.MustCompile(`^srd-5\.2\.1:character/(class|level|feature|subclass|origin|feat|prerequisite|choice|resource)/` + slug + `(/` + slug + `)*$`)
+var characterID = regexp.MustCompile(`^srd-5\.2\.1:character/(advancement|class|level|feature|subclass|origin|feat|prerequisite|choice|resource)/` + slug + `(/` + slug + `)*$`)
 var mechanicKey = regexp.MustCompile(`^srd-5\.2\.1:mechanic/` + slug + `(/` + slug + `)*$`)
 
 // DecodeCharacterCatalogue rejects unknown fields and trailing JSON. Call
@@ -135,7 +144,7 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 			}
 			seenSource[s] = true
 		}
-		expectedFamily := map[string]string{"class": "classes", "level": "classes", "subclass": "subclasses", "feat": "feats"}[r.Kind]
+		expectedFamily := map[string]string{"advancement": "levels", "class": "classes", "level": "classes", "subclass": "subclasses", "feat": "feats"}[r.Kind]
 		if expectedFamily != "" && families[r.Sources[0].InventoryID] != expectedFamily {
 			return fmt.Errorf("%s: wrong source family", r.ID)
 		}
@@ -143,15 +152,42 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 		if r.Kind == "origin" && family != "species" && family != "backgrounds" || r.Kind == "feature" && family != "class-features" && family != "subclass-features" {
 			return fmt.Errorf("%s: wrong source family", r.ID)
 		}
-		if r.Kind == "level" && (r.Level < 1 || r.Level > 20) || r.Kind != "level" && r.Level != 0 {
+		isLevel := r.Kind == "level" || r.Kind == "advancement"
+		if isLevel && (r.Level < 1 || r.Level > 20) || !isLevel && r.Level != 0 {
 			return fmt.Errorf("%s: invalid level", r.ID)
 		}
-		if r.Kind == "level" {
+		if isLevel {
 			key := fmt.Sprintf("%s:%d", r.ParentID, r.Level)
 			if levels[key] {
 				return fmt.Errorf("%s: duplicate class level", r.ID)
 			}
 			levels[key] = true
+		}
+		if r.Kind == "advancement" {
+			a := r.Advancement
+			sourceID := fmt.Sprintf("srd-5.2.1:planning/levels/character-level-%d", r.Level)
+			if len(r.Sources) != 1 || r.Sources[0].InventoryID != sourceID || r.Sources[0].Page != 23 ||
+				r.ID != fmt.Sprintf("srd-5.2.1:character/advancement/%d", r.Level) || r.Name != fmt.Sprintf("Character level %d", r.Level) {
+				return fmt.Errorf("%s: advancement identity/source disagrees with level", r.ID)
+			}
+			if a == nil || a.ExperiencePoints == nil || a.ProficiencyBonus == nil ||
+				*a.ExperiencePoints < 0 || (r.Level == 1 && *a.ExperiencePoints != 0) ||
+				(r.Level > 1 && *a.ExperiencePoints == 0) || *a.ProficiencyBonus < 2 || *a.ProficiencyBonus > 6 {
+				return fmt.Errorf("%s: explicit valid advancement numbers required", r.ID)
+			}
+			for _, required := range []string{"srd-5.2.1:mechanic/character/experience-threshold", "srd-5.2.1:mechanic/character/proficiency-bonus"} {
+				found := false
+				for _, key := range r.RequiredMechanics {
+					if key == required {
+						found = true
+					}
+				}
+				if !found {
+					return fmt.Errorf("%s: missing advancement mechanic %s", r.ID, required)
+				}
+			}
+		} else if r.Advancement != nil {
+			return fmt.Errorf("%s: advancement numbers on non-advancement", r.ID)
 		}
 		if r.ChoiceRefs == nil || r.ResourceRefs == nil || r.PrerequisiteRefs == nil || r.OptionKeys == nil {
 			return fmt.Errorf("%s: reference arrays must be explicit", r.ID)
@@ -207,7 +243,7 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 		parent := records[r.ParentID]
 		allowed := false
 		switch r.Kind {
-		case "class", "origin", "feat":
+		case "advancement", "class", "origin", "feat":
 			allowed = r.ParentID == ""
 		case "level", "subclass":
 			allowed = parent.Kind == "class"

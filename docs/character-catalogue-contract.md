@@ -1,15 +1,15 @@
 # Character metadata contract
 
 Issue #284 adds an offline contract in `internal/rules/srd521/catalogue.go`.
-It does not load a runtime catalogue. The only source-derived fixture is
+It does not load a runtime catalogue. The initial source-derived fixture is
 `internal/rules/srd521/testdata/character-fighter1.json`: one Fighter class,
 one level-one row, three feature headings, two choice domains and one resource.
 It is a schema example, not a complete Fighter import or playable build.
 
 `CharacterCatalogue` has schema version 1, a pinned `Source`, and tagged
 `CharacterRecord` records. The supported kinds are `class`, `level`, `feature`,
-`subclass`, `origin` (background or species), `feat`, `prerequisite`, `choice`
-and `resource`. Stable IDs use `srd-5.2.1:character/<kind>/<owner>/<slug>`;
+`subclass`, `origin` (background or species), `feat`, `prerequisite`, `choice`,
+`resource` and `advancement`. Stable IDs use `srd-5.2.1:character/<kind>/<owner>/<slug>`;
 class IDs may end at the class slug. Do not rename or reuse IDs. A different
 rules version needs its own namespace and source pin.
 
@@ -78,3 +78,48 @@ Source validation is offline and trusts the committed inventory. It checks
 identity/page correspondence; it cannot prove that arbitrary new numeric
 parameters correctly transcribe the PDF. New batches still need source review
 and mechanical evidence before any runtime qualification.
+
+
+## Global advancement table (#285)
+
+`testdata/character-advancement.json` imports exactly the 20 Character level
+identities from the planning inventory, all on PDF page 23. Each uses the
+`advancement` kind and stable ID `srd-5.2.1:character/advancement/<level>`.
+This additive schema-version-1 extension leaves `level` records class-owned.
+An advancement row has no parent and has explicit empty choice, resource,
+prerequisite and option arrays: the Character Advancement table lists no nested
+choices. Class selection, HP gains, new class features, feat choices and ability
+changes in the neighboring Gaining a Level section remain separate work.
+
+The `advancement` object requires integer `experience_points` and
+`proficiency_bonus` values. Pointer fields distinguish absent/null values from
+level one's valid zero XP. Validation rejects negative XP, nonzero first-level
+XP, zero XP at later levels, bonuses outside 2–6, invalid levels, duplicate
+levels, wrong inventory identities/pages and numeric fields on other kinds.
+Exact source values and complete 1–20 coverage are asserted by the batch fixture;
+structural validation can still accept partial batches for later composition.
+The two required keys are `srd-5.2.1:mechanic/character/experience-threshold`
+and `srd-5.2.1:mechanic/character/proficiency-bonus`. They remain unimplemented;
+recording the values does not execute threshold advancement or bonus changes.
+No class, feature, choice, playable registration or runtime consumer is added.
+The fixture retains the pinned source's attribution and an adaptation notice.
+
+`TestCharacterAdvancementSourceTable` asserts the exact IDs, names, pages and
+20 numeric rows, rejects readiness for each row and checks unchanged runtime
+registration and Full Rules ineligibility. Negative fixtures cover missing/null
+numbers, invalid values/types, source/owner mismatches, required keys and
+availability fields. Existing class/choice/source guard fixtures still run.
+
+To recheck the source locally without network access:
+
+```sh
+rtk proxy python3 scripts/verify_srd_advancement.py /tmp/edda-wave1/SRD_CC_v5.2.1.pdf
+rtk proxy go test -short -race -count=1 ./internal/rules/srd521
+```
+
+The verifier requires Poppler's `pdftotext`, checks the full artifact SHA-256,
+extracts the three table columns on page 23 and compares all 20 rows with the
+fixture and pinned inventory. Normal Go fixtures use an independent numeric
+transcription and need neither the PDF nor Poppler. These checks establish data
+completeness, not runtime advancement qualification. No database, handler or UI
+mutation is involved.
