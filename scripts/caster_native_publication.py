@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import sys
 
 APPROVAL_SHA = '66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41'
 RENDERER_SHA = 'e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238'
@@ -213,9 +214,13 @@ class Coordinator:
             self.immutable(retained, receipt_raw)
             sidecar.update(verified_receipt_path=str(retained), verified_receipt_sha256=sha(receipt_raw),
                            verified_receipt_observed_at=receipt['observed_at'], graph_node_count=1888, all_new_tasks_open=True,
-                           native_body_parent_prerequisite_Task_Size_validation='PASS; exact871 frozen contracts',
-                           both_DAGs='PASS; independently checked dependency and containment DAGs',
-                           all_three_caps=receipt['report'], old_protections='PASS; all1017 old bodies/titles/states/parents/Project metadata and all old edges; only five approved root additions')
+                           native_body_parent_prerequisite_Task_Size_validation=True,
+                           both_DAGs=True, all_three_caps=True, old_protections=True,
+                           validation_details=dict(
+                               native_body_parent_prerequisite_Task_Size_validation='PASS; exact871 frozen contracts',
+                               both_DAGs='PASS; independently checked dependency and containment DAGs',
+                               all_three_caps=receipt['report'],
+                               old_protections='PASS; all1017 old bodies/titles/states/parents/Project metadata and all old edges; only five approved root additions'))
         path = self.directory / ('ids-allocated-milestone.json' if status == 'IDS_ALLOCATED' else 'verified-milestone.json')
         if path.exists():
             existing = json.loads(path.read_text())
@@ -283,12 +288,16 @@ class Coordinator:
     def allocate(self):
         self.verify_inputs()
         graph = self.full_graph()
+        live = {n['number']:n for n in graph}
+        for old in self.baseline['graph']:
+            assert all(live[old['number']][k] == v for k, v in old.items()), 'old contract changed before allocation'
         by_marker = {}
         for item in graph:
             for alias in re.findall(r'<!-- edda-caster-native:([^\s]+) -->', item['body']):
                 assert alias not in by_marker, 'duplicate native marker'
                 by_marker[alias] = item
         assert set(by_marker) <= {n['alias'] for n in self.nodes}, 'unapproved marker'
+        assert set(live) == {n['number'] for n in self.baseline['graph']} | {n['number'] for n in by_marker.values()}, 'unapproved new identity'
         for index, n in enumerate(self.nodes, 1):
             alias = n['alias']; existing = by_marker.get(alias)
             if alias in self.registry['nodes']:
@@ -359,21 +368,19 @@ class Coordinator:
             assert actual['parent'] is None or actual['parent']['number'] == parent
             mutations = []
             if actual['body'] != body:
-                mutations.append('body:updateIssue(input:' + json.dumps(dict(id=identity['node_id'], body=body)) + '){issue{id}}')
+                mutations.append(('body', 'updateIssue', dict(id=identity['node_id'], body=body)))
             if actual['parent'] is None:
-                mutations.append('parent:addSubIssue(input:' + json.dumps(dict(issueId=identities[parent], subIssueId=identity['node_id'])) + '){issue{id}}')
+                mutations.append(('parent', 'addSubIssue', dict(issueId=identities[parent], subIssueId=identity['node_id'])))
             for i, dep in enumerate(d for d in deps if d not in prior):
-                mutations.append('d%d:addBlockedBy(input:' % i + json.dumps(dict(issueId=identity['node_id'], blockingIssueId=identities[dep])) + '){issue{id}}')
+                mutations.append(('d'+str(i), 'addBlockedBy', dict(issueId=identity['node_id'], blockingIssueId=identities[dep])))
             if mutations:
-                # GraphQL input object keys are not JSON string keys. Variables
-                # keep bodies and identifiers out of executable query text.
+                # GraphQL mutation fields execute serially. Variables keep the
+                # source bodies and identifiers out of executable query text.
                 inputs = {}; fields = []; declarations = []
-                for i, text in enumerate(mutations):
-                    field, rest = text.split(':', 1); operation, rest = rest.split('(input:', 1)
-                    value, selection = rest.rsplit(')', 1)
-                    inputs['v' + str(i)] = json.loads(value)
+                for i, (field, operation, value) in enumerate(mutations):
+                    inputs['v' + str(i)] = value
                     declarations.append('$v%d:%sInput!' % (i, operation[0].upper() + operation[1:]))
-                    fields.append(field + ':' + operation + '(input:$v' + str(i) + ')' + selection)
+                    fields.append(field + ':' + operation + '(input:$v' + str(i) + '){issue{id}}')
                 self.api('mutation(' + ','.join(declarations) + '){' + ' '.join(fields) + '}', inputs, 'wire ' + alias)
             if index % 10 == 0 or index == 871:
                 print('WIRED', index, '/871', alias, '#' + str(number), flush=True)
@@ -424,9 +431,25 @@ class Coordinator:
                        observed_at=now(), graph=graph, project={str(n): dict(type=m['issueType']['name'], size=m['project_item']['fieldValueByName']['name']) for n, m in metadata.items()},
                        expected_final_body_sha256=hashes, report=report,
                        limits='Mechanical source-contract publication only; all871 Task/M OPEN; no runtime qualification, parent supplements, class acceptance, CI or merge.')
+        receipt['accepted_rogue_guard'] = self.rogue_guard(receipt)
         atomic(self.directory / 'verified-native-receipt.json', receipt)
         self.save_registry('VERIFIED')
         print('VERIFIED', report, flush=True)
+
+    def rogue_guard(self, receipt):
+        """Run the actual accepted earlier proof without weakening its guards."""
+        common = Path(subprocess.check_output(['git','rev-parse','--git-common-dir'], text=True).strip())
+        root = common.parent
+        for name in ['rogue_native_proof.py','verify_rogue_scope.py','freeze_rogue_parents.py',
+                     'publish_rogue_scope.py','rogue_capacity.py','verify_fighter_scope.py','publish_paladin_scope.py']:
+            expected = subprocess.check_output(['git','show',self.approval['root_main']+':scripts/'+name])
+            assert (root/'scripts'/name).read_bytes() == expected, 'accepted Rogue proof code changed'
+        sys.path.insert(0, str(root/'scripts'))
+        from rogue_native_proof import validate
+        manifest = json.loads((root/'docs/investigations/issue-329-rogue-scope.json').read_text())
+        report = validate(manifest, receipt, sealed=True)
+        assert report == dict(nodes=1888, owned_tasks=77, owned_edges=391, root_edges=3, terminals=72, final_seal='PASS')
+        return report
 
 
 def main():

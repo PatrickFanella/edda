@@ -15,10 +15,14 @@ class SorcererCheckpointTests(unittest.TestCase):
 
     def test_source_class_checkpoint_and_strict_publication_refusal(self):
         proof.validate_plan(self.manifest)
+        pending = deepcopy(self.manifest)
+        pending['status'] = 'PENDING'
         with self.assertRaisesRegex(AssertionError, 'PENDING'):
-            proof.validate_publication(self.manifest, {})
-        forged = deepcopy(self.manifest)
+            proof.validate_publication(pending, {})
+        forged = deepcopy(pending)
         forged.update(status='PUBLISHED', accepted_parent_prefix={'47': 'forged'})
+        for row in forged['tasks']+forged['shared_split_proposal']+forged['gates']:
+            row['issue'] = None
         with self.assertRaisesRegex(AssertionError, 'native publication identities incomplete'):
             proof.validate_publication(forged, dict(publication_complete=True))
 

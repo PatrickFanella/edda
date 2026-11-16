@@ -4,6 +4,8 @@ This deliberately reproduces the literal metadata renderer rather than importing
 the coordinator renderer or accepting candidate-supplied expected body hashes.
 """
 from collections import Counter
+from functools import lru_cache
+import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -14,20 +16,40 @@ APPROVAL = '66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41'
 RENDERER = 'e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238'
 VECTORS = '4ba7f97dd6f1702ff049056f10e46736cb1da27fe7274553b4bff9e54077bdee'
 
+BUNDLE = Path(__file__).resolve().parents[1]/'docs/investigations/issue-330-caster-publication-evidence.json.gz'
+
+
+@lru_cache(maxsize=1)
+def bundled_evidence():
+    with gzip.open(BUNDLE,'rb') as stream:
+        raw=stream.read(64*1024*1024+1)
+    assert len(raw)<=64*1024*1024, 'bounded offline evidence bundle'
+    bundle=json.loads(raw)
+    assert bundle['schema_version']==1 and bundle['approval_sha256']==APPROVAL
+    return bundle['files']
+
+
+def evidence(name, directory=DIRECTORY):
+    path=directory/name
+    if path.exists():
+        return path.read_bytes()
+    assert directory==DIRECTORY and BUNDLE.exists(), 'missing ROOT publication evidence: '+str(path)
+    return bundled_evidence()[name].encode('utf-8')
+
 
 def digest(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
 def pinned_inputs(directory=DIRECTORY):
-    raw = (directory/'approval.json').read_bytes()
+    raw = evidence('approval.json',directory)
     assert digest(raw) == APPROVAL, 'independently pinned ROOT approval'
     approval = json.loads(raw)
-    assert digest((directory/'native-renderer-contract.json').read_bytes()) == RENDERER
-    assert digest((directory/'native-renderer-vectors.json').read_bytes()) == VECTORS
+    assert digest(evidence('native-renderer-contract.json',directory)) == RENDERER
+    assert digest(evidence('native-renderer-vectors.json',directory)) == VECTORS
     for source in approval['inputs'].values():
-        assert digest(Path(source['frozen_path']).read_bytes()) == source['sha256'], 'frozen source bytes'
-    baseline = Path(approval['native_baseline']).read_bytes()
+        assert digest(evidence(Path(source['frozen_path']).name,directory)) == source['sha256'], 'frozen source bytes'
+    baseline = evidence('native-baseline.json',directory)
     assert digest(baseline) == approval['native_baseline_sha256']
     return approval, json.loads(baseline)
 
@@ -98,10 +120,10 @@ def bind_own_rows(manifest, approval, registry):
 def validate_native(manifest, receipt, directory=DIRECTORY, parent_supplements=False):
     from verify_sorcerer_scope import native_caps, typed_native_graph
     approval, baseline = pinned_inputs(directory)
-    registry = json.loads(Path(approval['registry']).read_text())
+    registry = json.loads(evidence('registry.json',directory))
     map_sha = registry_check(registry, approval, baseline)
     assert registry['status'] == 'VERIFIED', 'global mechanical readback incomplete'
-    milestone = json.loads((directory/'ids-allocated-milestone.json').read_text())
+    milestone = json.loads(evidence('ids-allocated-milestone.json',directory))
     assert milestone['nodes_map_sha256'] == map_sha, 'identity assignment changed after allocation'
     assert milestone['approval_sha256'] == APPROVAL and milestone['renderer_contract_sha256'] == RENDERER
     return validate_evidence(manifest, receipt, approval, baseline, registry, parent_supplements)

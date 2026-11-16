@@ -1,10 +1,11 @@
 """Offline contrary controls for the frozen mechanical publication boundary."""
 import copy
 import json
+from types import SimpleNamespace
 import unittest
 
 from caster_native_publication import (
-    APPROVAL_SHA, RENDERER_SHA, DEFAULT, Coordinator, allocation_body,
+    APPROVAL_SHA, RENDERER_SHA, allocation_body,
     final_body, check_registry, caps,
 )
 
@@ -12,8 +13,11 @@ from caster_native_publication import (
 class PublicationTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.coordinator = Coordinator(DEFAULT)
-        cls.vectors = json.loads((DEFAULT / 'native-renderer-vectors.json').read_text())
+        from sorcerer_native_binding import pinned_inputs, evidence
+        approval, baseline = pinned_inputs()
+        cls.coordinator = SimpleNamespace(nodes=approval['approved_nodes'],baseline=baseline,
+                                          contract=json.loads(evidence('native-renderer-contract.json')))
+        cls.vectors = json.loads(evidence('native-renderer-vectors.json'))
         cls.registry = dict(schema_version=1, approval_sha256=APPROVAL_SHA,
                             renderer_contract_sha256=RENDERER_SHA, status='IDS_ALLOCATED',
                             nodes={n['alias']: dict(number=10000+i, id=20000+i, node_id='I_SYNTHETIC_'+str(i))

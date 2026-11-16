@@ -1,7 +1,6 @@
 """Independent literal body/graph controls; synthetic evidence never publishes."""
 from copy import deepcopy
 import json
-from pathlib import Path
 import unittest
 
 import sorcerer_native_binding as binding
@@ -13,7 +12,7 @@ class NativeBindingTests(unittest.TestCase):
         cls.approval, cls.baseline = binding.pinned_inputs()
         cls.registry = dict(schema_version=1,approval_sha256=binding.APPROVAL,renderer_contract_sha256=binding.RENDERER,
                             status='VERIFIED',nodes={n['alias']:dict(number=10000+i,id=20000+i,node_id='I_SYNTHETIC_'+str(i)) for i,n in enumerate(cls.approval['approved_nodes'])})
-        cls.manifest = json.loads(Path(cls.approval['inputs']['330']['frozen_path']).read_text())
+        cls.manifest = json.loads(binding.evidence('330-approved-proposal.json'))
         for row in cls.manifest['tasks']+cls.manifest['shared_split_proposal']+cls.manifest['gates']:
             row['issue'] = cls.registry['nodes']['330:'+row['key']]['number']
         cls.receipt = dict(graph=deepcopy(cls.baseline['graph']),project=deepcopy(cls.baseline['project']))
@@ -31,7 +30,7 @@ class NativeBindingTests(unittest.TestCase):
         return binding.validate_evidence(self.manifest,receipt,self.approval,self.baseline,self.registry)
 
     def test_literal_renderer_vectors(self):
-        vectors=json.loads((binding.DIRECTORY/'native-renderer-vectors.json').read_text())
+        vectors=json.loads(binding.evidence('native-renderer-vectors.json'))
         for case in vectors['cases']:
             self.assertEqual(binding.reproduce(case['approved_node'],vectors['example_registry']),case['final_body'])
 

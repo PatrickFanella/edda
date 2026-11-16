@@ -280,9 +280,9 @@ def read_live(m):
         raise AssertionError('native graph call cap')
     nums=sorted({t['issue'] for t in m['tasks']+m['shared_split_proposal']+m['gates'] if t['issue'] is not None}|{int(n) for n in m['protected_owners']})
     if m['status']=='PUBLISHED':
-        from sorcerer_native_binding import pinned_inputs, registry_check
+        from sorcerer_native_binding import pinned_inputs, registry_check, evidence
         approval, baseline = pinned_inputs()
-        registry=json.loads(Path(approval['registry']).read_text())
+        registry=json.loads(evidence('registry.json'))
         registry_check(registry,approval,baseline)
         nums=sorted({v['number'] for v in registry['nodes'].values()} | set(map(int,baseline['project'])))
     project={}
