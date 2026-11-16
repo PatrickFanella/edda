@@ -1,0 +1,1506 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Twelve Invocation identities and nested prerequisites, alternatives, conditions, costs, timing and termination on PDF pp73–74 adapted into unavailable metadata. Graph and mechanic keys are Edda additions. No spell, item, familiar lifecycle or runtime definitions imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
+      "kind": "feature",
+      "name": "Investment of the Chain Master",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/investment-of-the-chain-master",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/investment-of-the-chain-master/movement",
+        "srd-5.2.1:character/choice/investment-of-the-chain-master/damage"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/investment-of-the-chain-master/canonical-eligibility",
+        "srd-5.2.1:character/prerequisite/investment-of-the-chain-master/level",
+        "srd-5.2.1:character/prerequisite/investment-of-the-chain-master/pact",
+        "srd-5.2.1:character/prerequisite/investment-of-the-chain-master/save-dc"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/investment-of-the-chain-master",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/warlock/invocations/investment/when-cast-find-familiar/infuse-summoned-familiar",
+        "srd-5.2.1:mechanic/spells/find-familiar",
+        "srd-5.2.1:mechanic/warlock/invocations/investment/grant-chosen-speed",
+        "srd-5.2.1:mechanic/warlock/invocations/investment/speed-feet",
+        "srd-5.2.1:mechanic/warlock/invocations/investment/bonus-action/command-familiar-attack-action",
+        "srd-5.2.1:mechanic/warlock/invocations/investment/optional-replace-only-bludgeoning-piercing-slashing",
+        "srd-5.2.1:mechanic/warlock/invocations/investment/if-familiar-forces-save/use-your-spell-save-dc",
+        "srd-5.2.1:mechanic/warlock/invocations/investment/when-familiar-takes-damage/reaction/resistance-against-that-damage"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/investment/speed-feet": 40
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/investment-of-the-chain-master/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Investment of the Chain Master canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/investment-of-the-chain-master",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/investment-of-the-chain-master/level",
+      "kind": "prerequisite",
+      "name": "Investment of the Chain Master level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/investment-of-the-chain-master",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/investment-of-the-chain-master/pact",
+      "kind": "prerequisite",
+      "name": "Investment of the Chain Master pact",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/investment-of-the-chain-master",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires-pact-invocation"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/requires-pact-invocation",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-chain"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/investment-of-the-chain-master/movement",
+      "kind": "choice",
+      "name": "Investment of the Chain Master movement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/investment-of-the-chain-master",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/investment/speed-choice"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/movement/fly",
+        "srd-5.2.1:mechanic/movement/swim"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/investment-of-the-chain-master/damage",
+      "kind": "choice",
+      "name": "Investment of the Chain Master damage",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/investment-of-the-chain-master",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/investment/replacement-damage"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/damage/necrotic",
+        "srd-5.2.1:mechanic/damage/radiant"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/investment-of-the-chain-master/save-dc",
+      "kind": "prerequisite",
+      "name": "Investment of the Chain Master save-dc",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/investment-of-the-chain-master",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/investment/canonical-spell-save-dc"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/investment/canonical-spell-save-dc",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/lessons-of-the-first-ones",
+      "kind": "feature",
+      "name": "Lessons of the First Ones",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lessons-of-the-first-ones",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/lessons-of-the-first-ones/origin-feat"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/lessons-of-the-first-ones/canonical-eligibility",
+        "srd-5.2.1:character/prerequisite/lessons-of-the-first-ones/level",
+        "srd-5.2.1:character/prerequisite/lessons-of-the-first-ones/feat-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/lessons-of-the-first-ones",
+        "srd-5.2.1:mechanic/warlock/invocations/repeatable/different-eligible-selection",
+        "srd-5.2.1:mechanic/warlock/invocations/lessons/gain-origin-feat"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/lessons-of-the-first-ones/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Lessons of the First Ones canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lessons-of-the-first-ones",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lessons-of-the-first-ones",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/lessons-of-the-first-ones/level",
+      "kind": "prerequisite",
+      "name": "Lessons of the First Ones level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lessons-of-the-first-ones",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lessons-of-the-first-ones",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/lessons-of-the-first-ones/origin-feat",
+      "kind": "choice",
+      "name": "Lessons of the First Ones origin-feat",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lessons-of-the-first-ones",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lessons-of-the-first-ones",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/lessons/different-origin-feat-each-time"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/origin"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/lessons-of-the-first-ones/feat-owners",
+      "kind": "prerequisite",
+      "name": "Lessons of the First Ones feat-owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lessons-of-the-first-ones",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lessons-of-the-first-ones",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/lessons/available-origin-feat-owners"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/lessons/available-origin-feat-owners",
+        "record_refs": [
+          "srd-5.2.1:character/feat/alert",
+          "srd-5.2.1:character/feat/magic-initiate",
+          "srd-5.2.1:character/feat/savage-attacker",
+          "srd-5.2.1:character/feat/skilled"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
+      "kind": "feature",
+      "name": "Lifedrinker",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lifedrinker",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/lifedrinker/damage"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/lifedrinker/canonical-eligibility",
+        "srd-5.2.1:character/prerequisite/lifedrinker/level",
+        "srd-5.2.1:character/prerequisite/lifedrinker/pact",
+        "srd-5.2.1:character/prerequisite/lifedrinker/weapon"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/optional-on-hit-creature-with-pact-weapon",
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/maximum-per-turn",
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/extra-damage-to-hit-creature",
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/dice",
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/die-sides",
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/optional-expend-own-hit-point-die-and-roll-it",
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/hit-point-dice-cost",
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/self-healing/expended-die-roll-plus-constitution",
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/minimum-healing"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/maximum-per-turn": 1,
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/dice": 1,
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/die-sides": 6,
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/hit-point-dice-cost": 1,
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/minimum-healing": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/lifedrinker/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Lifedrinker canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lifedrinker",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/lifedrinker/level",
+      "kind": "prerequisite",
+      "name": "Lifedrinker level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lifedrinker",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 9
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/lifedrinker/pact",
+      "kind": "prerequisite",
+      "name": "Lifedrinker pact",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lifedrinker",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires-pact-invocation"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/requires-pact-invocation",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/lifedrinker/damage",
+      "kind": "choice",
+      "name": "Lifedrinker damage",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lifedrinker",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/damage-choice"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/damage/necrotic",
+        "srd-5.2.1:mechanic/damage/psychic",
+        "srd-5.2.1:mechanic/damage/radiant"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/lifedrinker/weapon",
+      "kind": "prerequisite",
+      "name": "Lifedrinker weapon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/lifedrinker",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/uses-bonded-pact-weapon"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/uses-bonded-pact-weapon",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/mask-of-many-faces",
+      "kind": "feature",
+      "name": "Mask of Many Faces",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/mask-of-many-faces",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/mask-of-many-faces/canonical-eligibility",
+        "srd-5.2.1:character/prerequisite/mask-of-many-faces/level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/mask-of-many-faces",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/spells/disguise-self",
+        "srd-5.2.1:mechanic/warlock/invocations/casting/without-spell-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/mask-of-many-faces/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Mask of Many Faces canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/mask-of-many-faces",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/mask-of-many-faces",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/mask-of-many-faces/level",
+      "kind": "prerequisite",
+      "name": "Mask of Many Faces level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/mask-of-many-faces",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/mask-of-many-faces",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/master-of-myriad-forms",
+      "kind": "feature",
+      "name": "Master of Myriad Forms",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/master-of-myriad-forms",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/master-of-myriad-forms/canonical-eligibility",
+        "srd-5.2.1:character/prerequisite/master-of-myriad-forms/level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/master-of-myriad-forms",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/spells/alter-self",
+        "srd-5.2.1:mechanic/warlock/invocations/casting/without-spell-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/master-of-myriad-forms/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Master of Myriad Forms canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/master-of-myriad-forms",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/master-of-myriad-forms",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/master-of-myriad-forms/level",
+      "kind": "prerequisite",
+      "name": "Master of Myriad Forms level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/master-of-myriad-forms",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/master-of-myriad-forms",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/misty-visions",
+      "kind": "feature",
+      "name": "Misty Visions",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/misty-visions",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/misty-visions/canonical-eligibility",
+        "srd-5.2.1:character/prerequisite/misty-visions/level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/misty-visions",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/spells/silent-image",
+        "srd-5.2.1:mechanic/warlock/invocations/casting/without-spell-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/misty-visions/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Misty Visions canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/misty-visions",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/misty-visions",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/misty-visions/level",
+      "kind": "prerequisite",
+      "name": "Misty Visions level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/misty-visions",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/misty-visions",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/one-with-shadows",
+      "kind": "feature",
+      "name": "One with Shadows",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/one-with-shadows",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/one-with-shadows/canonical-eligibility",
+        "srd-5.2.1:character/prerequisite/one-with-shadows/level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/one-with-shadows",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/spells/invisibility",
+        "srd-5.2.1:mechanic/warlock/invocations/casting/without-spell-slot",
+        "srd-5.2.1:mechanic/warlock/invocations/casting/self-only",
+        "srd-5.2.1:mechanic/warlock/invocations/shadows/only-while-in-dim-light-or-darkness"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/one-with-shadows/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "One with Shadows canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/one-with-shadows",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/one-with-shadows",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/one-with-shadows/level",
+      "kind": "prerequisite",
+      "name": "One with Shadows level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/one-with-shadows",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/one-with-shadows",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/otherworldly-leap",
+      "kind": "feature",
+      "name": "Otherworldly Leap",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/otherworldly-leap",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/otherworldly-leap/canonical-eligibility",
+        "srd-5.2.1:character/prerequisite/otherworldly-leap/level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/otherworldly-leap",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/spells/jump",
+        "srd-5.2.1:mechanic/warlock/invocations/casting/without-spell-slot",
+        "srd-5.2.1:mechanic/warlock/invocations/casting/self-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/otherworldly-leap/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Otherworldly Leap canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/otherworldly-leap",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/otherworldly-leap",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/otherworldly-leap/level",
+      "kind": "prerequisite",
+      "name": "Otherworldly Leap level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/otherworldly-leap",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/otherworldly-leap",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade",
+      "kind": "feature",
+      "name": "Pact of the Blade",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-blade",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/pact-of-the-blade/bond-method",
+        "srd-5.2.1:character/choice/pact-of-the-blade/damage"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/pact-of-the-blade/canonical-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/pact-of-the-blade",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/bonus-action/conjure-in-hand-or-bond-touched-magic-weapon",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/magic-weapon/no-other-attuned-creature-or-warlock-bond",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/while-bonded/proficient-with-weapon",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/while-bonded/spellcasting-focus",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/attacks/optional-charisma-replaces-strength-or-dexterity-for-attack-and-damage",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/terminate/on-reuse-bonus-action",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/terminate/continuous-distance-exceeds-threshold-for-duration",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/distance-feet",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/duration-minutes",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/terminate/on-your-death",
+        "srd-5.2.1:mechanic/warlock/invocations/blade/conjured-weapon-disappears-on-bond-end"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/blade/distance-feet": 5,
+        "srd-5.2.1:mechanic/warlock/invocations/blade/duration-minutes": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/pact-of-the-blade/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Pact of the Blade canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-blade",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/pact-of-the-blade/bond-method",
+      "kind": "choice",
+      "name": "Pact of the Blade bond-method",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-blade",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/blade/bond-alternatives"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/warlock/pact-weapon/conjured-simple-or-martial-melee",
+        "srd-5.2.1:mechanic/warlock/pact-weapon/touched-magic-weapon"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/pact-of-the-blade/damage",
+      "kind": "choice",
+      "name": "Pact of the Blade damage",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-blade",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/blade/each-attack/damage-choice"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/damage/necrotic",
+        "srd-5.2.1:mechanic/damage/psychic",
+        "srd-5.2.1:mechanic/damage/radiant",
+        "srd-5.2.1:mechanic/warlock/pact-weapon/normal-damage"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-chain",
+      "kind": "feature",
+      "name": "Pact of the Chain",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-chain",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/pact-of-the-chain/familiar"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/pact-of-the-chain/canonical-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/pact-of-the-chain",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/warlock/invocations/chain/learn-find-familiar",
+        "srd-5.2.1:mechanic/warlock/invocations/chain/cast-magic-action-without-spell-slot",
+        "srd-5.2.1:mechanic/spells/find-familiar",
+        "srd-5.2.1:mechanic/warlock/invocations/chain/when-you-take-attack-action",
+        "srd-5.2.1:mechanic/warlock/invocations/chain/optional-forgo-own-attack/familiar-attack-with-its-reaction",
+        "srd-5.2.1:mechanic/warlock/invocations/chain/own-attacks-cost",
+        "srd-5.2.1:mechanic/warlock/invocations/chain/familiar-attacks"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/chain/own-attacks-cost": 1,
+        "srd-5.2.1:mechanic/warlock/invocations/chain/familiar-attacks": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/pact-of-the-chain/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Pact of the Chain canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-chain",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-chain",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/pact-of-the-chain/familiar",
+      "kind": "choice",
+      "name": "Pact of the Chain familiar",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-chain",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-chain",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/chain/choose-on-cast/normal-or-special-form"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/find-familiar/normal-forms",
+        "srd-5.2.1:mechanic/creatures/imp",
+        "srd-5.2.1:mechanic/creatures/pseudodragon",
+        "srd-5.2.1:mechanic/creatures/quasit",
+        "srd-5.2.1:mechanic/creatures/skeleton",
+        "srd-5.2.1:mechanic/creatures/sphinx-of-wonder",
+        "srd-5.2.1:mechanic/creatures/sprite",
+        "srd-5.2.1:mechanic/creatures/venomous-snake"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-tome",
+      "kind": "feature",
+      "name": "Pact of the Tome",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-tome",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/pact-of-the-tome/cantrips",
+        "srd-5.2.1:character/choice/pact-of-the-tome/rituals"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/pact-of-the-tome/canonical-eligibility",
+        "srd-5.2.1:character/prerequisite/pact-of-the-tome/casting"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/pact-of-the-tome",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/warlock/invocations/tome/conjure-book-in-hand/end-short-or-long-rest",
+        "srd-5.2.1:mechanic/warlock/invocations/tome/appearance-your-choice",
+        "srd-5.2.1:mechanic/warlock/invocations/tome/magic-access-only-you",
+        "srd-5.2.1:mechanic/warlock/invocations/tome/disappear-on-replacement-or-your-death",
+        "srd-5.2.1:mechanic/warlock/invocations/tome/choose-when-book-appears",
+        "srd-5.2.1:mechanic/warlock/invocations/tome/any-class-spell-list",
+        "srd-5.2.1:mechanic/warlock/invocations/tome/selected-spells-not-already-prepared",
+        "srd-5.2.1:mechanic/warlock/invocations/tome/prepared-only-while-book-on-person",
+        "srd-5.2.1:mechanic/warlock/invocations/tome/chosen-spells-function-as-warlock-spells",
+        "srd-5.2.1:mechanic/warlock/invocations/tome/book-spellcasting-focus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/pact-of-the-tome/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Pact of the Tome canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-tome",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-tome",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/pact-of-the-tome/cantrips",
+      "kind": "choice",
+      "name": "Pact of the Tome cantrips",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-tome",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-tome",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/tome/cantrip-choice"
+      ],
+      "select": 3,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/any-class/cantrips"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/pact-of-the-tome/rituals",
+      "kind": "choice",
+      "name": "Pact of the Tome rituals",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-tome",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-tome",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/tome/ritual-choice"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/any-class/level-1-rituals"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/pact-of-the-tome/casting",
+      "kind": "prerequisite",
+      "name": "Pact of the Tome casting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/pact-of-the-tome",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-tome",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/tome/canonical-warlock-casting"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/tome/canonical-warlock-casting",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/repelling-blast",
+      "kind": "feature",
+      "name": "Repelling Blast",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/repelling-blast",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/repelling-blast/cantrip"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/repelling-blast/canonical-eligibility",
+        "srd-5.2.1:character/prerequisite/repelling-blast/level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/repelling-blast",
+        "srd-5.2.1:mechanic/warlock/invocations/repeatable/different-eligible-selection",
+        "srd-5.2.1:mechanic/warlock/invocations/repelling/require-known-warlock-damaging-cantrip-via-attack-roll",
+        "srd-5.2.1:mechanic/warlock/invocations/repelling/when-chosen-cantrip-hits-large-or-smaller-creature",
+        "srd-5.2.1:mechanic/warlock/invocations/repelling/optional-push-hit-creature/straight-away",
+        "srd-5.2.1:mechanic/warlock/invocations/repelling/maximum-push-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/repelling/maximum-push-feet": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/repelling-blast/canonical-eligibility",
+      "kind": "prerequisite",
+      "name": "Repelling Blast canonical-eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/repelling-blast",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/repelling-blast",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-eligibility-and-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/repelling-blast/level",
+      "kind": "prerequisite",
+      "name": "Repelling Blast level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/repelling-blast",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/repelling-blast",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/minimum-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/repelling-blast/cantrip",
+      "kind": "choice",
+      "name": "Repelling Blast cantrip",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/repelling-blast",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/repelling-blast",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/repelling/different-eligible-cantrip-each-time"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/known-warlock-cantrips/damage-via-attack-roll"
+      ],
+      "capacity": 0
+    }
+  ]
+}
