@@ -1,0 +1,3177 @@
+{
+  "schema_version": 1,
+  "base": "0abaffbaaef23c07f6aa95b559680ccabaae2824",
+  "parent_issue": 283,
+  "qualification_gates": [
+    337
+  ],
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Source facts paraphrased into decision scopes; implementation/evidence reconciliation and tracker ownership are Edda additions. No runtime grants."
+  },
+  "common_acceptance": "For this one PR, preview is inert; explicit confirmation revalidates authoritative eligibility, source/version, target facts and expected revision. Persist choice, exact dice, once-only cost/use and history atomically. Receipt replay/retry/reload returns the same result without rerolling or charging again. Inject history failure for full rollback; race two confirmations and require one commit; stale/foreign/unsupported state rejects without mutation. Prove this with deterministic dice and isolated PostgreSQL handler/state fixtures. Disclose only player-known targets, choices, costs and source derivations; hidden/foreign facts never enter previews, receipts or errors. Shared engine serves web and TUI: explicitly expose supported choices or show unavailable with a reason on both; require desktop/phone confirmation and reconnect plus TUI behavior fixtures before availability. No Full Rules/coverage promotion. Higher-level isolated fixture state never grants production entitlement. Run GOMAXPROCS=2 go test -p 2 -short -race ./... and go vet -p 2 ./...; changed UI requires build, focused lint and behavior tests.",
+  "issues": [
+    {
+      "key": "selection",
+      "title": "Validate durable source-linked feat selections without granting class eligibility",
+      "prerequisites": [
+        284,
+        298,
+        299,
+        300,
+        301
+      ],
+      "depends": [],
+      "fixture": "One atomic feat selection from an authoritative grant: exact category, prerequisites, repeatability and choices. A prerequisite naming a class requires at least one level in it; exceptions require a named source feature, never a client bypass. Unspecified category permits any category only when prerequisites hold. Existing legacy Alert and Magic Initiate names must not alias SRD identities.",
+      "positive": "Accept one eligible grant and reject replay double selection; allow only Skilled/ASI repeats and Magic Initiate different lists.",
+      "negative": "Reject unknown key, wrong category, missing Fighting Style/Spellcasting feature, unmet level/ability, repeated nonrepeatable feat, forged grant or unsupported production class. No class unlock from catalogue or fixture flag.",
+      "issue": 384,
+      "blocked_by_issues": [
+        284,
+        298,
+        299,
+        300,
+        301
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "alert",
+      "title": "Resolve source-exact Alert with durable deterministic fixtures",
+      "prerequisites": [
+        66,
+        269
+      ],
+      "depends": [
+        "selection"
+      ],
+      "fixture": "Add optional PB at initiative and exchange with one willing ally immediately after rolling; neither participant may be Incapacitated and both must be in the same combat.",
+      "positive": "PB=3 adds 3, then swap exact initiatives with willing ally.",
+      "negative": "Reject late swap, unwilling/foreign ally and either incapacitated participant; never use legacy +5/no-surprise rule.",
+      "issue": 385,
+      "blocked_by_issues": [
+        66,
+        269,
+        384
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "magic-initiate",
+      "title": "Resolve source-exact Magic Initiate with durable deterministic fixtures",
+      "prerequisites": [
+        265,
+        272,
+        273,
+        336
+      ],
+      "depends": [
+        "selection"
+      ],
+      "fixture": "Choose Cleric/Druid/Wizard list, INT/WIS/CHA, two cantrips and one level-one spell from that list; always prepared. Each repeat uses a different list. At each new level optionally replace one chosen spell with same-level spell on same list. Preserve independent free use per selection, recovered only on completed Long Rest, and owned-slot routing. Spell execution stays with #264/#265/#277 and routing #273.",
+      "positive": "Select Wizard/INT then Cleric/WIS; replace one cantrip on level gain and preserve each list free use.",
+      "negative": "Reject repeated list, wrong-level/list spell, second replacement at same level and invented slot/free use. Unknown spell execution stays unavailable.",
+      "issue": 386,
+      "blocked_by_issues": [
+        265,
+        272,
+        273,
+        336,
+        384
+      ],
+      "project_size": "L"
+    },
+    {
+      "key": "savage-attacker",
+      "title": "Resolve source-exact Savage Attacker with durable deterministic fixtures",
+      "prerequisites": [
+        65
+      ],
+      "depends": [
+        "selection"
+      ],
+      "fixture": "On weapon hit optionally roll only weapon damage dice twice and choose either whole roll, once per turn; preserve modifiers and separately sourced extra damage.",
+      "positive": "With weapon rolls 2 and 6 select 2 or 6 and spend one turn use.",
+      "negative": "Miss, nonweapon damage and second same-turn use reject; no automatic best-of individual dice or double modifiers.",
+      "issue": 387,
+      "blocked_by_issues": [
+        65,
+        384
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "skilled",
+      "title": "Resolve source-exact Skilled with durable deterministic fixtures",
+      "prerequisites": [
+        61,
+        333
+      ],
+      "depends": [
+        "selection"
+      ],
+      "fixture": "Each selection grants any combination of three skills/tools; repeatable. Preserve proficiency provenance and apply the proficiency bonus only once; no expertise invention.",
+      "positive": "Choose two skills and a tool, then another valid repeat; resulting checks use each proficiency once.",
+      "negative": "Reject fewer/more than three, unknown proficiency and duplicate bonus stacking.",
+      "issue": 388,
+      "blocked_by_issues": [
+        61,
+        333,
+        384
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "ability-score-improvement",
+      "title": "Resolve source-exact Ability Score Improvement with durable deterministic fixtures",
+      "prerequisites": [
+        285,
+        336
+      ],
+      "depends": [
+        "selection"
+      ],
+      "fixture": "At level4+ choose one score +2 or two distinct scores +1, maximum20; repeatable. Shared ASI application also supports Grappler STR/DEX+1 cap20 and boon+1 cap30 with exact allowed abilities. Recompute derived modifiers/saves/attacks and Constitution HP retroactively (p23); retain grant identity, never heal or invent a level.",
+      "positive": "18->20 or 19/19->20/20; boon29->30; Constitution modifier change updates maximum HP for prior levels.",
+      "negative": "Reject20->21 by ordinary ASI, boon30->31, wrong ability, missing level/grant, split +2 across same ability and retry double increase.",
+      "issue": 389,
+      "blocked_by_issues": [
+        285,
+        336,
+        384
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "grappler",
+      "title": "Resolve source-exact Grappler with durable deterministic fixtures",
+      "prerequisites": [
+        270
+      ],
+      "depends": [
+        "selection",
+        "ability-score-improvement"
+      ],
+      "fixture": "Level4+ and STR or DEX13+; STR/DEX+1 cap20. On own-turn Attack-action Unarmed Strike hit, Damage+Grapple once per turn; advantage against a creature Grappled by you; no extra movement to move own grappled creature of own size or smaller. Shared condition/movement remains #270.",
+      "positive": "Qualify with DEX13, apply STR+1, then hit, damage+grapple once; move same-size target at ordinary cost and attack with advantage.",
+      "negative": "Reject level3, both abilities12, second punch/grab, off-turn/non-Attack-action trigger; other grappler grants no advantage, larger target retains extra movement.",
+      "issue": 390,
+      "blocked_by_issues": [
+        270,
+        384,
+        389
+      ],
+      "project_size": "L"
+    },
+    {
+      "key": "archery",
+      "title": "Resolve source-exact Archery with durable deterministic fixtures",
+      "prerequisites": [
+        65,
+        247
+      ],
+      "depends": [
+        "selection"
+      ],
+      "fixture": "Fighting Style feature prerequisite; +2 to attack rolls with Ranged weapons, no other rolls.",
+      "positive": "Ranged weapon attack gains2.",
+      "negative": "Melee or ranged spell attack receives0.",
+      "issue": 391,
+      "blocked_by_issues": [
+        65,
+        247,
+        384
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "defense",
+      "title": "Resolve source-exact Defense with durable deterministic fixtures",
+      "prerequisites": [
+        267,
+        251,
+        252
+      ],
+      "depends": [
+        "selection"
+      ],
+      "fixture": "Fighting Style feature prerequisite; +1 AC wearing Light/Medium/Heavy armor. Extend existing fixed chain-mail fixture without double counting.",
+      "positive": "Each armor category adds1; removing armor removes1 and shield stays independent.",
+      "negative": "Shield alone/unarmored adds0; replay/equipment refresh never stacks extra Defense.",
+      "issue": 392,
+      "blocked_by_issues": [
+        251,
+        252,
+        267,
+        384
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "great-weapon-fighting",
+      "title": "Resolve source-exact Great Weapon Fighting with durable deterministic fixtures",
+      "prerequisites": [
+        65,
+        247
+      ],
+      "depends": [
+        "selection",
+        "savage-attacker"
+      ],
+      "fixture": "Fighting Style feature prerequisite; attack with Melee weapon held in two hands and Two-Handed or Versatile property: treat any1/2 on a damage die as3. Resolve once on dice with provenance, including Savage Attacker interaction.",
+      "positive": "Two-handed Versatile qualifying attack dice1,2,4 become3,3,4 and modifier unchanged.",
+      "negative": "One hand, ranged weapon or absent property leaves dice unchanged; no reroll or repeat conversion.",
+      "issue": 393,
+      "blocked_by_issues": [
+        65,
+        247,
+        384,
+        387
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "two-weapon-fighting",
+      "title": "Resolve source-exact Two-Weapon Fighting with durable deterministic fixtures",
+      "prerequisites": [
+        65,
+        248
+      ],
+      "depends": [
+        "selection"
+      ],
+      "fixture": "Fighting Style feature prerequisite; add ability modifier to extra attack from Light-property weapon only if not already added.",
+      "positive": "Light extra attack receives positive modifier exactly once; retain existing negative modifier behavior.",
+      "negative": "Non-Light trigger or already-added modifier gets no extra addition; no extra attack entitlement.",
+      "issue": 394,
+      "blocked_by_issues": [
+        65,
+        248,
+        384
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "boon-of-combat-prowess",
+      "title": "Resolve source-exact Boon of Combat Prowess with durable deterministic fixtures",
+      "prerequisites": [
+        66
+      ],
+      "depends": [
+        "selection",
+        "ability-score-improvement"
+      ],
+      "fixture": "Level19+, any ability+1 cap30; optionally turn missed attack into hit, one use until start of next turn.",
+      "positive": "Miss becomes hit, persists use, next own turn refreshes.",
+      "negative": "Reject second use, already-hit trigger and round boundary without own-turn start.",
+      "issue": 395,
+      "blocked_by_issues": [
+        66,
+        384,
+        389
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "boon-of-dimensional-travel",
+      "title": "Resolve source-exact Boon of Dimensional Travel with durable deterministic fixtures",
+      "prerequisites": [
+        67,
+        145
+      ],
+      "depends": [
+        "selection",
+        "ability-score-improvement"
+      ],
+      "fixture": "Level19+, any ability+1 cap30; immediately after Attack or Magic action teleport up to30ft to visible unoccupied space.",
+      "positive": "After Attack teleport30ft to known empty visible location.",
+      "negative": "Reject31ft, occupied/unseen/unknown destination, wrong action or expired trigger; no opportunity-attack walking substitution.",
+      "issue": 396,
+      "blocked_by_issues": [
+        67,
+        145,
+        384,
+        389
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "boon-of-fate",
+      "title": "Resolve source-exact Boon of Fate with durable deterministic fixtures",
+      "prerequisites": [
+        61,
+        272
+      ],
+      "depends": [
+        "selection",
+        "ability-score-improvement"
+      ],
+      "fixture": "Level19+, any ability+1 cap30; after self/other within60ft succeeds/fails D20 Test optionally roll2d4 as bonus or penalty; one use until roll Initiative or finish Short/Long Rest.",
+      "positive": "Within60ft successful test takes penalty from fixed2d4; refresh at initiative or completed rest.",
+      "negative": "Reject61ft, second use, interrupted rest refresh and non-D20 event; no invented Reaction cost.",
+      "issue": 397,
+      "blocked_by_issues": [
+        61,
+        272,
+        384,
+        389
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "boon-of-irresistible-offense",
+      "title": "Resolve source-exact Boon of Irresistible Offense with durable deterministic fixtures",
+      "prerequisites": [
+        65
+      ],
+      "depends": [
+        "selection",
+        "ability-score-improvement"
+      ],
+      "fixture": "Level19+, STR/DEX+1 cap30; own Bludgeoning/Piercing/Slashing damage ignores Resistance, not Immunity. On attack d20=20 optionally extra damage equal to ability SCORE increased by feat, attack damage type.",
+      "positive": "STR25 makes optional25 typed extra damage on natural20; own BPS damage ignores Resistance, including BPS damage dealt by a spell.",
+      "negative": "Modified20 without d20=20 does not trigger; non-BPS Resistance and all Immunity remain; never substitute ability modifier.",
+      "issue": 398,
+      "blocked_by_issues": [
+        65,
+        384,
+        389
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "boon-of-spell-recall",
+      "title": "Resolve source-exact Boon of Spell Recall with durable deterministic fixtures",
+      "prerequisites": [
+        273,
+        277
+      ],
+      "depends": [
+        "selection",
+        "ability-score-improvement"
+      ],
+      "fixture": "Level19+ and Spellcasting feature, INT/WIS/CHA+1 cap30. Each cast using slot1-4 rolls1d4; equal to slot level retains slot, else expend. Shared slot/cast authority belongs #273 and spells #277.",
+      "positive": "Slot3/d4=3 retains slot, d4=2 spends once; persist both dice/cast receipt.",
+      "negative": "Slots5+, cantrip, item/free casting get no refund roll; missing Spellcasting rejects feat even with Magic Initiate.",
+      "issue": 399,
+      "blocked_by_issues": [
+        273,
+        277,
+        384,
+        389
+      ],
+      "project_size": "M"
+    },
+    {
+      "key": "boon-of-the-night-spirit",
+      "title": "Resolve source-exact Boon of the Night Spirit with durable deterministic fixtures",
+      "prerequisites": [
+        268,
+        145
+      ],
+      "depends": [
+        "selection",
+        "ability-score-improvement"
+      ],
+      "fixture": "Level19+, any ability+1 cap30. Dim Light/Darkness: Bonus Action grants Invisible; ends immediately after subsequent action/Bonus Action/Reaction. In those light conditions resist all damage except Psychic/Radiant. Shared Invisible #268, light #145.",
+      "positive": "Dim Light activation costs Bonus Action, later Reaction ends Invisible; Fire resisted while Psychic is not.",
+      "negative": "Bright Light/unknown light rejects activation and shadow resistance; no self-cancellation by activation transaction, no hidden-location disclosure.",
+      "issue": 400,
+      "blocked_by_issues": [
+        145,
+        268,
+        384,
+        389
+      ],
+      "project_size": "L"
+    },
+    {
+      "key": "boon-of-truesight",
+      "title": "Resolve source-exact Boon of Truesight with durable deterministic fixtures",
+      "prerequisites": [
+        145,
+        268
+      ],
+      "depends": [
+        "selection",
+        "ability-score-improvement"
+      ],
+      "fixture": "Level19+, any ability+1 cap30; Truesight60ft using source glossary p190. Shared visibility #145 and condition semantics #268 own sensing; no omniscience.",
+      "positive": "Explicit known scene adjudication at60ft applies Truesight visual exceptions.",
+      "negative": "61ft, unknown facts and opaque barriers do not disclose hidden lore or grant unlimited sight.",
+      "issue": 401,
+      "blocked_by_issues": [
+        145,
+        268,
+        384,
+        389
+      ],
+      "project_size": "M"
+    }
+  ],
+  "feats": [
+    {
+      "id": "srd-5.2.1:character/feat/alert",
+      "name": "Alert",
+      "category": "Origin",
+      "page": 87,
+      "catalogue": "internal/rules/srd521/testdata/character-origin-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/alert",
+          "kind": "feat",
+          "name": "Alert",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/alert",
+              "page": 87
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/alert/initiative-swap"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/alert",
+            "srd-5.2.1:mechanic/feats/category/origin",
+            "srd-5.2.1:mechanic/feats/repeatability/once",
+            "srd-5.2.1:mechanic/feats/alert/initiative-proficiency/when-you-roll-initiative",
+            "srd-5.2.1:mechanic/feats/alert/initiative-proficiency/optional-add-proficiency-bonus",
+            "srd-5.2.1:mechanic/feats/alert/initiative-swap/optional-exchange-initiative"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/choice/alert/initiative-swap",
+          "kind": "choice",
+          "name": "Initiative Swap",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/alert",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/alert",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/alert/initiative-swap/same-combat",
+            "srd-5.2.1:character/prerequisite/alert/initiative-swap/self-not-incapacitated",
+            "srd-5.2.1:character/prerequisite/alert/initiative-swap/ally-not-incapacitated"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/alert/initiative-swap/immediately-after-you-roll-initiative"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/targets/willing-ally"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/alert/initiative-swap/same-combat",
+          "kind": "prerequisite",
+          "name": "Same combat",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/alert",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/alert/initiative-swap",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/alert-ally-in-same-combat"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/alert-ally-in-same-combat",
+            "record_refs": [
+              "srd-5.2.1:character/feat/alert",
+              "srd-5.2.1:character/choice/alert/initiative-swap"
+            ],
+            "parameters": {}
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/alert/initiative-swap/self-not-incapacitated",
+          "kind": "prerequisite",
+          "name": "Self not incapacitated",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/alert",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/alert/initiative-swap",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/alert-self-not-incapacitated"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/alert-self-not-incapacitated",
+            "record_refs": [
+              "srd-5.2.1:character/feat/alert"
+            ],
+            "parameters": {}
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/alert/initiative-swap/ally-not-incapacitated",
+          "kind": "prerequisite",
+          "name": "Ally not incapacitated",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/alert",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/alert/initiative-swap",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/alert-ally-not-incapacitated"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/alert-ally-not-incapacitated",
+            "record_refs": [
+              "srd-5.2.1:character/choice/alert/initiative-swap"
+            ],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_origin_feats_test.go"
+      ],
+      "effect_owner": "alert",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/magic-initiate",
+      "name": "Magic Initiate",
+      "category": "Origin",
+      "page": 87,
+      "catalogue": "internal/rules/srd521/testdata/character-origin-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/magic-initiate",
+          "kind": "feat",
+          "name": "Magic Initiate",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/magic-initiate/spell-list",
+            "srd-5.2.1:character/choice/magic-initiate/spellcasting-ability",
+            "srd-5.2.1:character/choice/magic-initiate/cantrips",
+            "srd-5.2.1:character/choice/magic-initiate/level-one-spell",
+            "srd-5.2.1:character/choice/magic-initiate/spell-change"
+          ],
+          "resource_refs": [
+            "srd-5.2.1:character/resource/magic-initiate/free-cast"
+          ],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/magic-initiate/repeatability"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/magic-initiate",
+            "srd-5.2.1:mechanic/feats/category/origin",
+            "srd-5.2.1:mechanic/feats/repeatability/different-spell-list",
+            "srd-5.2.1:mechanic/feats/magic-initiate/two-cantrips/learn",
+            "srd-5.2.1:mechanic/feats/magic-initiate/level-one-spell/always-prepared",
+            "srd-5.2.1:mechanic/feats/magic-initiate/level-one-spell/cast-using-any-owned-spell-slots",
+            "srd-5.2.1:mechanic/feats/magic-initiate/spell-change/optional-on-gaining-new-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/choice/magic-initiate/spell-list",
+          "kind": "choice",
+          "name": "Spell list",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/magic-initiate/choose-one-spell-list"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/spell-lists/cleric",
+            "srd-5.2.1:mechanic/spell-lists/druid",
+            "srd-5.2.1:mechanic/spell-lists/wizard"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/choice/magic-initiate/spellcasting-ability",
+          "kind": "choice",
+          "name": "Spellcasting ability",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/magic-initiate/ability/chosen-when-selecting-feat",
+            "srd-5.2.1:mechanic/feats/magic-initiate/ability/applies-to-this-feats-spells"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/intelligence",
+            "srd-5.2.1:mechanic/abilities/wisdom",
+            "srd-5.2.1:mechanic/abilities/charisma"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/choice/magic-initiate/cantrips",
+          "kind": "choice",
+          "name": "Two Cantrips",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/magic-initiate/cantrips/selected-list"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/magic-initiate/cantrips/from-selected-list"
+          ],
+          "select": 2,
+          "option_keys": [
+            "srd-5.2.1:mechanic/spells/selected-list/cantrips"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/magic-initiate/cantrips/selected-list",
+          "kind": "prerequisite",
+          "name": "Selected list",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/magic-initiate/cantrips",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/magic-initiate-from-selected-spell-list"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/magic-initiate-from-selected-spell-list",
+            "record_refs": [
+              "srd-5.2.1:character/choice/magic-initiate/spell-list"
+            ],
+            "parameters": {
+              "spell-level": 0
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/magic-initiate/level-one-spell",
+          "kind": "choice",
+          "name": "Level 1 Spell",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/magic-initiate/level-one-spell/selected-list"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/magic-initiate/level-one-spell/from-same-list-as-cantrips"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/spells/selected-list/level-one"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/magic-initiate/level-one-spell/selected-list",
+          "kind": "prerequisite",
+          "name": "Selected list",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/magic-initiate/level-one-spell",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/magic-initiate-from-selected-spell-list"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/magic-initiate-from-selected-spell-list",
+            "record_refs": [
+              "srd-5.2.1:character/choice/magic-initiate/spell-list",
+              "srd-5.2.1:character/choice/magic-initiate/cantrips"
+            ],
+            "parameters": {
+              "spell-level": 1
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/resource/magic-initiate/free-cast",
+          "kind": "resource",
+          "name": "Level 1 spell without a spell slot",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/magic-initiate/free-cast/selected-level-one-spell",
+            "srd-5.2.1:mechanic/feats/magic-initiate/free-cast/without-spell-slot",
+            "srd-5.2.1:mechanic/feats/magic-initiate/free-cast/regain-on-finish-long-rest"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 1
+        },
+        {
+          "id": "srd-5.2.1:character/choice/magic-initiate/spell-change",
+          "kind": "choice",
+          "name": "Spell Change",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/magic-initiate/spell-change/new-level",
+            "srd-5.2.1:character/prerequisite/magic-initiate/spell-change/same-list-and-level"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/magic-initiate/spell-change/replace-one-spell-chosen-for-this-feat"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/spells/selected-list/replacement"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/magic-initiate/spell-change/new-level",
+          "kind": "prerequisite",
+          "name": "New level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/magic-initiate/spell-change",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/magic-initiate-on-gaining-new-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/magic-initiate-on-gaining-new-level",
+            "record_refs": [
+              "srd-5.2.1:character/feat/magic-initiate"
+            ],
+            "parameters": {}
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/magic-initiate/spell-change/same-list-and-level",
+          "kind": "prerequisite",
+          "name": "Same list and level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/magic-initiate/spell-change",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/magic-initiate-replacement-same-level-from-selected-list"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/magic-initiate-replacement-same-level-from-selected-list",
+            "record_refs": [
+              "srd-5.2.1:character/choice/magic-initiate/spell-list",
+              "srd-5.2.1:character/choice/magic-initiate/cantrips",
+              "srd-5.2.1:character/choice/magic-initiate/level-one-spell",
+              "srd-5.2.1:character/choice/magic-initiate/spell-change"
+            ],
+            "parameters": {}
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/magic-initiate/repeatability",
+          "kind": "prerequisite",
+          "name": "Repeatability",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/magic-initiate",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/magic-initiate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/magic-initiate-different-spell-list-each-time"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/magic-initiate-different-spell-list-each-time",
+            "record_refs": [
+              "srd-5.2.1:character/feat/magic-initiate",
+              "srd-5.2.1:character/choice/magic-initiate/spell-list"
+            ],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "fixed creation choice only; not complete executable feat support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_origin_feats_test.go",
+        "internal/rules/srd521/creation.go",
+        "internal/rules/srd521/creation_test.go"
+      ],
+      "effect_owner": "magic-initiate",
+      "repeatability": "different spell list each time",
+      "variants": [
+        "Cleric",
+        "Druid",
+        "Wizard"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/savage-attacker",
+      "name": "Savage Attacker",
+      "category": "Origin",
+      "page": 87,
+      "catalogue": "internal/rules/srd521/testdata/character-origin-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/savage-attacker",
+          "kind": "feat",
+          "name": "Savage Attacker",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/savage-attacker",
+              "page": 87
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/savage-attacker/damage-roll"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/savage-attacker",
+            "srd-5.2.1:mechanic/feats/category/origin",
+            "srd-5.2.1:mechanic/feats/repeatability/once",
+            "srd-5.2.1:mechanic/feats/savage-attacker/optional-on-hit-target-with-weapon",
+            "srd-5.2.1:mechanic/feats/savage-attacker/roll-weapons-damage-dice-twice",
+            "srd-5.2.1:mechanic/feats/savage-attacker/use-either-roll-against-target",
+            "srd-5.2.1:mechanic/feats/savage-attacker/roll-count",
+            "srd-5.2.1:mechanic/feats/savage-attacker/uses-per-turn"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/savage-attacker/roll-count": 2,
+            "srd-5.2.1:mechanic/feats/savage-attacker/uses-per-turn": 1
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/savage-attacker/damage-roll",
+          "kind": "choice",
+          "name": "Weapon damage roll",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/savage-attacker",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/savage-attacker",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/savage-attacker/use-either-roll-against-target"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/feats/savage-attacker/damage-roll/first",
+            "srd-5.2.1:mechanic/feats/savage-attacker/damage-roll/second"
+          ],
+          "capacity": 0
+        }
+      ],
+      "state": "fixed creation choice only; not complete executable feat support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_origin_feats_test.go",
+        "internal/rules/srd521/creation.go",
+        "internal/rules/srd521/creation_test.go"
+      ],
+      "effect_owner": "savage-attacker",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/skilled",
+      "name": "Skilled",
+      "category": "Origin",
+      "page": 87,
+      "catalogue": "internal/rules/srd521/testdata/character-origin-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/skilled",
+          "kind": "feat",
+          "name": "Skilled",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/skilled",
+              "page": 87
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/skilled/proficiencies"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/skilled",
+            "srd-5.2.1:mechanic/feats/category/origin",
+            "srd-5.2.1:mechanic/feats/repeatability/unrestricted",
+            "srd-5.2.1:mechanic/feats/skilled/gain-proficiency"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/choice/skilled/proficiencies",
+          "kind": "choice",
+          "name": "Skill or tool proficiencies",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/skilled",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/skilled",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/skilled/any-combination-of-skills-or-tools"
+          ],
+          "select": 3,
+          "option_keys": [
+            "srd-5.2.1:mechanic/proficiencies/any-skill",
+            "srd-5.2.1:mechanic/proficiencies/any-tool"
+          ],
+          "capacity": 0
+        }
+      ],
+      "state": "fixed creation choice only; not complete executable feat support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_origin_feats_test.go",
+        "internal/rules/srd521/creation.go",
+        "internal/rules/srd521/creation_test.go"
+      ],
+      "effect_owner": "skilled",
+      "repeatability": "repeatable",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/ability-score-improvement",
+      "name": "Ability Score Improvement",
+      "category": "General",
+      "page": 87,
+      "catalogue": "internal/rules/srd521/testdata/character-general-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/ability-score-improvement",
+          "kind": "feat",
+          "name": "Ability Score Improvement",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+              "page": 87
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/ability-score-improvement/level"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/general",
+            "srd-5.2.1:mechanic/feats/repeatability/unrestricted",
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/maximum-ability-score"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/maximum-ability-score": 20
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/ability-score-improvement/level",
+          "kind": "prerequisite",
+          "name": "Level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/ability-score-improvement",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+            "record_refs": [],
+            "parameters": {
+              "minimum-level": 4
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern",
+          "kind": "choice",
+          "name": "Ability increase pattern",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/ability-score-improvement",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/one-score",
+            "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/two-scores"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/choose-one-increase-pattern",
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-per-score"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/one-score-plus-two",
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/two-scores-plus-one"
+          ],
+          "capacity": 0,
+          "options": [
+            {
+              "key": "srd-5.2.1:mechanic/feats/ability-score-improvement/one-score-plus-two",
+              "quantities": {
+                "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-per-score": 2
+              }
+            },
+            {
+              "key": "srd-5.2.1:mechanic/feats/ability-score-improvement/two-scores-plus-one",
+              "quantities": {
+                "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-per-score": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/one-score",
+          "kind": "choice",
+          "name": "One ability score",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/ability-score-improvement/increase-pattern/one-score/selected-pattern"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-selected-scores",
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/subject-to-maximum-ability-score"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/strength",
+            "srd-5.2.1:mechanic/abilities/dexterity",
+            "srd-5.2.1:mechanic/abilities/constitution",
+            "srd-5.2.1:mechanic/abilities/intelligence",
+            "srd-5.2.1:mechanic/abilities/wisdom",
+            "srd-5.2.1:mechanic/abilities/charisma"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/ability-score-improvement/increase-pattern/one-score/selected-pattern",
+          "kind": "prerequisite",
+          "name": "Selected pattern",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/one-score",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/ability-score-improvement/one-score-plus-two-selected"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/ability-score-improvement/one-score-plus-two-selected",
+            "record_refs": [
+              "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern"
+            ],
+            "parameters": {}
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/two-scores",
+          "kind": "choice",
+          "name": "Two distinct ability scores",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/ability-score-improvement/increase-pattern/two-scores/selected-pattern"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-selected-scores",
+            "srd-5.2.1:mechanic/feats/ability-score-improvement/subject-to-maximum-ability-score"
+          ],
+          "select": 2,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/strength",
+            "srd-5.2.1:mechanic/abilities/dexterity",
+            "srd-5.2.1:mechanic/abilities/constitution",
+            "srd-5.2.1:mechanic/abilities/intelligence",
+            "srd-5.2.1:mechanic/abilities/wisdom",
+            "srd-5.2.1:mechanic/abilities/charisma"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/ability-score-improvement/increase-pattern/two-scores/selected-pattern",
+          "kind": "prerequisite",
+          "name": "Selected pattern",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/ability-score-improvement",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern/two-scores",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/ability-score-improvement/two-scores-plus-one-selected"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/ability-score-improvement/two-scores-plus-one-selected",
+            "record_refs": [
+              "srd-5.2.1:character/choice/ability-score-improvement/increase-pattern"
+            ],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_general_feats_test.go"
+      ],
+      "effect_owner": "ability-score-improvement",
+      "repeatability": "repeatable",
+      "variants": [
+        "one +2",
+        "two distinct +1"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/grappler",
+      "name": "Grappler",
+      "category": "General",
+      "page": 87,
+      "catalogue": "internal/rules/srd521/testdata/character-general-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/grappler",
+          "kind": "feat",
+          "name": "Grappler",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/grappler",
+              "page": 87
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/grappler/ability-score"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/grappler/level",
+            "srd-5.2.1:character/prerequisite/grappler/ability"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/general",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/grappler/ability-score-increase",
+            "srd-5.2.1:mechanic/feats/grappler/maximum-ability-score",
+            "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/optional-on-hit-creature",
+            "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/unarmed-strike",
+            "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/part-of-attack-action-on-your-turn",
+            "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/use-both-damage-and-grapple-options",
+            "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/uses-per-turn",
+            "srd-5.2.1:mechanic/feats/grappler/attack-advantage/on-attack-rolls-against-creature-grappled-by-you",
+            "srd-5.2.1:mechanic/feats/grappler/fast-wrestler/no-extra-movement-to-move-creature-grappled-by-you",
+            "srd-5.2.1:mechanic/feats/grappler/fast-wrestler/only-if-creature-your-size-or-smaller"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/grappler/ability-score-increase": 1,
+            "srd-5.2.1:mechanic/feats/grappler/maximum-ability-score": 20,
+            "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/uses-per-turn": 1
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/grappler/level",
+          "kind": "prerequisite",
+          "name": "Level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/grappler",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/grappler",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+            "record_refs": [],
+            "parameters": {
+              "minimum-level": 4
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/grappler/ability",
+          "kind": "prerequisite",
+          "name": "Ability",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/grappler",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/grappler",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/strength-or-dexterity-at-least"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/strength-or-dexterity-at-least",
+            "record_refs": [],
+            "parameters": {
+              "minimum-score": 13
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/grappler/ability-score",
+          "kind": "choice",
+          "name": "Ability Score Increase",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/grappler",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/grappler",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/grappler/increase-one-selected-ability",
+            "srd-5.2.1:mechanic/feats/grappler/subject-to-maximum-ability-score"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/strength",
+            "srd-5.2.1:mechanic/abilities/dexterity"
+          ],
+          "capacity": 0
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_general_feats_test.go"
+      ],
+      "effect_owner": "grappler",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/archery",
+      "name": "Archery",
+      "category": "Fighting Style",
+      "page": 87,
+      "catalogue": "internal/rules/srd521/testdata/character-fighting-styles.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/archery",
+          "kind": "feat",
+          "name": "Archery",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/archery",
+              "page": 87
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/archery/fighting-style-feature"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/fighting-style",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/archery/attack-rolls/with-ranged-weapons",
+            "srd-5.2.1:mechanic/feats/archery/attack-roll-bonus"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/archery/attack-roll-bonus": 2
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/archery/fighting-style-feature",
+          "kind": "prerequisite",
+          "name": "Fighting Style feature required",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/archery",
+              "page": 87
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/archery",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature",
+            "record_refs": [],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_fighting_styles_test.go"
+      ],
+      "effect_owner": "archery",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/defense",
+      "name": "Defense",
+      "category": "Fighting Style",
+      "page": 88,
+      "catalogue": "internal/rules/srd521/testdata/character-fighting-styles.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/defense",
+          "kind": "feat",
+          "name": "Defense",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/defense",
+              "page": 88
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/defense/fighting-style-feature"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/fighting-style",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/defense/armor-class/while-wearing-light-or-medium-or-heavy-armor",
+            "srd-5.2.1:mechanic/feats/defense/armor-class-bonus"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/defense/armor-class-bonus": 1
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/defense/fighting-style-feature",
+          "kind": "prerequisite",
+          "name": "Fighting Style feature required",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/defense",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/defense",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature",
+            "record_refs": [],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "fixed Fighter chain-mail +1 AC; other armor and general selection unsupported",
+      "evidence": [
+        "internal/rules/srd521/catalogue_fighting_styles_test.go",
+        "internal/rules/srd521/character.go",
+        "internal/rules/srd521/catalogue_fighting_styles_test.go"
+      ],
+      "effect_owner": "defense",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/great-weapon-fighting",
+      "name": "Great Weapon Fighting",
+      "category": "Fighting Style",
+      "page": 88,
+      "catalogue": "internal/rules/srd521/testdata/character-fighting-styles.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/great-weapon-fighting",
+          "kind": "feat",
+          "name": "Great Weapon Fighting",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/great-weapon-fighting",
+              "page": 88
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/great-weapon-fighting/fighting-style-feature"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/fighting-style",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/optional-treat-result",
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/when-rolling-damage-for-own-attack",
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/weapon/melee",
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/weapon/held-with-two-hands",
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/weapon/property-two-handed-or-versatile",
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/minimum-result",
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/maximum-result",
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/treat-as"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/minimum-result": 1,
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/maximum-result": 2,
+            "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/treat-as": 3
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/great-weapon-fighting/fighting-style-feature",
+          "kind": "prerequisite",
+          "name": "Fighting Style feature required",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/great-weapon-fighting",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/great-weapon-fighting",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature",
+            "record_refs": [],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_fighting_styles_test.go"
+      ],
+      "effect_owner": "great-weapon-fighting",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/two-weapon-fighting",
+      "name": "Two-Weapon Fighting",
+      "category": "Fighting Style",
+      "page": 88,
+      "catalogue": "internal/rules/srd521/testdata/character-fighting-styles.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/two-weapon-fighting",
+          "kind": "feat",
+          "name": "Two-Weapon Fighting",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/two-weapon-fighting",
+              "page": 88
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/two-weapon-fighting/fighting-style-feature"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/fighting-style",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/two-weapon-fighting/damage/optional-add-ability-modifier",
+            "srd-5.2.1:mechanic/feats/two-weapon-fighting/attack/extra-from-using-light-property-weapon",
+            "srd-5.2.1:mechanic/feats/two-weapon-fighting/damage/only-if-not-already-adding-ability-modifier"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/two-weapon-fighting/fighting-style-feature",
+          "kind": "prerequisite",
+          "name": "Fighting Style feature required",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/two-weapon-fighting",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/two-weapon-fighting",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature",
+            "record_refs": [],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_fighting_styles_test.go"
+      ],
+      "effect_owner": "two-weapon-fighting",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+      "name": "Boon of Combat Prowess",
+      "category": "Epic Boon",
+      "page": 88,
+      "catalogue": "internal/rules/srd521/testdata/character-epic-boon-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+          "kind": "feat",
+          "name": "Boon of Combat Prowess",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-combat-prowess",
+              "page": 88
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/boon-of-combat-prowess/ability-score"
+          ],
+          "resource_refs": [
+            "srd-5.2.1:character/resource/boon-of-combat-prowess/peerless-aim"
+          ],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/boon-of-combat-prowess/level",
+            "srd-5.2.1:character/prerequisite/boon-of-combat-prowess/miss"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/epic-boon",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/ability-score-increase",
+            "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/maximum-ability-score",
+            "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/optional-replace-miss-with-hit",
+            "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/recover-at-start-of-your-next-turn"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/ability-score-increase": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/maximum-ability-score": 30
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-combat-prowess/level",
+          "kind": "prerequisite",
+          "name": "Level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-combat-prowess",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+            "record_refs": [],
+            "parameters": {
+              "minimum-level": 19
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/boon-of-combat-prowess/ability-score",
+          "kind": "choice",
+          "name": "Ability Score Increase",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-combat-prowess",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/increase-one-selected-ability",
+            "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/subject-to-maximum-ability-score"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/strength",
+            "srd-5.2.1:mechanic/abilities/dexterity",
+            "srd-5.2.1:mechanic/abilities/constitution",
+            "srd-5.2.1:mechanic/abilities/intelligence",
+            "srd-5.2.1:mechanic/abilities/wisdom",
+            "srd-5.2.1:mechanic/abilities/charisma"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-combat-prowess/miss",
+          "kind": "prerequisite",
+          "name": "Miss",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-combat-prowess",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/attack-roll-missed"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/attack-roll-missed",
+            "record_refs": [],
+            "parameters": {}
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/resource/boon-of-combat-prowess/peerless-aim",
+          "kind": "resource",
+          "name": "Peerless Aim",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-combat-prowess",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/uses",
+            "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/recover-on-start-of-your-next-turn"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 1
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_epic_boon_feats_test.go"
+      ],
+      "effect_owner": "boon-of-combat-prowess",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+      "name": "Boon of Dimensional Travel",
+      "category": "Epic Boon",
+      "page": 88,
+      "catalogue": "internal/rules/srd521/testdata/character-epic-boon-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+          "kind": "feat",
+          "name": "Boon of Dimensional Travel",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-dimensional-travel",
+              "page": 88
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/boon-of-dimensional-travel/ability-score"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/level",
+            "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/action",
+            "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/destination"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/epic-boon",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/ability-score-increase",
+            "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/maximum-ability-score",
+            "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/optional-teleport-immediately-after-attack-or-magic-action",
+            "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/destination-unoccupied-space-you-can-see",
+            "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/maximum-distance-feet"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/ability-score-increase": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/maximum-ability-score": 30,
+            "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/maximum-distance-feet": 30
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/level",
+          "kind": "prerequisite",
+          "name": "Level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-dimensional-travel",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+            "record_refs": [],
+            "parameters": {
+              "minimum-level": 19
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/boon-of-dimensional-travel/ability-score",
+          "kind": "choice",
+          "name": "Ability Score Increase",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-dimensional-travel",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/increase-one-selected-ability",
+            "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/subject-to-maximum-ability-score"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/strength",
+            "srd-5.2.1:mechanic/abilities/dexterity",
+            "srd-5.2.1:mechanic/abilities/constitution",
+            "srd-5.2.1:mechanic/abilities/intelligence",
+            "srd-5.2.1:mechanic/abilities/wisdom",
+            "srd-5.2.1:mechanic/abilities/charisma"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/action",
+          "kind": "prerequisite",
+          "name": "Action",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-dimensional-travel",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/immediately-after-you-take-attack-or-magic-action"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/immediately-after-you-take-attack-or-magic-action",
+            "record_refs": [],
+            "parameters": {}
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/destination",
+          "kind": "prerequisite",
+          "name": "Destination",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-dimensional-travel",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/teleport-destination-unoccupied-and-visible-to-you"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/teleport-destination-unoccupied-and-visible-to-you",
+            "record_refs": [],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_epic_boon_feats_test.go"
+      ],
+      "effect_owner": "boon-of-dimensional-travel",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-fate",
+      "name": "Boon of Fate",
+      "category": "Epic Boon",
+      "page": 88,
+      "catalogue": "internal/rules/srd521/testdata/character-epic-boon-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/boon-of-fate",
+          "kind": "feat",
+          "name": "Boon of Fate",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-fate",
+              "page": 88
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/boon-of-fate/ability-score"
+          ],
+          "resource_refs": [
+            "srd-5.2.1:character/resource/boon-of-fate/improve-fate"
+          ],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/boon-of-fate/level",
+            "srd-5.2.1:character/prerequisite/boon-of-fate/d20-test"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/epic-boon",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/boon-of-fate/ability-score-increase",
+            "srd-5.2.1:mechanic/feats/boon-of-fate/maximum-ability-score",
+            "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/optional-roll-and-apply-total-as-bonus-or-penalty-to-triggering-d20-roll",
+            "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/dice-count",
+            "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/die-sides",
+            "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/other-creature-range-feet",
+            "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/recover-on-roll-initiative-or-finish-short-or-long-rest"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-fate/ability-score-increase": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-fate/maximum-ability-score": 30,
+            "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/dice-count": 2,
+            "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/die-sides": 4,
+            "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/other-creature-range-feet": 60
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-fate/level",
+          "kind": "prerequisite",
+          "name": "Level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-fate",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-fate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+            "record_refs": [],
+            "parameters": {
+              "minimum-level": 19
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/boon-of-fate/ability-score",
+          "kind": "choice",
+          "name": "Ability Score Increase",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-fate",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-fate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/boon-of-fate/increase-one-selected-ability",
+            "srd-5.2.1:mechanic/feats/boon-of-fate/subject-to-maximum-ability-score"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/strength",
+            "srd-5.2.1:mechanic/abilities/dexterity",
+            "srd-5.2.1:mechanic/abilities/constitution",
+            "srd-5.2.1:mechanic/abilities/intelligence",
+            "srd-5.2.1:mechanic/abilities/wisdom",
+            "srd-5.2.1:mechanic/abilities/charisma"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-fate/d20-test",
+          "kind": "prerequisite",
+          "name": "D20 test",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-fate",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-fate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/you-or-another-creature-in-range-succeeds-or-fails-d20-test"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/you-or-another-creature-in-range-succeeds-or-fails-d20-test",
+            "record_refs": [],
+            "parameters": {
+              "other-creature-range-feet": 60
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/resource/boon-of-fate/improve-fate",
+          "kind": "resource",
+          "name": "Improve Fate",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-fate",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-fate",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/uses",
+            "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/recover-on-roll-initiative-or-finish-short-or-long-rest"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 1
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_epic_boon_feats_test.go"
+      ],
+      "effect_owner": "boon-of-fate",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+      "name": "Boon of Irresistible Offense",
+      "category": "Epic Boon",
+      "page": 88,
+      "catalogue": "internal/rules/srd521/testdata/character-epic-boon-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+          "kind": "feat",
+          "name": "Boon of Irresistible Offense",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-irresistible-offense",
+              "page": 88
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/boon-of-irresistible-offense/ability-score"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/level",
+            "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/attack-roll",
+            "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/damage-amount"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/epic-boon",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/ability-score-increase",
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/maximum-ability-score",
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overcome-defenses/your-bludgeoning-piercing-slashing-damage-always-ignores-resistance",
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/optional-extra-damage-to-attack-target",
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/extra-damage-equals-selected-ability-score-not-modifier",
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/extra-damage-type-same-as-attack",
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/attack-d20-result"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/ability-score-increase": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/maximum-ability-score": 30,
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/attack-d20-result": 20
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/level",
+          "kind": "prerequisite",
+          "name": "Level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-irresistible-offense",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+            "record_refs": [],
+            "parameters": {
+              "minimum-level": 19
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/boon-of-irresistible-offense/ability-score",
+          "kind": "choice",
+          "name": "Ability Score Increase",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-irresistible-offense",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/increase-one-selected-ability",
+            "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/subject-to-maximum-ability-score"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/strength",
+            "srd-5.2.1:mechanic/abilities/dexterity"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/attack-roll",
+          "kind": "prerequisite",
+          "name": "Attack roll",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-irresistible-offense",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/attack-roll-d20-equals"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/attack-roll-d20-equals",
+            "record_refs": [],
+            "parameters": {
+              "d20-result": 20
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/damage-amount",
+          "kind": "prerequisite",
+          "name": "Damage amount",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-irresistible-offense",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/extra-damage-equals-ability-score-increased-by-this-feat"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/extra-damage-equals-ability-score-increased-by-this-feat",
+            "record_refs": [
+              "srd-5.2.1:character/choice/boon-of-irresistible-offense/ability-score"
+            ],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_epic_boon_feats_test.go"
+      ],
+      "effect_owner": "boon-of-irresistible-offense",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+      "name": "Boon of Spell Recall",
+      "category": "Epic Boon",
+      "page": 88,
+      "catalogue": "internal/rules/srd521/testdata/character-epic-boon-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+          "kind": "feat",
+          "name": "Boon of Spell Recall",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+              "page": 88
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/boon-of-spell-recall/ability-score"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/boon-of-spell-recall/level",
+            "srd-5.2.1:character/prerequisite/boon-of-spell-recall/spellcasting",
+            "srd-5.2.1:character/prerequisite/boon-of-spell-recall/slot",
+            "srd-5.2.1:character/prerequisite/boon-of-spell-recall/roll-match"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/epic-boon",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/ability-score-increase",
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/maximum-ability-score",
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/roll-on-every-spell-cast-with-level-one-to-four-slot",
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/dice-count",
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/die-sides",
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/do-not-expend-slot-only-if-roll-equals-slot-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/ability-score-increase": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/maximum-ability-score": 30,
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/dice-count": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/die-sides": 4
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-spell-recall/level",
+          "kind": "prerequisite",
+          "name": "Level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+            "record_refs": [],
+            "parameters": {
+              "minimum-level": 19
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/boon-of-spell-recall/ability-score",
+          "kind": "choice",
+          "name": "Ability Score Increase",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/increase-one-selected-ability",
+            "srd-5.2.1:mechanic/feats/boon-of-spell-recall/subject-to-maximum-ability-score"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/intelligence",
+            "srd-5.2.1:mechanic/abilities/wisdom",
+            "srd-5.2.1:mechanic/abilities/charisma"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-spell-recall/spellcasting",
+          "kind": "prerequisite",
+          "name": "Spellcasting",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/has-spellcasting-feature"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/has-spellcasting-feature",
+            "record_refs": [],
+            "parameters": {}
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-spell-recall/slot",
+          "kind": "prerequisite",
+          "name": "Slot",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/cast-spell-with-slot-level-in-range"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/cast-spell-with-slot-level-in-range",
+            "record_refs": [],
+            "parameters": {
+              "minimum-slot-level": 1,
+              "maximum-slot-level": 4
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-spell-recall/roll-match",
+          "kind": "prerequisite",
+          "name": "Roll match",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/die-result-equals-triggering-spell-slot-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/die-result-equals-triggering-spell-slot-level",
+            "record_refs": [
+              "srd-5.2.1:character/prerequisite/boon-of-spell-recall/slot"
+            ],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_epic_boon_feats_test.go"
+      ],
+      "effect_owner": "boon-of-spell-recall",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+      "name": "Boon of the Night Spirit",
+      "category": "Epic Boon",
+      "page": 88,
+      "catalogue": "internal/rules/srd521/testdata/character-epic-boon-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+          "kind": "feat",
+          "name": "Boon of the Night Spirit",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-the-night-spirit",
+              "page": 88
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/boon-of-the-night-spirit/ability-score"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/level",
+            "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/light",
+            "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/invisibility-end"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/epic-boon",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/ability-score-increase",
+            "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/maximum-ability-score",
+            "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/merge-with-shadows/optional-give-self-invisible-condition-as-bonus-action-in-dim-light-or-darkness",
+            "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/merge-with-shadows/ends-immediately-after-you-take-action-or-bonus-action-or-reaction",
+            "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/shadowy-form/resistance-to-all-damage-except-psychic-and-radiant-in-dim-light-or-darkness"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/ability-score-increase": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/maximum-ability-score": 30
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/level",
+          "kind": "prerequisite",
+          "name": "Level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-the-night-spirit",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+            "record_refs": [],
+            "parameters": {
+              "minimum-level": 19
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/boon-of-the-night-spirit/ability-score",
+          "kind": "choice",
+          "name": "Ability Score Increase",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-the-night-spirit",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/increase-one-selected-ability",
+            "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/subject-to-maximum-ability-score"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/strength",
+            "srd-5.2.1:mechanic/abilities/dexterity",
+            "srd-5.2.1:mechanic/abilities/constitution",
+            "srd-5.2.1:mechanic/abilities/intelligence",
+            "srd-5.2.1:mechanic/abilities/wisdom",
+            "srd-5.2.1:mechanic/abilities/charisma"
+          ],
+          "capacity": 0
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/light",
+          "kind": "prerequisite",
+          "name": "Light",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-the-night-spirit",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/within-dim-light-or-darkness"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/within-dim-light-or-darkness",
+            "record_refs": [],
+            "parameters": {}
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/invisibility-end",
+          "kind": "prerequisite",
+          "name": "Invisibility end",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-the-night-spirit",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/immediately-after-you-take-action-or-bonus-action-or-reaction"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/immediately-after-you-take-action-or-bonus-action-or-reaction",
+            "record_refs": [],
+            "parameters": {}
+          }
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_epic_boon_feats_test.go"
+      ],
+      "effect_owner": "boon-of-the-night-spirit",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-truesight",
+      "name": "Boon of Truesight",
+      "category": "Epic Boon",
+      "page": 88,
+      "catalogue": "internal/rules/srd521/testdata/character-epic-boon-feats.json",
+      "records": [
+        {
+          "id": "srd-5.2.1:character/feat/boon-of-truesight",
+          "kind": "feat",
+          "name": "Boon of Truesight",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-truesight",
+              "page": 88
+            }
+          ],
+          "parent_id": "",
+          "level": 0,
+          "choice_refs": [
+            "srd-5.2.1:character/choice/boon-of-truesight/ability-score"
+          ],
+          "resource_refs": [],
+          "prerequisite_refs": [
+            "srd-5.2.1:character/prerequisite/boon-of-truesight/level"
+          ],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/category/epic-boon",
+            "srd-5.2.1:mechanic/feats/maximum-times-taken",
+            "srd-5.2.1:mechanic/feats/boon-of-truesight/ability-score-increase",
+            "srd-5.2.1:mechanic/feats/boon-of-truesight/maximum-ability-score",
+            "srd-5.2.1:mechanic/feats/boon-of-truesight/truesight/have-truesight",
+            "srd-5.2.1:mechanic/feats/boon-of-truesight/truesight/range-feet"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "parameters": {
+            "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-truesight/ability-score-increase": 1,
+            "srd-5.2.1:mechanic/feats/boon-of-truesight/maximum-ability-score": 30,
+            "srd-5.2.1:mechanic/feats/boon-of-truesight/truesight/range-feet": 60
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/prerequisite/boon-of-truesight/level",
+          "kind": "prerequisite",
+          "name": "Level",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-truesight",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-truesight",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+          ],
+          "select": 0,
+          "option_keys": [],
+          "capacity": 0,
+          "requirement": {
+            "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+            "record_refs": [],
+            "parameters": {
+              "minimum-level": 19
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:character/choice/boon-of-truesight/ability-score",
+          "kind": "choice",
+          "name": "Ability Score Increase",
+          "sources": [
+            {
+              "inventory_id": "srd-5.2.1:planning/feats/boon-of-truesight",
+              "page": 88
+            }
+          ],
+          "parent_id": "srd-5.2.1:character/feat/boon-of-truesight",
+          "level": 0,
+          "choice_refs": [],
+          "resource_refs": [],
+          "prerequisite_refs": [],
+          "required_mechanics": [
+            "srd-5.2.1:mechanic/feats/boon-of-truesight/increase-one-selected-ability",
+            "srd-5.2.1:mechanic/feats/boon-of-truesight/subject-to-maximum-ability-score"
+          ],
+          "select": 1,
+          "option_keys": [
+            "srd-5.2.1:mechanic/abilities/strength",
+            "srd-5.2.1:mechanic/abilities/dexterity",
+            "srd-5.2.1:mechanic/abilities/constitution",
+            "srd-5.2.1:mechanic/abilities/intelligence",
+            "srd-5.2.1:mechanic/abilities/wisdom",
+            "srd-5.2.1:mechanic/abilities/charisma"
+          ],
+          "capacity": 0
+        }
+      ],
+      "state": "metadata only; no general executable support",
+      "evidence": [
+        "internal/rules/srd521/catalogue_epic_boon_feats_test.go"
+      ],
+      "effect_owner": "boon-of-truesight",
+      "repeatability": "once",
+      "variants": [
+        "exact named feat; choices retained in records"
+      ]
+    }
+  ],
+  "source_key_owners": {
+    "srd-5.2.1:mechanic/feats/alert": "alert",
+    "srd-5.2.1:mechanic/feats/category/origin": "selection",
+    "srd-5.2.1:mechanic/feats/repeatability/once": "selection",
+    "srd-5.2.1:mechanic/feats/alert/initiative-proficiency/when-you-roll-initiative": "alert",
+    "srd-5.2.1:mechanic/feats/alert/initiative-proficiency/optional-add-proficiency-bonus": "alert",
+    "srd-5.2.1:mechanic/feats/alert/initiative-swap/optional-exchange-initiative": "alert",
+    "srd-5.2.1:mechanic/feats/alert/initiative-swap/immediately-after-you-roll-initiative": "alert",
+    "srd-5.2.1:mechanic/prerequisite/alert-ally-in-same-combat": "alert",
+    "srd-5.2.1:mechanic/prerequisite/alert-self-not-incapacitated": "alert",
+    "srd-5.2.1:mechanic/prerequisite/alert-ally-not-incapacitated": "alert",
+    "srd-5.2.1:mechanic/feats/magic-initiate": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/repeatability/different-spell-list": "selection",
+    "srd-5.2.1:mechanic/feats/magic-initiate/two-cantrips/learn": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/level-one-spell/always-prepared": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/level-one-spell/cast-using-any-owned-spell-slots": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/spell-change/optional-on-gaining-new-level": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/choose-one-spell-list": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/ability/chosen-when-selecting-feat": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/ability/applies-to-this-feats-spells": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/cantrips/from-selected-list": "magic-initiate",
+    "srd-5.2.1:mechanic/prerequisite/magic-initiate-from-selected-spell-list": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/level-one-spell/from-same-list-as-cantrips": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/free-cast/selected-level-one-spell": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/free-cast/without-spell-slot": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/free-cast/regain-on-finish-long-rest": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/magic-initiate/spell-change/replace-one-spell-chosen-for-this-feat": "magic-initiate",
+    "srd-5.2.1:mechanic/prerequisite/magic-initiate-on-gaining-new-level": "magic-initiate",
+    "srd-5.2.1:mechanic/prerequisite/magic-initiate-replacement-same-level-from-selected-list": "magic-initiate",
+    "srd-5.2.1:mechanic/prerequisite/magic-initiate-different-spell-list-each-time": "magic-initiate",
+    "srd-5.2.1:mechanic/feats/savage-attacker": "savage-attacker",
+    "srd-5.2.1:mechanic/feats/savage-attacker/optional-on-hit-target-with-weapon": "savage-attacker",
+    "srd-5.2.1:mechanic/feats/savage-attacker/roll-weapons-damage-dice-twice": "savage-attacker",
+    "srd-5.2.1:mechanic/feats/savage-attacker/use-either-roll-against-target": "savage-attacker",
+    "srd-5.2.1:mechanic/feats/savage-attacker/roll-count": "savage-attacker",
+    "srd-5.2.1:mechanic/feats/savage-attacker/uses-per-turn": "savage-attacker",
+    "srd-5.2.1:mechanic/feats/skilled": "skilled",
+    "srd-5.2.1:mechanic/feats/repeatability/unrestricted": "selection",
+    "srd-5.2.1:mechanic/feats/skilled/gain-proficiency": "skilled",
+    "srd-5.2.1:mechanic/feats/skilled/any-combination-of-skills-or-tools": "skilled",
+    "srd-5.2.1:mechanic/feats/category/general": "selection",
+    "srd-5.2.1:mechanic/feats/ability-score-improvement/maximum-ability-score": "ability-score-improvement",
+    "srd-5.2.1:mechanic/prerequisite/minimum-character-level": "selection",
+    "srd-5.2.1:mechanic/feats/ability-score-improvement/choose-one-increase-pattern": "ability-score-improvement",
+    "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-per-score": "ability-score-improvement",
+    "srd-5.2.1:mechanic/feats/ability-score-improvement/increase-selected-scores": "ability-score-improvement",
+    "srd-5.2.1:mechanic/feats/ability-score-improvement/subject-to-maximum-ability-score": "ability-score-improvement",
+    "srd-5.2.1:mechanic/prerequisite/ability-score-improvement/one-score-plus-two-selected": "selection",
+    "srd-5.2.1:mechanic/prerequisite/ability-score-improvement/two-scores-plus-one-selected": "selection",
+    "srd-5.2.1:mechanic/feats/maximum-times-taken": "selection",
+    "srd-5.2.1:mechanic/feats/grappler/ability-score-increase": "grappler",
+    "srd-5.2.1:mechanic/feats/grappler/maximum-ability-score": "grappler",
+    "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/optional-on-hit-creature": "grappler",
+    "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/unarmed-strike": "grappler",
+    "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/part-of-attack-action-on-your-turn": "grappler",
+    "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/use-both-damage-and-grapple-options": "grappler",
+    "srd-5.2.1:mechanic/feats/grappler/punch-and-grab/uses-per-turn": "grappler",
+    "srd-5.2.1:mechanic/feats/grappler/attack-advantage/on-attack-rolls-against-creature-grappled-by-you": "grappler",
+    "srd-5.2.1:mechanic/feats/grappler/fast-wrestler/no-extra-movement-to-move-creature-grappled-by-you": "grappler",
+    "srd-5.2.1:mechanic/feats/grappler/fast-wrestler/only-if-creature-your-size-or-smaller": "grappler",
+    "srd-5.2.1:mechanic/prerequisite/strength-or-dexterity-at-least": "selection",
+    "srd-5.2.1:mechanic/feats/grappler/increase-one-selected-ability": "grappler",
+    "srd-5.2.1:mechanic/feats/grappler/subject-to-maximum-ability-score": "grappler",
+    "srd-5.2.1:mechanic/feats/category/fighting-style": "selection",
+    "srd-5.2.1:mechanic/feats/archery/attack-rolls/with-ranged-weapons": "archery",
+    "srd-5.2.1:mechanic/feats/archery/attack-roll-bonus": "archery",
+    "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature": "selection",
+    "srd-5.2.1:mechanic/feats/defense/armor-class/while-wearing-light-or-medium-or-heavy-armor": "defense",
+    "srd-5.2.1:mechanic/feats/defense/armor-class-bonus": "defense",
+    "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/optional-treat-result": "great-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/when-rolling-damage-for-own-attack": "great-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/great-weapon-fighting/weapon/melee": "great-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/great-weapon-fighting/weapon/held-with-two-hands": "great-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/great-weapon-fighting/weapon/property-two-handed-or-versatile": "great-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/minimum-result": "great-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/maximum-result": "great-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/treat-as": "great-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/two-weapon-fighting/damage/optional-add-ability-modifier": "two-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/two-weapon-fighting/attack/extra-from-using-light-property-weapon": "two-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/two-weapon-fighting/damage/only-if-not-already-adding-ability-modifier": "two-weapon-fighting",
+    "srd-5.2.1:mechanic/feats/category/epic-boon": "selection",
+    "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/ability-score-increase": "boon-of-combat-prowess",
+    "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/maximum-ability-score": "boon-of-combat-prowess",
+    "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/optional-replace-miss-with-hit": "boon-of-combat-prowess",
+    "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/recover-at-start-of-your-next-turn": "boon-of-combat-prowess",
+    "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/increase-one-selected-ability": "boon-of-combat-prowess",
+    "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/subject-to-maximum-ability-score": "boon-of-combat-prowess",
+    "srd-5.2.1:mechanic/prerequisite/attack-roll-missed": "selection",
+    "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/uses": "boon-of-combat-prowess",
+    "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/recover-on-start-of-your-next-turn": "boon-of-combat-prowess",
+    "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/ability-score-increase": "boon-of-dimensional-travel",
+    "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/maximum-ability-score": "boon-of-dimensional-travel",
+    "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/optional-teleport-immediately-after-attack-or-magic-action": "boon-of-dimensional-travel",
+    "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/destination-unoccupied-space-you-can-see": "boon-of-dimensional-travel",
+    "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/maximum-distance-feet": "boon-of-dimensional-travel",
+    "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/increase-one-selected-ability": "boon-of-dimensional-travel",
+    "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/subject-to-maximum-ability-score": "boon-of-dimensional-travel",
+    "srd-5.2.1:mechanic/prerequisite/immediately-after-you-take-attack-or-magic-action": "selection",
+    "srd-5.2.1:mechanic/prerequisite/teleport-destination-unoccupied-and-visible-to-you": "selection",
+    "srd-5.2.1:mechanic/feats/boon-of-fate/ability-score-increase": "boon-of-fate",
+    "srd-5.2.1:mechanic/feats/boon-of-fate/maximum-ability-score": "boon-of-fate",
+    "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/optional-roll-and-apply-total-as-bonus-or-penalty-to-triggering-d20-roll": "boon-of-fate",
+    "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/dice-count": "boon-of-fate",
+    "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/die-sides": "boon-of-fate",
+    "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/other-creature-range-feet": "boon-of-fate",
+    "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/recover-on-roll-initiative-or-finish-short-or-long-rest": "boon-of-fate",
+    "srd-5.2.1:mechanic/feats/boon-of-fate/increase-one-selected-ability": "boon-of-fate",
+    "srd-5.2.1:mechanic/feats/boon-of-fate/subject-to-maximum-ability-score": "boon-of-fate",
+    "srd-5.2.1:mechanic/prerequisite/you-or-another-creature-in-range-succeeds-or-fails-d20-test": "selection",
+    "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/uses": "boon-of-fate",
+    "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/ability-score-increase": "boon-of-irresistible-offense",
+    "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/maximum-ability-score": "boon-of-irresistible-offense",
+    "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overcome-defenses/your-bludgeoning-piercing-slashing-damage-always-ignores-resistance": "boon-of-irresistible-offense",
+    "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/optional-extra-damage-to-attack-target": "boon-of-irresistible-offense",
+    "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/extra-damage-equals-selected-ability-score-not-modifier": "boon-of-irresistible-offense",
+    "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/extra-damage-type-same-as-attack": "boon-of-irresistible-offense",
+    "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/attack-d20-result": "boon-of-irresistible-offense",
+    "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/increase-one-selected-ability": "boon-of-irresistible-offense",
+    "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/subject-to-maximum-ability-score": "boon-of-irresistible-offense",
+    "srd-5.2.1:mechanic/prerequisite/attack-roll-d20-equals": "selection",
+    "srd-5.2.1:mechanic/prerequisite/extra-damage-equals-ability-score-increased-by-this-feat": "selection",
+    "srd-5.2.1:mechanic/feats/boon-of-spell-recall/ability-score-increase": "boon-of-spell-recall",
+    "srd-5.2.1:mechanic/feats/boon-of-spell-recall/maximum-ability-score": "boon-of-spell-recall",
+    "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/roll-on-every-spell-cast-with-level-one-to-four-slot": "boon-of-spell-recall",
+    "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/dice-count": "boon-of-spell-recall",
+    "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/die-sides": "boon-of-spell-recall",
+    "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/do-not-expend-slot-only-if-roll-equals-slot-level": "boon-of-spell-recall",
+    "srd-5.2.1:mechanic/feats/boon-of-spell-recall/increase-one-selected-ability": "boon-of-spell-recall",
+    "srd-5.2.1:mechanic/feats/boon-of-spell-recall/subject-to-maximum-ability-score": "boon-of-spell-recall",
+    "srd-5.2.1:mechanic/prerequisite/has-spellcasting-feature": "selection",
+    "srd-5.2.1:mechanic/prerequisite/cast-spell-with-slot-level-in-range": "selection",
+    "srd-5.2.1:mechanic/prerequisite/die-result-equals-triggering-spell-slot-level": "selection",
+    "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/ability-score-increase": "boon-of-the-night-spirit",
+    "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/maximum-ability-score": "boon-of-the-night-spirit",
+    "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/merge-with-shadows/optional-give-self-invisible-condition-as-bonus-action-in-dim-light-or-darkness": "boon-of-the-night-spirit",
+    "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/merge-with-shadows/ends-immediately-after-you-take-action-or-bonus-action-or-reaction": "boon-of-the-night-spirit",
+    "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/shadowy-form/resistance-to-all-damage-except-psychic-and-radiant-in-dim-light-or-darkness": "boon-of-the-night-spirit",
+    "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/increase-one-selected-ability": "boon-of-the-night-spirit",
+    "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/subject-to-maximum-ability-score": "boon-of-the-night-spirit",
+    "srd-5.2.1:mechanic/prerequisite/within-dim-light-or-darkness": "selection",
+    "srd-5.2.1:mechanic/prerequisite/immediately-after-you-take-action-or-bonus-action-or-reaction": "selection",
+    "srd-5.2.1:mechanic/feats/boon-of-truesight/ability-score-increase": "boon-of-truesight",
+    "srd-5.2.1:mechanic/feats/boon-of-truesight/maximum-ability-score": "boon-of-truesight",
+    "srd-5.2.1:mechanic/feats/boon-of-truesight/truesight/have-truesight": "boon-of-truesight",
+    "srd-5.2.1:mechanic/feats/boon-of-truesight/truesight/range-feet": "boon-of-truesight",
+    "srd-5.2.1:mechanic/feats/boon-of-truesight/increase-one-selected-ability": "boon-of-truesight",
+    "srd-5.2.1:mechanic/feats/boon-of-truesight/subject-to-maximum-ability-score": "boon-of-truesight"
+  },
+  "reused_terminals": [
+    61,
+    65,
+    66,
+    67,
+    145,
+    264,
+    265,
+    267
+  ],
+  "evidence_hashes": {
+    "internal/rules/srd521/catalogue_origin_feats_test.go": "ab8fa221303351851c228f3df05b4178889006dc5898a28ba53def4de2168da7",
+    "internal/rules/srd521/creation.go": "75df9feff30427f064a426aaf1a06026e35e62bc64cf383dac4c9247f5f3a5c6",
+    "internal/rules/srd521/creation_test.go": "143b105f48ff7488bfddf2d4da5c0fbe149f9e553ad866289f34ddef21627172",
+    "internal/rules/srd521/catalogue_general_feats_test.go": "6bb6c4aad5e30ca3dfd4f18b299f43295ada58e4131f683d00c762fce29568d3",
+    "internal/rules/srd521/catalogue_fighting_styles_test.go": "b638d4d0e4a7e929256edd3479323d4060c104a0b9624ee28b2bd44127d5bc4a",
+    "internal/rules/srd521/character.go": "2ce5772789f45ebdae23db08b40fd3d3efe5f3307c11cc7da69355130e250f27",
+    "internal/rules/srd521/catalogue_epic_boon_feats_test.go": "e04a3625c7c1a98c06bc5394bb24d2b3aafa773909ba747fe08dcb12db60dabf"
+  },
+  "supplements": [
+    {
+      "issue": 47,
+      "previous_sha256": "16651994ecccb8b51285a64f942a02c0ad3e28d9b6d7121d04bc4ef71f672349",
+      "append": "\n\n<!-- edda-334-followups:start -->\n## Feat decision follow-ups (#334)\n\nDecision and source/evidence matrix: `docs/investigations/issue-334-feat-decision.md` and `issue-334-feat-scope.json`. Exact readback: `issue-334-link-verification.json`; repeat with `scripts/verify_feat_scope.py --live`.\n\n18 one-PR terminal children attach natively under #283 and directly block character qualification #337. They own feat selection/effects, while #321\u2013#332 class grants, #333 origins, #335 multiclass, #336 advancement, #273 casting modes, #277 spells, #278 items and #268\u2013#272 shared conditions/recovery retain their scopes. Each consumed shared splitter must wire its terminal implementations directly to #337 before qualification; decisions/catalogues alone never qualify it. Higher-level isolated fixtures do not grant production eligibility. #334 remains open pending independent parent acceptance and decision PR merge. No runtime/coverage promotion.\n\n- [ ] #384 Validate durable source-linked feat selections without granting class eligibility\n- [ ] #385 Resolve source-exact Alert with durable deterministic fixtures\n- [ ] #386 Resolve source-exact Magic Initiate with durable deterministic fixtures\n- [ ] #387 Resolve source-exact Savage Attacker with durable deterministic fixtures\n- [ ] #388 Resolve source-exact Skilled with durable deterministic fixtures\n- [ ] #389 Resolve source-exact Ability Score Improvement with durable deterministic fixtures\n- [ ] #390 Resolve source-exact Grappler with durable deterministic fixtures\n- [ ] #391 Resolve source-exact Archery with durable deterministic fixtures\n- [ ] #392 Resolve source-exact Defense with durable deterministic fixtures\n- [ ] #393 Resolve source-exact Great Weapon Fighting with durable deterministic fixtures\n- [ ] #394 Resolve source-exact Two-Weapon Fighting with durable deterministic fixtures\n- [ ] #395 Resolve source-exact Boon of Combat Prowess with durable deterministic fixtures\n- [ ] #396 Resolve source-exact Boon of Dimensional Travel with durable deterministic fixtures\n- [ ] #397 Resolve source-exact Boon of Fate with durable deterministic fixtures\n- [ ] #398 Resolve source-exact Boon of Irresistible Offense with durable deterministic fixtures\n- [ ] #399 Resolve source-exact Boon of Spell Recall with durable deterministic fixtures\n- [ ] #400 Resolve source-exact Boon of the Night Spirit with durable deterministic fixtures\n- [ ] #401 Resolve source-exact Boon of Truesight with durable deterministic fixtures\n<!-- edda-334-followups:end -->\n",
+      "full_sha256": "1d2559f102f7bb03d5cc61d11e6fbd06fe509c9caf715f2d83c02c10bb82beec"
+    },
+    {
+      "issue": 283,
+      "previous_sha256": "86814d5eb2fabbefbaa7bc12f76e282bbef5670e39a8749d79786cfbefcb55fb",
+      "append": "\n\n<!-- edda-334-followups:start -->\n## Feat decision follow-ups (#334)\n\nDecision and source/evidence matrix: `docs/investigations/issue-334-feat-decision.md` and `issue-334-feat-scope.json`. Exact readback: `issue-334-link-verification.json`; repeat with `scripts/verify_feat_scope.py --live`.\n\n18 one-PR terminal children attach natively under #283 and directly block character qualification #337. They own feat selection/effects, while #321\u2013#332 class grants, #333 origins, #335 multiclass, #336 advancement, #273 casting modes, #277 spells, #278 items and #268\u2013#272 shared conditions/recovery retain their scopes. Each consumed shared splitter must wire its terminal implementations directly to #337 before qualification; decisions/catalogues alone never qualify it. Higher-level isolated fixtures do not grant production eligibility. #334 remains open pending independent parent acceptance and decision PR merge. No runtime/coverage promotion.\n\n- [ ] #384 Validate durable source-linked feat selections without granting class eligibility\n- [ ] #385 Resolve source-exact Alert with durable deterministic fixtures\n- [ ] #386 Resolve source-exact Magic Initiate with durable deterministic fixtures\n- [ ] #387 Resolve source-exact Savage Attacker with durable deterministic fixtures\n- [ ] #388 Resolve source-exact Skilled with durable deterministic fixtures\n- [ ] #389 Resolve source-exact Ability Score Improvement with durable deterministic fixtures\n- [ ] #390 Resolve source-exact Grappler with durable deterministic fixtures\n- [ ] #391 Resolve source-exact Archery with durable deterministic fixtures\n- [ ] #392 Resolve source-exact Defense with durable deterministic fixtures\n- [ ] #393 Resolve source-exact Great Weapon Fighting with durable deterministic fixtures\n- [ ] #394 Resolve source-exact Two-Weapon Fighting with durable deterministic fixtures\n- [ ] #395 Resolve source-exact Boon of Combat Prowess with durable deterministic fixtures\n- [ ] #396 Resolve source-exact Boon of Dimensional Travel with durable deterministic fixtures\n- [ ] #397 Resolve source-exact Boon of Fate with durable deterministic fixtures\n- [ ] #398 Resolve source-exact Boon of Irresistible Offense with durable deterministic fixtures\n- [ ] #399 Resolve source-exact Boon of Spell Recall with durable deterministic fixtures\n- [ ] #400 Resolve source-exact Boon of the Night Spirit with durable deterministic fixtures\n- [ ] #401 Resolve source-exact Boon of Truesight with durable deterministic fixtures\n<!-- edda-334-followups:end -->\n",
+      "full_sha256": "323823e8810758181584d584234fb7a28dc3e856c30b47730aea529704298498"
+    },
+    {
+      "issue": 334,
+      "previous_sha256": "b14b8546c49966afb823a96f9a8f383bd34ff43e8d35e4e968cf45be3ade8808",
+      "append": "\n\n<!-- edda-334-followups:start -->\n## Feat decision follow-ups (#334)\n\nDecision and source/evidence matrix: `docs/investigations/issue-334-feat-decision.md` and `issue-334-feat-scope.json`. Exact readback: `issue-334-link-verification.json`; repeat with `scripts/verify_feat_scope.py --live`.\n\n18 one-PR terminal children attach natively under #283 and directly block character qualification #337. They own feat selection/effects, while #321\u2013#332 class grants, #333 origins, #335 multiclass, #336 advancement, #273 casting modes, #277 spells, #278 items and #268\u2013#272 shared conditions/recovery retain their scopes. Each consumed shared splitter must wire its terminal implementations directly to #337 before qualification; decisions/catalogues alone never qualify it. Higher-level isolated fixtures do not grant production eligibility. #334 remains open pending independent parent acceptance and decision PR merge. No runtime/coverage promotion.\n\n- [ ] #384 Validate durable source-linked feat selections without granting class eligibility\n- [ ] #385 Resolve source-exact Alert with durable deterministic fixtures\n- [ ] #386 Resolve source-exact Magic Initiate with durable deterministic fixtures\n- [ ] #387 Resolve source-exact Savage Attacker with durable deterministic fixtures\n- [ ] #388 Resolve source-exact Skilled with durable deterministic fixtures\n- [ ] #389 Resolve source-exact Ability Score Improvement with durable deterministic fixtures\n- [ ] #390 Resolve source-exact Grappler with durable deterministic fixtures\n- [ ] #391 Resolve source-exact Archery with durable deterministic fixtures\n- [ ] #392 Resolve source-exact Defense with durable deterministic fixtures\n- [ ] #393 Resolve source-exact Great Weapon Fighting with durable deterministic fixtures\n- [ ] #394 Resolve source-exact Two-Weapon Fighting with durable deterministic fixtures\n- [ ] #395 Resolve source-exact Boon of Combat Prowess with durable deterministic fixtures\n- [ ] #396 Resolve source-exact Boon of Dimensional Travel with durable deterministic fixtures\n- [ ] #397 Resolve source-exact Boon of Fate with durable deterministic fixtures\n- [ ] #398 Resolve source-exact Boon of Irresistible Offense with durable deterministic fixtures\n- [ ] #399 Resolve source-exact Boon of Spell Recall with durable deterministic fixtures\n- [ ] #400 Resolve source-exact Boon of the Night Spirit with durable deterministic fixtures\n- [ ] #401 Resolve source-exact Boon of Truesight with durable deterministic fixtures\n<!-- edda-334-followups:end -->\n",
+      "full_sha256": "ea1282414f02c71e72364ce5a11cec1bd2c8f109c22650392ed19312a1bc66ff"
+    },
+    {
+      "issue": 337,
+      "previous_sha256": "2b9cfdbd07f02c355cf40031671ba13b0945f0e75b2357afa480408e2bfe097b",
+      "append": "\n\n<!-- edda-334-followups:start -->\n## Feat decision follow-ups (#334)\n\nDecision and source/evidence matrix: `docs/investigations/issue-334-feat-decision.md` and `issue-334-feat-scope.json`. Exact readback: `issue-334-link-verification.json`; repeat with `scripts/verify_feat_scope.py --live`.\n\n18 one-PR terminal children attach natively under #283 and directly block character qualification #337. They own feat selection/effects, while #321\u2013#332 class grants, #333 origins, #335 multiclass, #336 advancement, #273 casting modes, #277 spells, #278 items and #268\u2013#272 shared conditions/recovery retain their scopes. Each consumed shared splitter must wire its terminal implementations directly to #337 before qualification; decisions/catalogues alone never qualify it. Higher-level isolated fixtures do not grant production eligibility. #334 remains open pending independent parent acceptance and decision PR merge. No runtime/coverage promotion.\n\n- [ ] #384 Validate durable source-linked feat selections without granting class eligibility\n- [ ] #385 Resolve source-exact Alert with durable deterministic fixtures\n- [ ] #386 Resolve source-exact Magic Initiate with durable deterministic fixtures\n- [ ] #387 Resolve source-exact Savage Attacker with durable deterministic fixtures\n- [ ] #388 Resolve source-exact Skilled with durable deterministic fixtures\n- [ ] #389 Resolve source-exact Ability Score Improvement with durable deterministic fixtures\n- [ ] #390 Resolve source-exact Grappler with durable deterministic fixtures\n- [ ] #391 Resolve source-exact Archery with durable deterministic fixtures\n- [ ] #392 Resolve source-exact Defense with durable deterministic fixtures\n- [ ] #393 Resolve source-exact Great Weapon Fighting with durable deterministic fixtures\n- [ ] #394 Resolve source-exact Two-Weapon Fighting with durable deterministic fixtures\n- [ ] #395 Resolve source-exact Boon of Combat Prowess with durable deterministic fixtures\n- [ ] #396 Resolve source-exact Boon of Dimensional Travel with durable deterministic fixtures\n- [ ] #397 Resolve source-exact Boon of Fate with durable deterministic fixtures\n- [ ] #398 Resolve source-exact Boon of Irresistible Offense with durable deterministic fixtures\n- [ ] #399 Resolve source-exact Boon of Spell Recall with durable deterministic fixtures\n- [ ] #400 Resolve source-exact Boon of the Night Spirit with durable deterministic fixtures\n- [ ] #401 Resolve source-exact Boon of Truesight with durable deterministic fixtures\n<!-- edda-334-followups:end -->\n",
+      "full_sha256": "8bd4a0c4903da2c9aaeb72b93b7c5cc94534b80d159c6d949806607b800e4b2e"
+    }
+  ]
+}
