@@ -1,0 +1,2993 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Wizard source identities, all 20 progression rows, nested choices, prerequisites, costs, limits and recovery on PDF pp77-79 adapted into unavailable offline metadata. Mechanic keys and graph are Edda additions. Evoker, spell and feat definitions remain opaque. No executable support imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/class/wizard",
+      "kind": "class",
+      "name": "Wizard",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/wizard/skills",
+        "srd-5.2.1:character/choice/wizard/starting-equipment"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/primary-ability/intelligence",
+        "srd-5.2.1:mechanic/wizard/saves/intelligence",
+        "srd-5.2.1:mechanic/wizard/saves/wisdom",
+        "srd-5.2.1:mechanic/wizard/weapons/simple",
+        "srd-5.2.1:mechanic/wizard/armor/none",
+        "srd-5.2.1:mechanic/wizard/level-1/all-core-traits-and-level-1-features",
+        "srd-5.2.1:mechanic/wizard/multiclass/hit-die-and-level-1-features",
+        "srd-5.2.1:mechanic/wizard/multiclass/slots-from-character-creation",
+        "srd-5.2.1:mechanic/wizard/hit-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/wizard/hit-die-sides": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/skills",
+      "kind": "choice",
+      "name": "Skills",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/skills"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/arcana",
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/medicine",
+        "srd-5.2.1:mechanic/skills/nature",
+        "srd-5.2.1:mechanic/skills/religion"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/starting-equipment",
+      "kind": "choice",
+      "name": "Starting Equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/dagger",
+        "srd-5.2.1:mechanic/equipment/arcane-focus-quarterstaff",
+        "srd-5.2.1:mechanic/equipment/robe",
+        "srd-5.2.1:mechanic/equipment/spellbook",
+        "srd-5.2.1:mechanic/equipment/scholars-pack",
+        "srd-5.2.1:mechanic/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/wizard/equipment/a",
+        "srd-5.2.1:mechanic/wizard/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/wizard/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/dagger": 2,
+            "srd-5.2.1:mechanic/equipment/arcane-focus-quarterstaff": 1,
+            "srd-5.2.1:mechanic/equipment/robe": 1,
+            "srd-5.2.1:mechanic/equipment/spellbook": 1,
+            "srd-5.2.1:mechanic/equipment/scholars-pack": 1,
+            "srd-5.2.1:mechanic/currency/gp": 5
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/wizard/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/currency/gp": 55
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/1",
+      "kind": "level",
+      "name": "Wizard level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 1,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-1"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/spellcasting",
+          "srd-5.2.1:character/feature/wizard/ritual-adept",
+          "srd-5.2.1:character/feature/wizard/arcane-recovery"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-1",
+      "kind": "prerequisite",
+      "name": "Table 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/1",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 3,
+          "prepared-spells": 4,
+          "spell-slots-level-1": 2,
+          "spell-slots-level-2": 0,
+          "spell-slots-level-3": 0,
+          "spell-slots-level-4": 0,
+          "spell-slots-level-5": 0,
+          "spell-slots-level-6": 0,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/2",
+      "kind": "level",
+      "name": "Wizard level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 2,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-2"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/scholar"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-2",
+      "kind": "prerequisite",
+      "name": "Table 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/2",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 3,
+          "prepared-spells": 5,
+          "spell-slots-level-1": 3,
+          "spell-slots-level-2": 0,
+          "spell-slots-level-3": 0,
+          "spell-slots-level-4": 0,
+          "spell-slots-level-5": 0,
+          "spell-slots-level-6": 0,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/3",
+      "kind": "level",
+      "name": "Wizard level 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 3,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-3"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/wizard-subclass"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-3",
+      "kind": "prerequisite",
+      "name": "Table 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/3",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 3,
+          "prepared-spells": 6,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 2,
+          "spell-slots-level-3": 0,
+          "spell-slots-level-4": 0,
+          "spell-slots-level-5": 0,
+          "spell-slots-level-6": 0,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/4",
+      "kind": "level",
+      "name": "Wizard level 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 4,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-4"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-4",
+      "kind": "prerequisite",
+      "name": "Table 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/4",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 4,
+          "prepared-spells": 7,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 0,
+          "spell-slots-level-4": 0,
+          "spell-slots-level-5": 0,
+          "spell-slots-level-6": 0,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/5",
+      "kind": "level",
+      "name": "Wizard level 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 5,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-5"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/memorize-spell"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-5",
+      "kind": "prerequisite",
+      "name": "Table 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/5",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 4,
+          "prepared-spells": 9,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 2,
+          "spell-slots-level-4": 0,
+          "spell-slots-level-5": 0,
+          "spell-slots-level-6": 0,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/6",
+      "kind": "level",
+      "name": "Wizard level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 6,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-6"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression",
+        "srd-5.2.1:mechanic/wizard/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/wizard/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-6",
+      "kind": "prerequisite",
+      "name": "Table 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/6",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 4,
+          "prepared-spells": 10,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 0,
+          "spell-slots-level-5": 0,
+          "spell-slots-level-6": 0,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/7",
+      "kind": "level",
+      "name": "Wizard level 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 7,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-7"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-7",
+      "kind": "prerequisite",
+      "name": "Table 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/7",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 4,
+          "prepared-spells": 11,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 1,
+          "spell-slots-level-5": 0,
+          "spell-slots-level-6": 0,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/8",
+      "kind": "level",
+      "name": "Wizard level 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 8,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-8"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-8",
+      "kind": "prerequisite",
+      "name": "Table 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/8",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 4,
+          "prepared-spells": 12,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 2,
+          "spell-slots-level-5": 0,
+          "spell-slots-level-6": 0,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/9",
+      "kind": "level",
+      "name": "Wizard level 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 9,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-9"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-9",
+      "kind": "prerequisite",
+      "name": "Table 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/9",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 4,
+          "prepared-spells": 14,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 1,
+          "spell-slots-level-6": 0,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/10",
+      "kind": "level",
+      "name": "Wizard level 10",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 10,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-10"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression",
+        "srd-5.2.1:mechanic/wizard/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/wizard/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-10",
+      "kind": "prerequisite",
+      "name": "Table 10",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/10",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 15,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 2,
+          "spell-slots-level-6": 0,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/11",
+      "kind": "level",
+      "name": "Wizard level 11",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 11,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-11"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-11",
+      "kind": "prerequisite",
+      "name": "Table 11",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/11",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 16,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 2,
+          "spell-slots-level-6": 1,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/12",
+      "kind": "level",
+      "name": "Wizard level 12",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 12,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-12"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-12",
+      "kind": "prerequisite",
+      "name": "Table 12",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/12",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 16,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 2,
+          "spell-slots-level-6": 1,
+          "spell-slots-level-7": 0,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/13",
+      "kind": "level",
+      "name": "Wizard level 13",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 13,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-13"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-13",
+      "kind": "prerequisite",
+      "name": "Table 13",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/13",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 17,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 2,
+          "spell-slots-level-6": 1,
+          "spell-slots-level-7": 1,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/14",
+      "kind": "level",
+      "name": "Wizard level 14",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 14,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-14"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression",
+        "srd-5.2.1:mechanic/wizard/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/wizard/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-14",
+      "kind": "prerequisite",
+      "name": "Table 14",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/14",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 18,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 2,
+          "spell-slots-level-6": 1,
+          "spell-slots-level-7": 1,
+          "spell-slots-level-8": 0,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/15",
+      "kind": "level",
+      "name": "Wizard level 15",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 15,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-15"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-15",
+      "kind": "prerequisite",
+      "name": "Table 15",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/15",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 19,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 2,
+          "spell-slots-level-6": 1,
+          "spell-slots-level-7": 1,
+          "spell-slots-level-8": 1,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/16",
+      "kind": "level",
+      "name": "Wizard level 16",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 16,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-16"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-16",
+      "kind": "prerequisite",
+      "name": "Table 16",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/16",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 21,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 2,
+          "spell-slots-level-6": 1,
+          "spell-slots-level-7": 1,
+          "spell-slots-level-8": 1,
+          "spell-slots-level-9": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/17",
+      "kind": "level",
+      "name": "Wizard level 17",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 17,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-17"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-17",
+      "kind": "prerequisite",
+      "name": "Table 17",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/17",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 22,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 2,
+          "spell-slots-level-6": 1,
+          "spell-slots-level-7": 1,
+          "spell-slots-level-8": 1,
+          "spell-slots-level-9": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/18",
+      "kind": "level",
+      "name": "Wizard level 18",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 18,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-18"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/spell-mastery"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-18",
+      "kind": "prerequisite",
+      "name": "Table 18",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/18",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 23,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 3,
+          "spell-slots-level-6": 1,
+          "spell-slots-level-7": 1,
+          "spell-slots-level-8": 1,
+          "spell-slots-level-9": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/19",
+      "kind": "level",
+      "name": "Wizard level 19",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 19,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-19"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/epic-boon"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-19",
+      "kind": "prerequisite",
+      "name": "Table 19",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/19",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 24,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 3,
+          "spell-slots-level-6": 2,
+          "spell-slots-level-7": 1,
+          "spell-slots-level-8": 1,
+          "spell-slots-level-9": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/wizard/20",
+      "kind": "level",
+      "name": "Wizard level 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 20,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/table-20"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/wizard/signature-spells"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/table-20",
+      "kind": "prerequisite",
+      "name": "Table 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/wizard",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/20",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/table/cantrips-prepared-and-nine-slot-columns",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "cantrips": 5,
+          "prepared-spells": 25,
+          "spell-slots-level-1": 4,
+          "spell-slots-level-2": 3,
+          "spell-slots-level-3": 3,
+          "spell-slots-level-4": 3,
+          "spell-slots-level-5": 3,
+          "spell-slots-level-6": 2,
+          "spell-slots-level-7": 2,
+          "spell-slots-level-8": 1,
+          "spell-slots-level-9": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/spellcasting",
+      "kind": "feature",
+      "name": "Spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/wizard/cantrips",
+        "srd-5.2.1:character/choice/wizard/spellbook-initial",
+        "srd-5.2.1:character/choice/wizard/spellbook-level-gain",
+        "srd-5.2.1:character/choice/wizard/prepared-spells",
+        "srd-5.2.1:character/choice/wizard/copy-found-spell",
+        "srd-5.2.1:character/choice/wizard/copy-own-book",
+        "srd-5.2.1:character/choice/wizard/replace-lost-book"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/spellcasting/wizard-spell-list",
+        "srd-5.2.1:mechanic/wizard/spellcasting/intelligence",
+        "srd-5.2.1:mechanic/wizard/spellcasting/arcane-focus-or-spellbook",
+        "srd-5.2.1:mechanic/wizard/spellcasting/cantrip-replace-one-on-long-rest",
+        "srd-5.2.1:mechanic/wizard/spellcasting/add-cantrip-at-levels-four-and-ten",
+        "srd-5.2.1:mechanic/wizard/spellcasting/regain-all-slots-on-long-rest",
+        "srd-5.2.1:mechanic/wizard/spellcasting/prepare-from-spellbook-with-available-slot-level",
+        "srd-5.2.1:mechanic/wizard/spellcasting/add-prepared-when-table-increases",
+        "srd-5.2.1:mechanic/wizard/spellcasting/always-prepared-excluded-from-count-but-wizard-spells",
+        "srd-5.2.1:mechanic/wizard/spellcasting/change-any-prepared-from-book-on-long-rest",
+        "srd-5.2.1:mechanic/wizard/spellcasting/initial-cantrips",
+        "srd-5.2.1:mechanic/wizard/spellcasting/initial-prepared",
+        "srd-5.2.1:mechanic/wizard/spellcasting/cantrip-replacement-count",
+        "srd-5.2.1:mechanic/wizard/spellbook/dimensions",
+        "srd-5.2.1:mechanic/wizard/spellbook/weight-pounds",
+        "srd-5.2.1:mechanic/wizard/spellbook/pages"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/wizard/spellcasting/initial-cantrips": 3,
+        "srd-5.2.1:mechanic/wizard/spellcasting/initial-prepared": 4,
+        "srd-5.2.1:mechanic/wizard/spellcasting/cantrip-replacement-count": 1,
+        "srd-5.2.1:mechanic/wizard/spellbook/weight-pounds": 3,
+        "srd-5.2.1:mechanic/wizard/spellbook/pages": 100
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/ritual-adept",
+      "kind": "feature",
+      "name": "Ritual Adept",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-ritual-adept",
+          "page": 78
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/1",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/ritual-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/ritual/not-required-prepared",
+        "srd-5.2.1:mechanic/wizard/ritual/must-read-from-book"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/arcane-recovery",
+      "kind": "feature",
+      "name": "Arcane Recovery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-arcane-recovery",
+          "page": 78
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/1",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/wizard/arcane-recovery"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/arcane-recovery-budget"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/arcane-recovery/study-spellbook-on-short-rest",
+        "srd-5.2.1:mechanic/wizard/arcane-recovery/choose-expended-slots",
+        "srd-5.2.1:mechanic/wizard/arcane-recovery/combined-level-half-wizard-level-round-up",
+        "srd-5.2.1:mechanic/wizard/arcane-recovery/budget-divisor",
+        "srd-5.2.1:mechanic/wizard/arcane-recovery/maximum-slot-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/wizard/arcane-recovery/budget-divisor": 2,
+        "srd-5.2.1:mechanic/wizard/arcane-recovery/maximum-slot-level": 5
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/scholar",
+      "kind": "feature",
+      "name": "Scholar",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-2-scholar",
+          "page": 78
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/2",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/wizard/scholar"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/scholar/choose-proficient-listed-skill-for-expertise"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/wizard-subclass",
+      "kind": "feature",
+      "name": "Wizard Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-3-wizard-subclass",
+          "page": 78
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/3",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/wizard/wizard-subclass"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/subclass/grant-features-at-own-wizard-level-or-lower"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/ability-score-improvement",
+      "kind": "feature",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-4-ability-score-improvement",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/4",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/wizard/ability-score-improvement"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/asi/repeat-at-eight-twelve-sixteen"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/memorize-spell",
+      "kind": "feature",
+      "name": "Memorize Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-5-memorize-spell",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/5",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/memorize-replacement"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/memorize/on-short-rest-study-book",
+        "srd-5.2.1:mechanic/wizard/memorize/replace-one-prepared-spellcasting-wizard-level-one-plus-with-another-level-one-plus-from-book",
+        "srd-5.2.1:mechanic/wizard/memorize/replacement-count",
+        "srd-5.2.1:mechanic/wizard/memorize/minimum-spell-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/wizard/memorize/replacement-count": 1,
+        "srd-5.2.1:mechanic/wizard/memorize/minimum-spell-level": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/spell-mastery",
+      "kind": "feature",
+      "name": "Spell Mastery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-18-spell-mastery",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/18",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/wizard/mastery-level-1",
+        "srd-5.2.1:character/choice/wizard/mastery-level-2"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/mastery/always-prepared",
+        "srd-5.2.1:mechanic/wizard/mastery/at-will-lowest-level-no-slot",
+        "srd-5.2.1:mechanic/wizard/mastery/higher-level-requires-slot",
+        "srd-5.2.1:mechanic/wizard/mastery/long-rest-study-book-replace-one-with-eligible-same-level",
+        "srd-5.2.1:mechanic/wizard/mastery/replacement-count"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/wizard/mastery/replacement-count": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/epic-boon",
+      "kind": "feature",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-19-epic-boon",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/19",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/wizard/epic-boon"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/epic-boon/recommend-boon-of-spell-recall"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/signature-spells",
+      "kind": "feature",
+      "name": "Signature Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-20-signature-spells",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/wizard/20",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/wizard/signature-spells"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/wizard/signature-first",
+        "srd-5.2.1:character/resource/wizard/signature-second"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/signature-first-binding",
+        "srd-5.2.1:character/prerequisite/wizard/signature-second-binding"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/signature/always-prepared",
+        "srd-5.2.1:mechanic/wizard/signature/each-selected-spell-separate-free-cast",
+        "srd-5.2.1:mechanic/wizard/signature/higher-level-requires-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/cantrips",
+      "kind": "choice",
+      "name": "Cantrips",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/cantrips",
+        "srd-5.2.1:mechanic/wizard/cantrips/recommend-light-mage-hand-ray-of-frost"
+      ],
+      "select": 3,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/wizard-cantrips"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 3
+        },
+        {
+          "level": 2,
+          "value": 3
+        },
+        {
+          "level": 3,
+          "value": 3
+        },
+        {
+          "level": 4,
+          "value": 4
+        },
+        {
+          "level": 5,
+          "value": 4
+        },
+        {
+          "level": 6,
+          "value": 4
+        },
+        {
+          "level": 7,
+          "value": 4
+        },
+        {
+          "level": 8,
+          "value": 4
+        },
+        {
+          "level": 9,
+          "value": 4
+        },
+        {
+          "level": 10,
+          "value": 5
+        },
+        {
+          "level": 11,
+          "value": 5
+        },
+        {
+          "level": 12,
+          "value": 5
+        },
+        {
+          "level": 13,
+          "value": 5
+        },
+        {
+          "level": 14,
+          "value": 5
+        },
+        {
+          "level": 15,
+          "value": 5
+        },
+        {
+          "level": 16,
+          "value": 5
+        },
+        {
+          "level": 17,
+          "value": 5
+        },
+        {
+          "level": 18,
+          "value": 5
+        },
+        {
+          "level": 19,
+          "value": 5
+        },
+        {
+          "level": 20,
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/spellbook-initial",
+      "kind": "choice",
+      "name": "Spellbook Initial",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/spellbook-initial",
+        "srd-5.2.1:mechanic/wizard/spellbook/recommend-detect-magic-feather-fall-mage-armor-magic-missile-sleep-thunderwave",
+        "srd-5.2.1:mechanic/wizard/spellbook/contains-known-level-one-plus-spells",
+        "srd-5.2.1:mechanic/wizard/spellbook/appearance-and-materials-chosen",
+        "srd-5.2.1:mechanic/wizard/spellbook/tiny",
+        "srd-5.2.1:mechanic/wizard/spellbook/read-only-self-or-identify"
+      ],
+      "select": 6,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/wizard-level-one"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/spellbook-level-gain",
+      "kind": "choice",
+      "name": "Spellbook Level Gain",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/spellbook-level-gain"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/spellbook-level-gain",
+        "srd-5.2.1:mechanic/wizard/spellbook/two-per-wizard-level-after-one"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/wizard-level-one-plus"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/spellbook-level-gain",
+      "kind": "prerequisite",
+      "name": "Spellbook Level Gain",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/spellbook-level-gain",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/spellbook/requires-own-table-slot-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/spellbook/requires-own-table-slot-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {
+          "minimum-wizard-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/prepared-spells",
+      "kind": "choice",
+      "name": "Prepared Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/prepared-slot-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/prepared-spells"
+      ],
+      "select": 4,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/own-wizard-spellbook"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 4
+        },
+        {
+          "level": 2,
+          "value": 5
+        },
+        {
+          "level": 3,
+          "value": 6
+        },
+        {
+          "level": 4,
+          "value": 7
+        },
+        {
+          "level": 5,
+          "value": 9
+        },
+        {
+          "level": 6,
+          "value": 10
+        },
+        {
+          "level": 7,
+          "value": 11
+        },
+        {
+          "level": 8,
+          "value": 12
+        },
+        {
+          "level": 9,
+          "value": 14
+        },
+        {
+          "level": 10,
+          "value": 15
+        },
+        {
+          "level": 11,
+          "value": 16
+        },
+        {
+          "level": 12,
+          "value": 16
+        },
+        {
+          "level": 13,
+          "value": 17
+        },
+        {
+          "level": 14,
+          "value": 18
+        },
+        {
+          "level": 15,
+          "value": 19
+        },
+        {
+          "level": 16,
+          "value": 21
+        },
+        {
+          "level": 17,
+          "value": 22
+        },
+        {
+          "level": 18,
+          "value": 23
+        },
+        {
+          "level": 19,
+          "value": 24
+        },
+        {
+          "level": 20,
+          "value": 25
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/prepared-slot-level",
+      "kind": "prerequisite",
+      "name": "Prepared Slot Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/prepared-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/preparation/requires-book-and-own-slot-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/preparation/requires-book-and-own-slot-level",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/spellbook-initial",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {
+          "minimum-spell-level": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/copy-found-spell",
+      "kind": "choice",
+      "name": "Copy Found Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/copy-found-spell"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/copy-found-spell",
+        "srd-5.2.1:mechanic/wizard/copy/after-transcription-prepare-like-other-book-spells",
+        "srd-5.2.1:mechanic/wizard/copy/source-can-be-spell-scroll"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/found-wizard-level-one-plus"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/copy-found-spell",
+      "kind": "prerequisite",
+      "name": "Copy Found Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/copy-found-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/copy/requires-preparable-level-and-time"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/copy/requires-preparable-level-and-time",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/prepared-spells",
+          "srd-5.2.1:character/choice/wizard/spellbook-initial"
+        ],
+        "parameters": {
+          "hours-per-spell-level": 2,
+          "gp-per-spell-level": 50,
+          "minimum-spell-level": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/copy-own-book",
+      "kind": "choice",
+      "name": "Copy Own Book",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/copy-own-book"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/copy-own-book"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/own-wizard-spellbook"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/copy-own-book",
+      "kind": "prerequisite",
+      "name": "Copy Own Book",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/copy-own-book",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/copy/own-known-book-to-another-book"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/copy/own-known-book-to-another-book",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/spellbook-initial"
+        ],
+        "parameters": {
+          "hours-per-spell-level": 1,
+          "gp-per-spell-level": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/replace-lost-book",
+      "kind": "choice",
+      "name": "Replace Lost Book",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/replace-lost-book"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/replace-lost-book",
+        "srd-5.2.1:mechanic/wizard/copy/remainder-requires-finding-new-spells"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/own-prepared-wizard-spells"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/replace-lost-book",
+      "kind": "prerequisite",
+      "name": "Replace Lost Book",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-spellcasting",
+          "page": 77
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/replace-lost-book",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/copy/lost-book-only-prepared-spells"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/copy/lost-book-only-prepared-spells",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/prepared-spells",
+          "srd-5.2.1:character/choice/wizard/copy-own-book"
+        ],
+        "parameters": {
+          "hours-per-spell-level": 1,
+          "gp-per-spell-level": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/ritual-eligibility",
+      "kind": "prerequisite",
+      "name": "Ritual Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-ritual-adept",
+          "page": 78
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/ritual-adept",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/ritual/requires-ritual-tag-and-in-own-book"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/ritual/requires-ritual-tag-and-in-own-book",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/spellbook-initial",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/arcane-recovery-budget",
+      "kind": "prerequisite",
+      "name": "Arcane Recovery Budget",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-arcane-recovery",
+          "page": 78
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/arcane-recovery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/arcane-recovery/requires-book-and-class-budget"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/arcane-recovery/requires-book-and-class-budget",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard",
+          "srd-5.2.1:character/choice/wizard/spellbook-initial"
+        ],
+        "parameters": {
+          "level-divisor": 2,
+          "round-up": 1,
+          "maximum-slot-level": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/wizard/arcane-recovery",
+      "kind": "resource",
+      "name": "Arcane Recovery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-1-arcane-recovery",
+          "page": 78
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/arcane-recovery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/arcane-recovery/recover-on-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/scholar",
+      "kind": "choice",
+      "name": "Scholar",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-2-scholar",
+          "page": 78
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/scholar",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/scholar-proficiency"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/scholar",
+        "srd-5.2.1:mechanic/wizard/scholar/expertise-in-chosen-skill"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/arcana",
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/medicine",
+        "srd-5.2.1:mechanic/skills/nature",
+        "srd-5.2.1:mechanic/skills/religion"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/scholar-proficiency",
+      "kind": "prerequisite",
+      "name": "Scholar Proficiency",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-2-scholar",
+          "page": 78
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/scholar",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/scholar/requires-proficiency"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/scholar/requires-proficiency",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard",
+          "srd-5.2.1:character/choice/wizard/scholar"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/wizard-subclass",
+      "kind": "choice",
+      "name": "Wizard Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-3-wizard-subclass",
+          "page": 78
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/wizard-subclass",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/wizard-subclass"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/wizard/subclasses",
+        "srd-5.2.1:mechanic/wizard/subclasses/evoker"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/ability-score-improvement",
+      "kind": "choice",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-4-ability-score-improvement",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/ability-score-improvement-qualification"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/ability-score-improvement"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/ability-score-improvement-qualification",
+      "kind": "prerequisite",
+      "name": "Ability Score Improvement Qualification",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-4-ability-score-improvement",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/feat/requires-qualification",
+        "srd-5.2.1:mechanic/wizard/predicate/conditional-on-option/feats/qualified"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/feat/requires-qualification",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/epic-boon",
+      "kind": "choice",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-19-epic-boon",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/epic-boon-qualification"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/epic-boon"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/epic-boon",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/epic-boon-qualification",
+      "kind": "prerequisite",
+      "name": "Epic Boon Qualification",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-19-epic-boon",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/feat/requires-qualification",
+        "srd-5.2.1:mechanic/wizard/predicate/conditional-on-option/feats/qualified"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/feat/requires-qualification",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/memorize-replacement",
+      "kind": "prerequisite",
+      "name": "Memorize Replacement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-5-memorize-spell",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/memorize-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/memorize/requires-spellcasting-prepared-and-book"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/memorize/requires-spellcasting-prepared-and-book",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/prepared-spells",
+          "srd-5.2.1:character/choice/wizard/spellbook-initial",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/mastery-level-1",
+      "kind": "choice",
+      "name": "Mastery Level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-18-spell-mastery",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/spell-mastery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/mastery-level-1"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/mastery-level-1"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/own-wizard-spellbook"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/mastery-level-1",
+      "kind": "prerequisite",
+      "name": "Mastery Level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-18-spell-mastery",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/mastery-level-1",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/mastery/requires-book-spell-of-level-and-action-casting-time"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/mastery/requires-book-spell-of-level-and-action-casting-time",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/spellbook-initial",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {
+          "spell-level": 1,
+          "casting-time-actions": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/mastery-level-2",
+      "kind": "choice",
+      "name": "Mastery Level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-18-spell-mastery",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/spell-mastery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/mastery-level-2"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/mastery-level-2"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/own-wizard-spellbook"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/mastery-level-2",
+      "kind": "prerequisite",
+      "name": "Mastery Level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-18-spell-mastery",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/mastery-level-2",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/mastery/requires-book-spell-of-level-and-action-casting-time"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/mastery/requires-book-spell-of-level-and-action-casting-time",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/spellbook-initial",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {
+          "spell-level": 2,
+          "casting-time-actions": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/signature-spells",
+      "kind": "choice",
+      "name": "Signature Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-20-signature-spells",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/signature-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/signature-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/signature-spells"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/own-wizard-spellbook-level-three"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/signature-eligibility",
+      "kind": "prerequisite",
+      "name": "Signature Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-20-signature-spells",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/signature-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/signature/requires-two-distinct-level-three-book-spells"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/signature/requires-two-distinct-level-three-book-spells",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/spellbook-initial",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {
+          "spell-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/wizard/signature-first",
+      "kind": "resource",
+      "name": "Signature First",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-20-signature-spells",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/signature-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/signature/recover-on-short-or-long-rest",
+        "srd-5.2.1:mechanic/wizard/signature/free-cast-at-level-three-no-slot",
+        "srd-5.2.1:mechanic/wizard/signature/bound-to-first-distinct-selected-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/signature-first-binding",
+      "kind": "prerequisite",
+      "name": "Signature First Binding",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-20-signature-spells",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/signature-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/signature/resource-bound-to-selected-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/signature/resource-bound-to-selected-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/signature-spells",
+          "srd-5.2.1:character/resource/wizard/signature-first"
+        ],
+        "parameters": {
+          "selection-index": 1,
+          "cast-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/wizard/signature-second",
+      "kind": "resource",
+      "name": "Signature Second",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-20-signature-spells",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/signature-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/signature/recover-on-short-or-long-rest",
+        "srd-5.2.1:mechanic/wizard/signature/free-cast-at-level-three-no-slot",
+        "srd-5.2.1:mechanic/wizard/signature/bound-to-second-distinct-selected-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/signature-second-binding",
+      "kind": "prerequisite",
+      "name": "Signature Second Binding",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/wizard-level-20-signature-spells",
+          "page": 79
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/signature-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/signature/resource-bound-to-selected-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/signature/resource-bound-to-selected-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/signature-spells",
+          "srd-5.2.1:character/resource/wizard/signature-second"
+        ],
+        "parameters": {
+          "selection-index": 2,
+          "cast-level": 3
+        }
+      }
+    }
+  ]
+}
