@@ -516,3 +516,19 @@ actual merge order. New children will change the waves and counts.
 | Issue | Group / kind | Parent | Open blockers | Checkpoint |
 | --- | --- | --- | --- | --- |
 | [#280](https://github.com/subculture-collective/edda/issues/280) Qualify declared SRD item families and variants before full coverage claims | E / qualification | [#192](https://github.com/subculture-collective/edda/issues/192) | [#266](https://github.com/subculture-collective/edda/issues/266), [#267](https://github.com/subculture-collective/edda/issues/267), [#274](https://github.com/subculture-collective/edda/issues/274), [#275](https://github.com/subculture-collective/edda/issues/275), [#276](https://github.com/subculture-collective/edda/issues/276), [#278](https://github.com/subculture-collective/edda/issues/278), [#279](https://github.com/subculture-collective/edda/issues/279) | agent |
+
+<!-- edda-271-followups:start -->
+## Concentration, duration and stacking split (#271)
+
+Decision: `docs/investigations/issue-271-effect-lifecycle-decision.md`; exact fixture/source/issue mapping: `docs/investigations/issue-271-effect-lifecycle-scope.json`.
+Six bounded implementation PRs and two one-session source spikes attach natively under #193. Every listed issue directly blocks both #279 and #280; spikes must publish and wire their terminal implementation children before closure. Catalogue/condition/casting/class owners retain their scope. Isolated higher-level engine fixtures do not establish production eligibility. #271 remains open for its decision PR; no full-coverage claim or implementation completion is implied.
+
+- [ ] #351 Track two Shield of Faith casters with independent recipient effects (L; task; after #194, #218)
+- [ ] #352 Apply one level-one Bless cast to up to three explicit recipients (L; task; after #198, #351)
+- [ ] #353 End the exact concentration cast on resolved damage and incapacitation events (M; task; after #351)
+- [ ] #354 Resolve Acid Arrow initial damage and one durable next-turn end tick (L; task; after #196)
+- [ ] #355 Dispel level-three-or-lower spells on one explicit creature (L; task; after #203, #352)
+- [ ] #356 Persist one Counterspell reaction window around Cure Wounds casting (L; task; after #201)
+- [ ] #358 Split Heroism start-turn and Spirit Guardians entry/end timing fixtures (M; spike; after existing bounded baseline)
+- [ ] #359 Split Dispel Magic higher-level checks and object/effect targeting (M; spike; after #203, #355)
+<!-- edda-271-followups:end -->

@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "decision_issue": 271,
+  "parent_issue": 193,
+  "observed_head": "5c4835886d07200431074a9e0fdb484a4be54162",
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Names and page references adapted into Edda planning metadata; no rules prose or numeric catalogue imported."
+  },
+  "qualification_gates": [
+    279,
+    280
+  ],
+  "issues": [
+    {
+      "key": "effect-identity",
+      "title": "Track two Shield of Faith casters with independent recipient effects",
+      "kind": "task",
+      "size": "L",
+      "pages": [
+        105,
+        106,
+        162,
+        179
+      ],
+      "prerequisites": [
+        194,
+        218
+      ],
+      "depends": [],
+      "fixture": "Two explicitly prepared level-one Clerics cast Shield of Faith at separate times on one known creature within 60 feet, then one caster ends concentration.",
+      "targets": "One known same-campaign creature per cast; retain the existing conscious-self path. Require authoritative range and clear path; reject unknown range, total cover, foreign or hidden recipients.",
+      "cost": "Each cast: one level-one slot, Bonus Action, V/S and noncostly material/focus availability; one-slot-per-turn limit. Voluntary ending: no action or slot refund.",
+      "timing": "Absolute start/expiry seconds, maximum 600 seconds. Replace only the casting caster\u2019s previous concentration. Equal-potency overlapping +2 AC applies once, latest casting active; ending it reveals an older still-live effect without restarting its clock.",
+      "keys": [
+        "effect.instance.caster-recipient",
+        "effect.same-spell.latest-equal",
+        "effect.duration.absolute",
+        "concentration.owner"
+      ],
+      "accept": [
+        "Persist cast identity separately from recipient links; remove all links only for the ended cast. Different casters never overwrite each other. Preserve old self-only saves and unrelated stats.",
+        "Prove same caster replacement, different caster overlap, equal potency tie, exact expiry, older effect resumption, independent targets and no doubled AC. Different spell AC terms retain their own rules."
+      ],
+      "exclusions": "No arbitrary potency comparator, Bless, multiple targets per cast, item activation, new character creation, or blanket spell support.",
+      "blocked_by_issues": [
+        194,
+        218
+      ],
+      "issue": 351,
+      "url": "https://github.com/subculture-collective/edda/issues/351",
+      "github_id": 6413711720
+    },
+    {
+      "key": "bless-recipients",
+      "title": "Apply one level-one Bless cast to up to three explicit recipients",
+      "kind": "task",
+      "size": "L",
+      "pages": [
+        105,
+        106,
+        113,
+        179
+      ],
+      "prerequisites": [
+        198
+      ],
+      "depends": [
+        "effect-identity"
+      ],
+      "fixture": "One prepared level-one Cleric casts Bless on self and two known creatures; one recipient makes a supported attack and another makes a supported saving throw.",
+      "targets": "One to three distinct known same-campaign creatures within 30 feet and a clear path. Validate every target before any write. No hidden actor enumeration.",
+      "cost": "One level-one slot and Magic action, V/S and an owned Holy Symbol worth at least 5 GP (not consumed). Verify the explicit priced material; an arbitrary focus cannot substitute for it. A d4 per affected attack roll or saving throw, no cost per recipient.",
+      "timing": "Concentration up to 60 seconds; one cast identity owns all recipient links. Overlapping equal Bless casts give one d4, latest live effect; caster ending removes only that cast.",
+      "keys": [
+        "effect.recipients.explicit-set",
+        "roll.bless.d4",
+        "effect.same-spell.latest-equal"
+      ],
+      "accept": [
+        "Apply recorded d4 to supported attacks and saves only, including concentration Constitution saves; never ability checks, damage rolls or repeated preview.",
+        "Reject duplicate, fourth, foreign, hidden, out-of-range, total-cover or stale targets atomically. Test each recipient reload, caster replacement and ending, overlapping caster expiry and no stacked d4."
+      ],
+      "exclusions": "No upcasting, Bane, general ally AI, arbitrary NPC turns, advancement or spell-list expansion.",
+      "blocked_by_issues": [
+        198,
+        351
+      ],
+      "issue": 352,
+      "url": "https://github.com/subculture-collective/edda/issues/352",
+      "github_id": 6413713416
+    },
+    {
+      "key": "concentration-events",
+      "title": "End the exact concentration cast on resolved damage and incapacitation events",
+      "kind": "task",
+      "size": "M",
+      "pages": [
+        179,
+        184,
+        191
+      ],
+      "prerequisites": [],
+      "depends": [
+        "effect-identity"
+      ],
+      "fixture": "A concentrating Cleric has two recorded independent damage sources, then a trusted Unconscious transition at positive HP; all recipient links end on failed save or incapacitation.",
+      "targets": "The authoritative damaged/conditioned caster and only that caster\u2019s effect recipients. Consume server-resolved events, never client-declared damage or condition flags.",
+      "cost": "No action, spell slot, or recovery. One Constitution save per separate positive damage source while still concentrating; no save on incapacitation, death or zero-HP ending.",
+      "timing": "Within the damage/condition transaction, before further use of the ended effect. DC min(30,max(10,floor(actual damage/2))). No check for zero damage or already-ended concentration.",
+      "keys": [
+        "concentration.damage.per-source",
+        "concentration.end.incapacitated",
+        "concentration.end.unconscious",
+        "concentration.end.dead"
+      ],
+      "accept": [
+        "Test success/failure, odd half-damage rounding, cap 30, separate sources versus one damage instance, zero damage, positive-HP unconsciousness, incapacitation and death, and no resurrection of effects on healing/waking.",
+        "Expose a narrow trusted event adapter with integration fixtures; #269 owns condition acquisition and all other condition consequences. Do not implement sleep spells, dying/death-save systems or general conditions here."
+      ],
+      "exclusions": "No duplicated #269 condition engine, #272 interrupted-rest flow, War Caster, concentration immunity or class exceptions.",
+      "blocked_by_issues": [
+        351
+      ],
+      "issue": 353,
+      "url": "https://github.com/subculture-collective/edda/issues/353",
+      "github_id": 6413715056
+    },
+    {
+      "key": "acid-end-turn",
+      "title": "Resolve Acid Arrow initial damage and one durable next-turn end tick",
+      "kind": "task",
+      "size": "L",
+      "pages": [
+        105,
+        107
+      ],
+      "prerequisites": [
+        196
+      ],
+      "depends": [],
+      "fixture": "An isolated authorized level-three Wizard fixture casts level-two Acid Arrow on one known opponent, with deterministic hit and miss cases and an end-of-next-target-turn receipt.",
+      "targets": "One explicit known target within 90 feet with authoritative cover/path facts. Use a validated stored caster fixture; no new build creation or entitlement from catalogue data.",
+      "cost": "Magic action, one level-two slot, V/S/M availability. Hit: ranged spell attack, 4d4 Acid now and 2d4 at end of target\u2019s next turn; miss: half initial damage only.",
+      "timing": "Instantaneous spell with one delayed damage event, not a concentration duration. Durable event identity includes cast, target, due turn and phase. Trigger once at target turn end; never caster turn, preview, wall time or reload.",
+      "keys": [
+        "spell.attack.ranged.acid-arrow",
+        "effect.delayed.target-next-end",
+        "damage.acid"
+      ],
+      "accept": [
+        "Use isolated validated higher-level fixture only until the exact Wizard advancement child from #332 supplies production eligibility; keep production discovery unavailable and document this boundary.",
+        "Persist initial roll/hit/miss, scheduled tick, dice, damage and turn cursor atomically. Hit schedules exactly one tick; miss schedules none. Reject unsupported slot levels and unknown turn ownership."
+      ],
+      "exclusions": "No upcasting, generic Wizard unlock, area/entry/start triggers, automatic combat termination rules for pending effects or free-text casting. Unknown post-encounter timing stays unavailable with an explicit reason.",
+      "blocked_by_issues": [
+        196
+      ],
+      "issue": 354,
+      "url": "https://github.com/subculture-collective/edda/issues/354",
+      "github_id": 6413716210
+    },
+    {
+      "key": "dispel-low",
+      "title": "Dispel level-three-or-lower spells on one explicit creature",
+      "kind": "task",
+      "size": "L",
+      "pages": [
+        105,
+        106,
+        124,
+        179
+      ],
+      "prerequisites": [
+        203
+      ],
+      "depends": [
+        "bless-recipients"
+      ],
+      "fixture": "An isolated authorized level-five Cleric fixture uses level-three Dispel Magic on a known creature carrying Shield of Faith and Bless from independent casters.",
+      "targets": "One known creature within 120 feet and clear path; end every qualifying ongoing spell on that target. A multi-recipient cast loses only the targeted recipient link, not other recipients.",
+      "cost": "Magic action, one level-three slot, V/S. Automatic ending for ongoing spells level three or lower; no ability check for these spells.",
+      "timing": "Commit action cost, exact affected spell/link IDs and history together. Distinguish ending the target\u2019s spell effect from ending its caster\u2019s unrelated concentration.",
+      "keys": [
+        "spell.dispel.creature.low-level",
+        "effect.remove.recipient-link"
+      ],
+      "accept": [
+        "Test several qualifying spells, suppressed same-name effects, unrelated targets/casters, no eligible spells (legal cast still costs), reload and exact removal once.",
+        "Reject unknown spell levels, level-four-or-higher effects and object/magical-effect targets with an explicit unsupported reason until the bounded follow-up decides them. Isolated authorized fixture only; production eligibility requires exact #323 advancement child, not decision closure."
+      ],
+      "exclusions": "No general antimagic, curses, nonspell magic-item removal, object/area targeting, higher-level checks/upcasting or automatic class advancement.",
+      "blocked_by_issues": [
+        203,
+        352
+      ],
+      "issue": 355,
+      "url": "https://github.com/subculture-collective/edda/issues/355",
+      "github_id": 6413717712
+    },
+    {
+      "key": "counterspell-window",
+      "title": "Persist one Counterspell reaction window around Cure Wounds casting",
+      "kind": "task",
+      "size": "L",
+      "pages": [
+        105,
+        120,
+        179
+      ],
+      "prerequisites": [
+        201
+      ],
+      "depends": [],
+      "fixture": "A prepared Cleric attempts the existing level-one Cure Wounds self cast while one explicitly known authorized NPC Counterspell caster has a reaction and level-three slot.",
+      "targets": "One visible known casting creature within 60 feet, with V/S/M casting observable and clear path. Use an isolated trusted NPC fixture, not a general monster caster entitlement.",
+      "cost": "Counterspell: one Reaction, one level-three slot, S. Target Constitution save against reactor\u2019s spell DC. Failure wastes target\u2019s casting action/Bonus Action/Reaction but does not expend its spell slot; success permits original cast once.",
+      "timing": "Suspend before original spell resolves or spends its slot; persist casting attempt and trigger identity plus actor\u2019s spent casting time. Explicit react/decline and stale confirmation. Concentration replacement starts when casting starts, even if interrupted.",
+      "keys": [
+        "casting.pending-attempt",
+        "reaction.counterspell.constitution",
+        "casting.countered.slot-not-spent"
+      ],
+      "accept": [
+        "Test failed and successful saves, decline, unavailable reaction, no components, unseen/foreign/out-of-range trigger, stale pending attempt, crash/reconnect before and after decision and duplicate confirmation.",
+        "Persist original attempt, reaction cost, save and resume/cancel outcome atomically. If the target fails its Constitution save, the interrupted spell never heals and never spends the target slot; if the target succeeds, the original spell resolves and heals once. Existing opportunity-reaction flow remains bounded and intact."
+      ],
+      "exclusions": "No 2014 ability-check or automatic-level Counterspell, nested counter-counterspell, multiplayer priority, item/free-use refunds, new NPC spell AI, general Wizard builds or player discovery.",
+      "blocked_by_issues": [
+        201
+      ],
+      "issue": 356,
+      "url": "https://github.com/subculture-collective/edda/issues/356",
+      "github_id": 6413719238
+    },
+    {
+      "key": "periodic-spike",
+      "title": "Split Heroism start-turn and Spirit Guardians entry/end timing fixtures",
+      "kind": "spike",
+      "size": "M",
+      "pages": [
+        140,
+        164,
+        165,
+        179
+      ],
+      "prerequisites": [],
+      "depends": [],
+      "fixture": "Source decision contrasting Heroism start-turn temporary HP with Spirit Guardians moving-Emanation entry, creature entry and target-turn-end once-per-turn saving throws.",
+      "targets": "Only Heroism\u2019s touched willing recipient and Spirit Guardians\u2019 declared exclusions/known creatures in a 15-foot Emanation. Resolve spatial facts before proposing runtime tests.",
+      "cost": "Record Heroism Action/level-one slot/V/S/concentration minute and Spirit Guardians Action/level-three slot/V/S/M/concentration ten minutes; do not add executable entitlement.",
+      "timing": "One working session. Determine turn identity, phase, spatial revision and per-turn deduplication; Spirit Guardians is not a start-turn damage trigger.",
+      "keys": [
+        "effect.periodic.recipient-start",
+        "effect.area.entry-or-target-end.once-per-turn"
+      ],
+      "accept": [
+        "Publish separate one-PR implementation children for Heroism start-turn refresh and Spirit Guardians Emanation triggers; name exact temporary-HP, movement/area, catalogue and class eligibility prerequisite issues, reusing #272/#277 ownership.",
+        "Wire every terminal implementation child directly to both #279/#280 before closing this spike; read back parent #193 and all native prerequisites. Record ambiguous simultaneous-event ordering rather than inventing a universal scheduler."
+      ],
+      "exclusions": "No all-spell scheduler, unrelated conditions, summons, environmental simulation or implementation in the decision PR.",
+      "blocked_by_issues": [],
+      "issue": 358,
+      "url": "https://github.com/subculture-collective/edda/issues/358",
+      "github_id": 6413720611
+    },
+    {
+      "key": "dispel-remainder",
+      "title": "Split Dispel Magic higher-level checks and object/effect targeting",
+      "kind": "spike",
+      "size": "M",
+      "pages": [
+        105,
+        106,
+        124
+      ],
+      "prerequisites": [
+        203
+      ],
+      "depends": [
+        "dispel-low"
+      ],
+      "fixture": "Source decision for one level-four spell on a creature, one object spell and one area effect; contrast nonspell item magic and multi-recipient targeting.",
+      "targets": "Enumerate creature/object/magical-effect identity, exact removal extent and authoritative visibility/range/clear path; do not assume dispelling one target ends every recipient.",
+      "cost": "Magic action/V/S/level-three slot; spellcasting ability check DC 10+each spell level for level four or higher, with automatic ending when upcast slot meets spell level.",
+      "timing": "One working session; establish per-spell check order, removal scope and replayable outcomes. Distinguish instantaneous consequences from ongoing spells.",
+      "keys": [
+        "spell.dispel.per-spell-check",
+        "spell.dispel.upcast-threshold",
+        "spell.dispel.object-or-effect"
+      ],
+      "accept": [
+        "Publish separate bounded implementation children for higher-level checks/upcasting and object/effect targeting. Name the exact source fixture and target-removal contract for each; no guessed area ownership.",
+        "Add all terminal implementation blockers directly to #279/#280 and attach under #193 before closing. Nonspell magic stays unavailable unless an explicit source grants interaction; reuse #273 item-casting ownership."
+      ],
+      "exclusions": "No universal curse/antimagic removal, arbitrary item destruction or full Dispel Magic claim from the low-level creature fixture.",
+      "blocked_by_issues": [
+        203,
+        355
+      ],
+      "issue": 359,
+      "url": "https://github.com/subculture-collective/edda/issues/359",
+      "github_id": 6413721705
+    }
+  ],
+  "scope_owners": {
+    "same-named effects/different casters": [
+      "effect-identity",
+      "bless-recipients"
+    ],
+    "multiple recipients": [
+      "bless-recipients"
+    ],
+    "periodic/start/end triggers": [
+      "acid-end-turn",
+      "periodic-spike"
+    ],
+    "Dispel Magic": [
+      "dispel-low",
+      "dispel-remainder"
+    ],
+    "Counterspell": [
+      "counterspell-window"
+    ],
+    "damage/unconscious concentration endings": [
+      "concentration-events"
+    ]
+  }
+}
