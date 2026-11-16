@@ -51,6 +51,14 @@ class Pagination(unittest.TestCase):
 class Receipt(unittest.TestCase):
     def setUp(self):
         self.m=json.loads(scope.MANIFEST.read_text());self.r=json.loads(scope.RECEIPT.read_text())
+    def test_accepted_prefix_and_capacity_seals(self):
+        candidate=deepcopy(self.m);candidate['accepted_parent_baseline']['body_sha256']['47']='bad'
+        with self.assertRaisesRegex(AssertionError,'accepted seal drift'):scope.validate(candidate,self.r)
+        candidate=deepcopy(self.m);candidate['protected']['47']['body']+='Changed prefix'
+        with self.assertRaisesRegex(AssertionError,'accepted prefix drift'):scope.validate(candidate,self.r)
+        candidate=deepcopy(self.m);candidate['supplements'][0]['append_chars']+=1
+        with self.assertRaisesRegex(AssertionError,'capacity metadata drift'):scope.validate(candidate,self.r)
+
     def test_full_guards(self):scope.validate(self.m,self.r);scope.probes(self.m,self.r)
     def test_closed_decision_retains_terminal_gate(self):
         next(x for x in self.r['graph'] if x['number']==325)['state']='closed';scope.validate(self.m,self.r)
@@ -64,7 +72,7 @@ class Receipt(unittest.TestCase):
         for s in self.m['supplements']:
             n=s['issue'];original=self.m['protected'][str(n)]['body'];owned=s['append']
             candidate=deepcopy(sealed);next(x for x in candidate['graph'] if x['number']==n)['body']+='\nLater pure append.\n';scope.validate(self.m,candidate,sealed=True)
-            for value in [original,'changed'+original+owned,original+owned.replace('Fighter','Changed',1),original+owned+owned]:
+            for value in [original,'changed'+original+owned,original+owned.replace('Fighter','Changed',1),original+owned+owned,original+owned+'\n<!-- edda-325:start -->',original+owned+'\n<!-- edda-325:end -->']:
                 candidate=deepcopy(sealed);next(x for x in candidate['graph'] if x['number']==n)['body']=value
                 with self.assertRaises(AssertionError):scope.validate(self.m,candidate,sealed=True)
     def test_all_twenty_readable_rows(self):

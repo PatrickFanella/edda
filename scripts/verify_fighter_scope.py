@@ -23,6 +23,13 @@ ROOT=Path(__file__).resolve().parents[1]
 MANIFEST=ROOT/'docs/investigations/issue-325-fighter-scope.json'
 RECEIPT=ROOT/'docs/investigations/issue-325-link-verification.json'
 PIN='8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
+ACCEPTED_DRUID_MERGE='3edec0379e876d30aa611bffa50674f731f61786'
+ACCEPTED_PARENT_SEALS={
+    '47':'bbd8bd860ccc5e27cb61251e76d1138abace0efe66463acecb7e003cb86ff1b4',
+    '54':'5acc32c577df7e016e0c589a7b95dc710a2a4147ae599fd7b97fed1129532c86',
+    '283':'c1d03df3d4aeda65d2869c2cb0de3bb42a8695a15fa3e5a9397fc67c69b1816a',
+    '337':'7aae57ec2c0f8815c7ef8ef7284276694e31f7a855e452f8e22af4f460d22194',
+}
 
 
 def body(m,r):
@@ -101,6 +108,10 @@ def live(m):
 def validate(m,r,sealed=False):
     sealed=sealed or m.get("supplement_publication")=="sealed"
     assert m['source']['sha256']==PIN
+    assert m['accepted_parent_baseline']['accepted_druid_merge']==ACCEPTED_DRUID_MERGE,'accepted merge drift'
+    assert m['accepted_parent_baseline']['body_sha256']==ACCEPTED_PARENT_SEALS,'accepted seal drift'
+    for n,h in ACCEPTED_PARENT_SEALS.items():
+        assert digest(m['protected'][n]['body'])==h,'accepted prefix drift'
     records=[]
     for p,c in m['catalogues'].items():
         assert json.loads((ROOT/p).read_text())==c and c['source']['sha256']==PIN,'source drift'
@@ -180,8 +191,13 @@ def validate(m,r,sealed=False):
     assert {335,430}<=set(rows['multiclass']['prerequisites']) and 'd10' in rows['multiclass']['depends']
     assert {336,429,58}<=set(rows['d10']['prerequisites'])
     assert set(range(385,402))<=set(rows['improvement']['prerequisites'])
-    assert json.loads((ROOT/'docs/investigations/issue-325-parent-supplements.json').read_text())==m['supplements']
     assert len(next(x['append'] for x in m['supplements'] if x['issue']==47))<=200
+    for supplement in m['supplements']:
+        n=str(supplement['issue']);prefix=m['protected'][n]['body'];append=supplement['append']
+        assert supplement['previous_sha256']==ACCEPTED_PARENT_SEALS[n]
+        assert supplement['previous_chars']==len(prefix) and supplement['append_chars']==len(append),'capacity metadata drift'
+        assert supplement['result_chars']==len(prefix)+len(append)<=supplement['maximum_chars']==65536,'body capacity'
+    assert json.loads((ROOT/'docs/investigations/issue-325-parent-supplements.json').read_text())==m['supplements'],'supplement file drift'
     return len(keys),len(graph)
 
 
@@ -210,7 +226,7 @@ def probes(m,r):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--live',action='store_true');p.add_argument('--sealed',action='store_true');p.add_argument('--pdf',type=Path);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--live',action='store_true');p.add_argument('--sealed','--require-supplements',dest='sealed',action='store_true');p.add_argument('--pdf',type=Path);a=p.parse_args()
     m=json.loads(MANIFEST.read_text())
     if a.pdf:
         assert hashlib.sha256(a.pdf.read_bytes()).hexdigest()==PIN
