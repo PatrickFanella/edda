@@ -1,0 +1,151 @@
+{
+  "new_tasks": 77,
+  "terminals": 72,
+  "gates": 5,
+  "execution_consumers": [
+    "expertise",
+    "sneak-attack",
+    "cunning-action",
+    "subclass",
+    "steady-aim",
+    "strike",
+    "poison",
+    "trip",
+    "withdraw",
+    "uncanny-dodge",
+    "evasion",
+    "reliable-talent",
+    "improved-strike",
+    "daze",
+    "knock-out",
+    "obscure",
+    "slippery-mind",
+    "elusive",
+    "luck",
+    "fast-hands-check",
+    "fast-hands-object",
+    "climber",
+    "jumper",
+    "stealth-attack",
+    "attunement",
+    "charges",
+    "scroll-check",
+    "scroll-light",
+    "scroll-detect",
+    "reflexes",
+    "hide",
+    "object-check",
+    "utilize",
+    "magic-item",
+    "attune-item",
+    "scroll-item",
+    "scroll-aid",
+    "cloak-protection",
+    "gauntlets-ogre",
+    "ring-jumping",
+    "ring-protection",
+    "wand-dawn"
+  ],
+  "maxima": {
+    "incoming": 99,
+    "outgoing": 100,
+    "children": 95
+  },
+  "projected": {
+    "279": {
+      "incoming": 99,
+      "outgoing": 11,
+      "children": 0
+    },
+    "280": {
+      "incoming": 94,
+      "outgoing": 3,
+      "children": 0
+    },
+    "283": {
+      "incoming": 0,
+      "outgoing": 0,
+      "children": 95
+    },
+    "329": {
+      "incoming": 3,
+      "outgoing": 2,
+      "children": 2
+    },
+    "337": {
+      "incoming": 56,
+      "outgoing": 0,
+      "children": 0
+    },
+    "429": {
+      "incoming": 4,
+      "outgoing": 100,
+      "children": 0
+    },
+    "61": {
+      "incoming": 1,
+      "outgoing": 78,
+      "children": 0
+    },
+    "64": {
+      "incoming": 3,
+      "outgoing": 42,
+      "children": 0
+    },
+    "65": {
+      "incoming": 1,
+      "outgoing": 67,
+      "children": 0
+    },
+    "66": {
+      "incoming": 1,
+      "outgoing": 56,
+      "children": 0
+    },
+    "67": {
+      "incoming": 1,
+      "outgoing": 93,
+      "children": 0
+    },
+    "192": {
+      "incoming": 0,
+      "outgoing": 0,
+      "children": 44
+    },
+    "50": {
+      "incoming": 0,
+      "outgoing": 0,
+      "children": 19
+    },
+    "968": {
+      "incoming": 1,
+      "outgoing": 2,
+      "children": 0
+    },
+    "-1": {
+      "incoming": 6,
+      "outgoing": 1,
+      "children": 2
+    },
+    "-2": {
+      "incoming": 40,
+      "outgoing": 1,
+      "children": 40
+    },
+    "-3": {
+      "incoming": 21,
+      "outgoing": 1,
+      "children": 21
+    },
+    "-4": {
+      "incoming": 11,
+      "outgoing": 3,
+      "children": 10
+    },
+    "-5": {
+      "incoming": 7,
+      "outgoing": 42,
+      "children": 0
+    }
+  }
+}
