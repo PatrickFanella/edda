@@ -1,8 +1,15 @@
 # Barbarian decision for #321
 
-Observed against main `d60082ca61419b6aadacb333c08c717312e51d50` on 2026-11-16.
+Observed against main `32252f64380eb49dd47f7d1f53171b6a8791624e` on 2026-11-16.
+
+The implementation observation includes the merged Metamagic-family validator
+guard. Its exact diff does not change Barbarian eligibility or mechanics; the
+evidence hash is refreshed while source records, owners and gate requirements
+remain unchanged.
 This decision publishes implementation work. Barbarian remains unqualified.
-#321 stays open pending independent parent acceptance and decision PR merge.
+#321 closed through [merged PR #500](https://github.com/subculture-collective/edda/pull/500)
+after independent acceptance and hosted checks. The implementation terminals and
+qualification gate #498 remain open.
 
 The [matrix](issue-321-barbarian-scope.json) retains all 80 exact class/subclass
 records, all 20 progression rows, nested alternatives, prerequisites, numeric parameters,
@@ -282,7 +289,7 @@ protected dependency. Subsequent class-gate additions can further change availab
 
 Final strict live and offline verification passed: 80 exact source records, 20 rows,
 189 unique keys, 71 implementation bodies plus qualification #498, all native parents/
-prerequisites/Task M fields and357 acyclic issue nodes. #498 has72 exact blockers
-(71 terminals plus #321); #337 has48 blockers in this receipt.
+prerequisites/Task M fields and 406 acyclic issue nodes. #498 has72 exact blockers
+(71 terminals plus #321); #337 has 49 blockers in this receipt.
 The unchanged #334 validator also passed against this final native graph, including
 its independent missing-source-edge probes.
