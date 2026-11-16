@@ -244,7 +244,9 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 		}
 		if r.Kind == "resource" {
 			if r.CapacityMechanic != "" {
-				if r.Capacity != 0 || r.CapacityMechanic != "srd-5.2.1:mechanic/character/proficiency-bonus" || len(r.ValuesByLevel) != 0 {
+				knownFormula := r.CapacityMechanic == "srd-5.2.1:mechanic/character/proficiency-bonus" ||
+					r.CapacityMechanic == "srd-5.2.1:mechanic/bard/inspiration/charisma-modifier-minimum-one"
+				if r.Capacity != 0 || !knownFormula || len(r.ValuesByLevel) != 0 {
 					return fmt.Errorf("%s: invalid symbolic capacity", r.ID)
 				}
 				found := false

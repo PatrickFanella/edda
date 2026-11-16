@@ -1,0 +1,2792 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Bard and twelve named features on PDF pp31-33 adapted into unavailable structured metadata, including all 20 progression rows, conditional choices, symbolic capacity and opaque spell references. Mechanic keys and graph are Edda additions. No College features, spell definitions or executable effects imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/class/bard",
+      "kind": "class",
+      "name": "Bard",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/skills",
+        "srd-5.2.1:character/choice/bard/musical-instruments",
+        "srd-5.2.1:character/choice/bard/starting-equipment",
+        "srd-5.2.1:character/choice/bard/multiclass-traits"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/primary-ability/charisma",
+        "srd-5.2.1:mechanic/bard/saving-throws/dexterity-charisma",
+        "srd-5.2.1:mechanic/weapons/simple",
+        "srd-5.2.1:mechanic/armor/light",
+        "srd-5.2.1:mechanic/bard/level-one/all-core-traits-and-level-one-features",
+        "srd-5.2.1:mechanic/bard/hit-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/hit-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/1",
+      "kind": "level",
+      "name": "Bard level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 1,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/bardic-inspiration",
+          "srd-5.2.1:character/feature/bard/spellcasting"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/2",
+      "kind": "level",
+      "name": "Bard level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 2,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/expertise",
+          "srd-5.2.1:character/feature/bard/jack-of-all-trades"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/3",
+      "kind": "level",
+      "name": "Bard level 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 3,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/bard-subclass"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/4",
+      "kind": "level",
+      "name": "Bard level 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 4,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/ability-score-improvement"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/5",
+      "kind": "level",
+      "name": "Bard level 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 5,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/font-of-inspiration"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/6",
+      "kind": "level",
+      "name": "Bard level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 6,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/subclass-feature",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/bard/subclass-feature"
+        ]
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/7",
+      "kind": "level",
+      "name": "Bard level 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 7,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/countercharm"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/8",
+      "kind": "level",
+      "name": "Bard level 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 8,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/ability-score-improvement"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/9",
+      "kind": "level",
+      "name": "Bard level 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 9,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/expertise"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/10",
+      "kind": "level",
+      "name": "Bard level 10",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 10,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/magical-secrets"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/11",
+      "kind": "level",
+      "name": "Bard level 11",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 11,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/12",
+      "kind": "level",
+      "name": "Bard level 12",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 12,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/ability-score-improvement"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/13",
+      "kind": "level",
+      "name": "Bard level 13",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 13,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/14",
+      "kind": "level",
+      "name": "Bard level 14",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 14,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/subclass-feature",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/bard/subclass-feature"
+        ]
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/15",
+      "kind": "level",
+      "name": "Bard level 15",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 15,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 12
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/16",
+      "kind": "level",
+      "name": "Bard level 16",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 16,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/ability-score-improvement"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 12
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/17",
+      "kind": "level",
+      "name": "Bard level 17",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 17,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 12
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/18",
+      "kind": "level",
+      "name": "Bard level 18",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 18,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/superior-inspiration"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 12
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/19",
+      "kind": "level",
+      "name": "Bard level 19",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 19,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/epic-boon"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 12
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/bard/20",
+      "kind": "level",
+      "name": "Bard level 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 20,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/class-progression",
+        "srd-5.2.1:mechanic/bard/bardic-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/bard/words-of-creation"
+        ],
+        "feature_keys": []
+      },
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/bardic-die-sides": 12
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/bardic-inspiration",
+      "kind": "feature",
+      "name": "Bardic Inspiration",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-bardic-inspiration",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/1",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/bard/bardic-inspiration"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/bardic-inspiration",
+        "srd-5.2.1:mechanic/bard/inspiration/bonus-action-other-creature",
+        "srd-5.2.1:mechanic/bard/inspiration/target-see-or-hear-bard",
+        "srd-5.2.1:mechanic/bard/inspiration/one-die-per-creature",
+        "srd-5.2.1:mechanic/bard/inspiration/failed-d20-test-add-roll-once",
+        "srd-5.2.1:mechanic/bard/inspiration/expended-when-rolled",
+        "srd-5.2.1:mechanic/bard/inspiration/range-feet",
+        "srd-5.2.1:mechanic/bard/inspiration/duration-hours",
+        "srd-5.2.1:mechanic/bard/inspiration/minimum-uses",
+        "srd-5.2.1:mechanic/bard/inspiration/dice-per-creature",
+        "srd-5.2.1:mechanic/bard/inspiration/uses-per-die"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/inspiration/range-feet": 60,
+        "srd-5.2.1:mechanic/bard/inspiration/duration-hours": 1,
+        "srd-5.2.1:mechanic/bard/inspiration/minimum-uses": 1,
+        "srd-5.2.1:mechanic/bard/inspiration/dice-per-creature": 1,
+        "srd-5.2.1:mechanic/bard/inspiration/uses-per-die": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "kind": "feature",
+      "name": "Spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/cantrips",
+        "srd-5.2.1:character/choice/bard/prepared-spells"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/bard/spell-slot-1",
+        "srd-5.2.1:character/resource/bard/spell-slot-2",
+        "srd-5.2.1:character/resource/bard/spell-slot-3",
+        "srd-5.2.1:character/resource/bard/spell-slot-4",
+        "srd-5.2.1:character/resource/bard/spell-slot-5",
+        "srd-5.2.1:character/resource/bard/spell-slot-6",
+        "srd-5.2.1:character/resource/bard/spell-slot-7",
+        "srd-5.2.1:character/resource/bard/spell-slot-8",
+        "srd-5.2.1:character/resource/bard/spell-slot-9"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting",
+        "srd-5.2.1:mechanic/bard/spellcasting/charisma",
+        "srd-5.2.1:mechanic/bard/spellcasting/musical-instrument-focus",
+        "srd-5.2.1:mechanic/bard/spellcasting/replace-one-cantrip-on-bard-level",
+        "srd-5.2.1:mechanic/bard/spellcasting/replace-one-prepared-on-bard-level-with-slot-eligible-bard-spell",
+        "srd-5.2.1:mechanic/bard/spellcasting/increase-prepared-to-table-count-slot-eligible",
+        "srd-5.2.1:mechanic/bard/spellcasting/always-prepared-excluded-from-count-count-as-bard",
+        "srd-5.2.1:mechanic/bard/spellcasting/cantrips-replaced-per-level",
+        "srd-5.2.1:mechanic/bard/spellcasting/prepared-replaced-per-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/spellcasting/cantrips-replaced-per-level": 1,
+        "srd-5.2.1:mechanic/bard/spellcasting/prepared-replaced-per-level": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/expertise",
+      "kind": "feature",
+      "name": "Expertise",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-2-expertise",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/2",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/expertise"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/expertise"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/jack-of-all-trades",
+      "kind": "feature",
+      "name": "Jack of All Trades",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-2-jack-of-all-trades",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/2",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/jack-of-all-trades"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/jack-of-all-trades",
+        "srd-5.2.1:mechanic/bard/jack-of-all-trades/half-proficiency-round-down"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/bard-subclass",
+      "kind": "feature",
+      "name": "Bard Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-3-bard-subclass",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/3",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/bard-subclass"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/bard-subclass",
+        "srd-5.2.1:mechanic/bard/subclass/features-at-or-below-bard-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/ability-score-improvement",
+      "kind": "feature",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-4-ability-score-improvement",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/4",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/ability-score-improvement"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/ability-score-improvement",
+        "srd-5.2.1:mechanic/bard/ability-score-improvement/repeats-levels-8-12-16"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/font-of-inspiration",
+      "kind": "feature",
+      "name": "Font of Inspiration",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-5-font-of-inspiration",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/5",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/font-expended-use"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/font-of-inspiration",
+        "srd-5.2.1:mechanic/bard/inspiration/short-or-long-rest-all",
+        "srd-5.2.1:mechanic/bard/font-of-inspiration/expend-any-spell-slot-no-action-regain-one",
+        "srd-5.2.1:mechanic/bard/font-of-inspiration/slots-expended",
+        "srd-5.2.1:mechanic/bard/font-of-inspiration/uses-regained"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/font-of-inspiration/slots-expended": 1,
+        "srd-5.2.1:mechanic/bard/font-of-inspiration/uses-regained": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/countercharm",
+      "kind": "feature",
+      "name": "Countercharm",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-7-countercharm",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/7",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/countercharm"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/countercharm",
+        "srd-5.2.1:mechanic/bard/countercharm/reaction-reroll-save-with-advantage",
+        "srd-5.2.1:mechanic/bard/countercharm/range-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/countercharm/range-feet": 30
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/magical-secrets",
+      "kind": "feature",
+      "name": "Magical Secrets",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-10-magical-secrets",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/10",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/magical-secrets"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/magical-secrets"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/superior-inspiration",
+      "kind": "feature",
+      "name": "Superior Inspiration",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-18-superior-inspiration",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/18",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/superior-inspiration"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/superior-inspiration",
+        "srd-5.2.1:mechanic/bard/superior-inspiration/initiative-regain-expended-until-two",
+        "srd-5.2.1:mechanic/bard/superior-inspiration/recovery-threshold"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/superior-inspiration/recovery-threshold": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/epic-boon",
+      "kind": "feature",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-19-epic-boon",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/19",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/epic-boon"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/epic-boon",
+        "srd-5.2.1:mechanic/bard/recommendation/boon-of-spell-recall"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/bard/words-of-creation",
+      "kind": "feature",
+      "name": "Words of Creation",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-20-words-of-creation",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/bard/20",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/words-second-target"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/words-of-creation",
+        "srd-5.2.1:mechanic/spells/power-word-heal",
+        "srd-5.2.1:mechanic/spells/power-word-kill",
+        "srd-5.2.1:mechanic/bard/words-of-creation/optional-second-target-when-casting-either-spell",
+        "srd-5.2.1:mechanic/bard/words-of-creation/second-target-distance-feet",
+        "srd-5.2.1:mechanic/bard/words-of-creation/additional-targets"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 20,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/power-word-heal",
+            "srd-5.2.1:mechanic/spells/power-word-kill"
+          ]
+        }
+      ],
+      "parameters": {
+        "srd-5.2.1:mechanic/bard/words-of-creation/second-target-distance-feet": 10,
+        "srd-5.2.1:mechanic/bard/words-of-creation/additional-targets": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/skills",
+      "kind": "choice",
+      "name": "Skills",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/skills"
+      ],
+      "select": 3,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/acrobatics",
+        "srd-5.2.1:mechanic/skills/animal-handling",
+        "srd-5.2.1:mechanic/skills/arcana",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/deception",
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/intimidation",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/medicine",
+        "srd-5.2.1:mechanic/skills/nature",
+        "srd-5.2.1:mechanic/skills/perception",
+        "srd-5.2.1:mechanic/skills/performance",
+        "srd-5.2.1:mechanic/skills/persuasion",
+        "srd-5.2.1:mechanic/skills/religion",
+        "srd-5.2.1:mechanic/skills/sleight-of-hand",
+        "srd-5.2.1:mechanic/skills/stealth",
+        "srd-5.2.1:mechanic/skills/survival"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/musical-instruments",
+      "kind": "choice",
+      "name": "Musical Instruments",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/musical-instruments"
+      ],
+      "select": 3,
+      "option_keys": [
+        "srd-5.2.1:mechanic/tools/musical-instruments"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/starting-equipment",
+      "kind": "choice",
+      "name": "Starting Equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/equipment-instrument"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/leather-armor",
+        "srd-5.2.1:mechanic/equipment/dagger",
+        "srd-5.2.1:mechanic/tools/musical-instruments",
+        "srd-5.2.1:mechanic/equipment/entertainers-pack",
+        "srd-5.2.1:mechanic/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/bard/equipment/a",
+        "srd-5.2.1:mechanic/bard/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/bard/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/leather-armor": 1,
+            "srd-5.2.1:mechanic/equipment/dagger": 2,
+            "srd-5.2.1:mechanic/tools/musical-instruments": 1,
+            "srd-5.2.1:mechanic/equipment/entertainers-pack": 1,
+            "srd-5.2.1:mechanic/currency/gp": 19
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/bard/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/currency/gp": 90
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/equipment-instrument",
+      "kind": "choice",
+      "name": "Equipment Instrument",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/starting-equipment",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/equipment-a"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/equipment-instrument"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/tools/musical-instruments"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/equipment-a",
+      "kind": "prerequisite",
+      "name": "Equipment A",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/equipment-instrument",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/equipment/a-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/equipment/a-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/bard/starting-equipment"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/multiclass-traits",
+      "kind": "choice",
+      "name": "Multiclass Traits",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/bard",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/bard/multiclass-skill",
+        "srd-5.2.1:character/choice/bard/multiclass-instrument"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/multiclass"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/multiclass-traits",
+        "srd-5.2.1:mechanic/bard/multiclass/d8-light-armor-one-skill-one-instrument-level-one-features",
+        "srd-5.2.1:mechanic/bard/multiclass/spell-slots-character-creation"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/bard/multiclass/core-traits-subset"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/multiclass",
+      "kind": "prerequisite",
+      "name": "Multiclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/multiclass-traits",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/multiclass-entry"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/character/multiclass-entry",
+        "record_refs": [
+          "srd-5.2.1:character/class/bard"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/multiclass-skill",
+      "kind": "choice",
+      "name": "Multiclass Skill",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/multiclass-traits",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/multiclass-skill"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/acrobatics",
+        "srd-5.2.1:mechanic/skills/animal-handling",
+        "srd-5.2.1:mechanic/skills/arcana",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/deception",
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/intimidation",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/medicine",
+        "srd-5.2.1:mechanic/skills/nature",
+        "srd-5.2.1:mechanic/skills/perception",
+        "srd-5.2.1:mechanic/skills/performance",
+        "srd-5.2.1:mechanic/skills/persuasion",
+        "srd-5.2.1:mechanic/skills/religion",
+        "srd-5.2.1:mechanic/skills/sleight-of-hand",
+        "srd-5.2.1:mechanic/skills/stealth",
+        "srd-5.2.1:mechanic/skills/survival"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/multiclass-instrument",
+      "kind": "choice",
+      "name": "Multiclass Instrument",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/bard",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/multiclass-traits",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/multiclass-instrument"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/tools/musical-instruments"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/resource/bard/bardic-inspiration",
+      "kind": "resource",
+      "name": "Bardic Inspiration",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-bardic-inspiration",
+          "page": 31
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/bardic-inspiration",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/inspiration/charisma-modifier-minimum-one",
+        "srd-5.2.1:mechanic/bard/inspiration/long-rest-all",
+        "srd-5.2.1:mechanic/bard/inspiration/level-5-short-rest-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "capacity_mechanic": "srd-5.2.1:mechanic/bard/inspiration/charisma-modifier-minimum-one"
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/cantrips",
+      "kind": "choice",
+      "name": "Cantrips",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/cantrips",
+        "srd-5.2.1:mechanic/bard/recommendation/dancing-lights",
+        "srd-5.2.1:mechanic/bard/recommendation/vicious-mockery"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/bard/spell-list/p33-35/cantrips"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 3
+        },
+        {
+          "level": 5,
+          "value": 3
+        },
+        {
+          "level": 6,
+          "value": 3
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 4
+        },
+        {
+          "level": 11,
+          "value": 4
+        },
+        {
+          "level": 12,
+          "value": 4
+        },
+        {
+          "level": 13,
+          "value": 4
+        },
+        {
+          "level": 14,
+          "value": 4
+        },
+        {
+          "level": 15,
+          "value": 4
+        },
+        {
+          "level": 16,
+          "value": 4
+        },
+        {
+          "level": 17,
+          "value": 4
+        },
+        {
+          "level": 18,
+          "value": 4
+        },
+        {
+          "level": 19,
+          "value": 4
+        },
+        {
+          "level": 20,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/prepared-spells",
+      "kind": "choice",
+      "name": "Prepared Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/prepared-slot-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/prepared-spells",
+        "srd-5.2.1:mechanic/bard/recommendation/charm-person",
+        "srd-5.2.1:mechanic/bard/recommendation/color-spray",
+        "srd-5.2.1:mechanic/bard/recommendation/dissonant-whispers",
+        "srd-5.2.1:mechanic/bard/recommendation/healing-word"
+      ],
+      "select": 4,
+      "option_keys": [
+        "srd-5.2.1:mechanic/bard/spell-list/p33-35/level-1-plus"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 4
+        },
+        {
+          "level": 2,
+          "value": 5
+        },
+        {
+          "level": 3,
+          "value": 6
+        },
+        {
+          "level": 4,
+          "value": 7
+        },
+        {
+          "level": 5,
+          "value": 9
+        },
+        {
+          "level": 6,
+          "value": 10
+        },
+        {
+          "level": 7,
+          "value": 11
+        },
+        {
+          "level": 8,
+          "value": 12
+        },
+        {
+          "level": 9,
+          "value": 14
+        },
+        {
+          "level": 10,
+          "value": 15
+        },
+        {
+          "level": 11,
+          "value": 16
+        },
+        {
+          "level": 12,
+          "value": 16
+        },
+        {
+          "level": 13,
+          "value": 17
+        },
+        {
+          "level": 14,
+          "value": 17
+        },
+        {
+          "level": 15,
+          "value": 18
+        },
+        {
+          "level": 16,
+          "value": 18
+        },
+        {
+          "level": 17,
+          "value": 19
+        },
+        {
+          "level": 18,
+          "value": 20
+        },
+        {
+          "level": 19,
+          "value": 21
+        },
+        {
+          "level": 20,
+          "value": 22
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/prepared-slot-eligibility",
+      "kind": "prerequisite",
+      "name": "Prepared Slot Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/prepared-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting/has-slot-for-chosen-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/spellcasting/has-slot-for-chosen-spell",
+        "record_refs": [
+          "srd-5.2.1:character/feature/bard/spellcasting"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/bard/spell-slot-1",
+      "kind": "resource",
+      "name": "Spell Slot 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting/long-rest-all-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 3
+        },
+        {
+          "level": 3,
+          "value": 4
+        },
+        {
+          "level": 4,
+          "value": 4
+        },
+        {
+          "level": 5,
+          "value": 4
+        },
+        {
+          "level": 6,
+          "value": 4
+        },
+        {
+          "level": 7,
+          "value": 4
+        },
+        {
+          "level": 8,
+          "value": 4
+        },
+        {
+          "level": 9,
+          "value": 4
+        },
+        {
+          "level": 10,
+          "value": 4
+        },
+        {
+          "level": 11,
+          "value": 4
+        },
+        {
+          "level": 12,
+          "value": 4
+        },
+        {
+          "level": 13,
+          "value": 4
+        },
+        {
+          "level": 14,
+          "value": 4
+        },
+        {
+          "level": 15,
+          "value": 4
+        },
+        {
+          "level": 16,
+          "value": 4
+        },
+        {
+          "level": 17,
+          "value": 4
+        },
+        {
+          "level": 18,
+          "value": 4
+        },
+        {
+          "level": 19,
+          "value": 4
+        },
+        {
+          "level": 20,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/bard/spell-slot-2",
+      "kind": "resource",
+      "name": "Spell Slot 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting/long-rest-all-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 3
+        },
+        {
+          "level": 5,
+          "value": 3
+        },
+        {
+          "level": 6,
+          "value": 3
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/bard/spell-slot-3",
+      "kind": "resource",
+      "name": "Spell Slot 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting/long-rest-all-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 5,
+          "value": 2
+        },
+        {
+          "level": 6,
+          "value": 3
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/bard/spell-slot-4",
+      "kind": "resource",
+      "name": "Spell Slot 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting/long-rest-all-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 7,
+          "value": 1
+        },
+        {
+          "level": 8,
+          "value": 2
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/bard/spell-slot-5",
+      "kind": "resource",
+      "name": "Spell Slot 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting/long-rest-all-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 9,
+          "value": 1
+        },
+        {
+          "level": 10,
+          "value": 2
+        },
+        {
+          "level": 11,
+          "value": 2
+        },
+        {
+          "level": 12,
+          "value": 2
+        },
+        {
+          "level": 13,
+          "value": 2
+        },
+        {
+          "level": 14,
+          "value": 2
+        },
+        {
+          "level": 15,
+          "value": 2
+        },
+        {
+          "level": 16,
+          "value": 2
+        },
+        {
+          "level": 17,
+          "value": 2
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/bard/spell-slot-6",
+      "kind": "resource",
+      "name": "Spell Slot 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting/long-rest-all-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 11,
+          "value": 1
+        },
+        {
+          "level": 12,
+          "value": 1
+        },
+        {
+          "level": 13,
+          "value": 1
+        },
+        {
+          "level": 14,
+          "value": 1
+        },
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 2
+        },
+        {
+          "level": 20,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/bard/spell-slot-7",
+      "kind": "resource",
+      "name": "Spell Slot 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting/long-rest-all-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 13,
+          "value": 1
+        },
+        {
+          "level": 14,
+          "value": 1
+        },
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/bard/spell-slot-8",
+      "kind": "resource",
+      "name": "Spell Slot 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting/long-rest-all-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/bard/spell-slot-9",
+      "kind": "resource",
+      "name": "Spell Slot 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-1-spellcasting",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/spellcasting/long-rest-all-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/expertise",
+      "kind": "choice",
+      "name": "Expertise",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-2-expertise",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/expertise",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/expertise-proficiency"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/expertise",
+        "srd-5.2.1:mechanic/bard/expertise/recommended-performance-persuasion-if-proficient",
+        "srd-5.2.1:mechanic/bard/expertise/two-additional-at-level-9"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/acrobatics",
+        "srd-5.2.1:mechanic/skills/animal-handling",
+        "srd-5.2.1:mechanic/skills/arcana",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/deception",
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/intimidation",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/medicine",
+        "srd-5.2.1:mechanic/skills/nature",
+        "srd-5.2.1:mechanic/skills/perception",
+        "srd-5.2.1:mechanic/skills/performance",
+        "srd-5.2.1:mechanic/skills/persuasion",
+        "srd-5.2.1:mechanic/skills/religion",
+        "srd-5.2.1:mechanic/skills/sleight-of-hand",
+        "srd-5.2.1:mechanic/skills/stealth",
+        "srd-5.2.1:mechanic/skills/survival"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 2
+        },
+        {
+          "level": 5,
+          "value": 2
+        },
+        {
+          "level": 6,
+          "value": 2
+        },
+        {
+          "level": 7,
+          "value": 2
+        },
+        {
+          "level": 8,
+          "value": 2
+        },
+        {
+          "level": 9,
+          "value": 4
+        },
+        {
+          "level": 10,
+          "value": 4
+        },
+        {
+          "level": 11,
+          "value": 4
+        },
+        {
+          "level": 12,
+          "value": 4
+        },
+        {
+          "level": 13,
+          "value": 4
+        },
+        {
+          "level": 14,
+          "value": 4
+        },
+        {
+          "level": 15,
+          "value": 4
+        },
+        {
+          "level": 16,
+          "value": 4
+        },
+        {
+          "level": 17,
+          "value": 4
+        },
+        {
+          "level": 18,
+          "value": 4
+        },
+        {
+          "level": 19,
+          "value": 4
+        },
+        {
+          "level": 20,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/expertise-proficiency",
+      "kind": "prerequisite",
+      "name": "Expertise Proficiency",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-2-expertise",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/expertise",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/character/skill-proficient"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/character/skill-proficient",
+        "record_refs": [
+          "srd-5.2.1:character/class/bard"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/jack-of-all-trades",
+      "kind": "prerequisite",
+      "name": "Jack Of All Trades",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-2-jack-of-all-trades",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/jack-of-all-trades",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/jack-of-all-trades/ability-check-uses-untrained-skill-and-not-proficiency"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/jack-of-all-trades/ability-check-uses-untrained-skill-and-not-proficiency",
+        "record_refs": [
+          "srd-5.2.1:character/class/bard"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/bard-subclass",
+      "kind": "choice",
+      "name": "Bard Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-3-bard-subclass",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/bard-subclass",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/bard-subclass"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/bard/subclasses",
+        "srd-5.2.1:mechanic/bard/subclasses/college-of-lore"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/ability-score-improvement",
+      "kind": "choice",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-4-ability-score-improvement",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/ability-score-improvement-qualification"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/ability-score-improvement"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/ability-score-improvement-qualification",
+      "kind": "prerequisite",
+      "name": "Ability Score Improvement Qualification",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-4-ability-score-improvement",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/feat-qualification"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/feat-qualification",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/epic-boon",
+      "kind": "choice",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-19-epic-boon",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/epic-boon-qualification"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/epic-boon"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/epic-boon",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/epic-boon-qualification",
+      "kind": "prerequisite",
+      "name": "Epic Boon Qualification",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-19-epic-boon",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/feat-qualification"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/feat-qualification",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/font-expended-use",
+      "kind": "prerequisite",
+      "name": "Font Expended Use",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-5-font-of-inspiration",
+          "page": 32
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/font-of-inspiration",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/inspiration/has-expended-use"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/inspiration/has-expended-use",
+        "record_refs": [
+          "srd-5.2.1:character/feature/bard/bardic-inspiration",
+          "srd-5.2.1:character/feature/bard/spellcasting"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/countercharm",
+      "kind": "prerequisite",
+      "name": "Countercharm",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-7-countercharm",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/countercharm",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/countercharm/self-or-creature-failed-save-against-charmed-or-frightened"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/countercharm/self-or-creature-failed-save-against-charmed-or-frightened",
+        "record_refs": [],
+        "parameters": {
+          "range-feet": 30
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/bard/magical-secrets",
+      "kind": "choice",
+      "name": "Magical Secrets",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-10-magical-secrets",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/magical-secrets",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/bard/magical-secrets"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/magical-secrets",
+        "srd-5.2.1:mechanic/bard/magical-secrets/new-or-replaced-prepared-count-as-bard",
+        "srd-5.2.1:mechanic/bard/magical-secrets/any-new-prepared-spells-from-listed-lists",
+        "srd-5.2.1:mechanic/bard/magical-secrets/replacements-from-listed-lists"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/bard/spell-list/p33-35/level-1-plus",
+        "srd-5.2.1:mechanic/cleric/spell-list/level-1-plus",
+        "srd-5.2.1:mechanic/druid/spell-list/level-1-plus",
+        "srd-5.2.1:mechanic/wizard/spell-list/level-1-plus"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/magical-secrets",
+      "kind": "prerequisite",
+      "name": "Magical Secrets",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-10-magical-secrets",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/bard/magical-secrets",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/magical-secrets/bard-level-at-least-10-and-prepared-count-increases-or-replacement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/magical-secrets/bard-level-at-least-10-and-prepared-count-increases-or-replacement",
+        "record_refs": [
+          "srd-5.2.1:character/choice/bard/prepared-spells",
+          "srd-5.2.1:character/feature/bard/spellcasting"
+        ],
+        "parameters": {
+          "minimum-bard-level": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/superior-inspiration",
+      "kind": "prerequisite",
+      "name": "Superior Inspiration",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-18-superior-inspiration",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/superior-inspiration",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/inspiration/remaining-uses-less-than-two"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/inspiration/remaining-uses-less-than-two",
+        "record_refs": [
+          "srd-5.2.1:character/feature/bard/bardic-inspiration"
+        ],
+        "parameters": {
+          "uses-threshold": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/bard/words-second-target",
+      "kind": "prerequisite",
+      "name": "Words Second Target",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/bard-level-20-words-of-creation",
+          "page": 33
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/bard/words-of-creation",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/bard/words-of-creation/second-creature-within-ten-feet-of-first"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/bard/words-of-creation/second-creature-within-ten-feet-of-first",
+        "record_refs": [],
+        "parameters": {
+          "distance-feet": 10
+        }
+      }
+    }
+  ]
+}
