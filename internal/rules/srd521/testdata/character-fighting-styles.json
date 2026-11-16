@@ -1,0 +1,259 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Four Fighting Style feats on PDF pp87-88 adapted into offline metadata. Category, single-acquisition limit (Parts of a Feat, p87), general feature prerequisite, conditional mechanic keys and numeric parameters are Edda adaptations. No executable mechanics or adjacent records imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/feat/archery",
+      "kind": "feat",
+      "name": "Archery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/archery",
+          "page": 87
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/archery/fighting-style-feature"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/fighting-style",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/archery/attack-rolls/with-ranged-weapons",
+        "srd-5.2.1:mechanic/feats/archery/attack-roll-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/archery/attack-roll-bonus": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/archery/fighting-style-feature",
+      "kind": "prerequisite",
+      "name": "Fighting Style feature required",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/archery",
+          "page": 87
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/archery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feat/defense",
+      "kind": "feat",
+      "name": "Defense",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/defense",
+          "page": 88
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/defense/fighting-style-feature"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/fighting-style",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/defense/armor-class/while-wearing-light-or-medium-or-heavy-armor",
+        "srd-5.2.1:mechanic/feats/defense/armor-class-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/defense/armor-class-bonus": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/defense/fighting-style-feature",
+      "kind": "prerequisite",
+      "name": "Fighting Style feature required",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/defense",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/defense",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feat/great-weapon-fighting",
+      "kind": "feat",
+      "name": "Great Weapon Fighting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/great-weapon-fighting",
+          "page": 88
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/great-weapon-fighting/fighting-style-feature"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/fighting-style",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/optional-treat-result",
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/when-rolling-damage-for-own-attack",
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/weapon/melee",
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/weapon/held-with-two-hands",
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/weapon/property-two-handed-or-versatile",
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/minimum-result",
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/maximum-result",
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/treat-as"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/minimum-result": 1,
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/maximum-result": 2,
+        "srd-5.2.1:mechanic/feats/great-weapon-fighting/damage-die/treat-as": 3
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/great-weapon-fighting/fighting-style-feature",
+      "kind": "prerequisite",
+      "name": "Fighting Style feature required",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/great-weapon-fighting",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/great-weapon-fighting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feat/two-weapon-fighting",
+      "kind": "feat",
+      "name": "Two-Weapon Fighting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/two-weapon-fighting",
+          "page": 88
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/two-weapon-fighting/fighting-style-feature"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/fighting-style",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/two-weapon-fighting/damage/optional-add-ability-modifier",
+        "srd-5.2.1:mechanic/feats/two-weapon-fighting/attack/extra-from-using-light-property-weapon",
+        "srd-5.2.1:mechanic/feats/two-weapon-fighting/damage/only-if-not-already-adding-ability-modifier"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/two-weapon-fighting/fighting-style-feature",
+      "kind": "prerequisite",
+      "name": "Fighting Style feature required",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/two-weapon-fighting",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/two-weapon-fighting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/has-fighting-style-feature",
+        "record_refs": [],
+        "parameters": {}
+      }
+    }
+  ]
+}
