@@ -190,8 +190,8 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			}
 			if json.Unmarshal(call.Result, &result) == nil {
 				for _, receipt := range result.NPCReceipts {
-					if receipt != nil && receipt.RulesVersion == "srd-5.2.1" && receipt.Weapon == "Unarmed Strike" {
-						out = append(out, api.ResolutionEvent{Type: "srd_attack", Label: "NPC Unarmed Strike", Outcome: receipt.Outcome, Details: map[string]any{"receipt": receipt}})
+					if receipt != nil && receipt.RulesVersion == "srd-5.2.1" && (receipt.Weapon == "Unarmed Strike" || receipt.Weapon == "Scimitar" || receipt.Weapon == "Light Crossbow") {
+						out = append(out, api.ResolutionEvent{Type: "srd_attack", Label: "NPC " + receipt.Weapon, Outcome: receipt.Outcome, Details: map[string]any{"receipt": receipt}})
 					}
 				}
 			}

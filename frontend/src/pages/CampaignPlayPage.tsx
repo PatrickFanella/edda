@@ -181,6 +181,12 @@ function CampaignPlayContent({
   };
   const narrative = useNarrative();
   const [textPreview, setTextPreview] = useState<{ preview: ActionPreview; sequence: number } | null>(null);
+  useLayoutEffect(() => {
+    // Focus only after React has made the prepared-action panel visible.
+    if (activeTab === 'character' && textPreview) {
+      document.getElementById(`${tabIdPrefix}-panel-character`)?.focus({ preventScroll: true });
+    }
+  }, [activeTab, textPreview, tabIdPrefix]);
   const audio = useAudio();
   useAudioEffects(narrative.latestResult, narrative.combatActive, audio);
   const seededNarrative = useMemo(() => buildSeededNarrativeState(campaign, startupSeed, narrative.entries), [campaign, narrative.entries, startupSeed]);
@@ -306,7 +312,6 @@ function CampaignPlayContent({
                       returnFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
                       setTextPreview(previous => ({ preview, sequence: (previous?.sequence ?? 0) + 1 }));
                       handleTabChange('character');
-                      requestAnimationFrame(() => document.getElementById(`${tabIdPrefix}-panel-character`)?.focus({ preventScroll: true }));
                     }} /></div>
                   </div>
                 ) : null}

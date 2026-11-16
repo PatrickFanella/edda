@@ -135,6 +135,13 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		if member == nil {
 			p.Encounter = nil
 		}
+		if member != nil && active {
+			if (encounter.Bandit == nil) != (member.Bandit == nil) ||
+				(encounter.Bandit != nil && member.Bandit != nil && *encounter.Bandit != *member.Bandit) {
+				p.Encounter = nil
+				return unavailable("The stat-block profile changed; the encounter requires adjudication.")
+			}
+		}
 		if member != nil && (encounter.Space == nil || encounter.Space.Revision != member.Space.Revision) {
 			encounter.Space = &member.Space
 		}
@@ -165,9 +172,21 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 				target.Space = *encounter.Space
 			}
 			option := ActionTarget{ID: target.ID, Label: target.Name, DistanceFeet: target.Space.DistanceFeet, ReachFeet: 5}
+			if intent.Kind == combat.EncounterStart && target.Bandit != nil {
+				_, action, err := target.Bandit.Record()
+				if err != nil {
+					return unavailable(err.Error())
+				}
+				if action.Attack.Kind == "ranged" {
+					option.ReachFeet = action.Attack.Range
+				}
+			}
 			var spatialErr error
 			if intent.Kind == combat.EncounterStart {
 				spatialErr = target.Space.Validate()
+				if target.Bandit != nil {
+					spatialErr = combat.BanditAttack(target.Bandit, &target.Space)
+				}
 			} else {
 				spatialErr = target.Space.Melee()
 			}
@@ -187,7 +206,33 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		if active {
 			return unavailable("An encounter is already active.")
 		}
-		p.Options = []string{"Two-actor ordinary melee fixture; NPC Unarmed Strike +2, 1 bludgeoning; speed 30 feet; tied initiative: player first. Confirm to roll initiative."}
+		p.Options = []string{"Two-actor encounter; tied initiative: player first. Confirm to roll initiative."}
+		for _, target := range result.Targets {
+			if target.Bandit != nil {
+				m, a, err := target.Bandit.Record()
+				if err != nil {
+					return unavailable(err.Error())
+				}
+				p.Options = append(p.Options, fmt.Sprintf("%s: Bandit AC %d; initiative %+d; speed %d feet; selected %s. %s", target.Name, m.AC, m.Initiative.Modifier, m.Speeds["walk"], a.Name, a.Text))
+				for _, action := range m.Actions {
+					profile := *target.Bandit
+					profile.ActionID = action.ID
+					status := "Legal: "
+					if err := combat.BanditAttack(&profile, &target.Space); err != nil {
+						status = "Unavailable: " + err.Error() + " "
+					}
+					p.Options = append(p.Options, status+action.Text)
+				}
+			} else {
+				p.Options = append(p.Options, target.Name+": ordinary fixture; NPC Unarmed Strike +2, 1 bludgeoning; speed 30 feet.")
+			}
+		}
+		for _, target := range result.Targets {
+			if target.Bandit != nil {
+				p.SourceIDs = append(p.SourceIDs, srd521.BanditID)
+				break
+			}
+		}
 		p.Costs = []ActionCost{}
 		p.CostStatus = "encounter"
 		return result, nil
@@ -263,6 +308,16 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		}
 	default:
 		return unavailable("Use a supported encounter action or end your turn.")
+	}
+	if intent.Kind == combat.EncounterEndTurn && encounter.Bandit != nil {
+		if err := combat.BanditAttack(encounter.Bandit, encounter.Space); err != nil {
+			return unavailable(err.Error())
+		}
+		_, a, err := encounter.Bandit.Record()
+		if err != nil {
+			return unavailable(err.Error())
+		}
+		p.Options = []string{"End turn resolves one Bandit " + a.Text}
 	}
 	if intent.Kind == combat.EncounterEndTurn {
 		if err := encounter.Space.Validate(); err != nil {

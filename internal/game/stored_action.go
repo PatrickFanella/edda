@@ -22,6 +22,7 @@ type MartialTarget struct {
 	HP     int
 	Space  combat.Space
 	Tactic string
+	Bandit *srd521.BanditProfile
 }
 
 // StoredAction adds persisted equipment and legal fixture targets to preparation.
@@ -166,7 +167,7 @@ func readMartialTargets(ctx context.Context, database statedb.DBTX, campaign dom
 		locking = " FOR UPDATE"
 	}
 	result := []MartialTarget{}
-	targets, err := database.Query(ctx, `SELECT n.id,n.name,n.hp,n.properties->'srd521_target' FROM npcs n WHERE n.campaign_id=$1 AND n.alive AND n.hp>0 AND n.location_id=$2 AND n.properties->'srd521_target'->>'profile' IN ('unarmored-fixture-v1','ordinary-spatial-fixture-v1') AND n.properties->'srd521_target'->>'actor_id'=$3::text AND COALESCE(n.properties->'srd521_target'->>'hidden','false')='false' AND EXISTS(SELECT 1 FROM session_logs l WHERE l.campaign_id=n.campaign_id AND n.id=ANY(l.npcs_involved)) ORDER BY n.id`+locking, dbutil.ToPgtype(campaign.ID), pc.CurrentLocationID, pc.ID.String())
+	targets, err := database.Query(ctx, `SELECT n.id,n.name,n.hp,n.properties->'srd521_target' FROM npcs n WHERE n.campaign_id=$1 AND n.alive AND n.hp>0 AND n.location_id=$2 AND n.properties->'srd521_target'->>'profile' IN ('unarmored-fixture-v1','ordinary-spatial-fixture-v1','bandit-v1') AND n.properties->'srd521_target'->>'actor_id'=$3::text AND COALESCE(n.properties->'srd521_target'->>'hidden','false')='false' AND EXISTS(SELECT 1 FROM session_logs l WHERE l.campaign_id=n.campaign_id AND n.id=ANY(l.npcs_involved)) ORDER BY n.id`+locking, dbutil.ToPgtype(campaign.ID), pc.CurrentLocationID, pc.ID.String())
 	if err != nil {
 		return nil, err
 	}
@@ -178,6 +179,22 @@ func readMartialTargets(ctx context.Context, database statedb.DBTX, campaign dom
 			return nil, err
 		}
 		target.Space = fixtureSpace(facts)
+		var profile struct {
+			Profile string                `json:"profile"`
+			Bandit  *srd521.BanditProfile `json:"bandit"`
+		}
+		if err := json.Unmarshal(facts, &profile); err != nil {
+			continue
+		}
+		if profile.Profile == "bandit-v1" {
+			if profile.Bandit == nil {
+				continue
+			}
+			if _, _, err := profile.Bandit.Record(); err != nil {
+				continue
+			}
+			target.Bandit = profile.Bandit
+		}
 		var tactic struct {
 			Tactic string `json:"tactic"`
 		}

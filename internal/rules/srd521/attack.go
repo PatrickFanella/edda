@@ -4,7 +4,7 @@ import "fmt"
 
 const MartialAttack = "martial-attack"
 
-// AttackReceipt describes only the ordinary one-handed longsword fixture.
+// AttackReceipt describes supported ordinary weapon and fixture attacks.
 // It never contains a target's private stats or raw stored properties.
 type AttackReceipt struct {
 	RulesVersion   string   `json:"rules_version"`

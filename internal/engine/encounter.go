@@ -27,7 +27,11 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 	if err := encounter.Space.Validate(); err != nil {
 		return nil, nil, ErrActionRefresh
 	}
-	if err := encounter.Space.Melee(); err != nil {
+	if encounter.Bandit != nil {
+		if err := combat.BanditAttack(encounter.Bandit, encounter.Space); err != nil {
+			return nil, nil, ErrActionRefresh
+		}
+	} else if err := encounter.Space.Melee(); err != nil {
 		encounter.Advance()
 		return receipts, effects, nil
 	}
@@ -41,7 +45,14 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 			player = &encounter.Actors[i]
 		}
 	}
-	attack, err := srd521.ResolveFixtureUnarmed(sheet.Defenses["armor-class"].Value+encounter.Space.CoverBonus(), dice)
+	var attack *srd521.AttackReceipt
+	var err error
+	ac := sheet.Defenses["armor-class"].Value + encounter.Space.CoverBonus()
+	if encounter.Bandit != nil {
+		attack, err = srd521.ResolveBanditAttack(*encounter.Bandit, ac, dice)
+	} else {
+		attack, err = srd521.ResolveFixtureUnarmed(ac, dice)
+	}
 	if err != nil {
 		return nil, nil, err
 	}

@@ -24,6 +24,7 @@ type EncounterActor struct {
 	MaxHP         int       `json:"max_hp,omitempty"`
 	Initiative    int       `json:"initiative"`
 	InitiativeDie int       `json:"initiative_die"`
+	Speed         int       `json:"speed,omitempty"`
 }
 
 // Public returns a detached preview without NPC HP or its unplayed tactic.
@@ -48,18 +49,19 @@ type TurnBudget struct {
 	Movement       int  `json:"movement"`
 }
 
-// Encounter is the supported ordinary melee fixture, separate from legacy combat.
+// Encounter is the supported two-actor fixture, separate from legacy combat.
 // Initiative is rolled once. Equal totals put the player first (declared tie choice).
 type Encounter struct {
-	Reaction  *ReactionState   `json:"reaction,omitempty"`
-	NPCTactic string           `json:"npc_tactic,omitempty"`
-	Space     *Space           `json:"space,omitempty"`
-	ID        uuid.UUID        `json:"id"`
-	Status    string           `json:"status"`
-	Round     int              `json:"round"`
-	Turn      int              `json:"turn"`
-	Actors    []EncounterActor `json:"actors"`
-	Budget    TurnBudget       `json:"budget"`
+	Bandit    *srd521.BanditProfile `json:"bandit,omitempty"`
+	Reaction  *ReactionState        `json:"reaction,omitempty"`
+	NPCTactic string                `json:"npc_tactic,omitempty"`
+	Space     *Space                `json:"space,omitempty"`
+	ID        uuid.UUID             `json:"id"`
+	Status    string                `json:"status"`
+	Round     int                   `json:"round"`
+	Turn      int                   `json:"turn"`
+	Actors    []EncounterActor      `json:"actors"`
+	Budget    TurnBudget            `json:"budget"`
 }
 
 // NewEncounter rolls the ordinary fixture's initiative without model input.
@@ -69,12 +71,12 @@ func NewEncounter(player, foe EncounterActor, dexterity int, dice srd521.Dice) (
 		return nil, fmt.Errorf("invalid initiative dice")
 	}
 	player.Player, player.Initiative, player.InitiativeDie = true, p+dexterity, p
-	foe.Initiative, foe.InitiativeDie = n, n
+	foe.Initiative, foe.InitiativeDie = n+foe.Initiative, n
 	actors := []EncounterActor{player, foe}
 	if foe.Initiative > player.Initiative {
 		actors[0], actors[1] = foe, player
 	}
-	return &Encounter{Reaction: &ReactionState{Available: true}, ID: uuid.New(), Status: "active", Round: 1, Actors: actors, Budget: TurnBudget{Action: true, BonusAction: true, Movement: 30}}, nil
+	return &Encounter{Reaction: &ReactionState{Available: true}, ID: uuid.New(), Status: "active", Round: 1, Actors: actors, Budget: TurnBudget{Action: true, BonusAction: true, Movement: actorSpeed(actors[0])}}, nil
 }
 
 // Active returns the actor whose turn owns the budget.
@@ -93,7 +95,7 @@ func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 		}
 		e.Budget.Action = false
 		if kind == EncounterDash {
-			e.Budget.Movement += 30
+			e.Budget.Movement += actorSpeed(*e.Active())
 		}
 	case srd521.ConsumableUse:
 		if !e.Budget.BonusAction {
@@ -132,7 +134,7 @@ func (e *Encounter) Advance() {
 		e.Turn = 0
 		e.Round++
 	}
-	e.Budget = TurnBudget{Action: true, BonusAction: true, Movement: 30}
+	e.Budget = TurnBudget{Action: true, BonusAction: true, Movement: actorSpeed(*e.Active())}
 	if e.Active().Player && e.Reaction != nil {
 		e.Reaction.Available = true
 	}
@@ -167,4 +169,12 @@ func (e *Encounter) SpendSpell(actor uuid.UUID, bonus bool) error {
 	}
 	e.Budget.SpellSlotSpent = true
 	return nil
+}
+
+// actorSpeed keeps historical fixtures at 30 feet while honoring pinned actors.
+func actorSpeed(actor EncounterActor) int {
+	if actor.Speed > 0 {
+		return actor.Speed
+	}
+	return 30
 }

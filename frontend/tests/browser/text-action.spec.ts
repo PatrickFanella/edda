@@ -9,8 +9,22 @@ const athletics = {
   cost_status: 'requires-adjudication', source_ids: ['srd-5.2.1:content/d20-tests/ability-checks'],
 };
 
-for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
-  test(`prepares the exact SRD Athletics text at ${viewport.width}px without websocket fallback`, async ({ page, game }) => {
+for (const viewport of [{ width: 1440, height: 900, earlyFrame: false }, { width: 390, height: 844, earlyFrame: false }, { width: 390, height: 844, earlyFrame: true }]) {
+  test(`prepares the exact SRD Athletics text at ${viewport.width}px without websocket fallback${viewport.earlyFrame ? ' when a frame precedes the panel commit' : ''}`, async ({ page, game }) => {
+    if (viewport.earlyFrame) {
+      // A frame may run before React commits the newly selected panel. Model
+      // that ordering without relying on CPU load or wall-clock timing.
+      await page.addInitScript(() => {
+        const requestFrame = window.requestAnimationFrame.bind(window);
+        window.requestAnimationFrame = callback => {
+          if (document.querySelector('[role="tabpanel"][id$="-panel-character"][hidden]')) {
+            queueMicrotask(() => callback(performance.now()));
+            return 0;
+          }
+          return requestFrame(callback);
+        };
+      });
+    }
     await page.setViewportSize(viewport);
     await page.route('**/api/v1/campaigns/alpha', route => route.fulfill({ json: { ...campaign(), rules_mode: 'crunch', rules_version: 'srd-5.2.1' } }));
     await page.route('**/api/v1/campaigns/alpha/character', route => route.fulfill({ json: { ...character(), rules_version: 'srd-5.2.1', sheet: fixture.sheet } }));
