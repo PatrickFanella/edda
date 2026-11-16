@@ -13,9 +13,31 @@ func characterFixture(t *testing.T) CharacterCatalogue {
 	if err != nil {
 		t.Fatal(err)
 	}
-	c, err := DecodeCharacterCatalogue(strings.NewReader(string(b)))
-	if err != nil {
+	var reference struct {
+		Catalogue string   `json:"catalogue"`
+		RecordIDs []string `json:"record_ids"`
+	}
+	if err := json.Unmarshal(b, &reference); err != nil {
 		t.Fatal(err)
+	}
+	if reference.Catalogue != "character-fighter.json" {
+		t.Fatal("unexpected canonical fixture")
+	}
+	c := fighterCatalogue(t)
+	all := c.Records
+	c.Records = nil
+	for _, id := range reference.RecordIDs {
+		found := false
+		for _, r := range all {
+			if r.ID == id {
+				c.Records = append(c.Records, r)
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Fatalf("missing fixture reference %s", id)
+		}
 	}
 	return c
 }
@@ -26,7 +48,7 @@ func TestCharacterCatalogueFighterOne(t *testing.T) {
 	if err := c.Validate(repo); err != nil {
 		t.Fatal(err)
 	}
-	if len(c.Records) != 8 {
+	if len(c.Records) != 11 {
 		t.Fatalf("fixture widened: %d records", len(c.Records))
 	}
 	levels, features := 0, 0
@@ -140,7 +162,7 @@ func TestCharacterCatalogueKeysStayUnavailable(t *testing.T) {
 			t.Fatalf("unknown key available: %q", key)
 		}
 	}
-	c.Records[0].RequiredMechanics = []string{"srd-5.2.1:mechanic/unknown-feature"}
+	c.Records[0].RequiredMechanics = append([]string{"srd-5.2.1:mechanic/unknown-feature"}, c.Records[0].RequiredMechanics...)
 	if err := c.ValidateReadiness(os.DirFS("../../..")); err == nil || !strings.Contains(err.Error(), "unknown-feature") {
 		t.Fatalf("unexpected readiness: %v", err)
 	}

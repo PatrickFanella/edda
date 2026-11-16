@@ -1,10 +1,13 @@
 # Character metadata contract
 
 Issue #284 adds an offline contract in `internal/rules/srd521/catalogue.go`.
-It does not load a runtime catalogue. The initial source-derived fixture is
-`internal/rules/srd521/testdata/character-fighter1.json`: one Fighter class,
-one level-one row, three feature headings, two choice domains and one resource.
-It is a schema example, not a complete Fighter import or playable build.
+It does not load a runtime catalogue. The canonical Fighter data is now in
+`internal/rules/srd521/testdata/character-fighter.json` (#290).
+`character-fighter1.json` explicitly references its level-one subset: one class,
+one level row, three features, five choices and one resource. The original eight
+contract identities are reused; three core-trait choices complete that subset.
+The reference file is a test composition manifest, not a `CharacterCatalogue`.
+Neither fixture is a playable build.
 
 `CharacterCatalogue` has schema version 1, a pinned `Source`, and tagged
 `CharacterRecord` records. The supported kinds are `class`, `level`, `feature`,
@@ -22,7 +25,8 @@ keys naming source-defined option domains. A resource has a positive capacity;
 recovery rules remain required mechanic keys. A prerequisite has a required
 predicate key, stable record operands and named integer parameters. Parameters
 are uninterpreted metadata until a separately qualified implementation exists.
-This PR imports no prerequisite predicates or adjacent origin/feat/subclass data.
+Fighter choices retain opaque feat-qualification and usable-weapon-mastery
+predicates. Adjacent origin, feat and subclass definitions remain separate.
 
 `DecodeCharacterCatalogue` rejects unknown JSON fields and trailing objects.
 `Validate(repo)` checks structure, pin, attribution, adaptation notice, exact
@@ -55,7 +59,7 @@ license. See [the source pin and attribution](srd-5.2.1-conformance.md).
 
 ## Offline proof
 
-`TestCharacterCatalogueFighterOne` checks the sole fixture and refuses readiness.
+`TestCharacterCatalogueFighterOne` checks the composed level-one fixture and refuses readiness.
 `TestCharacterCatalogueRejectsInvalidMetadata` covers duplicate IDs, invalid
 levels, missing/mismatched source links, license/pin/notice changes, invalid
 parent/choice/resource/prerequisite links and malformed required keys.
@@ -123,3 +127,61 @@ fixture and pinned inventory. Normal Go fixtures use an independent numeric
 transcription and need neither the PDF nor Poppler. These checks establish data
 completeness, not runtime advancement qualification. No database, handler or UI
 mutation is involved.
+
+
+## Fighter catalogue (#290)
+
+`character-fighter.json` records exactly Fighter and its 15 named class feature
+identities, linked to the inventory on PDF pages 47–48. Its 20 class-owned
+`level` rows preserve the p47 Fighter Features table. The `progression` object
+records proficiency bonus, feature references and unresolved feature keys.
+Repeated ASI, Action Surge and Indomitable grants reference their original
+feature IDs. Subclass improvement slots at 7/10/15/18 require an unavailable key;
+Champion is only a named subclass choice domain. No Champion feature is imported.
+Global `advancement` records and their XP thresholds remain independent.
+
+The additive schema-version-1 fields are metadata only:
+
+- `values_by_level` records each applicable resource capacity or choice count.
+  Second Wind is 2/3/4 uses at levels 1/4/10. Weapon Mastery is 3/4/5/6 selections
+  at levels 1/4/10/16. Action Surge is 1/2 uses at levels 2/17; Indomitable is
+  1/2/3 uses at levels 9/13/17. Every applicable level has an explicit value.
+- `options` retains the A/B/C starting-equipment bundles and exact quantities.
+  Core skills retain all nine options and a selection count of two. Fighting
+  Style, mastery, subclass, ASI, Tactical Master and Epic Boon retain their
+  source domains and selection counts. Recommendations and replacement rules
+  have mechanic keys. Referenced feat and weapon catalogues are not copied.
+- `parameters` retains the d10 Hit Point Die and the 2/3/4 attacks of the three
+  Extra Attack features. Each numeric or quantity key must also appear in
+  `required_mechanics`. These values never change a character or action.
+- A `prerequisite` may now belong to a choice. Existing owner-reference,
+  same-source, duplicate, predicate and parent-cycle checks still apply.
+  Choice/resource parenting otherwise retains the original restrictions.
+
+Progression grants must resolve to features of the same class at the current
+or an earlier level. Counts require positive values, strictly increasing levels
+within 1–20 and an initial value matching `select` or `capacity`. Equipment
+alternatives must name a declared option key, retain positive quantities and
+require every quantity key. Readiness continues to reject every mechanic key.
+
+`catalogue_fighter_test.go` asserts exact identities/pages, all 20 progression
+rows, repeated grants, resource and mastery counts, nested qualification,
+equipment alternatives and canonical level-one composition. Negative fixtures
+exercise malformed progression, future/missing grants, counts, parameters,
+quantities, unavailable keys and JSON-supplied support. The original guard
+fixtures and global advancement tests continue to run.
+
+For direct source comparison, run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_fighter.py /tmp/edda-wave1/SRD_CC_v5.2.1.pdf
+```
+
+The verifier checks the artifact SHA-256, all 16 inventory identities/pages,
+all 20 extracted table rows including feature labels and resource annotations,
+and text anchors for nested source choices. Go fixtures independently check
+exact choice domains, quantities and predicates. The source was also read
+locally on pp47–48. These checks establish this data batch's completeness;
+they do not evaluate feat eligibility, resolve adjacent catalogues or qualify
+creation, advancement, actions, Champion mechanics or Full Rules. The catalogue
+retains CC-BY-4.0 attribution and its adaptation notice.

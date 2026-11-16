@@ -48,9 +48,37 @@ type CharacterRecord struct {
 	Capacity int `json:"capacity"`
 	// Advancement holds global character-level table values, never class progression.
 	Advancement *CharacterAdvancement `json:"advancement,omitempty"`
+	// Progression describes a class table row, independently of global XP.
+	Progression *CharacterClassProgression `json:"progression,omitempty"`
+	// ValuesByLevel records a choice count or resource capacity at each applicable level.
+	ValuesByLevel []CharacterLevelValue `json:"values_by_level,omitempty"`
+	// Options retain quantities within alternative equipment bundles.
+	Options []CharacterChoiceOption `json:"options,omitempty"`
+	// Parameters retain uninterpreted numeric class or feature metadata.
+	Parameters map[string]int `json:"parameters,omitempty"`
 	// Requirement is an unevaluated prerequisite predicate. Its key must also
 	// appear in RequiredMechanics. Parameters are source metadata, never code.
 	Requirement *CharacterRequirement `json:"requirement,omitempty"`
+}
+
+// CharacterClassProgression records grants from a class table, never XP thresholds.
+type CharacterClassProgression struct {
+	ProficiencyBonus int      `json:"proficiency_bonus"`
+	FeatureRefs      []string `json:"feature_refs"`
+	FeatureKeys      []string `json:"feature_keys"`
+}
+
+// CharacterLevelValue is a count at an explicit class level, not a runtime value.
+type CharacterLevelValue struct {
+	Level int `json:"level"`
+	Value int `json:"value"`
+}
+
+// CharacterChoiceOption retains one alternative and its source quantities.
+// Quantity keys are required mechanic keys, not resolved item effects.
+type CharacterChoiceOption struct {
+	Key        string         `json:"key"`
+	Quantities map[string]int `json:"quantities"`
 }
 
 // CharacterAdvancement records source numbers. Pointers distinguish an omitted
@@ -236,11 +264,25 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 		} else if r.Requirement != nil {
 			return fmt.Errorf("%s: predicate on non-prerequisite", r.ID)
 		}
+		if err := validateClassMetadata(r); err != nil {
+			return err
+		}
 		records[r.ID] = r
 	}
 	edges := map[string][]string{}
 	for _, r := range c.Records {
 		parent := records[r.ParentID]
+		if r.Progression != nil {
+			seen := map[string]bool{}
+			for _, id := range r.Progression.FeatureRefs {
+				target := records[id]
+				owner := records[target.ParentID]
+				if target.Kind != "feature" || owner.Kind != "level" || owner.ParentID != r.ParentID || owner.Level > r.Level || seen[id] {
+					return fmt.Errorf("%s: invalid progression feature", r.ID)
+				}
+				seen[id] = true
+			}
+		}
 		allowed := false
 		switch r.Kind {
 		case "advancement", "class", "origin", "feat":
@@ -249,8 +291,10 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 			allowed = parent.Kind == "class"
 		case "feature":
 			allowed = parent.Kind == "level" || parent.Kind == "subclass"
-		case "choice", "resource", "prerequisite":
+		case "choice", "resource":
 			allowed = parent.ID != "" && parent.Kind != "choice" && parent.Kind != "resource" && parent.Kind != "prerequisite"
+		case "prerequisite":
+			allowed = parent.ID != "" && parent.Kind != "resource" && parent.Kind != "prerequisite"
 		}
 		if !allowed {
 			return fmt.Errorf("%s: missing or invalid parent", r.ID)
@@ -326,6 +370,17 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 	// headings must describe the same class/level as the record's ancestry.
 	for _, r := range c.Records {
 		parent := records[r.ParentID]
+		if len(r.ValuesByLevel) > 0 {
+			owner := parent
+			for owner.ID != "" && owner.Kind != "level" {
+				owner = records[owner.ParentID]
+			}
+			for _, value := range r.ValuesByLevel {
+				if value.Level < owner.Level {
+					return fmt.Errorf("%s: level count precedes owning feature", r.ID)
+				}
+			}
+		}
 		for _, source := range r.Sources {
 			switch r.Kind {
 			case "level", "choice", "resource", "prerequisite":
@@ -388,3 +443,71 @@ func (c CharacterCatalogue) ValidateReadiness(repo fs.FS) error {
 }
 
 func qualifiedCharacterMechanic(string) bool { return false }
+
+func validateClassMetadata(r CharacterRecord) error {
+	required := map[string]bool{}
+	for _, key := range r.RequiredMechanics {
+		required[key] = true
+	}
+	if p := r.Progression; p != nil {
+		if r.Kind != "level" || p.ProficiencyBonus < 2 || p.ProficiencyBonus > 6 || p.FeatureRefs == nil || p.FeatureKeys == nil {
+			return fmt.Errorf("%s: invalid class progression", r.ID)
+		}
+		seen := map[string]bool{}
+		for _, key := range p.FeatureKeys {
+			if !required[key] || seen[key] {
+				return fmt.Errorf("%s: progression key must be required and unique", r.ID)
+			}
+			seen[key] = true
+		}
+	}
+	if len(r.ValuesByLevel) > 0 {
+		if r.Kind != "resource" && r.Kind != "choice" {
+			return fmt.Errorf("%s: level counts require resource or choice", r.ID)
+		}
+		previous := 0
+		for _, v := range r.ValuesByLevel {
+			if v.Level <= previous || v.Level > 20 || v.Value < 1 {
+				return fmt.Errorf("%s: invalid level count", r.ID)
+			}
+			previous = v.Level
+		}
+		initial := r.Capacity
+		if r.Kind == "choice" {
+			initial = r.Select
+		}
+		if r.ValuesByLevel[0].Value != initial {
+			return fmt.Errorf("%s: initial count mismatch", r.ID)
+		}
+	}
+	seen := map[string]bool{}
+	for _, option := range r.Options {
+		if r.Kind != "choice" || seen[option.Key] {
+			return fmt.Errorf("%s: invalid option", r.ID)
+		}
+		found := false
+		for _, key := range r.OptionKeys {
+			if key == option.Key {
+				found = true
+			}
+		}
+		if !found || len(option.Quantities) == 0 {
+			return fmt.Errorf("%s: option needs domain and quantities", r.ID)
+		}
+		seen[option.Key] = true
+		for key, value := range option.Quantities {
+			if !required[key] || value < 1 {
+				return fmt.Errorf("%s: quantity key must be required", r.ID)
+			}
+		}
+	}
+	if len(r.Parameters) > 0 && r.Kind != "class" && r.Kind != "feature" {
+		return fmt.Errorf("%s: parameters require class or feature", r.ID)
+	}
+	for key, value := range r.Parameters {
+		if !required[key] || value < 1 {
+			return fmt.Errorf("%s: parameter key must be required", r.ID)
+		}
+	}
+	return nil
+}
