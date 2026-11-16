@@ -1,0 +1,2736 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Sorcerer identities, complete progression, choices, resources and conditions from PDF pp64-66 adapted as unavailable metadata. Mechanic keys and graph are Edda additions. Metamagic option and subclass definitions remain separate; no executable support."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/class/sorcerer",
+      "kind": "class",
+      "name": "Sorcerer",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/entry"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/primary-ability/charisma",
+        "srd-5.2.1:mechanic/sorcerer/hit-die-sides",
+        "srd-5.2.1:mechanic/saving-throws/constitution",
+        "srd-5.2.1:mechanic/saving-throws/charisma",
+        "srd-5.2.1:mechanic/weapons/simple",
+        "srd-5.2.1:mechanic/sorcerer/armor-training/none"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/hit-die-sides": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/entry",
+      "kind": "choice",
+      "name": "Entry",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/first-class-traits",
+        "srd-5.2.1:character/choice/sorcerer/multiclass-traits"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/entry"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/sorcerer/entry/first-class",
+        "srd-5.2.1:mechanic/sorcerer/entry/multiclass"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/first-class-traits",
+      "kind": "choice",
+      "name": "First Class Traits",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/entry",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/skills",
+        "srd-5.2.1:character/choice/sorcerer/starting-equipment"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/first-class-entry"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/first-class-traits"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/sorcerer/all-core-traits-and-level-one-features"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/first-class-entry",
+      "kind": "prerequisite",
+      "name": "First Class Entry",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/first-class-traits",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/first-class-entry-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/first-class-entry-only",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/entry",
+          "srd-5.2.1:character/class/sorcerer"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/multiclass-traits",
+      "kind": "choice",
+      "name": "Multiclass Traits",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/entry",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/multiclass-entry"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/multiclass-traits",
+        "srd-5.2.1:mechanic/sorcerer/multiclass/use-multiclass-spell-slot-rules"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/sorcerer/hit-die-and-level-one-features"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/multiclass-entry",
+      "kind": "prerequisite",
+      "name": "Multiclass Entry",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/multiclass-traits",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/multiclass-entry-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/multiclass-entry-only",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/entry",
+          "srd-5.2.1:character/class/sorcerer"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/skills",
+      "kind": "choice",
+      "name": "Skills",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/first-class-traits",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/skills"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/arcana",
+        "srd-5.2.1:mechanic/skills/deception",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/intimidation",
+        "srd-5.2.1:mechanic/skills/persuasion",
+        "srd-5.2.1:mechanic/skills/religion"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/starting-equipment",
+      "kind": "choice",
+      "name": "Starting Equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/first-class-traits",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/spear",
+        "srd-5.2.1:mechanic/equipment/dagger",
+        "srd-5.2.1:mechanic/equipment/arcane-focus-crystal",
+        "srd-5.2.1:mechanic/equipment/dungeoneers-pack",
+        "srd-5.2.1:mechanic/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/sorcerer/equipment/a",
+        "srd-5.2.1:mechanic/sorcerer/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/sorcerer/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/spear": 1,
+            "srd-5.2.1:mechanic/equipment/dagger": 2,
+            "srd-5.2.1:mechanic/equipment/arcane-focus-crystal": 1,
+            "srd-5.2.1:mechanic/equipment/dungeoneers-pack": 1,
+            "srd-5.2.1:mechanic/currency/gp": 28
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/sorcerer/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/currency/gp": 50
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/1",
+      "kind": "level",
+      "name": "Sorcerer level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 1,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/feature/sorcerer/innate-sorcery"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "kind": "feature",
+      "name": "Spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/sorcerer/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/cantrips",
+        "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/sorcerer/spell-slot-1",
+        "srd-5.2.1:character/resource/sorcerer/spell-slot-2",
+        "srd-5.2.1:character/resource/sorcerer/spell-slot-3",
+        "srd-5.2.1:character/resource/sorcerer/spell-slot-4",
+        "srd-5.2.1:character/resource/sorcerer/spell-slot-5",
+        "srd-5.2.1:character/resource/sorcerer/spell-slot-6",
+        "srd-5.2.1:character/resource/sorcerer/spell-slot-7",
+        "srd-5.2.1:character/resource/sorcerer/spell-slot-8",
+        "srd-5.2.1:character/resource/sorcerer/spell-slot-9"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spellcasting/charisma",
+        "srd-5.2.1:mechanic/sorcerer/spellcasting/arcane-focus",
+        "srd-5.2.1:mechanic/sorcerer/spellcasting/always-prepared-excluded-still-sorcerer-spells",
+        "srd-5.2.1:mechanic/sorcerer/recommended-cantrip/light",
+        "srd-5.2.1:mechanic/sorcerer/recommended-cantrip/prestidigitation",
+        "srd-5.2.1:mechanic/sorcerer/recommended-cantrip/shocking-grasp",
+        "srd-5.2.1:mechanic/sorcerer/recommended-cantrip/sorcerous-burst",
+        "srd-5.2.1:mechanic/sorcerer/recommended-spell/burning-hands",
+        "srd-5.2.1:mechanic/sorcerer/recommended-spell/detect-magic",
+        "srd-5.2.1:mechanic/sorcerer/spellcasting/level-gain-replace-one-sorcerer-cantrip",
+        "srd-5.2.1:mechanic/sorcerer/cantrip-replacements",
+        "srd-5.2.1:mechanic/sorcerer/spellcasting/level-gain-replace-one-eligible-sorcerer-spell",
+        "srd-5.2.1:mechanic/sorcerer/prepared-replacements",
+        "srd-5.2.1:mechanic/sorcerer/feature/spellcasting"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/cantrip-replacements": 1,
+        "srd-5.2.1:mechanic/sorcerer/prepared-replacements": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/innate-sorcery",
+      "kind": "feature",
+      "name": "Innate Sorcery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-innate-sorcery",
+          "page": 65
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/sorcerer/1",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/sorcerer/innate-sorcery"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/innate-sorcery/bonus-action",
+        "srd-5.2.1:mechanic/sorcerer/duration-minutes",
+        "srd-5.2.1:mechanic/sorcerer/innate-sorcery/sorcerer-spell-save-dc-increase",
+        "srd-5.2.1:mechanic/sorcerer/save-dc-increase",
+        "srd-5.2.1:mechanic/sorcerer/innate-sorcery/advantage-sorcerer-spell-attacks",
+        "srd-5.2.1:mechanic/sorcerer/feature/innate-sorcery"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/duration-minutes": 1,
+        "srd-5.2.1:mechanic/sorcerer/save-dc-increase": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/2",
+      "kind": "level",
+      "name": "Sorcerer level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 2,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/font-of-magic",
+          "srd-5.2.1:character/feature/sorcerer/metamagic"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/font-of-magic",
+      "kind": "feature",
+      "name": "Font of Magic",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-2-font-of-magic",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/sorcerer/2",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/sorcerer/sorcery-points"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/font-of-magic/capped-at-table-maximum",
+        "srd-5.2.1:mechanic/sorcerer/font-of-magic/expend-slot-gain-slot-level-points-no-action",
+        "srd-5.2.1:mechanic/sorcerer/font-of-magic/bonus-action-spend-unexpended-points-create-slot",
+        "srd-5.2.1:mechanic/sorcerer/created-slots-per-conversion",
+        "srd-5.2.1:mechanic/sorcerer/font-of-magic/maximum-created-slot-level",
+        "srd-5.2.1:mechanic/sorcerer/maximum-created-slot-level",
+        "srd-5.2.1:mechanic/sorcerer/font-of-magic/created-slot-vanishes-long-rest",
+        "srd-5.2.1:mechanic/sorcerer/create-slot-1-sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/create-slot-1-minimum-sorcerer-level",
+        "srd-5.2.1:mechanic/sorcerer/create-slot-2-sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/create-slot-2-minimum-sorcerer-level",
+        "srd-5.2.1:mechanic/sorcerer/create-slot-3-sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/create-slot-3-minimum-sorcerer-level",
+        "srd-5.2.1:mechanic/sorcerer/create-slot-4-sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/create-slot-4-minimum-sorcerer-level",
+        "srd-5.2.1:mechanic/sorcerer/create-slot-5-sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/create-slot-5-minimum-sorcerer-level",
+        "srd-5.2.1:mechanic/sorcerer/feature/font-of-magic"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/created-slots-per-conversion": 1,
+        "srd-5.2.1:mechanic/sorcerer/maximum-created-slot-level": 5,
+        "srd-5.2.1:mechanic/sorcerer/create-slot-1-sorcery-point-cost": 2,
+        "srd-5.2.1:mechanic/sorcerer/create-slot-1-minimum-sorcerer-level": 2,
+        "srd-5.2.1:mechanic/sorcerer/create-slot-2-sorcery-point-cost": 3,
+        "srd-5.2.1:mechanic/sorcerer/create-slot-2-minimum-sorcerer-level": 3,
+        "srd-5.2.1:mechanic/sorcerer/create-slot-3-sorcery-point-cost": 5,
+        "srd-5.2.1:mechanic/sorcerer/create-slot-3-minimum-sorcerer-level": 5,
+        "srd-5.2.1:mechanic/sorcerer/create-slot-4-sorcery-point-cost": 6,
+        "srd-5.2.1:mechanic/sorcerer/create-slot-4-minimum-sorcerer-level": 7,
+        "srd-5.2.1:mechanic/sorcerer/create-slot-5-sorcery-point-cost": 7,
+        "srd-5.2.1:mechanic/sorcerer/create-slot-5-minimum-sorcerer-level": 9
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic",
+      "kind": "feature",
+      "name": "Metamagic",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-2-metamagic",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/sorcerer/2",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/metamagic"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/chosen-options-modify-own-cast-spells",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/spend-option-sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/one-per-spell-unless-option-exception",
+        "srd-5.2.1:mechanic/sorcerer/options-per-spell",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/level-gain-replace-one-with-unknown-option",
+        "srd-5.2.1:mechanic/sorcerer/replacements",
+        "srd-5.2.1:mechanic/sorcerer/feature/metamagic"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/options-per-spell": 1,
+        "srd-5.2.1:mechanic/sorcerer/replacements": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/3",
+      "kind": "level",
+      "name": "Sorcerer level 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 3,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/sorcerer-subclass"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/sorcerer-subclass",
+      "kind": "feature",
+      "name": "Sorcerer Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-3-sorcerer-subclass",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/sorcerer/3",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/subclass"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/feature/sorcerer-subclass"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/4",
+      "kind": "level",
+      "name": "Sorcerer level 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 4,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/ability-score-improvement",
+      "kind": "feature",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-4-ability-score-improvement",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/sorcerer/4",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/ability-score-improvement"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/feature/ability-score-improvement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/5",
+      "kind": "level",
+      "name": "Sorcerer level 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 5,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/sorcerous-restoration"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/sorcerous-restoration",
+      "kind": "feature",
+      "name": "Sorcerous Restoration",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-5-sorcerous-restoration",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/sorcerer/5",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/sorcerer/sorcerous-restoration"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/restoration/optional-short-rest-recover-expended-points",
+        "srd-5.2.1:mechanic/sorcerer/restoration/maximum-half-sorcerer-level-round-down",
+        "srd-5.2.1:mechanic/sorcerer/recovery-level-divisor",
+        "srd-5.2.1:mechanic/sorcerer/restoration/once-until-long-rest",
+        "srd-5.2.1:mechanic/sorcerer/feature/sorcerous-restoration"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/recovery-level-divisor": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/6",
+      "kind": "level",
+      "name": "Sorcerer level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 6,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression",
+        "srd-5.2.1:mechanic/sorcerer/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/sorcerer/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/7",
+      "kind": "level",
+      "name": "Sorcerer level 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 7,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/sorcery-incarnate"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/sorcery-incarnate",
+      "kind": "feature",
+      "name": "Sorcery Incarnate",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-7-sorcery-incarnate",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/sorcerer/7",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/incarnate-no-uses",
+        "srd-5.2.1:character/prerequisite/sorcerer/incarnate-active"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/incarnate/spend-points-bonus-action-activate-innate-sorcery",
+        "srd-5.2.1:mechanic/sorcerer/sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/incarnate/innate-active-two-metamagic-options-per-spell",
+        "srd-5.2.1:mechanic/sorcerer/options-per-spell",
+        "srd-5.2.1:mechanic/sorcerer/feature/sorcery-incarnate"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/sorcery-point-cost": 2,
+        "srd-5.2.1:mechanic/sorcerer/options-per-spell": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/8",
+      "kind": "level",
+      "name": "Sorcerer level 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 8,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/9",
+      "kind": "level",
+      "name": "Sorcerer level 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 9,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/10",
+      "kind": "level",
+      "name": "Sorcerer level 10",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 10,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/metamagic"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/11",
+      "kind": "level",
+      "name": "Sorcerer level 11",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 11,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/12",
+      "kind": "level",
+      "name": "Sorcerer level 12",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 12,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/13",
+      "kind": "level",
+      "name": "Sorcerer level 13",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 13,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/14",
+      "kind": "level",
+      "name": "Sorcerer level 14",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 14,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression",
+        "srd-5.2.1:mechanic/sorcerer/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/sorcerer/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/15",
+      "kind": "level",
+      "name": "Sorcerer level 15",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 15,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/16",
+      "kind": "level",
+      "name": "Sorcerer level 16",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 16,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/17",
+      "kind": "level",
+      "name": "Sorcerer level 17",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 17,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/metamagic"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/18",
+      "kind": "level",
+      "name": "Sorcerer level 18",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 18,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression",
+        "srd-5.2.1:mechanic/sorcerer/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/sorcerer/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/19",
+      "kind": "level",
+      "name": "Sorcerer level 19",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 19,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/epic-boon"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/epic-boon",
+      "kind": "feature",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-19-epic-boon",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/sorcerer/19",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/epic-boon"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/recommended-feat/boon-of-dimensional-travel",
+        "srd-5.2.1:mechanic/sorcerer/feature/epic-boon"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/level/sorcerer/20",
+      "kind": "level",
+      "name": "Sorcerer level 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 20,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/class-progression"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/sorcerer/arcane-apotheosis"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/arcane-apotheosis",
+      "kind": "feature",
+      "name": "Arcane Apotheosis",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-20-arcane-apotheosis",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/sorcerer/20",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/apotheosis-active"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/apotheosis/waive-one-option-point-cost-each-own-turn",
+        "srd-5.2.1:mechanic/sorcerer/free-options-per-own-turn",
+        "srd-5.2.1:mechanic/sorcerer/feature/arcane-apotheosis"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/free-options-per-own-turn": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/cantrips",
+      "kind": "choice",
+      "name": "Cantrips",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/cantrips"
+      ],
+      "select": 4,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/sorcerer-cantrips"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 4
+        },
+        {
+          "level": 2,
+          "value": 4
+        },
+        {
+          "level": 3,
+          "value": 4
+        },
+        {
+          "level": 4,
+          "value": 5
+        },
+        {
+          "level": 5,
+          "value": 5
+        },
+        {
+          "level": 6,
+          "value": 5
+        },
+        {
+          "level": 7,
+          "value": 5
+        },
+        {
+          "level": 8,
+          "value": 5
+        },
+        {
+          "level": 9,
+          "value": 5
+        },
+        {
+          "level": 10,
+          "value": 6
+        },
+        {
+          "level": 11,
+          "value": 6
+        },
+        {
+          "level": 12,
+          "value": 6
+        },
+        {
+          "level": 13,
+          "value": 6
+        },
+        {
+          "level": 14,
+          "value": 6
+        },
+        {
+          "level": 15,
+          "value": 6
+        },
+        {
+          "level": 16,
+          "value": 6
+        },
+        {
+          "level": 17,
+          "value": 6
+        },
+        {
+          "level": 18,
+          "value": 6
+        },
+        {
+          "level": 19,
+          "value": 6
+        },
+        {
+          "level": 20,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/prepared-spells",
+      "kind": "choice",
+      "name": "Prepared Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/prepared-slot-level",
+        "srd-5.2.1:character/prerequisite/sorcerer/initial-prepared-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spellcasting/prepare-to-table-count-on-increase"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/sorcerer-list"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 4
+        },
+        {
+          "level": 3,
+          "value": 6
+        },
+        {
+          "level": 4,
+          "value": 7
+        },
+        {
+          "level": 5,
+          "value": 9
+        },
+        {
+          "level": 6,
+          "value": 10
+        },
+        {
+          "level": 7,
+          "value": 11
+        },
+        {
+          "level": 8,
+          "value": 12
+        },
+        {
+          "level": 9,
+          "value": 14
+        },
+        {
+          "level": 10,
+          "value": 15
+        },
+        {
+          "level": 11,
+          "value": 16
+        },
+        {
+          "level": 12,
+          "value": 16
+        },
+        {
+          "level": 13,
+          "value": 17
+        },
+        {
+          "level": 14,
+          "value": 17
+        },
+        {
+          "level": 15,
+          "value": 18
+        },
+        {
+          "level": 16,
+          "value": 18
+        },
+        {
+          "level": 17,
+          "value": 19
+        },
+        {
+          "level": 18,
+          "value": 20
+        },
+        {
+          "level": 19,
+          "value": 21
+        },
+        {
+          "level": 20,
+          "value": 22
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/prepared-slot-level",
+      "kind": "prerequisite",
+      "name": "Prepared Slot Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/prepared-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spell-level-with-available-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/spell-level-with-available-slot",
+        "record_refs": [
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {
+          "minimum-spell-level": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/initial-prepared-level",
+      "kind": "prerequisite",
+      "name": "Initial Prepared Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/prepared-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/initial-selection-level-one-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/initial-selection-level-one-only",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {
+          "spell-level": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/spell-slot-1",
+      "kind": "resource",
+      "name": "Spell Slot 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spell-slot-1/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 3
+        },
+        {
+          "level": 3,
+          "value": 4
+        },
+        {
+          "level": 4,
+          "value": 4
+        },
+        {
+          "level": 5,
+          "value": 4
+        },
+        {
+          "level": 6,
+          "value": 4
+        },
+        {
+          "level": 7,
+          "value": 4
+        },
+        {
+          "level": 8,
+          "value": 4
+        },
+        {
+          "level": 9,
+          "value": 4
+        },
+        {
+          "level": 10,
+          "value": 4
+        },
+        {
+          "level": 11,
+          "value": 4
+        },
+        {
+          "level": 12,
+          "value": 4
+        },
+        {
+          "level": 13,
+          "value": 4
+        },
+        {
+          "level": 14,
+          "value": 4
+        },
+        {
+          "level": 15,
+          "value": 4
+        },
+        {
+          "level": 16,
+          "value": 4
+        },
+        {
+          "level": 17,
+          "value": 4
+        },
+        {
+          "level": 18,
+          "value": 4
+        },
+        {
+          "level": 19,
+          "value": 4
+        },
+        {
+          "level": 20,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/spell-slot-2",
+      "kind": "resource",
+      "name": "Spell Slot 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spell-slot-2/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 3
+        },
+        {
+          "level": 5,
+          "value": 3
+        },
+        {
+          "level": 6,
+          "value": 3
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/spell-slot-3",
+      "kind": "resource",
+      "name": "Spell Slot 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spell-slot-3/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 5,
+          "value": 2
+        },
+        {
+          "level": 6,
+          "value": 3
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/spell-slot-4",
+      "kind": "resource",
+      "name": "Spell Slot 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spell-slot-4/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 7,
+          "value": 1
+        },
+        {
+          "level": 8,
+          "value": 2
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 3
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 3
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/spell-slot-5",
+      "kind": "resource",
+      "name": "Spell Slot 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spell-slot-5/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 9,
+          "value": 1
+        },
+        {
+          "level": 10,
+          "value": 2
+        },
+        {
+          "level": 11,
+          "value": 2
+        },
+        {
+          "level": 12,
+          "value": 2
+        },
+        {
+          "level": 13,
+          "value": 2
+        },
+        {
+          "level": 14,
+          "value": 2
+        },
+        {
+          "level": 15,
+          "value": 2
+        },
+        {
+          "level": 16,
+          "value": 2
+        },
+        {
+          "level": 17,
+          "value": 2
+        },
+        {
+          "level": 18,
+          "value": 3
+        },
+        {
+          "level": 19,
+          "value": 3
+        },
+        {
+          "level": 20,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/spell-slot-6",
+      "kind": "resource",
+      "name": "Spell Slot 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spell-slot-6/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 11,
+          "value": 1
+        },
+        {
+          "level": 12,
+          "value": 1
+        },
+        {
+          "level": 13,
+          "value": 1
+        },
+        {
+          "level": 14,
+          "value": 1
+        },
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 2
+        },
+        {
+          "level": 20,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/spell-slot-7",
+      "kind": "resource",
+      "name": "Spell Slot 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spell-slot-7/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 13,
+          "value": 1
+        },
+        {
+          "level": 14,
+          "value": 1
+        },
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/spell-slot-8",
+      "kind": "resource",
+      "name": "Spell Slot 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spell-slot-8/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/spell-slot-9",
+      "kind": "resource",
+      "name": "Spell Slot 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-spellcasting",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/spellcasting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/spell-slot-9/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/innate-sorcery",
+      "kind": "resource",
+      "name": "Innate Sorcery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-1-innate-sorcery",
+          "page": 65
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/innate-sorcery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/innate-sorcery/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 2
+        },
+        {
+          "level": 5,
+          "value": 2
+        },
+        {
+          "level": 6,
+          "value": 2
+        },
+        {
+          "level": 7,
+          "value": 2
+        },
+        {
+          "level": 8,
+          "value": 2
+        },
+        {
+          "level": 9,
+          "value": 2
+        },
+        {
+          "level": 10,
+          "value": 2
+        },
+        {
+          "level": 11,
+          "value": 2
+        },
+        {
+          "level": 12,
+          "value": 2
+        },
+        {
+          "level": 13,
+          "value": 2
+        },
+        {
+          "level": 14,
+          "value": 2
+        },
+        {
+          "level": 15,
+          "value": 2
+        },
+        {
+          "level": 16,
+          "value": 2
+        },
+        {
+          "level": 17,
+          "value": 2
+        },
+        {
+          "level": 18,
+          "value": 2
+        },
+        {
+          "level": 19,
+          "value": 2
+        },
+        {
+          "level": 20,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+      "kind": "resource",
+      "name": "Sorcery Points",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-2-font-of-magic",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/font-of-magic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/sorcery-points/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 3
+        },
+        {
+          "level": 4,
+          "value": 4
+        },
+        {
+          "level": 5,
+          "value": 5
+        },
+        {
+          "level": 6,
+          "value": 6
+        },
+        {
+          "level": 7,
+          "value": 7
+        },
+        {
+          "level": 8,
+          "value": 8
+        },
+        {
+          "level": 9,
+          "value": 9
+        },
+        {
+          "level": 10,
+          "value": 10
+        },
+        {
+          "level": 11,
+          "value": 11
+        },
+        {
+          "level": 12,
+          "value": 12
+        },
+        {
+          "level": 13,
+          "value": 13
+        },
+        {
+          "level": 14,
+          "value": 14
+        },
+        {
+          "level": 15,
+          "value": 15
+        },
+        {
+          "level": 16,
+          "value": 16
+        },
+        {
+          "level": 17,
+          "value": 17
+        },
+        {
+          "level": 18,
+          "value": 18
+        },
+        {
+          "level": 19,
+          "value": 19
+        },
+        {
+          "level": 20,
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "kind": "choice",
+      "name": "Metamagic",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-2-metamagic",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/metamagic/options"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 2
+        },
+        {
+          "level": 5,
+          "value": 2
+        },
+        {
+          "level": 6,
+          "value": 2
+        },
+        {
+          "level": 7,
+          "value": 2
+        },
+        {
+          "level": 8,
+          "value": 2
+        },
+        {
+          "level": 9,
+          "value": 2
+        },
+        {
+          "level": 10,
+          "value": 4
+        },
+        {
+          "level": 11,
+          "value": 4
+        },
+        {
+          "level": 12,
+          "value": 4
+        },
+        {
+          "level": 13,
+          "value": 4
+        },
+        {
+          "level": 14,
+          "value": 4
+        },
+        {
+          "level": 15,
+          "value": 4
+        },
+        {
+          "level": 16,
+          "value": 4
+        },
+        {
+          "level": 17,
+          "value": 6
+        },
+        {
+          "level": 18,
+          "value": 6
+        },
+        {
+          "level": 19,
+          "value": 6
+        },
+        {
+          "level": 20,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/subclass",
+      "kind": "choice",
+      "name": "Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-3-sorcerer-subclass",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/sorcerer-subclass",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/subclass",
+        "srd-5.2.1:mechanic/sorcerer/subclass/features-at-own-level-or-lower"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/subclasses/sorcerer",
+        "srd-5.2.1:mechanic/subclasses/sorcerer/draconic-sorcery"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/ability-score-improvement",
+      "kind": "choice",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-4-ability-score-improvement",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/ability-score-improvement-qualified"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/ability-score-improvement"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/ability-score-improvement-qualified",
+      "kind": "prerequisite",
+      "name": "Ability Score Improvement Qualified",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-4-ability-score-improvement",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/selected-feat-qualified"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/selected-feat-qualified",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/ability-score-improvement"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/epic-boon",
+      "kind": "choice",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-19-epic-boon",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/epic-boon-qualified"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/epic-boon"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/epic-boon",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/epic-boon-qualified",
+      "kind": "prerequisite",
+      "name": "Epic Boon Qualified",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-19-epic-boon",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/selected-feat-qualified"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/selected-feat-qualified",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/epic-boon"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/sorcerer/sorcerous-restoration",
+      "kind": "resource",
+      "name": "Sorcerous Restoration",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-5-sorcerous-restoration",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/sorcerous-restoration",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/sorcerous-restoration/long-rest-recover-all"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 5,
+          "value": 1
+        },
+        {
+          "level": 6,
+          "value": 1
+        },
+        {
+          "level": 7,
+          "value": 1
+        },
+        {
+          "level": 8,
+          "value": 1
+        },
+        {
+          "level": 9,
+          "value": 1
+        },
+        {
+          "level": 10,
+          "value": 1
+        },
+        {
+          "level": 11,
+          "value": 1
+        },
+        {
+          "level": 12,
+          "value": 1
+        },
+        {
+          "level": 13,
+          "value": 1
+        },
+        {
+          "level": 14,
+          "value": 1
+        },
+        {
+          "level": 15,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        },
+        {
+          "level": 17,
+          "value": 1
+        },
+        {
+          "level": 18,
+          "value": 1
+        },
+        {
+          "level": 19,
+          "value": 1
+        },
+        {
+          "level": 20,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/incarnate-no-uses",
+      "kind": "prerequisite",
+      "name": "Incarnate No Uses",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-7-sorcery-incarnate",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/sorcery-incarnate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/no-innate-sorcery-uses-left"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/no-innate-sorcery-uses-left",
+        "record_refs": [
+          "srd-5.2.1:character/feature/sorcerer/innate-sorcery"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/incarnate-active",
+      "kind": "prerequisite",
+      "name": "Incarnate Active",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-7-sorcery-incarnate",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/sorcery-incarnate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/innate-sorcery-active"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/innate-sorcery-active",
+        "record_refs": [
+          "srd-5.2.1:character/feature/sorcerer/innate-sorcery",
+          "srd-5.2.1:character/feature/sorcerer/metamagic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/apotheosis-active",
+      "kind": "prerequisite",
+      "name": "Apotheosis Active",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/sorcerer-level-20-arcane-apotheosis",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/arcane-apotheosis",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/innate-sorcery-active"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/innate-sorcery-active",
+        "record_refs": [
+          "srd-5.2.1:character/feature/sorcerer/innate-sorcery",
+          "srd-5.2.1:character/feature/sorcerer/metamagic"
+        ],
+        "parameters": {}
+      }
+    }
+  ]
+}
