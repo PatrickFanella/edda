@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Path of the Berserker and its four named features on PDF p30 adapted into offline metadata; mechanic keys, numeric parameters and prerequisites are Edda additions. Canonical Barbarian is referenced by a test composition manifest. No rule prose or executable mechanics imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/barbarian/berserker",
+      "kind": "subclass",
+      "name": "Path of the Berserker",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/barbarian-path-of-the-berserker",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/barbarian",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/barbarian/berserker/path-of-the-berserker-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/barbarian/subclasses/path-of-the-berserker"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/barbarian/berserker/path-of-the-berserker-level",
+      "kind": "prerequisite",
+      "name": "Path of the Berserker level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/barbarian-path-of-the-berserker",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/barbarian/berserker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/barbarian"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/barbarian/berserker/frenzy",
+      "kind": "feature",
+      "name": "Frenzy",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/barbarian-level-3-frenzy",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/barbarian/berserker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/barbarian/berserker/frenzy-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/barbarian/berserker/frenzy/requires-reckless-attack",
+        "srd-5.2.1:mechanic/barbarian/berserker/frenzy/requires-active-rage",
+        "srd-5.2.1:mechanic/barbarian/berserker/frenzy/first-target-hit-on-own-turn",
+        "srd-5.2.1:mechanic/barbarian/berserker/frenzy/strength-based-attack",
+        "srd-5.2.1:mechanic/barbarian/berserker/frenzy/extra-damage-dice-count-equals-rage-damage-bonus",
+        "srd-5.2.1:mechanic/barbarian/berserker/frenzy/extra-damage-sum-dice",
+        "srd-5.2.1:mechanic/barbarian/berserker/frenzy/damage-type-matches-weapon-or-unarmed-strike",
+        "srd-5.2.1:mechanic/barbarian/berserker/frenzy/damage-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/barbarian/berserker/frenzy/damage-die-sides": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/barbarian/berserker/frenzy-level",
+      "kind": "prerequisite",
+      "name": "Frenzy level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/barbarian-level-3-frenzy",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/barbarian/berserker/frenzy",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/barbarian"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/barbarian/berserker/mindless-rage",
+      "kind": "feature",
+      "name": "Mindless Rage",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/barbarian-level-6-mindless-rage",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/barbarian/berserker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/barbarian/berserker/mindless-rage-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/barbarian/berserker/mindless-rage/while-rage-active/immunity-charmed",
+        "srd-5.2.1:mechanic/barbarian/berserker/mindless-rage/while-rage-active/immunity-frightened",
+        "srd-5.2.1:mechanic/barbarian/berserker/mindless-rage/enter-rage/ends-charmed",
+        "srd-5.2.1:mechanic/barbarian/berserker/mindless-rage/enter-rage/ends-frightened"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/barbarian/berserker/mindless-rage-level",
+      "kind": "prerequisite",
+      "name": "Mindless Rage level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/barbarian-level-6-mindless-rage",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/barbarian/berserker/mindless-rage",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/barbarian"
+        ],
+        "parameters": {
+          "minimum-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/barbarian/berserker/retaliation",
+      "kind": "feature",
+      "name": "Retaliation",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/barbarian-level-10-retaliation",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/barbarian/berserker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/barbarian/berserker/retaliation-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/barbarian/berserker/retaliation/trigger-take-damage-from-creature",
+        "srd-5.2.1:mechanic/barbarian/berserker/retaliation/damaging-creature-within-range",
+        "srd-5.2.1:mechanic/barbarian/berserker/retaliation/optional-reaction",
+        "srd-5.2.1:mechanic/barbarian/berserker/retaliation/melee-attack-against-damaging-creature",
+        "srd-5.2.1:mechanic/barbarian/berserker/retaliation/weapon-or-unarmed-strike",
+        "srd-5.2.1:mechanic/barbarian/berserker/retaliation/range-feet",
+        "srd-5.2.1:mechanic/barbarian/berserker/retaliation/attack-count"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/barbarian/berserker/retaliation/range-feet": 5,
+        "srd-5.2.1:mechanic/barbarian/berserker/retaliation/attack-count": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/barbarian/berserker/retaliation-level",
+      "kind": "prerequisite",
+      "name": "Retaliation level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/barbarian-level-10-retaliation",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/barbarian/berserker/retaliation",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/barbarian"
+        ],
+        "parameters": {
+          "minimum-level": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/barbarian/berserker/intimidating-presence",
+      "kind": "feature",
+      "name": "Intimidating Presence",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/barbarian-level-14-intimidating-presence",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/barbarian/berserker",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/barbarian/berserker/intimidating-presence"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/barbarian/berserker/intimidating-presence-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/bonus-action",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/each-chosen-creature",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/emanation-originates-from-self",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/wisdom-saving-throw",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/save-dc-plus-strength-modifier",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/save-dc-plus-proficiency-bonus",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/failed-save/frightened",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/repeat-save-end-of-each-affected-creature-turn",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/successful-repeat-save/ends-effect",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/restore-use/expend-rage-use",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/restore-use/no-action-required",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/emanation-feet",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/save-dc-base",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/duration-minutes",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/restore-use/rage-cost"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/emanation-feet": 30,
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/save-dc-base": 8,
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/duration-minutes": 1,
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/restore-use/rage-cost": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/barbarian/berserker/intimidating-presence-level",
+      "kind": "prerequisite",
+      "name": "Intimidating Presence level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/barbarian-level-14-intimidating-presence",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/barbarian/berserker/intimidating-presence",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/barbarian"
+        ],
+        "parameters": {
+          "minimum-level": 14
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/barbarian/berserker/intimidating-presence",
+      "kind": "resource",
+      "name": "Intimidating Presence use",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/barbarian-level-14-intimidating-presence",
+          "page": 30
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/barbarian/berserker/intimidating-presence",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/use/long-rest-reset",
+        "srd-5.2.1:mechanic/barbarian/berserker/intimidating-presence/use/restored-by-expending-rage-no-action"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    }
+  ]
+}
