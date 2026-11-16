@@ -54,8 +54,11 @@ type allyFacts struct {
 
 func prepareStoredSpell(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
 	result, err := prepareSpell(ctx, campaign, pc, intent)
-	if err != nil || !result.Preview.Available || intent.EntryID != "cure-wounds" {
+	if err != nil || !result.Preview.Available {
 		return result, err
+	}
+	if intent.EntryID == "shield-of-faith" {
+		return prepareFaithTargets(ctx, database, campaign, pc, result, lock)
 	}
 	if err := appendHealingTargets(ctx, database, campaign, pc, result, "cure-wounds-ally-v1", lock); err != nil {
 		return nil, err

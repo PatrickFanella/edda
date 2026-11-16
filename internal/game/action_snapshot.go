@@ -19,7 +19,12 @@ func ReadActionSnapshot(ctx context.Context, database statedb.DBTX, campaignID, 
 	}
 	locking := ""
 	if lock {
-		locking = " FOR UPDATE OF c,p"
+		// Campaign first prevents cross-caster lock inversion between engines.
+		var id uuid.UUID
+		if err := database.QueryRow(ctx, `SELECT id FROM campaigns WHERE id=$1 AND ($2::uuid IS NULL OR created_by=$2) FOR UPDATE`, campaignID, owner).Scan(&id); err != nil {
+			return domain.Campaign{}, domain.PlayerCharacter{}, err
+		}
+		locking = " FOR UPDATE OF p"
 	}
 	campaign := domain.Campaign{ID: campaignID}
 	pc := domain.PlayerCharacter{ID: actorID, CampaignID: campaignID}

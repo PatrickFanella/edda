@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -71,6 +72,14 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		}
 	}
 	p := result.Preview
+	if p.Available && (intent.Kind == srd521.SpellCast || srd521.IsLifecycle(intent.Kind) || srd521.IsEquipment(intent.Kind) || intent.Kind == srd521.MartialAttack || strings.HasPrefix(intent.Kind, "combat-")) {
+		effects, err := faithRevision(ctx, database, campaign.ID, lock)
+		if err != nil {
+			return nil, err
+		}
+		data, _ := json.Marshal([]string{p.ExpectedRevision, effects})
+		p.ExpectedRevision = fmt.Sprintf("effects-v1:%x", sha256.Sum256(data))
+	}
 	result.Clock, err = ReadSpellClock(ctx, database, campaign.ID)
 	if err != nil {
 		return nil, err

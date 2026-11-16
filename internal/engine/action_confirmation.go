@@ -100,7 +100,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	}
 	// Only prepared targets can cross the confirmation boundary.
 	if request.Intent.Kind == srd521.SpellCast || request.Intent.Kind == srd521.SavingThrow || request.Intent.Kind == srd521.ConsumableUse {
-		if request.TargetID != pc.ID && !((request.Intent.Kind == srd521.ConsumableUse || (request.Intent.Kind == srd521.SpellCast && request.Intent.EntryID == "cure-wounds")) && prepared.HealingTarget(request.TargetID) != nil) {
+		if request.TargetID != pc.ID && !((request.Intent.Kind == srd521.ConsumableUse || (request.Intent.Kind == srd521.SpellCast && (request.Intent.EntryID == "cure-wounds" || request.Intent.EntryID == "shield-of-faith"))) && prepared.HealingTarget(request.TargetID) != nil) {
 			return nil, ErrActionRefresh
 		}
 	} else if request.Intent.Kind != srd521.MartialAttack && request.Intent.Kind != combat.EncounterStart && request.Intent.Kind != combat.EncounterReact && request.TargetID != uuid.Nil {
@@ -116,6 +116,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	sheet, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience)
 	if err != nil {
 		return nil, ErrActionRefresh
+	}
+	if err := game.ApplyFaithAC(ctx, tx, campaignID, pc.ID, prepared.Clock, sheet); err != nil {
+		return nil, err
 	}
 	dice := e.actionDice
 	if dice == nil {
@@ -236,6 +239,13 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			}
 			ac = m.AC
 		}
+		faith, err := game.ReadFaithEffect(ctx, tx, campaignID, target.ID, prepared.Clock)
+		if err != nil {
+			return nil, err
+		}
+		if faith != nil {
+			ac += 2
+		}
 		attack, err := srd521.ResolveLongsword(sheet, ac+target.Space.CoverBonus(), dice)
 		if err != nil {
 			return nil, err
@@ -341,6 +351,10 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if err != nil {
 			return nil, ErrActionRefresh
 		}
+		if request.Intent.Kind == srd521.SpellCast && request.TargetID != pc.ID {
+			envelope.Build.Casting.Concentration.RecipientID = request.TargetID.String()
+			effect.Reason = "Shield of Faith on selected known creature; +2 AC once; one level 1 slot and Bonus Action."
+		}
 		if err := saveCaster(ctx, tx, campaignID, pc.ID, &envelope.Build, effect.HPAfter); err != nil {
 			return nil, err
 		}
@@ -361,6 +375,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		sheet, err = srd521.Project(stats, pc.Level, effect.HPAfter, pc.MaxHP, pc.Experience)
 		if err != nil {
+			return nil, err
+		}
+		if err := game.ApplyFaithAC(ctx, tx, campaignID, pc.ID, effect.TimeAfter, sheet); err != nil {
 			return nil, err
 		}
 	} else if request.Intent.Kind == srd521.SpellCast {
@@ -607,6 +624,30 @@ func (e *Engine) PreviewEasyAthletics(ctx context.Context, campaignID uuid.UUID)
 		return nil, err
 	}
 	prepared, err := game.PrepareStoredAction(ctx, e.baseDB, c, pc, game.ActionIntent{ActorID: actorID, Kind: srd521.AbilityCheck, EntryID: game.EasyAthleticsEntry}, false)
+	if err != nil {
+		return nil, err
+	}
+	return prepared.Preview, nil
+}
+
+// PreviewFaithAction prepares an explicitly selected owned existing caster for
+// the TUI. Recipient selection remains a separate explicit confirmation step.
+func (e *Engine) PreviewFaithAction(ctx context.Context, campaignID, actorID uuid.UUID, end bool) (*game.ActionPreview, error) {
+	if e.baseDB == nil {
+		return nil, ErrActionRefresh
+	}
+	c, p, err := game.ReadActionSnapshot(ctx, e.baseDB, campaignID, actorID, uuid.Nil, false)
+	if err != nil {
+		return nil, err
+	}
+	if c.CreatedBy == uuid.Nil || p.UserID != c.CreatedBy {
+		return nil, ErrActionRefresh
+	}
+	intent := game.ActionIntent{ActorID: actorID, Kind: srd521.SpellCast, EntryID: "shield-of-faith", SlotLevel: 1}
+	if end {
+		intent = game.ActionIntent{ActorID: actorID, Kind: srd521.EndConcentration}
+	}
+	prepared, err := game.PrepareStoredAction(ctx, e.baseDB, c, p, intent, false)
 	if err != nil {
 		return nil, err
 	}

@@ -6,6 +6,7 @@ import (
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
@@ -40,7 +41,16 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 	if campaign.RulesVersion == string(domain.RulesVersionSRD521) {
 		pc := pcs[0]
 		response.Sheet, err = srd521.Project(pc.Stats, int(pc.Level), int(pc.Hp), int(pc.MaxHp), int(pc.Experience))
+		if err == nil && h.Pool != nil {
+			now, clockErr := game.ReadSpellClock(r.Context(), h.Pool, campaignID)
+			if clockErr != nil {
+				err = clockErr
+			} else {
+				err = game.ApplyFaithAC(r.Context(), h.Pool, campaignID, dbutil.FromPgtype(pc.ID), now, response.Sheet)
+			}
+		}
 		if err != nil {
+			response.Sheet = nil
 			response.SheetUnavailable = err.Error()
 		}
 	}

@@ -97,7 +97,23 @@ type tacticalEngine interface {
 	ConfirmAction(context.Context, uuid.UUID, engine.PreparedAction) (*engine.TurnResult, error)
 }
 
+type faithEngine interface {
+	PreviewFaithAction(context.Context, uuid.UUID, uuid.UUID, bool) (*game.ActionPreview, error)
+	ConfirmAction(context.Context, uuid.UUID, engine.PreparedAction) (*engine.TurnResult, error)
+}
+type faithPreparedMsg struct {
+	preview *game.ActionPreview
+	target  uuid.UUID
+	err     error
+}
+type faithConfirmedMsg struct {
+	result *engine.TurnResult
+	err    error
+}
+
 type App struct {
+	faithRequest *engine.PreparedAction
+
 	tacticalRequest *engine.PreparedAction
 	surgeRequest    *engine.PreparedAction
 
@@ -331,7 +347,98 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: text})
 		}
 		return a, nil
+	case faithPreparedMsg:
+		a.turnBusy = false
+		if nv := a.narrativeView(); nv != nil {
+			if msg.err != nil || msg.preview == nil {
+				nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Shield of Faith unavailable for selected caster."})
+				return a, nil
+			}
+			if !msg.preview.Available {
+				nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: msg.preview.Reason})
+				return a, nil
+			}
+			valid := msg.preview.Intent.Kind == "concentration-end" && msg.target == uuid.Nil
+			for _, target := range msg.preview.Targets {
+				if target.ID == msg.target {
+					valid = true
+				}
+			}
+			if !valid {
+				nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Selected recipient unavailable; choose a known target from the shared spell preview."})
+				return a, nil
+			}
+			a.faithRequest = &engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: msg.preview.ExpectedRevision, Intent: msg.preview.Intent, TargetID: msg.target}
+			nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Preview only: " + strings.Join(msg.preview.Options, " ") + " Caster " + msg.preview.Intent.ActorID.String() + "; recipient " + msg.target.String() + ". /confirm-faith to commit; /cancel-faith to dismiss."})
+		}
+		return a, nil
+	case faithConfirmedMsg:
+		a.turnBusy = false
+		if nv := a.narrativeView(); nv != nil {
+			text := "Delivery uncertain; /confirm-faith retries the same action ID."
+			if msg.err == engine.ErrActionRefresh {
+				a.faithRequest = nil
+				text = "Action changed; prepare Shield of Faith again."
+			}
+			if msg.err == nil && msg.result != nil {
+				a.faithRequest = nil
+				text = msg.result.Narrative
+			}
+			nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: text})
+		}
+		return a, nil
 	case narrative.SubmitMsg:
+		if fields := strings.Fields(msg.Input); len(fields) > 0 && (fields[0] == "/faith" || fields[0] == "/end-faith" || fields[0] == "/confirm-faith" || fields[0] == "/cancel-faith") {
+			if a.turnBusy {
+				return a, nil
+			}
+			se, ok := a.engine.(faithEngine)
+			if !ok {
+				return a, nil
+			}
+			if fields[0] == "/cancel-faith" {
+				a.faithRequest = nil
+				return a, nil
+			}
+			if fields[0] == "/confirm-faith" {
+				if a.faithRequest == nil {
+					return a, nil
+				}
+				request := *a.faithRequest
+				a.turnBusy = true
+				return a, func() tea.Msg {
+					r, err := se.ConfirmAction(a.ctx, dbutil.FromPgtype(a.campaign.ID), request)
+					return faithConfirmedMsg{r, err}
+				}
+			}
+			if a.faithRequest != nil {
+				return a, nil
+			}
+			end := fields[0] == "/end-faith"
+			if (end && len(fields) != 2) || (!end && len(fields) != 3) {
+				if nv := a.narrativeView(); nv != nil {
+					nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Use /faith <caster UUID> <recipient UUID> or /end-faith <caster UUID>; then /confirm-faith."})
+				}
+				return a, nil
+			}
+			actor, err := uuid.Parse(fields[1])
+			if err != nil {
+				return a, nil
+			}
+			target := uuid.Nil
+			if !end {
+				target, err = uuid.Parse(fields[2])
+				if err != nil {
+					return a, nil
+				}
+			}
+			a.turnBusy = true
+			return a, func() tea.Msg {
+				p, err := se.PreviewFaithAction(a.ctx, dbutil.FromPgtype(a.campaign.ID), actor, end)
+				return faithPreparedMsg{p, target, err}
+			}
+		}
+
 		if strings.TrimSpace(msg.Input) == "/easy-athletics" || strings.TrimSpace(msg.Input) == "/confirm-easy-athletics" || strings.TrimSpace(msg.Input) == "/tactical-mind" || strings.TrimSpace(msg.Input) == "/decline-tactical-mind" || strings.TrimSpace(msg.Input) == "/confirm-tactical-mind" || strings.TrimSpace(msg.Input) == "/cancel-tactical-mind" {
 			if a.turnBusy {
 				return a, nil

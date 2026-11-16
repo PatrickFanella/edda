@@ -9,13 +9,14 @@ const (
 	LongRest         = "rest-long"
 )
 
-// Concentration is the single supported self effect. Absolute campaign seconds
+// Concentration identifies one caster-owned effect. Absolute campaign seconds
 // survive reloads; the action ID identifies precisely which effect was removed.
 type Concentration struct {
-	ID        string `json:"id"`
-	Spell     string `json:"spell"`
-	StartedAt int    `json:"started_at"`
-	ExpiresAt int    `json:"expires_at"`
+	RecipientID string `json:"recipient_id,omitempty"`
+	ID          string `json:"id"`
+	Spell       string `json:"spell"`
+	StartedAt   int    `json:"started_at"`
+	ExpiresAt   int    `json:"expires_at"`
 }
 
 // EffectReceipt is a public, saved account of timing, costs and required checks.
@@ -151,3 +152,6 @@ func ConcentrationDamage(b *Build, sheet *CharacterSheet, damage, hp, now int, d
 	r.After = c.Concentration
 	return r, nil
 }
+
+// FaithACTerm is the fixed source-attributed Shield of Faith AC bonus.
+func FaithACTerm() Term { return term("Shield of Faith", 2, "spells/shield-of-faith") }

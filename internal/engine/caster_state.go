@@ -19,6 +19,26 @@ func saveCaster(ctx context.Context, tx pgx.Tx, campaign, actor uuid.UUID, b *sr
 		_, err = tx.Exec(ctx, `UPDATE player_characters SET hp=$4,stats=jsonb_set(stats,'{srd521}',(stats->'srd521')||$1::jsonb),updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3`, fields, actor, campaign, hp)
 		return err
 	}
+	// Remove links only for this caster's ended/replaced cast; retain cast identity.
+	current := ""
+	if b.Casting.Concentration != nil {
+		current = b.Casting.Concentration.ID
+	}
+	if _, err := tx.Exec(ctx, `DELETE FROM concentration_recipients r USING concentration_casts c WHERE r.cast_id=c.id AND c.campaign_id=$1 AND c.caster_id=$2 AND c.id::text<>$3`, campaign, actor, current); err != nil {
+		return err
+	}
+	if c := b.Casting.Concentration; c != nil && (c.RecipientID != "" || validCastID(c.ID)) {
+		if _, err := tx.Exec(ctx, `INSERT INTO concentration_casts(id,campaign_id,caster_id,started_at,expires_at) VALUES($1,$2,$3,$4,$5) ON CONFLICT(id) DO NOTHING`, c.ID, campaign, actor, c.StartedAt, c.ExpiresAt); err != nil {
+			return err
+		}
+		recipient := actor.String()
+		if c.RecipientID != "" {
+			recipient = c.RecipientID
+		}
+		if _, err := tx.Exec(ctx, `INSERT INTO concentration_recipients(cast_id,recipient_id) VALUES($1,$2) ON CONFLICT(cast_id) DO NOTHING`, c.ID, recipient); err != nil {
+			return err
+		}
+	}
 	casting, err := json.Marshal(b.Casting)
 	if err != nil {
 		return err
@@ -42,3 +62,6 @@ func saveSpellClock(ctx context.Context, tx pgx.Tx, campaign uuid.UUID, now int)
 	_, err := tx.Exec(ctx, `INSERT INTO campaign_time(campaign_id,day,hour,minute,second) VALUES($1,$2,$3,$4,$5) ON CONFLICT(campaign_id) DO UPDATE SET day=EXCLUDED.day,hour=EXCLUDED.hour,minute=EXCLUDED.minute,second=EXCLUDED.second,updated_at=clock_timestamp()`, campaign, now/86400+1, (now/3600)%24, (now/60)%60, now%60)
 	return err
 }
+
+// Old self-only saves accepted opaque effect IDs before normalized persistence.
+func validCastID(id string) bool { _, err := uuid.Parse(id); return err == nil }

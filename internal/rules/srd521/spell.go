@@ -8,15 +8,16 @@ const SpellCast = "spell-cast"
 // CastingBuild stores only the resources and component rulings for this fixture.
 // Prepared refers to Cure Wounds; it is not a general spell catalogue.
 type CastingBuild struct {
-	Concentration  *Concentration `json:"concentration,omitempty"`
-	LastLongRest   *int           `json:"last_long_rest,omitempty"`
-	ShieldPrepared bool           `json:"shield_prepared"`
-	Focus          bool           `json:"focus"`
-	Choices        *CasterChoices `json:"choices,omitempty"`
-	Prepared       bool           `json:"prepared"`
-	Slots          int            `json:"slots"`
-	Verbal         bool           `json:"verbal"`
-	Somatic        bool           `json:"somatic"`
+	IsolatedRecipientEffects bool           `json:"isolated_recipient_effects,omitempty"`
+	Concentration            *Concentration `json:"concentration,omitempty"`
+	LastLongRest             *int           `json:"last_long_rest,omitempty"`
+	ShieldPrepared           bool           `json:"shield_prepared"`
+	Focus                    bool           `json:"focus"`
+	Choices                  *CasterChoices `json:"choices,omitempty"`
+	Prepared                 bool           `json:"prepared"`
+	Slots                    int            `json:"slots"`
+	Verbal                   bool           `json:"verbal"`
+	Somatic                  bool           `json:"somatic"`
 }
 
 // Spell is a player-visible supported spell and its casting requirements.

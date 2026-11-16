@@ -220,8 +220,10 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 				return nil, fmt.Errorf("invalid saved concentration")
 			}
 			sheet.Concentration = c
-			ac := sheet.Defenses["armor-class"]
-			sheet.Defenses["armor-class"] = derived(append(ac.Derivation, term("Shield of Faith", 2, "spells/shield-of-faith"))...)
+			if c.RecipientID == "" {
+				ac := sheet.Defenses["armor-class"]
+				sheet.Defenses["armor-class"] = derived(append(ac.Derivation, term("Shield of Faith", 2, "spells/shield-of-faith"))...)
+			}
 		}
 		// The old Cure Wounds fixture can opt into the second spell explicitly.
 		found := false

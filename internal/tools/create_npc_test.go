@@ -189,6 +189,19 @@ func TestCreateNPCHandleSuccessDefaultsAndEmbedding(t *testing.T) {
 		}
 	}
 
+	for _, key := range []string{"srd521_faith", "SRD521_FAITH"} {
+		if _, err := h.Handle(ctx, map[string]any{
+			"name": "Invented recipient", "description": "A guard", "personality": "Kind",
+			"properties": map[string]any{key: map[string]any{
+				"profile": "shield-of-faith-isolated-v1", "actor_ids": []string{playerID.String()},
+				"location_id": locationID.String(), "hidden": false, "distance_feet": 60,
+				"line_of_sight": true, "cover": "none",
+			}},
+		}); err == nil {
+			t.Fatalf("model authored trusted recipient eligibility through %s", key)
+		}
+	}
+
 	got, err := h.Handle(ctx, map[string]any{
 		"name":        "Captain Maris",
 		"description": "Harbor master of the eastern docks.",
