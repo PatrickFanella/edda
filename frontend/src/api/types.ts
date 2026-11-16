@@ -653,3 +653,10 @@ export interface Encounter {
 }
 
 export interface AdvancementReceipt { rules_version: string; kind: string; choice: string; die: number; hp_gain: number; level_before: number; level_after: number; max_hp_before: number; max_hp_after: number; source_ids: string[]; }
+
+export interface EquipmentReceipt {
+ rules_version: string; kind: string; item_id: string; equipment: string;
+ equipped_before: boolean; equipped_after: boolean; ac_before: number; ac_after: number;
+ time_before: number; time_after: number; expired?: { id: string; spell: string };
+ source_ids: string[];
+}

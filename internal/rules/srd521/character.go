@@ -102,8 +102,8 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		return nil, fmt.Errorf("invalid SRD build data")
 	}
 	b := envelope.Build
-	if b == nil || (level != 1 && (level != 2 || b.Class != "fighter" || b.Advancement == nil)) || (level == 1 && b.Advancement != nil) || (b.Class != "fighter" && b.Class != "cleric") || (b.Class == "fighter" && (b.FightingStyle != "defense" || b.Armor != "chain-mail")) || (b.Class == "cleric" && (b.Armor != "none" || b.Shield || b.FightingStyle != "" || b.SecondWind != 0)) {
-		return nil, fmt.Errorf("supported projection: level 1 Fighter with chain mail and Defense, or unarmored Cleric fixture")
+	if b == nil || (level != 1 && (level != 2 || b.Class != "fighter" || b.Advancement == nil)) || (level == 1 && b.Advancement != nil) || (b.Class != "fighter" && b.Class != "cleric") || (b.Class == "fighter" && (b.FightingStyle != "defense" || (b.Armor != "chain-mail" && b.Armor != "none"))) || (b.Class == "cleric" && ((b.Armor != "none" && !(b.Armor == "chain-mail" && HeavyArmorTraining(b))) || b.FightingStyle != "" || b.SecondWind != 0)) {
+		return nil, fmt.Errorf("supported projection: Fighter or Cleric with supported ordinary equipment and training")
 	}
 	if len(b.Abilities) != 6 {
 		return nil, fmt.Errorf("six explicit ability scores required")
@@ -167,7 +167,16 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		return nil, fmt.Errorf("invalid level-one vitals or resources")
 	}
 	sheet.HP = derived(term("Current hit points", hp, "character/hit-points"))
-	ac := []Term{term("Chain mail", 16, "armor/chain-mail"), term("Defense fighting style", 1, "feats/defense")}
+	if b.Class == "fighter" && b.Armor == "none" {
+		sheet.Scope = fmt.Sprintf("fighter-%d-unarmored-defense-fixture", level)
+	}
+	ac := []Term{term("Unarmored", 10, "armor/unarmored"), term("dexterity", sheet.Abilities["dexterity"].Modifier.Value, "character/ability-modifiers")}
+	if b.Armor == "chain-mail" {
+		ac = []Term{term("Chain mail", 16, "armor/chain-mail")}
+		if b.FightingStyle == "defense" {
+			ac = append(ac, term("Defense fighting style", 1, "feats/defense"))
+		}
+	}
 	if b.Shield {
 		ac = append(ac, term("Shield", 2, "armor/shield"))
 	}
@@ -180,7 +189,6 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 			return nil, fmt.Errorf("explicit level-one cleric casting resources required")
 		}
 		sheet.Scope = "cleric-1-cure-wounds-self-fixture"
-		sheet.Defenses["armor-class"] = derived(term("Unarmored", 10, "armor/unarmored"), term("dexterity", sheet.Abilities["dexterity"].Modifier.Value, "character/ability-modifiers"))
 		sheet.Resources = []Resource{{"spell-slot-1", "Level 1 spell slots", b.Casting.Slots, 2, prefix + "cleric/spellcasting"}, {"hit-dice", "Hit Dice (d8)", b.HitDice, 1, prefix + "character/hit-dice"}}
 		sheet.Capabilities = []Capability{}
 		sheet.Spellcasting = &Spellcasting{Ability: "wisdom", Modifier: sheet.Abilities["wisdom"].Modifier, Spells: []Spell{{ID: "cure-wounds", Playable: true, Label: "Cure Wounds", Known: true, Prepared: b.Casting.Prepared, Components: []string{"verbal", "somatic"}, ComponentsAvailable: b.Casting.Verbal && b.Casting.Somatic, SlotLevels: []int{1}, SourceID: prefix + "spells/cure-wounds"}}}

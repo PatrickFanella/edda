@@ -228,6 +228,35 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		label = "Decline reaction"
 		narrative = "Opportunity attack declined. No reaction spent; the NPC withdrawal resumes."
 		finishWithdrawal(encounter)
+	} else if srd521.IsEquipment(request.Intent.Kind) {
+		if prepared.Equipment == nil || prepared.Build == nil {
+			return nil, ErrActionRefresh
+		}
+		equipment := prepared.Equipment
+		tag, err := tx.Exec(ctx, `UPDATE items SET equipped=$1,updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3 AND player_character_id=$4 AND equipped=$5 AND quantity=1`, equipment.EquippedAfter, equipment.ItemID, campaignID, pc.ID, equipment.EquippedBefore)
+		if err != nil {
+			return nil, err
+		}
+		if tag.RowsAffected() != 1 {
+			return nil, ErrActionRefresh
+		}
+		// Update only the authoritative equipment fields, preserving unknown metadata.
+		if _, err := tx.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(jsonb_set(stats,'{srd521,armor}',to_jsonb($1::text)),'{srd521,shield}',to_jsonb($2::boolean)),updated_at=clock_timestamp() WHERE id=$3 AND campaign_id=$4`, prepared.Build.Armor, prepared.Build.Shield, pc.ID, campaignID); err != nil {
+			return nil, err
+		}
+		if equipment.Expired != nil {
+			if err := saveCaster(ctx, tx, campaignID, pc.ID, prepared.Build, pc.HP); err != nil {
+				return nil, err
+			}
+		}
+		if err := saveSpellClock(ctx, tx, campaignID, equipment.TimeAfter); err != nil {
+			return nil, err
+		}
+		receipt, tool, label = equipment, "srd_equipment", equipment.Equipment
+		narrative = fmt.Sprintf("%s %s saved; AC %d to %d; campaign time advanced %d seconds.", request.Intent.Kind, equipment.Equipment, equipment.ACBefore, equipment.ACAfter, equipment.TimeAfter-equipment.TimeBefore)
+		if equipment.Expired != nil {
+			narrative += " Shield of Faith expired."
+		}
 	} else if request.Intent.Kind == srd521.AdvanceLevel {
 		var envelope struct {
 			Build srd521.Build `json:"srd521"`

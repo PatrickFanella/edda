@@ -1,3 +1,4 @@
+import { EquipmentReceipt } from '../character/EquipmentReceipt';
 import { AdvancementReceipt } from '../character/AdvancementReceipt';
 import type { ResolutionEvent, StateChange } from '../../api/types';
 import { cn } from '../../lib/cn';
@@ -120,6 +121,7 @@ function ResolutionEventBadge({ event }: { readonly event: ResolutionEvent }) {
   if (event.type === 'srd_advancement' && event.details.receipt) return <AdvancementReceipt receipt={event.details.receipt as import('../../api/types').AdvancementReceipt} />;
   if (event.type === 'srd_effect' && event.details.receipt) return <EffectReceipt receipt={event.details.receipt as import('../../api/types').EffectReceipt} />;
   if (event.type === 'srd_spell' && event.details.receipt) return <SpellReceipt receipt={event.details.receipt as import('../../api/types').SpellReceipt} />;
+  if (event.type === 'srd_equipment' && event.details.receipt) return <EquipmentReceipt receipt={event.details.receipt as import('../../api/types').EquipmentReceipt} />;
   if (event.type === 'srd_consumable' && event.details.receipt) return <HealingReceipt receipt={event.details.receipt as import('../../api/types').HealingReceipt} />;
   if (event.type === 'srd_attack' && event.details.receipt) return <AttackReceipt receipt={event.details.receipt as import('../../api/types').AttackReceipt} />;
   if (event.type === 'srd_check' && event.details.receipt) return <CheckReceipt receipt={event.details.receipt as Receipt} />;
