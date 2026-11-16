@@ -1,0 +1,986 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Circle of the Land p46 adapted into conditional spell tables, choices, prerequisites, numeric feature and recovery metadata. Mechanic keys and graph are Edda additions. Canonical Druid is composed externally. No executable support imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "kind": "subclass",
+      "name": "Circle of the Land",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/druid-circle-of-the-land",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/druid",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/circle-of-the-land-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/subclasses/circle-of-the-land"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/circle-of-the-land-level",
+      "kind": "prerequisite",
+      "name": "Circle Of The Land Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/druid-circle-of-the-land",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/druid"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/druid/circle-of-the-land/circle-of-the-land-spells",
+      "kind": "feature",
+      "name": "Circle of the Land Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/druid/circle-of-the-land/land"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/circle-of-the-land-spells-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/circle-of-the-land-spells/choose-one-land-on-finishing-long-rest",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/circle-of-the-land-spells/prepare-current-land-spells-at-druid-level-and-lower",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/circle-of-the-land-spells/conditional-tables-not-cumulative-across-lands"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/circle-of-the-land-spells-level",
+      "kind": "prerequisite",
+      "name": "Circle Of The Land Spells Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/circle-of-the-land-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/druid"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/druid/circle-of-the-land/land",
+      "kind": "choice",
+      "name": "Land",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/circle-of-the-land-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/land/choose-on-finishing-long-rest"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/land/arid",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/land/polar",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/land/temperate",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/land/tropical"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/druid/circle-of-the-land/spells-arid",
+      "kind": "feature",
+      "name": "Arid Land spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/spells-arid-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/spells-arid/only-while-current-land-selected",
+        "srd-5.2.1:mechanic/spells/blur",
+        "srd-5.2.1:mechanic/spells/burning-hands",
+        "srd-5.2.1:mechanic/spells/fire-bolt",
+        "srd-5.2.1:mechanic/spells/fireball",
+        "srd-5.2.1:mechanic/spells/blight",
+        "srd-5.2.1:mechanic/spells/wall-of-stone"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 3,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/blur",
+            "srd-5.2.1:mechanic/spells/burning-hands",
+            "srd-5.2.1:mechanic/spells/fire-bolt"
+          ]
+        },
+        {
+          "level": 5,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/fireball"
+          ]
+        },
+        {
+          "level": 7,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/blight"
+          ]
+        },
+        {
+          "level": 9,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/wall-of-stone"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/spells-arid-selected",
+      "kind": "prerequisite",
+      "name": "Spells Arid Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/spells-arid",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/land/arid"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/druid/circle-of-the-land/land/arid",
+        "record_refs": [
+          "srd-5.2.1:character/choice/druid/circle-of-the-land/land",
+          "srd-5.2.1:character/feature/druid/circle-of-the-land/circle-of-the-land-spells",
+          "srd-5.2.1:character/class/druid"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/druid/circle-of-the-land/spells-polar",
+      "kind": "feature",
+      "name": "Polar Land spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/spells-polar-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/spells-polar/only-while-current-land-selected",
+        "srd-5.2.1:mechanic/spells/fog-cloud",
+        "srd-5.2.1:mechanic/spells/hold-person",
+        "srd-5.2.1:mechanic/spells/ray-of-frost",
+        "srd-5.2.1:mechanic/spells/sleet-storm",
+        "srd-5.2.1:mechanic/spells/ice-storm",
+        "srd-5.2.1:mechanic/spells/cone-of-cold"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 3,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/fog-cloud",
+            "srd-5.2.1:mechanic/spells/hold-person",
+            "srd-5.2.1:mechanic/spells/ray-of-frost"
+          ]
+        },
+        {
+          "level": 5,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/sleet-storm"
+          ]
+        },
+        {
+          "level": 7,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/ice-storm"
+          ]
+        },
+        {
+          "level": 9,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/cone-of-cold"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/spells-polar-selected",
+      "kind": "prerequisite",
+      "name": "Spells Polar Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/spells-polar",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/land/polar"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/druid/circle-of-the-land/land/polar",
+        "record_refs": [
+          "srd-5.2.1:character/choice/druid/circle-of-the-land/land",
+          "srd-5.2.1:character/feature/druid/circle-of-the-land/circle-of-the-land-spells",
+          "srd-5.2.1:character/class/druid"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/druid/circle-of-the-land/spells-temperate",
+      "kind": "feature",
+      "name": "Temperate Land spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/spells-temperate-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/spells-temperate/only-while-current-land-selected",
+        "srd-5.2.1:mechanic/spells/misty-step",
+        "srd-5.2.1:mechanic/spells/shocking-grasp",
+        "srd-5.2.1:mechanic/spells/sleep",
+        "srd-5.2.1:mechanic/spells/lightning-bolt",
+        "srd-5.2.1:mechanic/spells/freedom-of-movement",
+        "srd-5.2.1:mechanic/spells/tree-stride"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 3,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/misty-step",
+            "srd-5.2.1:mechanic/spells/shocking-grasp",
+            "srd-5.2.1:mechanic/spells/sleep"
+          ]
+        },
+        {
+          "level": 5,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/lightning-bolt"
+          ]
+        },
+        {
+          "level": 7,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/freedom-of-movement"
+          ]
+        },
+        {
+          "level": 9,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/tree-stride"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/spells-temperate-selected",
+      "kind": "prerequisite",
+      "name": "Spells Temperate Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/spells-temperate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/land/temperate"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/druid/circle-of-the-land/land/temperate",
+        "record_refs": [
+          "srd-5.2.1:character/choice/druid/circle-of-the-land/land",
+          "srd-5.2.1:character/feature/druid/circle-of-the-land/circle-of-the-land-spells",
+          "srd-5.2.1:character/class/druid"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/druid/circle-of-the-land/spells-tropical",
+      "kind": "feature",
+      "name": "Tropical Land spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/spells-tropical-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/spells-tropical/only-while-current-land-selected",
+        "srd-5.2.1:mechanic/spells/acid-splash",
+        "srd-5.2.1:mechanic/spells/ray-of-sickness",
+        "srd-5.2.1:mechanic/spells/web",
+        "srd-5.2.1:mechanic/spells/stinking-cloud",
+        "srd-5.2.1:mechanic/spells/polymorph",
+        "srd-5.2.1:mechanic/spells/insect-plague"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 3,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/acid-splash",
+            "srd-5.2.1:mechanic/spells/ray-of-sickness",
+            "srd-5.2.1:mechanic/spells/web"
+          ]
+        },
+        {
+          "level": 5,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/stinking-cloud"
+          ]
+        },
+        {
+          "level": 7,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/polymorph"
+          ]
+        },
+        {
+          "level": 9,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/insect-plague"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/spells-tropical-selected",
+      "kind": "prerequisite",
+      "name": "Spells Tropical Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-circle-of-the-land-spells",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/spells-tropical",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/land/tropical"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/druid/circle-of-the-land/land/tropical",
+        "record_refs": [
+          "srd-5.2.1:character/choice/druid/circle-of-the-land/land",
+          "srd-5.2.1:character/feature/druid/circle-of-the-land/circle-of-the-land-spells",
+          "srd-5.2.1:character/class/druid"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/druid/circle-of-the-land/lands-aid",
+      "kind": "feature",
+      "name": "Land’s Aid",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-lands-aid",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/lands-aid-level",
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/lands-aid-wild-shape"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/magic-action",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/choose-point",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/chosen-creatures-in-sphere/constitution-save-against-own-spell-save-dc",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/failed-save/necrotic-damage",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/successful-save/half-damage",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/one-chosen-creature-in-sphere/regains-hit-points",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/expend-canonical-wild-shape",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/range-feet",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/sphere-radius-feet",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/wild-shape-uses-expended",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/dice-sides",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/dice-at-level-3",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/dice-at-level-10",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/dice-at-level-14"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/range-feet": 60,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/sphere-radius-feet": 10,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/wild-shape-uses-expended": 1,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/dice-sides": 6,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/dice-at-level-3": 2,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/dice-at-level-10": 3,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/dice-at-level-14": 4
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/lands-aid-level",
+      "kind": "prerequisite",
+      "name": "Lands Aid Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-lands-aid",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/lands-aid",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/druid"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/lands-aid-wild-shape",
+      "kind": "prerequisite",
+      "name": "Lands Aid Wild Shape",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-3-lands-aid",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/lands-aid",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/requires-unexpended-wild-shape"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/druid/circle-of-the-land/lands-aid/requires-unexpended-wild-shape",
+        "record_refs": [
+          "srd-5.2.1:character/resource/druid/wild-shape"
+        ],
+        "parameters": {
+          "minimum-uses": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natural-recovery",
+      "kind": "feature",
+      "name": "Natural Recovery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-6-natural-recovery",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/druid/circle-of-the-land/natural-recovery-free-cast",
+        "srd-5.2.1:character/resource/druid/circle-of-the-land/natural-recovery-slot-recovery"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natural-recovery-level",
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natural-recovery-operands"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/cast-one-prepared-circle-spell-of-level-1-or-higher-without-slot",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/free-cast/long-rest-recovery",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/on-finishing-short-rest/choose-expended-slots",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/slot-recovery/combined-level-at-most-half-druid-level-rounded-up",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/slot-recovery/once-until-long-rest",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/minimum-free-spell-level",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/maximum-recovered-slot-level",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/recovery-budget-divisor",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/free-casts-per-long-rest",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/slot-recoveries-per-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/minimum-free-spell-level": 1,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/maximum-recovered-slot-level": 5,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/recovery-budget-divisor": 2,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/free-casts-per-long-rest": 1,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/slot-recoveries-per-long-rest": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natural-recovery-level",
+      "kind": "prerequisite",
+      "name": "Natural Recovery Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-6-natural-recovery",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natural-recovery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/druid"
+        ],
+        "parameters": {
+          "minimum-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natural-recovery-operands",
+      "kind": "prerequisite",
+      "name": "Natural Recovery Operands",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-6-natural-recovery",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natural-recovery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/requires-prepared-circle-spell-or-expended-druid-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/requires-prepared-circle-spell-or-expended-druid-slots",
+        "record_refs": [
+          "srd-5.2.1:character/feature/druid/circle-of-the-land/circle-of-the-land-spells",
+          "srd-5.2.1:character/class/druid",
+          "srd-5.2.1:character/resource/druid/spell-slot-1",
+          "srd-5.2.1:character/resource/druid/spell-slot-2",
+          "srd-5.2.1:character/resource/druid/spell-slot-3",
+          "srd-5.2.1:character/resource/druid/spell-slot-4",
+          "srd-5.2.1:character/resource/druid/spell-slot-5",
+          "srd-5.2.1:character/resource/druid/spell-slot-6",
+          "srd-5.2.1:character/resource/druid/spell-slot-7",
+          "srd-5.2.1:character/resource/druid/spell-slot-8",
+          "srd-5.2.1:character/resource/druid/spell-slot-9"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/druid/circle-of-the-land/natural-recovery-free-cast",
+      "kind": "resource",
+      "name": "Natural Recovery free-cast",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-6-natural-recovery",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natural-recovery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/free-cast/recover-on-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/resource/druid/circle-of-the-land/natural-recovery-slot-recovery",
+      "kind": "resource",
+      "name": "Natural Recovery slot-recovery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-6-natural-recovery",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natural-recovery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natural-recovery/slot-recovery/recover-on-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natures-ward",
+      "kind": "feature",
+      "name": "Nature’s Ward",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-10-natures-ward",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natures-ward-level",
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natures-ward-current-land"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-ward/immune-to-poisoned-condition",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-ward/resistance/current-land/arid/fire",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-ward/resistance/current-land/polar/cold",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-ward/resistance/current-land/temperate/lightning",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-ward/resistance/current-land/tropical/poison"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natures-ward-level",
+      "kind": "prerequisite",
+      "name": "Natures Ward Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-10-natures-ward",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natures-ward",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/druid"
+        ],
+        "parameters": {
+          "minimum-level": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natures-ward-current-land",
+      "kind": "prerequisite",
+      "name": "Natures Ward Current Land",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-10-natures-ward",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natures-ward",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-ward/current-land-determines-resistance"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-ward/current-land-determines-resistance",
+        "record_refs": [
+          "srd-5.2.1:character/choice/druid/circle-of-the-land/land"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natures-sanctuary",
+      "kind": "feature",
+      "name": "Nature’s Sanctuary",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-14-natures-sanctuary",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/druid/circle-of-the-land",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natures-sanctuary-level",
+        "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natures-sanctuary-operands"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/magic-action",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/spectral-trees-and-vines/cube-on-ground",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/ends-on-incapacitated-or-death",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/self-and-allies-in-area/half-cover",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/allies-in-area/gain-current-natures-ward-resistance",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/bonus-action/move-cube-to-ground-within-range",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/expend-canonical-wild-shape",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/range-feet",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/cube-side-feet",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/duration-minutes",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/move-feet",
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/wild-shape-uses-expended"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/range-feet": 120,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/cube-side-feet": 15,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/duration-minutes": 1,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/move-feet": 60,
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/wild-shape-uses-expended": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natures-sanctuary-level",
+      "kind": "prerequisite",
+      "name": "Natures Sanctuary Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-14-natures-sanctuary",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natures-sanctuary",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/druid"
+        ],
+        "parameters": {
+          "minimum-level": 14
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/druid/circle-of-the-land/natures-sanctuary-operands",
+      "kind": "prerequisite",
+      "name": "Natures Sanctuary Operands",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/druid-level-14-natures-sanctuary",
+          "page": 46
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/druid/circle-of-the-land/natures-sanctuary",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/requires-unexpended-wild-shape-and-current-ward"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/druid/circle-of-the-land/natures-sanctuary/requires-unexpended-wild-shape-and-current-ward",
+        "record_refs": [
+          "srd-5.2.1:character/resource/druid/wild-shape",
+          "srd-5.2.1:character/feature/druid/circle-of-the-land/natures-ward"
+        ],
+        "parameters": {
+          "minimum-uses": 1
+        }
+      }
+    }
+  ]
+}
