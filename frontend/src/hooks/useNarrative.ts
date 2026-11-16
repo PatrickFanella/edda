@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 
 import { getSessionHistory } from '../api/campaigns';
 import type { TurnResponse, WebSocketStatusPayload } from '../api/types';
@@ -26,15 +26,21 @@ export interface UseNarrativeResult {
   isLoading: boolean;
   error: string | null;
   sendAction: (input: string) => boolean;
+  canRetry: boolean;
+  retryAction: () => boolean;
 }
 
 export function useNarrative(): UseNarrativeResult {
   const { campaignId } = useCampaign();
   const [store, setStore] = useState(() => createNarrativeStore(campaignId));
-  if (store.campaignId !== campaignId) setStore(createNarrativeStore(campaignId));
+  const retryTimestampRef = useRef<string | null>(null);
+  if (store.campaignId !== campaignId) {
+    setStore(createNarrativeStore(campaignId));
+  }
   const state = useSyncExternalStore(store.subscribe, store.getSnapshot);
   const dispatch = store.dispatch;
-  const { connectionStatus, error: socketError, isLoading, currentStatus, combatActive, sendAction: sendSocketAction } = useWebSocket(campaignId, (event) => {
+  useEffect(() => { retryTimestampRef.current = null; }, [campaignId]);
+  const { connectionStatus, error: socketError, isLoading, currentStatus, combatActive, canRetry, sendAction: sendSocketAction, retryAction: retrySocketAction } = useWebSocket(campaignId, (event) => {
     dispatch({ type: 'LIVE_EVENT', event });
   });
 
@@ -119,6 +125,7 @@ export function useNarrative(): UseNarrativeResult {
       }
 
       const timestamp = new Date().toISOString();
+      retryTimestampRef.current = timestamp;
 
       dispatch({
         type: 'ACTION_SENT',
@@ -131,6 +138,12 @@ export function useNarrative(): UseNarrativeResult {
     },
     [dispatch, sendSocketAction, state.entries.length],
   );
+
+  const retryAction = useCallback((): boolean => {
+    const accepted = retrySocketAction();
+    if (accepted && retryTimestampRef.current) dispatch({ type: 'ACTION_RETRIED', timestamp: retryTimestampRef.current });
+    return accepted;
+  }, [dispatch, retrySocketAction]);
 
   const streamingEntry = useMemo<NarrativeEntry | null>(() => {
     if (!state.pendingTimestamp || !isLoading) {
@@ -159,6 +172,8 @@ export function useNarrative(): UseNarrativeResult {
     isLoading,
     error: state.error,
     sendAction,
+    canRetry,
+    retryAction,
   };
 }
 

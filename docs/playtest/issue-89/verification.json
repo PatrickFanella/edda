@@ -1,0 +1,69 @@
+{
+  "observed_date": "2026-11-15",
+  "application_baseline": "c0383a255bc92726aa047b494a5cb9b2efa90229",
+  "qualification_status": "incomplete",
+  "scope": "Declared partial SRD slice; no production or full-SRD claim",
+  "evidence": {
+    "frontend_unit": {
+      "status": "pass",
+      "tests": 64
+    },
+    "browser": {
+      "status": "pass",
+      "tests": 93,
+      "skipped": 0,
+      "flaky": 0,
+      "workers": 1,
+      "assertions_or_timeouts_changed": false
+    },
+    "browser_default_parallelism_attempt": {
+      "status": "fail",
+      "passed": 65,
+      "timed_out": 28,
+      "host_load_average": 91.02,
+      "swap": "full"
+    },
+    "frontend_build": {
+      "status": "pass"
+    },
+    "changed_file_lint": {
+      "status": "pass"
+    },
+    "whole_tree_lint": {
+      "status": "fail",
+      "baseline_errors": 22,
+      "introduced_errors": 0
+    },
+    "go_short_race": {
+      "status": "pass"
+    },
+    "go_vet": {
+      "status": "pass"
+    },
+    "postgresql_handler_state_integration": {
+      "status": "pass",
+      "scope": "Existing complete suites; final added joined qualification cases separately rerun"
+    },
+    "tui": {
+      "status": "pass"
+    }
+  },
+  "acceptance": {
+    "typed_actions_and_receipt_replay": "pass for named deterministic fixtures",
+    "srd_ordinary_free_text": "fail; #342 native blocker",
+    "viewport_and_reflow": "pass for automated Chromium fixtures",
+    "visible_phone_keyboard": "inconclusive; DEVICE_IN_USE",
+    "human_player_experience": "not performed",
+    "full_rules": "not qualified"
+  },
+  "test_and_changed_runtime_sha256": {
+    "internal/handlers/campaign_qualification_integration_test.go": "5017f81ebab0a46b85622514b3ffb4724913f93eb590f322e4e1fbb14e161f89",
+    "frontend/src/hooks/useWebSocket.ts": "aaeddfad6d96a894204f1846d075940408f3bbbdeea34eb06817a1ebe81e1889",
+    "frontend/src/hooks/useNarrative.ts": "47ec822422533703bff7f024959eea306a86332c70c2f827b5e7d99aa4f01a03",
+    "frontend/src/hooks/narrativeReducer.ts": "3823eee086707155f3c02576d9a0bd6360ec33d3fca92a9e64c11ff3c7b338a4",
+    "frontend/src/pages/CampaignPlayPage.tsx": "dcd203840a54634d4d1e0c3ebd5e002531bd7771cbc581ea41d484e20c549a93",
+    "frontend/tests/useWebSocket.test.tsx": "bf5fafee2fa3dc7f78288ed6d7e1a83659da1ad513c2d05466a4f2bb1c939c87",
+    "frontend/tests/narrative.test.ts": "652299e98a82a6aac348520974a46d3cb72ad1e3dec80ac3a5c8fff73b7b497b",
+    "frontend/tests/browser/campaign-qualification.spec.ts": "989065a314dc98057954656683045aee5162b5900cb642a69581750fbcf9e761"
+  }
+}

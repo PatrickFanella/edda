@@ -32,6 +32,18 @@ it('reconciles the optimistic player and live result with a delayed history snap
   expect(narrativeReducer(state, { type: 'LIVE_EVENT', event: { ...decoded, sequence: 1 } })).toBe(state);
 });
 
+it('reuses the original optimistic player entry when an explicit retry later succeeds', () => {
+  let state = narrativeReducer(initialNarrativeState, { type: 'ACTION_SENT', input: 'Search', timestamp, entryCount: 0 });
+  state = narrativeReducer(state, { type: 'ERROR_RECEIVED', error: 'an internal error occurred', timestamp, entryCount: 1 });
+  state = narrativeReducer(state, { type: 'ACTION_RETRIED', timestamp });
+  state = narrativeReducer(state, { type: 'RESULT_RECEIVED', payload: { ...result, combat_active: false, turn_number: 3 }, timestamp, entryCount: 2 });
+  state = narrativeReducer(state, { type: 'HISTORY_LOADED', entries: [
+    { id: 'history-player-3', kind: 'player', text: 'Search', timestamp },
+    { id: 'history-gm-3', kind: 'gm', text: result.narrative, timestamp },
+  ] });
+  expect(state.entries.filter(entry => entry.kind === 'player')).toHaveLength(1);
+});
+
 it('clears a recovered preview even when history already contains the committed result', () => {
   let state = narrativeReducer(initialNarrativeState, { type: 'HISTORY_LOADED', entries: [
     { id: 'history-gm-3', kind: 'gm', text: result.narrative, timestamp },

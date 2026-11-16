@@ -53,7 +53,7 @@ type CampaignPlayTab = (typeof playTabs)[number]['key'];
 type HudMode = 'combat' | 'dialogue' | 'exploration';
 type SharedNarrativeState = Pick<
   UseNarrativeResult,
-  'connectionStatus' | 'entries' | 'streamingEntry' | 'suggestedChoices' | 'currentStatus' | 'combatActive' | 'isLoading' | 'error' | 'sendAction'
+  'connectionStatus' | 'entries' | 'streamingEntry' | 'suggestedChoices' | 'currentStatus' | 'combatActive' | 'isLoading' | 'error' | 'sendAction' | 'canRetry' | 'retryAction'
 >;
 
 interface SeededNarrativeState {
@@ -405,7 +405,7 @@ function NarrativeTab({
 }) {
   const { campaign, campaignId } = useCampaign();
   const assistance = useQuery({ queryKey: ['campaign', campaignId, 'action-suggestions'], queryFn: () => getActionSuggestions(campaignId!), enabled: !!campaignId, retry: false });
-  const { connectionStatus, streamingEntry, currentStatus, combatActive, isLoading, error, sendAction } = narrative;
+  const { connectionStatus, streamingEntry, currentStatus, combatActive, isLoading, error, sendAction, canRetry, retryAction } = narrative;
   const character = useQuery({ queryKey: ['campaign', campaignId, 'character'], queryFn: () => getCampaignCharacter(campaignId!), enabled: campaign?.rules_version === 'srd-5.2.1' });
   const encounter = useQuery({ queryKey: ['campaign', campaignId, 'encounter'], queryFn: () => previewCharacterAction(campaignId!, { actor_id: character.data!.id, kind: 'combat-end-turn' }), enabled: campaign?.rules_version === 'srd-5.2.1' && !!character.data, refetchOnWindowFocus: true });
   const isSRD = campaign?.rules_version === 'srd-5.2.1';
@@ -474,6 +474,7 @@ function NarrativeTab({
         <ThinkingIndicator status={currentStatus} />
 
         {error ? <ErrorPanel message={error} /> : null}
+        {canRetry ? <button type="button" className="hud-btn hud-btn-secondary" onClick={retryAction} disabled={isLoading || connectionStatus !== 'open'}>Retry previous action</button> : null}
       </div>
     );
   }
@@ -510,6 +511,7 @@ function NarrativeTab({
       <div className="game-composer-feedback" aria-live="polite">
         <ThinkingIndicator status={currentStatus} />
         {error ? <ErrorPanel message={error} /> : null}
+        {canRetry ? <button type="button" className="hud-btn hud-btn-secondary mt-3" onClick={retryAction} disabled={isLoading || connectionStatus !== 'open'}>Retry previous action</button> : null}
         {textError ? <ErrorPanel message={textError} /> : null}
         {isSRD ? <p className="text-sm text-pewter">Supported text: Make an Athletics check. Prepare it here, then confirm in Character. Other actions are available from the sheet.</p> : null}
       </div>

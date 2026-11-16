@@ -47,6 +47,7 @@ export type NarrativeAction =
   | { type: 'HISTORY_LOADED'; entries: NarrativeEntry[] }
   | { type: 'HISTORY_FAILED'; error: string }
   | { type: 'ACTION_SENT'; input: string; timestamp: string; entryCount: number }
+  | { type: 'ACTION_RETRIED'; timestamp: string }
   | { type: 'CHUNK_RECEIVED'; text: string; timestamp: string }
   | { type: 'RESULT_RECEIVED'; payload: TurnResponseWithChoices; timestamp: string; entryCount: number }
   | { type: 'ERROR_RECEIVED'; error: string; timestamp: string; entryCount: number }
@@ -103,6 +104,9 @@ export function narrativeReducer(state: NarrativeState, action: NarrativeAction)
         suggestedChoices: [],
         error: null,
       };
+
+    case 'ACTION_RETRIED':
+      return { ...state, phase: 'processing', streamingChunks: [], pendingTimestamp: action.timestamp, error: null };
 
     case 'CHUNK_RECEIVED':
       return {

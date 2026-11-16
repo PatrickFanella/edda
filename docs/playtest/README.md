@@ -1,5 +1,15 @@
 # Edda playtest runbook
 
+## Declared-slice campaign qualification
+
+Use the [Wave 14 / issue #89 evidence](issue-89/README.md) for the current
+independent qualification of the partial SRD 5.2.1 slice. It separates actual
+PostgreSQL action/replay evidence, mocked browser contracts, legacy/TUI checks
+and the unperformed phone/human checkpoint. It records the SRD free-text gap
+tracked by #342; a passing component suite does not close that acceptance gap.
+The live-model gauntlet below is a separate smoke test and was not used for
+this deterministic qualification.
+
 ## Chapter fidelity
 
 For deterministic campaigns with failed plans, corrected misunderstandings and

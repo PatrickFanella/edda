@@ -64,3 +64,40 @@ it('adopts a durable recovery ID returned after a fresh hook sends an action', a
  act(() => { hook.result.current.sendAction('Original action'); });
  expect(JSON.parse(socket.sent[1]).payload.action_id).toBe(canonical);
 });
+
+it('offers an explicit retry only after a rejected action reconnects', async () => {
+  vi.useFakeTimers(); FixtureSocket.instances = []; vi.stubGlobal('WebSocket', FixtureSocket);
+  const hook = renderHook(() => useWebSocket('alpha'));
+  await act(() => vi.advanceTimersByTimeAsync(0));
+  const first = FixtureSocket.instances[0]; act(() => first.open());
+  act(() => { hook.result.current.sendAction('Look'); });
+  expect(hook.result.current.canRetry).toBe(false);
+  act(() => first.dispatchEvent(new MessageEvent('message', { data: JSON.stringify({ type: 'error', timestamp, payload: { error: 'an internal error occurred' } }) })));
+  act(() => first.close());
+  await act(() => vi.advanceTimersByTimeAsync(1000)); await act(() => vi.advanceTimersByTimeAsync(0));
+  act(() => FixtureSocket.instances[1].open());
+  expect(hook.result.current).toMatchObject({ canRetry: true });
+  act(() => { expect(hook.result.current.retryAction()).toBe(true); });
+  expect(JSON.parse(FixtureSocket.instances[1].sent[0]).payload).toEqual(JSON.parse(first.sent[0]).payload);
+  act(() => FixtureSocket.instances[1].receive(result));
+  expect(hook.result.current.canRetry).toBe(false);
+});
+
+it('does not carry a rejected action into another campaign', async () => {
+  vi.useFakeTimers(); FixtureSocket.instances = []; vi.stubGlobal('WebSocket', FixtureSocket);
+  const hook = renderHook(({ id }) => useWebSocket(id), { initialProps: { id: 'alpha' } });
+  await act(() => vi.advanceTimersByTimeAsync(0));
+  const alpha = FixtureSocket.instances[0]; act(() => alpha.open());
+  act(() => { hook.result.current.sendAction('Alpha action'); });
+  act(() => alpha.dispatchEvent(new MessageEvent('message', { data: JSON.stringify({ type: 'error', timestamp, payload: { error: 'an internal error occurred' } }) })));
+  expect(hook.result.current.canRetry).toBe(true);
+  hook.rerender({ id: 'beta' }); await act(() => vi.advanceTimersByTimeAsync(0));
+  act(() => FixtureSocket.instances[1].open());
+  expect(hook.result.current.canRetry).toBe(false);
+  expect(hook.result.current.retryAction()).toBe(false);
+  expect(FixtureSocket.instances[1].sent).toEqual([]);
+  hook.rerender({ id: 'alpha' }); await act(() => vi.advanceTimersByTimeAsync(0));
+  const secondAlpha = FixtureSocket.instances[2]; act(() => secondAlpha.open());
+  act(() => { hook.result.current.sendAction('Alpha action'); });
+  expect(JSON.parse(secondAlpha.sent[0]).payload.action_id).not.toBe(JSON.parse(alpha.sent[0]).payload.action_id);
+});

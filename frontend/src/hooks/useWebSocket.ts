@@ -14,12 +14,14 @@ export interface UseWebSocketResult {
   connectionStatus: ConnectionStatus;
   isConnected: boolean;
   isLoading: boolean;
+  canRetry: boolean;
   error: string | null;
   events: SequencedEvent[];
   acknowledge: (sequence: number) => void;
   currentStatus: WebSocketStatusPayload | null;
   combatActive: boolean;
   sendAction: (input: string) => boolean;
+  retryAction: () => boolean;
 }
 
 type OutboundActionEnvelope = {
@@ -38,10 +40,13 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
   const [error, setError] = useState<string | null>(null);
   const [events, setEvents] = useState<SequencedEvent[]>([]);
   const [isAwaitingResponse, setIsAwaitingResponse] = useState(false);
+  const [canRetry, setCanRetry] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<WebSocketStatusPayload | null>(null);
   const [combatActive, setCombatActive] = useState(false);
   const [reconnectNonce, setReconnectNonce] = useState(0);
   const [stateCampaignId, setStateCampaignId] = useState(campaignId);
+  const pendingActionRef = useRef<{ campaignId: string | null | undefined; input: string; id: string } | null>(null);
+  const pendingCampaignRef = useRef(campaignId);
   // Reset before committing a render for another campaign. Reconnects keep
   // their event cursor; a campaign switch starts a separate live session.
   if (stateCampaignId !== campaignId) {
@@ -49,6 +54,7 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
     setEvents([]);
     setError(null);
     setIsAwaitingResponse(false);
+    setCanRetry(false);
     setCurrentStatus(null);
     setCombatActive(false);
     setConnectionStatus(campaignId ? 'connecting' : 'idle');
@@ -64,10 +70,14 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
     cursor.current.pending = cursor.current.pending.filter(event => event.sequence > sequence);
     setEvents(cursor.current.pending);
   }, [campaignId]);
-  const pendingActionRef = useRef<{ campaignId: string | null | undefined; input: string; id: string } | null>(null);
   const socketRef = useRef<WebSocket | null>(null);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reconnectAttemptsRef = useRef(0);
+
+  useEffect(() => {
+    if (pendingCampaignRef.current !== campaignId) pendingActionRef.current = null;
+    pendingCampaignRef.current = campaignId;
+  }, [campaignId]);
 
   useEffect(() => {
     if (cursor.current.campaignId !== campaignId) {
@@ -191,6 +201,7 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
 
       if (decodedEvent.kind === 'result') {
         pendingActionRef.current = null;
+        setCanRetry(false);
         setError(null);
         setCurrentStatus(null);
         setIsAwaitingResponse(false);
@@ -203,6 +214,7 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
       if (decodedEvent.payload.action_id && pendingActionRef.current && pendingActionRef.current.campaignId === campaignId) {
         pendingActionRef.current.id = decodedEvent.payload.action_id;
       }
+      setCanRetry(pendingActionRef.current?.campaignId === campaignId);
       setError(decodedEvent.payload.error);
       setCurrentStatus(null);
       setIsAwaitingResponse(false);
@@ -278,6 +290,7 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
       try {
         socket.send(JSON.stringify(message));
         pendingActionRef.current = { campaignId, input: trimmedInput, id: message.payload.action_id! };
+        setCanRetry(false);
         setError(null);
         setIsAwaitingResponse(true);
         return true;
@@ -290,6 +303,12 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
     [campaignId],
   );
 
+  const retryAction = useCallback((): boolean => {
+    const pending = pendingActionRef.current;
+    if (!canRetry || !pending || pending.campaignId !== campaignId) return false;
+    return sendAction(pending.input);
+  }, [campaignId, canRetry, sendAction]);
+
   const isConnected = connectionStatus === 'open';
   const isLoading = connectionStatus === 'connecting' || isAwaitingResponse;
 
@@ -298,13 +317,15 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
       connectionStatus,
       isConnected,
       isLoading,
+      canRetry,
       error,
       events,
       acknowledge,
       currentStatus,
       combatActive,
       sendAction,
+      retryAction,
     }),
-    [acknowledge, combatActive, connectionStatus, currentStatus, error, events, isConnected, isLoading, sendAction],
+    [acknowledge, canRetry, combatActive, connectionStatus, currentStatus, error, events, isConnected, isLoading, retryAction, sendAction],
   );
 }
