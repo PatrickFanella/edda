@@ -383,8 +383,7 @@
       "583",
       "584",
       "589",
-      "590",
-      "330:world-cohort"
+      "590"
     ],
     "184": [
       "143"
@@ -9548,7 +9547,8 @@
       "330:spell-cohort-6",
       "330:spell-cohort-7",
       "330:spell-cohort-8",
-      "330:spell-cohort-9"
+      "330:spell-cohort-9",
+      "330:world-cohort"
     ],
     "330:class-gate": [
       "330",
@@ -10538,7 +10538,10 @@
     ],
     "331:spell-befuddlement-ending": [
       "331:casting-output",
-      "331:execution-cohort-2"
+      "331:execution-cohort-2",
+      "585",
+      "621",
+      "623"
     ],
     "331:spell-contact-other-plane-contact-questions": [
       "331:casting-output",
@@ -10546,7 +10549,10 @@
     ],
     "331:spell-contact-other-plane-failed-contact": [
       "331:casting-output",
-      "331:execution-cohort-2"
+      "331:execution-cohort-2",
+      "428",
+      "621",
+      "623"
     ],
     "331:spell-create-undead-animate": [
       "331:casting-output",
@@ -11012,7 +11018,10 @@
       "331:execution-cohort-1"
     ],
     "331:creature-mummy-rot-curse": [
-      "331:execution-cohort-1"
+      "331:execution-cohort-1",
+      "428",
+      "625",
+      "937"
     ],
     "331:creature-mummy-glare": [
       "331:execution-cohort-1"
@@ -11520,13 +11529,14 @@
       "331:creature-spider-bounded-stat-actions",
       "331:creature-sprite-enchanting-bow",
       "331:creature-sprite-heart-sight",
-      "331:creature-sprite-invisibility",
+      "355",
       "906",
       "909",
       "965",
       "966"
     ],
     "331:consumed-output-2-2": [
+      "331:creature-sprite-invisibility",
       "331:creature-sprite-needle-sword",
       "331:creature-sprite-statistics",
       "331:creature-venomous-snake-bite",
@@ -11540,7 +11550,6 @@
       "331:spell-enthrall-perception"
     ],
     "331:consumed-output-3-1": [
-      "179",
       "330:spell-fire-shield-choice-resistance",
       "330:spell-fire-shield-reactive-damage",
       "330:spell-fly-ending-fall",
@@ -11548,6 +11557,8 @@
       "330:spell-gaseous-form-ending",
       "330:spell-gaseous-form-movement-restrictions",
       "330:spell-gaseous-form-transform",
+      "330:spell-gate-named-creature",
+      "330:spell-gate-portal",
       "330:spell-hold-monster-paralysis",
       "330:spell-hold-monster-repeat-save-ending",
       "330:spell-hypnotic-pattern-admission",
@@ -11582,7 +11593,6 @@
     "331:consumed-output-4-1": [
       "1064",
       "1070",
-      "1076",
       "330:spell-invisibility-admission",
       "330:spell-invisibility-ending",
       "330:spell-levitate-effect",
@@ -11613,19 +11623,14 @@
       "331:spell-planar-binding-binding",
       "331:spell-planar-binding-commands-return",
       "331:spell-planar-binding-duration",
-      "640",
-      "680",
       "688",
-      "691",
       "699",
-      "934",
       "935",
       "936",
       "955",
       "967"
     ],
     "331:consumed-output-5-1": [
-      "1012",
       "1075",
       "1076",
       "1077",
@@ -11645,7 +11650,6 @@
       "331:spell-scrying-location",
       "331:spell-scrying-sensor",
       "506",
-      "586",
       "684",
       "689",
       "700",
@@ -15752,9 +15756,9 @@
     "332:execution-consumers-3": "332"
   },
   "input_sha256": {
-    "/tmp/edda-332/native-checkpoint.json": "c5514d9f55ba936c4787fd472d37ef26f7e8d928b773dcdce8fc1295f429f092",
-    "/home/shared/Work/Worktrees/edda/t3-1cd94a74-1dc9a0e2b4b7efd2/docs/investigations/issue-330-sorcerer-scope.json": "09668d7f85c4265eb36abff2ff7ce354093aecf7e7e8ac2e1fd812f562190abb",
-    "/home/shared/Work/Worktrees/edda/t3-e95d4d18-a58f8fc1027feb81/docs/investigations/issue-331-native-proposal.json": "c0f928558a9e5063cf8e9a056c52bf877304ec48d3b61666a2d35aebb4212c36",
-    "docs/investigations/issue-332-wizard-scope.json": "760b67e6bf1babf3d94517aaba7cc3511943d83065f3e1e01a7e086686ab31da"
+    "/tmp/edda-rogue-merged-main-live.json": "337b6d0c2a8176aacd1f32412fce55dae12cff2c797a5917eec736f2ebe2c61c",
+    "/home/shared/Work/Worktrees/edda/t3-1cd94a74-1dc9a0e2b4b7efd2/docs/investigations/issue-330-sorcerer-scope.json": "2a08a9290d5963b7093baab8de458841aa3f01860f00d22684c51053c52844fa",
+    "/home/shared/Work/Worktrees/edda/t3-e95d4d18-a58f8fc1027feb81/docs/investigations/issue-331-native-proposal.json": "8d4a8ea724ee8e997093d0e3877054a1c4a499f1f00a059bcbb9d2d51bc4268a",
+    "docs/investigations/issue-332-wizard-scope.json": "ef1f0ea92dd01f8ced8195fb1ef61b082f7cad35a50a8d44bc05bb43fe4b4634"
   }
 }

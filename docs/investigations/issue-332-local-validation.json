@@ -47,5 +47,33 @@
     "frontend/src/lib/startupWorkflow.ts": "3488d57ac02e39a08b6ca6f67a53cf046f0444435707bb0bfc8b7ab0bbe2b9b2"
   },
   "source_log_sha256": "a2f34fe5dcf6e86c1fb24160260c3da3bec148be8c2b782bc57d84d5ded2afa9",
-  "python_log_sha256": "fd3d68e671998ef4dbe039db079a8f0f9af060052a32849b30e2ee936d3d022e"
+  "python_log_sha256": "fd3d68e671998ef4dbe039db079a8f0f9af060052a32849b30e2ee936d3d022e",
+  "root_reservation_repair": {
+    "status": "PENDING native publication; ROOT reservation witness repair only",
+    "review": "/tmp/edda-reservation-independent-review.txt",
+    "parent_head": "e0929cd5cd32fb2fe57f30f8608955023ae155d5",
+    "observed_at": "2026-11-16T21:35:06.956723+00:00",
+    "changed_contract": "ritual",
+    "changed_fields": [
+      "fixture",
+      "body"
+    ],
+    "source": {
+      "pin": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+      "facts": "PDF123 Detect Magic Action or Ritual; PDF104 adds10minutes to normal time; PDF78 preparation exception; PDF105 Magic each turn/Concentration retained"
+    },
+    "independent_guard": "Rejects original wrong witness even with agreeing oracle; exact parent accepts original",
+    "focused_tests": {
+      "count": 15,
+      "seconds": 9.564,
+      "result": "PASS"
+    },
+    "source_proof": "PASS actual candidate/source+217list/339headers/235typedforms; exact3sourceconflicts",
+    "preserved": "All source records, ownership, dependencies, parents, counts, scope restrictions, typed form bindings and PENDING parent artifacts unchanged",
+    "combined_graph": "305+281+285 proposed+1017native=1888;caps100/100/95,bothDAGs;old183 unchanged,worldcohort mandatory through330shared-output",
+    "full_go_vet": "Original single runs retained; not repeated",
+    "native_writes": false,
+    "final_seal": false,
+    "projection_guard_repair": "Removed obsolete old183addition; independently require ownworldcohort path and raise on cap violations; positive/reroute-removal/101consumer tests"
+  }
 }

@@ -22,11 +22,12 @@ def project(base,s,w,z):
             parents[ident]=ref(t['parent'],n)
     for n in [330,331,332]:graph['337'].append(f'{n}:class-gate')
     for n in [279,280]:graph[str(n)].append('330:shared-aggregate')
-    graph['183'].append('330:world-cohort')
+    assert '330:world-cohort' in graph['330:shared-output'], 'mandatory world cohort through shared output; old183 unchanged'
     unknown=sorted({x for ds in graph.values() for x in ds if x not in graph}|{p for p in parents.values() if p not in graph})
     assert not unknown,('unbound foreign proposal references',unknown)
     incoming={k:len(set(v)) for k,v in graph.items()};outgoing=Counter(x for ds in graph.values() for x in set(ds));children=Counter(parents.values())
     errors={label:{k:v for k,v in counts.items() if v>100} for label,counts in [('incoming',incoming),('outgoing',outgoing),('children',children)]}
+    assert not any(errors.values()), ('native caps',errors)
     acyclic(graph);acyclic({k:[p] for k,p in parents.items()})
     return dict(status='PROPOSAL ONLY; not published/native final seal',nodes=len(graph),counts={str(n):len(ts) for n,ts in packs.items()},errors=errors,maxima=dict(incoming=max(incoming.values()),outgoing=max(outgoing.values()),children=max(children.values())),old285_outgoing=outgoing['285'],old67_outgoing=outgoing['67'],parent279_incoming=incoming['279'],parent280_incoming=incoming['280'],parent283_children=children['283'],old429_outgoing=outgoing['429'],graph=graph,parents=parents)
 if __name__=='__main__':

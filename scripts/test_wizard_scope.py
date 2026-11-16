@@ -14,6 +14,39 @@ class WizardScopeTests(unittest.TestCase):
         m=copy.deepcopy(self.base);change(m)
         with self.assertRaises(AssertionError):check_plan(m)
     def test_checkpoint(self):check_plan(self.base)
+    def test_ritual_time_rejects_a_coherently_wrong_oracle(self):
+        from unittest.mock import patch
+        import wizard_contract_oracle as oracle
+        row=next(t for t in self.base['tasks'] if t['key']=='ritual')
+        self.assertIn('Detect Magic10minutes+Action',row['fixture'])
+        candidate=copy.deepcopy(self.base)
+        bad=next(t for t in candidate['tasks'] if t['key']=='ritual')
+        old=bad['fixture'];bad['fixture']=old.replace('Detect Magic10minutes+Action','Detect Magic11minutes')
+        bad['body']=bad['body'].replace(old,bad['fixture'])
+        with patch.dict(oracle.CONTRACTS,{'ritual':bad['fixture']}):
+            with self.assertRaisesRegex(AssertionError,'Detect Magic ritual time'):
+                check_plan(candidate)
+
+    def test_combined_projection_preserves_183_and_rejects_caps(self):
+        from wizard_combined_projection import project
+        base={'graph':[dict(number=n,parent=None,blocked_by=[]) for n in [183,191,279,280,330,331,332,337,67]]}
+        def row(key,depends=(),prerequisites=(),parent=330):
+            return dict(key=key,depends=list(depends),prerequisites=list(prerequisites),parent=parent)
+        sorcerer={'tasks':[],'shared_split_proposal':[],'gates':[
+            row('class-gate',['shared-output']),row('shared-output',['world-cohort']),row('world-cohort'),
+            row('shared-aggregate',['shared-output','warlock-shared-output','wizard-shared-output'],parent=191)]}
+        warlock={'tasks':[],'gates':[row('class-gate',['shared-output'],parent=331),row('shared-output',parent=331)]}
+        wizard={'tasks':[],'gates':[row('class-gate',['shared-output'],parent=332),row('shared-output',parent=332)]}
+        result=project(base,sorcerer,warlock,wizard)
+        self.assertEqual(result['graph']['183'],[])
+        self.assertIn('330:world-cohort',result['graph']['330:shared-output'])
+        bad=copy.deepcopy(sorcerer);bad['gates'][1]['depends']=[]
+        with self.assertRaisesRegex(AssertionError,'mandatory world cohort'):
+            project(base,bad,warlock,wizard)
+        bad=copy.deepcopy(wizard)
+        bad['tasks']=[row('consumer-'+str(i),prerequisites=[67],parent=330 if i<50 else 331) for i in range(101)]
+        with self.assertRaisesRegex(AssertionError,'native caps'):
+            project(base,sorcerer,warlock,bad)
     def test_each106_complete_contexts_rejects_coherent_reroute(self):
         for i in range(106):
             def change(m,i=i):

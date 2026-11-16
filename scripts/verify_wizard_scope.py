@@ -25,6 +25,7 @@ def check_plan(m):
     assert {c['record']['id']:c['record'] for c in m['record_matrix']}=={r['id']:r for r in records}
     assert {c['record']['id']:c['key_owners'] for c in m['record_matrix']}==oracle,'independent complete contextual ownership'
     tasks={t['key']:t for t in m['tasks']};assert len(tasks)==len(m['tasks'])
+    assert 'Positive unprepared inbook Detect Magic10minutes+Action' in tasks['ritual']['fixture'], 'Detect Magic ritual time: normal Action plus ten minutes'
     for key,fixture in CONTRACTS.items():
         t=tasks[key];assert t['fixture']==fixture,('actual class fixture',key)
         assert t['body'].startswith('Decision #332; one implementation PR; Task Size M.\n\n'+fixture+'\n\n'+COMMON+'\n'),('actual class body',key)
@@ -125,6 +126,7 @@ def source_check(m,pdf):
     heads=[i for i,(_,t) in enumerate(lines[:-1]) if t in names and re.match(r'(?:Level [1-9] |\w+ Cantrip)',lines[i+1][1])]
     assert len(heads)==339
     sources={lines[i][1]:dict(page=lines[i][0],text=re.sub(r'(\w)-\n(\w)',r'\1\2','\n'.join(t for _,t in lines[i:heads[j+1] if j+1<len(heads) else len(lines)]))) for j,i in enumerate(heads)}
+    assert 'Casting Time: Action or Ritual' in sources['Detect Magic']['text'], 'Detect Magic normal casting time'
     actual=load(OUT/'issue-332-residual-source-oracle.json')
     assert {n:sources[n] for n in actual}==actual,'every actual source-oracle clause compared with PDF'
     conflicts=[]
