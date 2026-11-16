@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-16T14:59:08.680855+00:00",
+  "observed_at": "2026-11-16T15:07:53.175584+00:00",
   "method": "Read-only GraphQL full repository parents/dependencies and REST exact bodies; Project fields",
   "graph": [
     {
@@ -4003,6 +4003,421 @@
         513,
         514
       ]
+    },
+    {
+      "number": 551,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 552,
+      "parent": 551,
+      "blocked_by": [
+        285,
+        429
+      ]
+    },
+    {
+      "number": 553,
+      "parent": 551,
+      "blocked_by": [
+        267,
+        430
+      ]
+    },
+    {
+      "number": 554,
+      "parent": 551,
+      "blocked_by": [
+        195,
+        259,
+        261,
+        267
+      ]
+    },
+    {
+      "number": 555,
+      "parent": 551,
+      "blocked_by": [
+        320,
+        335,
+        430,
+        552
+      ]
+    },
+    {
+      "number": 556,
+      "parent": 551,
+      "blocked_by": [
+        68,
+        273,
+        386,
+        503
+      ]
+    },
+    {
+      "number": 557,
+      "parent": 551,
+      "blocked_by": [
+        428,
+        503,
+        556
+      ]
+    },
+    {
+      "number": 558,
+      "parent": 551,
+      "blocked_by": [
+        428
+      ]
+    },
+    {
+      "number": 559,
+      "parent": 551,
+      "blocked_by": [
+        267,
+        430
+      ]
+    },
+    {
+      "number": 560,
+      "parent": 551,
+      "blocked_by": [
+        61,
+        503,
+        557,
+        559
+      ]
+    },
+    {
+      "number": 561,
+      "parent": 551,
+      "blocked_by": []
+    },
+    {
+      "number": 562,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 563,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 564,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 565,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 566,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 567,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 568,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 569,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 570,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 571,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 572,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 573,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 574,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 575,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 576,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 577,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 578,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 579,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 580,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 581,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 582,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 583,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 584,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 585,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 586,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 587,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 588,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 589,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 590,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 591,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 593,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 594,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 595,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 596,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 597,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 598,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 599,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 600,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 601,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 602,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 603,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 604,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 605,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 606,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 607,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 608,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 609,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 610,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 611,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 612,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 613,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 614,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 615,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 616,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 617,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 618,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 619,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 620,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 621,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 622,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 623,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 624,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 625,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 626,
+      "parent": null,
+      "blocked_by": []
+    },
+    {
+      "number": 627,
+      "parent": null,
+      "blocked_by": []
     }
   ],
   "bodies": {
@@ -4920,24 +5335,24 @@
   },
   "supplements": {
     "47": {
-      "status": "parent-body pending",
+      "status": "published",
       "append_sha256": "429c03ddc4956d6f29e55d789f1221f427c1e9c3f4f325227b6343509ea7fa6c",
-      "observed_body_sha256": "2eebbd66fbea0f87fd4994c9035aa2adfc86c8cd668c1c6a95cab5d37a65ba0f"
+      "observed_body_sha256": "35a14dc4bb95a043e977a558f4846bfd9df560ff0e823ff3ce0a5a19f3f78dca"
     },
     "54": {
-      "status": "parent-body pending",
+      "status": "published",
       "append_sha256": "b93c4964a6c38b1a8ba7b10a6cf829c54aa7e7d8e8ccd022f95ae2199c689bf9",
-      "observed_body_sha256": "060556eaa50205c7a599040928caba877c66f19c13aed4280b12067e6c3d7dba"
+      "observed_body_sha256": "081309c6c791522f1d86d59dd52a383cb67e72f2c9156f2b9d858270e047381e"
     },
     "283": {
-      "status": "parent-body pending",
+      "status": "published",
       "append_sha256": "b3d246aadb176bad001ee2172d7bf773152df5a68fc92e2bb6622a23c1ad8941",
-      "observed_body_sha256": "3bb50c285245e71ef4b67080c96c6ee6f28e6fbc4c3edb9eb7281049cce10542"
+      "observed_body_sha256": "455033c7ab8988cc787e4d70e4bed03bb902848d1e2e34523b7f9a9a16503315"
     },
     "337": {
-      "status": "parent-body pending",
+      "status": "published",
       "append_sha256": "207bd9f1b9a040c034c7c3437149f46ca4beef40c60eca7afbe700de586ea847",
-      "observed_body_sha256": "86c6990a9b648d0307e8c6a6cfbf2fb4aeaa743c2c39d31b776b4a41e73e8806"
+      "observed_body_sha256": "42ee7526617a22e0a0ab5d92046116e67b51a6d97a60fb2ba249a4b5b498b1b3"
     }
   },
   "api_calls": 114,
