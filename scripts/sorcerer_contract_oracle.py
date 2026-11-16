@@ -389,7 +389,7 @@ COMMON = '''One reviewable implementation PR; Task Size M. Authoritative actor/c
 
 
 def level_fixture(n):
-    return (f'PDF23-26/64-70: Sorcerer class row {n}; first-character creation ONLY level1, otherwise exact adjacent own-class transition ' 
+    return (f'PDF23-26/64-70: Sorcerer class row {n}; first-character creation ONLY level1, otherwise exact adjacent own-class transition '
             f'{n-1}->{n}. Later-class1 is a separate adapter. Feature/slot/point/preparation selectors use SORCERER class level; '
             'XP/livePB use COMPLETE canonical advancement table selected by sum of authoritative admitted class levels AFTER transition. '
             'Positive: apply each exact source row and newly due choices once; Fighter4->Sorcerer1 total5=6500XP/PB3, '
