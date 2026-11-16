@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "base": "d60082ca61419b6aadacb333c08c717312e51d50",
+  "base": "32252f64380eb49dd47f7d1f53171b6a8791624e",
   "source": {
     "version": "5.2.1",
     "language": "en",
@@ -9059,7 +9059,7 @@
     389
   ],
   "evidence_hashes": {
-    "internal/rules/srd521/catalogue.go": "3f787ea6ffa99ebce2da6360cab72649b2729005f82a6775682386df456ac0d7",
+    "internal/rules/srd521/catalogue.go": "c916b598cc5aa4be8550330b5eaf8e1f09c23bb894ec1fa98f354efbb2eb10dd",
     "internal/rules/srd521/creation.go": "75df9feff30427f064a426aaf1a06026e35e62bc64cf383dac4c9247f5f3a5c6",
     "internal/rules/srd521/character.go": "33ecc9a817f601f5d4255235463743bd75e13f039fdff56e3c264d0d52dab327",
     "internal/rules/srd521/advancement.go": "9cebf34ab743e37038264058cd7d961cc85b1e9153d4b06586cf28cf46763dd2",
