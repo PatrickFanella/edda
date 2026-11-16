@@ -148,7 +148,7 @@ Each row consumes the exact source table, XP/PB transaction, D8 adapter, prepara
 
 ## Parent serial application and verification
 
-The four marked append-only supplements in `issue-323-parent-supplements.json` are intended for the parent to append serially to #47/#54/#283/#337 after rereading their current bodies. This child does not edit those live bodies. Each supplement includes its observed prefix hash, exact issue list, owners and gate path. If another authorized supplement arrives, preserve it and append this block once; never replace a shared body from an old snapshot.
+The parent has applied the four exact marked supplements in `issue-323-parent-supplements.json` serially to #47/#54/#283/#337, after fresh body reads. The sealed receipt includes each original prefix and its appended block. Future authorized supplements must preserve these exact sections; never replace a shared body from an old snapshot.
 
 `issue-323-link-verification.json` is the final live receipt. `scripts/verify_cleric_scope.py` compares exact source snapshots and evidence hashes, every owned title/body, native parent/prerequisite set, Task/Project Size, all mandatory gate paths, legacy edges and both DAGs. Its corruption probes reject source changes, missing keys, bodies/titles, missing terminal and source edges, wrong parents/sizes and both cycle types. `test_verify_cleric_scope.py` parses query parameters and caps synthetic pagination at100 calls; repeated pages fail immediately. All live reads are bounded and have repeated-page/cursor guards.
 

@@ -125,7 +125,7 @@ def validate(m, receipt):
     for r in graph.values():counts[r['parent']]=counts.get(r['parent'],0)+1
     assert all(v<=100 for k,v in counts.items() if k is not None)
     g=m['qualification_gate']; gate=g['issue']
-    assert graph[323]['state']=='open' and graph[323]['parent']==283
+    assert graph[323]['state'] in {'open','closed'} and graph[323]['parent']==283
     assert {285,288,310}<=set(graph[323]['blocked_by'])
     assert all(graph[n]['state']=='closed' for n in [285,288,310])
     assert graph[gate]['parent']==g['parent']==323 and graph[gate]['body']==g['body'] and graph[gate]['title']==g['title']

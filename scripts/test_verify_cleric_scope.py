@@ -50,6 +50,16 @@ class Receipt(unittest.TestCase):
             text=f"|{level}|+{row['progression']['proficiency_bonus']}|"+'|'.join(map(str,values))+'|'+'/'.join(map(str,slots))+f"|#{owners['level-'+str(level)]}|"
             self.assertIn(text,doc)
 
+    def test_decision_closure_keeps_terminal_gates_required(self):
+        m=json.loads(scope.MANIFEST.read_text());r=json.loads(scope.RECEIPT.read_text())
+        graph={x['number']:x for x in r['graph']}
+        graph[323]['state']='closed'
+        scope.validate(m,r)
+        gate=m['qualification_gate']['issue']
+        graph[gate]['blocked_by'].remove(m['issues'][0]['issue'])
+        with self.assertRaisesRegex(AssertionError,'terminal gate edge'):
+            scope.validate(m,r)
+
     def test_full_source_body_edge_and_separate_cycle_guards(self):
         m=json.loads(scope.MANIFEST.read_text());r=json.loads(scope.RECEIPT.read_text())
         scope.validate(m,r)
