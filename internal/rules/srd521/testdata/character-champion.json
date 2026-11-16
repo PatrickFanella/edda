@@ -1,0 +1,498 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Champion and its six named features on PDF p49 adapted into offline metadata; mechanic keys, numeric parameters, prerequisites and graph are Edda additions. Canonical Fighter records are referenced by a test composition manifest. No rule prose or executable mechanics imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/fighter/champion",
+      "kind": "subclass",
+      "name": "Champion",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/fighter-champion",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/fighter",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/fighter/champion/champion-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/fighter/subclasses/champion"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/fighter/champion/champion-level",
+      "kind": "prerequisite",
+      "name": "Champion level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/fighter-champion",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/fighter/champion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/fighter"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/fighter/champion/improved-critical",
+      "kind": "feature",
+      "name": "Improved Critical",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-3-improved-critical",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/fighter/champion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/fighter/champion/improved-critical-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/fighter/champion/critical/weapons-and-unarmed-strikes",
+        "srd-5.2.1:mechanic/fighter/champion/critical/d20-minimum",
+        "srd-5.2.1:mechanic/fighter/champion/critical/d20-maximum"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/fighter/champion/critical/d20-minimum": 19,
+        "srd-5.2.1:mechanic/fighter/champion/critical/d20-maximum": 20
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/fighter/champion/improved-critical-level",
+      "kind": "prerequisite",
+      "name": "Improved Critical level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-3-improved-critical",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/fighter/champion/improved-critical",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/fighter"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/fighter/champion/remarkable-athlete",
+      "kind": "feature",
+      "name": "Remarkable Athlete",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-3-remarkable-athlete",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/fighter/champion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/fighter/champion/remarkable-athlete-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/fighter/champion/advantage/initiative",
+        "srd-5.2.1:mechanic/fighter/champion/advantage/strength-athletics",
+        "srd-5.2.1:mechanic/fighter/champion/critical-movement/optional-immediately-after-critical-hit",
+        "srd-5.2.1:mechanic/fighter/champion/critical-movement/up-to-half-speed",
+        "srd-5.2.1:mechanic/fighter/champion/critical-movement/no-opportunity-attacks",
+        "srd-5.2.1:mechanic/fighter/champion/critical-movement/speed-divisor"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/fighter/champion/critical-movement/speed-divisor": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/fighter/champion/remarkable-athlete-level",
+      "kind": "prerequisite",
+      "name": "Remarkable Athlete level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-3-remarkable-athlete",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/fighter/champion/remarkable-athlete",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/fighter"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/fighter/champion/additional-fighting-style",
+      "kind": "feature",
+      "name": "Additional Fighting Style",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-7-additional-fighting-style",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/fighter/champion",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/fighter/champion/additional-fighting-style"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/fighter/champion/additional-fighting-style-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/fighter/champion/additional-fighting-style"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/fighter/champion/additional-fighting-style-level",
+      "kind": "prerequisite",
+      "name": "Additional Fighting Style level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-7-additional-fighting-style",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/fighter/champion/additional-fighting-style",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/fighter"
+        ],
+        "parameters": {
+          "minimum-level": 7
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/fighter/champion/additional-fighting-style",
+      "kind": "choice",
+      "name": "Additional Fighting Style feat",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-7-additional-fighting-style",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/fighter/champion/additional-fighting-style",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/fighter/champion/additional-fighting-style/another-distinct-feat"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/fighting-style"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/fighter/champion/heroic-warrior",
+      "kind": "feature",
+      "name": "Heroic Warrior",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-10-heroic-warrior",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/fighter/champion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/fighter/champion/heroic-inspiration"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/fighter/champion/heroic-warrior-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/fighter/champion/heroic-warrior/optional-self-heroic-inspiration",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-warrior/during-combat",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-warrior/start-of-own-turn",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-warrior/only-without-heroic-inspiration"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/fighter/champion/heroic-warrior-level",
+      "kind": "prerequisite",
+      "name": "Heroic Warrior level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-10-heroic-warrior",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/fighter/champion/heroic-warrior",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/fighter"
+        ],
+        "parameters": {
+          "minimum-level": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/fighter/champion/heroic-inspiration",
+      "kind": "resource",
+      "name": "Heroic Inspiration",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-10-heroic-warrior",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/fighter/champion/heroic-warrior",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/fighter/champion/heroic-warrior/only-without-heroic-inspiration",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-warrior/start-of-own-turn",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-warrior/during-combat",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-warrior/no-stacking"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/feature/fighter/champion/superior-critical",
+      "kind": "feature",
+      "name": "Superior Critical",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-15-superior-critical",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/fighter/champion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/fighter/champion/superior-critical-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/fighter/champion/critical/weapons-and-unarmed-strikes",
+        "srd-5.2.1:mechanic/fighter/champion/critical/replaces-improved-critical",
+        "srd-5.2.1:mechanic/fighter/champion/critical/d20-minimum",
+        "srd-5.2.1:mechanic/fighter/champion/critical/d20-maximum"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/fighter/champion/critical/d20-minimum": 18,
+        "srd-5.2.1:mechanic/fighter/champion/critical/d20-maximum": 20
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/fighter/champion/superior-critical-level",
+      "kind": "prerequisite",
+      "name": "Superior Critical level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-15-superior-critical",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/fighter/champion/superior-critical",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/fighter"
+        ],
+        "parameters": {
+          "minimum-level": 15
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/fighter/champion/survivor",
+      "kind": "feature",
+      "name": "Survivor",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-18-survivor",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/fighter/champion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/fighter/champion/survivor-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/fighter/champion/defy-death/advantage-death-saving-throws",
+        "srd-5.2.1:mechanic/fighter/champion/defy-death/range-grants-benefit-of-20",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-rally/start-of-each-own-turn",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-rally/plus-constitution-modifier",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-rally/only-while-bloodied",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-rally/requires-at-least-one-hit-point",
+        "srd-5.2.1:mechanic/fighter/champion/defy-death/d20-minimum",
+        "srd-5.2.1:mechanic/fighter/champion/defy-death/d20-maximum",
+        "srd-5.2.1:mechanic/fighter/champion/defy-death/benefit-of-roll",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-rally/healing-base",
+        "srd-5.2.1:mechanic/fighter/champion/heroic-rally/minimum-current-hit-points"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/fighter/champion/defy-death/d20-minimum": 18,
+        "srd-5.2.1:mechanic/fighter/champion/defy-death/d20-maximum": 20,
+        "srd-5.2.1:mechanic/fighter/champion/defy-death/benefit-of-roll": 20,
+        "srd-5.2.1:mechanic/fighter/champion/heroic-rally/healing-base": 5,
+        "srd-5.2.1:mechanic/fighter/champion/heroic-rally/minimum-current-hit-points": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/fighter/champion/survivor-level",
+      "kind": "prerequisite",
+      "name": "Survivor level requirement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/fighter-level-18-survivor",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/fighter/champion/survivor",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/fighter"
+        ],
+        "parameters": {
+          "minimum-level": 18
+        }
+      }
+    }
+  ]
+}

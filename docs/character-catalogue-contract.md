@@ -185,3 +185,60 @@ locally on pp47–48. These checks establish this data batch's completeness;
 they do not evaluate feat eligibility, resolve adjacent catalogues or qualify
 creation, advancement, actions, Champion mechanics or Full Rules. The catalogue
 retains CC-BY-4.0 attribution and its adaptation notice.
+
+
+## Champion catalogue (#312)
+
+`testdata/character-champion.json` adds exactly seven source identities from PDF
+page 49: Champion; Improved Critical and Remarkable Athlete at level 3;
+Additional Fighting Style at 7; Heroic Warrior at 10; Superior Critical at 15;
+and Survivor at 18. It uses the existing schema without changing validation.
+`character-champion-composition.json` explicitly composes the canonical Fighter
+fixture and this batch for offline tests. The batch requires that composition
+to resolve its Fighter parent and class-level prerequisite operands. It copies
+no Fighter records and does not connect Champion to runtime progression slots.
+Global advancement remains separate.
+
+Each feature has an opaque Fighter minimum-level predicate. The additional
+Fighting Style choice selects one further distinct feat from the existing
+`feats/fighting-style` domain; adjacent feat definitions are not imported.
+Critical metadata retains weapon and Unarmed Strike applicability, inclusive
+19–20 and 18–20 d20 ranges, and Superior Critical's replacement of the earlier
+range. Remarkable Athlete retains Advantage on Initiative and Strength
+(Athletics), plus optional movement up to half Speed immediately after a
+Critical Hit without provoking Opportunity Attacks. **Page 49 has no jump
+benefit.** The metadata follows this pinned edition.
+
+Heroic Warrior records optional self-granted Heroic Inspiration during combat
+at the start of the character's turn, only when absent. Its nested resource has
+capacity one to describe that absence condition and no stacking; it is not a
+rest-based use pool. Survivor records both named benefits through mechanic
+keys: Defy Death gives Advantage on Death Saving Throws and the benefit of a
+20 on an 18–20 roll; Heroic Rally restores 5 plus Constitution modifier at the
+start of each own turn only while Bloodied and with at least 1 Hit Point.
+These are uninterpreted parameters and conditions, never executable effects.
+The batch retains the pin, CC-BY-4.0 attribution and its own adaptation notice.
+
+`TestChampionSourceAndImprovements` checks exact identities/pages, all feature
+levels, numeric details, choice domain/count, resource timing/capacity keys,
+conditions and unchanged canonical Fighter records. `TestChampionMetadataGuards`
+rejects malformed ownership, sources, references, counts, numeric keys and
+predicates, checks unknown-key readiness and rejects JSON-supplied availability.
+It also checks fixed Fighter/Cleric creation, unavailable Champion creation and
+unchanged coverage. Existing parent, source, reference, count, readiness and
+global advancement fixtures remain in the full suite.
+
+Run the source comparison offline:
+
+```sh
+rtk proxy python3 scripts/verify_srd_champion.py /tmp/edda-wave1/SRD_CC_v5.2.1.pdf
+rtk proxy go test -short -race ./...
+rtk proxy go vet ./...
+```
+
+The verifier checks the full PDF hash, crops page 49 to the Champion column,
+compares the seven inventory identities/pages, six extracted feature levels,
+critical ranges, movement fraction, Survivor numbers and choice/condition text
+anchors. Go fixtures independently assert exact mechanic keys. These checks
+establish metadata transcription; they do not qualify playable Champion,
+feat eligibility, creation, grants, advancement, combat or Full Rules.
