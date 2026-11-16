@@ -384,3 +384,11 @@ The invocation feature-family extension and its exact Warlock ownership guards
 are documented in [Invocation metadata, batch 01](invocations-01-catalogue.md).
 That batch composes canonical Warlock once and retains adjacent invocation
 requirements as unresolved keys. Source metadata never enables playability.
+
+## Invocation catalogue batch 03 (#304)
+
+The four final p74 invocation identities use the existing feature kind and
+shared canonical Warlock ownership validator. See
+[the source evidence and proofs](srd-5.2.1-invocations-03.md) for exact levels,
+prerequisites, slot exceptions, Attack action timing and Truesight range.
+Catalogue completion leaves every mechanic unavailable.

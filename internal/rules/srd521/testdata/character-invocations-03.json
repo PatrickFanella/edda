@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Four Invocation identities on PDF p74 adapted into unavailable metadata with exact prerequisites, nonrepeatability, spell-slot exceptions, pact-weapon Attack action timing and Truesight range. Graph and mechanic keys are Edda additions. Canonical Warlock is external; Pact of the Blade and spells have separate owners. No executable support imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/thirsting-blade",
+      "kind": "feature",
+      "name": "Thirsting Blade",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/thirsting-blade",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/thirsting-blade-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/thirsting-blade-selection",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/thirsting-blade-pact"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/thirsting-blade",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/warlock/invocations/thirsting-blade/extra-attack-for-pact-weapon-only",
+        "srd-5.2.1:mechanic/warlock/invocations/thirsting-blade/when-take-attack-action-on-your-turn",
+        "srd-5.2.1:mechanic/warlock/invocations/thirsting-blade/attacks-instead-of-once"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/thirsting-blade/attacks-instead-of-once": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/thirsting-blade-level",
+      "kind": "prerequisite",
+      "name": "Thirsting Blade level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/thirsting-blade",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/thirsting-blade",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/warlock-minimum-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/warlock-minimum-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/thirsting-blade-selection",
+      "kind": "prerequisite",
+      "name": "Thirsting Blade selection",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/thirsting-blade",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/thirsting-blade",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires-canonical-invocation-selection"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/requires-canonical-invocation-selection",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/thirsting-blade-pact",
+      "kind": "prerequisite",
+      "name": "Thirsting Blade pact",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/thirsting-blade",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/thirsting-blade",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires-pact-of-the-blade-invocation"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/requires-pact-of-the-blade-invocation",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/visions-of-distant-realms",
+      "kind": "feature",
+      "name": "Visions of Distant Realms",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/visions-of-distant-realms",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/visions-of-distant-realms-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/visions-of-distant-realms-selection"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/visions-of-distant-realms",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/spells/arcane-eye",
+        "srd-5.2.1:mechanic/warlock/invocations/visions-of-distant-realms/can-cast",
+        "srd-5.2.1:mechanic/warlock/invocations/visions-of-distant-realms/without-expending-spell-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/visions-of-distant-realms-level",
+      "kind": "prerequisite",
+      "name": "Visions of Distant Realms level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/visions-of-distant-realms",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/visions-of-distant-realms",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/warlock-minimum-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/warlock-minimum-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 9
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/visions-of-distant-realms-selection",
+      "kind": "prerequisite",
+      "name": "Visions of Distant Realms selection",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/visions-of-distant-realms",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/visions-of-distant-realms",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires-canonical-invocation-selection"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/requires-canonical-invocation-selection",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/whispers-of-the-grave",
+      "kind": "feature",
+      "name": "Whispers of the Grave",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/whispers-of-the-grave",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/whispers-of-the-grave-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/whispers-of-the-grave-selection"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/whispers-of-the-grave",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/spells/speak-with-dead",
+        "srd-5.2.1:mechanic/warlock/invocations/whispers-of-the-grave/can-cast",
+        "srd-5.2.1:mechanic/warlock/invocations/whispers-of-the-grave/without-expending-spell-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/whispers-of-the-grave-level",
+      "kind": "prerequisite",
+      "name": "Whispers of the Grave level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/whispers-of-the-grave",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/whispers-of-the-grave",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/warlock-minimum-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/warlock-minimum-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 7
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/whispers-of-the-grave-selection",
+      "kind": "prerequisite",
+      "name": "Whispers of the Grave selection",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/whispers-of-the-grave",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/whispers-of-the-grave",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires-canonical-invocation-selection"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/requires-canonical-invocation-selection",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/witch-sight",
+      "kind": "feature",
+      "name": "Witch Sight",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/witch-sight",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/witch-sight-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/witch-sight-selection"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/witch-sight",
+        "srd-5.2.1:mechanic/warlock/invocations/not-repeatable",
+        "srd-5.2.1:mechanic/warlock/invocations/witch-sight/truesight",
+        "srd-5.2.1:mechanic/warlock/invocations/witch-sight/range-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/witch-sight/range-feet": 30
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/witch-sight-level",
+      "kind": "prerequisite",
+      "name": "Witch Sight level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/witch-sight",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/witch-sight",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/warlock-minimum-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/warlock-minimum-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 15
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/witch-sight-selection",
+      "kind": "prerequisite",
+      "name": "Witch Sight selection",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/witch-sight",
+          "page": 74
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/witch-sight",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires-canonical-invocation-selection"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/requires-canonical-invocation-selection",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    }
+  ]
+}
