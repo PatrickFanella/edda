@@ -1,0 +1,42 @@
+{
+  "status": "PENDING; blocked ambiguous createIssue null response; NOT publication proof",
+  "observed_at": "2026-11-16T22:56:14.510031+00:00",
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+  "registry_count": 714,
+  "class_counts": {
+    "330": 305,
+    "331": 281,
+    "332": 128
+  },
+  "failed_alias": "332:spell-guards-and-wards-dancing-lights",
+  "failed_response": {
+    "data": {
+      "createIssue": {
+        "issue": null
+      }
+    }
+  },
+  "exact_marker_matches": 0,
+  "duplicate_creation_retried": false,
+  "final_wiring_started": false,
+  "report": {
+    "nodes": 1731,
+    "max_incoming": 99,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "incoming279": 99,
+    "incoming280": 94,
+    "incoming337": 56,
+    "outgoing429": 100,
+    "outgoing285": 80,
+    "children283": 95
+  },
+  "actual_partial_receipt_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/blocked-allocation-readback.json",
+  "actual_partial_receipt_sha256": "31c03aa1d85c4c54d22f351fa495bf3a27ae83366be25a8e7324af53011999d6",
+  "all714_allocated_Task_Size_M_OPEN": true,
+  "remaining_aliases": 157,
+  "ids_allocated_milestone": false,
+  "source_contracts_unchanged": true,
+  "recovery": "ROOT explicitly holds retry/WIRING. Ordinary allocate restart cannot cross any prior creation intent without readable exact identity. Root reconciliation and bounded one-attempt authorization required."
+}

@@ -90,8 +90,10 @@ def check_registry(registry, nodes, baseline, complete):
 
 
 def uncertain_creation(journal, alias):
-    return any(entry['operation'] == 'create ' + alias and entry['status'] in ['INTENT','RECONCILE_REQUIRED']
-               for entry in journal['operations'])
+    # Called only when neither the registry nor the complete marker readback has
+    # this alias. Even an ACK can precede a crash or contain issue:null. A prior
+    # creation intent is never permission for a second blind create.
+    return any(entry['operation']=='create '+alias for entry in journal['operations'])
 
 
 def caps(graph, parents):
@@ -169,6 +171,9 @@ class Coordinator:
         caps(graph, parents)
 
     def api(self, query, variables=None, operation=None):
+        if re.match(r'\s*mutation\b',query):
+            assert operation, 'native mutation must have a durable operation'
+            assert not (self.directory/'native-write-halt.json').exists(), 'ROOT native-write halt; no automatic continuation'
         self.calls += 1
         assert self.calls <= 15000, 'finite API call cap'
         payload = dict(query=query, variables=variables or {})
@@ -316,9 +321,18 @@ class Coordinator:
                 # Full marker scan above is the read-before-create boundary. On any
                 # uncertain API failure the process stops; resume scans again.
                 assert not uncertain_creation(self.journal, alias), 'ambiguous prior creation has no readable marker; do not create a duplicate: ' + alias
-                data = self.api('''mutation($input:CreateIssueInput!){createIssue(input:$input){issue{number databaseId id}}}''',
+                payload = self.api('''mutation($input:CreateIssueInput!){createIssue(input:$input){issue{number databaseId id}}}''',
                                 {'input': dict(repositoryId=REPO, title=n['title'], body=allocation_body(n, self.contract), issueTypeId=TASK,
-                                               projectV2Ids=[PROJECT], clientMutationId=alias)}, 'create ' + alias)['createIssue']['issue']
+                                               projectV2Ids=[PROJECT], clientMutationId=alias)}, 'create ' + alias)
+                created = payload.get('createIssue') if isinstance(payload,dict) else None
+                data = created.get('issue') if isinstance(created,dict) else None
+                valid = (isinstance(data,dict) and type(data.get('number')) is int and data['number']>0
+                         and type(data.get('databaseId')) is int and data['databaseId']>0
+                         and type(data.get('id')) is str and bool(data['id']))
+                if not valid:
+                    self.journal['operations'][-1]['status']='RECONCILE_REQUIRED'
+                    atomic(self.journal_path,self.journal)
+                    raise RuntimeError('Ambiguous createIssue returned no complete typed identity; reconcile exact marker before any retry: '+alias)
                 self.registry['nodes'][alias] = dict(number=data['number'], id=data['databaseId'], node_id=data['id'])
                 self.save_registry('ALLOCATING')
             identity = self.registry['nodes'][alias]

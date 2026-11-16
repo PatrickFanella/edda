@@ -61,8 +61,26 @@ as live evidence. Its controls reject coherent wrong DC/body claims, missing
 protocol/root edges, old-owner mutations, wrong metadata, unknown aliases,
 duplicate identities and JSON booleans/decimals used as numeric identities.
 
-At this checkpoint allocation is in progress. Native wiring, full live readback,
+At this checkpoint allocation is held at 714 of 871 identities (305/281/128).
+GitHub returned `createIssue.issue:null` for
+`332:spell-guards-and-wards-dancing-lights`, without an error or identity. A
+complete 1,731-node readback found no matching marker; the exact response and
+reconciliation remain in the durable journal. All 714 allocated issues were read
+back as OPEN Task/M with exact allocation bodies and no final wiring. ROOT holds
+retry and WIRING pending its recorded reconciliation and bounded recovery
+authorization. Ordinary allocation restart cannot cross the creation fence.
+
+Native wiring, full final readback,
 ROOT-only parent supplements, Sorcerer's final prefix seal and independent PR/CI
 acceptance remain pending. Existing source conflicts and unbound forms remain
 unavailable. The earlier full Go race/vet results are retained; this mechanical
 work uses focused Python/source checks and does not repeat those full suites.
+
+ROOT subsequently authorized one reconciled create attempt for that exact alias,
+pinned to `a0f47a7feae2d058813822cca8b4d3b7f9330d63a77ac9c6155cfd467bf82c6f`.
+`recover_caster_null_create.py` verifies the archived714 map, original intent,
+exact source body and fresh full/recent scans, then consumes an exclusive durable
+authorization record before at most one create. Sanitized status/request/rate
+headers and the exact GraphQL result are retained. A second ambiguity installs
+a native-write halt; ordinary allocation cannot cross the original fence. This
+operational release changes no source scope or registry schema.

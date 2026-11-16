@@ -1,11 +1,14 @@
 """Offline contrary controls for the frozen mechanical publication boundary."""
 import copy
 import json
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 import unittest
+from unittest.mock import Mock
 
 from caster_native_publication import (
-    APPROVAL_SHA, RENDERER_SHA, allocation_body,
+    APPROVAL_SHA, RENDERER_SHA, Coordinator, allocation_body,
     final_body, check_registry, caps, uncertain_creation,
 )
 
@@ -70,10 +73,51 @@ class PublicationTest(unittest.TestCase):
             final_body(node, self.vectors['example_registry'], self.coordinator.contract)
 
     def test_ambiguous_creation_never_retries_without_readable_identity(self):
-        for status in ['INTENT','RECONCILE_REQUIRED']:
+        for status in ['INTENT','RECONCILE_REQUIRED','ACKNOWLEDGED']:
             self.assertTrue(uncertain_creation({'operations':[dict(operation='create 330:hp',status=status)]},'330:hp'))
         self.assertFalse(uncertain_creation({'operations':[dict(operation='size-M 330:hp',status='RECONCILE_REQUIRED')]},'330:hp'))
-        self.assertFalse(uncertain_creation({'operations':[dict(operation='create 330:hp',status='ACKNOWLEDGED')]},'330:hp'))
+        self.assertFalse(uncertain_creation({'operations':[]},'330:hp'))
+
+    def fake_allocator(self):
+        c=Coordinator.__new__(Coordinator)
+        c.nodes=self.coordinator.nodes
+        c.baseline=self.coordinator.baseline
+        c.contract=self.coordinator.contract
+        c.registry=dict(schema_version=1,approval_sha256=APPROVAL_SHA,renderer_contract_sha256=RENDERER_SHA,status='ALLOCATING',nodes={})
+        c.journal=dict(operations=[])
+        c.verify_inputs=Mock()
+        c.full_graph=Mock(return_value=copy.deepcopy(c.baseline['graph']))
+        c.metadata=Mock(return_value={})
+        c.save_registry=Mock(side_effect=AssertionError('must not save an incomplete creation identity'))
+        return c
+
+    def test_ordinary_allocate_restart_cannot_cross_unresolved_creation_fence(self):
+        c=self.fake_allocator()
+        c.journal['operations']=[dict(operation='create '+c.nodes[0]['alias'],status='RECONCILE_REQUIRED')]
+        c.api=Mock(side_effect=AssertionError('must not issue a second create'))
+        with self.assertRaisesRegex(AssertionError,'ambiguous prior creation'):
+            c.allocate()
+        c.api.assert_not_called()
+        self.assertEqual(c.registry['nodes'],{})
+
+    def test_null_success_and_malformed_identity_are_durably_fenced(self):
+        for issue in [None,{},dict(number=True,databaseId=123,id='I_TEST'),dict(number=2101,databaseId=1.5,id='I_TEST')]:
+            with self.subTest(issue=issue),TemporaryDirectory() as directory:
+                c=self.fake_allocator();c.journal_path=Path(directory)/'journal.json'
+                response=dict(createIssue=dict(issue=issue))
+                def acknowledged(query,variables,operation):
+                    c.journal['operations'].append(dict(operation=operation,status='ACKNOWLEDGED',response=dict(data=response)))
+                    return response
+                c.api=Mock(side_effect=acknowledged)
+                with self.assertRaisesRegex(RuntimeError,'no complete typed identity'):
+                    c.allocate()
+                saved=json.loads(c.journal_path.read_text())
+                self.assertEqual(saved['operations'][-1]['status'],'RECONCILE_REQUIRED')
+                self.assertEqual(saved['operations'][-1]['response'],dict(data=response))
+                self.assertEqual(c.registry['nodes'],{})
+                with self.assertRaisesRegex(AssertionError,'ambiguous prior creation'):
+                    c.allocate()
+                self.assertEqual(c.api.call_count,1)
 
     def test_both_dags_and_three_independent_caps(self):
         graph = {str(i): [] for i in range(105)}
