@@ -1,0 +1,50 @@
+[
+  {
+    "issue": 47,
+    "append": "\n<!-- edda-327:start -->\nPaladin #845.\n<!-- edda-327:end -->",
+    "append_chars": 60,
+    "publication": "SEALED root serial publication 2026-11-16",
+    "previous_sha256": "7f45098b2071c4037f80cc12ce24022be73a9fac519d419eae4de2f27ce7d16a",
+    "previous_chars": 64779,
+    "result_chars": 64839,
+    "maximum_chars": 65536,
+    "published_sha256": "c1b834b560b3f2bb02f6dc00b5fe4af0dc420da03d4b48ec6f609cf1d4b0abfd",
+    "published_chars": 64839
+  },
+  {
+    "issue": 54,
+    "append": "\n<!-- edda-327:start -->\nPaladin #327: 87 source records and 20 levels; 54 class and 61 shared implementation leaves remain unqualified. Gates #845/#846/#847 and finite spell cohorts #848\u2013850 retain exact ownership. Planning closure grants no runtime support.\n<!-- edda-327:end -->",
+    "append_chars": 281,
+    "publication": "SEALED root serial publication 2026-11-16",
+    "previous_sha256": "59f0852d5dc077e6206a7b16a0ef444cde3abed19044e50f7bb08c06c592570b",
+    "previous_chars": 40784,
+    "result_chars": 41065,
+    "maximum_chars": 65536,
+    "published_sha256": "4518e86ba4b4bf00f81dcb25629f458e9a26584832fdc8268e13bd64100f6c24",
+    "published_chars": 41065
+  },
+  {
+    "issue": 283,
+    "append": "\n<!-- edda-327:start -->\nPaladin #327: 54 class leaves \u2192 #846; 54 spell leaves \u2192 #848/#849/#850 and five condition plus two Dispel leaves \u2192 #847; #846/#847 \u2192 #845 \u2192 #337. Paladin #851 D10/fixed6 is the sole new #429 consumer. Every leaf remains mandatory after #327 closes. Independent implementation acceptance is still required.\n<!-- edda-327:end -->",
+    "append_chars": 352,
+    "publication": "SEALED root serial publication 2026-11-16",
+    "previous_sha256": "1b70b7140f557648e249bd2f3203a1f8277b31f1cc3539824eba5e3a951fb6d0",
+    "previous_chars": 29250,
+    "result_chars": 29602,
+    "maximum_chars": 65536,
+    "published_sha256": "588045b9ddcf5cd3cb4b0295434419f50a745f0fa51a2621a2355df93a9059c3",
+    "published_chars": 29602
+  },
+  {
+    "issue": 337,
+    "append": "\n<!-- edda-327:start -->\nPaladin gate #845 requires #327/#846/#847. All 54 class and 61 shared leaves require source-bound execution, web and trusted TUI confirmation, and isolated PostgreSQL replay/reload/concurrency/rollback proof. Cohorts #848\u2013850 and five condition plus two Dispel leaves also gate #279/#280. Closing #327 grants no runtime support or coverage.\n<!-- edda-327:end -->",
+    "append_chars": 387,
+    "publication": "SEALED root serial publication 2026-11-16",
+    "previous_sha256": "64e7dad70c20be9dc09b2e61c150a783aacc8c93f26330fa6dacf133d712b882",
+    "previous_chars": 28233,
+    "result_chars": 28620,
+    "maximum_chars": 65536,
+    "published_sha256": "8ec09dd27418755ce3828ace6c1b5bd1665c1059aa88dc0267f4884e6a355aae",
+    "published_chars": 28620
+  }
+]
