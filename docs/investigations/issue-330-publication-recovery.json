@@ -1,0 +1,39 @@
+{
+  "status": "PENDING; ROOT one-attempt consumed, second ambiguous response, all native writes halted",
+  "authorization_sha256": "a0f47a7feae2d058813822cca8b4d3b7f9330d63a77ac9c6155cfd467bf82c6f",
+  "consumed_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/recovery-20261116-null-create/one-attempt-consumed.json",
+  "consumed_sha256": "6af1771e61275d50558a8dfb78ef38b209ff6e959e3d84f2d74256be781730bd",
+  "result_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/recovery-20261116-null-create/one-attempt-result.json",
+  "result_sha256": "1c9c43ce8a87dda1778fcc74f88122f5d6b79b4593ac6c06b1676c6b753a0264",
+  "result": {
+    "authorization_sha256": "a0f47a7feae2d058813822cca8b4d3b7f9330d63a77ac9c6155cfd467bf82c6f",
+    "alias": "332:spell-guards-and-wards-dancing-lights",
+    "original_intent_sha256": "463189eda52ff60234ecb2b3557beaba52a0c0a3d887af38c58cf2d60b7d95fe",
+    "observed_at": "2026-11-16T23:04:48.831277+00:00",
+    "attempts": 1,
+    "status": "AMBIGUOUS; ALL NATIVE WRITES HELD",
+    "request_sha256": "463189eda52ff60234ecb2b3557beaba52a0c0a3d887af38c58cf2d60b7d95fe",
+    "response": {
+      "status": 200,
+      "headers": {
+        "date": "Mon, 16 Nov 2026 23:04:49 GMT",
+        "x-github-request-id": "670A:11DBB0:2FF46FF:96603EB:6AFB8C11",
+        "x-ratelimit-limit": "5000",
+        "x-ratelimit-remaining": "2248",
+        "x-ratelimit-reset": "1794870500",
+        "x-ratelimit-resource": "graphql",
+        "x-ratelimit-used": "2752"
+      },
+      "body": "{\"data\":{\"createIssue\":{\"issue\":null}}}",
+      "exit_code": 0
+    },
+    "error": "AssertionError: "
+  },
+  "native_write_halt_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/native-write-halt.json",
+  "registry_count": 714,
+  "remaining_aliases": 157,
+  "ids_allocated_milestone": false,
+  "wiring_started": false,
+  "root_appends_published": false,
+  "final_publication_proof": false
+}

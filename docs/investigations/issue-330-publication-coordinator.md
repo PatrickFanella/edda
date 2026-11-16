@@ -84,3 +84,12 @@ authorization record before at most one create. Sanitized status/request/rate
 headers and the exact GraphQL result are retained. A second ambiguity installs
 a native-write halt; ordinary allocation cannot cross the original fence. This
 operational release changes no source scope or registry schema.
+
+The authorized attempt ran at23:04:49Z and again returned HTTP200 with
+`{"data":{"createIssue":{"issue":null}}}`. Request ID:
+`670A:11DBB0:2FF46FF:96603EB:6AFB8C11`; remaining primary quota2248, no Retry-After.
+The authorization is consumed and `native-write-halt.json` now blocks normal
+coordinator mutations. Registry remains714; no IDS milestone, wiring, root edges
+or parent supplements were published. The original response and the separate
+recovery response are retained. This is a true external API blocker, not final
+publication proof. See `issue-330-publication-recovery.json`.
