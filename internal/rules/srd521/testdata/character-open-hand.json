@@ -1,0 +1,541 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Warrior of the Open Hand and four features on PDF p52 adapted into unavailable source metadata. Mechanic keys and predicates are Edda additions. Canonical Monk is referenced externally; no executable effects or adjacent definitions imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/monk/warrior-of-the-open-hand/identity",
+      "kind": "subclass",
+      "name": "Warrior of the Open Hand",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/monk-warrior-of-the-open-hand",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/identity-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/subclass"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/identity-level",
+      "kind": "prerequisite",
+      "name": "Warrior of the Open Hand level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/monk-warrior-of-the-open-hand",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/monk/warrior-of-the-open-hand/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/open-hand-technique",
+      "kind": "feature",
+      "name": "Open Hand Technique",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-3-open-hand-technique",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/monk/warrior-of-the-open-hand/identity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/warrior-of-the-open-hand/open-hand-technique"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/open-hand-technique-level",
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/open-hand-technique-trigger"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/optional-on-each-hit",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/target/hit-creature",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/push/maximum-distance-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/push/maximum-distance-feet": 15
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/open-hand-technique-level",
+      "kind": "prerequisite",
+      "name": "Open Hand Technique level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-3-open-hand-technique",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/open-hand-technique",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/open-hand-technique-trigger",
+      "kind": "prerequisite",
+      "name": "Open Hand Technique trigger",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-3-open-hand-technique",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/open-hand-technique",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/hit-with-attack-granted-by-flurry-of-blows"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/hit-with-attack-granted-by-flurry-of-blows",
+        "record_refs": [
+          "srd-5.2.1:character/choice/monk/flurry-of-blows"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/warrior-of-the-open-hand/open-hand-technique",
+      "kind": "choice",
+      "name": "Open Hand Technique effects",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-3-open-hand-technique",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/open-hand-technique",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/choose-one-effect-on-target"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/addle/no-opportunity-attacks-until-start-of-target-next-turn",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/push/strength-save-or-pushed-up-to-15-feet-away-from-you",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/topple/dexterity-save-or-prone"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/wholeness-of-body",
+      "kind": "feature",
+      "name": "Wholeness of Body",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-6-wholeness-of-body",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/monk/warrior-of-the-open-hand/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/wholeness-of-body-level",
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/wholeness-of-body-die"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/bonus-action",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/target/self",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/regain-hit-points/one-martial-arts-die-plus-wisdom-modifier",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/uses/wisdom-modifier-minimum-one",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/recover-all-expended-uses-on-finish-long-rest",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/healing-minimum",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/dice",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/uses-minimum",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/uses-expended"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/healing-minimum": 1,
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/dice": 1,
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/uses-minimum": 1,
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/uses-expended": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/wholeness-of-body-level",
+      "kind": "prerequisite",
+      "name": "Wholeness of Body level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-6-wholeness-of-body",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/wholeness-of-body",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {
+          "minimum-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/wholeness-of-body-die",
+      "kind": "prerequisite",
+      "name": "Wholeness of Body die",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-6-wholeness-of-body",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/wholeness-of-body",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/roll-canonical-martial-arts-die"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/roll-canonical-martial-arts-die",
+        "record_refs": [
+          "srd-5.2.1:character/feature/monk/martial-arts"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/fleet-step",
+      "kind": "feature",
+      "name": "Fleet Step",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-11-fleet-step",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/monk/warrior-of-the-open-hand/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/fleet-step-level",
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/fleet-step-trigger",
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/fleet-step-effect"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/fleet-step/optional-step-of-the-wind-immediately-after-bonus-action"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/fleet-step-level",
+      "kind": "prerequisite",
+      "name": "Fleet Step level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-11-fleet-step",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/fleet-step",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {
+          "minimum-level": 11
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/fleet-step-trigger",
+      "kind": "prerequisite",
+      "name": "Fleet Step trigger",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-11-fleet-step",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/fleet-step",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/fleet-step/bonus-action-other-than-step-of-the-wind"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/fleet-step/bonus-action-other-than-step-of-the-wind",
+        "record_refs": [
+          "srd-5.2.1:character/choice/monk/step-of-the-wind"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/fleet-step-effect",
+      "kind": "prerequisite",
+      "name": "Fleet Step effect",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-11-fleet-step",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/fleet-step",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/fleet-step/use-canonical-step-of-the-wind-with-its-alternatives-and-costs"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/fleet-step/use-canonical-step-of-the-wind-with-its-alternatives-and-costs",
+        "record_refs": [
+          "srd-5.2.1:character/choice/monk/step-of-the-wind"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/quivering-palm",
+      "kind": "feature",
+      "name": "Quivering Palm",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-17-quivering-palm",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/monk/warrior-of-the-open-hand/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/quivering-palm-level",
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/quivering-palm-focus",
+        "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/quivering-palm-duration"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/optional-on-unarmed-strike-hit-creature",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/vibrations/imperceptible-and-harmless-unless-ended-for-damage",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/end/action-or-forgo-one-attack-of-attack-action-on-your-turn",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/end/requires-same-plane-as-target",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/end/target-constitution-save",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/damage/force-on-failure-half-on-success",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/end-harmlessly/no-action-required",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/focus-cost",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/forgone-attacks",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/damage-dice",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/damage-die-sides",
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/maximum-simultaneous-creatures"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/focus-cost": 4,
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/forgone-attacks": 1,
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/damage-dice": 10,
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/damage-die-sides": 12,
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/maximum-simultaneous-creatures": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/quivering-palm-level",
+      "kind": "prerequisite",
+      "name": "Quivering Palm level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-17-quivering-palm",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/quivering-palm",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {
+          "minimum-level": 17
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/quivering-palm-focus",
+      "kind": "prerequisite",
+      "name": "Quivering Palm focus",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-17-quivering-palm",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/quivering-palm",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/expend-available-focus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/expend-available-focus",
+        "record_refs": [
+          "srd-5.2.1:character/resource/monk/focus-points"
+        ],
+        "parameters": {
+          "points-required": 4
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/warrior-of-the-open-hand/quivering-palm-duration",
+      "kind": "prerequisite",
+      "name": "Quivering Palm duration",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/monk-level-17-quivering-palm",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/warrior-of-the-open-hand/quivering-palm",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/vibration-duration-days-equals-monk-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/vibration-duration-days-equals-monk-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {}
+      }
+    }
+  ]
+}
