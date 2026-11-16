@@ -82,6 +82,42 @@ class Receipt(unittest.TestCase):
         scope.validate(self.m,candidate)
         scope.probes(self.m,candidate)
 
+    def test_shared_gates_allow_additions_but_retain_every_required_edge(self):
+        for n in [279,280]:
+            candidate=deepcopy(self.r);node=next(x for x in candidate['graph'] if x['number']==n)
+            extra=next(x['number'] for x in candidate['graph'] if x['number'] not in node['blocked_by'] and x['parent'] is None and not x['blocked_by'] and x['number']!=n)
+            node['blocked_by'].append(extra);node['blocked_by'].sort()
+            scope.validate(self.m,candidate)
+            for required in self.m['protected'][str(n)]['blocked_by']:
+                damaged=deepcopy(candidate);next(x for x in damaged['graph'] if x['number']==n)['blocked_by'].remove(required)
+                with self.assertRaisesRegex(AssertionError,'legacy edge|shared qualification edge'):scope.validate(self.m,damaged)
+            node['body']+='Changed shared contract'
+            with self.assertRaisesRegex(AssertionError,f'consumed body #{n}'):scope.validate(self.m,candidate)
+
+    def test_player_unarmed_owner_is_required_by_champion_criticals(self):
+        candidate=deepcopy(self.r);node=next(x for x in candidate['graph'] if x['number']==747)
+        self.assertIn(779,node['blocked_by']);node['blocked_by'].remove(779)
+        with self.assertRaisesRegex(AssertionError,'prerequisite'):scope.validate(self.m,candidate)
+        candidate=deepcopy(self.r);next(x for x in candidate['graph'] if x['number']==779)['body']+='Changed shared action'
+        with self.assertRaisesRegex(AssertionError,'consumed body #779'):scope.validate(self.m,candidate)
+
+    def test_heroic_inspiration_keeps_unknown_outcome_die_window(self):
+        common=self.m['common_acceptance']
+        self.assertNotIn('Unknown outcomes never imply success/failure or open reactive windows.',common)
+        self.assertIn('Outcome-dependent reactions such as Tactical Mind and Indomitable require a disclosed qualifying outcome.',common)
+        self.assertIn('Heroic Inspiration remains available immediately after an owned known die even when the DC and outcome are undisclosed.',common)
+        heroic=next(x for x in self.m['issues'] if x['key']=='heroic-inspiration')
+        self.assertIn('known owned ability-check die with secret DC and undisclosed outcome',heroic['fixture'])
+        candidate=deepcopy(self.m);candidate['common_acceptance']=common.replace('Heroic Inspiration remains available immediately after an owned known die even when the DC and outcome are undisclosed.','')
+        with self.assertRaisesRegex(AssertionError,'outcome-independent window contract'):scope.validate(candidate,self.r)
+        candidate=deepcopy(self.m);candidate['common_acceptance']+=' Unknown outcomes never imply success/failure or open reactive windows.'
+        with self.assertRaisesRegex(AssertionError,'contradictory outcome window contract'):scope.validate(candidate,self.r)
+
+    def test_other_consumed_prerequisites_remain_exact(self):
+        for n in [334,779]:
+            candidate=deepcopy(self.r);next(x for x in candidate['graph'] if x['number']==n)['blocked_by'].append(777)
+            with self.assertRaisesRegex(AssertionError,f'consumed edge #{n}'):scope.validate(self.m,candidate)
+
     def test_all_twenty_readable_rows(self):
         records=[x['record'] for x in self.m['records']];owners={x['key']:x['issue'] for x in self.m['issues']}
         doc=(scope.ROOT/'docs/investigations/issue-325-fighter-decision.md').read_text()

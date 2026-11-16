@@ -124,7 +124,7 @@ def validate(m,r,sealed=False):
     rows={x['key']:x for x in m['issues']}
     assert len(rows)==len(m['issues'])==45 and len({x['issue'] for x in rows.values()})==45
     assert set(m['reused_terminals'])==set([58,333,335,336,338,339,384]+list(range(385,402))+[427,428,429,430,487,488]+list(range(489,497))),'reused owner drift'
-    assert digest(json.dumps({x['key']:{k:x[k] for k in ['title','fixture','prerequisites','depends']} for x in m['issues']},sort_keys=True))=='fee2f7016b04e0c4830b9ed85f888d98e5a0681d21ab6a5b408e97d09a9b300f','audited terminal scope drift'
+    assert digest(json.dumps({x['key']:{k:x[k] for k in ['title','fixture','prerequisites','depends']} for x in m['issues']},sort_keys=True))=='21349ae2e812f2f80cd9130e3df363e9e2e55c4ef3bbff9a76e8c82311571636','audited terminal scope drift'
     operands={'d10': ['D10', 'fixed6', 'min1', '10+CON', '429'], 'equipment': ['8 Javelins', '4GP', '20 Arrows', '11GP', 'C155GP'], 'second-wind': ['1d10+Fighter level', 'Bonus Action', 'ONE', 'ALL', '2 at1,3 at4,4 at10'], 'surge': ['EXCEPT Magic', 'one use2–16,two17–20', 'once per turn'], 'mind': ['1d10', 'only if new total succeeds', 'unknown outcome'], 'improvement': ['4,6,8,12,14,16', 'max20', 'Skilled', 'Spellcasting', 'STR13 OR DEX13'], 'attacks': ['2 attacks atFighter5,3 at11,4 at20', 'do not stack'], 'shift': ['half current Speed', 'Second Wind', 'Not Tactical Mind'], 'indomitable': ['MUST use new roll', '1 at9,2 at13,3 at17', 'Long Rest only'], 'critical': ['19–20', 'at15 threshold18–20', 'Unarmed Strikes'], 'defy': ['18–20', 'regain1HP'], 'rally': ['5+CON', 'HP<=half max', 'at least1HP'], 'tactical-master': ['Push,Sap,or Slow', 'FOR THAT ATTACK'], 'mastery': ['Three', 'four4,five10,six16', 'ONE'], 'studied': ['NEXT attack roll', 'THAT creature', 'end of your next turn'], 'heroic': ['SELF', 'starting own turn WITHOUT it']}
     for key,values in operands.items():
         assert all(v in rows[key]['fixture'] for v in values),f'source operand {key}'
@@ -138,6 +138,11 @@ def validate(m,r,sealed=False):
     assert len(graph)==len(r['graph'])
     shared=rows['heroic-inspiration']
     assert shared['prerequisites']==[61,64,65] and shared['depends']==[]
+    assert 779 in rows['critical']['prerequisites'],'player Unarmed Strike dependency'
+    assert 'Outcome-dependent reactions such as Tactical Mind and Indomitable require a disclosed qualifying outcome.' in m['common_acceptance'],'outcome-dependent window contract'
+    assert 'Heroic Inspiration remains available immediately after an owned known die even when the DC and outcome are undisclosed.' in m['common_acceptance'],'outcome-independent window contract'
+    assert 'Unknown outcomes never imply success/failure or open reactive windows.' not in m['common_acceptance'],'contradictory outcome window contract'
+    assert 'known owned ability-check die with secret DC and undisclosed outcome' in shared['fixture'],'secret DC Heroic Inspiration fixture'
     assert m['additional_source_contracts']=={'srd-5.2.1:mechanic/rules-glossary/heroic-inspiration':{'owner':'heroic-inspiration','issue':shared['issue'],'pdf_page':183,'source_sha256':PIN,'prerequisites':[61,64,65],'parent':50,'reservation':'Parent confirmed native50, exact61/64/65, before publication'}}
     for target in [279,280]:assert shared['issue'] in graph[target]['blocked_by'],'shared qualification edge'
     assert 'heroic-inspiration' in rows['heroic']['depends']
@@ -166,10 +171,12 @@ def validate(m,r,sealed=False):
     for x in list(rows.values())+[g]:assert r['project'][str(x['issue'])]=={'type':'Task','size':x['project_size']},'Task/Size'
     for n,old in {**m['protected'],**m['consumed_contracts']}.items():
         actual=graph[int(n)]
-        assert actual['parent']==old['parent'] and actual['title']==old['title'],'legacy metadata'
-        assert set(old['blocked_by'])<=set(actual['blocked_by']),'legacy edge'
+        assert actual['parent']==old['parent'] and actual['title']==old['title'],f'legacy metadata #{n}'
+        assert set(old['blocked_by'])<=set(actual['blocked_by']),f'legacy edge #{n}'
         if int(n) not in [47,54,283,337]:
-            assert actual['body']==old['body'] and actual['blocked_by']==old['blocked_by'],'consumed body/edge'
+            assert actual['body']==old['body'],f'consumed body #{n}'
+            if int(n) not in [279,280]:
+                assert actual['blocked_by']==old['blocked_by'],f'consumed edge #{n}'
         else:
             s=next(x for x in m['supplements'] if x['issue']==int(n));prefix=old['body'];section=s['append']
             assert digest(prefix)==s['previous_sha256']
