@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "base": "0abaffbaaef23c07f6aa95b559680ccabaae2824",
+  "base": "61a80bdaa9bfa1ee5540023c7809d94244ed3c02",
   "parent_issue": 283,
   "qualification_gates": [
     337
@@ -3145,7 +3145,7 @@
     "internal/rules/srd521/creation_test.go": "143b105f48ff7488bfddf2d4da5c0fbe149f9e553ad866289f34ddef21627172",
     "internal/rules/srd521/catalogue_general_feats_test.go": "6bb6c4aad5e30ca3dfd4f18b299f43295ada58e4131f683d00c762fce29568d3",
     "internal/rules/srd521/catalogue_fighting_styles_test.go": "b638d4d0e4a7e929256edd3479323d4060c104a0b9624ee28b2bd44127d5bc4a",
-    "internal/rules/srd521/character.go": "2ce5772789f45ebdae23db08b40fd3d3efe5f3307c11cc7da69355130e250f27",
+    "internal/rules/srd521/character.go": "33ecc9a817f601f5d4255235463743bd75e13f039fdff56e3c264d0d52dab327",
     "internal/rules/srd521/catalogue_epic_boon_feats_test.go": "e04a3625c7c1a98c06bc5394bb24d2b3aafa773909ba747fe08dcb12db60dabf"
   },
   "supplements": [

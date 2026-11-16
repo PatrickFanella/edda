@@ -1,8 +1,9 @@
 # Feat decision for #334
 
-Observed 2026-11-16 at `0abaffbaaef23c07f6aa95b559680ccabaae2824` on refreshed `origin/main`.
+Observed 2026-11-16 at `0abaffbaaef23c07f6aa95b559680ccabaae2824`; evidence refreshed at
+`61a80bdaa9bfa1ee5540023c7809d94244ed3c02` after the Shield of Faith merge.
 This decision publishes work; it does not enable mechanics, grants, coverage or Full Rules.
-#334 stays open until the parent independently accepts the source and graph evidence and its decision PR merges.
+#334 closed through accepted decision PR #403. Its implementation children remain open.
 
 The [matrix](issue-334-feat-scope.json) preserves every record, nested choice, predicate,
 numeric parameter and source key from the four canonical feat catalogues, joins all 17 exact
@@ -155,3 +156,10 @@ remain closed. Live readback matched 18 exact
 child bodies, native parents and prerequisites, Task types and Edda Project sizes (Magic
 Initiate, Grappler and Night Spirit L; other children M), with 146 keys and 285 acyclic issue
 nodes. No new child mechanics were implemented or qualified by these checks.
+
+The evidence refresh checks the concurrent Shield of Faith projection change: a nonself
+cast no longer adds its bonus to the caster's pure sheet projection. This changes no
+feat grant, Defense prerequisite, or fixed-build feat behavior. Only the reviewed
+`character.go` evidence hash and observation revision were refreshed; source records,
+child scopes and the strict evidence comparison remain unchanged. The native receipt
+was read back again after the roadmap checklist updates.

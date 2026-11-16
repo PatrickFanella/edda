@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-16T08:05:52.666232+00:00",
+  "observed_at": "2026-11-16T08:20:45.002752+00:00",
   "method": "GitHub GraphQL all issues and native blockedBy/parent; REST body readback",
   "bodies": {
     "384": {
@@ -160,16 +160,16 @@
     "47": {
       "append_sha256": "b3c6f671609b8698740fdf244b8a2df1440378aeb7be47070f3cea0bcb857263",
       "publication_prefix_sha256": "16651994ecccb8b51285a64f942a02c0ad3e28d9b6d7121d04bc4ef71f672349",
-      "observed_prefix_sha256": "ced68c87f1b6754776d39d4d57e550bdb1a1316c019b4d9bcb663cc85052e0be",
+      "observed_prefix_sha256": "f1e48ef51a54c39f6ba84a43873cb0162714da530709d57c2a77c0d9db848c10",
       "prefix_changed_since_publication": true,
-      "body_sha256": "cd7a1d4f4c581316abfcdb6793e51bd854de1902d5865f41455b54621bc1175e"
+      "body_sha256": "326dc04fb023b6297bb978bb118e600cf37547dfd35189f6b56928b872ca6201"
     },
     "283": {
       "append_sha256": "b3c6f671609b8698740fdf244b8a2df1440378aeb7be47070f3cea0bcb857263",
       "publication_prefix_sha256": "86814d5eb2fabbefbaa7bc12f76e282bbef5670e39a8749d79786cfbefcb55fb",
-      "observed_prefix_sha256": "86814d5eb2fabbefbaa7bc12f76e282bbef5670e39a8749d79786cfbefcb55fb",
-      "prefix_changed_since_publication": false,
-      "body_sha256": "323823e8810758181584d584234fb7a28dc3e856c30b47730aea529704298498"
+      "observed_prefix_sha256": "bd02d1a5d60e2d48835b3ee556382a628189d61c48aab7337ac259315e2ed925",
+      "prefix_changed_since_publication": true,
+      "body_sha256": "1e76df857f00ec12ee735645d2cd86320a88bdc9272005d5241925dd34f9b070"
     },
     "334": {
       "append_sha256": "b3c6f671609b8698740fdf244b8a2df1440378aeb7be47070f3cea0bcb857263",
