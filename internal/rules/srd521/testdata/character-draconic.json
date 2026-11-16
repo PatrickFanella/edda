@@ -1,0 +1,620 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Draconic Sorcery and five features on PDF pp69\u201370 adapted into unavailable source metadata. Mechanic keys and predicates are Edda additions. Canonical Sorcerer is referenced externally; no executable effects or adjacent definitions imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/sorcerer/draconic-sorcery/identity",
+      "kind": "subclass",
+      "name": "Draconic Sorcery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/sorcerer-draconic-sorcery",
+          "page": 69
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/sorcerer",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/identity-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/subclass"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/identity-level",
+      "kind": "prerequisite",
+      "name": "Draconic Sorcery level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/sorcerer-draconic-sorcery",
+          "page": 69
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/sorcerer/draconic-sorcery/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/sorcerer"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/draconic-resilience",
+      "kind": "feature",
+      "name": "Draconic Resilience",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-3-draconic-resilience",
+          "page": 69
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/sorcerer/draconic-sorcery/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/draconic-resilience-level",
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/draconic-resilience-scaling"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/self/hit-point-maximum-increases-at-level-three",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/self/each-additional-sorcerer-level-increases-hit-point-maximum",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/self/while-not-wearing-armor/base-ac-ten-plus-dexterity-plus-charisma-modifiers",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/initial-hp-increase",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/hp-per-additional-sorcerer-level",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/base-ac-constant"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/initial-hp-increase": 3,
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/hp-per-additional-sorcerer-level": 1,
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/base-ac-constant": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/draconic-resilience-level",
+      "kind": "prerequisite",
+      "name": "Draconic Resilience level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-3-draconic-resilience",
+          "page": 69
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/draconic-resilience",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/sorcerer"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/draconic-resilience-scaling",
+      "kind": "prerequisite",
+      "name": "Draconic Resilience scaling",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-3-draconic-resilience",
+          "page": 69
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/draconic-resilience",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/count-only-canonical-sorcerer-levels"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/resilience/count-only-canonical-sorcerer-levels",
+        "record_refs": [
+          "srd-5.2.1:character/class/sorcerer"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/draconic-spells",
+      "kind": "feature",
+      "name": "Draconic Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-3-draconic-spells",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/sorcerer/draconic-sorcery/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/draconic-spells-level",
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/draconic-spells-preparation"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/spells/thereafter-always-prepared-from-specified-sorcerer-level",
+        "srd-5.2.1:mechanic/spells/alter-self",
+        "srd-5.2.1:mechanic/spells/chromatic-orb",
+        "srd-5.2.1:mechanic/spells/command",
+        "srd-5.2.1:mechanic/spells/dragons-breath",
+        "srd-5.2.1:mechanic/spells/fear",
+        "srd-5.2.1:mechanic/spells/fly",
+        "srd-5.2.1:mechanic/spells/arcane-eye",
+        "srd-5.2.1:mechanic/spells/charm-monster",
+        "srd-5.2.1:mechanic/spells/legend-lore",
+        "srd-5.2.1:mechanic/spells/summon-dragon"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 3,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/alter-self",
+            "srd-5.2.1:mechanic/spells/chromatic-orb",
+            "srd-5.2.1:mechanic/spells/command",
+            "srd-5.2.1:mechanic/spells/dragons-breath"
+          ]
+        },
+        {
+          "level": 5,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/fear",
+            "srd-5.2.1:mechanic/spells/fly"
+          ]
+        },
+        {
+          "level": 7,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/arcane-eye",
+            "srd-5.2.1:mechanic/spells/charm-monster"
+          ]
+        },
+        {
+          "level": 9,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/legend-lore",
+            "srd-5.2.1:mechanic/spells/summon-dragon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/draconic-spells-level",
+      "kind": "prerequisite",
+      "name": "Draconic Spells level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-3-draconic-spells",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/draconic-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/sorcerer"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/draconic-spells-preparation",
+      "kind": "prerequisite",
+      "name": "Draconic Spells preparation",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-3-draconic-spells",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/draconic-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/spells/canonical-sorcerer-preparation-slot-and-innate-sorcery-rules"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/spells/canonical-sorcerer-preparation-slot-and-innate-sorcery-rules",
+        "record_refs": [
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells",
+          "srd-5.2.1:character/feature/sorcerer/innate-sorcery",
+          "srd-5.2.1:character/resource/sorcerer/innate-sorcery"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/elemental-affinity",
+      "kind": "feature",
+      "name": "Elemental Affinity",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-6-elemental-affinity",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/sorcerer/draconic-sorcery/identity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/draconic-sorcery/elemental-affinity-damage-type"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/elemental-affinity-level",
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/elemental-affinity-type"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/self/resistance-to-chosen-damage-type",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/when-you-cast-spell-dealing-chosen-type/optional-add-charisma-modifier-to-one-damage-roll",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/damage-rolls-maximum"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/damage-rolls-maximum": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/elemental-affinity-level",
+      "kind": "prerequisite",
+      "name": "Elemental Affinity level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-6-elemental-affinity",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/elemental-affinity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/sorcerer"
+        ],
+        "parameters": {
+          "minimum-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/draconic-sorcery/elemental-affinity-damage-type",
+      "kind": "choice",
+      "name": "Elemental Affinity damage type",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-6-elemental-affinity",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/elemental-affinity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/choose-one-draconic-damage-type"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/damage-type/acid",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/damage-type/cold",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/damage-type/fire",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/damage-type/lightning",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/damage-type/poison"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/elemental-affinity-type",
+      "kind": "prerequisite",
+      "name": "Elemental Affinity type",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-6-elemental-affinity",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/elemental-affinity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/use-selected-type-for-both-benefits"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/affinity/use-selected-type-for-both-benefits",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/draconic-sorcery/elemental-affinity-damage-type",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/dragon-wings",
+      "kind": "feature",
+      "name": "Dragon Wings",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-14-dragon-wings",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/sorcerer/draconic-sorcery/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/dragon-wings-level",
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/dragon-wings-restore"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/self/bonus-action-manifest-draconic-wings-on-back",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/end/one-hour-or-dismiss-no-action",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/self/fly-speed-for-duration",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/reuse/finish-long-rest-or-restore-use",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/restore/expend-sorcery-points-no-action",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/duration-hours",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/fly-speed-feet",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/uses",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/restore-sorcery-points"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/duration-hours": 1,
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/fly-speed-feet": 60,
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/uses": 1,
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/restore-sorcery-points": 3
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/dragon-wings-level",
+      "kind": "prerequisite",
+      "name": "Dragon Wings level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-14-dragon-wings",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/dragon-wings",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/sorcerer"
+        ],
+        "parameters": {
+          "minimum-level": 14
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/dragon-wings-restore",
+      "kind": "prerequisite",
+      "name": "Dragon Wings restore",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-14-dragon-wings",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/dragon-wings",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/spend-canonical-sorcery-points-with-capacity-and-recovery"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/wings/spend-canonical-sorcery-points-with-capacity-and-recovery",
+        "record_refs": [
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points"
+        ],
+        "parameters": {
+          "points-required": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/dragon-companion",
+      "kind": "feature",
+      "name": "Dragon Companion",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-18-dragon-companion",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/sorcerer/draconic-sorcery/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/dragon-companion-level",
+        "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/dragon-companion-casting"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/cast-summon-dragon/without-material-component",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/cast-summon-dragon/once-without-spell-slot",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/free-cast/recover-on-long-rest",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/whenever-start-casting/optional-no-concentration",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/if-no-concentration/duration-one-minute-for-that-casting-only",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/free-casts",
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/modified-duration-minutes",
+        "srd-5.2.1:mechanic/spells/summon-dragon"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/free-casts": 1,
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/modified-duration-minutes": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/dragon-companion-level",
+      "kind": "prerequisite",
+      "name": "Dragon Companion level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-18-dragon-companion",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/dragon-companion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/sorcerer"
+        ],
+        "parameters": {
+          "minimum-level": 18
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/draconic-sorcery/dragon-companion-casting",
+      "kind": "prerequisite",
+      "name": "Dragon Companion casting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/sorcerer-level-18-dragon-companion",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/draconic-sorcery/dragon-companion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/use-canonical-sorcerer-spell-and-slot-rules-except-explicit-exemptions"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/draconic-sorcery/companion/use-canonical-sorcerer-spell-and-slot-rules-except-explicit-exemptions",
+        "record_refs": [
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells",
+          "srd-5.2.1:character/resource/sorcerer/spell-slot-5",
+          "srd-5.2.1:character/feature/sorcerer/innate-sorcery"
+        ],
+        "parameters": {}
+      }
+    }
+  ]
+}
