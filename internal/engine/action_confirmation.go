@@ -125,6 +125,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	if preview.Intent.Skill != "" {
 		label = preview.Intent.Skill
 	}
+	var fixtureResolution *srd521.CheckResolution
 	var receipt any
 	tool := "srd_check"
 	narrative := ""
@@ -291,6 +292,24 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if equipment.Expired != nil {
 			narrative += " Shield of Faith expired."
 		}
+	} else if request.Intent.Kind == srd521.TacticalMind {
+		w := prepared.Tactical
+		if w == nil {
+			return nil, ErrActionRefresh
+		}
+		r, err := srd521.ResolveTacticalMind(w.Base, w.DC, prepared.Build.SecondWind, request.Intent.EntryID, dice)
+		if err != nil {
+			return nil, ErrActionRefresh
+		}
+		r.CheckID = w.CheckID.String()
+		if _, err = tx.Exec(ctx, `UPDATE tactical_mind_windows SET resolved=true WHERE actor_id=$1`, pc.ID); err != nil {
+			return nil, err
+		}
+		if _, err = tx.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(stats,'{srd521,second_wind}',to_jsonb($1::int)),updated_at=clock_timestamp() WHERE id=$2`, r.SecondWindAfter, pc.ID); err != nil {
+			return nil, err
+		}
+		receipt, tool, label = r, "srd_tactical_mind", "Tactical Mind"
+		narrative = fmt.Sprintf("Tactical Mind: %s; saved check total %d, d10 %d, total %d. Second Wind %d to %d. Original roll and narration retained.", r.Outcome, r.Base.Total, r.Die, r.Total, r.SecondWindBefore, r.SecondWindAfter)
 	} else if request.Intent.Kind == srd521.AdvanceLevel {
 		var envelope struct {
 			Build srd521.Build `json:"srd521"`
@@ -310,7 +329,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			return nil, err
 		}
 		receipt, tool, label = advancement, "srd_advancement", "Fighter level 2"
-		narrative = fmt.Sprintf("Fighter level 2 saved: %s HP choice, d10 value %d, maximum HP %d to %d. Current HP unchanged. Defense and weapon mastery choices retained. Action Surge available on your encounter turn; Tactical Mind effect remains unavailable.", advancement.Choice, advancement.Die, advancement.MaxHPBefore, advancement.MaxHPAfter)
+		narrative = fmt.Sprintf("Fighter level 2 saved: %s HP choice, d10 value %d, maximum HP %d to %d. Current HP unchanged. Defense and weapon mastery choices retained. Action Surge available on your encounter turn; Tactical Mind supports a saved failed check from the selected Edda Easy Strength (Athletics) DC 10 fixture.", advancement.Choice, advancement.Die, advancement.MaxHPBefore, advancement.MaxHPAfter)
 	} else if srd521.IsLifecycle(request.Intent.Kind) || (request.Intent.Kind == srd521.SpellCast && request.Intent.EntryID == "shield-of-faith") {
 		var envelope struct {
 			Build srd521.Build `json:"srd521"`
@@ -422,6 +441,18 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if target != nil {
 			narrative = fmt.Sprintf("%s administers a Potion of Healing to %s: regains %d HP (%d to %d). One potion consumed; %d remain. Bonus Action recorded.", pc.Name, targetName, healing.Healing, healing.HPBefore, healing.HPAfter, healing.QuantityAfter)
 		}
+	} else if request.Intent.Kind == srd521.AbilityCheck && request.Intent.EntryID == game.EasyAthleticsEntry {
+		fixtureResolution, err = srd521.ResolveCheck(sheet, srd521.Check{Kind: srd521.AbilityCheck, Ability: "strength", Skill: "athletics"}, srd521.Difficulty{Value: game.EasyAthleticsDC, PlayerKnown: true, OutcomeKnown: true}, dice)
+		if err != nil {
+			return nil, err
+		}
+		check := fixtureResolution.PlayerReceipt()
+		receipt = check
+		label = "Easy Strength (Athletics) fixture"
+		narrative = fmt.Sprintf("Edda bounded adjudication fixture: Easy Strength (Athletics), DC 10; total %d: %s. No scene effect or time cost applied.", check.Total, check.Outcome)
+		if !fixtureResolution.Success() {
+			narrative += " Inspect Tactical Mind to explicitly use or decline; no d10 rolled or Second Wind spent."
+		}
 	} else {
 		resolution, err := srd521.ResolveCheck(sheet, srd521.Check{Kind: preview.Intent.Kind, Ability: preview.Intent.Ability, Skill: preview.Intent.Skill}, srd521.Difficulty{}, dice)
 		if err != nil {
@@ -511,6 +542,17 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	if _, err := tx.Exec(ctx, `UPDATE campaigns SET updated_at=clock_timestamp() WHERE id=$1`, db.ToPgUUID(campaignID)); err != nil {
 		return nil, err
 	}
+	if fixtureResolution != nil && !fixtureResolution.Success() {
+		// Snapshot after all final history/campaign writes, under the same transaction
+		// and locks: the opening revision must match the next fresh preparation.
+		currentCampaign, currentPC, err := game.ReadActionSnapshot(ctx, tx, campaignID, pc.ID, uuid.Nil, true)
+		if err != nil {
+			return nil, err
+		}
+		if err := game.OpenTacticalMindWindow(ctx, tx, currentCampaign, currentPC, request.ActionID, fixtureResolution, game.EasyAthleticsDC); err != nil {
+			return nil, err
+		}
+	}
 	if err := tx.Commit(ctx); err != nil {
 		return nil, err
 	}
@@ -531,6 +573,40 @@ func (e *Engine) PreviewActionSurge(ctx context.Context, campaignID uuid.UUID) (
 		return nil, err
 	}
 	prepared, err := game.PrepareStoredAction(ctx, e.baseDB, c, pc, game.ActionIntent{ActorID: pc.ID, Kind: srd521.ActionSurge}, false)
+	if err != nil {
+		return nil, err
+	}
+	return prepared.Preview, nil
+}
+
+// PreviewTacticalMind restores only the saved owned window for the trusted TUI.
+func (e *Engine) PreviewTacticalMind(ctx context.Context, campaignID uuid.UUID, choice string) (*game.ActionPreview, error) {
+	var actorID uuid.UUID
+	if err := e.baseDB.QueryRow(ctx, `SELECT actor_id FROM tactical_mind_windows WHERE campaign_id=$1 AND NOT resolved ORDER BY actor_id LIMIT 1`, campaignID).Scan(&actorID); err != nil {
+		return nil, ErrActionRefresh
+	}
+	c, pc, err := game.ReadActionSnapshot(ctx, e.baseDB, campaignID, actorID, uuid.Nil, false)
+	if err != nil {
+		return nil, err
+	}
+	prepared, err := game.PrepareStoredAction(ctx, e.baseDB, c, pc, game.ActionIntent{ActorID: actorID, Kind: srd521.TacticalMind, EntryID: choice}, false)
+	if err != nil {
+		return nil, err
+	}
+	return prepared.Preview, nil
+}
+
+// PreviewEasyAthletics prepares Edda's fixed DC 10 fixture for the trusted TUI.
+func (e *Engine) PreviewEasyAthletics(ctx context.Context, campaignID uuid.UUID) (*game.ActionPreview, error) {
+	var actorID uuid.UUID
+	if err := e.baseDB.QueryRow(ctx, `SELECT p.id FROM player_characters p JOIN campaigns c ON c.id=p.campaign_id WHERE c.id=$1 AND p.user_id=c.created_by AND p.status='active' ORDER BY p.id LIMIT 1`, campaignID).Scan(&actorID); err != nil {
+		return nil, err
+	}
+	c, pc, err := game.ReadActionSnapshot(ctx, e.baseDB, campaignID, actorID, uuid.Nil, false)
+	if err != nil {
+		return nil, err
+	}
+	prepared, err := game.PrepareStoredAction(ctx, e.baseDB, c, pc, game.ActionIntent{ActorID: actorID, Kind: srd521.AbilityCheck, EntryID: game.EasyAthleticsEntry}, false)
 	if err != nil {
 		return nil, err
 	}

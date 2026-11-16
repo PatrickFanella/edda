@@ -187,3 +187,25 @@ it('requires an explicit casting slot and self target before confirmation', asyn
  expect(await screen.findByText('Action saved.')).toBeVisible();
  expect(vi.mocked(confirmCharacterAction).mock.calls[0][1]).toMatchObject({target_id:'hero',intent:{kind:'spell-cast',entry_id:'cure-wounds',slot_level:1}});
 });
+
+it('routes Tactical Mind decline through preview and requires explicit confirmation', async () => {
+  const tactical = { ...ready, intent: { actor_id: 'hero', kind: 'tactical-mind', entry_id: 'decline' }, modifier: undefined, options: ['Close the saved failed-check window without rolling or spending.'] };
+  vi.mocked(previewCharacterAction).mockResolvedValueOnce(tactical);
+  render(<QueryClientProvider client={new QueryClient()}><ActionPreviewPanel campaignId="tactical" actorId="hero" sheet={{ ...sheet, scope: 'fighter-2-chain-mail-defense-fixture' }} /></QueryClientProvider>);
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'tactical-mind:decline');
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  expect(previewCharacterAction).toHaveBeenLastCalledWith('tactical', { actor_id: 'hero', kind: 'tactical-mind', entry_id: 'decline' });
+  expect(await screen.findByText(/Close the saved failed-check window/)).toBeVisible();
+  expect(confirmCharacterAction).not.toHaveBeenCalled();
+  expect(screen.getByRole('button', { name: 'Confirm action' })).toBeEnabled();
+});
+
+it('routes the explicitly selected Easy Athletics DC 10 fixture without accepting a DC', async () => {
+  vi.mocked(previewCharacterAction).mockResolvedValueOnce({ ...ready, intent: { actor_id: 'hero', kind: 'ability-check', entry_id: 'easy-strength-athletics-dc10' }, options: ['Edda bounded adjudication fixture: Easy Strength (Athletics), DC 10.'] });
+  render(<QueryClientProvider client={new QueryClient()}><ActionPreviewPanel campaignId="easy" actorId="hero" sheet={{ ...sheet, scope: 'fighter-2-chain-mail-defense-fixture' }} /></QueryClientProvider>);
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'ability-check-fixture:easy-strength-athletics-dc10');
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  expect(await screen.findByText(/Edda bounded adjudication fixture: Easy Strength/)).toBeVisible();
+  expect(previewCharacterAction).toHaveBeenLastCalledWith('easy', { actor_id: 'hero', kind: 'ability-check', entry_id: 'easy-strength-athletics-dc10' });
+  expect(confirmCharacterAction).not.toHaveBeenCalled();
+});

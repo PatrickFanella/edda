@@ -28,6 +28,7 @@ type MartialTarget struct {
 // StoredAction adds persisted equipment and legal fixture targets to preparation.
 // Only its Preview is public. Targets deliberately exclude arbitrary NPC stats.
 type StoredAction struct {
+	Tactical       *TacticalWindow
 	HealingTargets []HealingTarget
 	Equipment      *srd521.EquipmentReceipt
 	Build          *srd521.Build
@@ -42,6 +43,9 @@ type StoredAction struct {
 // The narrow fixture is a one-handed longsword against a colocated, previously
 // encountered unarmored target explicitly assigned to this actor at five feet.
 func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
+	if intent.Kind == srd521.TacticalMind {
+		return prepareTacticalMind(ctx, database, campaign, pc, intent, lock)
+	}
 	if srd521.IsEquipment(intent.Kind) {
 		return prepareEquipment(ctx, database, campaign, pc, intent, lock)
 	}

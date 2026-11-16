@@ -155,14 +155,11 @@ func TestIntegrationActionSurge(t *testing.T) {
 			freshRequest.Header.Set("Authorization", "Bearer "+ownerToken)
 			freshResponse := httptest.NewRecorder()
 			router.ServeHTTP(freshResponse, freshRequest)
-			if freshResponse.Code != 200 {
-				t.Fatalf("fresh ownership preview status=%d", freshResponse.Code)
+			if freshResponse.Code != 404 {
+				t.Fatalf("reassigned character must not disclose a fresh preview: %d", freshResponse.Code)
 			}
-			var fresh game.ActionPreview
-			must(json.Unmarshal(freshResponse.Body.Bytes(), &fresh))
-			if fresh.Available {
-				t.Fatal("fresh preview offered another user's Action Surge")
-			}
+			// No new revision can be obtained; forged reuse remains rejected.
+			fresh := p
 			freshBody, err := json.Marshal(engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: fresh.ExpectedRevision, Intent: fresh.Intent})
 			must(err)
 			freshRequest = httptest.NewRequest("POST", "/api/v1/campaigns/"+campaign.String()+"/action/confirm", strings.NewReader(string(freshBody)))

@@ -30,7 +30,7 @@ it.each(['legacy', 'srd-5.2.1'])('keeps the %s character adapter readable', asyn
  else { expect(await screen.findByText('Unsupported fixture build')).toBeVisible(); expect(screen.getByText(/A scout · HP 10 \/ 10/)).toBeVisible(); expect(screen.queryByText('Experience')).not.toBeInTheDocument(); }
 });
 
-it('describes supported Action Surge separately from read-only Tactical Mind', () => {
+it('describes supported Action Surge separately from bounded Tactical Mind', () => {
  const sheet = structuredClone(fixture.sheet) as CharacterSheetProjection;
  sheet.capabilities.push(
   { id: 'action-surge', label: 'Action Surge', playable: true, source_id: 'srd-5.2.1:content/fighter/action-surge' },
@@ -38,6 +38,6 @@ it('describes supported Action Surge separately from read-only Tactical Mind', (
  );
  render(<RulesSheet sheet={sheet} />);
  expect(screen.getByText('Action Surge (supported)')).toBeVisible();
- expect(screen.getByText('Tactical Mind (read only)')).toBeVisible();
+ expect(screen.getByText('Tactical Mind (saved failed-check window only)')).toBeVisible();
  expect(screen.getByText(/Action Surge supports one extra Action except Magic on your owned active ordinary encounter turn/)).toBeVisible();
 });

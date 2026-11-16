@@ -38,6 +38,12 @@ func ReadEncounter(ctx context.Context, database statedb.DBTX, campaignID uuid.U
 // PrepareStoredAction adds a durable encounter fingerprint and enforces turn
 // ownership on the same path used by confirmation. Preparation never rolls.
 func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
+	if intent.Kind == srd521.AbilityCheck && intent.EntryID == EasyAthleticsEntry {
+		return prepareEasyAthletics(ctx, database, campaign, pc, intent)
+	}
+	if intent.Kind == srd521.TacticalMind {
+		return prepareStoredActionBase(ctx, database, campaign, pc, intent, lock)
+	}
 	base := intent
 	switch intent.Kind {
 	case combat.EncounterStart, combat.EncounterReact:

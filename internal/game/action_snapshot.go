@@ -27,10 +27,10 @@ func ReadActionSnapshot(ctx context.Context, database statedb.DBTX, campaignID, 
 	// Owner filtering is repeated in the same snapshot as the selected actor.
 	// No world/NPC/fact table is read and arbitrary actors never disclose existence.
 	err := database.QueryRow(ctx, `SELECT c.rules_version,c.status,c.updated_at,
- p.name,p.stats,p.hp,p.max_hp,p.experience,p.level,p.status,p.current_location_id,p.updated_at
+ c.created_by,p.user_id,p.name,p.stats,p.hp,p.max_hp,p.experience,p.level,p.status,p.current_location_id,p.updated_at
  FROM campaigns c JOIN player_characters p ON p.campaign_id=c.id
- WHERE c.id=$1 AND p.id=$2 AND ($3::uuid IS NULL OR c.created_by=$3)`+locking, dbutil.ToPgtype(campaignID), dbutil.ToPgtype(actorID), owner).Scan(
-		&campaign.RulesVersion, &campaign.Status, &campaign.UpdatedAt, &pc.Name, &pc.Stats, &pc.HP, &pc.MaxHP, &pc.Experience, &pc.Level, &pc.Status, &location, &pc.UpdatedAt)
+ WHERE c.id=$1 AND p.id=$2 AND ($3::uuid IS NULL OR (c.created_by=$3 AND p.user_id=$3))`+locking, dbutil.ToPgtype(campaignID), dbutil.ToPgtype(actorID), owner).Scan(
+		&campaign.RulesVersion, &campaign.Status, &campaign.UpdatedAt, &campaign.CreatedBy, &pc.UserID, &pc.Name, &pc.Stats, &pc.HP, &pc.MaxHP, &pc.Experience, &pc.Level, &pc.Status, &location, &pc.UpdatedAt)
 	if location.Valid {
 		id := dbutil.FromPgtype(location)
 		pc.CurrentLocationID = &id

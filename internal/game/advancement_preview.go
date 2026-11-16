@@ -24,7 +24,7 @@ func prepareAdvancement(ctx context.Context, campaign domain.Campaign, pc domain
 		return result, nil
 	}
 	p.Available, p.Reason = true, ""
-	p.Options = []string{"Fighter 1 to 2; retain Defense and three weapon mastery choices. Gain one d10 Hit Die; keep current HP and spent Second Wind uses. Action Surge (one use; extra Action except Magic on your encounter turn) is available. Tactical Mind effect remains unavailable."}
+	p.Options = []string{"Fighter 1 to 2; retain Defense and three weapon mastery choices. Gain one d10 Hit Die; keep current HP and spent Second Wind uses. Action Surge (one use; extra Action except Magic on your encounter turn) is available. Tactical Mind supports a saved failed check from the selected Edda Easy Strength (Athletics) DC 10 fixture."}
 	if intent.EntryID == "fixed" {
 		p.Options = append(p.Options, "Fixed HP: 6 + Constitution (minimum 1) added to maximum HP.")
 	} else {
