@@ -1,0 +1,30 @@
+{
+  "status": "PENDING ROOT semantic/native approval",
+  "base": "e7cd1ba8318ba296edd4fc5b6b84715ca11016f2",
+  "previous_checkpoint": "17a35087a2bb71699558249c8eec6c64e380f763",
+  "nodes": 305,
+  "class_leaves": 67,
+  "shared_leaves": 211,
+  "qualification_nodes": 27,
+  "source_body_plan_sha256": "921975be13d50036a256a42076680217b797d5d2ac0e37dee5173452e2fab139",
+  "files": {
+    "docs/investigations/issue-330-sorcerer-scope.json": "c480453eb559f9240a6a5122d593ec49dae9bf05cc9c6cba9e3307ec676aeb25",
+    "docs/investigations/issue-330-shared-contracts.md": "7ff584e81d818058b6615d68cfe34e4dedf5249cfc3dd823508fd1643543aed9",
+    "docs/investigations/issue-330-native-plan.md": "ae71db729c209120c9b4a1e731261010da81e2819273a73692cb5d00260f4c23",
+    "docs/investigations/issue-330-shared-reservation-proposal.md": "1eb30d7733c955c905d4affa71d99063e0c9459abf562f8f153091459460fc6d",
+    "docs/investigations/issue-330-root-review-delta.json": "24d95704f5a77882ed90fad78079414472bafa327a9fd6bca615b4964953f683",
+    "scripts/sorcerer_contract_oracle.py": "c5f60d87eafeb5eb5c125e30331bf901218c9d6515f09fbc9aaf98e7466e125d",
+    "scripts/sorcerer_spell_oracle.py": "462364b557fb36f6da98dbcc0f43632b4e68061c14015062a3098d2e7c129547",
+    "scripts/sorcerer_scope_plan.py": "2115675929f951ae098c2c5751fa214ce3348ccf0bfb5e63221e5cf342577811",
+    "scripts/sorcerer_source_reconciliation.py": "ea8ea137965cf9fa9a8cfc71069ac8f65615b6fa482b7350b2dfe8e3b981c2f6",
+    "scripts/sorcerer_combined_projection.py": "bc53f30e9c24220a61fb59a6eaad8b471d433ec8c390d06a0d245959c3aa9e14",
+    "scripts/verify_sorcerer_scope.py": "d1ee1b8198e2c6ea2e5883f3a86ec9a088a8fbf764741c4e48e9fa80113a1d4e",
+    "scripts/test_verify_sorcerer_scope.py": "d2214f8a2bcef571663bea26010baeabb8bd480f48425aa852aefbfcf646b716"
+  },
+  "source_predicate_oracle": "literal independent fixtures plus complete-body comparison; no hash-only semantic acceptance",
+  "root_archive": "/tmp/edda-root-caster-plan-20261116T211457Z",
+  "allowed_delta": "world-cohort mandatory via shared-output;no183change;no fixture/owner/count deltas",
+  "native_publication_approved": false,
+  "root_appends_published": false,
+  "final_seal": false
+}

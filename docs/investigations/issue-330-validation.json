@@ -71,26 +71,50 @@
   },
   "contrary_tests": {
     "command": "python3 -m unittest discover -s scripts -p test_verify_sorcerer_scope.py -v",
-    "methods": 12,
-    "seconds": 2.638,
-    "exit_code": 0
+    "methods": 21,
+    "seconds": 20.803,
+    "exit_code": 0,
+    "scope": "all211shared actual fixture/body mutations;all27gate requirements;all103source contexts;typed22witnesses;all20grant paths;conflicts;pagination;prefix/duplicate/native numeric types"
   },
   "not_verified": [
-    "final source/shared execution oracle",
-    "native publication",
+    "root semantic/native publication approval",
+    "native child publication/metadata readback",
+    "actual runtime qualification",
     "PostgreSQL integration",
     "browser/device",
-    "parent appends",
-    "final prefix release",
-    "hosted final head"
+    "root-owned330appends/final seal"
   ],
   "unavailable_tools": {
     "golangci-lint": "mise: not provided by active go@1.27.3",
     "ruff": "mise: no version set for shim"
   },
   "shared_source_semantics": {
-    "summon_dragon_bounded_fixtures": 7,
-    "other_proposed_shared_fixtures_pending": 192,
-    "publication_complete": false
+    "spell_names": 98,
+    "spell_parts": 204,
+    "missing_seams": 3,
+    "casting_lifecycle_adapters": 4,
+    "shared_leaves": 211,
+    "class_leaves": 67,
+    "qualification_nodes": 27,
+    "all_own_source_contracts_complete": true,
+    "native_publication_complete": false
+  },
+  "combined_structural_snapshot": {
+    "own_nodes": 305,
+    "warlock_nodes": 281,
+    "wizard_nodes": 285,
+    "total_new_nodes": 871,
+    "baseline_nodes": 1017,
+    "root279_incoming": 100,
+    "root280_incoming": 95,
+    "root337_incoming": 59,
+    "root429_outgoing": 100,
+    "root487_outgoing": 86,
+    "root67_outgoing": 100,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "old183_prerequisites": "EXACTLY unchanged;world-cohort is an additional shared-output prerequisite",
+    "native_approval": false
   }
 }

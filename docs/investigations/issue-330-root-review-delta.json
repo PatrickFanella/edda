@@ -1,0 +1,726 @@
+{
+  "nodes": 305,
+  "added_nodes": [],
+  "removed_nodes": [],
+  "source_fixtures_unchanged": true,
+  "field_changes": {
+    "spell-alter-self-appearance": [
+      "body"
+    ],
+    "spell-alter-self-aquatic": [
+      "body"
+    ],
+    "spell-alter-self-natural-weapons": [
+      "body"
+    ],
+    "spell-animate-objects-summon-scaling": [
+      "body"
+    ],
+    "spell-animate-objects-initiative-commands": [
+      "body"
+    ],
+    "spell-animate-objects-actions": [
+      "body"
+    ],
+    "spell-animate-objects-ending": [
+      "body"
+    ],
+    "spell-arcane-eye-sensor": [
+      "body"
+    ],
+    "spell-arcane-eye-movement-disclosure": [
+      "body"
+    ],
+    "spell-arcane-hand-manifest-scaling": [
+      "body"
+    ],
+    "spell-arcane-hand-clenched-fist": [
+      "body"
+    ],
+    "spell-arcane-hand-forceful-hand": [
+      "body"
+    ],
+    "spell-arcane-hand-grasping-hand": [
+      "body"
+    ],
+    "spell-arcane-hand-interposing-hand": [
+      "body"
+    ],
+    "spell-arcane-hand-ending": [
+      "body"
+    ],
+    "spell-blindness-deafness-admission": [
+      "body"
+    ],
+    "spell-blindness-deafness-repeat-save-ending": [
+      "body"
+    ],
+    "spell-blink-roll-plane-transition": [
+      "body"
+    ],
+    "spell-blink-return-ending": [
+      "body"
+    ],
+    "spell-chain-lightning-targets-damage": [
+      "body"
+    ],
+    "spell-charm-monster-charm": [
+      "body"
+    ],
+    "spell-charm-monster-ending-awareness": [
+      "body"
+    ],
+    "spell-charm-person-charm": [
+      "body"
+    ],
+    "spell-charm-person-ending-awareness": [
+      "body"
+    ],
+    "spell-chill-touch-effect": [
+      "body"
+    ],
+    "spell-chromatic-orb-damage": [
+      "body"
+    ],
+    "spell-chromatic-orb-bounce": [
+      "body"
+    ],
+    "spell-circle-of-death-effect": [
+      "body"
+    ],
+    "spell-clairvoyance-sensor": [
+      "body"
+    ],
+    "spell-clairvoyance-sense-choice-disclosure": [
+      "body"
+    ],
+    "spell-cloudkill-area-movement": [
+      "body"
+    ],
+    "spell-cloudkill-damage-events": [
+      "body"
+    ],
+    "spell-color-spray-effect": [
+      "body"
+    ],
+    "spell-comprehend-languages-effect": [
+      "body"
+    ],
+    "spell-confusion-admission": [
+      "body"
+    ],
+    "spell-confusion-turn-table": [
+      "body"
+    ],
+    "spell-confusion-ending": [
+      "body"
+    ],
+    "spell-counterspell-player-and-general-casting-trigger": [
+      "body"
+    ],
+    "spell-counterspell-save-cost-resume": [
+      "body"
+    ],
+    "spell-creation-object-material": [
+      "body"
+    ],
+    "spell-creation-duration-ending": [
+      "body"
+    ],
+    "spell-dancing-lights-effect": [
+      "body"
+    ],
+    "spell-darkness-effect": [
+      "body"
+    ],
+    "spell-delayed-blast-fireball-bead-growth": [
+      "body"
+    ],
+    "spell-delayed-blast-fireball-touch-detonation": [
+      "body"
+    ],
+    "spell-delayed-blast-fireball-ending-damage": [
+      "body"
+    ],
+    "spell-demiplane-door": [
+      "body"
+    ],
+    "spell-demiplane-persistent-room-access": [
+      "body"
+    ],
+    "spell-detect-thoughts-detection-ending": [
+      "body"
+    ],
+    "spell-detect-thoughts-surface": [
+      "body"
+    ],
+    "spell-detect-thoughts-probe": [
+      "body"
+    ],
+    "spell-dimension-door-transport": [
+      "body"
+    ],
+    "spell-dimension-door-blocked-arrival": [
+      "body"
+    ],
+    "spell-disguise-self-effect": [
+      "body"
+    ],
+    "spell-disintegrate-creature": [
+      "body"
+    ],
+    "spell-disintegrate-object-force": [
+      "body"
+    ],
+    "spell-dominate-monster-charm": [
+      "body"
+    ],
+    "spell-dominate-monster-commands": [
+      "body"
+    ],
+    "spell-dominate-monster-ending": [
+      "body"
+    ],
+    "spell-dominate-person-charm": [
+      "body"
+    ],
+    "spell-dominate-person-commands": [
+      "body"
+    ],
+    "spell-dominate-person-ending": [
+      "body"
+    ],
+    "spell-dragons-breath-grant": [
+      "body"
+    ],
+    "spell-dragons-breath-breath-action": [
+      "body"
+    ],
+    "spell-earthquake-area-events": [
+      "body"
+    ],
+    "spell-earthquake-fissures": [
+      "body"
+    ],
+    "spell-earthquake-structures": [
+      "body"
+    ],
+    "spell-enlarge-reduce-enlarge": [
+      "body"
+    ],
+    "spell-enlarge-reduce-reduce": [
+      "body"
+    ],
+    "spell-enlarge-reduce-gear-ending": [
+      "body"
+    ],
+    "spell-etherealness-plane-transition": [
+      "body"
+    ],
+    "spell-etherealness-movement-perception": [
+      "body"
+    ],
+    "spell-etherealness-return-ending": [
+      "body"
+    ],
+    "spell-expeditious-retreat-effect": [
+      "body"
+    ],
+    "spell-eyebite-repeat-target-ending": [
+      "body"
+    ],
+    "spell-eyebite-asleep": [
+      "body"
+    ],
+    "spell-eyebite-panicked": [
+      "body"
+    ],
+    "spell-eyebite-sickened": [
+      "body"
+    ],
+    "spell-false-life-effect": [
+      "body"
+    ],
+    "spell-fear-admission": [
+      "body"
+    ],
+    "spell-fear-movement-ending": [
+      "body"
+    ],
+    "spell-feather-fall-effect": [
+      "body"
+    ],
+    "spell-finger-of-death-damage": [
+      "body"
+    ],
+    "spell-finger-of-death-zombie-creation-control": [
+      "body"
+    ],
+    "spell-fire-shield-choice-resistance": [
+      "body"
+    ],
+    "spell-fire-shield-reactive-damage": [
+      "body"
+    ],
+    "spell-fire-storm-effect": [
+      "body"
+    ],
+    "spell-flame-blade-manifest": [
+      "body"
+    ],
+    "spell-flame-blade-attack": [
+      "body"
+    ],
+    "spell-flaming-sphere-placement": [
+      "body"
+    ],
+    "spell-flaming-sphere-movement-damage": [
+      "body"
+    ],
+    "spell-flaming-sphere-ending": [
+      "body"
+    ],
+    "spell-flesh-to-stone-restraint": [
+      "body"
+    ],
+    "spell-flesh-to-stone-repeat-saves": [
+      "body"
+    ],
+    "spell-flesh-to-stone-petrification-ending": [
+      "body"
+    ],
+    "spell-fly-speed": [
+      "body"
+    ],
+    "spell-fly-ending-fall": [
+      "body"
+    ],
+    "spell-freezing-sphere-burst": [
+      "body"
+    ],
+    "spell-freezing-sphere-water": [
+      "body"
+    ],
+    "spell-freezing-sphere-delayed-globe": [
+      "body"
+    ],
+    "spell-gaseous-form-transform": [
+      "body"
+    ],
+    "spell-gaseous-form-movement-restrictions": [
+      "body"
+    ],
+    "spell-gaseous-form-ending": [
+      "body"
+    ],
+    "spell-gate-portal": [
+      "body"
+    ],
+    "spell-gate-named-creature": [
+      "body"
+    ],
+    "spell-globe-of-invulnerability-barrier": [
+      "body"
+    ],
+    "spell-globe-of-invulnerability-level-interaction": [
+      "body"
+    ],
+    "spell-grease-area": [
+      "body"
+    ],
+    "spell-grease-prone-ending": [
+      "body"
+    ],
+    "spell-greater-invisibility-effect": [
+      "body"
+    ],
+    "spell-haste-benefits": [
+      "body"
+    ],
+    "spell-haste-limited-action": [
+      "body"
+    ],
+    "spell-haste-ending-lethargy": [
+      "body"
+    ],
+    "spell-hold-monster-paralysis": [
+      "body"
+    ],
+    "spell-hold-monster-repeat-save-ending": [
+      "body"
+    ],
+    "spell-hypnotic-pattern-admission": [
+      "body"
+    ],
+    "spell-hypnotic-pattern-ending": [
+      "body"
+    ],
+    "spell-ice-knife-effect": [
+      "body"
+    ],
+    "spell-incendiary-cloud-area-movement": [
+      "body"
+    ],
+    "spell-incendiary-cloud-damage": [
+      "body"
+    ],
+    "spell-invisibility-admission": [
+      "body"
+    ],
+    "spell-invisibility-ending": [
+      "body"
+    ],
+    "spell-knock-effect": [
+      "body"
+    ],
+    "spell-legend-lore-effect": [
+      "body"
+    ],
+    "spell-levitate-effect": [
+      "body"
+    ],
+    "spell-mage-armor-effect": [
+      "body"
+    ],
+    "spell-mage-hand-manifest": [
+      "body"
+    ],
+    "spell-mage-hand-manipulation": [
+      "body"
+    ],
+    "spell-magic-missile-effect": [
+      "body"
+    ],
+    "spell-major-image-image": [
+      "body"
+    ],
+    "spell-major-image-movement-interaction": [
+      "body"
+    ],
+    "spell-major-image-upcast": [
+      "body"
+    ],
+    "spell-mass-suggestion-suggestion": [
+      "body"
+    ],
+    "spell-mass-suggestion-duration-ending": [
+      "body"
+    ],
+    "spell-meteor-swarm-effect": [
+      "body"
+    ],
+    "spell-minor-illusion-sound": [
+      "body"
+    ],
+    "spell-minor-illusion-image-interaction": [
+      "body"
+    ],
+    "spell-mirror-image-images": [
+      "body"
+    ],
+    "spell-mirror-image-attack-interception": [
+      "body"
+    ],
+    "spell-move-earth-area-shaping": [
+      "body"
+    ],
+    "spell-move-earth-restrictions": [
+      "body"
+    ],
+    "spell-plane-shift-willing-transport": [
+      "body"
+    ],
+    "spell-power-word-stun-admission": [
+      "body"
+    ],
+    "spell-power-word-stun-repeat-save-ending": [
+      "body"
+    ],
+    "spell-prestidigitation-instant-sensory-clean": [
+      "body"
+    ],
+    "spell-prestidigitation-lasting-effect": [
+      "body"
+    ],
+    "spell-prestidigitation-trinket-image": [
+      "body"
+    ],
+    "spell-prismatic-spray-rays1-5": [
+      "body"
+    ],
+    "spell-prismatic-spray-indigo": [
+      "body"
+    ],
+    "spell-prismatic-spray-violet": [
+      "body"
+    ],
+    "spell-prismatic-spray-special8": [
+      "body"
+    ],
+    "spell-reverse-gravity-area-fall": [
+      "body"
+    ],
+    "spell-reverse-gravity-restrained-object-save": [
+      "body"
+    ],
+    "spell-reverse-gravity-ending-fall": [
+      "body"
+    ],
+    "spell-scorching-ray-effect": [
+      "body"
+    ],
+    "spell-see-invisibility-perception": [
+      "body"
+    ],
+    "spell-seeming-appearance": [
+      "body"
+    ],
+    "spell-seeming-inspection-ending": [
+      "body"
+    ],
+    "spell-shatter-effect": [
+      "body"
+    ],
+    "spell-shield-effect": [
+      "body"
+    ],
+    "spell-silent-image-effect": [
+      "body"
+    ],
+    "spell-slow-target-admission": [
+      "body"
+    ],
+    "spell-slow-turn-limits": [
+      "body"
+    ],
+    "spell-slow-repeat-save-ending": [
+      "body"
+    ],
+    "spell-sorcerous-burst-attack": [
+      "body"
+    ],
+    "spell-sorcerous-burst-exploding-dice": [
+      "body"
+    ],
+    "spell-spider-climb-effect": [
+      "body"
+    ],
+    "spell-suggestion-suggestion": [
+      "body"
+    ],
+    "spell-suggestion-duration-ending": [
+      "body"
+    ],
+    "spell-sunbeam-line-damage-blindness": [
+      "body"
+    ],
+    "spell-sunbeam-repeat-action-light-ending": [
+      "body"
+    ],
+    "spell-sunburst-burst": [
+      "body"
+    ],
+    "spell-sunburst-blindness-repeat-save": [
+      "body"
+    ],
+    "spell-sunburst-darkness-ending": [
+      "body"
+    ],
+    "spell-telekinesis-creature": [
+      "body"
+    ],
+    "spell-telekinesis-unheld-object": [
+      "body"
+    ],
+    "spell-telekinesis-held-object": [
+      "body"
+    ],
+    "spell-telekinesis-fine-control-ending": [
+      "body"
+    ],
+    "spell-teleport-destination-category": [
+      "body"
+    ],
+    "spell-teleport-mishap-table": [
+      "body"
+    ],
+    "spell-teleport-arrival": [
+      "body"
+    ],
+    "spell-teleportation-circle-sigil-material-creation": [
+      "body"
+    ],
+    "spell-teleportation-circle-portal-travel": [
+      "body"
+    ],
+    "spell-teleportation-circle-permanence": [
+      "body"
+    ],
+    "spell-thunderwave-effect": [
+      "body"
+    ],
+    "spell-time-stop-extra-turns": [
+      "body"
+    ],
+    "spell-time-stop-ending-triggers": [
+      "body"
+    ],
+    "spell-tongues-effect": [
+      "body"
+    ],
+    "spell-true-seeing-senses-disclosure": [
+      "body"
+    ],
+    "spell-true-strike-weapon-attack": [
+      "body"
+    ],
+    "spell-true-strike-damage-scaling": [
+      "body"
+    ],
+    "spell-vampiric-touch-attack-healing": [
+      "body"
+    ],
+    "spell-vampiric-touch-repeat-action-ending": [
+      "body"
+    ],
+    "spell-vitriolic-sphere-effect": [
+      "body"
+    ],
+    "spell-wall-of-fire-placement-damage": [
+      "body"
+    ],
+    "spell-wall-of-fire-hot-side": [
+      "body"
+    ],
+    "spell-wall-of-fire-movement-ending": [
+      "body"
+    ],
+    "spell-summon-dragon-manifest-and-slot-scaling": [
+      "body"
+    ],
+    "spell-summon-dragon-initiative-verbal-command-and-default-dodge": [
+      "body"
+    ],
+    "spell-summon-dragon-draconic-spirit-defenses-senses": [
+      "body"
+    ],
+    "spell-summon-dragon-shared-resistance": [
+      "body"
+    ],
+    "spell-summon-dragon-rend-and-multiattack": [
+      "body"
+    ],
+    "spell-summon-dragon-breath-weapon": [
+      "body"
+    ],
+    "spell-summon-dragon-zerohp-and-spell-ending": [
+      "body"
+    ],
+    "condition-petrified": [
+      "body"
+    ],
+    "zombie-stat-actions": [
+      "body"
+    ],
+    "zombie-undead-fortitude": [
+      "body"
+    ],
+    "cast-components": [
+      "body"
+    ],
+    "cast-cost-privacy": [
+      "body"
+    ],
+    "cast-long-ritual": [
+      "body"
+    ],
+    "effect-time-span-stack": [
+      "body"
+    ],
+    "advancement-output-gateway": [
+      "body"
+    ],
+    "incapacitated-output-gateway": [
+      "body"
+    ],
+    "execution-gateway-1": [
+      "body"
+    ],
+    "casting-gateway-1": [
+      "body"
+    ],
+    "execution-gateway-2": [
+      "body"
+    ],
+    "casting-gateway-2": [
+      "body"
+    ],
+    "execution-gateway-3": [
+      "body"
+    ],
+    "casting-gateway-3": [
+      "body"
+    ],
+    "spell-cohort-1": [
+      "body"
+    ],
+    "spell-cohort-2": [
+      "body"
+    ],
+    "spell-cohort-3": [
+      "body"
+    ],
+    "spell-cohort-4": [
+      "body"
+    ],
+    "spell-cohort-5": [
+      "body"
+    ],
+    "spell-cohort-6": [
+      "body"
+    ],
+    "spell-cohort-7": [
+      "body"
+    ],
+    "spell-cohort-8": [
+      "body"
+    ],
+    "spell-cohort-9": [
+      "body"
+    ],
+    "spell-cohort-10": [
+      "body"
+    ],
+    "spell-cohort-11": [
+      "body"
+    ],
+    "reuse-cohort-1": [
+      "body"
+    ],
+    "reuse-cohort-2": [
+      "body"
+    ],
+    "feature-cohort": [
+      "body"
+    ],
+    "level-cohort": [
+      "body"
+    ],
+    "shared-output": [
+      "depends",
+      "body"
+    ],
+    "class-gate": [
+      "body"
+    ],
+    "world-cohort": [
+      "body"
+    ],
+    "shared-aggregate": [
+      "body"
+    ]
+  },
+  "unexpected_deltas": [],
+  "archive_proposal_sha256": "09668d7f85c4265eb36abff2ff7ce354093aecf7e7e8ac2e1fd812f562190abb",
+  "current_proposal_sha256": "c480453eb559f9240a6a5122d593ec49dae9bf05cc9c6cba9e3307ec676aeb25"
+}

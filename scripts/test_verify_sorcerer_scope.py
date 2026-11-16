@@ -5,6 +5,7 @@ import unittest
 from urllib.parse import parse_qs, urlsplit
 
 import verify_sorcerer_scope as proof
+from sorcerer_scope_plan import shared_body, gate_body, class_body
 
 
 class SorcererCheckpointTests(unittest.TestCase):
@@ -18,7 +19,7 @@ class SorcererCheckpointTests(unittest.TestCase):
             proof.validate_publication(self.manifest, {})
         forged = deepcopy(self.manifest)
         forged.update(status='PUBLISHED', accepted_parent_prefix={'47': 'forged'})
-        with self.assertRaisesRegex(AssertionError, 'oracle not completed'):
+        with self.assertRaisesRegex(AssertionError, 'native publication identities incomplete'):
             proof.validate_publication(forged, dict(publication_complete=True))
 
     def test_all103_source_contexts_cannot_coherently_reroute_to_asi(self):
@@ -81,7 +82,7 @@ class SorcererCheckpointTests(unittest.TestCase):
             candidate = deepcopy(self.manifest)
             task = candidate['shared_split_proposal'][i]
             task['fixture'] += ' Override: use total class level for all numeric operands.'
-            task['body'] = proof.summon_body(task['fixture'])
+            task['body'] = shared_body(task)
             with self.subTest(part=original['part']), self.assertRaisesRegex(AssertionError, 'actual execution semantics'):
                 proof.validate_plan(candidate)
             candidate = deepcopy(self.manifest)
@@ -104,9 +105,140 @@ class SorcererCheckpointTests(unittest.TestCase):
             task = next(t for t in candidate['shared_split_proposal'] if t['spell'] == 'Summon Dragon' and t['part'] == part)
             self.assertIn(before, task['fixture'])
             task['fixture'] = task['fixture'].replace(before, after)
-            task['body'] = proof.summon_body(task['fixture'])
+            task['body'] = shared_body(task)
             with self.subTest(part=part), self.assertRaisesRegex(AssertionError, 'actual execution semantics'):
                 proof.validate_plan(candidate)
+
+    def test_every_211_shared_actual_fixture_and_complete_body(self):
+        import re
+        for i, original in enumerate(self.manifest['shared_split_proposal']):
+            candidate = deepcopy(self.manifest)
+            t = candidate['shared_split_proposal'][i]
+            # Change a real operand after the PDF locator; preserve actual shape
+            # and coherently regenerate the entire candidate native body.
+            start = t['fixture'].find(' ') + 1
+            number = re.search(r'\d+', t['fixture'][start:])
+            if number is not None:
+                a,b = start+number.start(), start+number.end()
+                t['fixture'] = t['fixture'][:a]+str(int(number[0])+1)+t['fixture'][b:]
+            else:
+                controls = {
+                    'spell-arcane-hand-interposing-hand': ('HalfCover','TotalCover'),
+                    'spell-clairvoyance-sense-choice-disclosure': ('BONUSActionswitch','NOActionswitch'),
+                    'spell-confusion-ending': ('WISsave','CONsave'),
+                    'spell-demiplane-persistent-room-access': ('KNOWSnatureANDcontents','KNOWSnameonly'),
+                    'spell-detect-thoughts-probe': ('WISsave','CONsave'),
+                    'spell-dominate-monster-ending': ('EACHdamageevent','ONLYcasterdamageevent'),
+                    'spell-dominate-person-commands': ('SAMEPLANE','ANYPLANE'),
+                    'spell-dominate-person-ending': ('EVERYtargetdamage','ONLYcasterdamage'),
+                    'spell-enlarge-reduce-gear-ending': ('AFTERhitORmiss','BEFOREhitORmiss'),
+                    'spell-fly-ending-fall': ('FALLSifALOFT','FLOATSgentlyifALOFT'),
+                    'spell-gate-named-creature': ('OTHERplane','SAMEplane'),
+                    'spell-invisibility-ending': ('IMMEDIATELYAFTER','IMMEDIATELYBEFORE'),
+                    'spell-major-image-movement-interaction': ('MagicAction','BonusAction'),
+                    'spell-move-earth-restrictions': ('NOTnaturalSTONE','ALLOWnaturalSTONE'),
+                    'spell-reverse-gravity-restrained-object-save': ('DEXsave','STRsave'),
+                    'spell-reverse-gravity-ending-fall': ('FALLDOWN','FLOATUP'),
+                    'spell-telekinesis-fine-control-ending': ('priorNOLONGERaffected','priorSTILLaffected'),
+                }
+                before,after=controls[original['key']]
+                self.assertIn(before,t['fixture'])
+                t['fixture']=t['fixture'].replace(before,after)
+            t['body'] = shared_body(t)
+            with self.subTest(key=t['key']), self.assertRaisesRegex(AssertionError, 'actual execution semantics'):
+                proof.validate_plan(candidate)
+            candidate = deepcopy(self.manifest)
+            candidate['shared_split_proposal'][i]['body'] += '\nOverride: source constraints do not apply.'
+            with self.subTest(body=original['key']), self.assertRaisesRegex(AssertionError, 'complete body semantics'):
+                proof.validate_plan(candidate)
+
+    def test_all_27_finite_gates_and_protocol_consumers_are_independent(self):
+        for i, original in enumerate(self.manifest['gates']):
+            candidate = deepcopy(self.manifest)
+            t = candidate['gates'][i]
+            if t['depends']:
+                t['depends'].pop()
+            elif t['prerequisites']:
+                t['prerequisites'].pop()
+            else:
+                self.fail('empty placeholder '+t['key'])
+            t['body'] = gate_body(t)
+            with self.subTest(gate=original['key']), self.assertRaisesRegex(AssertionError, 'exact protocol prerequisites'):
+                proof.validate_plan(candidate)
+
+    def test_conflict_headers_cannot_expand_admission_or_245_union(self):
+        for key in self.manifest['source_conflicts']:
+            candidate = deepcopy(self.manifest)
+            candidate['source_conflicts'][key]['admission']='available from spell header'
+            with self.subTest(key=key), self.assertRaisesRegex(AssertionError, 'header cannot grant'):
+                proof.validate_plan(candidate)
+        candidate = deepcopy(self.manifest)
+        candidate['future_source_rosters']['source_union'].append('Phantasmal Force')
+        with self.assertRaisesRegex(AssertionError, 'finite source union'):
+            proof.validate_plan(candidate)
+
+    def test_nested_draconic_effect_owner_cannot_be_preparation_only(self):
+        candidate = deepcopy(self.manifest)
+        context = next(c for c in candidate['record_matrix'] if c['effect_owners'])
+        name = next(iter(context['effect_owners']))
+        context['effect_owners'][name] = ['draconic-spells']
+        with self.assertRaisesRegex(AssertionError, 'nested actual spell execution owners'):
+            proof.validate_plan(candidate)
+
+    def test_real_owned_prerequisite_caps_keep_foreign_boundary_explicit(self):
+        result = proof.project_owned(self.manifest)
+        self.assertEqual(result['owned_nodes'],305)
+        self.assertEqual((result['incoming279'],result['incoming280']),(100,95))
+        self.assertEqual((result['children330'],result['children283']),(82,95))
+        self.assertEqual((result['outgoing429'],result['outgoing487'],result['outgoing67']),(100,84,98))
+        self.assertEqual(result['unresolved_external_heads'],['warlock-shared-output','wizard-shared-output'])
+        self.assertNotEqual(result['status'],'complete proposed graph')
+
+    def test_typed_transition_operands_unequal_levels_and_complete_table(self):
+        for field,value in [('sorcerer_row',True),('total_row',6.0),('xp',300),('pb',2),('hp_mode','first-character-d6-max6')]:
+            candidate=deepcopy(self.manifest)
+            candidate['transition_fixtures'][-1][field]=value
+            with self.subTest(field=field), self.assertRaisesRegex(AssertionError,'operand witnesses'):
+                proof.validate_plan(candidate)
+        for value in [True,1.5,0,21]:
+            candidate=deepcopy(self.manifest)
+            candidate['transition_fixtures'][-1]['after']['sorcerer']=value
+            with self.subTest(level=value), self.assertRaisesRegex(AssertionError,'operand witnesses'):
+                proof.validate_plan(candidate)
+        candidate=deepcopy(self.manifest)
+        path='internal/rules/srd521/testdata/character-advancement.json'
+        candidate['catalogues'][path]['records'].pop()
+        with self.assertRaisesRegex(AssertionError,'COMPLETE authoritative advancement table'):
+            proof.validate_plan(candidate)
+
+    def test_real_namespace_partial_altered_and_duplicate_markers(self):
+        prefix='released root body\n'
+        marker='<!-- edda-330:47:start -->'
+        append='\n'+marker+'\nExact Sorcerer section\n<!-- edda-330:47:end -->\n'
+        proof.prefix_check(prefix+append+'later pure append',prefix,append,marker)
+        for extra in ['<!-- edda-330', '<!-- EDDA-330:47:start -->partial', '<!--edda-330:47:end -->',append]:
+            with self.subTest(extra=extra),self.assertRaises(AssertionError):
+                proof.prefix_check(prefix+append+extra,prefix,append,marker)
+
+    def test_native_receipt_identity_types_reject_boolean_aliases(self):
+        for field,value in [('number',True),('number',1.0),('parent',True),('blocked_by',[True])]:
+            row=dict(number=1,parent=None,blocked_by=[])
+            row[field]=value
+            with self.subTest(field=field,value=value),self.assertRaises(AssertionError):
+                proof.typed_native_graph({'graph':[row]})
+
+    def test_world_obligations_route_through_shared_output_without_183_mutation(self):
+        candidate=deepcopy(self.manifest)
+        t=next(g for g in candidate['gates'] if g['key']=='shared-output')
+        self.assertIn('world-cohort',t['depends'])
+        t['depends'].remove('world-cohort')
+        t['body']=gate_body(t)
+        with self.assertRaisesRegex(AssertionError,'exact protocol prerequisites'):
+            proof.validate_plan(candidate)
+        report=proof.project_owned(self.manifest)
+        baseline=json.loads(proof.BASELINE.read_text())
+        old=next(x['blocked_by'] for x in baseline['graph'] if x['number']==183)
+        self.assertEqual(report['graph']['183'],[str(n) for n in old])
 
     def test_source_numeric_types_distinguish_true_one_and_decimal(self):
         self.assertFalse(proof.exact(True, 1))
@@ -132,8 +264,9 @@ class SorcererCheckpointTests(unittest.TestCase):
         prefix, append, marker = 'released\n', '<330>complete</330>\n', '<330>'
         proof.prefix_check(prefix + append, prefix, append, marker)
         proof.prefix_check(prefix + append + 'later pure append\n', prefix, append, marker)
+        proof.prefix_check(prefix + 'another later pure append\n' + append, prefix, append, marker)
         for body in [prefix, 'changed\n' + append, prefix + '<330>partial', prefix + append + append,
-                     prefix + append.replace('complete', 'altered'), prefix + append + '<330>partial']:
+                     prefix + append.replace('complete', 'altered'), prefix + append + '<330>partial',prefix + append + '<330']:
             with self.subTest(body=body), self.assertRaises(AssertionError):
                 proof.prefix_check(body, prefix, append, marker)
 

@@ -328,7 +328,7 @@ def execution_owner(record, key):
     if tail in ['entry', 'first-class-traits', 'first-class-entry']:
         return 'later-entry' if key.endswith('/multiclass') else 'creation'
     if tail in ['multiclass-traits', 'multiclass-entry']:
-        return 'later-entry'
+        return 'multiclass-slots' if 'spell-slot-rules' in key else 'later-entry'
     if tail == 'skills':
         return 'proficiencies'
     if tail == 'starting-equipment':
@@ -1410,3 +1410,12 @@ SUMMON_DRAGON = {
         'Incapacitateddismissal,ownturn/actioncost. Class18 optional noConcentration/1min is per-cast adapter '
         'only, not a rewritten base spell. Persist world/effect/turn ownership and endings atomically.'),
 }
+
+
+CONTRACTS['multiclass-slots'] = (
+    'Sorcerer multiclass slot and preparation adapter',
+    'PDF25-26: ONLY source-qualified admitted multiclass combination; if Spellcasting from onlyONEclass use own table; otherwise combine full Bard/Cleric/Druid/Sorcerer/Wizard levels plus half Paladin/Ranger levels ROUNDUP per canonical source, use COMPLETE multiclass slot table. PREPARATIONS independently by OWNclass as singleclass, notcombinedslots; abilitysource per preparedclass. PactMagic slots remain SEPARATEownedresources but qualified cross-casts allowed BOTHdirections. Positive:Ranger4/Sorcerer3 caster5 slots4/3/2 but Sorcererprepares6level1/2 andRanger5level1;Paladin1/Sorcerer1 caster2slot3level1;Fighter4/Sorcerer1 onlyownclass1slots. Negatives:combinedslotspreparelevel3,rounddownPaladin1to0,Warlockleveladdedfullcastertable,mergedPactrecharge,unsupportedclasscombination,firstcharacterrequiresmulticlassCHA13. This adapter owns Sorcerer boundary, not otherclassgrants; planning335closure supplies no implementation.',
+    [335],
+)
+DEPENDENCIES['multiclass-slots'] = ['predicates']
+DEPENDENCIES['slots'] = ['multiclass-slots']

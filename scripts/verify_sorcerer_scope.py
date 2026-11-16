@@ -81,11 +81,20 @@ def bounded_pages(fetch, endpoint, call_cap=20):
 
 
 def prefix_check(body, prefix, append, marker):
-    """Full released prefix plus exactly one complete append; pure later appends allowed."""
+    """Exact released prefix/owned section; unrelated later pure appends allowed."""
+    import re
     assert body.startswith(prefix), 'modified or rolled-back prefix'
-    expected = prefix + append
-    assert body.startswith(expected), 'missing/partial/modified append'
-    assert body.count(marker) == 1, 'duplicate append marker'
+    tail=body[len(prefix):]
+    assert tail.count(append)==1, 'missing/partial/modified append'
+    if marker.startswith('<!--'):
+        namespace=re.search(r'edda-\d+',marker,re.I)
+        assert namespace, 'owned marker namespace'
+        pattern=r'<!--\s*'+re.escape(namespace[0])
+        assert len(re.findall(pattern,tail,re.I))==len(re.findall(pattern,append,re.I)), 'duplicate or partial/altered owned marker'
+    else:
+        stem=marker[:-1] if marker.endswith('>') else marker
+        assert tail.count(stem)==append.count(stem), 'duplicate or partial append marker'
+    assert tail.count(marker)==1, 'duplicate append marker'
 
 
 def expected_body(t):
@@ -104,76 +113,235 @@ def summon_body(fixture):
             + '\n\nRequired terminal routing: finite shared cohort->Sorcerer shared output->three-caster aggregate->279/280 and own class gate->337; exact world/statblock leaf qualification also required at183. No185/274planning substitution. Native publication PENDING.\n')
 
 
+# Filled only from an explicit root release, never candidate receipts.
+ACCEPTED_PREFIX_SHA256 = {'47': 'b471db938c1d2357fee6bf70f03e19529f6d991422f8a978820874e3c8e2c842', '54': 'bd76c98ef2c4f8710f359cae305bc462770c637309de90a560b96ba07bd96ae4', '283': 'a643f239df6a0eef4abaa685c0038a6c00b512c8cb6b93f307599bf392d13010', '337': '328223c535edca542515767b900738d33beb301ade6f22865d49782bffc77c44'}
+APPROVED_EXTERNAL_HEADS = {}
+BASELINE = ROOT / 'docs/investigations/issue-330-native-baseline.json'
+
+
 def validate_plan(m):
+    from sorcerer_scope_plan import complete_plan, transition_fixtures
+    from sorcerer_spell_oracle import CONFLICT_POLICY, REUSED_OUTPUTS
     assert exact(m['spell_lists'], SOURCE_LISTS), 'complete class source lists'
     assert exact(m['future_source_rosters']['consumed'], FINITE_CONSUMED), 'finite future consumed source roster'
     assert m['future_source_rosters']['source_union'] == sorted(set.union(*(set(v) for v in FINITE_CONSUMED.values()))), 'complete finite source union'
+    assert len(m['future_source_rosters']['source_union']) == 245
     assert m['decision'] == 330 and m['base'] == BASE and m['source']['sha256'] == PIN
     for path, digest in m['evidence_hashes'].items():
         assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest, 'caller evidence changed'
+    advancement='internal/rules/srd521/testdata/character-advancement.json'
+    assert exact(m['catalogues'][advancement],json.loads((ROOT/advancement).read_text())), 'COMPLETE authoritative advancement table'
+    assert exact(m['transition_fixtures'],transition_fixtures(ROOT)), 'typed class/total/XP/PB/HP operand witnesses'
     actual = []
-    for name, count in [('sorcerer', 63), ('metamagic', 22), ('draconic', 18)]:
+    for name, count in [('sorcerer',63),('metamagic',22),('draconic',18)]:
         path = 'internal/rules/srd521/testdata/character-' + name + '.json'
-        data = json.loads((ROOT / path).read_text())
+        data = json.loads((ROOT/path).read_text())
         assert exact(m['catalogues'][path], data), 'source operands/types'
         assert len(data['records']) == count
         actual.extend(data['records'])
-    assert exact(actual, m['records']) and len(actual) == 103, 'complete source records'
-    assert len(m['record_matrix']) == 103, 'complete contextual matrix'
-    tasks = {t['key']: t for t in m['tasks']}
-    assert len(tasks) == len(m['tasks']) == 66
-    assert set(tasks) == set(CONTRACTS) | {'level-' + str(n) for n in range(1, 21)}, 'finite contracts'
-    for record, context in zip(actual, m['record_matrix']):
-        assert exact(context['record'], record) and context['id'] == record['id']
-        expected = {k: execution_owner(record, k) for k in record['required_mechanics'] + record['option_keys']}
-        assert context['key_owners'] == expected, 'independent source execution owner'
-        assert context['status'] == 'unavailable'
-        assert all(context[k] for k in ['rules', 'game', 'engine', 'combat', 'handlers', 'database', 'web', 'tui'])
-    for key, t in tasks.items():
-        assert t['type'] == 'Task' and t['size'] == 'M' and t['parent'] == 330
-        if key in CONTRACTS:
-            title, fixture, pre = CONTRACTS[key]
-            deps = DEPENDENCIES.get(key, [])
-            assert t['title'] == title and t['fixture'] == fixture, 'readable execution semantics'
-            assert t['prerequisites'] == pre and t['depends'] == deps, 'exact protocol prerequisites'
+    assert exact(actual,m['records']) and len(actual)==103, 'complete source records'
+    assert len(m['record_matrix'])==103
+    expected_tasks, expected_shared, expected_gates, routes = complete_plan(actual)
+    for record, context in zip(actual,m['record_matrix']):
+        assert exact(context['record'],record) and context['id']==record['id']
+        expected={k:execution_owner(record,k) for k in record['required_mechanics']+record['option_keys']}
+        assert context['key_owners']==expected, 'independent source execution owner'
+        effects={name:owners for name,owners in routes.items() if any(k=='srd-5.2.1:mechanic/spells/'+name.lower().replace('’','').replace('/','-').replace(' ','-') for k in record['required_mechanics'])}
+        assert exact(context['effect_owners'],effects), 'nested actual spell execution owners'
+        assert context['status']=='unavailable'
+        assert all(context[k] for k in ['rules','game','engine','combat','handlers','database','web','tui'])
+    for field,expected in [('tasks',expected_tasks),('shared_split_proposal',expected_shared),('gates',expected_gates)]:
+        candidates=m[field]
+        assert len(candidates)==len(expected) and len({t['key'] for t in candidates})==len(expected), 'complete finite contract roster'
+        for t,e in zip(candidates,expected):
+            assert set(t)==set(e), 'complete contract fields'
+            for key in e:
+                if key=='issue':
+                    assert t[key] is None or type(t[key]) is int and t[key]>0, 'exact native numeric identity'
+                    continue
+                diagnostic = 'complete body semantics' if key=='body' else 'actual execution semantics / exact protocol prerequisites / all20 granting paths'
+                assert exact(t[key],e[key]), diagnostic+': '+t['key']+'/'+key
+    assert exact(m['spell_execution_owners'],routes), 'complete source-to-execution routes'
+    assert m['overlap']['title_candidates']==REUSED_OUTPUTS, 'exact reused outputs; no title aliases'
+    baseline=json.loads(BASELINE.read_text())
+    assert exact(m['overlap_audit'],baseline['overlap_audit']), 'whole reused contract body/title/parent/prerequisites'
+    assert exact(m['protected_owners'],baseline['protected_owners']), 'protected source owner'
+    assert m['protected_owners']['779']['body_sha256']=='556d1618d1cd2bd9c956fe38861d89e94ee14ff61a505b5d2b6a1fa46d19d150'
+    assert m['protected_owners']['779']['blocked_by']==[61,64,65,66,67,488,778]
+    assert set(m['source_conflicts'])==set(CONFLICT_POLICY), 'complete source conflict ledger'
+    for key,expected in CONFLICT_POLICY.items():
+        entry=m['source_conflicts'][key]
+        assert all(exact(entry[k],v) for k,v in expected.items()), 'source conflict locators'
+        assert entry['feature_exception']=='Only a separately source-qualified feature route with its own exact owner/proof may admit', 'exact separate feature-route policy'
+        assert entry['effect_owner']==('Warlock331 single agreeing printed75/header149 effect owner reserved' if entry['spell']=='Mind Spike' else 'unallocated; outside245 reservation'), 'single effect owner reservation'
+        assert entry['admission']=='unavailable for disputed list-based route', 'header cannot grant admission'
+        assert entry['spell'] not in [x['name'] for x in SOURCE_LISTS[entry['class']]], 'disputed printed admission'
+    assert exact(m['shared_counts'],dict(spell_names=98,spell_parts=204,seams=3,casting_protocols=4,shared_runtime_leaves=211,qualification_nodes=27,class_leaves=67)), 'exact source-derived counts/types'
+    allrows=expected_tasks+expected_shared+expected_gates
+    acyclic({t['key']:t['depends'] for t in allrows})
+    return {t['key']:t for t in m['tasks']+m['shared_split_proposal']+m['gates']}
+
+
+def project_owned(m):
+    rr=validate_plan(m)
+    baseline=json.loads(BASELINE.read_text())
+    graph={str(t['number']):[str(n) for n in t['blocked_by']] for t in baseline['graph']}
+    parents={str(t['number']):str(t['parent']) for t in baseline['graph'] if t['parent']}
+    for key,t in rr.items():
+        assert key not in graph
+        graph[key]=list(t['depends'])+[str(n) for n in t['prerequisites']]
+        parents[key]=str(t['parent'])
+    graph['279'].append('shared-aggregate')
+    graph['280'].append('shared-aggregate')
+    graph['337'].append('class-gate')
+    # The two foreign heads are explicit unresolved interfaces, not zero-input
+    # publication gates. No final cap/publication proof may accept this boundary.
+    unresolved=[]
+    for key,parent in [('warlock-shared-output',331),('wizard-shared-output',332)]:
+        if key not in APPROVED_EXTERNAL_HEADS:
+            unresolved.append(key)
         else:
-            n = int(key.removeprefix('level-'))
-            assert t['fixture'] == level_fixture(n), 'level selectors and source guards'
-            mandatory = {'hp', 'predicates', 'later-entry', 'slots', 'preparation', 'cantrips'} | set(GRANTS.get(n, []))
-            if n == 1:
-                mandatory.add('creation')
-            if n >= 3:
-                mandatory.add('draconic-hp')
-            assert set(t['depends']) == mandatory and t['prerequisites'] == [285], 'all20 independent granting paths'
-        contexts = [dict(id=c['id'], keys=[k for k, v in c['key_owners'].items() if v == key])
-                    for c in m['record_matrix'] if key in c['key_owners'].values()]
-        assert exact(t['owned_contexts'], contexts), 'full owned contexts'
-        records = [c['record'] for c in m['record_matrix'] if key in c['key_owners'].values()]
-        assert exact(t['source_records'], records), 'full source operands'
-        assert t['body'] == expected_body(t), 'complete body semantics'
-    acyclic({key: t['depends'] for key, t in tasks.items()})
-    assert tasks['hp']['prerequisites'] == [968]
-    assert not any(429 in t['prerequisites'] for t in tasks.values()), '429 full'
-    summons = [t for t in m['shared_split_proposal'] if t['spell'] == 'Summon Dragon']
-    assert len(summons) == 7 and {t['part'] for t in summons} == set(SUMMON_DRAGON), 'seven bounded Summon Dragon owners'
-    for t in summons:
-        assert t['fixture'] == SUMMON_DRAGON[t['part']], 'Summon Dragon actual execution semantics'
-        assert t['body'] == summon_body(t['fixture']), 'Summon Dragon complete body'
-    assert m['overlap']['title_candidates']['Light'] == [967], 'Light false overlap'
-    assert 'Slow' not in m['overlap']['title_candidates'], 'Slow mastery false overlap'
-    assert m['overlap']['title_candidates']['Polymorph'] == [698, 724, 725]
-    return tasks
+            head=APPROVED_EXTERNAL_HEADS[key]
+            assert head['parent']==parent and head['blocked_by'], 'genuine nonempty external structure'
+            graph[key]=[str(n) for n in head['blocked_by']]
+            parents[key]=str(parent)
+    native_caps(graph,parents)
+    outgoing=Counter(n for ds in graph.values() for n in ds)
+    children=Counter(parents.values())
+    return dict(status='PENDING external complete input structures' if unresolved else 'complete proposed graph',
+                owned_nodes=len(rr),class_leaves=len(m['tasks']),shared_leaves=len(m['shared_split_proposal']),qualification_nodes=len(m['gates']),
+                incoming279=len(graph['279']),incoming280=len(graph['280']),children330=children['330'],children283=children['283'],
+                outgoing429=outgoing['429'],outgoing487=outgoing['487'],outgoing67=outgoing['67'],
+                max_incoming=max(map(len,graph.values())),max_outgoing=max(outgoing.values()),max_children=max(children.values()),
+                unresolved_external_heads=unresolved,dependency_dag='acyclic at explicit external boundary',containment_dag='acyclic at explicit external boundary',
+                graph=graph,parents=parents)
 
 
-def validate_publication(m, receipt):
+def native_body(t, identities):
+    parent=identities[t['parent']] if isinstance(t['parent'],str) else t['parent']
+    blockers=sorted(t['prerequisites']+[identities[d] for d in t['depends']])
+    return (t['body']+'\nExact native containment parent: #'+str(parent)
+            +'\nExact native blocked-by at publication: '+', '.join('#'+str(n) for n in blockers)+'\n')
+
+
+def typed_native_graph(receipt):
+    for t in receipt['graph']:
+        assert type(t['number']) is int and t['number']>0, 'exact native number type'
+        assert t['parent'] is None or type(t['parent']) is int and t['parent']>0, 'exact native parent type'
+        assert all(type(n) is int and n>0 for n in t['blocked_by']), 'exact native prerequisite types'
+    graph=typed_native_graph(receipt), 'duplicate native node'
+    return graph
+
+
+def validate_publication(m,receipt,pdf=Path('/tmp/edda-wave1/SRD_CC_v5.2.1.pdf')):
+    rr=validate_plan(m)
+    assert m['status']=='PUBLISHED', 'PENDING checkpoint cannot qualify publication'
+    assert all(type(t['issue']) is int for t in rr.values()), 'native publication identities incomplete'
+    assert set(APPROVED_EXTERNAL_HEADS)=={'warlock-shared-output','wizard-shared-output'}, 'root-approved complete external structures missing'
+    assert set(ACCEPTED_PREFIX_SHA256)=={'47','54','283','337'}, 'root POST-ROGUE release required'
+    graph=typed_native_graph(receipt)
+    identities={key:t['issue'] for key,t in rr.items()} | {key:t['number'] for key,t in APPROVED_EXTERNAL_HEADS.items()}
+    assert len(set(identities.values()))==len(identities), 'distinct exact native owners'
+    for key,t in rr.items():
+        live=graph[t['issue']]
+        assert live['title']==t['title'] and live['body']==native_body(t,identities), 'complete actual native contract'
+        parent=identities[t['parent']] if isinstance(t['parent'],str) else t['parent']
+        blockers=sorted(t['prerequisites']+[identities[d] for d in t['depends']])
+        assert live['parent']==parent and live['blocked_by']==blockers, 'exact parent/prerequisites'
+        assert receipt['project'][str(t['issue'])]==dict(type='Task',size='M'), 'native Task ProjectSize'
+    baseline=json.loads(BASELINE.read_text())
+    for old in baseline['graph']:
+        live=graph[old['number']]
+        assert live['parent']==old['parent'] and set(old['blocked_by'])<=set(live['blocked_by']), 'old hierarchy/edges preserved'
+        if old['number'] not in [279,280,337]:
+            assert live['blocked_by']==old['blocked_by'], 'unapproved old prerequisite addition, including183'
+    for n,extra in [(279,'shared-aggregate'),(280,'shared-aggregate'),(337,'class-gate')]:
+        assert identities[extra] in graph[n]['blocked_by'], 'mandatory terminal root obligation'
+    assert graph[330]['parent']==283 and graph[330]['blocked_by']==[285,295,305,317]
+    for n in [285,295,305,317]:
+        assert graph[n]['state'].lower()=='closed'
+    for n,old in baseline['protected_owners'].items():
+        live=graph[int(n)]
+        assert all(live[k]==old[k] for k in ['title','body','parent','blocked_by']), 'old exact source owner guards'
+    for key,head in APPROVED_EXTERNAL_HEADS.items():
+        live=graph[head['number']]
+        assert all(live[k]==head[k] for k in ['title','body','parent']), 'future head immutable envelope'
+        assert set(head['blocked_by'])<=set(live['blocked_by']) and live['blocked_by'], 'future head prior inputs preserved'
+        cls='warlock' if key=='warlock-shared-output' else 'wizard'
+        assert head['source_roster']==FINITE_CONSUMED[cls], 'future finite source boundary'
+        assert receipt['project'][str(head['number'])]==dict(type='Task',size='M'), 'future head TaskSize'
+        additions=set(live['blocked_by'])-set(head['blocked_by'])
+        approved=head.get('approved_extensions',{})
+        assert additions<=set(map(int,approved)), 'unapproved future extension'
+        for n in additions:
+            approval=approved[str(n)]
+            assert approval['manifest_sha256'] and approval['accepted_head'] and approval['native_receipt_sha256'], 'root-approved manifest/head/receipt required'
+            actual=graph[n]
+            assert all(actual[k]==approval[k] for k in ['title','body','parent','blocked_by']), 'exact approved extension contract'
+            assert set(approval['source_identities'])<=set(FINITE_CONSUMED[cls]), 'source-bound monotonic extension'
+    native_caps({n:t['blocked_by'] for n,t in graph.items()},{n:t['parent'] for n,t in graph.items() if t['parent']})
+    for n,digest in ACCEPTED_PREFIX_SHA256.items():
+        seal=m['accepted_parent_prefix'][n]
+        assert hashlib.sha256(seal['prefix'].encode()).hexdigest()==digest, 'accepted complete prefix'
+        append=m['parent_appends'][n]
+        prefix_check(graph[int(n)]['body'],seal['prefix'],append['text'],append['marker'])
+    source_check(pdf)
+    return True
+
+
+def read_live(m):
+    from datetime import datetime, timezone
+    from verify_druid_scope import Reader
+    api=Reader()
+    graph=[]
+    cursor=None
+    cursors=set()
+    numbers=set()
+    for _ in range(25):
+        query='query($cursor:String){repository(owner:"subculture-collective",name:"edda"){issues(first:100,after:$cursor){pageInfo{hasNextPage endCursor}nodes{number title body state parent{number} blockedBy(first:100){pageInfo{hasNextPage}nodes{number}}}}}}'
+        page=api('graphql',{'query':query,'variables':{'cursor':cursor}})['data']['repository']['issues']
+        for node in page['nodes']:
+            assert type(node['number']) is int and node['number'] not in numbers, 'repeated native graph page'
+            numbers.add(node['number'])
+            assert not node['blockedBy']['pageInfo']['hasNextPage'], 'incoming over100 or truncated'
+            graph.append(dict(number=node['number'],title=node['title'],body=node['body'] or '',state=node['state'].lower(),parent=(node['parent']or{}).get('number'),blocked_by=sorted(n['number'] for n in node['blockedBy']['nodes'])))
+        info=page['pageInfo']
+        if not info['hasNextPage']:
+            break
+        cursor=info['endCursor']
+        assert cursor and cursor not in cursors, 'repeated native cursor'
+        cursors.add(cursor)
+    else:
+        raise AssertionError('native graph call cap')
+    nums=sorted({t['issue'] for t in m['tasks']+m['shared_split_proposal']+m['gates'] if t['issue'] is not None}|{int(n) for n in m['protected_owners']})
+    project={}
+    for start in range(0,len(nums),25):
+        batch=nums[start:start+25]
+        fields=' '.join('i%d:issue(number:%d){issueType{name} projectItems(first:100){pageInfo{hasNextPage}nodes{project{id} fieldValueByName(name:"Size"){... on ProjectV2ItemFieldSingleSelectValue{name}}}}}'%(n,n) for n in batch)
+        data=api('graphql',{'query':'{repository(owner:"subculture-collective",name:"edda"){'+fields+'}}'})['data']['repository']
+        for n in batch:
+            node=data['i'+str(n)]
+            assert not node['projectItems']['pageInfo']['hasNextPage'], 'project pagination cap'
+            items=[i for i in node['projectItems']['nodes'] if i['project']['id']=='PVT_kwDODjtmGM4BrFJ2']
+            assert len(items)==1 and node['issueType'] and items[0]['fieldValueByName'], 'native type/Size missing'
+            project[str(n)]=dict(type=node['issueType']['name'],size=items[0]['fieldValueByName']['name'])
+    return dict(status='PENDING' if m['status']!='PUBLISHED' else 'readback',observed_at=datetime.now(timezone.utc).isoformat(),graph=graph,project=project,api_calls=api.calls,publication_complete=False,parent_body_seals={})
+
+
+def validate_snapshot(m,receipt):
     validate_plan(m)
-    assert m['status'] == 'PUBLISHED', 'PENDING checkpoint cannot qualify publication'
-    assert m['accepted_parent_prefix'], 'root POST-ROGUE release required'
-    assert receipt['publication_complete'] is True, 'native readback incomplete'
-    # Deliberately unavailable until all shared semantic contracts and the root seal
-    # are independently implemented and reviewed. Never accept a boolean assertion
-    # or coherent manifest/receipt rewrite as publication proof.
-    raise AssertionError('final shared/native semantic oracle not completed')
+    graph=typed_native_graph(receipt)
+    baseline=json.loads(BASELINE.read_text())
+    for n,old in baseline['protected_owners'].items():
+        live=graph[int(n)]
+        assert all(live[k]==old[k] for k in ['title','body','parent','blocked_by']), 'live full source-owner contract drift: '+n
+    for old in baseline['graph']:
+        live=graph[old['number']]
+        assert live['parent']==old['parent'] and set(old['blocked_by'])<=set(live['blocked_by']), 'old native path changed'
+    assert graph[330]['parent']==283 and graph[330]['blocked_by']==[285,295,305,317]
+    assert all(graph[n]['state']=='closed' for n in [285,295,305,317])
+    native_caps({n:r['blocked_by'] for n,r in graph.items()},{n:r['parent'] for n,r in graph.items() if r['parent']})
+    return True
 
 
 def source_check(pdf):
@@ -187,6 +355,9 @@ def source_check(pdf):
                    'The creature disappears when it drops to 0 Hit Points or when the spell ends.',
                    'until the spell ends']:
         assert clause in flat, 'Summon Dragon source clause: ' + clause
+    from sorcerer_source_reconciliation import reconcile
+    reconciliation=reconcile(pdf)
+    assert len(reconciliation['conflicts'])==3
     for name in ['sorcerer', 'metamagic', 'draconic', 'advancement', 'multiclass',
                  'origin_feats', 'general_feats', 'fighting_styles', 'epic_boon_feats']:
         subprocess.run(['python3', str(ROOT / 'scripts' / ('verify_srd_' + name + '.py')), str(pdf)], check=True)
@@ -196,14 +367,25 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--allow-pending', action='store_true', help='Audit source/class checkpoint only; never publication proof')
     p.add_argument('--pdf', type=Path)
+    p.add_argument('--receipt', type=Path, default=ROOT/'docs/investigations/issue-330-link-verification.json')
+    p.add_argument('--live', action='store_true', help='Bounded read-only native full-body/type/Size snapshot')
+    p.add_argument('--write-receipt', type=Path, help='Save observed native evidence, never a publication assertion')
     args = p.parse_args()
     m = json.loads(MANIFEST.read_text())
     validate_plan(m)
-    if args.pdf:
+    if args.pdf and args.allow_pending:
         source_check(args.pdf)
+    receipt=json.loads(args.receipt.read_text()) if args.receipt.exists() else {}
+    if args.live:
+        receipt=read_live(m)
+        validate_snapshot(m,receipt)
     if not args.allow_pending:
-        validate_publication(m, {})
-    print('PENDING source/class checkpoint: 103 records, 278 contextual keys, 66 class/level contracts; NOT publication proof')
+        validate_publication(m, receipt, args.pdf or Path('/tmp/edda-wave1/SRD_CC_v5.2.1.pdf'))
+        receipt['publication_complete']=True
+        receipt['status']='verified source/native publication; runtime remains unqualified'
+    if args.write_receipt:
+        args.write_receipt.write_text(json.dumps(receipt,indent=2,ensure_ascii=False)+'\n')
+    print('PENDING source/contract proof: 103 records, 278 contexts, 67 class leaves, 211 shared leaves, 27 gates; NOT native publication proof' if args.allow_pending else 'PASS: complete source/native publication proof; no runtime or Full Rules qualification')
 
 
 if __name__ == '__main__':
