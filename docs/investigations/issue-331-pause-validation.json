@@ -1,0 +1,28 @@
+{
+  "status": "PAUSED for ROOT bounded delta review; no native publication authorization",
+  "proposal_sha256": "8d4a8ea724ee8e997093d0e3877054a1c4a499f1f00a059bcbb9d2d51bc4268a",
+  "required_base": "e7cd1ba8318ba296edd4fc5b6b84715ca11016f2",
+  "source_contract_proof": "PASS:191records/588contexts/28Invocations/20rows/117spellidentities;117complete spell and35statblock PDF envelopes,14named gear contracts and Skeleton326clauses checked",
+  "focused_unittest": {
+    "methods": 18,
+    "seconds": 19.124,
+    "result": "PASS"
+  },
+  "python_compile": "PASS",
+  "diff_check": "PASS",
+  "strict_forged_publication": "REJECTED:ROOT final prefix release pending",
+  "full_race": {
+    "command": "GOMAXPROCS=2 go test -p 2 -short -race ./...",
+    "seconds": 251.80236021599922,
+    "exit": 0
+  },
+  "vet": {
+    "command": "GOMAXPROCS=2 go vet -p 2 ./...",
+    "seconds": 6.690031276000809,
+    "exit": 0
+  },
+  "source_plan_write_boundary": "No regeneration after ROOT pause request; only validation evidence and Git/PR checkpoint operations",
+  "native_writes": "NONE",
+  "final_prefix": "HELD:ROOT accepted POST-SORCERER release required",
+  "foreign_snapshot_limit": "Saved foreign source snapshots identify projection inputs; later330a6966b70/332c92bf818 fixes require ROOT-approved refresh on handback, not silent regeneration"
+}

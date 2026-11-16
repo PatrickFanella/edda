@@ -1,0 +1,48 @@
+{
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "source_directory": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication",
+  "approved_heads": {
+    "330": "a6966b70fb6de36f16682f8c45f5c037ef88e88e",
+    "331": "c466d0d2a475c9cd0c3ba134c62bcfc3707bf9f9",
+    "332": "c92bf818c129f64365f95fc9267e6b39972752c6"
+  },
+  "copied_artifacts": {
+    "issue-331-publication-approval.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/approval.json",
+      "sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41"
+    },
+    "issue-331-sorcerer-boundary.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/330-approved-proposal.json",
+      "sha256": "2a08a9290d5963b7093baab8de458841aa3f01860f00d22684c51053c52844fa"
+    },
+    "issue-331-wizard-boundary.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/332-approved-proposal.json",
+      "sha256": "ef1f0ea92dd01f8ced8195fb1ef61b082f7cad35a50a8d44bc05bb43fe4b4634"
+    },
+    "issue-331-native-baseline.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/native-baseline.json",
+      "sha256": "337b6d0c2a8176aacd1f32412fce55dae12cff2c797a5917eec736f2ebe2c61c"
+    },
+    "issue-331-approved-projection.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/approved-projection.json",
+      "sha256": "8c8b33d7db488a98ba2543a44530dc1fe60a9cb3db0c497523a58a7ef784fb0f"
+    },
+    "issue-331-approval-review.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/independent-review-receipt.json",
+      "sha256": "52416b978c38473c5fd09efcb4d2d23424b2768731e0736e1e8e0c6c0864998b"
+    },
+    "issue-331-renderer-contract.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/native-renderer-contract.json",
+      "sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238"
+    },
+    "issue-331-renderer-vectors.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/native-renderer-vectors.json",
+      "sha256": "4ba7f97dd6f1702ff049056f10e46736cb1da27fe7274553b4bff9e54077bdee"
+    },
+    "issue-331-milestone-contract.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestone-provenance-contract.json",
+      "sha256": "58c5aacb2a3e73b759dff6b98316661fb6bd9870b95e5c7fa9a0d39e7ee736ba"
+    }
+  },
+  "policy": "Explicit ROOT-authorized frozen refresh only; no live scope adoption; final POST-SORCERER prefix remains held"
+}

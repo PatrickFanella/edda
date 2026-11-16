@@ -1,0 +1,37 @@
+{
+  "result": "No findings for finite publication reservation",
+  "states": [
+    {
+      "path": "/home/shared/Work/Worktrees/edda/t3-1cd94a74-1dc9a0e2b4b7efd2",
+      "head": "a6966b70fb6de36f16682f8c45f5c037ef88e88e",
+      "parent": "5142864946471a9db75f1ba6429eed13eaa2db35",
+      "branch": "feat/sorcerer-source-decision",
+      "clean": true
+    },
+    {
+      "path": "/home/shared/Work/Worktrees/edda/t3-18f52b24-e7041b6e3b02824b",
+      "head": "c92bf818c129f64365f95fc9267e6b39972752c6",
+      "parent": "e0929cd5cd32fb2fe57f30f8608955023ae155d5",
+      "branch": "feat/wizard-evoker-roadmap",
+      "clean": true
+    }
+  ],
+  "warlock_delta_nodes": 31,
+  "warlock_added_nodes": [],
+  "warlock_removed_nodes": [],
+  "source_pin": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+  "checks": [
+    "22 Sorcerer tests PASS in 21.122s",
+    "15 Wizard tests PASS in 10.099s",
+    "Sorcerer source proof PASS",
+    "Wizard source proof PASS",
+    "independent combined graph PASS",
+    "hypothetical Rogue compatibility PASS"
+  ],
+  "limits": [
+    "Not native publication approval",
+    "Not runtime or final class acceptance",
+    "Heal output explicitly unbound/unavailable",
+    "Root publication release and supplements pending"
+  ]
+}

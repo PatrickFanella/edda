@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "encoding": "UTF-8; LF; no normalization or stripping of approved_body",
+  "registry": {
+    "schema_version": 1,
+    "required_top_fields": [
+      "schema_version",
+      "approval_sha256",
+      "renderer_contract_sha256",
+      "status",
+      "nodes"
+    ],
+    "optional_top_fields": [
+      "updated_at",
+      "observed_at"
+    ],
+    "statuses": [
+      "ALLOCATING",
+      "IDS_ALLOCATED",
+      "WIRING",
+      "VERIFIED"
+    ],
+    "nodes_key": "Exact approved alias string; after allocation exactly all871 aliases and no others",
+    "entry_exact_fields": {
+      "number": "positive JSON integer, never bool or float; GitHub issue number",
+      "id": "positive JSON integer, never bool or float; GitHub database issue ID",
+      "node_id": "nonempty string; GitHub GraphQL node ID"
+    },
+    "identity_rules": "All three identity fields unique across871 new issues; numbers disjoint from every baseline issue; final live graph/readback must bind every entry to the actual Issue, not a PR. Partial registry permitted only in ALLOCATING and never qualifies final proof.",
+    "hash_rules": "Pin approval and renderer contract hashes independently; do not accept a candidate supplied expected hash as the semantic oracle."
+  },
+  "reference_resolution": "ASCII decimal references resolve to that existing issue number; all other references are exact approved aliases and resolve through registry.nodes[alias].number. No fallback, substring or implicit future scope.",
+  "allocation_prefix_template": "<!-- edda-caster-native:{alias} -->\n",
+  "allocation_body": "allocation_prefix_template.format(alias=alias) + approved_body; approved_body is copied byte-for-byte from approval.approved_nodes, not regenerated from mutable candidate claims",
+  "prerequisites_rendering": "Resolve all approved blocked_by_refs to numbers, reject duplicate references/identities, sort ascending numerically. Render as comma-space joined #N values, or literal none for an empty list.",
+  "final_suffix_template": "\n\n<!-- edda-caster-native-binding:start -->\nDecision: #{owner_decision}\nSource key: {alias}\nNative issue: #{number}\nNative parent: #{parent_number}\nNative prerequisites: {prerequisites}\nRoot approval SHA256: {approval_sha256}\nRenderer contract SHA256: {renderer_contract_sha256}\nPublication: source contract published; runtime unqualified.\n<!-- edda-caster-native-binding:end -->\n",
+  "final_body": "allocation_body + final_suffix_template filled ONLY from frozen approved node, pinned hashes and complete validated registry; no arbitrary append or override. Preserve trailing newlines of approved_body, even if this yields extra blank lines.",
+  "phase_policy": "Use allocation_body before every alias has an ID. Use final_body only after complete registry validation. Existing allocated journal IDs must be retained; reconcile owned pending bodies if needed, never create duplicates to change marker format. No native mutation rights are granted to proof-only authors.",
+  "qualification": "This format and registry are mechanical metadata only. They confer no source eligibility, runtime grant, Task completion, parent-prefix seal or PR/CI acceptance."
+}

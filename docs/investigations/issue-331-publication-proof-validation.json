@@ -1,0 +1,74 @@
+{
+  "status": "OFFLINE_SOURCE_AND_APPROVED_NATIVE_SYNTHETIC_CONTROLS_PASS",
+  "pins": {
+    "issue-331-native-proposal.json": "8d4a8ea724ee8e997093d0e3877054a1c4a499f1f00a059bcbb9d2d51bc4268a",
+    "issue-331-publication-approval.json": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+    "issue-331-renderer-contract.json": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+    "issue-331-renderer-vectors.json": "4ba7f97dd6f1702ff049056f10e46736cb1da27fe7274553b4bff9e54077bdee",
+    "issue-331-milestone-contract.json": "58c5aacb2a3e73b759dff6b98316661fb6bd9870b95e5c7fa9a0d39e7ee736ba"
+  },
+  "checks": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_*warlock*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 20.036,
+      "stdout": "",
+      "stderr": "test_actual_candidate (test_verify_warlock_scope.WarlockCandidateProof.test_actual_candidate) ... ok\ntest_actual_native_flags_cannot_forge_publication (test_verify_warlock_scope.WarlockCandidateProof.test_actual_native_flags_cannot_forge_publication) ... ok\ntest_all_independent_grants (test_verify_warlock_scope.WarlockCandidateProof.test_all_independent_grants) ... ok\ntest_bounded_actual_queries (test_verify_warlock_scope.WarlockCandidateProof.test_bounded_actual_queries) ... ok\ntest_coherent_body_fixture_and_fake_receipt_weakening (test_verify_warlock_scope.WarlockCandidateProof.test_coherent_body_fixture_and_fake_receipt_weakening) ... ok\ntest_complete_actual_native_proposal_and_coherent_weakening (test_verify_warlock_scope.WarlockCandidateProof.test_complete_actual_native_proposal_and_coherent_weakening) ... ok\ntest_dependency_and_containment_separate_caps (test_verify_warlock_scope.WarlockCandidateProof.test_dependency_and_containment_separate_caps) ... ok\ntest_every_actual_shared_and_creature_contract (test_verify_warlock_scope.WarlockCandidateProof.test_every_actual_shared_and_creature_contract) ... ok\ntest_every_context_owner_independently_protected (test_verify_warlock_scope.WarlockCandidateProof.test_every_context_owner_independently_protected) ... ok\ntest_every_record_and_context_required (test_verify_warlock_scope.WarlockCandidateProof.test_every_record_and_context_required) ... ok\ntest_exact_prefix_and_permitted_later_append (test_verify_warlock_scope.WarlockCandidateProof.test_exact_prefix_and_permitted_later_append) ... ok\ntest_graphql_pages_never_hang_on_forged_api (test_verify_warlock_scope.WarlockCandidateProof.test_graphql_pages_never_hang_on_forged_api) ... ok\ntest_hp_adapter_and_metadata (test_verify_warlock_scope.WarlockCandidateProof.test_hp_adapter_and_metadata) ... ok\ntest_mind_spike_does_not_grant_sorcerer_membership (test_verify_warlock_scope.WarlockCandidateProof.test_mind_spike_does_not_grant_sorcerer_membership) ... ok\ntest_numeric_json_is_typed (test_verify_warlock_scope.WarlockCandidateProof.test_numeric_json_is_typed) ... ok\ntest_observed_baseline_never_becomes_future_root_release (test_verify_warlock_scope.WarlockCandidateProof.test_observed_baseline_never_becomes_future_root_release) ... ok\ntest_unequal_actual_candidate_class_total_operands (test_verify_warlock_scope.WarlockCandidateProof.test_unequal_actual_candidate_class_total_operands) ... ok\ntest_whole_owner_reuse_rejects_coherent_name_only_matches (test_verify_warlock_scope.WarlockCandidateProof.test_whole_owner_reuse_rejects_coherent_name_only_matches) ... ok\ntest_actual_bodies_not_recorded_hashes (test_warlock_approved_native.ApprovedNativeProof.test_actual_bodies_not_recorded_hashes) ... ok\ntest_actual_frozen_scope_not_a_publication_seal (test_warlock_approved_native.ApprovedNativeProof.test_actual_frozen_scope_not_a_publication_seal) ... ok\ntest_actual_graph_caps_and_dags_with_all_bodies_intact (test_warlock_approved_native.ApprovedNativeProof.test_actual_graph_caps_and_dags_with_all_bodies_intact) ... ok\ntest_all_871_aliases_and_typed_identities (test_warlock_approved_native.ApprovedNativeProof.test_all_871_aliases_and_typed_identities) ... ok\ntest_allocation_is_not_wiring (test_warlock_approved_native.ApprovedNativeProof.test_allocation_is_not_wiring) ... ok\ntest_duplicate_json_fields_cannot_hide_aliases (test_warlock_approved_native.ApprovedNativeProof.test_duplicate_json_fields_cannot_hide_aliases) ... ok\ntest_golden_vectors_are_only_format_tests (test_warlock_approved_native.ApprovedNativeProof.test_golden_vectors_are_only_format_tests) ... ok\ntest_milestone_bytes_and_stable_identity_continuity (test_warlock_approved_native.ApprovedNativeProof.test_milestone_bytes_and_stable_identity_continuity) ... ok\ntest_native_identity_metadata_and_required_edges (test_warlock_approved_native.ApprovedNativeProof.test_native_identity_metadata_and_required_edges) ... ok\ntest_old_owner_and_project_guards (test_warlock_approved_native.ApprovedNativeProof.test_old_owner_and_project_guards) ... ok\ntest_pinned_approval_rejects_coherent_forged_template (test_warlock_approved_native.ApprovedNativeProof.test_pinned_approval_rejects_coherent_forged_template) ... ok\ntest_registry_envelope_and_phase (test_warlock_approved_native.ApprovedNativeProof.test_registry_envelope_and_phase) ... ok\ntest_unrelated_root_addition_and_decision_closure (test_warlock_approved_native.ApprovedNativeProof.test_unrelated_root_addition_and_decision_closure) ... ok\n\n----------------------------------------------------------------------\nRan 31 tests in 19.968s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/verify_warlock_scope.py",
+        "--pdf",
+        "/tmp/edda-wave1/SRD_CC_v5.2.1.pdf",
+        "--source-class-checkpoint"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 20.135,
+      "stdout": "PASS source/class contracts only:191 records/588contexts/28Invocations/20rows/117spell identities; actual native proof is separate\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "py_compile",
+        "scripts/warlock_approved_native.py",
+        "scripts/warlock_native_proof.py",
+        "scripts/verify_warlock_scope.py",
+        "scripts/test_warlock_approved_native.py",
+        "scripts/test_verify_warlock_scope.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.026,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.047,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "actual_native_readback": false,
+  "coordinator_progress_polled": false,
+  "final_prefix_sealed": false,
+  "runtime_qualified": false,
+  "full_go_vet_repeated": false
+}

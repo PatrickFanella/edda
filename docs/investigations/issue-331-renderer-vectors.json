@@ -1,0 +1,55 @@
+{
+  "warning": "Renderer unit vectors ONLY. This partial synthetic registry must fail final871-identity coverage validation and must never be published.",
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+  "example_registry": {
+    "schema_version": 1,
+    "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+    "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+    "status": "IDS_ALLOCATED",
+    "nodes": {
+      "330:example": {
+        "number": 2101,
+        "id": 9000001,
+        "node_id": "I_EXAMPLE1"
+      },
+      "330:example-parent": {
+        "number": 2102,
+        "id": 9000002,
+        "node_id": "I_EXAMPLE2"
+      },
+      "331:example-input": {
+        "number": 2103,
+        "id": 9000003,
+        "node_id": "I_EXAMPLE3"
+      }
+    }
+  },
+  "cases": [
+    {
+      "approved_node": {
+        "alias": "330:example",
+        "owner_decision": 330,
+        "approved_body": "Source witness DC14->15 stays unchanged.\n",
+        "parent_ref": "330:example-parent",
+        "blocked_by_refs": [
+          "331:example-input",
+          "67"
+        ]
+      },
+      "allocation_body": "<!-- edda-caster-native:330:example -->\nSource witness DC14->15 stays unchanged.\n",
+      "final_body": "<!-- edda-caster-native:330:example -->\nSource witness DC14->15 stays unchanged.\n\n\n<!-- edda-caster-native-binding:start -->\nDecision: #330\nSource key: 330:example\nNative issue: #2101\nNative parent: #2102\nNative prerequisites: #67, #2103\nRoot approval SHA256: 66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41\nRenderer contract SHA256: e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238\nPublication: source contract published; runtime unqualified.\n<!-- edda-caster-native-binding:end -->\n"
+    },
+    {
+      "approved_node": {
+        "alias": "330:example",
+        "owner_decision": 330,
+        "approved_body": "A source contract without a trailing newline.",
+        "parent_ref": "330",
+        "blocked_by_refs": []
+      },
+      "allocation_body": "<!-- edda-caster-native:330:example -->\nA source contract without a trailing newline.",
+      "final_body": "<!-- edda-caster-native:330:example -->\nA source contract without a trailing newline.\n\n<!-- edda-caster-native-binding:start -->\nDecision: #330\nSource key: 330:example\nNative issue: #2101\nNative parent: #330\nNative prerequisites: none\nRoot approval SHA256: 66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41\nRenderer contract SHA256: e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238\nPublication: source contract published; runtime unqualified.\n<!-- edda-caster-native-binding:end -->\n"
+    }
+  ]
+}

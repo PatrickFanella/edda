@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+  "golden_vectors_sha256": "4ba7f97dd6f1702ff049056f10e46736cb1da27fe7274553b4bff9e54077bdee",
+  "nodes_map_digest": "SHA256 of json.dumps(registry[\"nodes\"], sort_keys=True, separators=(\",\", \":\"), ensure_ascii=False).encode(\"utf-8\"); validate exact identity types and871-alias coverage first",
+  "registry_byte_digest": "SHA256 of exact registry file bytes at the delivered milestone; expected to differ when status/timestamps change",
+  "sidecar_policy": "Do not add new fields to pinned registry schema. Put these delivery fields in separate milestone receipt files and journal records.",
+  "required_ids_allocated_fields": [
+    "milestone",
+    "observed_at",
+    "approval_sha256",
+    "renderer_contract_sha256",
+    "registry_path",
+    "registry_file_sha256",
+    "nodes_map_sha256",
+    "node_count",
+    "class_counts"
+  ],
+  "required_verified_additional_fields": [
+    "verified_receipt_path",
+    "verified_receipt_sha256",
+    "verified_receipt_observed_at",
+    "graph_node_count",
+    "all_new_tasks_open",
+    "native_body_parent_prerequisite_Task_Size_validation",
+    "both_DAGs",
+    "all_three_caps",
+    "old_protections"
+  ],
+  "invariants": [
+    "node_count is exactly871; class_counts330305/331281/332285",
+    "IDS_ALLOCATED and VERIFIED nodes_map_sha256 must match exactly; no silent reassignment",
+    "registry file and receipt hashes are independently recomputed byROOT and each proof author",
+    "VERIFIED must reference actual collected native evidence, not a proposed graph or generated expected receipt",
+    "PUBLISHING statuses and any local synthetic registry cannot qualify final proof; all live body/ID/parent/edge/metadata checks still required"
+  ]
+}

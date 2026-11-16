@@ -1,0 +1,2 @@
+
+<!-- edda331 --> Warlock requires every published feature,level and class-SHARED output path,including exact source modes,prerequisites,resources,world/statblock/lifecycle operands,isolatedPostgres atomicity/replay/reload/races and sharedweb/TUI availability.331closure/catalogues grant no runtime support. The own class gate remains mandatory; shared leaves also reach the exactly-three-output aggregate for279/280.
