@@ -1,0 +1,89 @@
+{
+  "base": "3042172c935bdefa606c008c8ddda277b7548fd8",
+  "runtime_changes": false,
+  "full_race": {
+    "command": "GOMAXPROCS=2 go test -p 2 -short -race ./...",
+    "exit_code": 0,
+    "runs": 1,
+    "log_sha256": "4754bf4cf55d5376b3c1005668f1fe0bc82409bb2273be3f545aafd64e198bd7"
+  },
+  "vet": {
+    "command": "GOMAXPROCS=2 go vet -p 2 ./...",
+    "exit_code": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "source_comparators": [
+    "ranger",
+    "hunter",
+    "advancement",
+    "multiclass",
+    "origin_feats",
+    "fighting_styles",
+    "general_feats",
+    "epic_boon_feats"
+  ],
+  "source_comparators_exit": 0,
+  "controls": "33 focused tests pass: original 616 owned edge deletions after decision closure, plus readable complete scopes for 57 spells, all 93 source contexts and 216 ownership keys, four nested Hunter paths, and the exact seven protocol owners and 72 consumers. Coherent manifest/receipt, cap, DAG, pagination and parent-section controls pass.",
+  "publication": "123Tasks published; final accepted post-Paladin sealed940issue native readback PASS",
+  "final_parent_prefix": "Accepted root release matched live and frozen in code+artifact",
+  "limitations": [
+    "No runtime grant/coverage promotion",
+    "No database or browser/device run",
+    "No CI claim at checkpoint",
+    "golangci-lint shim lacks binary; no install"
+  ],
+  "projected_counts": {
+    "not_live_publication": true,
+    "279_incoming": 98,
+    "280_incoming": 93,
+    "337_incoming": 55,
+    "429_outgoing": 100,
+    "283_children": 95,
+    "328_children": 5,
+    "277_children": 7,
+    "primitive_outgoing": {
+      "61": 75,
+      "64": 41,
+      "65": 66,
+      "66": 55,
+      "67": 92,
+      "273": 32,
+      "353": 68
+    }
+  },
+  "native_summary": "issue-328-unsealed-native-summary.json",
+  "parent_supplements": "Root serial publication completed and exact readback passed on47/54/283/337; fresh --live --require-supplements proof passed.",
+  "final_native_receipt": "issue-328-link-verification.json",
+  "root_publication": {
+    "observed_at": "2026-11-16T19:19:20.472967+00:00",
+    "nodes": 940,
+    "published_hashes": {
+      "47": "2fca8c5b3b4a17570c860687e106b9d38682df80f37c76583d4b22bbbff59b03",
+      "54": "a6cb311b695aec89fa44a2925098e471a21ff34e6abdf10e8a9a401b1dbc9ee9",
+      "283": "0cb8ac21c6dc2c8780f765337aa44e3086c71b895fc7c0fdb295293cb6cccd22",
+      "337": "33401397af92b506cc1f5d5c66d38abdb00b511b1336c9b9047518a3f8506a56"
+    },
+    "closed_decision_control": "Closure is accepted while every owned implementation/gate prerequisite remains required; all616 edge-removal controls reject."
+  },
+  "review_repairs": {
+    "base": "b3f473737f0ff9ae80f6d05c68af9ad78b7b9c58",
+    "scope": "Verifier/tests/documentation only; no source fixture, native issue body, prerequisite, parent, Project field or published supplement changed.",
+    "spell_contracts": "57 complete readable scopes plus envelope body seals and exact output/split dependencies; source_check and plan/live paths bind actual candidate contracts.",
+    "source_ownership": "93independent record-context expectations cover216contextual mechanic/option keys; all Hunter alternatives required from selector/granting level.",
+    "execution_gateway": "Exact61/64/65/66/67/273/353 roster and72finite consumers independently required; erased path declarations cannot erase native obligations.",
+    "checks": [
+      "33focusedPython tests passed",
+      "All8pinnedPDF comparators and required-supplement proof passed",
+      "Fresh read-only native proof passed;receipt outside repository at /tmp/edda-ranger-repair-live.json",
+      "Original reviewer contradictions rejected;unrelated later parent appends accepted",
+      "Ruff could not run: existing mise shim has no configured version; no installation/configuration change. Python syntax and diff whitespace checks passed."
+    ],
+    "limits": "No full Go/race/vet repeat; no runtime/client/device/database qualification.",
+    "live_observation": {
+      "observed_at": "2026-11-16T19:41:24.735502+00:00",
+      "nodes": 1017,
+      "receipt": "/tmp/edda-ranger-repair-live.json",
+      "note": "New unowned Rogue nodes are admissible; committed publication receipt remains its dated940-node snapshot."
+    }
+  }
+}

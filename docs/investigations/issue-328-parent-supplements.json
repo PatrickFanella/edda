@@ -1,0 +1,42 @@
+[
+  {
+    "issue": 47,
+    "path": "docs/investigations/issue-328-append-47.md",
+    "append": "\n<!-- edda-328:start -->\nRanger #328.\n<!-- edda-328:end -->\n",
+    "previous_sha256": "c1b834b560b3f2bb02f6dc00b5fe4af0dc420da03d4b48ec6f609cf1d4b0abfd",
+    "status": "published by root; sealed readback passed",
+    "published_sha256": "2fca8c5b3b4a17570c860687e106b9d38682df80f37c76583d4b22bbbff59b03",
+    "published_characters": 64899,
+    "published_observed_at": "2026-11-16T19:19:20.472967+00:00"
+  },
+  {
+    "issue": 54,
+    "path": "docs/investigations/issue-328-append-54.md",
+    "append": "\n<!-- edda-328:start -->\nRanger #328:93metadata records/all20rows; runtime unavailable. Published123Tasks:113implementation leaves,9finite gates,shared protocol gateway968. Own HP979/later-entry983 feed class cohorts971/972\u2192970\u2192337. Spell cohorts974\u2013977\u2192973\u2192279/280 and973\u2192970\u2192337; execution dependency gateway978 owns no runtime behavior. Source/ownership/native-path manifest: docs/investigations/issue-328-ranger-scope.json. Parent owns final qualification; decision closure supplies no implementation.\n<!-- edda-328:end -->\n",
+    "previous_sha256": "1aa9e45bea8e4bca9537291a1ead94da4c2b78d2e68fb33b8d241dcf0cf68a0c",
+    "status": "published by root; sealed readback passed",
+    "published_sha256": "a6cb311b695aec89fa44a2925098e471a21ff34e6abdf10e8a9a401b1dbc9ee9",
+    "published_characters": 42002,
+    "published_observed_at": "2026-11-16T19:19:20.472967+00:00"
+  },
+  {
+    "issue": 283,
+    "path": "docs/investigations/issue-328-append-283.md",
+    "append": "\n<!-- edda-328:start -->\nRanger #328:93metadata records/all20rows; runtime unavailable. Published123Tasks:113implementation leaves,9finite gates,shared protocol gateway968. Own HP979/later-entry983 feed class cohorts971/972\u2192970\u2192337. Spell cohorts974\u2013977\u2192973\u2192279/280 and973\u2192970\u2192337; execution dependency gateway978 owns no runtime behavior. Source/ownership/native-path manifest: docs/investigations/issue-328-ranger-scope.json. Parent owns final qualification; decision closure supplies no implementation.\n<!-- edda-328:end -->\n",
+    "previous_sha256": "9811b7b706ecfb6e951f290ec3e8eadcbfa47bd28613bb5ff6933aac4bca541e",
+    "status": "published by root; sealed readback passed",
+    "published_sha256": "0cb8ac21c6dc2c8780f765337aa44e3086c71b895fc7c0fdb295293cb6cccd22",
+    "published_characters": 30539,
+    "published_observed_at": "2026-11-16T19:19:20.472967+00:00"
+  },
+  {
+    "issue": 337,
+    "path": "docs/investigations/issue-328-append-337.md",
+    "append": "\n<!-- edda-328:start -->\nRanger #328:93metadata records/all20rows; runtime unavailable. Published123Tasks:113implementation leaves,9finite gates,shared protocol gateway968. Own HP979/later-entry983 feed class cohorts971/972\u2192970\u2192337. Spell cohorts974\u2013977\u2192973\u2192279/280 and973\u2192970\u2192337; execution dependency gateway978 owns no runtime behavior. Source/ownership/native-path manifest: docs/investigations/issue-328-ranger-scope.json. Parent owns final qualification; decision closure supplies no implementation.\n<!-- edda-328:end -->\n",
+    "previous_sha256": "b2d4914b8390fb206110f670d964f5ff10b72e75ea5c227b81c447345dedddc1",
+    "status": "published by root; sealed readback passed",
+    "published_sha256": "33401397af92b506cc1f5d5c66d38abdb00b511b1336c9b9047518a3f8506a56",
+    "published_characters": 29557,
+    "published_observed_at": "2026-11-16T19:19:20.472967+00:00"
+  }
+]

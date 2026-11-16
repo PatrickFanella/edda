@@ -1,0 +1,1879 @@
+{
+  "status": "UNSEALED only; accepted post-Paladin parent prefix not released",
+  "observed_at": "2026-11-16T19:01:34.430672+00:00",
+  "api_calls": 15,
+  "nodes": 940,
+  "counts": {
+    "incoming": {
+      "279": 98,
+      "280": 93,
+      "337": 55
+    },
+    "outgoing": {
+      "61": 75,
+      "64": 41,
+      "65": 66,
+      "66": 55,
+      "67": 92,
+      "273": 32,
+      "353": 68,
+      "429": 100
+    },
+    "children": {
+      "277": 7,
+      "283": 95,
+      "328": 5,
+      "336": 2
+    }
+  },
+  "owned": [
+    {
+      "issue": 979,
+      "title": "Adapt Ranger own D10 fixed6 HP to shared transaction",
+      "body_sha256": "ef86d1996f52aa1b0f094038ab7ef759a9dc0d5cddb5cc7fee0c7a605ac98d9a",
+      "parent": 971,
+      "blocked_by": [
+        968
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 980,
+      "title": "Confirm Ranger first-character core proficiencies",
+      "body_sha256": "43e74e252e4132babb562f9aa6388b426d9ff3aded813cd6654de8c490025260",
+      "parent": 971,
+      "blocked_by": [
+        430
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 981,
+      "title": "Select Ranger three first-character skills",
+      "body_sha256": "9cdd47e80b03312a42c00a2cc81afd45c17d729482f4c30ff7b91293cf0a03e9",
+      "parent": 971,
+      "blocked_by": [
+        430
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 982,
+      "title": "Choose Ranger exact starting equipment",
+      "body_sha256": "a906eb459288429f32a87ab0d866c2dc358870193b2d4f7d4ee1975881451d38",
+      "parent": 971,
+      "blocked_by": [],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 983,
+      "title": "Admit exact later-class Ranger entry",
+      "body_sha256": "4196429e02d36222a2f4213342a0a336074c28d3f602ed1aa60e5d2a43085669",
+      "parent": 971,
+      "blocked_by": [
+        430,
+        979
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 984,
+      "title": "Prepare Ranger spells with Wisdom and Druidic Focus",
+      "body_sha256": "191b319d437fa934b51f3fc22a58476cb8f6ef7dc0b7344a841ded44c0ffe4e8",
+      "parent": 971,
+      "blocked_by": [
+        263,
+        265,
+        355,
+        428,
+        614,
+        615,
+        616,
+        618,
+        621,
+        623,
+        624,
+        625,
+        626,
+        627,
+        682,
+        692,
+        693,
+        700,
+        906,
+        909,
+        923,
+        924,
+        927,
+        934,
+        941,
+        965,
+        966,
+        978,
+        1002,
+        1003,
+        1035,
+        1036,
+        1037,
+        1038,
+        1039,
+        1040,
+        1041,
+        1042,
+        1043,
+        1044,
+        1045,
+        1046,
+        1047,
+        1048,
+        1054,
+        1055,
+        1056,
+        1057,
+        1058,
+        1059,
+        1060,
+        1061,
+        1062,
+        1063,
+        1064,
+        1065,
+        1066,
+        1067,
+        1068,
+        1069,
+        1071,
+        1072,
+        1073,
+        1074,
+        1078,
+        1080,
+        1081,
+        1082,
+        1083,
+        1084,
+        1086,
+        1087,
+        1088,
+        1089,
+        1090,
+        1091
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 985,
+      "title": "Cast Favored Enemy exact 5.2.1 Hunter\u2019s Mark",
+      "body_sha256": "ef70190f161c3895b6870f1dca5e56df96e169ad792713a2a94a100d1e367a01",
+      "parent": 971,
+      "blocked_by": [
+        428,
+        1062,
+        1063
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 986,
+      "title": "Select and replace two Ranger mastery kinds",
+      "body_sha256": "16b454395a32609775286b29631b540a2401ae08f1455952b08f00cb1bc460f1",
+      "parent": 971,
+      "blocked_by": [
+        428,
+        489,
+        490,
+        491,
+        492,
+        493,
+        494,
+        495,
+        496
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 987,
+      "title": "Apply Deft Explorer expertise and languages",
+      "body_sha256": "05ec6dab20316123e2896d44e3d409dcd98c619f83401bbff076dae9e2ab6fcd",
+      "parent": 971,
+      "blocked_by": [
+        430
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 988,
+      "title": "Choose Ranger Fighting Style or Druidic Warrior",
+      "body_sha256": "187d288de9afcaee5450dbf2c7cc50fd567339acf5aad9f43afed40bdccdda41",
+      "parent": 971,
+      "blocked_by": [
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        390,
+        391,
+        392,
+        393,
+        394,
+        395,
+        396,
+        397,
+        398,
+        399,
+        400,
+        401,
+        1004
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 989,
+      "title": "Select Hunter and exact Ranger subclass timing",
+      "body_sha256": "65d17b5000a4cdc2b65312c7f67e2598682fd4df5bf221e41d4d1d4ece18957d",
+      "parent": 971,
+      "blocked_by": [
+        1005
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 990,
+      "title": "Select Ranger qualified ASI at four class levels",
+      "body_sha256": "85046ff6dd7b0790336d23fbd354c5d8482a32d2ee3cfc0b369fc3b6b3a3ac83",
+      "parent": 971,
+      "blocked_by": [
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        390,
+        391,
+        392,
+        393,
+        394,
+        395,
+        396,
+        397,
+        398,
+        399,
+        400,
+        401,
+        427,
+        428,
+        487,
+        778,
+        779,
+        962,
+        984
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 991,
+      "title": "Resolve Ranger two own-turn Attack attacks",
+      "body_sha256": "51f067dcd8f97f76ef761f69bdf5fc8eb3b0b1c292ed25e15d0258bbc70e61b6",
+      "parent": 971,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 992,
+      "title": "Apply Roving nonheavy Speed climb and swim",
+      "body_sha256": "49bc34248bd40bf8f5bfe16e45faa18b3ab0084e79bc8302f27147d5bd09aeb0",
+      "parent": 971,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 993,
+      "title": "Select two Ranger Expertise skills",
+      "body_sha256": "409fd725b67583e756831758d55bd5ea72498774206559f7f0e2fb19d1ef6104",
+      "parent": 971,
+      "blocked_by": [
+        430
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 994,
+      "title": "Protect Hunter\u2019s Mark concentration against damage only",
+      "body_sha256": "0acdef724895a3b454209b304783c39654ddd3e4d1e8b842b25fc736b2b265cd",
+      "parent": 971,
+      "blocked_by": [
+        487,
+        978,
+        1062
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 995,
+      "title": "Spend Nature\u2019s Veil uses for exact Invisible duration",
+      "body_sha256": "0791d6a595760d74b6f7a9c77dc6a2158db4de82386bf8292925ad8e10c65eb9",
+      "parent": 971,
+      "blocked_by": [
+        428,
+        962
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 996,
+      "title": "Apply Precise Hunter marked-target attack advantage",
+      "body_sha256": "3df979de02f2d7619cc0c8d5bffac85c1d05d8a2580a4a514bc9489d57180a05",
+      "parent": 971,
+      "blocked_by": [
+        978,
+        1063
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 997,
+      "title": "Resolve Feral Senses exact thirty-foot Blindsight",
+      "body_sha256": "05bfa3173f6ee2099519362a233d83201c0f5387f0e14439f2a03cf6ee0a11a2",
+      "parent": 971,
+      "blocked_by": [
+        962,
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 998,
+      "title": "Select qualified Ranger Epic Boon at class nineteen",
+      "body_sha256": "6ce21c97499165ecfd7d772c2bc188e81e3fcfbd881b73ac53a1e24ee1cb3a4c",
+      "parent": 971,
+      "blocked_by": [
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        390,
+        391,
+        392,
+        393,
+        394,
+        395,
+        396,
+        397,
+        398,
+        399,
+        400,
+        401,
+        427,
+        428,
+        487,
+        778,
+        779,
+        962,
+        984
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 999,
+      "title": "Replace own Hunter\u2019s Mark damage die with D10",
+      "body_sha256": "513c295a4fb9da8d943139b785c140b927d2f2122395c85ada086b6c093b14bc",
+      "parent": 971,
+      "blocked_by": [
+        978,
+        1062
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1000,
+      "title": "Resolve Tireless Magic action temporary HP",
+      "body_sha256": "d364e57ada2c6247de2656eebfdce5f97328784e3fcb05e4b2a9930e68d2e743",
+      "parent": 971,
+      "blocked_by": [
+        428,
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1001,
+      "title": "Resolve Tireless Short Rest Exhaustion reduction",
+      "body_sha256": "6071d0b71bfe4121fd37e6dce38a3edb5c401221d0907d4c6d672bae92f487dc",
+      "parent": 971,
+      "blocked_by": [
+        427,
+        623
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1002,
+      "title": "Apply Ranger class slot counts and combined multiclass slot table",
+      "body_sha256": "44e309a56d2c0059062293a2bc5bc9fa1e018594251bfab8e7dcb10778018464",
+      "parent": 971,
+      "blocked_by": [
+        428,
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1003,
+      "title": "Validate exact Ranger source spell list membership",
+      "body_sha256": "fa6aaf3e64ff9bce3dba23d84c8caa2e2b840ff6ec9db6f60fc2c073f27dc52e",
+      "parent": 971,
+      "blocked_by": [
+        293,
+        315
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1004,
+      "title": "Prepare and replace two Druidic Warrior Ranger cantrips",
+      "body_sha256": "e25bcfb0796b5e56e1f9b87a428a7c1187526dd17cf856f02640e7d0cf201c76",
+      "parent": 971,
+      "blocked_by": [
+        954,
+        955,
+        956,
+        958,
+        1003,
+        1049,
+        1050,
+        1051,
+        1052,
+        1053,
+        1070,
+        1075,
+        1076,
+        1077,
+        1079,
+        1085
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1005,
+      "title": "Validate chosen Hunter class-three identity",
+      "body_sha256": "5edb6335881259bc95fe9ed48c8e577dfb333a07616c42209e8c899d836bd85d",
+      "parent": 971,
+      "blocked_by": [],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1006,
+      "title": "Disclose Hunter\u2019s Lore exact own marked defenses",
+      "body_sha256": "9434c33218b7591eff19c2b4e13b635d4db24be823a5495596881fe775805d93",
+      "parent": 971,
+      "blocked_by": [
+        1005,
+        1063
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1007,
+      "title": "Resolve Colossus Slayer once per turn extra weapon damage",
+      "body_sha256": "64637925a2df7f43fcf2f92ab3566d46e7ff5ac1d25949431d7d80193874d7f7",
+      "parent": 971,
+      "blocked_by": [
+        978,
+        1005
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1008,
+      "title": "Resolve Horde Breaker same-weapon distinct nearby target",
+      "body_sha256": "c5cc758dffd30dc86d71a169aa61378e36e032f80006e67635fe6039fc5c5932",
+      "parent": 971,
+      "blocked_by": [
+        978,
+        1005
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1009,
+      "title": "Apply Escape the Horde Opportunity Attack disadvantage",
+      "body_sha256": "5549e17137ab496e923ede417c6e89236a57617031ea120c9b24249efa6df01a",
+      "parent": 971,
+      "blocked_by": [
+        978,
+        1005
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1010,
+      "title": "Apply Multiattack Defense same-creature remainder-turn disadvantage",
+      "body_sha256": "9f897d83f498771de3ea13ecc4c4ce65b6199afcb8b5458574e28961c6ed8919",
+      "parent": 971,
+      "blocked_by": [
+        978,
+        1005
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1011,
+      "title": "Resolve Superior Hunter\u2019s Prey current mark damage to nearby visible creature",
+      "body_sha256": "b45381fb95b554ad3e84bdb33d44b68cee68d53f7556f2f5ca1f150cb8bbf72a",
+      "parent": 971,
+      "blocked_by": [
+        978,
+        999,
+        1005,
+        1062
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1012,
+      "title": "Resolve Superior Hunter\u2019s Defense reaction resistance through turn end",
+      "body_sha256": "f48756ba740f7fcf660318f0bd10d8d41c5cf90dc68aa934b840065b93d88a0c",
+      "parent": 971,
+      "blocked_by": [
+        978,
+        1005
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1013,
+      "title": "Choose or rest-replace Hunter\u2019s Prey option",
+      "body_sha256": "17f31489e4bfe4980025af3abe8e8ac3cd540c38341306c50e1f86a7538feacf",
+      "parent": 971,
+      "blocked_by": [
+        427,
+        428,
+        1007,
+        1008
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1014,
+      "title": "Choose or rest-replace Defensive Tactics option",
+      "body_sha256": "6333cc3aa465e1352142f1b872d59b0067826754d83ae459d6dbee58da9cb3f6",
+      "parent": 971,
+      "blocked_by": [
+        427,
+        428,
+        1009,
+        1010
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1015,
+      "title": "Apply Ranger class level 1 first-character or later-class entry",
+      "body_sha256": "d78cb3acc152f0d1cd028dff583bb45e43a428ea2bda179bac80098c2377bda0",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        980,
+        981,
+        982,
+        983,
+        984,
+        985,
+        986,
+        1002
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1016,
+      "title": "Apply Ranger class level 2 from class 1",
+      "body_sha256": "08573a0cc559a5c12fc04a96bcac2a185a636f57b2eb3042af9e7b1714f91877",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        987,
+        988,
+        1002,
+        1015
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1017,
+      "title": "Apply Ranger class level 3 from class 2",
+      "body_sha256": "ea14196c7d454431eca067305d6909b126e20774f6025b6ae2999ca8d981539b",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        989,
+        1002,
+        1006,
+        1013,
+        1016
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1018,
+      "title": "Apply Ranger class level 4 from class 3",
+      "body_sha256": "4035cf34aea3d9ded78f975797f4e43466e7fcc169c42ea623cba20f19f0cba4",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        990,
+        1002,
+        1017
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1019,
+      "title": "Apply Ranger class level 5 from class 4",
+      "body_sha256": "2900a1c8ca1ddd9a678303357a614aa6a261bbcd049c202d9d56d1c96cad9320",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        991,
+        1002,
+        1018
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1020,
+      "title": "Apply Ranger class level 6 from class 5",
+      "body_sha256": "08fa19417bec1936494c1caf5e58ed0d78fcef5b292f330b0e73668c6d197fb6",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        992,
+        1002,
+        1019
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1021,
+      "title": "Apply Ranger class level 7 from class 6",
+      "body_sha256": "effc789113ae9e3bd5c951ca05064cedcd45d4eacf94c0b6e7f7a3b8d1bcb3c1",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        1002,
+        1014,
+        1020
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1022,
+      "title": "Apply Ranger class level 8 from class 7",
+      "body_sha256": "f5691806c631cc8f5b1ac3286f8f8a65438531e8b817c10457f6d6835c750d40",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        990,
+        1002,
+        1021
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1023,
+      "title": "Apply Ranger class level 9 from class 8",
+      "body_sha256": "e9eee1c71df9ec2e8abb22f46c308b09cef0b54ebb0a99a05060816ba971c7af",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        993,
+        1002,
+        1022
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1024,
+      "title": "Apply Ranger class level 10 from class 9",
+      "body_sha256": "e942b64b59fba1dbebea9a766601a3599e0db536878907b07734d280d3ab2b93",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        1000,
+        1001,
+        1002,
+        1023
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1025,
+      "title": "Apply Ranger class level 11 from class 10",
+      "body_sha256": "7662adb4f051bb2c33b7bda5f5480babc9c1936ea092e3119c5555781294c4f0",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        1002,
+        1011,
+        1024
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1026,
+      "title": "Apply Ranger class level 12 from class 11",
+      "body_sha256": "772d1e8e2bc572a968f4ffac1ed9b83d8a1b3dd46d3e8013eea46241b16c14a4",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        990,
+        1002,
+        1025
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1027,
+      "title": "Apply Ranger class level 13 from class 12",
+      "body_sha256": "2fd6e3e7b5332f68a52703173f5232ed290933c04b11aaf8ba2f1f3674793e0a",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        994,
+        1002,
+        1026
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1028,
+      "title": "Apply Ranger class level 14 from class 13",
+      "body_sha256": "53f94809eaae971e07c0c3d9ae6ba9eb80c8209686bf9c0d77a074a04f76ba3e",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        995,
+        1002,
+        1027
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1029,
+      "title": "Apply Ranger class level 15 from class 14",
+      "body_sha256": "22629e457c97021aec1dd7b2629b6df71a2948dced5941d11308c1b77029b072",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        1002,
+        1012,
+        1028
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1030,
+      "title": "Apply Ranger class level 16 from class 15",
+      "body_sha256": "423306168a97318209f8922b24694fade65622c6d6fce9150b1e873a9a72d6e6",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        990,
+        1002,
+        1029
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1031,
+      "title": "Apply Ranger class level 17 from class 16",
+      "body_sha256": "dd07184320339efa499da2b7d49e5773247c631efa1472fc81ab042e21854f12",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        996,
+        1002,
+        1030
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1032,
+      "title": "Apply Ranger class level 18 from class 17",
+      "body_sha256": "2211c4e0cf9df26211d9e243430248f3d6a6246dea06043fd1a9ad9d7a19b410",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        997,
+        1002,
+        1031
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1033,
+      "title": "Apply Ranger class level 19 from class 18",
+      "body_sha256": "1e9413b3bcf909f328c0d92940630fa22292bb3b418ff5ff074a76a4593e07f5",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        998,
+        1002,
+        1032
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1034,
+      "title": "Apply Ranger class level 20 from class 19",
+      "body_sha256": "b15ab570484d7ade446ff6011aab507eb9761b78077eef2c6cce26a590f23f55",
+      "parent": 972,
+      "blocked_by": [
+        979,
+        983,
+        984,
+        985,
+        999,
+        1002,
+        1033
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1035,
+      "title": "Resolve Alarm effect",
+      "body_sha256": "a3a82120f00a0c57d4e9e8327e600a2c96ad76b8b850049534b0bcc3d6c5d268",
+      "parent": 974,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1036,
+      "title": "Resolve Animal Friendship effect",
+      "body_sha256": "6649744b22f4f3ed0037f68241b91b5f2f6e8a40986d07228995bd7f55e274d4",
+      "parent": 974,
+      "blocked_by": [
+        488,
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1037,
+      "title": "Resolve Animal Messenger admission",
+      "body_sha256": "09f65b405e7bf8502f68d7bdf072ce1438cd75c4c02c092bd04e95110234c603",
+      "parent": 974,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1038,
+      "title": "Resolve Animal Messenger journey",
+      "body_sha256": "dce5eb2d998db3ebc0361e8f50db76f364d355c4c5be04887a6f7a33a27a6caa",
+      "parent": 974,
+      "blocked_by": [
+        978,
+        1037
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1039,
+      "title": "Resolve Barkskin effect",
+      "body_sha256": "68a5f2c8231937b037c4a242c78fe899ba19f055f426f3781acb2c314eb1da92",
+      "parent": 974,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1040,
+      "title": "Resolve Commune with Nature facts",
+      "body_sha256": "4ba2cde15bf9c16ba18751ab644477beab61c70fac4e57b04bf767494e6cf47b",
+      "parent": 974,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1041,
+      "title": "Resolve Conjure Animals aura",
+      "body_sha256": "70ab1f42bb3a1ba7d4fa7360e0f28a99d58c905da9cc4161e938af5ea55480ee",
+      "parent": 974,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1042,
+      "title": "Resolve Conjure Animals movement",
+      "body_sha256": "e291bcbead355eaf45ae37775df27e66be039ee9b58c3d291e7ad9fa5cd23c83",
+      "parent": 974,
+      "blocked_by": [
+        978,
+        1041
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1043,
+      "title": "Resolve Conjure Animals damage",
+      "body_sha256": "226f9913a321782b77564c9ac9bb9ca9ce97c2c1f78a2d1b18e2f8557b0ff391",
+      "parent": 974,
+      "blocked_by": [
+        978,
+        1041
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1044,
+      "title": "Resolve Conjure Woodland Beings aura",
+      "body_sha256": "fdbcfb34667772e568450ec113940decc7345806357f8f36cbc5863b1ba6018c",
+      "parent": 974,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1045,
+      "title": "Resolve Conjure Woodland Beings disengage",
+      "body_sha256": "9c5c0a8939c5731492fa1ca770b0939ed6f9d2c10f444fbdf9160c794e47f0cc",
+      "parent": 974,
+      "blocked_by": [
+        781,
+        978,
+        1044
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1046,
+      "title": "Resolve Darkvision effect",
+      "body_sha256": "428c4dac6f134e021215484b7ae12af764a6f3c558d464a4305937fbb41bd280",
+      "parent": 974,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1047,
+      "title": "Resolve Dominate Beast charm",
+      "body_sha256": "47b809bc038c08f315c372ab71a14d321a4f409c8444550ca7a02f447150fd16",
+      "parent": 974,
+      "blocked_by": [
+        488,
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1048,
+      "title": "Resolve Dominate Beast control",
+      "body_sha256": "0a8caf3daeb8cfca7f4488cb32e9073729231d43b75e8effd3eed90a5acea27b",
+      "parent": 974,
+      "blocked_by": [
+        488,
+        978,
+        1047
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1049,
+      "title": "Resolve Druidcraft weather",
+      "body_sha256": "97457f0b7e1f519e4c05ebc81e5cf91e8fc539c1d2b2a4ebaa9238c57cc6c9da",
+      "parent": 974,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1050,
+      "title": "Resolve Druidcraft nature",
+      "body_sha256": "6172e1e8cc4d99c9f601e598e73b1581e8481755ca69f1beb6c9074668233519",
+      "parent": 975,
+      "blocked_by": [
+        978,
+        1049
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1051,
+      "title": "Resolve Elementalism air-earth",
+      "body_sha256": "2e9fe707ffdb7cd8f2e66ae75e28d7220a7267c7a5a37f0b3a31c818dee81153",
+      "parent": 975,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1052,
+      "title": "Resolve Elementalism fire-water",
+      "body_sha256": "06a244eb28f96d9606ed90c288b1dd1a643ad7725b1d17da0505668d062e8698",
+      "parent": 975,
+      "blocked_by": [
+        978,
+        1051
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1053,
+      "title": "Resolve Elementalism sculpt",
+      "body_sha256": "6325b689d015750445c4bb95ecca620b66d26e86267813c2e513773acb9ea60d",
+      "parent": 975,
+      "blocked_by": [
+        978,
+        1051
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1054,
+      "title": "Resolve Enhance Ability effect",
+      "body_sha256": "db13479b3bbb496066a072f73086043813cd873507f381c419cba6867a75e129",
+      "parent": 975,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1055,
+      "title": "Resolve Ensnaring Strike hit",
+      "body_sha256": "7ad5b5f3ffff69666997145376807aee6a07fa71089d3b2973abf49d5d8fbdc3",
+      "parent": 975,
+      "blocked_by": [
+        727,
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1056,
+      "title": "Resolve Ensnaring Strike tick-escape",
+      "body_sha256": "9dd287674193caa348baf9dc44463bf3127f16949ab3017758fa0144630808de",
+      "parent": 975,
+      "blocked_by": [
+        727,
+        978,
+        1055
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1057,
+      "title": "Resolve Entangle effect",
+      "body_sha256": "05b97c0b913db9f3da991db536af2b816ce009d7a4b2685d3b1ea4647a0c19b0",
+      "parent": 975,
+      "blocked_by": [
+        727,
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1058,
+      "title": "Resolve Find Traps effect",
+      "body_sha256": "5947aec27a71bbd4f13d9e6facbce32572c9acf51e09832ddf8b74fd9d1610e3",
+      "parent": 975,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1059,
+      "title": "Resolve Goodberry create",
+      "body_sha256": "39732db1be02428f9117228dda374a67d22820669cd1d06a4ee39f0c720d0d9c",
+      "parent": 975,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1060,
+      "title": "Resolve Goodberry eat",
+      "body_sha256": "e48353d6164df6c951962d6b5f02bc8fba46e0a59cf1b9c730ae53af2e758d66",
+      "parent": 975,
+      "blocked_by": [
+        978,
+        1059
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1061,
+      "title": "Resolve Gust of Wind effect",
+      "body_sha256": "b3d276ee61f45908277a77951568dc174b162867f3249efe3efe20a34b5a0298",
+      "parent": 975,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1062,
+      "title": "Resolve Hunter\u2019s Mark cast",
+      "body_sha256": "314ba19f96f3488dc70f294a11276c7c08a5c74c3eb294a81d554de96366cb25",
+      "parent": 975,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1063,
+      "title": "Resolve Hunter\u2019s Mark transfer",
+      "body_sha256": "571b6aa51f84e8327ddb6ae0b5cb6622c00c34faf1fef40af24774ee81a3190c",
+      "parent": 975,
+      "blocked_by": [
+        978,
+        1062
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1064,
+      "title": "Resolve Jump effect",
+      "body_sha256": "65a5a7a80ada17a8f45e0dc60d923b8e0fdf44734e84dfeb8ec257eba648fd4c",
+      "parent": 975,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1065,
+      "title": "Resolve Locate Animals or Plants effect",
+      "body_sha256": "880dbb099a682e0b26948f571fd1cf3290417fa2140b09c991ab525e1de9862f",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1066,
+      "title": "Resolve Longstrider effect",
+      "body_sha256": "61a2cd926caaf6381b96854031d0be256e87033c490060668eef9b2ecf3c1ee6",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1067,
+      "title": "Resolve Meld into Stone entry",
+      "body_sha256": "d7d062c90ddad7de6fd4730ef24ad267f0cd042451a3a792984037b484be53e7",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1068,
+      "title": "Resolve Meld into Stone inside",
+      "body_sha256": "a1396934ec816222521a1b90f61eb303691d050918a88f3f1f919ebd4504b448",
+      "parent": 976,
+      "blocked_by": [
+        978,
+        1067
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1069,
+      "title": "Resolve Meld into Stone expulsion",
+      "body_sha256": "f2a1c7eb86f9cd44e3b27c44fffc8ae46cdb9fcd1c2cf2af5985eff26fcb8c30",
+      "parent": 976,
+      "blocked_by": [
+        488,
+        978,
+        1067
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1070,
+      "title": "Resolve Message effect",
+      "body_sha256": "48ee0072ee96ceb2e2b50e85c57ba749de8c333c6e11a3cc1295650736f46660",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1071,
+      "title": "Resolve Nondetection effect",
+      "body_sha256": "882dcdd3ac4489bc8c6edc042e6401c3e3b14f12d6f4b0c0aa35c5e9b429b773",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1072,
+      "title": "Resolve Pass without Trace effect",
+      "body_sha256": "a991fcc4bc258e23d973041d2738953f8c021cec0bceed785867ed5ac6bcaf95",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1073,
+      "title": "Resolve Plant Growth overgrowth",
+      "body_sha256": "bff825e7cb3e6bfad935d7adf45675fefe0e508b26db7224a4ff6b124390cf10",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1074,
+      "title": "Resolve Plant Growth enrichment",
+      "body_sha256": "181628d54e0b68496c18f15bb3487a9cb100e79ee714449c0d0f41d00e2fc9ba",
+      "parent": 976,
+      "blocked_by": [
+        978,
+        1073
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1075,
+      "title": "Resolve Poison Spray effect",
+      "body_sha256": "55d07b6d73f6542d1dc8f250a6bb81d75b6be5a15cb7b6287609c03c436ddbcc",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1076,
+      "title": "Resolve Produce Flame light",
+      "body_sha256": "87d1238e36afe37d5d48d2bf8fb86b6444fae595f872c368922d251b78b066d8",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1077,
+      "title": "Resolve Produce Flame attack",
+      "body_sha256": "5ada30933fb1721553df5c30a34544a10d26ffcc54d93468bd5e3ad6e877e098",
+      "parent": 976,
+      "blocked_by": [
+        978,
+        1076
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1078,
+      "title": "Resolve Protection from Energy effect",
+      "body_sha256": "3a741b40a56f8d553fe97e15b8e41f22e66a405d74a1a52abee36d25cfc31cba",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1079,
+      "title": "Resolve Shillelagh effect",
+      "body_sha256": "c7a181811f41c6a9ebda59b3cec3f92d8b6410c5f0f750a6fce493abe1d3e99b",
+      "parent": 976,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1080,
+      "title": "Resolve Silence effect",
+      "body_sha256": "c05bc828635d539e329087ca1f0e8451ba900ebbaacf1e750aecaf7f83270d90",
+      "parent": 977,
+      "blocked_by": [
+        961,
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1081,
+      "title": "Resolve Speak with Plants facts",
+      "body_sha256": "57d17a628ccffb2287ca9545699e042a4b5ff81deb2fe9a91a2dfb6f2f576480",
+      "parent": 977,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1082,
+      "title": "Resolve Speak with Plants terrain",
+      "body_sha256": "6f0e61d1e06b3303ae9334c975c9def8a8526f74d4edf1f012c96f5e8e9d144c",
+      "parent": 977,
+      "blocked_by": [
+        978,
+        1081
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1083,
+      "title": "Resolve Spike Growth terrain",
+      "body_sha256": "b28fd654d38c1f3fb73da98bb48a72b80f42974f6674cc18e92846263e71d8aa",
+      "parent": 977,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1084,
+      "title": "Resolve Spike Growth movement",
+      "body_sha256": "2c89e5ed7f784ad4e2bf07e33d11690231cc3810edf6e37d12e1e53c7d842ef5",
+      "parent": 977,
+      "blocked_by": [
+        978,
+        1083
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1085,
+      "title": "Resolve Starry Wisp effect",
+      "body_sha256": "a4d49a449072c022c8e1203c05f3a115dfbb3184ecacf814cce999792431b152",
+      "parent": 977,
+      "blocked_by": [
+        962,
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1086,
+      "title": "Resolve Stoneskin effect",
+      "body_sha256": "27b48bd7e866e62500570a9e68482799ef312ca379fbe99f058ce5a0da9d7948",
+      "parent": 977,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1087,
+      "title": "Resolve Water Breathing effect",
+      "body_sha256": "d114095031adaad936cb745a1be6c6805cf93d2b4e18095938d1e83937f5193c",
+      "parent": 977,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1088,
+      "title": "Resolve Water Walk effect",
+      "body_sha256": "f1787239a74773d61aa2762cf8f02777a46777b7e572099a9788519706d73e73",
+      "parent": 977,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1089,
+      "title": "Resolve Wind Wall placement",
+      "body_sha256": "77802652f47b8b028f5af5b7397aee668416c0b1d8655394cacf083ea661e28e",
+      "parent": 977,
+      "blocked_by": [
+        978
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1090,
+      "title": "Resolve Wind Wall damage",
+      "body_sha256": "7a3b7e64e90e0aedadf5240afd06eb2001f71f8e82a717a7d8bad1c853bf9e40",
+      "parent": 977,
+      "blocked_by": [
+        978,
+        1089
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 1091,
+      "title": "Resolve Wind Wall barrier",
+      "body_sha256": "a2f9d9a852c734a5ddc184cbb079cef0f94b9a15e418aec0f10a99a45312587d",
+      "parent": 977,
+      "blocked_by": [
+        978,
+        1089
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 970,
+      "title": "Qualify finite Ranger class gate",
+      "body_sha256": "f2f0e910667dceeefb8dad0903f76b4dfb2cc68225747c120b9c282c41ada4e5",
+      "parent": 328,
+      "blocked_by": [
+        328,
+        971,
+        972,
+        973
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 971,
+      "title": "Qualify finite Ranger class cohort",
+      "body_sha256": "fbe947eeced0a2e978a3fdea0e0e3ebaf0051ba1649e350b4b0efb2c51b3c123",
+      "parent": 328,
+      "blocked_by": [
+        979,
+        980,
+        981,
+        982,
+        983,
+        984,
+        985,
+        986,
+        987,
+        988,
+        989,
+        990,
+        991,
+        992,
+        993,
+        994,
+        995,
+        996,
+        997,
+        998,
+        999,
+        1000,
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010,
+        1011,
+        1012,
+        1013,
+        1014
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 972,
+      "title": "Qualify finite Ranger levels cohort",
+      "body_sha256": "1acac1b848cd23304f792419dc573f8928b4c6fd87f6d5f44548ca566550097b",
+      "parent": 328,
+      "blocked_by": [
+        1015,
+        1016,
+        1017,
+        1018,
+        1019,
+        1020,
+        1021,
+        1022,
+        1023,
+        1024,
+        1025,
+        1026,
+        1027,
+        1028,
+        1029,
+        1030,
+        1031,
+        1032,
+        1033,
+        1034
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 973,
+      "title": "Qualify finite Ranger shared gate",
+      "body_sha256": "f8e3adece045461b7bcc8a6754a27e82830de64849cd85aab5791293457f92fc",
+      "parent": 328,
+      "blocked_by": [
+        263,
+        265,
+        355,
+        614,
+        615,
+        616,
+        618,
+        621,
+        623,
+        624,
+        625,
+        626,
+        627,
+        682,
+        692,
+        693,
+        700,
+        906,
+        909,
+        923,
+        924,
+        927,
+        934,
+        941,
+        954,
+        955,
+        956,
+        958,
+        965,
+        966,
+        974,
+        975,
+        976,
+        977
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 974,
+      "title": "Qualify finite Ranger spell cohort 1",
+      "body_sha256": "db05394095b72475bb7999560482f60d203e2963ebd6634d7e788c389250dd08",
+      "parent": 277,
+      "blocked_by": [
+        1035,
+        1036,
+        1037,
+        1038,
+        1039,
+        1040,
+        1041,
+        1042,
+        1043,
+        1044,
+        1045,
+        1046,
+        1047,
+        1048,
+        1049
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 975,
+      "title": "Qualify finite Ranger spell cohort 2",
+      "body_sha256": "dc916f986c8209720ebdcfbf9ae4bac664f8b06aab7c77f3285520f6990bca14",
+      "parent": 277,
+      "blocked_by": [
+        1050,
+        1051,
+        1052,
+        1053,
+        1054,
+        1055,
+        1056,
+        1057,
+        1058,
+        1059,
+        1060,
+        1061,
+        1062,
+        1063,
+        1064
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 976,
+      "title": "Qualify finite Ranger spell cohort 3",
+      "body_sha256": "134287e28bb64badbc76828036927d7205e6bfa36e109ac80c2e5ff4f8b37d8e",
+      "parent": 277,
+      "blocked_by": [
+        1065,
+        1066,
+        1067,
+        1068,
+        1069,
+        1070,
+        1071,
+        1072,
+        1073,
+        1074,
+        1075,
+        1076,
+        1077,
+        1078,
+        1079
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 977,
+      "title": "Qualify finite Ranger spell cohort 4",
+      "body_sha256": "7a70012d5e0eba9492ec7655feb5d9ce192f2cfe4d0e2aa075c9ffe379f0739a",
+      "parent": 277,
+      "blocked_by": [
+        1080,
+        1081,
+        1082,
+        1083,
+        1084,
+        1085,
+        1086,
+        1087,
+        1088,
+        1089,
+        1090,
+        1091
+      ],
+      "type": "Task",
+      "size": "M"
+    },
+    {
+      "issue": 978,
+      "title": "Qualify finite Ranger shared execution dependency contracts",
+      "body_sha256": "3fb4a75a29c0c78648b99d460a47c7f9adc3925cd312cafd7755fd9a82fdc666",
+      "parent": 328,
+      "blocked_by": [
+        61,
+        64,
+        65,
+        66,
+        67,
+        273,
+        353
+      ],
+      "type": "Task",
+      "size": "M"
+    }
+  ],
+  "gateway": {
+    "issue": 968,
+    "body_sha256": "f0832d34ff9023653269409bf10225362ae064776d5cbec67aa8587bc77d2b42",
+    "parent": 336,
+    "blocked_by": [
+      429
+    ],
+    "type": "Task",
+    "size": "M"
+  },
+  "focused_body_readbacks": [
+    980,
+    1015
+  ]
+}

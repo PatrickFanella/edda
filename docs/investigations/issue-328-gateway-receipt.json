@@ -1,0 +1,365 @@
+{
+  "issue": {
+    "number": 968,
+    "title": "Qualify shared advancement transaction protocol for class adapters",
+    "body": "<!-- edda-328:transition-protocol-gateway -->\nParent: #336; decision #328; roadmap #47. One reviewable qualification PR; Task Size M.\n\nSource: English SRD 5.2.1 PDF23-25; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation: docs/srd-5.2.1-conformance.md. Qualification boundaries are Edda additions.\n\nQualify ONLY the existing #429 transaction protocol using isolated supplied class-adapter inputs. Existing #429 alone owns transaction implementation, generic XP/PB/retro-CON and its Barbarian D12/fixed7 adapter. This gate owns NO runtime transaction, HP die, class eligibility or production grant implementation. Keep every old #429 body, prerequisite and edge unchanged, including Monk #783 and Paladin #851.\n\nAcceptance: validate authoritative admitted class-level vector AFTER transition. Select XP and live PB from the COMPLETE canonical #285 advancement table by its sum, independently of the class feature row. Confirm saved injected HP roll, exact atomic revision, no reroll or duplicate grant on same-ID retry/reload/reconnect, conflicting payload rejection, concurrent once-only commit, and full rollback on history/choice/effect failure. Retroactive CON applies once over authoritative attained total levels, without healing. Reject unsupported combinations and totals above20. Unknowns remain unavailable. No class adapter may block this gateway: adapters depend on this gateway instead.\n\nUnequal controls: Fighter4 adding Ranger1 has total5,6500XP/PB3 with class1 features and later-class HP supplied by its OWN adapter. Fighter4/Ranger1 advancing Ranger2 has total6,14000XP/PB3 with class2 features; reject class2 XP300/PB2. These are isolated qualification vectors, not Ranger admission or runtime implementations. Do not borrow Fighter/Paladin eligibility. Include source operand controls, default assertions and timeouts, no inferred levels.\n\nVerify isolated protocol tests, PostgreSQL rollback/replay/concurrency tests and shared web/TUI receipt projections where affected. Feature tests supply isolated entitlements only. No deployment, inference, coverage promotion or class access.\n\nNative blocked-by: #429 ONLY. Containment parent: #336. Ranger consumes through its own HP adapter and class qualification gate to #337; no direct #337 edge and no duplicate transaction owner.\n",
+    "state": "OPEN",
+    "parent": {
+      "number": 336
+    },
+    "issueType": {
+      "name": "Task"
+    },
+    "blockedBy": {
+      "pageInfo": {
+        "hasNextPage": false
+      },
+      "nodes": [
+        {
+          "number": 429
+        }
+      ]
+    },
+    "projectItems": {
+      "pageInfo": {
+        "hasNextPage": false
+      },
+      "nodes": [
+        {
+          "project": {
+            "id": "PVT_kwDODjtmGM4BrFJ2"
+          },
+          "fieldValueByName": {
+            "name": "M"
+          }
+        }
+      ]
+    }
+  },
+  "old": {
+    "body": "<!-- edda-321:advancement -->\nParent: #336; decision #321; roadmap #47; blocks #498; #498 directly blocks #337.\n\nDelivery: one reviewable PR, Task Size M.\n\nSource: pinned English SRD5.2.1 pp28-30 and explicitly named referenced pages below; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation: docs/srd-5.2.1-conformance.md.\n\nScope and deterministic positive fixture: PDF p23: validate earned XP against exact 20-row advancement source, add one D12 Hit Die, choose roll 1d12 or fixed 7 + CON, minimum gain1; recompute PB by total character level and all derived values. CON modifier changes adjust maximum HP for every attained character level exactly once. No automatic healing, feature effects, class eligibility or arbitrary level jumps. Reusable transaction consumed by each named transition.\n\nNegative fixtures: violate each stated eligibility/number/target/action/resource/timing predicate independently; reject unsupported variants and forged levels. Preview and cancellation never mutate.\n\nRequired acceptance: Authoritative campaign/actor/source/rules-version/class-level eligibility; isolated high-level test entitlements grant no production access. Prepare previews costs/choices/targets/timing without dice or writes; explicit confirm revalidates current revision and commits choices, injectable dice, resource/action costs, effects, derived sheet and public history atomically. Store durable action receipt: same-ID retry/reload/reconnect returns exact committed result with no reroll/recharge/regrant; conflicting payload or concurrent stale confirmation rejected; two concurrent confirmations spend/apply once. Inject history/effect/choice failure and prove full PostgreSQL rollback. Protect private NPC HP, hidden actors, tactics and private choices in discovery/preview/history/error/reconnect. Shared web/TUI availability, disabled reason, accessible confirmation/cancel and reconnect fixtures required; desktop/phone confirmation journeys for changed web UI. Unknown prerequisites fail closed. Run GOMAXPROCS=2 go test -p2 -short -race ./... and go vet -p2 ./...; isolated PostgreSQL integration rollback/replay/reload/concurrency tests; frontend build, changed-file lint and behavior fixtures when UI changes. Preserve legacy reads/unrelated JSON; retain CC-BY-4.0 attribution and adaptations. No production deployment, inference or broad coverage promotion.\n\nOwnership: feature resolvers own behavior; level/entry applications consume them and apply grants once. Feature tests use explicit isolated entitlements, never grant production class admission. Data and earlier levels never unlock broader support. Shared #272 rests, #273 casting, #333 origins, #335 multiclass, #336 advancement, #384 selection/#389 ability updater, #269/#270 conditions and #278 equipment retain their scopes. Exact shared terminals in this matrix must block #498 natively; #498 blocks #337. Planning closure is insufficient. Selected feat effect must have its own terminal gate before admission; never implement spell/item effects here. No child implementation or qualification is supplied by this decision.\n\nNative blocked-by: #285, #286, #308, #336.\n\nExact owned source keys (shared keys have one owner, consumers do not implement them):\n- srd-5.2.1:mechanic/barbarian/class-progression\n- srd-5.2.1:mechanic/prerequisite/class-level\n\nExact source records including nested alternatives, conditions and numbers (context, not duplicate ownership):\n```json\n[\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/1\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 1\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 1,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 2\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 2,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/rage\",\n        \"srd-5.2.1:character/feature/barbarian/unarmored-defense\",\n        \"srd-5.2.1:character/feature/barbarian/weapon-mastery\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/2\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 2\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 2,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 2\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 2,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/danger-sense\",\n        \"srd-5.2.1:character/feature/barbarian/reckless-attack\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/3\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 3\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 3,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 2\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 2,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/barbarian-subclass\",\n        \"srd-5.2.1:character/feature/barbarian/primal-knowledge\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/4\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 4\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 4,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 2\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 2,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/ability-score-improvement\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/5\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 5\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 5,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 2\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 3,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/extra-attack\",\n        \"srd-5.2.1:character/feature/barbarian/fast-movement\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/6\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 6\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 6,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\",\n      \"srd-5.2.1:mechanic/barbarian/subclass-feature\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 2\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 3,\n      \"feature_refs\": [],\n      \"feature_keys\": [\n        \"srd-5.2.1:mechanic/barbarian/subclass-feature\"\n      ]\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/7\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 7\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 7,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 2\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 3,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/feral-instinct\",\n        \"srd-5.2.1:character/feature/barbarian/instinctive-pounce\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/8\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 8\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 8,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 2\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 3,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/ability-score-improvement\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/9\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 9\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 9,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 3\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 4,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/brutal-strike\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/10\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 10\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 10,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\",\n      \"srd-5.2.1:mechanic/barbarian/subclass-feature\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 3\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 4,\n      \"feature_refs\": [],\n      \"feature_keys\": [\n        \"srd-5.2.1:mechanic/barbarian/subclass-feature\"\n      ]\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/11\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 11\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 11,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 3\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 4,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/relentless-rage\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/12\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 12\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 12,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 3\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 4,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/ability-score-improvement\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/13\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 13\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 13,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 3\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 5,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/improved-brutal-strike-13\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/14\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 14\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 14,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\",\n      \"srd-5.2.1:mechanic/barbarian/subclass-feature\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 3\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 5,\n      \"feature_refs\": [],\n      \"feature_keys\": [\n        \"srd-5.2.1:mechanic/barbarian/subclass-feature\"\n      ]\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/15\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 15\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 15,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 3\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 5,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/persistent-rage\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/16\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 16\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 16,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 4\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 5,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/ability-score-improvement\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/17\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 17\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 17,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 4\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 6,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/improved-brutal-strike-17\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/18\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 18\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 18,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 4\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 6,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/indomitable-might\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/19\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 19\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 19,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 4\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 6,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/epic-boon\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/level/barbarian/20\",\n    \"kind\": \"level\",\n    \"name\": \"Barbarian level 20\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/classes/barbarian\",\n        \"page\": 28\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/class/barbarian\",\n    \"level\": 20,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/barbarian/class-progression\",\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"parameters\": {\n      \"srd-5.2.1:mechanic/barbarian/rage/damage-bonus\": 4\n    },\n    \"progression\": {\n      \"proficiency_bonus\": 6,\n      \"feature_refs\": [\n        \"srd-5.2.1:character/feature/barbarian/primal-champion\"\n      ],\n      \"feature_keys\": []\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/prerequisite/barbarian/berserker/path-of-the-berserker-level\",\n    \"kind\": \"prerequisite\",\n    \"name\": \"Path of the Berserker level requirement\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/subclasses/barbarian-path-of-the-berserker\",\n        \"page\": 30\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/subclass/barbarian/berserker\",\n    \"level\": 0,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/prerequisite/class-level\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"requirement\": {\n      \"key\": \"srd-5.2.1:mechanic/prerequisite/class-level\",\n      \"record_refs\": [\n        \"srd-5.2.1:character/class/barbarian\"\n      ],\n      \"parameters\": {\n        \"minimum-level\": 3\n      }\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/prerequisite/barbarian/berserker/frenzy-level\",\n    \"kind\": \"prerequisite\",\n    \"name\": \"Frenzy level requirement\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/subclass-features/barbarian-level-3-frenzy\",\n        \"page\": 30\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/feature/barbarian/berserker/frenzy\",\n    \"level\": 0,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/prerequisite/class-level\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"requirement\": {\n      \"key\": \"srd-5.2.1:mechanic/prerequisite/class-level\",\n      \"record_refs\": [\n        \"srd-5.2.1:character/class/barbarian\"\n      ],\n      \"parameters\": {\n        \"minimum-level\": 3\n      }\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/prerequisite/barbarian/berserker/mindless-rage-level\",\n    \"kind\": \"prerequisite\",\n    \"name\": \"Mindless Rage level requirement\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/subclass-features/barbarian-level-6-mindless-rage\",\n        \"page\": 30\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/feature/barbarian/berserker/mindless-rage\",\n    \"level\": 0,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/prerequisite/class-level\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"requirement\": {\n      \"key\": \"srd-5.2.1:mechanic/prerequisite/class-level\",\n      \"record_refs\": [\n        \"srd-5.2.1:character/class/barbarian\"\n      ],\n      \"parameters\": {\n        \"minimum-level\": 6\n      }\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/prerequisite/barbarian/berserker/retaliation-level\",\n    \"kind\": \"prerequisite\",\n    \"name\": \"Retaliation level requirement\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/subclass-features/barbarian-level-10-retaliation\",\n        \"page\": 30\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/feature/barbarian/berserker/retaliation\",\n    \"level\": 0,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/prerequisite/class-level\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"requirement\": {\n      \"key\": \"srd-5.2.1:mechanic/prerequisite/class-level\",\n      \"record_refs\": [\n        \"srd-5.2.1:character/class/barbarian\"\n      ],\n      \"parameters\": {\n        \"minimum-level\": 10\n      }\n    }\n  },\n  {\n    \"id\": \"srd-5.2.1:character/prerequisite/barbarian/berserker/intimidating-presence-level\",\n    \"kind\": \"prerequisite\",\n    \"name\": \"Intimidating Presence level requirement\",\n    \"sources\": [\n      {\n        \"inventory_id\": \"srd-5.2.1:planning/subclass-features/barbarian-level-14-intimidating-presence\",\n        \"page\": 30\n      }\n    ],\n    \"parent_id\": \"srd-5.2.1:character/feature/barbarian/berserker/intimidating-presence\",\n    \"level\": 0,\n    \"choice_refs\": [],\n    \"resource_refs\": [],\n    \"prerequisite_refs\": [],\n    \"required_mechanics\": [\n      \"srd-5.2.1:mechanic/prerequisite/class-level\"\n    ],\n    \"select\": 0,\n    \"option_keys\": [],\n    \"capacity\": 0,\n    \"requirement\": {\n      \"key\": \"srd-5.2.1:mechanic/prerequisite/class-level\",\n      \"record_refs\": [\n        \"srd-5.2.1:character/class/barbarian\"\n      ],\n      \"parameters\": {\n        \"minimum-level\": 14\n      }\n    }\n  }\n]\n```\n",
+    "blockedBy": {
+      "nodes": [
+        {
+          "number": 336
+        },
+        {
+          "number": 308
+        },
+        {
+          "number": 286
+        },
+        {
+          "number": 285
+        }
+      ]
+    },
+    "blocking": {
+      "pageInfo": {
+        "hasNextPage": false
+      },
+      "nodes": [
+        {
+          "number": 968
+        },
+        {
+          "number": 851
+        },
+        {
+          "number": 816
+        },
+        {
+          "number": 783
+        },
+        {
+          "number": 776
+        },
+        {
+          "number": 728
+        },
+        {
+          "number": 731
+        },
+        {
+          "number": 632
+        },
+        {
+          "number": 721
+        },
+        {
+          "number": 720
+        },
+        {
+          "number": 719
+        },
+        {
+          "number": 718
+        },
+        {
+          "number": 717
+        },
+        {
+          "number": 716
+        },
+        {
+          "number": 715
+        },
+        {
+          "number": 714
+        },
+        {
+          "number": 713
+        },
+        {
+          "number": 712
+        },
+        {
+          "number": 711
+        },
+        {
+          "number": 710
+        },
+        {
+          "number": 709
+        },
+        {
+          "number": 708
+        },
+        {
+          "number": 707
+        },
+        {
+          "number": 706
+        },
+        {
+          "number": 705
+        },
+        {
+          "number": 704
+        },
+        {
+          "number": 703
+        },
+        {
+          "number": 702
+        },
+        {
+          "number": 701
+        },
+        {
+          "number": 633
+        },
+        {
+          "number": 626
+        },
+        {
+          "number": 551
+        },
+        {
+          "number": 613
+        },
+        {
+          "number": 612
+        },
+        {
+          "number": 611
+        },
+        {
+          "number": 610
+        },
+        {
+          "number": 609
+        },
+        {
+          "number": 608
+        },
+        {
+          "number": 607
+        },
+        {
+          "number": 606
+        },
+        {
+          "number": 605
+        },
+        {
+          "number": 604
+        },
+        {
+          "number": 603
+        },
+        {
+          "number": 602
+        },
+        {
+          "number": 601
+        },
+        {
+          "number": 600
+        },
+        {
+          "number": 599
+        },
+        {
+          "number": 598
+        },
+        {
+          "number": 597
+        },
+        {
+          "number": 596
+        },
+        {
+          "number": 595
+        },
+        {
+          "number": 594
+        },
+        {
+          "number": 593
+        },
+        {
+          "number": 552
+        },
+        {
+          "number": 501
+        },
+        {
+          "number": 549
+        },
+        {
+          "number": 548
+        },
+        {
+          "number": 547
+        },
+        {
+          "number": 546
+        },
+        {
+          "number": 545
+        },
+        {
+          "number": 544
+        },
+        {
+          "number": 543
+        },
+        {
+          "number": 542
+        },
+        {
+          "number": 541
+        },
+        {
+          "number": 540
+        },
+        {
+          "number": 539
+        },
+        {
+          "number": 538
+        },
+        {
+          "number": 537
+        },
+        {
+          "number": 536
+        },
+        {
+          "number": 535
+        },
+        {
+          "number": 534
+        },
+        {
+          "number": 533
+        },
+        {
+          "number": 532
+        },
+        {
+          "number": 531
+        },
+        {
+          "number": 530
+        },
+        {
+          "number": 529
+        },
+        {
+          "number": 513
+        },
+        {
+          "number": 507
+        },
+        {
+          "number": 498
+        },
+        {
+          "number": 486
+        },
+        {
+          "number": 485
+        },
+        {
+          "number": 484
+        },
+        {
+          "number": 483
+        },
+        {
+          "number": 481
+        },
+        {
+          "number": 480
+        },
+        {
+          "number": 482
+        },
+        {
+          "number": 479
+        },
+        {
+          "number": 478
+        },
+        {
+          "number": 477
+        },
+        {
+          "number": 476
+        },
+        {
+          "number": 475
+        },
+        {
+          "number": 473
+        },
+        {
+          "number": 474
+        },
+        {
+          "number": 471
+        },
+        {
+          "number": 472
+        },
+        {
+          "number": 470
+        },
+        {
+          "number": 468
+        },
+        {
+          "number": 469
+        },
+        {
+          "number": 461
+        },
+        {
+          "number": 431
+        }
+      ]
+    }
+  }
+}
