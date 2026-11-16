@@ -1,0 +1,2566 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Monk source identities, 20 progression rows, nested choices, predicates, quantities and recovery on PDF pp49-52 adapted to unavailable metadata. Opaque keys and graph are Edda additions. No adjacent definitions or executable support imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/class/monk",
+      "kind": "class",
+      "name": "Monk",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/skills",
+        "srd-5.2.1:character/choice/monk/tools",
+        "srd-5.2.1:character/choice/monk/starting-equipment"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/primary-abilities/dexterity-and-wisdom",
+        "srd-5.2.1:mechanic/saving-throws/strength",
+        "srd-5.2.1:mechanic/saving-throws/dexterity",
+        "srd-5.2.1:mechanic/weapons/simple",
+        "srd-5.2.1:mechanic/weapons/martial-light",
+        "srd-5.2.1:mechanic/armor/none",
+        "srd-5.2.1:mechanic/monk/level-1/all-core-traits-and-features",
+        "srd-5.2.1:mechanic/monk/multiclass/hit-point-die-and-level-1-features-only",
+        "srd-5.2.1:mechanic/monk/hit-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/hit-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/skills",
+      "kind": "choice",
+      "name": "Skills",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/skills"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/acrobatics",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/religion",
+        "srd-5.2.1:mechanic/skills/stealth"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/tools",
+      "kind": "choice",
+      "name": "Tool proficiency",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/tools/choose-one-type"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/tools/any-artisans-tools",
+        "srd-5.2.1:mechanic/tools/any-musical-instrument"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/starting-equipment",
+      "kind": "choice",
+      "name": "Starting Equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/equipment-tool"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/equipment/a/uses-chosen-proficient-tool",
+        "srd-5.2.1:mechanic/equipment/spear",
+        "srd-5.2.1:mechanic/equipment/dagger",
+        "srd-5.2.1:mechanic/monk/equipment/chosen-proficient-tool",
+        "srd-5.2.1:mechanic/equipment/explorers-pack",
+        "srd-5.2.1:mechanic/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/monk/equipment/a",
+        "srd-5.2.1:mechanic/monk/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/monk/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/spear": 1,
+            "srd-5.2.1:mechanic/equipment/dagger": 5,
+            "srd-5.2.1:mechanic/monk/equipment/chosen-proficient-tool": 1,
+            "srd-5.2.1:mechanic/equipment/explorers-pack": 1,
+            "srd-5.2.1:mechanic/currency/gp": 11
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/monk/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/currency/gp": 50
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/equipment-tool",
+      "kind": "prerequisite",
+      "name": "Equipment Tool",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/monk/starting-equipment",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/equipment/tool-matches-proficiency"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/equipment/tool-matches-proficiency",
+        "record_refs": [
+          "srd-5.2.1:character/choice/monk/tools"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/martial-arts",
+      "kind": "feature",
+      "name": "Martial Arts",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-1-martial-arts",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/1",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/martial-arts-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/martial-arts/monk-weapons/simple-melee-or-martial-melee-light",
+        "srd-5.2.1:mechanic/monk/martial-arts/bonus-unarmed-strike/bonus-action",
+        "srd-5.2.1:mechanic/monk/martial-arts/die/replace-normal-unarmed-or-monk-weapon-damage",
+        "srd-5.2.1:mechanic/monk/martial-arts/die/scales-with-monk-table",
+        "srd-5.2.1:mechanic/monk/martial-arts/dexterous-attacks/dexterity-instead-of-strength-attack-and-damage",
+        "srd-5.2.1:mechanic/monk/martial-arts/dexterous-attacks/grapple-or-shove-save-dc-dexterity-instead-of-strength"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/martial-arts-eligibility",
+      "kind": "prerequisite",
+      "name": "Martial Arts Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-1-martial-arts",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/martial-arts",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/martial-arts/unarmed-or-only-monk-weapons-and-no-armor-or-shield"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/martial-arts/unarmed-or-only-monk-weapons-and-no-armor-or-shield",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/unarmored-defense",
+      "kind": "feature",
+      "name": "Unarmored Defense",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-1-unarmored-defense",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/1",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/unarmored-defense-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/unarmored-defense/base-ac-plus-dexterity-and-wisdom-modifiers",
+        "srd-5.2.1:mechanic/monk/unarmored-defense/base-ac"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/unarmored-defense/base-ac": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/unarmored-defense-eligibility",
+      "kind": "prerequisite",
+      "name": "Unarmored Defense Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-1-unarmored-defense",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/unarmored-defense",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/unarmored-defense/no-armor-or-shield"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/unarmored-defense/no-armor-or-shield",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/monks-focus",
+      "kind": "feature",
+      "name": "Monk’s Focus",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-monks-focus",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/2",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/focus-actions"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/monk/focus-points"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/monks-focus/points/fuel-features",
+        "srd-5.2.1:mechanic/monk/monks-focus/save-dc/base-plus-wisdom-modifier-and-proficiency-bonus",
+        "srd-5.2.1:mechanic/monk/monks-focus/save-dc/base",
+        "srd-5.2.1:mechanic/monk/flurry-of-blows/cost",
+        "srd-5.2.1:mechanic/monk/flurry-of-blows/strikes",
+        "srd-5.2.1:mechanic/monk/patient-defense/paid-cost",
+        "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-cost",
+        "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-jump-multiplier"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/monks-focus/save-dc/base": 8,
+        "srd-5.2.1:mechanic/monk/flurry-of-blows/cost": 1,
+        "srd-5.2.1:mechanic/monk/flurry-of-blows/strikes": 2,
+        "srd-5.2.1:mechanic/monk/patient-defense/paid-cost": 1,
+        "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-cost": 1,
+        "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-jump-multiplier": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/monk/focus-points",
+      "kind": "resource",
+      "name": "Focus Points",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-monks-focus",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/monks-focus",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/focus-points/regain-all-expended-on-short-or-long-rest",
+        "srd-5.2.1:mechanic/monk/focus-points/expended-unavailable-until-recovered"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 2,
+      "values_by_level": [
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 3
+        },
+        {
+          "level": 4,
+          "value": 4
+        },
+        {
+          "level": 5,
+          "value": 5
+        },
+        {
+          "level": 6,
+          "value": 6
+        },
+        {
+          "level": 7,
+          "value": 7
+        },
+        {
+          "level": 8,
+          "value": 8
+        },
+        {
+          "level": 9,
+          "value": 9
+        },
+        {
+          "level": 10,
+          "value": 10
+        },
+        {
+          "level": 11,
+          "value": 11
+        },
+        {
+          "level": 12,
+          "value": 12
+        },
+        {
+          "level": 13,
+          "value": 13
+        },
+        {
+          "level": 14,
+          "value": 14
+        },
+        {
+          "level": 15,
+          "value": 15
+        },
+        {
+          "level": 16,
+          "value": 16
+        },
+        {
+          "level": 17,
+          "value": 17
+        },
+        {
+          "level": 18,
+          "value": 18
+        },
+        {
+          "level": 19,
+          "value": 19
+        },
+        {
+          "level": 20,
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/focus-actions",
+      "kind": "choice",
+      "name": "Focus actions",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-monks-focus",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/monks-focus",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/flurry-of-blows",
+        "srd-5.2.1:character/choice/monk/patient-defense",
+        "srd-5.2.1:character/choice/monk/step-of-the-wind"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/focus/known-three-actions-not-a-permanent-selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/monk/focus/flurry-of-blows",
+        "srd-5.2.1:mechanic/monk/focus/patient-defense",
+        "srd-5.2.1:mechanic/monk/focus/step-of-the-wind"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/flurry-of-blows",
+      "kind": "choice",
+      "name": "Flurry Of Blows",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-monks-focus",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/monk/focus-actions",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/flurry-focus"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/flurry-of-blows/bonus-action",
+        "srd-5.2.1:mechanic/monk/flurry-of-blows/paid/two-unarmed-strikes"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/monk/flurry-of-blows/paid"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/flurry-focus",
+      "kind": "prerequisite",
+      "name": "Flurry Focus",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-monks-focus",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/monk/flurry-of-blows",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/flurry-of-blows/available-focus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/flurry-of-blows/available-focus",
+        "record_refs": [
+          "srd-5.2.1:character/resource/monk/focus-points"
+        ],
+        "parameters": {
+          "points-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/patient-defense",
+      "kind": "choice",
+      "name": "Patient Defense",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-monks-focus",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/monk/focus-actions",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/patient-defense-paid"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/patient-defense/bonus-action",
+        "srd-5.2.1:mechanic/monk/patient-defense/free/no-focus-cost",
+        "srd-5.2.1:mechanic/monk/patient-defense/paid/expend-focus"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/monk/patient-defense/free-disengage",
+        "srd-5.2.1:mechanic/monk/patient-defense/paid-disengage-and-dodge"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/patient-defense-paid",
+      "kind": "prerequisite",
+      "name": "Patient Defense Paid",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-monks-focus",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/monk/patient-defense",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/patient-defense/paid-option-requires-focus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/patient-defense/paid-option-requires-focus",
+        "record_refs": [
+          "srd-5.2.1:character/resource/monk/focus-points"
+        ],
+        "parameters": {
+          "points-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/step-of-the-wind",
+      "kind": "choice",
+      "name": "Step Of The Wind",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-monks-focus",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/monk/focus-actions",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/step-of-the-wind-paid"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/step-of-the-wind/bonus-action",
+        "srd-5.2.1:mechanic/monk/step-of-the-wind/free/no-focus-cost",
+        "srd-5.2.1:mechanic/monk/step-of-the-wind/paid/jump-distance-doubled-for-turn"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/monk/step-of-the-wind/free-dash",
+        "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-disengage-and-dash"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/step-of-the-wind-paid",
+      "kind": "prerequisite",
+      "name": "Step Of The Wind Paid",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-monks-focus",
+          "page": 50
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/monk/step-of-the-wind",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-option-requires-focus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-option-requires-focus",
+        "record_refs": [
+          "srd-5.2.1:character/resource/monk/focus-points"
+        ],
+        "parameters": {
+          "points-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/unarmored-movement",
+      "kind": "feature",
+      "name": "Unarmored Movement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-unarmored-movement",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/2",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/unarmored-movement-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/unarmored-movement/speed-increase-scales-with-table"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/unarmored-movement-eligibility",
+      "kind": "prerequisite",
+      "name": "Unarmored Movement Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-unarmored-movement",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/unarmored-movement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/unarmored-movement/no-armor-or-shield"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/unarmored-movement/no-armor-or-shield",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/uncanny-metabolism",
+      "kind": "feature",
+      "name": "Uncanny Metabolism",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-uncanny-metabolism",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/2",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/monk/uncanny-metabolism"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/uncanny-metabolism/on-initiative/optional-regain-all-focus",
+        "srd-5.2.1:mechanic/monk/uncanny-metabolism/on-use/heal-monk-level-plus-martial-arts-die",
+        "srd-5.2.1:mechanic/monk/uncanny-metabolism/once-per-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/resource/monk/uncanny-metabolism",
+      "kind": "resource",
+      "name": "Uncanny Metabolism use",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-2-uncanny-metabolism",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/uncanny-metabolism",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/uncanny-metabolism/regain-use-on-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/deflect-attacks",
+      "kind": "feature",
+      "name": "Deflect Attacks",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-3-deflect-attacks",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/3",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/redirect-target"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/deflect-redirect"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/deflect-attacks/reaction/on-attack-roll-hit-including-bludgeoning-piercing-or-slashing",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/reduce-total-damage/die-plus-dexterity-modifier-plus-monk-level",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/redirect/same-damage-type-as-attack",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/redirect/dexterity-save-or-two-martial-arts-dice-plus-dexterity-modifier",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/redirect/melee-visible-target",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/redirect/ranged-visible-target-not-total-cover",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/reduction-dice",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/reduction-die-sides",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/redirect-cost",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/redirect-dice",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/melee-range-feet",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/ranged-range-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/deflect-attacks/reduction-dice": 1,
+        "srd-5.2.1:mechanic/monk/deflect-attacks/reduction-die-sides": 10,
+        "srd-5.2.1:mechanic/monk/deflect-attacks/redirect-cost": 1,
+        "srd-5.2.1:mechanic/monk/deflect-attacks/redirect-dice": 2,
+        "srd-5.2.1:mechanic/monk/deflect-attacks/melee-range-feet": 5,
+        "srd-5.2.1:mechanic/monk/deflect-attacks/ranged-range-feet": 60
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/deflect-redirect",
+      "kind": "prerequisite",
+      "name": "Deflect Redirect",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-3-deflect-attacks",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/deflect-attacks",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/deflect-attacks/reduced-damage-zero-and-available-focus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/deflect-attacks/reduced-damage-zero-and-available-focus",
+        "record_refs": [
+          "srd-5.2.1:character/resource/monk/focus-points"
+        ],
+        "parameters": {
+          "remaining-damage": 0,
+          "points-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/redirect-target",
+      "kind": "choice",
+      "name": "Redirect target",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-3-deflect-attacks",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/deflect-attacks",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/deflect-attacks/target-domain-depends-on-incoming-attack"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/monk/deflect-attacks/melee-target",
+        "srd-5.2.1:mechanic/monk/deflect-attacks/ranged-target"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/monk-subclass",
+      "kind": "feature",
+      "name": "Monk Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-3-monk-subclass",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/3",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/subclass"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/monk-subclass/gain-subclass-features-at-or-below-monk-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/subclass",
+      "kind": "choice",
+      "name": "Monk Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-3-monk-subclass",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/monk-subclass",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/subclass/source-named-option-not-imported"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/monk/subclasses/warrior-of-the-open-hand"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/ability-score-improvement",
+      "kind": "feature",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-4-ability-score-improvement",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/4",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/ability-score-improvement"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/ability-score-improvement/gain-asi-feat-or-another-qualified-feat",
+        "srd-5.2.1:mechanic/monk/ability-score-improvement/repeat-at-levels-8-12-16"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/ability-score-improvement",
+      "kind": "choice",
+      "name": "Feat choice",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-4-ability-score-improvement",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/asi-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/asi/one-feat-at-each-occurrence"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement",
+        "srd-5.2.1:mechanic/feats/another-qualified-feat"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 4,
+          "value": 1
+        },
+        {
+          "level": 8,
+          "value": 1
+        },
+        {
+          "level": 12,
+          "value": 1
+        },
+        {
+          "level": 16,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/asi-eligibility",
+      "kind": "prerequisite",
+      "name": "Asi Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-4-ability-score-improvement",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/monk/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/asi/chosen-feat-prerequisites"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/asi/chosen-feat-prerequisites",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/slow-fall",
+      "kind": "feature",
+      "name": "Slow Fall",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-4-slow-fall",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/4",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/slow-fall/reaction/when-falling-reduce-fall-damage-by-multiplier-times-monk-level",
+        "srd-5.2.1:mechanic/monk/slow-fall/level-multiplier"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/slow-fall/level-multiplier": 5
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/extra-attack",
+      "kind": "feature",
+      "name": "Extra Attack",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-5-extra-attack",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/5",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/extra-attack/attack-action-on-own-turn/replace-one-attack-with-two",
+        "srd-5.2.1:mechanic/monk/extra-attack/attacks"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/extra-attack/attacks": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/stunning-strike",
+      "kind": "feature",
+      "name": "Stunning Strike",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-5-stunning-strike",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/5",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/stunning-strike-focus"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/stunning-strike/once-per-turn/on-hit-creature-with-monk-weapon-or-unarmed-strike",
+        "srd-5.2.1:mechanic/monk/stunning-strike/target/constitution-save",
+        "srd-5.2.1:mechanic/monk/stunning-strike/failed-save/stunned-until-start-of-own-next-turn",
+        "srd-5.2.1:mechanic/monk/stunning-strike/successful-save/speed-halved-until-start-of-own-next-turn",
+        "srd-5.2.1:mechanic/monk/stunning-strike/successful-save/next-attack-against-target-before-then-has-advantage",
+        "srd-5.2.1:mechanic/monk/stunning-strike/focus-cost",
+        "srd-5.2.1:mechanic/monk/stunning-strike/speed-divisor"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/stunning-strike/focus-cost": 1,
+        "srd-5.2.1:mechanic/monk/stunning-strike/speed-divisor": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/stunning-strike-focus",
+      "kind": "prerequisite",
+      "name": "Stunning Strike Focus",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-5-stunning-strike",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/stunning-strike",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/stunning-strike/available-focus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/stunning-strike/available-focus",
+        "record_refs": [
+          "srd-5.2.1:character/resource/monk/focus-points"
+        ],
+        "parameters": {
+          "points-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/empowered-strikes",
+      "kind": "feature",
+      "name": "Empowered Strikes",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-6-empowered-strikes",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/6",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/empowered-strikes"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/empowered-strikes/whenever-unarmed-strike-deals-damage/choose-type"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/empowered-strikes",
+      "kind": "choice",
+      "name": "Damage type",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-6-empowered-strikes",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/empowered-strikes",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/empowered-strikes/choose-one"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/damage/force",
+        "srd-5.2.1:mechanic/monk/unarmed-strike/normal-damage-type"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/evasion",
+      "kind": "feature",
+      "name": "Evasion",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-7-evasion",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/7",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/evasion-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/evasion/dexterity-save-for-half-damage/success-none-failure-half"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/evasion-eligibility",
+      "kind": "prerequisite",
+      "name": "Evasion Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-7-evasion",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/evasion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/evasion/not-incapacitated"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/evasion/not-incapacitated",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/acrobatic-movement",
+      "kind": "feature",
+      "name": "Acrobatic Movement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-9-acrobatic-movement",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/9",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/acrobatic-movement-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/acrobatic-movement/vertical-surfaces-and-liquids-on-own-turn/no-falling-during-movement"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/acrobatic-movement-eligibility",
+      "kind": "prerequisite",
+      "name": "Acrobatic Movement Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-9-acrobatic-movement",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/acrobatic-movement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/acrobatic-movement/no-armor-or-shield"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/acrobatic-movement/no-armor-or-shield",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/heightened-focus",
+      "kind": "feature",
+      "name": "Heightened Focus",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-10-heightened-focus",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/10",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/heightened-wind-target"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/heightened-focus/flurry/three-strikes-instead-of-two-for-one-focus",
+        "srd-5.2.1:mechanic/monk/heightened-focus/patient-defense/paid-use-gains-two-martial-arts-dice-temporary-hp",
+        "srd-5.2.1:mechanic/monk/heightened-focus/step-of-the-wind/paid-use-move-chosen-creature-with-self-until-end-of-turn",
+        "srd-5.2.1:mechanic/monk/heightened-focus/step-of-the-wind/carried-creature-movement-no-opportunity-attacks",
+        "srd-5.2.1:mechanic/monk/heightened-focus/flurry-cost",
+        "srd-5.2.1:mechanic/monk/heightened-focus/flurry-strikes",
+        "srd-5.2.1:mechanic/monk/heightened-focus/patient-defense-temporary-hp-dice",
+        "srd-5.2.1:mechanic/monk/heightened-focus/step-of-the-wind-range-feet",
+        "srd-5.2.1:mechanic/monk/heightened-focus/continued-on-pdf-page-52"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/heightened-focus/flurry-cost": 1,
+        "srd-5.2.1:mechanic/monk/heightened-focus/flurry-strikes": 3,
+        "srd-5.2.1:mechanic/monk/heightened-focus/patient-defense-temporary-hp-dice": 2,
+        "srd-5.2.1:mechanic/monk/heightened-focus/step-of-the-wind-range-feet": 5
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/heightened-wind-target",
+      "kind": "choice",
+      "name": "Heightened Step of the Wind target",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-10-heightened-focus",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/heightened-focus",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/heightened-wind-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/heightened-wind-target/choose-one"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/monk/heightened-wind/no-passenger",
+        "srd-5.2.1:mechanic/monk/heightened-wind/willing-large-or-smaller-creature"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/heightened-wind-eligibility",
+      "kind": "prerequisite",
+      "name": "Heightened Wind Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-10-heightened-focus",
+          "page": 51
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/monk/heightened-wind-target",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/heightened-wind/paid-step-willing-large-or-smaller-within-range"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/heightened-wind/paid-step-willing-large-or-smaller-within-range",
+        "record_refs": [
+          "srd-5.2.1:character/choice/monk/step-of-the-wind",
+          "srd-5.2.1:character/resource/monk/focus-points"
+        ],
+        "parameters": {
+          "range-feet": 5,
+          "points-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/self-restoration",
+      "kind": "feature",
+      "name": "Self-Restoration",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-10-self-restoration",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/10",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/self-restoration"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/self-restoration/end-of-each-own-turn/remove-one-condition-from-self",
+        "srd-5.2.1:mechanic/monk/self-restoration/no-exhaustion-from-forgoing-food-and-drink",
+        "srd-5.2.1:mechanic/monk/self-restoration/conditions-removed"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/self-restoration/conditions-removed": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/self-restoration",
+      "kind": "choice",
+      "name": "Condition to remove",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-10-self-restoration",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/self-restoration",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/self-restoration/choose-one"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/conditions/charmed",
+        "srd-5.2.1:mechanic/conditions/frightened",
+        "srd-5.2.1:mechanic/conditions/poisoned"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/deflect-energy",
+      "kind": "feature",
+      "name": "Deflect Energy",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-13-deflect-energy",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/13",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/deflect-energy-feature"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/deflect-energy/deflect-attacks/any-damage-type-instead-of-bludgeoning-piercing-slashing"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/deflect-energy-feature",
+      "kind": "prerequisite",
+      "name": "Deflect Energy Feature",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-13-deflect-energy",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/deflect-energy",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/deflect-energy/modifies-deflect-attacks"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/deflect-energy/modifies-deflect-attacks",
+        "record_refs": [
+          "srd-5.2.1:character/feature/monk/deflect-attacks"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/disciplined-survivor",
+      "kind": "feature",
+      "name": "Disciplined Survivor",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-14-disciplined-survivor",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/14",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/disciplined-survivor-focus"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/disciplined-survivor/proficiency/all-saving-throws",
+        "srd-5.2.1:mechanic/monk/disciplined-survivor/on-failed-saving-throw/expend-focus-reroll-must-use-new-roll",
+        "srd-5.2.1:mechanic/monk/disciplined-survivor/reroll-cost"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/disciplined-survivor/reroll-cost": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/disciplined-survivor-focus",
+      "kind": "prerequisite",
+      "name": "Disciplined Survivor Focus",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-14-disciplined-survivor",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/disciplined-survivor",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/disciplined-survivor/available-focus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/disciplined-survivor/available-focus",
+        "record_refs": [
+          "srd-5.2.1:character/resource/monk/focus-points"
+        ],
+        "parameters": {
+          "points-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/perfect-focus",
+      "kind": "feature",
+      "name": "Perfect Focus",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-15-perfect-focus",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/15",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/perfect-focus-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/perfect-focus/on-initiative/when-not-using-uncanny-metabolism-regain-to-four-if-three-or-fewer",
+        "srd-5.2.1:mechanic/monk/perfect-focus/threshold",
+        "srd-5.2.1:mechanic/monk/perfect-focus/regain-to"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/perfect-focus/threshold": 3,
+        "srd-5.2.1:mechanic/monk/perfect-focus/regain-to": 4
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/perfect-focus-eligibility",
+      "kind": "prerequisite",
+      "name": "Perfect Focus Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-15-perfect-focus",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/perfect-focus",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/perfect-focus/initiative-not-using-metabolism-and-focus-at-most-threshold"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/perfect-focus/initiative-not-using-metabolism-and-focus-at-most-threshold",
+        "record_refs": [
+          "srd-5.2.1:character/feature/monk/uncanny-metabolism",
+          "srd-5.2.1:character/resource/monk/focus-points"
+        ],
+        "parameters": {
+          "maximum-current-points": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/superior-defense",
+      "kind": "feature",
+      "name": "Superior Defense",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-18-superior-defense",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/18",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/superior-defense-focus"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/superior-defense/start-of-own-turn/expend-focus",
+        "srd-5.2.1:mechanic/monk/superior-defense/resistance/all-damage-except-force",
+        "srd-5.2.1:mechanic/monk/superior-defense/ends/one-minute-or-incapacitated",
+        "srd-5.2.1:mechanic/monk/superior-defense/focus-cost",
+        "srd-5.2.1:mechanic/monk/superior-defense/duration-minutes"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/superior-defense/focus-cost": 3,
+        "srd-5.2.1:mechanic/monk/superior-defense/duration-minutes": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/superior-defense-focus",
+      "kind": "prerequisite",
+      "name": "Superior Defense Focus",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-18-superior-defense",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/superior-defense",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/superior-defense/available-focus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/superior-defense/available-focus",
+        "record_refs": [
+          "srd-5.2.1:character/resource/monk/focus-points"
+        ],
+        "parameters": {
+          "points-required": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/epic-boon",
+      "kind": "feature",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-19-epic-boon",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/19",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/monk/epic-boon"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/epic-boon/gain-epic-boon-or-another-qualified-feat",
+        "srd-5.2.1:mechanic/monk/epic-boon/recommended/boon-of-irresistible-offense"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/monk/epic-boon",
+      "kind": "choice",
+      "name": "Epic Boon feat",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-19-epic-boon",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/monk/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/monk/epic-boon-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/epic-boon/choose-one"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/epic-boon",
+        "srd-5.2.1:mechanic/feats/another-qualified-feat"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/monk/epic-boon-eligibility",
+      "kind": "prerequisite",
+      "name": "Epic Boon Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-19-epic-boon",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/monk/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/epic-boon/chosen-feat-prerequisites"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/monk/epic-boon/chosen-feat-prerequisites",
+        "record_refs": [
+          "srd-5.2.1:character/class/monk"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/monk/body-and-mind",
+      "kind": "feature",
+      "name": "Body and Mind",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/monk-level-20-body-and-mind",
+          "page": 52
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/monk/20",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/body-and-mind/increase-dexterity-and-wisdom-scores",
+        "srd-5.2.1:mechanic/monk/body-and-mind/increase",
+        "srd-5.2.1:mechanic/monk/body-and-mind/maximum"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/body-and-mind/increase": 4,
+        "srd-5.2.1:mechanic/monk/body-and-mind/maximum": 25
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/1",
+      "kind": "level",
+      "name": "Monk level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 1,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points/absent",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement/absent"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/martial-arts",
+          "srd-5.2.1:character/feature/monk/unarmored-defense"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/2",
+      "kind": "level",
+      "name": "Monk level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 2,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 6,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 2,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 10
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/monks-focus",
+          "srd-5.2.1:character/feature/monk/unarmored-movement",
+          "srd-5.2.1:character/feature/monk/uncanny-metabolism"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/3",
+      "kind": "level",
+      "name": "Monk level 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 3,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 6,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 3,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 10
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/deflect-attacks",
+          "srd-5.2.1:character/feature/monk/monk-subclass"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/4",
+      "kind": "level",
+      "name": "Monk level 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 4,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 6,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 4,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 10
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/ability-score-improvement",
+          "srd-5.2.1:character/feature/monk/slow-fall"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/5",
+      "kind": "level",
+      "name": "Monk level 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 5,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 8,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 5,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 10
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/extra-attack",
+          "srd-5.2.1:character/feature/monk/stunning-strike"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/6",
+      "kind": "level",
+      "name": "Monk level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 6,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet",
+        "srd-5.2.1:mechanic/monk/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 8,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 6,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 15
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/empowered-strikes"
+        ],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/monk/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/7",
+      "kind": "level",
+      "name": "Monk level 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 7,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 8,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 7,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 15
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/evasion"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/8",
+      "kind": "level",
+      "name": "Monk level 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 8,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 8,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 8,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 15
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/9",
+      "kind": "level",
+      "name": "Monk level 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 9,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 8,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 9,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 15
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/acrobatic-movement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/10",
+      "kind": "level",
+      "name": "Monk level 10",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 10,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 8,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 10,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 20
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/heightened-focus",
+          "srd-5.2.1:character/feature/monk/self-restoration"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/11",
+      "kind": "level",
+      "name": "Monk level 11",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 11,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet",
+        "srd-5.2.1:mechanic/monk/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 10,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 11,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 20
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/monk/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/12",
+      "kind": "level",
+      "name": "Monk level 12",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 12,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 10,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 12,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 20
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/13",
+      "kind": "level",
+      "name": "Monk level 13",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 13,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 10,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 13,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 20
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/deflect-energy"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/14",
+      "kind": "level",
+      "name": "Monk level 14",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 14,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 10,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 14,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 25
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/disciplined-survivor"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/15",
+      "kind": "level",
+      "name": "Monk level 15",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 15,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 10,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 15,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 25
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/perfect-focus"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/16",
+      "kind": "level",
+      "name": "Monk level 16",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 16,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 10,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 16,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 25
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/17",
+      "kind": "level",
+      "name": "Monk level 17",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 17,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet",
+        "srd-5.2.1:mechanic/monk/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 12,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 17,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 25
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/monk/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/18",
+      "kind": "level",
+      "name": "Monk level 18",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 18,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 12,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 18,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 30
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/superior-defense"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/19",
+      "kind": "level",
+      "name": "Monk level 19",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 19,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 12,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 19,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 30
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/epic-boon"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/monk/20",
+      "kind": "level",
+      "name": "Monk level 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/monk",
+          "page": 49
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/monk",
+      "level": 20,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/monk/class-progression",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice",
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides",
+        "srd-5.2.1:mechanic/monk/table/focus-points",
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/monk/table/martial-arts-dice": 1,
+        "srd-5.2.1:mechanic/monk/table/martial-arts-die-sides": 12,
+        "srd-5.2.1:mechanic/monk/table/focus-points": 20,
+        "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": 30
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/monk/body-and-mind"
+        ],
+        "feature_keys": []
+      }
+    }
+  ]
+}
