@@ -325,3 +325,10 @@ canonical Wizard once. See [Evoker source metadata](srd-5.2.1-evoker.md) for
 spellbook/slot operands, all source conditions and costs, the full Go graph
 oracle and standalone pinned-PDF semantic comparator. Catalogue completion
 leaves Wizard and Evoker unavailable and changes no runtime or coverage.
+
+## Invocation options, batch 01 (#302)
+
+The invocation feature-family extension and its exact Warlock ownership guards
+are documented in [Invocation metadata, batch 01](invocations-01-catalogue.md).
+That batch composes canonical Warlock once and retains adjacent invocation
+requirements as unresolved keys. Source metadata never enables playability.

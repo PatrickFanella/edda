@@ -1,0 +1,1234 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Invocation metadata adapted from SRD 5.2.1 pp72–73; Edda IDs, graph links, opaque mechanic keys and symbolic formulas added. No runtime rules."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/agonizing-blast",
+      "kind": "feature",
+      "name": "Agonizing Blast",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/agonizing-blast",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/invocations/agonizing-blast-cantrip"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/agonizing-blast-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/agonizing-blast/add-charisma-modifier-to-chosen-spell-damage-rolls",
+        "srd-5.2.1:mechanic/warlock/invocations/agonizing-blast/repeatable-different-eligible-cantrip-each-time"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/agonizing-blast-level",
+      "kind": "prerequisite",
+      "name": "Agonizing Blast level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/agonizing-blast",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/agonizing-blast",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/invocations/agonizing-blast-cantrip",
+      "kind": "choice",
+      "name": "Agonizing Blast cantrip",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/agonizing-blast",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/agonizing-blast",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/agonizing-blast-cantrip-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/agonizing-blast/choose-known-warlock-cantrip-that-deals-damage"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/warlock/known-damaging-cantrips"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/agonizing-blast-cantrip-eligibility",
+      "kind": "prerequisite",
+      "name": "Agonizing Blast cantrip eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/agonizing-blast",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations/agonizing-blast-cantrip",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/known-damaging-warlock-cantrip"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/known-damaging-warlock-cantrip",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/cantrips",
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/armor-of-shadows",
+      "kind": "feature",
+      "name": "Armor of Shadows",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/armor-of-shadows",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/armor-of-shadows-spellcasting"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/armor-of-shadows/cast-on-self-without-spell-slot",
+        "srd-5.2.1:mechanic/spells/mage-armor"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/armor-of-shadows-spellcasting",
+      "kind": "prerequisite",
+      "name": "Armor of Shadows spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/armor-of-shadows",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/armor-of-shadows",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-pact-magic-spellcasting"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-pact-magic-spellcasting",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/ascendant-step",
+      "kind": "feature",
+      "name": "Ascendant Step",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/ascendant-step",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/ascendant-step-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/ascendant-step-spellcasting"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/ascendant-step/cast-on-self-without-spell-slot",
+        "srd-5.2.1:mechanic/spells/levitate"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/ascendant-step-level",
+      "kind": "prerequisite",
+      "name": "Ascendant Step level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/ascendant-step",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/ascendant-step",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/ascendant-step-spellcasting",
+      "kind": "prerequisite",
+      "name": "Ascendant Step spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/ascendant-step",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/ascendant-step",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-pact-magic-spellcasting"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-pact-magic-spellcasting",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/devils-sight",
+      "kind": "feature",
+      "name": "Devil’s Sight",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/devils-sight",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/devils-sight-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/devils-sight/see-normally-in-dim-light-and-darkness-magical-and-nonmagical",
+        "srd-5.2.1:mechanic/warlock/invocations/devils-sight/range-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/devils-sight/range-feet": 120
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/devils-sight-level",
+      "kind": "prerequisite",
+      "name": "Devil’s Sight level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/devils-sight",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/devils-sight",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/devouring-blade",
+      "kind": "feature",
+      "name": "Devouring Blade",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/devouring-blade",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/devouring-blade-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/devouring-blade-invocation"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires/thirsting-blade-invocation",
+        "srd-5.2.1:mechanic/warlock/invocations/devouring-blade/thirsting-blade-extra-attack-replacement",
+        "srd-5.2.1:mechanic/warlock/invocations/devouring-blade/extra-attacks",
+        "srd-5.2.1:mechanic/warlock/invocations/devouring-blade/replaced-extra-attacks"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/devouring-blade/extra-attacks": 2,
+        "srd-5.2.1:mechanic/warlock/invocations/devouring-blade/replaced-extra-attacks": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/devouring-blade-level",
+      "kind": "prerequisite",
+      "name": "Devouring Blade level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/devouring-blade",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/devouring-blade",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 12
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/devouring-blade-invocation",
+      "kind": "prerequisite",
+      "name": "Devouring Blade invocation",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/devouring-blade",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/devouring-blade",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires/thirsting-blade-invocation"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/requires/thirsting-blade-invocation",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/eldritch-mind",
+      "kind": "feature",
+      "name": "Eldritch Mind",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-mind",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-mind/advantage-on-constitution-saves-to-maintain-concentration"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/eldritch-smite",
+      "kind": "feature",
+      "name": "Eldritch Smite",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-smite",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/invocations/eldritch-smite-prone"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-smite-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-smite-invocation",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-smite-slot"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires/pact-of-the-blade-invocation",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/optional-on-hit-creature-with-your-pact-weapon",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/expend-pact-magic-slot",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/extra-force-damage/base-plus-dice-per-slot-level",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/optional-prone-only-if-target-huge-or-smaller",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/maximum-uses-per-turn",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/slot-cost",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/base-dice",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/dice-per-slot-level",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/maximum-uses-per-turn": 1,
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/slot-cost": 1,
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/base-dice": 1,
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/dice-per-slot-level": 1,
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-smite-level",
+      "kind": "prerequisite",
+      "name": "Eldritch Smite level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-smite",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/eldritch-smite",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-smite-invocation",
+      "kind": "prerequisite",
+      "name": "Eldritch Smite invocation",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-smite",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/eldritch-smite",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires/pact-of-the-blade-invocation"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/requires/pact-of-the-blade-invocation",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-smite-slot",
+      "kind": "prerequisite",
+      "name": "Eldritch Smite slot",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-smite",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/eldritch-smite",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/canonical-slot-cost-and-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/canonical-slot-cost-and-level",
+        "record_refs": [
+          "srd-5.2.1:character/resource/warlock/pact-slots",
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {
+          "slots-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/invocations/eldritch-smite-prone",
+      "kind": "choice",
+      "name": "Eldritch Smite prone",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-smite",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/eldritch-smite",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/choose-whether-to-apply-prone"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/conditions/prone",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-smite/no-prone"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/eldritch-spear",
+      "kind": "feature",
+      "name": "Eldritch Spear",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-spear",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/invocations/eldritch-spear-cantrip"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-spear-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-spear-formula"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-spear/on-cast-increase-chosen-spell-range-by-feet-per-warlock-level",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-spear/repeatable-different-eligible-cantrip-each-time",
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-spear/feet-per-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-spear/feet-per-warlock-level": 30
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-spear-level",
+      "kind": "prerequisite",
+      "name": "Eldritch Spear level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-spear",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/eldritch-spear",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-spear-formula",
+      "kind": "prerequisite",
+      "name": "Eldritch Spear formula",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-spear",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/eldritch-spear",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-spear/range-formula-warlock-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/eldritch-spear/range-formula-warlock-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/invocations/eldritch-spear-cantrip",
+      "kind": "choice",
+      "name": "Eldritch Spear cantrip",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-spear",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/eldritch-spear",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-spear-cantrip-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/eldritch-spear/choose-known-damaging-warlock-cantrip-with-range-at-least-ten-feet"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/warlock/known-damaging-cantrips-with-range-at-least-ten-feet"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/eldritch-spear-cantrip-eligibility",
+      "kind": "prerequisite",
+      "name": "Eldritch Spear cantrip eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/eldritch-spear",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations/eldritch-spear-cantrip",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/known-damaging-warlock-cantrip-minimum-range"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/known-damaging-warlock-cantrip-minimum-range",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/cantrips",
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {
+          "minimum-range-feet": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/fiendish-vigor",
+      "kind": "feature",
+      "name": "Fiendish Vigor",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/fiendish-vigor",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/fiendish-vigor-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/fiendish-vigor-spellcasting"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/fiendish-vigor/cast-false-life-on-self-without-spell-slot",
+        "srd-5.2.1:mechanic/warlock/invocations/fiendish-vigor/temporary-hit-points-use-highest-number-on-die-without-rolling",
+        "srd-5.2.1:mechanic/spells/false-life"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/fiendish-vigor-level",
+      "kind": "prerequisite",
+      "name": "Fiendish Vigor level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/fiendish-vigor",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/fiendish-vigor",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/fiendish-vigor-spellcasting",
+      "kind": "prerequisite",
+      "name": "Fiendish Vigor spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/fiendish-vigor",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/fiendish-vigor",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-pact-magic-spellcasting"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-pact-magic-spellcasting",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/gaze-of-two-minds",
+      "kind": "feature",
+      "name": "Gaze of Two Minds",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gaze-of-two-minds",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/invocations/gaze-of-two-minds-target",
+        "srd-5.2.1:character/choice/warlock/invocations/gaze-of-two-minds-casting-origin"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/gaze-of-two-minds-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/gaze-of-two-minds-spellcasting"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/gaze-of-two-minds/bonus-action-touch-willing-creature-perceive-through-its-senses",
+        "srd-5.2.1:mechanic/warlock/invocations/gaze-of-two-minds/duration-until-end-of-your-next-turn",
+        "srd-5.2.1:mechanic/warlock/invocations/gaze-of-two-minds/subsequent-turn-bonus-action-maintain-only-on-same-plane",
+        "srd-5.2.1:mechanic/warlock/invocations/gaze-of-two-minds/maintenance-extends-until-end-of-your-next-turn-otherwise-ends",
+        "srd-5.2.1:mechanic/warlock/invocations/gaze-of-two-minds/benefit-from-target-special-senses",
+        "srd-5.2.1:mechanic/warlock/invocations/gaze-of-two-minds/while-perceiving-cast-from-either-space-only-within-range",
+        "srd-5.2.1:mechanic/warlock/invocations/gaze-of-two-minds/casting-range-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/gaze-of-two-minds/casting-range-feet": 60
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/gaze-of-two-minds-level",
+      "kind": "prerequisite",
+      "name": "Gaze of Two Minds level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gaze-of-two-minds",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/gaze-of-two-minds",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/invocations/gaze-of-two-minds-target",
+      "kind": "choice",
+      "name": "Gaze of Two Minds target",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gaze-of-two-minds",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/gaze-of-two-minds",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/gaze-of-two-minds/choose-willing-touched-creature"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/targets/willing-touched-creature"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/invocations/gaze-of-two-minds-casting-origin",
+      "kind": "choice",
+      "name": "Gaze of Two Minds casting-origin",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gaze-of-two-minds",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/gaze-of-two-minds",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/gaze-of-two-minds/choose-spell-origin-within-range"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spaces/self",
+        "srd-5.2.1:mechanic/spaces/connected-creature"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/gaze-of-two-minds-spellcasting",
+      "kind": "prerequisite",
+      "name": "Gaze of Two Minds spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gaze-of-two-minds",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/gaze-of-two-minds",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-pact-magic-spellcasting"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-pact-magic-spellcasting",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/gift-of-the-depths",
+      "kind": "feature",
+      "name": "Gift of the Depths",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gift-of-the-depths",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/gift-of-the-depths-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/gift-of-the-depths-spellcasting"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-depths/breathe-underwater",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-depths/swim-speed-equals-your-speed",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-depths/cast-water-breathing-without-spell-slot",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-depths/recover-casting-on-finish-long-rest",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-depths/casting-uses",
+        "srd-5.2.1:mechanic/spells/water-breathing"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-depths/casting-uses": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/gift-of-the-depths-level",
+      "kind": "prerequisite",
+      "name": "Gift of the Depths level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gift-of-the-depths",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/gift-of-the-depths",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/gift-of-the-depths-spellcasting",
+      "kind": "prerequisite",
+      "name": "Gift of the Depths spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gift-of-the-depths",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/gift-of-the-depths",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/canonical-pact-magic-spellcasting"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/canonical-pact-magic-spellcasting",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/invocations/gift-of-the-protectors",
+      "kind": "feature",
+      "name": "Gift of the Protectors",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gift-of-the-protectors",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/invocations/gift-of-the-protectors-names",
+        "srd-5.2.1:character/choice/warlock/invocations/gift-of-the-protectors-erase"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocations/gift-of-the-protectors-level",
+        "srd-5.2.1:character/prerequisite/warlock/invocations/gift-of-the-protectors-invocation"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires/pact-of-the-tome-invocation",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/new-page-in-book-of-shadows-when-conjured",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/with-your-permission-creature-takes-action-to-write-own-name",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/name-capacity-equals-charisma-modifier-minimum-one",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/named-creature-reduced-to-zero-hit-points-but-not-killed-outright",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/trigger-drops-creature-to-one-hit-point-instead",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/after-trigger-no-creature-benefits-until-you-finish-long-rest",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/magic-action-touch-page-to-erase-name",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/minimum-names",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/replacement-hit-points",
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/shared-trigger-uses"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/minimum-names": 1,
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/replacement-hit-points": 1,
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/shared-trigger-uses": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/gift-of-the-protectors-level",
+      "kind": "prerequisite",
+      "name": "Gift of the Protectors level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gift-of-the-protectors",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/gift-of-the-protectors",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {
+          "minimum-level": 9
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocations/gift-of-the-protectors-invocation",
+      "kind": "prerequisite",
+      "name": "Gift of the Protectors invocation",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gift-of-the-protectors",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/gift-of-the-protectors",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/requires/pact-of-the-tome-invocation"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/requires/pact-of-the-tome-invocation",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/invocations/gift-of-the-protectors-names",
+      "kind": "choice",
+      "name": "Gift of the Protectors names",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gift-of-the-protectors",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/gift-of-the-protectors",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/choose-permitted-creature-names-up-to-symbolic-capacity"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/targets/permitted-creature-writing-own-name"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/invocations/gift-of-the-protectors-erase",
+      "kind": "choice",
+      "name": "Gift of the Protectors erase",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/invocations/gift-of-the-protectors",
+          "page": 73
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/gift-of-the-protectors",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/gift-of-the-protectors/choose-name-to-erase"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/targets/name-on-touched-page"
+      ],
+      "capacity": 0
+    }
+  ]
+}
