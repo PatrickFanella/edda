@@ -1,0 +1,3836 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Nine species from PDF pp84-86, including continuations, adapted into typed offline metadata. Mechanic keys, predicates and character-level parameter rows are Edda additions. Referenced spells, feats and mechanics remain opaque; no runtime support is granted."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/origin/dragonborn",
+      "kind": "origin",
+      "name": "Dragonborn",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/dragonborn/draconic-ancestry",
+        "srd-5.2.1:character/choice/dragonborn/breath-shape"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/dragonborn/breath-weapon",
+        "srd-5.2.1:character/resource/dragonborn/draconic-flight"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/black-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/blue-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/brass-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/bronze-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/copper-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/gold-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/green-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/red-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/silver-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/white-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/breath-shape/cone-selected",
+        "srd-5.2.1:character/prerequisite/origin-dragonborn/breath-shape/line-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/dragonborn",
+        "srd-5.2.1:mechanic/species/dragonborn/darkvision",
+        "srd-5.2.1:mechanic/species/dragonborn/darkvision/range-feet",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/black",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/black/breath-damage/acid",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/black/resistance/acid",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/black/appearance-matches-ancestry",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/blue",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/blue/breath-damage/lightning",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/blue/resistance/lightning",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/blue/appearance-matches-ancestry",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/brass",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/brass/breath-damage/fire",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/brass/resistance/fire",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/brass/appearance-matches-ancestry",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/bronze",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/bronze/breath-damage/lightning",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/bronze/resistance/lightning",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/bronze/appearance-matches-ancestry",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/copper",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/copper/breath-damage/acid",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/copper/resistance/acid",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/copper/appearance-matches-ancestry",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/gold",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/gold/breath-damage/fire",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/gold/resistance/fire",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/gold/appearance-matches-ancestry",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/green",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/green/breath-damage/poison",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/green/resistance/poison",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/green/appearance-matches-ancestry",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/red",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/red/breath-damage/fire",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/red/resistance/fire",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/red/appearance-matches-ancestry",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/silver",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/silver/breath-damage/cold",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/silver/resistance/cold",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/silver/appearance-matches-ancestry",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/white",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/white/breath-damage/cold",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/white/resistance/cold",
+        "srd-5.2.1:mechanic/species/dragonborn/ancestry/white/appearance-matches-ancestry",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-shape/cone",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-shape/cone/choose-each-use",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-shape/cone/length-feet",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-shape/line",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-shape/line/choose-each-use",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-shape/line/length-feet",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-shape/line/width-feet",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/own-turn-attack-action",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/replace-one-attack",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/each-creature-in-area",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/dexterity-save",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/dc-add-constitution-modifier",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/dc-add-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/success-half-damage",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/uses-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/dc-base",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/damage-dice",
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/damage-die",
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-flight",
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/bonus-action",
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/spectral-wings-match-breath-energy",
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/fly-speed-equals-speed",
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/retract-no-action",
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/ends-when-incapacitated",
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/minimum-character-level",
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/duration-minutes"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "species": {
+        "category": "species",
+        "creature_type": "humanoid",
+        "speed_feet": 30,
+        "sizes": [
+          {
+            "key": "medium",
+            "minimum_height_feet": 5,
+            "maximum_height_feet": 7
+          }
+        ],
+        "traits": [
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/darkvision",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/darkvision/range-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/dragonborn/darkvision/range-feet": 60
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/ancestry/black",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/black-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/black/breath-damage/acid",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/black/resistance/acid",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/black/appearance-matches-ancestry"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/ancestry/blue",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/blue-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/blue/breath-damage/lightning",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/blue/resistance/lightning",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/blue/appearance-matches-ancestry"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/ancestry/brass",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/brass-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/brass/breath-damage/fire",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/brass/resistance/fire",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/brass/appearance-matches-ancestry"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/ancestry/bronze",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/bronze-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/bronze/breath-damage/lightning",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/bronze/resistance/lightning",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/bronze/appearance-matches-ancestry"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/ancestry/copper",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/copper-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/copper/breath-damage/acid",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/copper/resistance/acid",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/copper/appearance-matches-ancestry"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/ancestry/gold",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/gold-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/gold/breath-damage/fire",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/gold/resistance/fire",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/gold/appearance-matches-ancestry"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/ancestry/green",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/green-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/green/breath-damage/poison",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/green/resistance/poison",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/green/appearance-matches-ancestry"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/ancestry/red",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/red-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/red/breath-damage/fire",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/red/resistance/fire",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/red/appearance-matches-ancestry"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/ancestry/silver",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/silver-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/silver/breath-damage/cold",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/silver/resistance/cold",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/silver/appearance-matches-ancestry"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/ancestry/white",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/white-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/white/breath-damage/cold",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/white/resistance/cold",
+              "srd-5.2.1:mechanic/species/dragonborn/ancestry/white/appearance-matches-ancestry"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/breath-shape/cone",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/breath-shape/cone-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/breath-shape/cone/choose-each-use",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-shape/cone/length-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/dragonborn/breath-shape/cone/length-feet": 15
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/breath-shape/line",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-dragonborn/breath-shape/line-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/breath-shape/line/choose-each-use",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-shape/line/length-feet",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-shape/line/width-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/dragonborn/breath-shape/line/length-feet": 30,
+              "srd-5.2.1:mechanic/species/dragonborn/breath-shape/line/width-feet": 5
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/breath-weapon",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/own-turn-attack-action",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/replace-one-attack",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/each-creature-in-area",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/dexterity-save",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/dc-add-constitution-modifier",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/dc-add-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/success-half-damage",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/uses-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/dc-base",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/damage-dice",
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/damage-die"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/dc-base": 8,
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/damage-dice": 1,
+              "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/damage-die": 10
+            },
+            "character_levels": [
+              {
+                "level": 5,
+                "parameters": {
+                  "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/damage-dice": 2
+                }
+              },
+              {
+                "level": 11,
+                "parameters": {
+                  "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/damage-dice": 3
+                }
+              },
+              {
+                "level": 17,
+                "parameters": {
+                  "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/damage-dice": 4
+                }
+              }
+            ],
+            "resource_ref": "srd-5.2.1:character/resource/dragonborn/breath-weapon"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dragonborn/draconic-flight",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/bonus-action",
+              "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/spectral-wings-match-breath-energy",
+              "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/fly-speed-equals-speed",
+              "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/retract-no-action",
+              "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/ends-when-incapacitated",
+              "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/minimum-character-level",
+              "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/duration-minutes"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/minimum-character-level": 5,
+              "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/duration-minutes": 10
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/dragonborn/draconic-flight"
+          }
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/dragonborn/draconic-ancestry",
+      "kind": "choice",
+      "name": "draconic-ancestry",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-ancestry/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/dragon/black",
+        "srd-5.2.1:mechanic/dragon/blue",
+        "srd-5.2.1:mechanic/dragon/brass",
+        "srd-5.2.1:mechanic/dragon/bronze",
+        "srd-5.2.1:mechanic/dragon/copper",
+        "srd-5.2.1:mechanic/dragon/gold",
+        "srd-5.2.1:mechanic/dragon/green",
+        "srd-5.2.1:mechanic/dragon/red",
+        "srd-5.2.1:mechanic/dragon/silver",
+        "srd-5.2.1:mechanic/dragon/white"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/black-selected",
+      "kind": "prerequisite",
+      "name": "dragon/black selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/draconic-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/dragon/black",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/blue-selected",
+      "kind": "prerequisite",
+      "name": "dragon/blue selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/draconic-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/dragon/blue",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/brass-selected",
+      "kind": "prerequisite",
+      "name": "dragon/brass selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/draconic-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/dragon/brass",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/bronze-selected",
+      "kind": "prerequisite",
+      "name": "dragon/bronze selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/draconic-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/dragon/bronze",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/copper-selected",
+      "kind": "prerequisite",
+      "name": "dragon/copper selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/draconic-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/dragon/copper",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/gold-selected",
+      "kind": "prerequisite",
+      "name": "dragon/gold selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/draconic-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/dragon/gold",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/green-selected",
+      "kind": "prerequisite",
+      "name": "dragon/green selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/draconic-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/dragon/green",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/red-selected",
+      "kind": "prerequisite",
+      "name": "dragon/red selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/draconic-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/dragon/red",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/silver-selected",
+      "kind": "prerequisite",
+      "name": "dragon/silver selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/draconic-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/dragon/silver",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/draconic-ancestry/white-selected",
+      "kind": "prerequisite",
+      "name": "dragon/white selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/draconic-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/dragon/white",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/dragonborn/breath-shape",
+      "kind": "choice",
+      "name": "breath-shape",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/dragonborn/breath-shape/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/shape/cone",
+        "srd-5.2.1:mechanic/shape/line"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/breath-shape/cone-selected",
+      "kind": "prerequisite",
+      "name": "shape/cone selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/breath-shape"
+        ],
+        "option_key": "srd-5.2.1:mechanic/shape/cone",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-dragonborn/breath-shape/line-selected",
+      "kind": "prerequisite",
+      "name": "shape/line selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/dragonborn/breath-shape"
+        ],
+        "option_key": "srd-5.2.1:mechanic/shape/line",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/dragonborn/breath-weapon",
+      "kind": "resource",
+      "name": "breath-weapon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/dragonborn/breath-weapon/uses",
+        "srd-5.2.1:mechanic/usage/proficiency-bonus",
+        "srd-5.2.1:mechanic/recovery/long-rest",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "capacity_mechanic": "srd-5.2.1:mechanic/character/proficiency-bonus"
+    },
+    {
+      "id": "srd-5.2.1:character/resource/dragonborn/draconic-flight",
+      "kind": "resource",
+      "name": "draconic-flight",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dragonborn",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dragonborn",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/dragonborn/draconic-flight/uses",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/origin/dwarf",
+      "kind": "origin",
+      "name": "Dwarf",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dwarf",
+          "page": 84
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/dwarf/stonecunning"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/dwarf",
+        "srd-5.2.1:mechanic/species/dwarf/darkvision",
+        "srd-5.2.1:mechanic/species/dwarf/darkvision/range-feet",
+        "srd-5.2.1:mechanic/species/dwarf/dwarven-resilience",
+        "srd-5.2.1:mechanic/species/dwarf/dwarven-resilience/resistance/poison",
+        "srd-5.2.1:mechanic/species/dwarf/dwarven-resilience/advantage-save-avoid-or-end-poisoned",
+        "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness",
+        "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness/hit-point-maximum",
+        "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness/again-every-character-level",
+        "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness/initial-increase",
+        "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness/increase-per-character-level",
+        "srd-5.2.1:mechanic/species/dwarf/stonecunning",
+        "srd-5.2.1:mechanic/species/dwarf/stonecunning/bonus-action",
+        "srd-5.2.1:mechanic/species/dwarf/stonecunning/tremorsense",
+        "srd-5.2.1:mechanic/species/dwarf/stonecunning/requires-on-or-touching-natural-or-worked-stone",
+        "srd-5.2.1:mechanic/species/dwarf/stonecunning/uses-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/dwarf/stonecunning/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/dwarf/stonecunning/range-feet",
+        "srd-5.2.1:mechanic/species/dwarf/stonecunning/duration-minutes"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "species": {
+        "category": "species",
+        "creature_type": "humanoid",
+        "speed_feet": 30,
+        "sizes": [
+          {
+            "key": "medium",
+            "minimum_height_feet": 4,
+            "maximum_height_feet": 5
+          }
+        ],
+        "traits": [
+          {
+            "key": "srd-5.2.1:mechanic/species/dwarf/darkvision",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dwarf/darkvision/range-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/dwarf/darkvision/range-feet": 120
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dwarf/dwarven-resilience",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dwarf/dwarven-resilience/resistance/poison",
+              "srd-5.2.1:mechanic/species/dwarf/dwarven-resilience/advantage-save-avoid-or-end-poisoned"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness/hit-point-maximum",
+              "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness/again-every-character-level",
+              "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness/initial-increase",
+              "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness/increase-per-character-level"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness/initial-increase": 1,
+              "srd-5.2.1:mechanic/species/dwarf/dwarven-toughness/increase-per-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/dwarf/stonecunning",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/dwarf/stonecunning/bonus-action",
+              "srd-5.2.1:mechanic/species/dwarf/stonecunning/tremorsense",
+              "srd-5.2.1:mechanic/species/dwarf/stonecunning/requires-on-or-touching-natural-or-worked-stone",
+              "srd-5.2.1:mechanic/species/dwarf/stonecunning/uses-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/dwarf/stonecunning/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/dwarf/stonecunning/range-feet",
+              "srd-5.2.1:mechanic/species/dwarf/stonecunning/duration-minutes"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/dwarf/stonecunning/range-feet": 60,
+              "srd-5.2.1:mechanic/species/dwarf/stonecunning/duration-minutes": 10
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/dwarf/stonecunning"
+          }
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/dwarf/stonecunning",
+      "kind": "resource",
+      "name": "stonecunning",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/dwarf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/dwarf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/dwarf/stonecunning/uses",
+        "srd-5.2.1:mechanic/usage/proficiency-bonus",
+        "srd-5.2.1:mechanic/recovery/long-rest",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "capacity_mechanic": "srd-5.2.1:mechanic/character/proficiency-bonus"
+    },
+    {
+      "id": "srd-5.2.1:character/origin/elf",
+      "kind": "origin",
+      "name": "Elf",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/elf/elven-lineage",
+        "srd-5.2.1:character/choice/elf/keen-senses"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/elf/drow/faerie-fire",
+        "srd-5.2.1:character/resource/elf/drow/darkness",
+        "srd-5.2.1:character/resource/elf/high-elf/detect-magic",
+        "srd-5.2.1:character/resource/elf/high-elf/misty-step",
+        "srd-5.2.1:character/resource/elf/wood-elf/longstrider",
+        "srd-5.2.1:character/resource/elf/wood-elf/pass-without-trace"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/drow-selected",
+        "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/high-elf-selected",
+        "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/wood-elf-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf",
+        "srd-5.2.1:mechanic/species/elf/darkvision",
+        "srd-5.2.1:mechanic/species/elf/darkvision/range-feet",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/dancing-lights",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/dancing-lights/known-cantrip",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/dancing-lights/minimum-character-level",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/always-prepared",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/no-slot-casting",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/minimum-character-level",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/free-casts",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/darkness",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/always-prepared",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/no-slot-casting",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/minimum-character-level",
+        "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/free-casts",
+        "srd-5.2.1:mechanic/spells/dancing-lights",
+        "srd-5.2.1:mechanic/spells/faerie-fire",
+        "srd-5.2.1:mechanic/spells/darkness",
+        "srd-5.2.1:mechanic/species/elf/drow-darkvision",
+        "srd-5.2.1:mechanic/species/elf/drow-darkvision/range-feet",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/prestidigitation",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/prestidigitation/known-cantrip",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/prestidigitation/minimum-character-level",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/always-prepared",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/no-slot-casting",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/minimum-character-level",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/free-casts",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/always-prepared",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/no-slot-casting",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/minimum-character-level",
+        "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/free-casts",
+        "srd-5.2.1:mechanic/spells/prestidigitation",
+        "srd-5.2.1:mechanic/spells/detect-magic",
+        "srd-5.2.1:mechanic/spells/misty-step",
+        "srd-5.2.1:mechanic/species/elf/high-elf-cantrip-replacement",
+        "srd-5.2.1:mechanic/species/elf/high-elf-cantrip-replacement/optional-after-each-long-rest",
+        "srd-5.2.1:mechanic/species/elf/high-elf-cantrip-replacement/replace-prestidigitation-with-wizard-cantrip",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/druidcraft",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/druidcraft/known-cantrip",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/druidcraft/minimum-character-level",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/always-prepared",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/no-slot-casting",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/minimum-character-level",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/free-casts",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/always-prepared",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/no-slot-casting",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/minimum-character-level",
+        "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/free-casts",
+        "srd-5.2.1:mechanic/spells/druidcraft",
+        "srd-5.2.1:mechanic/spells/longstrider",
+        "srd-5.2.1:mechanic/spells/pass-without-trace",
+        "srd-5.2.1:mechanic/species/elf/wood-elf-speed",
+        "srd-5.2.1:mechanic/species/elf/wood-elf-speed/speed-feet",
+        "srd-5.2.1:mechanic/species/elf/fey-ancestry",
+        "srd-5.2.1:mechanic/species/elf/fey-ancestry/advantage-save-avoid-or-end-charmed",
+        "srd-5.2.1:mechanic/species/elf/trance",
+        "srd-5.2.1:mechanic/species/elf/trance/no-sleep-needed",
+        "srd-5.2.1:mechanic/species/elf/trance/magic-cannot-induce-sleep",
+        "srd-5.2.1:mechanic/species/elf/trance/long-rest-conscious-trancelike-meditation",
+        "srd-5.2.1:mechanic/species/elf/trance/long-rest-hours"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "species": {
+        "category": "species",
+        "creature_type": "humanoid",
+        "speed_feet": 30,
+        "sizes": [
+          {
+            "key": "medium",
+            "minimum_height_feet": 5,
+            "maximum_height_feet": 6
+          }
+        ],
+        "traits": [
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/darkvision",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/darkvision/range-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/darkvision/range-feet": 60
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/spell/drow/dancing-lights",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/drow-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/spell/drow/dancing-lights/known-cantrip",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/dancing-lights/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/dancing-lights"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/spell/drow/dancing-lights/minimum-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/drow-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/always-prepared",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/no-slot-casting",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/minimum-character-level",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/free-casts",
+              "srd-5.2.1:mechanic/spells/faerie-fire"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/minimum-character-level": 3,
+              "srd-5.2.1:mechanic/species/elf/spell/drow/faerie-fire/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/elf/drow/faerie-fire"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/spell/drow/darkness",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/drow-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/always-prepared",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/no-slot-casting",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/minimum-character-level",
+              "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/free-casts",
+              "srd-5.2.1:mechanic/spells/darkness"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/minimum-character-level": 5,
+              "srd-5.2.1:mechanic/species/elf/spell/drow/darkness/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/elf/drow/darkness"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/drow-darkvision",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/drow-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/drow-darkvision/range-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/drow-darkvision/range-feet": 120
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/spell/high-elf/prestidigitation",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/high-elf-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/prestidigitation/known-cantrip",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/prestidigitation/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/prestidigitation"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/prestidigitation/minimum-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/high-elf-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/always-prepared",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/no-slot-casting",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/minimum-character-level",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/free-casts",
+              "srd-5.2.1:mechanic/spells/detect-magic"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/minimum-character-level": 3,
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/detect-magic/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/elf/high-elf/detect-magic"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/high-elf-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/always-prepared",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/no-slot-casting",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/minimum-character-level",
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/free-casts",
+              "srd-5.2.1:mechanic/spells/misty-step"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/minimum-character-level": 5,
+              "srd-5.2.1:mechanic/species/elf/spell/high-elf/misty-step/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/elf/high-elf/misty-step"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/high-elf-cantrip-replacement",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/high-elf-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/high-elf-cantrip-replacement/optional-after-each-long-rest",
+              "srd-5.2.1:mechanic/species/elf/high-elf-cantrip-replacement/replace-prestidigitation-with-wizard-cantrip"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/spell/wood-elf/druidcraft",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/wood-elf-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/druidcraft/known-cantrip",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/druidcraft/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/druidcraft"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/druidcraft/minimum-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/wood-elf-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/always-prepared",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/no-slot-casting",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/minimum-character-level",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/free-casts",
+              "srd-5.2.1:mechanic/spells/longstrider"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/minimum-character-level": 3,
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/longstrider/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/elf/wood-elf/longstrider"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/wood-elf-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/always-prepared",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/no-slot-casting",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/minimum-character-level",
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/free-casts",
+              "srd-5.2.1:mechanic/spells/pass-without-trace"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/minimum-character-level": 5,
+              "srd-5.2.1:mechanic/species/elf/spell/wood-elf/pass-without-trace/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/elf/wood-elf/pass-without-trace"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/wood-elf-speed",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/wood-elf-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/wood-elf-speed/speed-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/wood-elf-speed/speed-feet": 35
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/fey-ancestry",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/fey-ancestry/advantage-save-avoid-or-end-charmed"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/elf/trance",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/elf/trance/no-sleep-needed",
+              "srd-5.2.1:mechanic/species/elf/trance/magic-cannot-induce-sleep",
+              "srd-5.2.1:mechanic/species/elf/trance/long-rest-conscious-trancelike-meditation",
+              "srd-5.2.1:mechanic/species/elf/trance/long-rest-hours"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/elf/trance/long-rest-hours": 4
+            },
+            "character_levels": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/elf/elven-lineage",
+      "kind": "choice",
+      "name": "elven-lineage",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/elf/spellcasting-ability",
+        "srd-5.2.1:character/choice/elf/high-elf-cantrip-replacement"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf/elven-lineage/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/lineage/drow",
+        "srd-5.2.1:mechanic/lineage/high-elf",
+        "srd-5.2.1:mechanic/lineage/wood-elf"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/elf/spellcasting-ability",
+      "kind": "choice",
+      "name": "spellcasting-ability",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/elf/elven-lineage",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf/spellcasting-ability/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/drow-selected",
+      "kind": "prerequisite",
+      "name": "lineage/drow selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/elf/elven-lineage"
+        ],
+        "option_key": "srd-5.2.1:mechanic/lineage/drow",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/elf/drow/faerie-fire",
+      "kind": "resource",
+      "name": "drow/faerie-fire",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf/drow/faerie-fire/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/resource/elf/drow/darkness",
+      "kind": "resource",
+      "name": "drow/darkness",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf/drow/darkness/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/high-elf-selected",
+      "kind": "prerequisite",
+      "name": "lineage/high-elf selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/elf/elven-lineage"
+        ],
+        "option_key": "srd-5.2.1:mechanic/lineage/high-elf",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/elf/high-elf/detect-magic",
+      "kind": "resource",
+      "name": "high-elf/detect-magic",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf/high-elf/detect-magic/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/resource/elf/high-elf/misty-step",
+      "kind": "resource",
+      "name": "high-elf/misty-step",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf/high-elf/misty-step/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/choice/elf/high-elf-cantrip-replacement",
+      "kind": "choice",
+      "name": "high-elf-cantrip-replacement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/elf/elven-lineage",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/choice-elf-high-elf-cantrip-replacement/elven-lineage/high-elf-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf/high-elf-cantrip-replacement/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/wizard-cantrip"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/choice-elf-high-elf-cantrip-replacement/elven-lineage/high-elf-selected",
+      "kind": "prerequisite",
+      "name": "lineage/high-elf selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/elf/high-elf-cantrip-replacement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/elf/elven-lineage"
+        ],
+        "option_key": "srd-5.2.1:mechanic/lineage/high-elf",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-elf/elven-lineage/wood-elf-selected",
+      "kind": "prerequisite",
+      "name": "lineage/wood-elf selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/elf/elven-lineage"
+        ],
+        "option_key": "srd-5.2.1:mechanic/lineage/wood-elf",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/elf/wood-elf/longstrider",
+      "kind": "resource",
+      "name": "wood-elf/longstrider",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf/wood-elf/longstrider/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/resource/elf/wood-elf/pass-without-trace",
+      "kind": "resource",
+      "name": "wood-elf/pass-without-trace",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf/wood-elf/pass-without-trace/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/choice/elf/keen-senses",
+      "kind": "choice",
+      "name": "keen-senses",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/elf",
+          "page": 84
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/elf",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/elf/keen-senses/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/perception",
+        "srd-5.2.1:mechanic/skills/survival"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/origin/gnome",
+      "kind": "origin",
+      "name": "Gnome",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/gnome/gnomish-lineage"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/gnome/speak-with-animals"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/origin-gnome/gnomish-lineage/forest-gnome-selected",
+        "srd-5.2.1:character/prerequisite/origin-gnome/gnomish-lineage/rock-gnome-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/gnome",
+        "srd-5.2.1:mechanic/species/gnome/darkvision",
+        "srd-5.2.1:mechanic/species/gnome/darkvision/range-feet",
+        "srd-5.2.1:mechanic/species/gnome/gnomish-cunning",
+        "srd-5.2.1:mechanic/species/gnome/gnomish-cunning/advantage-intelligence-saving-throws",
+        "srd-5.2.1:mechanic/species/gnome/gnomish-cunning/advantage-wisdom-saving-throws",
+        "srd-5.2.1:mechanic/species/gnome/gnomish-cunning/advantage-charisma-saving-throws",
+        "srd-5.2.1:mechanic/species/gnome/spell/minor-illusion",
+        "srd-5.2.1:mechanic/species/gnome/spell/minor-illusion/known-cantrip",
+        "srd-5.2.1:mechanic/species/gnome/spell/minor-illusion/minimum-character-level",
+        "srd-5.2.1:mechanic/spells/minor-illusion",
+        "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals",
+        "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/always-prepared",
+        "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/no-slot-casting",
+        "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/free-casts-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/minimum-character-level",
+        "srd-5.2.1:mechanic/spells/speak-with-animals",
+        "srd-5.2.1:mechanic/species/gnome/spell/mending",
+        "srd-5.2.1:mechanic/species/gnome/spell/mending/known-cantrip",
+        "srd-5.2.1:mechanic/species/gnome/spell/mending/minimum-character-level",
+        "srd-5.2.1:mechanic/spells/mending",
+        "srd-5.2.1:mechanic/species/gnome/spell/prestidigitation",
+        "srd-5.2.1:mechanic/species/gnome/spell/prestidigitation/known-cantrip",
+        "srd-5.2.1:mechanic/species/gnome/spell/prestidigitation/minimum-character-level",
+        "srd-5.2.1:mechanic/spells/prestidigitation",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/cast-prestidigitation",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/tiny",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/choose-one-effect-at-creation",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/choose-one-nested-option-at-creation",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/bonus-action-touch-activate-self-or-other",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/falls-apart-at-expiry",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/utilize-touch-dismantle",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/creation-minutes",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/armor-class",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/hit-points",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/maximum-devices",
+        "srd-5.2.1:mechanic/species/gnome/clockwork-device/duration-hours",
+        "srd-5.2.1:mechanic/species/gnome/device-nested-options",
+        "srd-5.2.1:mechanic/species/gnome/device-nested-options/domain-owned-by-opaque-prestidigitation",
+        "srd-5.2.1:mechanic/species/gnome/device-nested-options/ignite-or-extinguish-never-both"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "species": {
+        "category": "species",
+        "creature_type": "humanoid",
+        "speed_feet": 30,
+        "sizes": [
+          {
+            "key": "small",
+            "minimum_height_feet": 3,
+            "maximum_height_feet": 4
+          }
+        ],
+        "traits": [
+          {
+            "key": "srd-5.2.1:mechanic/species/gnome/darkvision",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/gnome/darkvision/range-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/gnome/darkvision/range-feet": 60
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/gnome/gnomish-cunning",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/gnome/gnomish-cunning/advantage-intelligence-saving-throws",
+              "srd-5.2.1:mechanic/species/gnome/gnomish-cunning/advantage-wisdom-saving-throws",
+              "srd-5.2.1:mechanic/species/gnome/gnomish-cunning/advantage-charisma-saving-throws"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/gnome/spell/minor-illusion",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-gnome/gnomish-lineage/forest-gnome-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/gnome/spell/minor-illusion/known-cantrip",
+              "srd-5.2.1:mechanic/species/gnome/spell/minor-illusion/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/minor-illusion"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/gnome/spell/minor-illusion/minimum-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-gnome/gnomish-lineage/forest-gnome-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/always-prepared",
+              "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/no-slot-casting",
+              "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/free-casts-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/speak-with-animals"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/gnome/spell/speak-with-animals/minimum-character-level": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/gnome/speak-with-animals"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/gnome/spell/mending",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-gnome/gnomish-lineage/rock-gnome-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/gnome/spell/mending/known-cantrip",
+              "srd-5.2.1:mechanic/species/gnome/spell/mending/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/mending"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/gnome/spell/mending/minimum-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/gnome/spell/prestidigitation",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-gnome/gnomish-lineage/rock-gnome-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/gnome/spell/prestidigitation/known-cantrip",
+              "srd-5.2.1:mechanic/species/gnome/spell/prestidigitation/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/prestidigitation"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/gnome/spell/prestidigitation/minimum-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/gnome/clockwork-device",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-gnome/gnomish-lineage/rock-gnome-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/cast-prestidigitation",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/tiny",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/choose-one-effect-at-creation",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/choose-one-nested-option-at-creation",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/bonus-action-touch-activate-self-or-other",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/falls-apart-at-expiry",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/utilize-touch-dismantle",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/creation-minutes",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/armor-class",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/hit-points",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/maximum-devices",
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/duration-hours"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/creation-minutes": 10,
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/armor-class": 5,
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/hit-points": 1,
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/maximum-devices": 3,
+              "srd-5.2.1:mechanic/species/gnome/clockwork-device/duration-hours": 8
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/gnome/device-nested-options",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-gnome/gnomish-lineage/rock-gnome-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/gnome/device-nested-options/domain-owned-by-opaque-prestidigitation",
+              "srd-5.2.1:mechanic/species/gnome/device-nested-options/ignite-or-extinguish-never-both"
+            ],
+            "parameters": {},
+            "character_levels": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/gnome/gnomish-lineage",
+      "kind": "choice",
+      "name": "gnomish-lineage",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/gnome",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/gnome/spellcasting-ability",
+        "srd-5.2.1:character/choice/gnome/device-effect"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/gnome/gnomish-lineage/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/lineage/forest-gnome",
+        "srd-5.2.1:mechanic/lineage/rock-gnome"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/gnome/spellcasting-ability",
+      "kind": "choice",
+      "name": "spellcasting-ability",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/gnome/gnomish-lineage",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/gnome/spellcasting-ability/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-gnome/gnomish-lineage/forest-gnome-selected",
+      "kind": "prerequisite",
+      "name": "lineage/forest-gnome selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/gnome",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/gnome/gnomish-lineage"
+        ],
+        "option_key": "srd-5.2.1:mechanic/lineage/forest-gnome",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-gnome/gnomish-lineage/rock-gnome-selected",
+      "kind": "prerequisite",
+      "name": "lineage/rock-gnome selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/gnome",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/gnome/gnomish-lineage"
+        ],
+        "option_key": "srd-5.2.1:mechanic/lineage/rock-gnome",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/gnome/speak-with-animals",
+      "kind": "resource",
+      "name": "speak-with-animals",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/gnome",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/gnome/speak-with-animals/uses",
+        "srd-5.2.1:mechanic/usage/proficiency-bonus",
+        "srd-5.2.1:mechanic/recovery/long-rest",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "capacity_mechanic": "srd-5.2.1:mechanic/character/proficiency-bonus"
+    },
+    {
+      "id": "srd-5.2.1:character/choice/gnome/device-effect",
+      "kind": "choice",
+      "name": "device-effect",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/gnome/gnomish-lineage",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/gnome/device-effect-option"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/choice-gnome-device-effect/gnomish-lineage/rock-gnome-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/gnome/device-effect/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/prestidigitation/effect"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/choice-gnome-device-effect/gnomish-lineage/rock-gnome-selected",
+      "kind": "prerequisite",
+      "name": "lineage/rock-gnome selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/gnome/device-effect",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/gnome/gnomish-lineage"
+        ],
+        "option_key": "srd-5.2.1:mechanic/lineage/rock-gnome",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/gnome/device-effect-option",
+      "kind": "choice",
+      "name": "device-effect-option",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/gnome/device-effect",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/gnome/device-ignite-extinguish"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/gnome/device-effect-option/has-options"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/gnome/device-effect-option/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/prestidigitation/chosen-effect-option"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/gnome/device-effect-option/has-options",
+      "kind": "prerequisite",
+      "name": "Chosen Prestidigitation effect has options",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/gnome/device-effect-option",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/gnome/device-effect-has-options"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/gnome/device-effect-has-options",
+        "record_refs": [
+          "srd-5.2.1:character/choice/gnome/device-effect"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/gnome/device-ignite-extinguish",
+      "kind": "choice",
+      "name": "device-ignite-extinguish",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/gnome/device-effect-option",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/gnome/device-ignite-extinguish/effect-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/gnome/device-ignite-extinguish/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/prestidigitation/ignite",
+        "srd-5.2.1:mechanic/spells/prestidigitation/extinguish"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/gnome/device-ignite-extinguish/effect-selected",
+      "kind": "prerequisite",
+      "name": "Ignite-extinguish effect selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/gnome",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/gnome/device-ignite-extinguish",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/gnome/device-effect-is-ignite-extinguish"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/gnome/device-effect-is-ignite-extinguish",
+        "record_refs": [
+          "srd-5.2.1:character/choice/gnome/device-effect"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/origin/goliath",
+      "kind": "origin",
+      "name": "Goliath",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/goliath",
+          "page": 85
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/goliath/giant-ancestry"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/goliath/giant-ancestry",
+        "srd-5.2.1:character/resource/goliath/large-form"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/cloud-selected",
+        "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/fire-selected",
+        "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/frost-selected",
+        "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/hill-selected",
+        "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/stone-selected",
+        "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/storm-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/goliath",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/bonus-action",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/magical-teleport",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/unoccupied-visible-space",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/uses-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/range-feet",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/hit-attack-roll-and-deal-damage",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/additional-fire-damage",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/uses-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/damage-dice",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/damage-die",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/hit-attack-roll-and-deal-damage",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/additional-cold-damage",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/speed-reduction-until-start-next-own-turn",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/uses-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/damage-dice",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/damage-die",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/speed-reduction-feet",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill/hit-attack-roll-and-deal-damage",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill/target-large-or-smaller",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill/give-prone-condition",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill/uses-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/reaction-when-take-damage",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/reduce-damage-by-roll-plus-constitution-modifier",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/uses-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/reduction-dice",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/reduction-die",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/reaction-when-damaged-by-creature-in-range",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/thunder-damage-to-that-creature",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/uses-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/range-feet",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/damage-dice",
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/damage-die",
+        "srd-5.2.1:mechanic/species/goliath/large-form",
+        "srd-5.2.1:mechanic/species/goliath/large-form/bonus-action",
+        "srd-5.2.1:mechanic/species/goliath/large-form/requires-big-enough-space",
+        "srd-5.2.1:mechanic/species/goliath/large-form/size-large",
+        "srd-5.2.1:mechanic/species/goliath/large-form/advantage-strength-checks",
+        "srd-5.2.1:mechanic/species/goliath/large-form/end-no-action",
+        "srd-5.2.1:mechanic/species/goliath/large-form/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/goliath/large-form/minimum-character-level",
+        "srd-5.2.1:mechanic/species/goliath/large-form/duration-minutes",
+        "srd-5.2.1:mechanic/species/goliath/large-form/speed-increase-feet",
+        "srd-5.2.1:mechanic/species/goliath/powerful-build",
+        "srd-5.2.1:mechanic/species/goliath/powerful-build/advantage-ability-check-to-end-grappled",
+        "srd-5.2.1:mechanic/species/goliath/powerful-build/carrying-capacity-count-size-larger",
+        "srd-5.2.1:mechanic/species/goliath/powerful-build/carrying-size-increase"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "species": {
+        "category": "species",
+        "creature_type": "humanoid",
+        "speed_feet": 35,
+        "sizes": [
+          {
+            "key": "medium",
+            "minimum_height_feet": 7,
+            "maximum_height_feet": 8
+          }
+        ],
+        "traits": [
+          {
+            "key": "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/cloud-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/bonus-action",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/magical-teleport",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/unoccupied-visible-space",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/uses-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/range-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/cloud/range-feet": 30
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/goliath/giant-ancestry"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/fire-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/hit-attack-roll-and-deal-damage",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/additional-fire-damage",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/uses-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/damage-dice",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/damage-die"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/damage-dice": 1,
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/fire/damage-die": 10
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/goliath/giant-ancestry"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/frost-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/hit-attack-roll-and-deal-damage",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/additional-cold-damage",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/speed-reduction-until-start-next-own-turn",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/uses-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/damage-dice",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/damage-die",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/speed-reduction-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/damage-dice": 1,
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/damage-die": 6,
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/frost/speed-reduction-feet": 10
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/goliath/giant-ancestry"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/hill-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill/hit-attack-roll-and-deal-damage",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill/target-large-or-smaller",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill/give-prone-condition",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill/uses-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/hill/recover-all-long-rest"
+            ],
+            "parameters": {},
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/goliath/giant-ancestry"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/stone-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/reaction-when-take-damage",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/reduce-damage-by-roll-plus-constitution-modifier",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/uses-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/reduction-dice",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/reduction-die"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/reduction-dice": 1,
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/stone/reduction-die": 12
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/goliath/giant-ancestry"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/storm-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/reaction-when-damaged-by-creature-in-range",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/thunder-damage-to-that-creature",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/uses-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/range-feet",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/damage-dice",
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/damage-die"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/range-feet": 60,
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/damage-dice": 1,
+              "srd-5.2.1:mechanic/species/goliath/giant-ancestry/storm/damage-die": 8
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/goliath/giant-ancestry"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/goliath/large-form",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/goliath/large-form/bonus-action",
+              "srd-5.2.1:mechanic/species/goliath/large-form/requires-big-enough-space",
+              "srd-5.2.1:mechanic/species/goliath/large-form/size-large",
+              "srd-5.2.1:mechanic/species/goliath/large-form/advantage-strength-checks",
+              "srd-5.2.1:mechanic/species/goliath/large-form/end-no-action",
+              "srd-5.2.1:mechanic/species/goliath/large-form/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/goliath/large-form/minimum-character-level",
+              "srd-5.2.1:mechanic/species/goliath/large-form/duration-minutes",
+              "srd-5.2.1:mechanic/species/goliath/large-form/speed-increase-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/goliath/large-form/minimum-character-level": 5,
+              "srd-5.2.1:mechanic/species/goliath/large-form/duration-minutes": 10,
+              "srd-5.2.1:mechanic/species/goliath/large-form/speed-increase-feet": 10
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/goliath/large-form"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/goliath/powerful-build",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/goliath/powerful-build/advantage-ability-check-to-end-grappled",
+              "srd-5.2.1:mechanic/species/goliath/powerful-build/carrying-capacity-count-size-larger",
+              "srd-5.2.1:mechanic/species/goliath/powerful-build/carrying-size-increase"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/goliath/powerful-build/carrying-size-increase": 1
+            },
+            "character_levels": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/goliath/giant-ancestry",
+      "kind": "choice",
+      "name": "giant-ancestry",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/goliath",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/goliath",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/giant/cloud",
+        "srd-5.2.1:mechanic/giant/fire",
+        "srd-5.2.1:mechanic/giant/frost",
+        "srd-5.2.1:mechanic/giant/hill",
+        "srd-5.2.1:mechanic/giant/stone",
+        "srd-5.2.1:mechanic/giant/storm"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/resource/goliath/giant-ancestry",
+      "kind": "resource",
+      "name": "giant-ancestry",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/goliath",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/goliath",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/goliath/giant-ancestry/uses",
+        "srd-5.2.1:mechanic/usage/proficiency-bonus",
+        "srd-5.2.1:mechanic/recovery/long-rest",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "capacity_mechanic": "srd-5.2.1:mechanic/character/proficiency-bonus"
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/cloud-selected",
+      "kind": "prerequisite",
+      "name": "giant/cloud selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/goliath",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/goliath",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/goliath/giant-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/giant/cloud",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/fire-selected",
+      "kind": "prerequisite",
+      "name": "giant/fire selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/goliath",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/goliath",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/goliath/giant-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/giant/fire",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/frost-selected",
+      "kind": "prerequisite",
+      "name": "giant/frost selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/goliath",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/goliath",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/goliath/giant-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/giant/frost",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/hill-selected",
+      "kind": "prerequisite",
+      "name": "giant/hill selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/goliath",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/goliath",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/goliath/giant-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/giant/hill",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/stone-selected",
+      "kind": "prerequisite",
+      "name": "giant/stone selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/goliath",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/goliath",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/goliath/giant-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/giant/stone",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-goliath/giant-ancestry/storm-selected",
+      "kind": "prerequisite",
+      "name": "giant/storm selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/goliath",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/goliath",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/goliath/giant-ancestry"
+        ],
+        "option_key": "srd-5.2.1:mechanic/giant/storm",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/goliath/large-form",
+      "kind": "resource",
+      "name": "large-form",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/goliath",
+          "page": 85
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/goliath",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/goliath/large-form/uses",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/origin/halfling",
+      "kind": "origin",
+      "name": "Halfling",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/halfling",
+          "page": 86
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/halfling",
+        "srd-5.2.1:mechanic/species/halfling/brave",
+        "srd-5.2.1:mechanic/species/halfling/brave/advantage-save-avoid-or-end-frightened",
+        "srd-5.2.1:mechanic/species/halfling/halfling-nimbleness",
+        "srd-5.2.1:mechanic/species/halfling/halfling-nimbleness/move-through-creature-at-least-one-size-larger",
+        "srd-5.2.1:mechanic/species/halfling/halfling-nimbleness/cannot-stop-in-same-space",
+        "srd-5.2.1:mechanic/species/halfling/luck",
+        "srd-5.2.1:mechanic/species/halfling/luck/optional-reroll-d20-test",
+        "srd-5.2.1:mechanic/species/halfling/luck/must-use-new-roll",
+        "srd-5.2.1:mechanic/species/halfling/luck/trigger-d20-roll",
+        "srd-5.2.1:mechanic/species/halfling/naturally-stealthy",
+        "srd-5.2.1:mechanic/species/halfling/naturally-stealthy/hide-when-obscured-only-by-creature-at-least-one-size-larger"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "species": {
+        "category": "species",
+        "creature_type": "humanoid",
+        "speed_feet": 30,
+        "sizes": [
+          {
+            "key": "small",
+            "minimum_height_feet": 2,
+            "maximum_height_feet": 3
+          }
+        ],
+        "traits": [
+          {
+            "key": "srd-5.2.1:mechanic/species/halfling/brave",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/halfling/brave/advantage-save-avoid-or-end-frightened"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/halfling/halfling-nimbleness",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/halfling/halfling-nimbleness/move-through-creature-at-least-one-size-larger",
+              "srd-5.2.1:mechanic/species/halfling/halfling-nimbleness/cannot-stop-in-same-space"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/halfling/luck",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/halfling/luck/optional-reroll-d20-test",
+              "srd-5.2.1:mechanic/species/halfling/luck/must-use-new-roll",
+              "srd-5.2.1:mechanic/species/halfling/luck/trigger-d20-roll"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/halfling/luck/trigger-d20-roll": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/halfling/naturally-stealthy",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/halfling/naturally-stealthy/hide-when-obscured-only-by-creature-at-least-one-size-larger"
+            ],
+            "parameters": {},
+            "character_levels": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/origin/human",
+      "kind": "origin",
+      "name": "Human",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/human",
+          "page": 86
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/human/size",
+        "srd-5.2.1:character/choice/human/skillful",
+        "srd-5.2.1:character/choice/human/versatile"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/human",
+        "srd-5.2.1:mechanic/species/human/resourceful",
+        "srd-5.2.1:mechanic/species/human/resourceful/gain-heroic-inspiration-after-each-long-rest",
+        "srd-5.2.1:mechanic/species/human/versatile-recommendation",
+        "srd-5.2.1:mechanic/species/human/versatile-recommendation/recommended-feat/skilled"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "species": {
+        "category": "species",
+        "creature_type": "humanoid",
+        "speed_feet": 30,
+        "sizes": [
+          {
+            "key": "medium",
+            "minimum_height_feet": 4,
+            "maximum_height_feet": 7
+          },
+          {
+            "key": "small",
+            "minimum_height_feet": 2,
+            "maximum_height_feet": 4
+          }
+        ],
+        "traits": [
+          {
+            "key": "srd-5.2.1:mechanic/species/human/resourceful",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/human/resourceful/gain-heroic-inspiration-after-each-long-rest"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/human/versatile-recommendation",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/human/versatile-recommendation/recommended-feat/skilled"
+            ],
+            "parameters": {},
+            "character_levels": []
+          }
+        ],
+        "size_choice_ref": "srd-5.2.1:character/choice/human/size"
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/human/size",
+      "kind": "choice",
+      "name": "size",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/human",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/human",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/human/size/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/size/medium",
+        "srd-5.2.1:mechanic/size/small"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/human/skillful",
+      "kind": "choice",
+      "name": "skillful",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/human",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/human",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/human/skillful/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/acrobatics",
+        "srd-5.2.1:mechanic/skills/animal-handling",
+        "srd-5.2.1:mechanic/skills/arcana",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/deception",
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/intimidation",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/medicine",
+        "srd-5.2.1:mechanic/skills/nature",
+        "srd-5.2.1:mechanic/skills/perception",
+        "srd-5.2.1:mechanic/skills/performance",
+        "srd-5.2.1:mechanic/skills/persuasion",
+        "srd-5.2.1:mechanic/skills/religion",
+        "srd-5.2.1:mechanic/skills/sleight-of-hand",
+        "srd-5.2.1:mechanic/skills/stealth",
+        "srd-5.2.1:mechanic/skills/survival"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/human/versatile",
+      "kind": "choice",
+      "name": "versatile",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/human",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/human",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/human/versatile/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/origin"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/origin/orc",
+      "kind": "origin",
+      "name": "Orc",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/orc",
+          "page": 86
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/orc/adrenaline-rush",
+        "srd-5.2.1:character/resource/orc/relentless-endurance"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/orc",
+        "srd-5.2.1:mechanic/species/orc/darkvision",
+        "srd-5.2.1:mechanic/species/orc/darkvision/range-feet",
+        "srd-5.2.1:mechanic/species/orc/adrenaline-rush",
+        "srd-5.2.1:mechanic/species/orc/adrenaline-rush/bonus-action-dash",
+        "srd-5.2.1:mechanic/species/orc/adrenaline-rush/temporary-hit-points-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/orc/adrenaline-rush/uses-equal-proficiency-bonus",
+        "srd-5.2.1:mechanic/species/orc/adrenaline-rush/recover-all-short-or-long-rest",
+        "srd-5.2.1:mechanic/species/orc/relentless-endurance",
+        "srd-5.2.1:mechanic/species/orc/relentless-endurance/when-reduced-to-zero-hit-points",
+        "srd-5.2.1:mechanic/species/orc/relentless-endurance/not-killed-outright",
+        "srd-5.2.1:mechanic/species/orc/relentless-endurance/optional-drop-to-one-instead",
+        "srd-5.2.1:mechanic/species/orc/relentless-endurance/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/orc/relentless-endurance/trigger-hit-points",
+        "srd-5.2.1:mechanic/species/orc/relentless-endurance/replacement-hit-points"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "species": {
+        "category": "species",
+        "creature_type": "humanoid",
+        "speed_feet": 30,
+        "sizes": [
+          {
+            "key": "medium",
+            "minimum_height_feet": 6,
+            "maximum_height_feet": 7
+          }
+        ],
+        "traits": [
+          {
+            "key": "srd-5.2.1:mechanic/species/orc/darkvision",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/orc/darkvision/range-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/orc/darkvision/range-feet": 120
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/orc/adrenaline-rush",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/orc/adrenaline-rush/bonus-action-dash",
+              "srd-5.2.1:mechanic/species/orc/adrenaline-rush/temporary-hit-points-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/orc/adrenaline-rush/uses-equal-proficiency-bonus",
+              "srd-5.2.1:mechanic/species/orc/adrenaline-rush/recover-all-short-or-long-rest"
+            ],
+            "parameters": {},
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/orc/adrenaline-rush"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/orc/relentless-endurance",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/orc/relentless-endurance/when-reduced-to-zero-hit-points",
+              "srd-5.2.1:mechanic/species/orc/relentless-endurance/not-killed-outright",
+              "srd-5.2.1:mechanic/species/orc/relentless-endurance/optional-drop-to-one-instead",
+              "srd-5.2.1:mechanic/species/orc/relentless-endurance/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/orc/relentless-endurance/trigger-hit-points",
+              "srd-5.2.1:mechanic/species/orc/relentless-endurance/replacement-hit-points"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/orc/relentless-endurance/trigger-hit-points": 0,
+              "srd-5.2.1:mechanic/species/orc/relentless-endurance/replacement-hit-points": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/orc/relentless-endurance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/orc/adrenaline-rush",
+      "kind": "resource",
+      "name": "adrenaline-rush",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/orc",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/orc",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/orc/adrenaline-rush/uses",
+        "srd-5.2.1:mechanic/usage/proficiency-bonus",
+        "srd-5.2.1:mechanic/recovery/short-or-long-rest",
+        "srd-5.2.1:mechanic/character/proficiency-bonus"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "capacity_mechanic": "srd-5.2.1:mechanic/character/proficiency-bonus"
+    },
+    {
+      "id": "srd-5.2.1:character/resource/orc/relentless-endurance",
+      "kind": "resource",
+      "name": "relentless-endurance",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/orc",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/orc",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/orc/relentless-endurance/uses",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/origin/tiefling",
+      "kind": "origin",
+      "name": "Tiefling",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/tiefling/size",
+        "srd-5.2.1:character/choice/tiefling/fiendish-legacy"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/tiefling/abyssal/ray-of-sickness",
+        "srd-5.2.1:character/resource/tiefling/abyssal/hold-person",
+        "srd-5.2.1:character/resource/tiefling/chthonic/false-life",
+        "srd-5.2.1:character/resource/tiefling/chthonic/ray-of-enfeeblement",
+        "srd-5.2.1:character/resource/tiefling/infernal/hellish-rebuke",
+        "srd-5.2.1:character/resource/tiefling/infernal/darkness"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/abyssal-selected",
+        "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/chthonic-selected",
+        "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/infernal-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/tiefling",
+        "srd-5.2.1:mechanic/species/tiefling/darkvision",
+        "srd-5.2.1:mechanic/species/tiefling/darkvision/range-feet",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/poison-spray",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/poison-spray/known-cantrip",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/poison-spray/minimum-character-level",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/always-prepared",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/no-slot-casting",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/minimum-character-level",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/free-casts",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/always-prepared",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/no-slot-casting",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/minimum-character-level",
+        "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/free-casts",
+        "srd-5.2.1:mechanic/spells/poison-spray",
+        "srd-5.2.1:mechanic/spells/ray-of-sickness",
+        "srd-5.2.1:mechanic/spells/hold-person",
+        "srd-5.2.1:mechanic/species/tiefling/legacy/abyssal",
+        "srd-5.2.1:mechanic/species/tiefling/legacy/abyssal/resistance/poison",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/chill-touch",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/chill-touch/known-cantrip",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/chill-touch/minimum-character-level",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/always-prepared",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/no-slot-casting",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/minimum-character-level",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/free-casts",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/always-prepared",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/no-slot-casting",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/minimum-character-level",
+        "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/free-casts",
+        "srd-5.2.1:mechanic/spells/chill-touch",
+        "srd-5.2.1:mechanic/spells/false-life",
+        "srd-5.2.1:mechanic/spells/ray-of-enfeeblement",
+        "srd-5.2.1:mechanic/species/tiefling/legacy/chthonic",
+        "srd-5.2.1:mechanic/species/tiefling/legacy/chthonic/resistance/necrotic",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/fire-bolt",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/fire-bolt/known-cantrip",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/fire-bolt/minimum-character-level",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/always-prepared",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/no-slot-casting",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/minimum-character-level",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/free-casts",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/always-prepared",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/cast-with-appropriate-spell-slot",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/no-slot-casting",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/recover-all-long-rest",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/minimum-character-level",
+        "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/free-casts",
+        "srd-5.2.1:mechanic/spells/fire-bolt",
+        "srd-5.2.1:mechanic/spells/hellish-rebuke",
+        "srd-5.2.1:mechanic/spells/darkness",
+        "srd-5.2.1:mechanic/species/tiefling/legacy/infernal",
+        "srd-5.2.1:mechanic/species/tiefling/legacy/infernal/resistance/fire",
+        "srd-5.2.1:mechanic/species/tiefling/spell/thaumaturgy",
+        "srd-5.2.1:mechanic/species/tiefling/spell/thaumaturgy/known-cantrip",
+        "srd-5.2.1:mechanic/species/tiefling/spell/thaumaturgy/minimum-character-level",
+        "srd-5.2.1:mechanic/spells/thaumaturgy",
+        "srd-5.2.1:mechanic/species/tiefling/otherworldly-presence",
+        "srd-5.2.1:mechanic/species/tiefling/otherworldly-presence/uses-fiendish-legacy-spellcasting-ability"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "species": {
+        "category": "species",
+        "creature_type": "humanoid",
+        "speed_feet": 30,
+        "sizes": [
+          {
+            "key": "medium",
+            "minimum_height_feet": 4,
+            "maximum_height_feet": 7
+          },
+          {
+            "key": "small",
+            "minimum_height_feet": 3,
+            "maximum_height_feet": 4
+          }
+        ],
+        "traits": [
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/darkvision",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/darkvision/range-feet"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/darkvision/range-feet": 60
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/poison-spray",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/abyssal-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/poison-spray/known-cantrip",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/poison-spray/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/poison-spray"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/poison-spray/minimum-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/abyssal-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/always-prepared",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/no-slot-casting",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/minimum-character-level",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/free-casts",
+              "srd-5.2.1:mechanic/spells/ray-of-sickness"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/minimum-character-level": 3,
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/ray-of-sickness/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/tiefling/abyssal/ray-of-sickness"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/abyssal-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/always-prepared",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/no-slot-casting",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/minimum-character-level",
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/free-casts",
+              "srd-5.2.1:mechanic/spells/hold-person"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/minimum-character-level": 5,
+              "srd-5.2.1:mechanic/species/tiefling/spell/abyssal/hold-person/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/tiefling/abyssal/hold-person"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/legacy/abyssal",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/abyssal-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/legacy/abyssal/resistance/poison"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/chill-touch",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/chthonic-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/chill-touch/known-cantrip",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/chill-touch/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/chill-touch"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/chill-touch/minimum-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/chthonic-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/always-prepared",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/no-slot-casting",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/minimum-character-level",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/free-casts",
+              "srd-5.2.1:mechanic/spells/false-life"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/minimum-character-level": 3,
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/false-life/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/tiefling/chthonic/false-life"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/chthonic-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/always-prepared",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/no-slot-casting",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/minimum-character-level",
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/free-casts",
+              "srd-5.2.1:mechanic/spells/ray-of-enfeeblement"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/minimum-character-level": 5,
+              "srd-5.2.1:mechanic/species/tiefling/spell/chthonic/ray-of-enfeeblement/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/tiefling/chthonic/ray-of-enfeeblement"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/legacy/chthonic",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/chthonic-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/legacy/chthonic/resistance/necrotic"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/spell/infernal/fire-bolt",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/infernal-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/fire-bolt/known-cantrip",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/fire-bolt/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/fire-bolt"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/fire-bolt/minimum-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/infernal-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/always-prepared",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/no-slot-casting",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/minimum-character-level",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/free-casts",
+              "srd-5.2.1:mechanic/spells/hellish-rebuke"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/minimum-character-level": 3,
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/hellish-rebuke/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/tiefling/infernal/hellish-rebuke"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/infernal-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/always-prepared",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/cast-with-appropriate-spell-slot",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/no-slot-casting",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/recover-all-long-rest",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/minimum-character-level",
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/free-casts",
+              "srd-5.2.1:mechanic/spells/darkness"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/minimum-character-level": 5,
+              "srd-5.2.1:mechanic/species/tiefling/spell/infernal/darkness/free-casts": 1
+            },
+            "character_levels": [],
+            "resource_ref": "srd-5.2.1:character/resource/tiefling/infernal/darkness"
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/legacy/infernal",
+            "prerequisite_refs": [
+              "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/infernal-selected"
+            ],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/legacy/infernal/resistance/fire"
+            ],
+            "parameters": {},
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/spell/thaumaturgy",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/spell/thaumaturgy/known-cantrip",
+              "srd-5.2.1:mechanic/species/tiefling/spell/thaumaturgy/minimum-character-level",
+              "srd-5.2.1:mechanic/spells/thaumaturgy"
+            ],
+            "parameters": {
+              "srd-5.2.1:mechanic/species/tiefling/spell/thaumaturgy/minimum-character-level": 1
+            },
+            "character_levels": []
+          },
+          {
+            "key": "srd-5.2.1:mechanic/species/tiefling/otherworldly-presence",
+            "prerequisite_refs": [],
+            "required_mechanics": [
+              "srd-5.2.1:mechanic/species/tiefling/otherworldly-presence/uses-fiendish-legacy-spellcasting-ability"
+            ],
+            "parameters": {},
+            "character_levels": []
+          }
+        ],
+        "size_choice_ref": "srd-5.2.1:character/choice/tiefling/size"
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/tiefling/size",
+      "kind": "choice",
+      "name": "size",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/tiefling/size/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/size/medium",
+        "srd-5.2.1:mechanic/size/small"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/tiefling/fiendish-legacy",
+      "kind": "choice",
+      "name": "fiendish-legacy",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/tiefling/spellcasting-ability"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/tiefling/fiendish-legacy/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/lineage/abyssal",
+        "srd-5.2.1:mechanic/lineage/chthonic",
+        "srd-5.2.1:mechanic/lineage/infernal"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/tiefling/spellcasting-ability",
+      "kind": "choice",
+      "name": "spellcasting-ability",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/tiefling/fiendish-legacy",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/tiefling/spellcasting-ability/selection"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/abyssal-selected",
+      "kind": "prerequisite",
+      "name": "lineage/abyssal selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/tiefling/fiendish-legacy"
+        ],
+        "option_key": "srd-5.2.1:mechanic/lineage/abyssal",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/tiefling/abyssal/ray-of-sickness",
+      "kind": "resource",
+      "name": "abyssal/ray-of-sickness",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/tiefling/abyssal/ray-of-sickness/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/resource/tiefling/abyssal/hold-person",
+      "kind": "resource",
+      "name": "abyssal/hold-person",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/tiefling/abyssal/hold-person/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/chthonic-selected",
+      "kind": "prerequisite",
+      "name": "lineage/chthonic selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/tiefling/fiendish-legacy"
+        ],
+        "option_key": "srd-5.2.1:mechanic/lineage/chthonic",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/tiefling/chthonic/false-life",
+      "kind": "resource",
+      "name": "chthonic/false-life",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/tiefling/chthonic/false-life/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/resource/tiefling/chthonic/ray-of-enfeeblement",
+      "kind": "resource",
+      "name": "chthonic/ray-of-enfeeblement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/tiefling/chthonic/ray-of-enfeeblement/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/origin-tiefling/fiendish-legacy/infernal-selected",
+      "kind": "prerequisite",
+      "name": "lineage/infernal selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/option-selected"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/species/option-selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/tiefling/fiendish-legacy"
+        ],
+        "option_key": "srd-5.2.1:mechanic/lineage/infernal",
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/tiefling/infernal/hellish-rebuke",
+      "kind": "resource",
+      "name": "infernal/hellish-rebuke",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/tiefling/infernal/hellish-rebuke/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/resource/tiefling/infernal/darkness",
+      "kind": "resource",
+      "name": "infernal/darkness",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/species/tiefling",
+          "page": 86
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/origin/tiefling",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/species/tiefling/infernal/darkness/uses",
+        "srd-5.2.1:mechanic/usage/once",
+        "srd-5.2.1:mechanic/recovery/long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    }
+  ]
+}

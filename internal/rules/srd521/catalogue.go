@@ -46,6 +46,8 @@ type CharacterRecord struct {
 	OptionKeys []string `json:"option_keys"`
 	// Capacity is a source-defined resource maximum, not a mutable balance.
 	Capacity int `json:"capacity"`
+	// CapacityMechanic retains a symbolic source maximum without inventing a fixed capacity.
+	CapacityMechanic string `json:"capacity_mechanic,omitempty"`
 	// Advancement holds global character-level table values, never class progression.
 	Advancement *CharacterAdvancement `json:"advancement,omitempty"`
 	// Progression describes a class table row, independently of global XP.
@@ -62,6 +64,8 @@ type CharacterRecord struct {
 	// Requirement is an unevaluated prerequisite predicate. Its key must also
 	// appear in RequiredMechanics. Parameters are source metadata, never code.
 	Requirement *CharacterRequirement `json:"requirement,omitempty"`
+	// Species retains automatic and conditional species facts without creating choices for fixed grants.
+	Species *CharacterSpecies `json:"species,omitempty"`
 }
 
 // CharacterPreparedSpells is one fixed domain-spell table row. SpellKeys must
@@ -103,6 +107,7 @@ type CharacterAdvancement struct {
 // ability scores). Only a separately qualified mechanic may interpret it.
 type CharacterRequirement struct {
 	Key        string         `json:"key"`
+	OptionKey  string         `json:"option_key,omitempty"`
 	RecordRefs []string       `json:"record_refs"`
 	Parameters map[string]int `json:"parameters"`
 }
@@ -238,10 +243,23 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 			return fmt.Errorf("%s: choice fields on non-choice", r.ID)
 		}
 		if r.Kind == "resource" {
-			if r.Capacity < 1 {
+			if r.CapacityMechanic != "" {
+				if r.Capacity != 0 || r.CapacityMechanic != "srd-5.2.1:mechanic/character/proficiency-bonus" || len(r.ValuesByLevel) != 0 {
+					return fmt.Errorf("%s: invalid symbolic capacity", r.ID)
+				}
+				found := false
+				for _, key := range r.RequiredMechanics {
+					if key == r.CapacityMechanic {
+						found = true
+					}
+				}
+				if !found {
+					return fmt.Errorf("%s: capacity mechanic must be required", r.ID)
+				}
+			} else if r.Capacity < 1 {
 				return fmt.Errorf("%s: resource capacity required", r.ID)
 			}
-		} else if r.Capacity != 0 {
+		} else if r.Capacity != 0 || r.CapacityMechanic != "" {
 			return fmt.Errorf("%s: capacity on non-resource", r.ID)
 		}
 		for _, keys := range [][]string{r.RequiredMechanics, r.OptionKeys} {
@@ -277,11 +295,19 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 		if err := validateClassMetadata(r); err != nil {
 			return err
 		}
+		if r.Species != nil {
+			if err := validateSpecies(r); err != nil {
+				return err
+			}
+		}
 		records[r.ID] = r
 	}
 	edges := map[string][]string{}
 	for _, r := range c.Records {
 		parent := records[r.ParentID]
+		if err := validateSpeciesLinks(r, records); err != nil {
+			return err
+		}
 		if r.Progression != nil {
 			seen := map[string]bool{}
 			for _, id := range r.Progression.FeatureRefs {
