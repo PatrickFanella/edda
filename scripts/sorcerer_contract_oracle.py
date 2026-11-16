@@ -1363,3 +1363,50 @@ FINITE_CONSUMED = {'sorcerer': ['Acid Splash',
             'Web',
             'Weird',
             'Wish']}
+
+# Actual p166 execution expectations, independent of candidate split/body declarations.
+SUMMON_DRAGON = {
+    'manifest-and-slot-scaling': (
+        'PDF166: level5 Conjuration, Action,60ft,V/S/M object engraved with dragon worth500+GP, '
+        'not consumed; Concentration up to1hour. Manifest ONE DraconicSpirit in visible unoccupied space. '
+        'Use actual casting spell-slot level L>=5: AC14+L,HP50+10*(L-5),PB=your livePB; '
+        'Large Dragon Neutral,STR19/DEX14/CON17/INT10/WIS14/CHA14,Speed30/Fly60/Swim30. '
+        'Positive:slot6 givesAC20/HP60; negatives:occupied/unseen/61ft,499GP,HP50at6,AC14, '
+        'classlevel instead of slotlevel,PBfromstatblockCR. DragonCompanion exceptions only from its own adapter.'),
+    'initiative-verbal-command-and-default-Dodge': (
+        'PDF166: ally to caster/allies; shares YOUR Initiative count, takes own turn IMMEDIATELY AFTER yours. '
+        'Obeys YOUR verbal commands with NO caster action. Without command takes Dodge782 and uses movement '
+        'to avoid danger. Positive:saved explicit command on next spiritturn; negatives:separateInitiativeroll, '
+        'casterBonusActioncost,freeattackwithoutcommand,otheractorcommand,inferredNPCtactics. '
+        'Persist trusted command identity/turn, require bounded actual action owner before command availability.'),
+    'Draconic-Spirit-defenses-senses': (
+        'PDF166: Resistance Acid/Cold/Fire/Lightning/Poison; immunity Charmed/Frightened/Poisoned only; '
+        'Blindsight30,Darkvision60,PassivePerception12; Draconic and understands languages caster knows. '
+        'Positive:Fire10->5,Charm488/Poison727 rejected; negatives:ThunderResistance,StunnedImmunity, '
+        'Blindsight31ft,automatic hidden-fact disclosure,spoken unknownlanguage. Exact condition owners487/488/727 '
+        'retain their APIs; source sight is observer-specific and never omniscience.'),
+    'shared-resistance': (
+        'PDF166: WHEN SUMMONED choose ONE of spirit Resistances:Acid/Cold/Fire/Lightning/Poison. '
+        'Caster has Resistance to selectedtype UNTIL spell ends. Positive:chooseCold,Cold10->5; '
+        'negatives:Thunder,allfive,changechoiceeachhit,grantallies,keepafterspellend,doublehalvingstack. '
+        'Own source contribution ends without deleting an unrelated resistance.'),
+    'Rend-and-Multiattack': (
+        'PDF166: Multiattack makes floor(spelllevel/2) Rend attacks AND uses BreathWeapon. '
+        'Rend MELEE attack bonus=YOUR spellattackmodifier,reach10ft,hit1d6+4+spelllevel Piercing. '
+        'Positive:slot5 makes2Rends+Breath,slot6 makes3Rends+Breath; injectedD6=3 at5 gives12Piercing. '
+        'Negatives:roundedup3at5,noBreath,reach11ft,statblockSTRattackbonus,1d8,spelllevelomitted, '
+        'Renddamageonmiss,extraattackfromcasterclass. Consume shared attack/damage and exact Breath owner.'),
+    'Breath-Weapon': (
+        'PDF166:30ftCone,EACH creature DEXsave against YOUR spellDC; failure2d6,successHALF. '
+        'Damage type chosen WHEN CASTING from spirit Resistances Acid/Cold/Fire/Lightning/Poison. '
+        'Positive:chosenFire injected2d6=7,success3; negatives:31ft,CONsave,Thunder,changeperbreath, '
+        'spareallieswithoutsourceexception,noDamageonSuccess,damagebasedonclasslevel. '
+        'Caster shared-resistance choice is a separate source choice; never invent equality constraint.'),
+    'zeroHP-and-spell-ending': (
+        'PDF166: spirit DISAPPEARS at0HP OR when SummonDragon ends; ordinary Concentration up to1hour '
+        'and source106 own ongoing-time-span noactiondismissal onlyifNOTIncapacitated487. '
+        'Positive:0HP removes spirit instance; casterResistance persists UNTIL spell ends. Negatives:0HP implicitly ending spell/resistance,deathsaveNPC, '
+        'retaincompanionafterspellend,deleteunrelatedcreatures/resistances,foreigncasterdismissal, '
+        'Incapacitateddismissal,ownturn/actioncost. Class18 optional noConcentration/1min is per-cast adapter '
+        'only, not a rewritten base spell. Persist world/effect/turn ownership and endings atomically.'),
+}

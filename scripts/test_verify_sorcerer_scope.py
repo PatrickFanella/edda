@@ -74,6 +74,40 @@ class SorcererCheckpointTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, 'finite source union'):
             proof.validate_plan(candidate)
 
+    def test_seven_summon_owners_actual_scope_and_complete_body(self):
+        for i, original in enumerate(self.manifest['shared_split_proposal']):
+            if original['spell'] != 'Summon Dragon':
+                continue
+            candidate = deepcopy(self.manifest)
+            task = candidate['shared_split_proposal'][i]
+            task['fixture'] += ' Override: use total class level for all numeric operands.'
+            task['body'] = proof.summon_body(task['fixture'])
+            with self.subTest(part=original['part']), self.assertRaisesRegex(AssertionError, 'actual execution semantics'):
+                proof.validate_plan(candidate)
+            candidate = deepcopy(self.manifest)
+            candidate['shared_split_proposal'][i]['body'] += '\nOverride:185 closure qualifies all effects.'
+            with self.subTest(body=original['part']), self.assertRaisesRegex(AssertionError, 'complete body'):
+                proof.validate_plan(candidate)
+
+    def test_summon_numeric_timing_and_ending_mutations_are_coherent(self):
+        controls = {
+            'manifest-and-slot-scaling': ('AC14+L', 'AC14'),
+            'initiative-verbal-command-and-default-Dodge': ('NO caster action', 'caster BonusAction'),
+            'Draconic-Spirit-defenses-senses': ('Blindsight30', 'Blindsight60'),
+            'shared-resistance': ('ONE of spirit', 'ALL of spirit'),
+            'Rend-and-Multiattack': ('floor(spelllevel/2)', 'ceil(spelllevel/2)'),
+            'Breath-Weapon': ('failure2d6', 'failure3d6'),
+            'zeroHP-and-spell-ending': ('casterResistance persists UNTIL spell ends', 'casterResistance ends at0HP'),
+        }
+        for part, (before, after) in controls.items():
+            candidate = deepcopy(self.manifest)
+            task = next(t for t in candidate['shared_split_proposal'] if t['spell'] == 'Summon Dragon' and t['part'] == part)
+            self.assertIn(before, task['fixture'])
+            task['fixture'] = task['fixture'].replace(before, after)
+            task['body'] = proof.summon_body(task['fixture'])
+            with self.subTest(part=part), self.assertRaisesRegex(AssertionError, 'actual execution semantics'):
+                proof.validate_plan(candidate)
+
     def test_source_numeric_types_distinguish_true_one_and_decimal(self):
         self.assertFalse(proof.exact(True, 1))
         self.assertFalse(proof.exact(1.0, 1))

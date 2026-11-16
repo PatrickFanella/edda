@@ -9,7 +9,7 @@ import subprocess
 from urllib.parse import parse_qs, urlsplit
 
 from sorcerer_contract_oracle import (
-    COMMON, CONTRACTS, DEPENDENCIES, GRANTS, SOURCE_LISTS, FINITE_CONSUMED, execution_owner, level_fixture,
+    COMMON, CONTRACTS, DEPENDENCIES, GRANTS, SOURCE_LISTS, FINITE_CONSUMED, SUMMON_DRAGON, execution_owner, level_fixture,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -98,11 +98,19 @@ def expected_body(t):
             + json.dumps(t['owned_contexts'], indent=2) + '\n```\n')
 
 
+def summon_body(fixture):
+    return ('Decision #330; shared Summon Dragon bounded execution owner; one Task/M PR.\n\n'
+            + fixture + '\n\n' + COMMON
+            + '\n\nRequired terminal routing: finite shared cohort->Sorcerer shared output->three-caster aggregate->279/280 and own class gate->337; exact world/statblock leaf qualification also required at183. No185/274planning substitution. Native publication PENDING.\n')
+
+
 def validate_plan(m):
     assert exact(m['spell_lists'], SOURCE_LISTS), 'complete class source lists'
     assert exact(m['future_source_rosters']['consumed'], FINITE_CONSUMED), 'finite future consumed source roster'
     assert m['future_source_rosters']['source_union'] == sorted(set.union(*(set(v) for v in FINITE_CONSUMED.values()))), 'complete finite source union'
     assert m['decision'] == 330 and m['base'] == BASE and m['source']['sha256'] == PIN
+    for path, digest in m['evidence_hashes'].items():
+        assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest, 'caller evidence changed'
     actual = []
     for name, count in [('sorcerer', 63), ('metamagic', 22), ('draconic', 18)]:
         path = 'internal/rules/srd521/testdata/character-' + name + '.json'
@@ -146,6 +154,11 @@ def validate_plan(m):
     acyclic({key: t['depends'] for key, t in tasks.items()})
     assert tasks['hp']['prerequisites'] == [968]
     assert not any(429 in t['prerequisites'] for t in tasks.values()), '429 full'
+    summons = [t for t in m['shared_split_proposal'] if t['spell'] == 'Summon Dragon']
+    assert len(summons) == 7 and {t['part'] for t in summons} == set(SUMMON_DRAGON), 'seven bounded Summon Dragon owners'
+    for t in summons:
+        assert t['fixture'] == SUMMON_DRAGON[t['part']], 'Summon Dragon actual execution semantics'
+        assert t['body'] == summon_body(t['fixture']), 'Summon Dragon complete body'
     assert m['overlap']['title_candidates']['Light'] == [967], 'Light false overlap'
     assert 'Slow' not in m['overlap']['title_candidates'], 'Slow mastery false overlap'
     assert m['overlap']['title_candidates']['Polymorph'] == [698, 724, 725]
@@ -165,6 +178,15 @@ def validate_publication(m, receipt):
 
 def source_check(pdf):
     assert hashlib.sha256(pdf.read_bytes()).hexdigest() == PIN
+    extracted = subprocess.run(['pdftotext', '-f', '166', '-l', '166', str(pdf), '-'], check=True, capture_output=True, text=True).stdout
+    flat = ' '.join(extracted.replace('\u00ad', '').split())
+    for clause in ['AC 14 + the spell’s level', '50 + 10 for each spell level above 5',
+                   'PB equals your Proficiency Bonus', 'takes the Dodge action',
+                   'equal to half the spell’s level (round down)',
+                   '1d6 + 4 + the spell’s level', 'each creature in a 30-foot Cone',
+                   'The creature disappears when it drops to 0 Hit Points or when the spell ends.',
+                   'until the spell ends']:
+        assert clause in flat, 'Summon Dragon source clause: ' + clause
     for name in ['sorcerer', 'metamagic', 'draconic', 'advancement', 'multiclass',
                  'origin_feats', 'general_feats', 'fighting_styles', 'epic_boon_feats']:
         subprocess.run(['python3', str(ROOT / 'scripts' / ('verify_srd_' + name + '.py')), str(pdf)], check=True)

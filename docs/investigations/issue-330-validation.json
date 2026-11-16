@@ -71,8 +71,8 @@
   },
   "contrary_tests": {
     "command": "python3 -m unittest discover -s scripts -p test_verify_sorcerer_scope.py -v",
-    "methods": 10,
-    "seconds": 2.384,
+    "methods": 12,
+    "seconds": 2.638,
     "exit_code": 0
   },
   "not_verified": [
@@ -87,5 +87,10 @@
   "unavailable_tools": {
     "golangci-lint": "mise: not provided by active go@1.27.3",
     "ruff": "mise: no version set for shim"
+  },
+  "shared_source_semantics": {
+    "summon_dragon_bounded_fixtures": 7,
+    "other_proposed_shared_fixtures_pending": 192,
+    "publication_complete": false
   }
 }
