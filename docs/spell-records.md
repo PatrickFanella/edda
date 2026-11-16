@@ -5,7 +5,7 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports remain separately owned by #196, #202 and #218.
+imports are separately owned by #196 and #202; the #218 batch is described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -28,9 +28,10 @@ or casting abilities. See [the source pin](srd-5.2.1-conformance.md) and
 | `required_mechanics` | Nonempty unique dependencies; names never register resolvers |
 | `slot_levels` | Ordered unique data slot levels; bounded fixtures require exactly `[1]` |
 
-Version 1 covers the shapes needed by these three fixtures. Reaction triggers,
-long casting times, area shapes, cantrip upgrades and other spell-specific
-payloads need explicit contract extensions and offline fixtures before import.
+The initial version covers the shapes needed by these three fixtures. The #218
+extensions below add reaction triggers, long casting times and area shapes.
+Cantrip upgrades and other new spell-specific payloads still need explicit
+contract extensions and offline fixtures before import.
 A structurally valid record is not proof of complete source transcription.
 Reviewers must compare the actual source and preserve every required mechanic.
 Unknown JSON fields, invalid shapes, duplicate IDs, missing source links and
@@ -85,3 +86,69 @@ License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
 Spell facts are adapted into structured Edda metadata; Cure Wounds and Shield of
 Faith are deliberately restricted to existing fixtures. The software license
 does not replace CC-BY-4.0 for the source-derived material.
+
+## Issue #218: Scorching Ray through Shield of Faith
+
+`testdata/spells_218.json` contains exactly twelve complete source families from
+pinned PDF pages 159–162. `spells_218_test.go` checks their names, initial source
+pages, headers, materials, effects, scaling, mechanic dependencies and nested
+choices. Seeming continues onto page 161; Shield continues onto page 162. The
+source PDF hash was checked against the pin above. No PDF or extracted text is
+needed by the offline tests.
+
+This batch extends schema version 1 with optional, typed `source_details` on
+complete source records. It adds only shapes present in this batch: a ten-minute
+cast, conditional Bonus Action and Reaction triggers, unlimited range, selected
+creatures, a Sphere, rays, alternative targets, indefinite duration and per-slot
+ray count scaling. `scaling.kind = slot-count` uses zero dice fields and the typed
+`rays.additional_per_slot` count; its effect reference names the additional ray.
+The existing `slot` shape still represents damage dice additions. A timed round
+is recorded as six seconds, with Shield's exact start-of-next-turn boundary
+retained separately in `end_timing`.
+
+Each selected detail payload requires every field, including explicit false,
+zero and list values. There is no catch-all prose or arbitrary parameter map.
+The typed payloads retain:
+
+- Scorching Ray's three attacks, one/several-target choice and extra ray per slot.
+- Scrying's creature and seen-location modes, all three knowledge and three
+  physical-connection modifiers, success lockout and sensor behavior.
+- Searing Smite's melee weapon/Unarmed Strike triggers, initial and recurring
+  damage, after-damage Constitution save and scaling of both damage effects.
+- Secret Chest's separate 5,000 GP and 50 GP component minima, dimensions,
+  capacity, Ethereal storage, Magic actions, daily cumulative decay and endings.
+  The common material field records the combined 5,050 GP minimum; the typed
+  fields retain both independently required objects. Neither is consumed.
+- See Invisibility's creature/object perception and ghostly Ethereal view.
+- Seeming's per-target appearance choices, height/weight/limb constraints,
+  unwilling-target save, physical inspection and Study discovery check.
+- Sending's two addressing choices, 25-word message and immediate like reply,
+  cross-plane delivery failure, sender feedback and recipient blocking.
+- Sequester's object/willing-creature choices, concealment, creature suspension,
+  waived sustenance and aging, chosen early-end condition and damage ending.
+- Shapechange's seen-form and CR restrictions, first-form temporary Hit Points,
+  full retained-statistics list, retained Spellcasting and equipment choices.
+- Shatter's ten-foot Sphere, Constitution save/half damage, Construct
+  Disadvantage, eligible nonmagical objects and per-slot damage scaling.
+- Shield's two reaction triggers, +5 AC including the triggering attack,
+  Magic Missile protection and exact next-turn expiration.
+- Shield of Faith's chosen creature within 60 feet, +2 AC and ten-minute
+  concentration, with all source slot levels retained as unavailable metadata.
+
+The full Shield of Faith source record is separate from the existing bounded
+fixture. `ComposeSpellSourceCatalogue` validates its inputs, excludes bounded
+compatibility fixtures and rejects duplicate complete source IDs. Composing the
+#194 and #218 fixtures yields thirteen distinct source records: Acid Arrow plus
+this batch. The bounded fixtures keep their existing IDs and exact availability
+checks; added detail payloads cannot make those checks pass.
+
+All twelve source records remain unavailable regardless of their dependency
+keys. This batch supplies data for later effect-instance work (#351); it adds
+no resolver, action, entitlement, tool, inventory or coverage claim. Negative
+fixtures cover omitted detail fields, missing dependencies, invalid variants,
+costs, chances, triggers and scaling references, unknown dependencies and
+attempts to attach source metadata to bounded compatibility records.
+
+The source-derived JSON retains the pinned source, CC-BY-4.0 attribution and an
+adaptation notice. It is an adaptation into structured metadata under the source
+license described above; the repository software license does not replace it.

@@ -1,0 +1,1264 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD spell facts on PDF pages 159-162 adapted into twelve complete structured source records for issue #218. Typed choices and lifecycle metadata are offline dependencies, not executable effects. Bounded compatibility fixtures are excluded from this source catalogue."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/scorching-ray",
+      "name": "Scorching Ray",
+      "source_id": "srd-5.2.1:content/spells/scorching-ray",
+      "source_page": 159,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "evocation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "rays",
+        "count": 3,
+        "eligibility": "targets-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot-count",
+        "above_level": 2,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "ray"
+        ]
+      },
+      "effects": [
+        {
+          "id": "ray",
+          "mechanic": "attack.ranged-spell-per-ray",
+          "timing": "on-hit-per-ray",
+          "dice_count": 2,
+          "die_sides": 6,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "attack.ranged-spell-per-ray",
+        "damage.fire",
+        "scaling.per-slot-ray"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "rays": {
+          "count": 3,
+          "distribution": [
+            "one-target",
+            "several-targets"
+          ],
+          "attack_per_ray": true,
+          "additional_per_slot": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/scrying",
+      "name": "Scrying",
+      "source_id": "srd-5.2.1:content/spells/scrying",
+      "source_page": 160,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "10-minutes",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "same-plane-creature-or-seen-location"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a focus worth 1,000+ GP, such as a crystal ball, mirror, or water-filled font",
+          "cost_cp": 100000,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "creature-sensor",
+          "mechanic": "divination.scrying-creature",
+          "timing": "failed-wisdom-save",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "location-sensor",
+          "mechanic": "divination.scrying-location",
+          "timing": "on-cast-location-mode",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "components.material",
+        "concentration.source-duration",
+        "divination.scrying-creature",
+        "divination.scrying-location",
+        "save.wisdom-knowledge-connection-modifiers",
+        "divination.scrying-success-24h-lockout",
+        "sensor.invisible-intangible-moving-or-stationary",
+        "cast.long-600-seconds"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 600,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "scrying": {
+          "variants": [
+            "creature",
+            "seen-location"
+          ],
+          "creature_same_plane": true,
+          "save": "wisdom",
+          "save_awareness": "unaware-of-spell-but-feels-uneasy",
+          "knowledge": [
+            {
+              "choice": "secondhand-heard-of",
+              "modifier": 5
+            },
+            {
+              "choice": "firsthand-met",
+              "modifier": 0
+            },
+            {
+              "choice": "extensive-known-well",
+              "modifier": -5
+            }
+          ],
+          "connections": [
+            {
+              "choice": "picture-or-other-likeness",
+              "modifier": -2
+            },
+            {
+              "choice": "garment-or-other-possession",
+              "modifier": -4
+            },
+            {
+              "choice": "body-part-lock-of-hair-or-bit-of-nail",
+              "modifier": -10
+            }
+          ],
+          "success_retry_hours": 24,
+          "sensor_distance_feet": 10,
+          "sensor_invisible": true,
+          "sensor_intangible": true,
+          "senses": [
+            "see-as-present",
+            "hear-as-present"
+          ],
+          "sensor_follows_creature": true,
+          "visible_sensor": "luminous-fist-sized-orb",
+          "location_previously_seen": true,
+          "location_sensor_moves": false,
+          "focus_examples": [
+            "crystal-ball",
+            "mirror",
+            "water-filled-font"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/searing-smite",
+      "name": "Searing Smite",
+      "source_id": "srd-5.2.1:content/spells/searing-smite",
+      "source_page": 160,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "evocation",
+      "lists": [
+        "paladin"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "hit-target"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 1,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "initial",
+          "recurring"
+        ]
+      },
+      "effects": [
+        {
+          "id": "initial",
+          "mechanic": "damage.searing-smite-hit",
+          "timing": "as-hit-extra-attack-damage",
+          "dice_count": 1,
+          "die_sides": 6,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "recurring",
+          "mechanic": "damage.searing-smite-turn",
+          "timing": "start-each-target-turn-before-save",
+          "dice_count": 1,
+          "die_sides": 6,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.searing-smite-hit",
+        "damage.searing-smite-turn",
+        "cast.bonus-action-after-hit",
+        "save.constitution-end-on-success",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [
+          "immediately-after-hit-with-melee-weapon",
+          "immediately-after-hit-with-unarmed-strike"
+        ],
+        "end_timing": "duration-ended",
+        "smite": {
+          "save": "constitution",
+          "save_timing": "after-start-of-turn-damage",
+          "success_ends": true,
+          "failure_continues": true
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/secret-chest",
+      "name": "Secret Chest",
+      "source_id": "srd-5.2.1:content/spells/secret-chest",
+      "source_page": 160,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "conjuration",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "chest-and-replica"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a rare-material chest worth 5,000+ GP and a Tiny replica made from the same materials worth 50+ GP",
+          "cost_cp": 505000,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "until-dispelled",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "hide",
+          "mechanic": "transport.secret-chest-ethereal",
+          "timing": "on-cast-touch-both",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "recall",
+          "mechanic": "transport.secret-chest-recall",
+          "timing": "magic-action-touch-replica",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "return",
+          "mechanic": "transport.secret-chest-return",
+          "timing": "magic-action-touch-both",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "components.material",
+        "transport.secret-chest-ethereal",
+        "transport.secret-chest-recall",
+        "transport.secret-chest-return",
+        "duration.secret-chest-cumulative-decay",
+        "duration.secret-chest-recast-replica-end",
+        "components.two-priced-objects"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "dispelled-or-explicit-end",
+        "chest": {
+          "chest_size_feet": [
+            3,
+            2,
+            2
+          ],
+          "chest_minimum_cost_cp": 500000,
+          "replica_minimum_cost_cp": 5000,
+          "replica_size": "tiny",
+          "materials": "rare-materials-same-for-chest-and-replica",
+          "both_touched": true,
+          "capacity_cubic_feet": 12,
+          "contents": "nonliving-material",
+          "plane": "ethereal",
+          "recall_action": "magic",
+          "recall_touch": "replica",
+          "recall_distance_feet": 5,
+          "recall_space": "unoccupied-ground",
+          "return_action": "magic",
+          "return_touch": [
+            "chest",
+            "replica"
+          ],
+          "decay_after_days": 60,
+          "daily_cumulative_percent": 5,
+          "end_triggers": [
+            "daily-cumulative-chance-after-60-days",
+            "cast-spell-again",
+            "replica-destroyed"
+          ],
+          "ends_on_ethereal": "chest-remains-for-anyone-to-find",
+          "decay_timing": "end-of-each-day"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/see-invisibility",
+      "name": "See Invisibility",
+      "source_id": "srd-5.2.1:content/spells/see-invisibility",
+      "source_page": 160,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a pinch of talc",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "vision",
+          "mechanic": "senses.invisible-and-ethereal",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "components.material",
+        "senses.invisible-and-ethereal"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "vision": {
+          "subjects": [
+            "creatures",
+            "objects"
+          ],
+          "invisible_as_visible": true,
+          "see_ethereal": true,
+          "ethereal_appearance": "ghostly"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/seeming",
+      "name": "Seeming",
+      "source_id": "srd-5.2.1:content/spells/seeming",
+      "source_page": 160,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "selected-creatures",
+        "count": 0,
+        "eligibility": "visible-creatures-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 28800,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "disguise",
+          "mechanic": "illusion.seeming-appearance",
+          "timing": "on-cast-willing-or-failed-save",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "illusion.seeming-appearance",
+        "save.charisma-unwilling",
+        "check.study-investigation-spell-dc",
+        "illusion.physical-inspection"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "seeming": {
+          "save": "charisma",
+          "save_eligibility": "unwilling-target",
+          "save_success": "unaffected",
+          "appearance_choices": [
+            "same-for-all",
+            "different-per-target"
+          ],
+          "affects": [
+            "bodies",
+            "equipment"
+          ],
+          "height_delta_feet": 1,
+          "weight_choices": [
+            "heavier",
+            "lighter"
+          ],
+          "retain_limb_arrangement": true,
+          "other_appearance": "caster-choice",
+          "physical_inspection": "fails-objects-pass-through-added-features",
+          "discovery_action": "study",
+          "discovery_check": "intelligence-investigation",
+          "discovery_dc": "caster-spell-save-dc",
+          "discovery_success": "aware-target-is-disguised"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/sending",
+      "name": "Sending",
+      "source_id": "srd-5.2.1:content/spells/sending",
+      "source_page": 161,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "cleric",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "unlimited",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "target-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a copper wire",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "message",
+          "mechanic": "communication.sending",
+          "timing": "on-cast-unless-blocked-or-cross-plane-failure",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "reply",
+          "mechanic": "communication.sending-reply",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "components.material",
+        "communication.sending",
+        "communication.sending-reply",
+        "communication.cross-plane-5-percent-failure",
+        "communication.recipient-8h-block"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "sending": {
+          "address_choices": [
+            "creature-caster-met",
+            "creature-described-by-someone-who-met-it"
+          ],
+          "max_words": 25,
+          "delivery": "heard-in-target-mind",
+          "recognize_known_sender": true,
+          "understand_meaning": true,
+          "reply": "immediate-in-like-manner",
+          "cross_plane_failure_percent": 5,
+          "sender_knows_failure": true,
+          "recipient_may_block": true,
+          "block_hours": 8,
+          "blocked_attempt": "sender-learns-block-and-spell-fails",
+          "reply_max_words": 25,
+          "block_timing": "upon-receiving-message"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/sequester",
+      "name": "Sequester",
+      "source_id": "srd-5.2.1:content/spells/sequester",
+      "source_page": 161,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "transmutation",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "object-or-willing-creature"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "gem dust worth 5,000+ GP",
+          "cost_cp": 500000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "until-dispelled",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "conceal",
+          "mechanic": "protection.sequester",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "suspend",
+          "mechanic": "condition.sequester-creature",
+          "timing": "creature-only-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "components.material",
+        "protection.sequester",
+        "condition.sequester-creature",
+        "duration.sequester-condition-or-damage",
+        "components.cost-consumption"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "dispelled-or-explicit-end",
+        "sequester": {
+          "target_choices": [
+            "object",
+            "willing-creature"
+          ],
+          "condition": "invisible",
+          "protections": [
+            "cannot-be-targeted-by-divination-spells",
+            "cannot-be-detected-by-magic",
+            "cannot-be-viewed-remotely-by-magic"
+          ],
+          "creature_condition": "unconscious-suspended-animation",
+          "creature_ages": false,
+          "unneeded_sustenance": [
+            "food",
+            "water",
+            "air"
+          ],
+          "early_end_condition": "optional-caster-chosen-condition-occurs-or-is-visible-within-radius",
+          "early_end_radius_miles": 1,
+          "early_end_examples": [
+            "after-1000-years",
+            "when-tarrasque-awakens"
+          ],
+          "damage_ends": true
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/shapechange",
+      "name": "Shapechange",
+      "source_id": "srd-5.2.1:content/spells/shapechange",
+      "source_page": 161,
+      "scope": "complete-source-record",
+      "level": 9,
+      "school": "transmutation",
+      "lists": [
+        "druid",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a jade circlet worth 1,500+ GP",
+          "cost_cp": 150000,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "form",
+          "mechanic": "transformation.shapechange",
+          "timing": "on-cast-and-magic-action-change",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "temporary-hp",
+          "mechanic": "temporary-hp.first-shapechange-form",
+          "timing": "on-cast-only",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "components.material",
+        "concentration.source-duration",
+        "transformation.shapechange",
+        "temporary-hp.first-shapechange-form",
+        "transformation.eligible-seen-cr-excluding-construct-undead",
+        "transformation.retained-statistics",
+        "transformation.equipment-choice"
+      ],
+      "slot_levels": [
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "shapechange": {
+          "form_cr_limit": "no-higher-than-caster-level-or-challenge-rating",
+          "previously_seen": true,
+          "excluded_types": [
+            "construct",
+            "undead"
+          ],
+          "change_action": "magic-to-different-eligible-form",
+          "temporary_hp": "first-form-hit-points",
+          "temporary_hp_granted": "on-cast-only",
+          "temporary_hp_ends_with_spell": true,
+          "replace_statistics": "chosen-form-stat-block-except-retained",
+          "retained": [
+            "creature-type",
+            "alignment",
+            "personality",
+            "intelligence",
+            "wisdom",
+            "charisma",
+            "hit-points",
+            "hit-point-dice",
+            "proficiencies",
+            "ability-to-communicate"
+          ],
+          "retain_spellcasting_if_present": true,
+          "equipment_choices": [
+            "drops-to-ground",
+            "changes-size-and-shape-to-fit-while-in-form"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/shatter",
+      "name": "Shatter",
+      "source_id": "srd-5.2.1:content/spells/shatter",
+      "source_page": 161,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "evocation",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "creatures-and-eligible-objects"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a chip of mica",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 2,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "area-damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "area-damage",
+          "mechanic": "damage.shatter",
+          "timing": "failed-save-or-eligible-object",
+          "dice_count": 3,
+          "die_sides": 8,
+          "damage_type": "thunder",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "components.material",
+        "damage.shatter",
+        "save.constitution-half",
+        "save.construct-disadvantage",
+        "area.sphere-10-feet",
+        "damage.shatter-unattended-nonmagical-objects",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "shatter": {
+          "center": "chosen-point-in-range",
+          "radius_feet": 10,
+          "save": "constitution",
+          "save_success": "half-damage",
+          "disadvantage_types": [
+            "construct"
+          ],
+          "objects": [
+            "nonmagical",
+            "not-worn",
+            "not-carried",
+            "in-area"
+          ],
+          "object_damage": "same-damage-no-save",
+          "sound": "loud-noise"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/shield",
+      "name": "Shield",
+      "source_id": "srd-5.2.1:content/spells/shield",
+      "source_page": 161,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "abjuration",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "reaction",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 6,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "ac",
+          "mechanic": "defense.shield-ac",
+          "timing": "until-start-next-caster-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 5,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "missiles",
+          "mechanic": "defense.shield-magic-missile",
+          "timing": "until-start-next-caster-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "defense.shield-ac",
+        "defense.shield-magic-missile",
+        "reaction.hit-or-magic-missile",
+        "defense.retroactive-triggering-attack"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [
+          "hit-by-attack-roll",
+          "targeted-by-magic-missile"
+        ],
+        "end_timing": "start-of-caster-next-turn",
+        "shield": {
+          "includes_triggering_attack": true,
+          "no_damage_from": [
+            "magic-missile"
+          ],
+          "appearance": "imperceptible-force-barrier"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/shield-of-faith",
+      "name": "Shield of Faith",
+      "source_id": "srd-5.2.1:content/spells/shield-of-faith",
+      "source_page": 162,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "abjuration",
+      "lists": [
+        "cleric",
+        "paladin"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a prayer scroll",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "ac",
+          "mechanic": "defense.shield-of-faith-creature",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 2,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "components.material",
+        "concentration.source-duration",
+        "defense.shield-of-faith-creature"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "faith": {
+          "target_choice": "creature-caster-chooses-within-range",
+          "appearance": "shimmering-field"
+        }
+      }
+    }
+  ]
+}

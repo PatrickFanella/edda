@@ -19,26 +19,27 @@ type SpellRecords struct {
 // SpellRecord describes source data or an explicitly bounded existing fixture.
 // RequiredMechanics are dependencies, not resolver registrations.
 type SpellRecord struct {
-	ID                string          `json:"id"`
-	Name              string          `json:"name"`
-	SourceID          string          `json:"source_id"`
-	SourcePage        int             `json:"source_page"`
-	Scope             string          `json:"scope"`
-	Level             int             `json:"level"`
-	School            string          `json:"school"`
-	Lists             []string        `json:"lists"`
-	CastingTime       string          `json:"casting_time"`
-	Range             SpellRange      `json:"range"`
-	Target            SpellTarget     `json:"target"`
-	Components        SpellComponents `json:"components"`
-	Ritual            *bool           `json:"ritual"`
-	Concentration     *bool           `json:"concentration"`
-	DurationSeconds   int             `json:"duration_seconds"`
-	Duration          string          `json:"duration"`
-	Scaling           SpellScaling    `json:"scaling"`
-	Effects           []SpellEffect   `json:"effects"`
-	RequiredMechanics []string        `json:"required_mechanics"`
-	SlotLevels        []int           `json:"slot_levels"`
+	ID                string              `json:"id"`
+	Name              string              `json:"name"`
+	SourceID          string              `json:"source_id"`
+	SourcePage        int                 `json:"source_page"`
+	Scope             string              `json:"scope"`
+	Level             int                 `json:"level"`
+	School            string              `json:"school"`
+	Lists             []string            `json:"lists"`
+	CastingTime       string              `json:"casting_time"`
+	Range             SpellRange          `json:"range"`
+	Target            SpellTarget         `json:"target"`
+	Components        SpellComponents     `json:"components"`
+	Ritual            *bool               `json:"ritual"`
+	Concentration     *bool               `json:"concentration"`
+	DurationSeconds   int                 `json:"duration_seconds"`
+	Duration          string              `json:"duration"`
+	Scaling           SpellScaling        `json:"scaling"`
+	Effects           []SpellEffect       `json:"effects"`
+	RequiredMechanics []string            `json:"required_mechanics"`
+	SlotLevels        []int               `json:"slot_levels"`
+	SourceDetails     *SpellSourceDetails `json:"source_details,omitempty"`
 }
 
 // SpellRange retains the source range even for a self-only fixture.
@@ -85,7 +86,8 @@ type SpellMaterial struct {
 	Consumed    *bool  `json:"consumed"`
 }
 
-// SpellScaling identifies per-slot dice additions to each named effect.
+// SpellScaling identifies per-slot dice additions or references a typed ray
+// count increment in SourceDetails.Rays.
 // Bounded fixtures use none; their higher-slot catalogue data belongs elsewhere.
 type SpellScaling struct {
 	Kind       string   `json:"kind"`
@@ -170,7 +172,7 @@ func (s SpellRecord) validate() error {
 			return fmt.Errorf("invalid spell list")
 		}
 	}
-	if !slices.Contains([]string{"action", "bonus-action"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || s.Target.Shape != "single" || s.Target.Count != 1 || !slices.Contains([]string{"target-in-range", "creature-in-range", "conscious-self"}, s.Target.Eligibility) {
+	if !slices.Contains([]string{"action", "bonus-action", "reaction", "10-minutes"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
 		return fmt.Errorf("invalid casting, range or target shape")
 	}
 	if s.Components.Verbal == nil || s.Components.Somatic == nil || s.Ritual == nil || s.Concentration == nil {
@@ -181,8 +183,14 @@ func (s SpellRecord) validate() error {
 			return fmt.Errorf("invalid material")
 		}
 	}
-	if !slices.Contains([]string{"instantaneous", "timed"}, s.Duration) || s.DurationSeconds < 0 || (s.Duration == "instantaneous" && (s.DurationSeconds != 0 || *s.Concentration)) || (s.Duration == "timed" && s.DurationSeconds == 0) {
+	if !slices.Contains([]string{"instantaneous", "timed", "until-dispelled"}, s.Duration) || s.DurationSeconds < 0 || (s.Duration == "instantaneous" && (s.DurationSeconds != 0 || *s.Concentration)) || (s.Duration == "timed" && s.DurationSeconds == 0) {
 		return fmt.Errorf("invalid duration")
+	}
+	if s.Duration == "until-dispelled" && (s.DurationSeconds != 0 || *s.Concentration) {
+		return fmt.Errorf("invalid indefinite duration")
+	}
+	if err := s.validateSourceDetails(); err != nil {
+		return err
 	}
 	if len(s.RequiredMechanics) == 0 || !uniqueNames(s.RequiredMechanics) || len(s.Effects) == 0 || len(s.SlotLevels) == 0 {
 		return fmt.Errorf("mechanics, effects and slots required")
@@ -207,6 +215,10 @@ func (s SpellRecord) validate() error {
 		if sc.AboveLevel != 0 || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) != 0 {
 			return fmt.Errorf("unexpected scaling payload")
 		}
+	case "slot-count":
+		if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || s.SourceDetails == nil || s.SourceDetails.Rays == nil || s.SourceDetails.Rays.AdditionalPerSlot <= 0 || len(sc.EffectIDs) != 1 || !effects[sc.EffectIDs[0]] || !slices.Contains(s.RequiredMechanics, "scaling.per-slot-ray") {
+			return fmt.Errorf("invalid ray scaling")
+		}
 	case "slot":
 		if sc.AboveLevel != s.Level || sc.DiceCount <= 0 || !slices.Contains([]int{4, 6, 8, 10, 12, 20}, sc.DieSides) || !uniqueNames(sc.EffectIDs) || len(sc.EffectIDs) == 0 || !slices.Contains(s.RequiredMechanics, "scaling.per-slot") {
 			return fmt.Errorf("invalid slot scaling")
@@ -219,7 +231,7 @@ func (s SpellRecord) validate() error {
 	default:
 		return fmt.Errorf("unsupported scaling shape")
 	}
-	if s.Scope == "bounded-self-level-1" && (s.Level != 1 || s.Target.Eligibility != "conscious-self" || !slices.Equal(s.SlotLevels, []int{1}) || sc.Kind != "none") {
+	if s.Scope == "bounded-self-level-1" && (s.Level != 1 || s.Target.Shape != "single" || s.Target.Count != 1 || s.Target.Eligibility != "conscious-self" || !slices.Equal(s.SlotLevels, []int{1}) || sc.Kind != "none") {
 		return fmt.Errorf("bounded fixture cannot widen targets or slots")
 	}
 	return nil
@@ -240,7 +252,7 @@ func uniqueNames(names []string) bool {
 // It is not permission to cast. Complete source records and unknown/unsupported
 // keys always return false, independently of their presence in a catalogue.
 func (s SpellRecord) MechanicsAvailable() bool {
-	if s.validate() != nil || s.Scope != "bounded-self-level-1" {
+	if s.validate() != nil || s.Scope != "bounded-self-level-1" || s.SourceDetails != nil {
 		return false
 	}
 	if !*s.Components.Verbal || !*s.Components.Somatic || *s.Ritual || s.School != "abjuration" || len(s.Effects) != 1 {
@@ -267,4 +279,29 @@ func (s SpellRecord) MechanicsAvailable() bool {
 		return false
 	}
 	return s.SourceID == s.ID && s.SourcePage >= 107 && s.SourcePage <= 175 && slices.Equal(s.RequiredMechanics, required)
+}
+
+// ComposeSpellSourceCatalogue combines offline source catalogues, excluding
+// compatibility fixtures. Duplicate complete source IDs are errors, never wins
+// based on input order. It does not register or grant playable actions.
+func ComposeSpellSourceCatalogue(catalogues ...SpellRecords) (SpellRecords, error) {
+	if len(catalogues) == 0 {
+		return SpellRecords{}, fmt.Errorf("source catalogues required")
+	}
+	result := SpellRecords{SchemaVersion: 1, Source: catalogues[0].Source}
+	result.Source.Changes = "SRD spell facts adapted into a composed offline source catalogue; bounded compatibility fixtures excluded. No executable effects or availability grants."
+	for _, catalogue := range catalogues {
+		if err := catalogue.Validate(); err != nil {
+			return SpellRecords{}, err
+		}
+		for _, record := range catalogue.Records {
+			if record.Scope == "complete-source-record" {
+				result.Records = append(result.Records, record)
+			}
+		}
+	}
+	if err := result.Validate(); err != nil {
+		return SpellRecords{}, err
+	}
+	return result, nil
 }
