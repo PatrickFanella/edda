@@ -1,0 +1,649 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Oath of Devotion and five features on PDF pp56\u201357 adapted into unavailable source metadata. Mechanic keys and predicates are Edda additions. Canonical Paladin is referenced externally; no executable effects or adjacent definitions imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/paladin/oath-of-devotion/identity",
+      "kind": "subclass",
+      "name": "Oath of Devotion",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/paladin-oath-of-devotion",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/paladin",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/identity-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/subclass"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/identity-level",
+      "kind": "prerequisite",
+      "name": "Oath of Devotion level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/paladin-oath-of-devotion",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/paladin/oath-of-devotion/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/paladin"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/oath-of-devotion-spells",
+      "kind": "feature",
+      "name": "Oath of Devotion Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-3-oath-of-devotion-spells",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/paladin/oath-of-devotion/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/oath-of-devotion-spells-level",
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/oath-of-devotion-spells-preparation"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/oath-spells/always-prepared-from-specified-paladin-level",
+        "srd-5.2.1:mechanic/spells/protection-from-evil-and-good",
+        "srd-5.2.1:mechanic/spells/shield-of-faith",
+        "srd-5.2.1:mechanic/spells/aid",
+        "srd-5.2.1:mechanic/spells/zone-of-truth",
+        "srd-5.2.1:mechanic/spells/beacon-of-hope",
+        "srd-5.2.1:mechanic/spells/dispel-magic",
+        "srd-5.2.1:mechanic/spells/freedom-of-movement",
+        "srd-5.2.1:mechanic/spells/guardian-of-faith",
+        "srd-5.2.1:mechanic/spells/commune",
+        "srd-5.2.1:mechanic/spells/flame-strike"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 3,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/protection-from-evil-and-good",
+            "srd-5.2.1:mechanic/spells/shield-of-faith"
+          ]
+        },
+        {
+          "level": 5,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/aid",
+            "srd-5.2.1:mechanic/spells/zone-of-truth"
+          ]
+        },
+        {
+          "level": 9,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/beacon-of-hope",
+            "srd-5.2.1:mechanic/spells/dispel-magic"
+          ]
+        },
+        {
+          "level": 13,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/freedom-of-movement",
+            "srd-5.2.1:mechanic/spells/guardian-of-faith"
+          ]
+        },
+        {
+          "level": 17,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/spells/commune",
+            "srd-5.2.1:mechanic/spells/flame-strike"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/oath-of-devotion-spells-level",
+      "kind": "prerequisite",
+      "name": "Oath of Devotion Spells level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-3-oath-of-devotion-spells",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/oath-of-devotion-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/paladin"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/oath-of-devotion-spells-preparation",
+      "kind": "prerequisite",
+      "name": "Oath of Devotion Spells preparation",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-3-oath-of-devotion-spells",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/oath-of-devotion-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/oath-spells/canonical-paladin-preparation-rules"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/oath-spells/canonical-paladin-preparation-rules",
+        "record_refs": [
+          "srd-5.2.1:character/feature/paladin/spellcasting"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/sacred-weapon",
+      "kind": "feature",
+      "name": "Sacred Weapon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-3-sacred-weapon",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/paladin/oath-of-devotion/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/sacred-weapon-level",
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/sacred-weapon-cost"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/optional-when-taking-attack-action",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/target/one-held-melee-weapon",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/attack-rolls/add-charisma-modifier-minimum-one",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/each-hit/choose-normal-damage-type-or-radiant",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/end/on-reuse-or-no-longer-carrying-weapon-or-voluntarily-no-action",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/channel-divinity-cost",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/duration-minutes",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/attack-bonus-minimum",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/bright-light-radius-feet",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/dim-light-additional-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/channel-divinity-cost": 1,
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/duration-minutes": 10,
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/attack-bonus-minimum": 1,
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/bright-light-radius-feet": 20,
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/dim-light-additional-feet": 20
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/sacred-weapon-level",
+      "kind": "prerequisite",
+      "name": "Sacred Weapon level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-3-sacred-weapon",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/sacred-weapon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/paladin"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/sacred-weapon-cost",
+      "kind": "prerequisite",
+      "name": "Sacred Weapon cost",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-3-sacred-weapon",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/sacred-weapon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/expend-canonical-channel-divinity-with-its-capacity-and-recovery"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/sacred-weapon/expend-canonical-channel-divinity-with-its-capacity-and-recovery",
+        "record_refs": [
+          "srd-5.2.1:character/resource/paladin/channel-divinity"
+        ],
+        "parameters": {
+          "uses-required": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/aura-of-devotion",
+      "kind": "feature",
+      "name": "Aura of Devotion",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-7-aura-of-devotion",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/paladin/oath-of-devotion/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/aura-of-devotion-level",
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/aura-of-devotion-scope"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/aura-of-devotion/self-and-allies-in-aura/immune-to-charmed",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/aura-of-devotion/charmed-ally-entering-aura/condition-has-no-effect-while-there"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/aura-of-devotion-level",
+      "kind": "prerequisite",
+      "name": "Aura of Devotion level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-7-aura-of-devotion",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/aura-of-devotion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/paladin"
+        ],
+        "parameters": {
+          "minimum-level": 7
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/aura-of-devotion-scope",
+      "kind": "prerequisite",
+      "name": "Aura of Devotion scope",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-7-aura-of-devotion",
+          "page": 56
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/aura-of-devotion",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/aura-of-devotion/within-canonical-aura-of-protection-including-expansion-and-inactive-condition"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/aura-of-devotion/within-canonical-aura-of-protection-including-expansion-and-inactive-condition",
+        "record_refs": [
+          "srd-5.2.1:character/feature/paladin/aura-of-protection",
+          "srd-5.2.1:character/feature/paladin/aura-expansion"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/smite-of-protection",
+      "kind": "feature",
+      "name": "Smite of Protection",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-15-smite-of-protection",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/paladin/oath-of-devotion/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/smite-of-protection-level",
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/smite-of-protection-trigger",
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/smite-of-protection-scope"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/smite-of-protection/whenever-cast-divine-smite",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/smite-of-protection/self-and-allies-in-aura/half-cover",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/smite-of-protection/aura-benefit-until-start-of-your-next-turn"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/smite-of-protection-level",
+      "kind": "prerequisite",
+      "name": "Smite of Protection level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-15-smite-of-protection",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/smite-of-protection",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/paladin"
+        ],
+        "parameters": {
+          "minimum-level": 15
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/smite-of-protection-trigger",
+      "kind": "prerequisite",
+      "name": "Smite of Protection trigger",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-15-smite-of-protection",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/smite-of-protection",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/smite-of-protection/cast-divine-smite-with-canonical-spell-rules"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/smite-of-protection/cast-divine-smite-with-canonical-spell-rules",
+        "record_refs": [
+          "srd-5.2.1:character/feature/paladin/paladins-smite"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/smite-of-protection-scope",
+      "kind": "prerequisite",
+      "name": "Smite of Protection scope",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-15-smite-of-protection",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/smite-of-protection",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/smite-of-protection/within-canonical-aura-of-protection-including-expansion-and-inactive-condition"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/smite-of-protection/within-canonical-aura-of-protection-including-expansion-and-inactive-condition",
+        "record_refs": [
+          "srd-5.2.1:character/feature/paladin/aura-of-protection",
+          "srd-5.2.1:character/feature/paladin/aura-expansion"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/holy-nimbus",
+      "kind": "feature",
+      "name": "Holy Nimbus",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-20-holy-nimbus",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/paladin/oath-of-devotion/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/holy-nimbus-level",
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/holy-nimbus-scope",
+        "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/holy-nimbus-restore"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/bonus-action",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/end/voluntarily-no-action",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/recover-use/finish-long-rest",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/restore-use/expend-level-five-slot-no-action",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/holy-ward/self-advantage-on-saves-forced-by-fiend-or-undead",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/radiant-damage/enemy-starts-turn-in-aura/charisma-modifier-plus-proficiency-bonus",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/sunlight/aura-filled-with-bright-light-that-is-sunlight",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/duration-minutes",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/uses",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/restore-slot-level",
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/restore-slot-cost"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/duration-minutes": 10,
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/uses": 1,
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/restore-slot-level": 5,
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/restore-slot-cost": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/holy-nimbus-level",
+      "kind": "prerequisite",
+      "name": "Holy Nimbus level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-20-holy-nimbus",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/holy-nimbus",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/paladin"
+        ],
+        "parameters": {
+          "minimum-level": 20
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/holy-nimbus-scope",
+      "kind": "prerequisite",
+      "name": "Holy Nimbus scope",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-20-holy-nimbus",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/holy-nimbus",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/imbue-canonical-aura-of-protection-including-expansion-and-inactive-condition"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/imbue-canonical-aura-of-protection-including-expansion-and-inactive-condition",
+        "record_refs": [
+          "srd-5.2.1:character/feature/paladin/aura-of-protection",
+          "srd-5.2.1:character/feature/paladin/aura-expansion"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/paladin/oath-of-devotion/holy-nimbus-restore",
+      "kind": "prerequisite",
+      "name": "Holy Nimbus restore",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/paladin-level-20-holy-nimbus",
+          "page": 57
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/paladin/oath-of-devotion/holy-nimbus",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/restore-expended-use-with-canonical-slot"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/paladin/oath-of-devotion/holy-nimbus/restore-expended-use-with-canonical-slot",
+        "record_refs": [
+          "srd-5.2.1:character/resource/paladin/spell-slot-5"
+        ],
+        "parameters": {
+          "slots-required": 1,
+          "slot-level": 5
+        }
+      }
+    }
+  ]
+}
