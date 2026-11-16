@@ -1,0 +1,2703 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Warlock source identities, all 20 progression rows, nested choices, prerequisites, Pact Magic and separate arcanum resources on PDF pp70-72 adapted into unavailable offline metadata. Mechanic keys and graph are Edda additions. Invocation, Fiend, spell and feat definitions remain opaque. No executable support imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/class/warlock",
+      "kind": "class",
+      "name": "Warlock",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/skills",
+        "srd-5.2.1:character/choice/warlock/starting-equipment"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/primary-ability/charisma",
+        "srd-5.2.1:mechanic/warlock/saves/wisdom",
+        "srd-5.2.1:mechanic/warlock/saves/charisma",
+        "srd-5.2.1:mechanic/warlock/weapons/simple",
+        "srd-5.2.1:mechanic/warlock/armor/light",
+        "srd-5.2.1:mechanic/warlock/level-1/all-core-traits-and-level-1-features",
+        "srd-5.2.1:mechanic/warlock/multiclass/hit-die-light-armor-level-1-features",
+        "srd-5.2.1:mechanic/warlock/multiclass/consult-multiclass-spell-slot-rules",
+        "srd-5.2.1:mechanic/warlock/hit-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/hit-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/skills",
+      "kind": "choice",
+      "name": "Skills",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/skills"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/arcana",
+        "srd-5.2.1:mechanic/skills/deception",
+        "srd-5.2.1:mechanic/skills/history",
+        "srd-5.2.1:mechanic/skills/intimidation",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/nature",
+        "srd-5.2.1:mechanic/skills/religion"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/starting-equipment",
+      "kind": "choice",
+      "name": "Starting Equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/leather-armor",
+        "srd-5.2.1:mechanic/equipment/sickle",
+        "srd-5.2.1:mechanic/equipment/dagger",
+        "srd-5.2.1:mechanic/equipment/arcane-focus-orb",
+        "srd-5.2.1:mechanic/equipment/book-occult-lore",
+        "srd-5.2.1:mechanic/equipment/scholars-pack",
+        "srd-5.2.1:mechanic/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/warlock/equipment/a",
+        "srd-5.2.1:mechanic/warlock/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/warlock/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/leather-armor": 1,
+            "srd-5.2.1:mechanic/equipment/sickle": 1,
+            "srd-5.2.1:mechanic/equipment/dagger": 2,
+            "srd-5.2.1:mechanic/equipment/arcane-focus-orb": 1,
+            "srd-5.2.1:mechanic/equipment/book-occult-lore": 1,
+            "srd-5.2.1:mechanic/equipment/scholars-pack": 1,
+            "srd-5.2.1:mechanic/currency/gp": 15
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/warlock/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/currency/gp": 100
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/1",
+      "kind": "level",
+      "name": "Warlock level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 1,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 1,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 2,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 2,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 1,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 1
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/2",
+      "kind": "level",
+      "name": "Warlock level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 2,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 3,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 2,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 3,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 2,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 1
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/magical-cunning"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/3",
+      "kind": "level",
+      "name": "Warlock level 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 3,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 3,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 2,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 4,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 2,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 2
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/warlock-subclass"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/4",
+      "kind": "level",
+      "name": "Warlock level 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 4,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 3,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 3,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 5,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 2,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 2
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/5",
+      "kind": "level",
+      "name": "Warlock level 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 5,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 5,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 3,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 6,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 2,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 3
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/6",
+      "kind": "level",
+      "name": "Warlock level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 6,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level",
+        "srd-5.2.1:mechanic/warlock/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 5,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 3,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 7,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 2,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 3
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/warlock/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/7",
+      "kind": "level",
+      "name": "Warlock level 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 7,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 6,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 3,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 8,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 2,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 4
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/8",
+      "kind": "level",
+      "name": "Warlock level 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 8,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 6,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 3,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 9,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 2,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 4
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/9",
+      "kind": "level",
+      "name": "Warlock level 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 9,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 7,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 3,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 10,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 2,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/contact-patron"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/10",
+      "kind": "level",
+      "name": "Warlock level 10",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 10,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level",
+        "srd-5.2.1:mechanic/warlock/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 7,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 10,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 2,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/warlock/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/11",
+      "kind": "level",
+      "name": "Warlock level 11",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 11,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level",
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/spell-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 7,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 11,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 3,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5,
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/spell-level": 6
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/12",
+      "kind": "level",
+      "name": "Warlock level 12",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 12,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 8,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 11,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 3,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/13",
+      "kind": "level",
+      "name": "Warlock level 13",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 13,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level",
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/spell-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 8,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 12,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 3,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5,
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/spell-level": 7
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/14",
+      "kind": "level",
+      "name": "Warlock level 14",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 14,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level",
+        "srd-5.2.1:mechanic/warlock/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 8,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 12,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 3,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/warlock/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/15",
+      "kind": "level",
+      "name": "Warlock level 15",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 15,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level",
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/spell-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 9,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 13,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 3,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5,
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/spell-level": 8
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/16",
+      "kind": "level",
+      "name": "Warlock level 16",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 16,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 9,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 13,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 3,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/17",
+      "kind": "level",
+      "name": "Warlock level 17",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 17,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level",
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/spell-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 9,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 14,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 4,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5,
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/spell-level": 9
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/18",
+      "kind": "level",
+      "name": "Warlock level 18",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 18,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 10,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 14,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 4,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/19",
+      "kind": "level",
+      "name": "Warlock level 19",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 19,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 10,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 15,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 4,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/epic-boon"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/warlock/20",
+      "kind": "level",
+      "name": "Warlock level 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/warlock",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/warlock",
+      "level": 20,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/class-progression",
+        "srd-5.2.1:mechanic/warlock/invocations/count",
+        "srd-5.2.1:mechanic/warlock/cantrips/count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/count": 10,
+        "srd-5.2.1:mechanic/warlock/cantrips/count": 4,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/count": 15,
+        "srd-5.2.1:mechanic/warlock/pact-slots/count": 4,
+        "srd-5.2.1:mechanic/warlock/pact-slots/level": 5
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-master"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+      "kind": "feature",
+      "name": "Eldritch Invocations",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-1-eldritch-invocations",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/warlock/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/invocations"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/table-count",
+        "srd-5.2.1:mechanic/warlock/invocations/gain-more-on-table-increase",
+        "srd-5.2.1:mechanic/warlock/invocations/recommend-pact-of-the-tome",
+        "srd-5.2.1:mechanic/warlock/invocations/replace-one-on-warlock-level",
+        "srd-5.2.1:mechanic/warlock/invocations/cannot-replace-prerequisite-of-owned-invocation",
+        "srd-5.2.1:mechanic/warlock/invocations/no-duplicates-unless-description-allows",
+        "srd-5.2.1:mechanic/warlock/invocations/replacement-count"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/invocations/replacement-count": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/pact-magic",
+      "kind": "feature",
+      "name": "Pact Magic",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-1-pact-magic",
+          "page": 71
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/warlock/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/cantrips",
+        "srd-5.2.1:character/choice/warlock/prepared-spells"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/warlock/pact-slots"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/spell-list/warlock",
+        "srd-5.2.1:mechanic/warlock/spellcasting/charisma",
+        "srd-5.2.1:mechanic/warlock/spellcasting/arcane-focus",
+        "srd-5.2.1:mechanic/warlock/pact-slots/distinct-from-spellcasting",
+        "srd-5.2.1:mechanic/warlock/pact-slots/all-same-level",
+        "srd-5.2.1:mechanic/warlock/pact-slots/expended-to-cast-level-one-through-five",
+        "srd-5.2.1:mechanic/warlock/pact-slots/cast-at-slot-level",
+        "srd-5.2.1:mechanic/warlock/pact-slots/recover-all-on-short-or-long-rest",
+        "srd-5.2.1:mechanic/warlock/cantrips/learn-on-table-increase",
+        "srd-5.2.1:mechanic/warlock/cantrips/recommend-eldritch-blast-and-prestidigitation",
+        "srd-5.2.1:mechanic/warlock/cantrips/replace-one-on-warlock-level",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/recommend-charm-person-and-hex",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/add-to-table-count-on-increase",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/replace-one-on-warlock-level",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/other-warlock-features-always-prepared-excluded-from-count-but-warlock-spells",
+        "srd-5.2.1:mechanic/warlock/cantrips/replacement-count",
+        "srd-5.2.1:mechanic/warlock/prepared-spells/replacement-count",
+        "srd-5.2.1:mechanic/warlock/pact-slots/minimum-spell-level",
+        "srd-5.2.1:mechanic/warlock/pact-slots/maximum-spell-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/cantrips/replacement-count": 1,
+        "srd-5.2.1:mechanic/warlock/prepared-spells/replacement-count": 1,
+        "srd-5.2.1:mechanic/warlock/pact-slots/minimum-spell-level": 1,
+        "srd-5.2.1:mechanic/warlock/pact-slots/maximum-spell-level": 5
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/magical-cunning",
+      "kind": "feature",
+      "name": "Magical Cunning",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-2-magical-cunning",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/warlock/2",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/warlock/magical-cunning"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/magical-cunning-recovery"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/magical-cunning/rite-at-end-recover-expended-pact-slots",
+        "srd-5.2.1:mechanic/warlock/magical-cunning/half-maximum-round-up",
+        "srd-5.2.1:mechanic/warlock/magical-cunning/rite-minutes",
+        "srd-5.2.1:mechanic/warlock/magical-cunning/maximum-divisor"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/magical-cunning/rite-minutes": 1,
+        "srd-5.2.1:mechanic/warlock/magical-cunning/maximum-divisor": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/warlock-subclass",
+      "kind": "feature",
+      "name": "Warlock Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-3-warlock-subclass",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/warlock/3",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/warlock-subclass"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/subclass/grant-features-at-own-warlock-level-or-lower"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/ability-score-improvement",
+      "kind": "feature",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-4-ability-score-improvement",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/warlock/4",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/ability-score-improvement"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/ability-score-improvement/qualified-feat-choice"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/contact-patron",
+      "kind": "feature",
+      "name": "Contact Patron",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-9-contact-patron",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/warlock/9",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/contact-patron-casting"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/warlock/contact-patron"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/spells/contact-other-plane",
+        "srd-5.2.1:mechanic/warlock/contact-patron/always-prepared"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "always_prepared": [
+        {
+          "level": 9,
+          "spell_keys": [
+            "srd-5.2.1:mechanic/warlock/spells/contact-other-plane"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "kind": "feature",
+      "name": "Mystic Arcanum",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/warlock/11",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/arcanum-6",
+        "srd-5.2.1:character/choice/warlock/arcanum-7",
+        "srd-5.2.1:character/choice/warlock/arcanum-8",
+        "srd-5.2.1:character/choice/warlock/arcanum-9"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/warlock/arcanum-6",
+        "srd-5.2.1:character/resource/warlock/arcanum-7",
+        "srd-5.2.1:character/resource/warlock/arcanum-8",
+        "srd-5.2.1:character/resource/warlock/arcanum-9"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-6-casting",
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-7-casting",
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-8-casting",
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-9-casting"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/warlock-spell-list",
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/no-slot-for-free-cast",
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/replace-one-on-warlock-level",
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/replacement-same-spell-level",
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/recover-all-uses-on-long-rest",
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/replacement-count"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/replacement-count": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/epic-boon",
+      "kind": "feature",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-19-epic-boon",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/warlock/19",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/warlock/epic-boon"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/epic-boon/qualified-feat-choice",
+        "srd-5.2.1:mechanic/warlock/epic-boon/recommend-boon-of-fate"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/warlock/eldritch-master",
+      "kind": "feature",
+      "name": "Eldritch Master",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-20-eldritch-master",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/warlock/20",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/eldritch-master-recovery"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/eldritch-master/when-using-magical-cunning",
+        "srd-5.2.1:mechanic/warlock/eldritch-master/recover-all-expended-pact-slots"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/invocations",
+      "kind": "choice",
+      "name": "Invocations",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-1-eldritch-invocations",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/invocation-eligibility",
+        "srd-5.2.1:character/prerequisite/warlock/invocation-replacement"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/warlock/invocation-options"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 1
+        },
+        {
+          "level": 2,
+          "value": 3
+        },
+        {
+          "level": 3,
+          "value": 3
+        },
+        {
+          "level": 4,
+          "value": 3
+        },
+        {
+          "level": 5,
+          "value": 5
+        },
+        {
+          "level": 6,
+          "value": 5
+        },
+        {
+          "level": 7,
+          "value": 6
+        },
+        {
+          "level": 8,
+          "value": 6
+        },
+        {
+          "level": 9,
+          "value": 7
+        },
+        {
+          "level": 10,
+          "value": 7
+        },
+        {
+          "level": 11,
+          "value": 7
+        },
+        {
+          "level": 12,
+          "value": 8
+        },
+        {
+          "level": 13,
+          "value": 8
+        },
+        {
+          "level": 14,
+          "value": 8
+        },
+        {
+          "level": 15,
+          "value": 9
+        },
+        {
+          "level": 16,
+          "value": 9
+        },
+        {
+          "level": 17,
+          "value": 9
+        },
+        {
+          "level": 18,
+          "value": 10
+        },
+        {
+          "level": 19,
+          "value": 10
+        },
+        {
+          "level": 20,
+          "value": 10
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocation-eligibility",
+      "kind": "prerequisite",
+      "name": "Invocation Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-1-eldritch-invocations",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/must-meet-all-prerequisites"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/must-meet-all-prerequisites",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock",
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/invocation-replacement",
+      "kind": "prerequisite",
+      "name": "Invocation Replacement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-1-eldritch-invocations",
+          "page": 70
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/invocations/replacement-must-qualify-and-not-be-required-by-owned-invocation"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/invocations/replacement-must-qualify-and-not-be-required-by-owned-invocation",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations",
+          "srd-5.2.1:character/choice/warlock/invocations"
+        ],
+        "parameters": {
+          "maximum-replacements": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/cantrips",
+      "kind": "choice",
+      "name": "Cantrips",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-1-pact-magic",
+          "page": 71
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/pact-magic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/cantrip-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/cantrips"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/warlock-cantrips"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 3
+        },
+        {
+          "level": 5,
+          "value": 3
+        },
+        {
+          "level": 6,
+          "value": 3
+        },
+        {
+          "level": 7,
+          "value": 3
+        },
+        {
+          "level": 8,
+          "value": 3
+        },
+        {
+          "level": 9,
+          "value": 3
+        },
+        {
+          "level": 10,
+          "value": 4
+        },
+        {
+          "level": 11,
+          "value": 4
+        },
+        {
+          "level": 12,
+          "value": 4
+        },
+        {
+          "level": 13,
+          "value": 4
+        },
+        {
+          "level": 14,
+          "value": 4
+        },
+        {
+          "level": 15,
+          "value": 4
+        },
+        {
+          "level": 16,
+          "value": 4
+        },
+        {
+          "level": 17,
+          "value": 4
+        },
+        {
+          "level": 18,
+          "value": 4
+        },
+        {
+          "level": 19,
+          "value": 4
+        },
+        {
+          "level": 20,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/prepared-spells",
+      "kind": "choice",
+      "name": "Prepared Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-1-pact-magic",
+          "page": 71
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/pact-magic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/prepared-spell-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/prepared-spells"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/warlock-level-one-through-five"
+      ],
+      "capacity": 0,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 2
+        },
+        {
+          "level": 2,
+          "value": 3
+        },
+        {
+          "level": 3,
+          "value": 4
+        },
+        {
+          "level": 4,
+          "value": 5
+        },
+        {
+          "level": 5,
+          "value": 6
+        },
+        {
+          "level": 6,
+          "value": 7
+        },
+        {
+          "level": 7,
+          "value": 8
+        },
+        {
+          "level": 8,
+          "value": 9
+        },
+        {
+          "level": 9,
+          "value": 10
+        },
+        {
+          "level": 10,
+          "value": 10
+        },
+        {
+          "level": 11,
+          "value": 11
+        },
+        {
+          "level": 12,
+          "value": 11
+        },
+        {
+          "level": 13,
+          "value": 12
+        },
+        {
+          "level": 14,
+          "value": 12
+        },
+        {
+          "level": 15,
+          "value": 13
+        },
+        {
+          "level": 16,
+          "value": 13
+        },
+        {
+          "level": 17,
+          "value": 14
+        },
+        {
+          "level": 18,
+          "value": 14
+        },
+        {
+          "level": 19,
+          "value": 15
+        },
+        {
+          "level": 20,
+          "value": 15
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/resource/warlock/pact-slots",
+      "kind": "resource",
+      "name": "Pact Magic slots",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-1-pact-magic",
+          "page": 71
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/pact-magic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/pact-slots/recover-all-on-short-or-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1,
+      "values_by_level": [
+        {
+          "level": 1,
+          "value": 1
+        },
+        {
+          "level": 2,
+          "value": 2
+        },
+        {
+          "level": 3,
+          "value": 2
+        },
+        {
+          "level": 4,
+          "value": 2
+        },
+        {
+          "level": 5,
+          "value": 2
+        },
+        {
+          "level": 6,
+          "value": 2
+        },
+        {
+          "level": 7,
+          "value": 2
+        },
+        {
+          "level": 8,
+          "value": 2
+        },
+        {
+          "level": 9,
+          "value": 2
+        },
+        {
+          "level": 10,
+          "value": 2
+        },
+        {
+          "level": 11,
+          "value": 3
+        },
+        {
+          "level": 12,
+          "value": 3
+        },
+        {
+          "level": 13,
+          "value": 3
+        },
+        {
+          "level": 14,
+          "value": 3
+        },
+        {
+          "level": 15,
+          "value": 3
+        },
+        {
+          "level": 16,
+          "value": 3
+        },
+        {
+          "level": 17,
+          "value": 4
+        },
+        {
+          "level": 18,
+          "value": 4
+        },
+        {
+          "level": 19,
+          "value": 4
+        },
+        {
+          "level": 20,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/cantrip-eligibility",
+      "kind": "prerequisite",
+      "name": "Cantrip Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-1-pact-magic",
+          "page": 71
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/cantrips",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/cantrips/warlock-list-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/cantrips/warlock-list-only",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock",
+          "srd-5.2.1:character/feature/warlock/pact-magic"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/prepared-spell-eligibility",
+      "kind": "prerequisite",
+      "name": "Prepared Spell Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-1-pact-magic",
+          "page": 71
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/prepared-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/prepared-spells/warlock-list-level-at-most-current-pact-slot-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/prepared-spells/warlock-list-level-at-most-current-pact-slot-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock",
+          "srd-5.2.1:character/feature/warlock/pact-magic",
+          "srd-5.2.1:character/resource/warlock/pact-slots"
+        ],
+        "parameters": {
+          "minimum-spell-level": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/warlock/magical-cunning",
+      "kind": "resource",
+      "name": "Magical Cunning",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-2-magical-cunning",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/magical-cunning",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/magical-cunning/recover-on-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/magical-cunning-recovery",
+      "kind": "prerequisite",
+      "name": "Magical Cunning Recovery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-2-magical-cunning",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/magical-cunning",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/magical-cunning/expended-pact-slots-only-up-to-half-maximum-rounded-up"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/magical-cunning/expended-pact-slots-only-up-to-half-maximum-rounded-up",
+        "record_refs": [
+          "srd-5.2.1:character/resource/warlock/pact-slots",
+          "srd-5.2.1:character/resource/warlock/magical-cunning"
+        ],
+        "parameters": {
+          "maximum-divisor": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/warlock-subclass",
+      "kind": "choice",
+      "name": "Warlock Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-3-warlock-subclass",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/warlock-subclass",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/warlock-subclass"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/warlock/subclasses",
+        "srd-5.2.1:mechanic/warlock/subclasses/fiend-patron"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/ability-score-improvement",
+      "kind": "choice",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-4-ability-score-improvement",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/ability-score-improvement-qualification"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/ability-score-improvement"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/ability-score-improvement-qualification",
+      "kind": "prerequisite",
+      "name": "Ability Score Improvement Qualification",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-4-ability-score-improvement",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/feat/requires-qualification",
+        "srd-5.2.1:mechanic/warlock/predicate/conditional-on-option/feats/qualified"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/feat/requires-qualification",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/epic-boon",
+      "kind": "choice",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-19-epic-boon",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/epic-boon-qualification"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/epic-boon"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/epic-boon",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/epic-boon-qualification",
+      "kind": "prerequisite",
+      "name": "Epic Boon Qualification",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-19-epic-boon",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/feat/requires-qualification",
+        "srd-5.2.1:mechanic/warlock/predicate/conditional-on-option/feats/qualified"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/feat/requires-qualification",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/contact-patron-casting",
+      "kind": "choice",
+      "name": "Contact Patron Casting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-9-contact-patron",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/contact-patron",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/contact-patron-free"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/contact-patron-casting"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/warlock/contact-patron/ordinary-spellcasting",
+        "srd-5.2.1:mechanic/warlock/contact-patron/free-patron-contact"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/contact-patron-free",
+      "kind": "prerequisite",
+      "name": "Contact Patron Free",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-9-contact-patron",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/contact-patron-casting",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/contact-patron/free-cast-contact-own-patron-auto-save-success",
+        "srd-5.2.1:mechanic/warlock/predicate/conditional-on-option/warlock/contact-patron/free-patron-contact"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/contact-patron/free-cast-contact-own-patron-auto-save-success",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/contact-patron",
+          "srd-5.2.1:character/resource/warlock/contact-patron"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/warlock/contact-patron",
+      "kind": "resource",
+      "name": "Contact Patron",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-9-contact-patron",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/contact-patron",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/contact-patron/free-cast-no-slot-recover-on-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/arcanum-6",
+      "kind": "choice",
+      "name": "Arcanum 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-6-eligibility",
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-6-replacement"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/arcanum-6"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/warlock-level-6"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-6-eligibility",
+      "kind": "prerequisite",
+      "name": "Arcanum 6 Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/arcanum-6",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/warlock-spell-at-specific-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/warlock-spell-at-specific-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock",
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "parameters": {
+          "minimum-warlock-level": 11,
+          "spell-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/warlock/arcanum-6",
+      "kind": "resource",
+      "name": "Level 6 arcanum free use",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/separate-free-use-recover-on-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-6-casting",
+      "kind": "prerequisite",
+      "name": "Arcanum 6 Casting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/free-use-for-selected-arcanum-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/free-use-for-selected-arcanum-only",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/arcanum-6",
+          "srd-5.2.1:character/resource/warlock/arcanum-6"
+        ],
+        "parameters": {
+          "minimum-warlock-level": 11,
+          "spell-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-6-replacement",
+      "kind": "prerequisite",
+      "name": "Arcanum 6 Replacement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/arcanum-6",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/replace-with-same-level-warlock-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/replace-with-same-level-warlock-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/arcanum-6",
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "parameters": {
+          "spell-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/arcanum-7",
+      "kind": "choice",
+      "name": "Arcanum 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-7-eligibility",
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-7-replacement"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/arcanum-7"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/warlock-level-7"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-7-eligibility",
+      "kind": "prerequisite",
+      "name": "Arcanum 7 Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/arcanum-7",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/warlock-spell-at-specific-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/warlock-spell-at-specific-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock",
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "parameters": {
+          "minimum-warlock-level": 13,
+          "spell-level": 7
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/warlock/arcanum-7",
+      "kind": "resource",
+      "name": "Level 7 arcanum free use",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/separate-free-use-recover-on-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-7-casting",
+      "kind": "prerequisite",
+      "name": "Arcanum 7 Casting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/free-use-for-selected-arcanum-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/free-use-for-selected-arcanum-only",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/arcanum-7",
+          "srd-5.2.1:character/resource/warlock/arcanum-7"
+        ],
+        "parameters": {
+          "minimum-warlock-level": 13,
+          "spell-level": 7
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-7-replacement",
+      "kind": "prerequisite",
+      "name": "Arcanum 7 Replacement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/arcanum-7",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/replace-with-same-level-warlock-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/replace-with-same-level-warlock-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/arcanum-7",
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "parameters": {
+          "spell-level": 7
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/arcanum-8",
+      "kind": "choice",
+      "name": "Arcanum 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-8-eligibility",
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-8-replacement"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/arcanum-8"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/warlock-level-8"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-8-eligibility",
+      "kind": "prerequisite",
+      "name": "Arcanum 8 Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/arcanum-8",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/warlock-spell-at-specific-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/warlock-spell-at-specific-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock",
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "parameters": {
+          "minimum-warlock-level": 15,
+          "spell-level": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/warlock/arcanum-8",
+      "kind": "resource",
+      "name": "Level 8 arcanum free use",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/separate-free-use-recover-on-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-8-casting",
+      "kind": "prerequisite",
+      "name": "Arcanum 8 Casting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/free-use-for-selected-arcanum-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/free-use-for-selected-arcanum-only",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/arcanum-8",
+          "srd-5.2.1:character/resource/warlock/arcanum-8"
+        ],
+        "parameters": {
+          "minimum-warlock-level": 15,
+          "spell-level": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-8-replacement",
+      "kind": "prerequisite",
+      "name": "Arcanum 8 Replacement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/arcanum-8",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/replace-with-same-level-warlock-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/replace-with-same-level-warlock-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/arcanum-8",
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "parameters": {
+          "spell-level": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/warlock/arcanum-9",
+      "kind": "choice",
+      "name": "Arcanum 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-9-eligibility",
+        "srd-5.2.1:character/prerequisite/warlock/arcanum-9-replacement"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/arcanum-9"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/spells/warlock-level-9"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-9-eligibility",
+      "kind": "prerequisite",
+      "name": "Arcanum 9 Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/arcanum-9",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/warlock-spell-at-specific-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/warlock-spell-at-specific-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/warlock",
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "parameters": {
+          "minimum-warlock-level": 17,
+          "spell-level": 9
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/warlock/arcanum-9",
+      "kind": "resource",
+      "name": "Level 9 arcanum free use",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/separate-free-use-recover-on-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-9-casting",
+      "kind": "prerequisite",
+      "name": "Arcanum 9 Casting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/mystic-arcanum",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/free-use-for-selected-arcanum-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/free-use-for-selected-arcanum-only",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/arcanum-9",
+          "srd-5.2.1:character/resource/warlock/arcanum-9"
+        ],
+        "parameters": {
+          "minimum-warlock-level": 17,
+          "spell-level": 9
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/arcanum-9-replacement",
+      "kind": "prerequisite",
+      "name": "Arcanum 9 Replacement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-11-mystic-arcanum",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/warlock/arcanum-9",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/mystic-arcanum/replace-with-same-level-warlock-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/mystic-arcanum/replace-with-same-level-warlock-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/warlock/arcanum-9",
+          "srd-5.2.1:character/feature/warlock/mystic-arcanum"
+        ],
+        "parameters": {
+          "spell-level": 9
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/warlock/eldritch-master-recovery",
+      "kind": "prerequisite",
+      "name": "Eldritch Master Recovery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/warlock-level-20-eldritch-master",
+          "page": 72
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/warlock/eldritch-master",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/warlock/eldritch-master/changes-cunning-recovery-only"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/warlock/eldritch-master/changes-cunning-recovery-only",
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/magical-cunning",
+          "srd-5.2.1:character/resource/warlock/pact-slots"
+        ],
+        "parameters": {}
+      }
+    }
+  ]
+}
