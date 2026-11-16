@@ -79,6 +79,19 @@ def validate(m,r,require=False):
  for k,v in m['source_key_owners'].items():assert (v in rows and k in rows[v]['owned_keys']) or v in {'external:384','external:389','external:488','external:727'}
  for x in rows.values():assert x['owned_keys']==sorted(k for k,v in m['source_key_owners'].items() if v==x['key'])
  for p,h in m['evidence_hashes'].items():assert sha((ROOT/p).read_bytes())==h,'runtime evidence drift'
+ palm=next(x for x in records if x['kind']=='feature' and x['id'].endswith('/quivering-palm'))
+ params={k.rsplit('/',1)[-1]:v for k,v in palm['parameters'].items()}
+ witness=m['deterministic_witnesses']['quivering-palm']
+ assert len(witness['faces'])==params['damage-dice'] and all(1<=n<=params['damage-die-sides'] for n in witness['faces']), 'Palm source dice count/sides'
+ assert sum(witness['faces'])==witness['failed_damage'] and witness['successful_damage']==witness['failed_damage']//2
+ assert witness['setup_focus']==params['focus-cost'] and witness['termination_focus']==0
+ assert 'ten fixed D12 faces '+str(witness['faces']).replace(', ', ',') in rows['palm-end']['fixture']
+ martial=m['deterministic_witnesses']['martial-arts'];modifier=(martial['strength']-10)//2
+ level=next(x for x in records if x['kind']=='level' and x['level']==martial['monk_level'])
+ sides=level['parameters']['srd-5.2.1:mechanic/monk/table/martial-arts-die-sides']
+ assert 1<=martial['monk_face']<=sides and martial['monk_damage']==martial['monk_face']+modifier
+ assert martial['unarmed_normal']==1+modifier
+ assert martial['spear_normal_sides']==8 and 1<=martial['spear_normal_face']<=8 and martial['spear_normal_damage']==martial['spear_normal_face']+modifier
  graph={x['number']:x for x in r['graph']};assert len(graph)==len(r['graph'])
  acyclic(graph);acyclic({n:dict(blocked_by=[x['parent']] if x['parent'] else []) for n,x in graph.items()})
  counts={}
@@ -157,6 +170,9 @@ def probes(m,r):
  def node(b,n):return next(x for x in b['graph'] if x['number']==n)
  tests=[
  ('source',lambda a,b:a['catalogues'][next(iter(a['catalogues']))]['records'][0]['parameters'].update(bad=9)),
+ ('Palm extra die',lambda a,b:a['deterministic_witnesses']['quivering-palm']['faces'].append(12)),
+ ('Palm half damage',lambda a,b:a['deterministic_witnesses']['quivering-palm'].update(successful_damage=33)),
+ ('Martial ability modifier',lambda a,b:a['deterministic_witnesses']['martial-arts'].update(monk_damage=4)),
  ('numeric',lambda a,b:a['catalogues'][next(iter(a['catalogues']))]['records'][0]['parameters'].update({'srd-5.2.1:mechanic/monk/hit-die-sides':9})),
  ('pin',lambda a,b:a['source'].update(sha256='bad')),
  ('operand',lambda a,b:a['issues'][0].update(fixture='wrong clause')),
@@ -211,6 +227,9 @@ def probes(m,r):
   else:raise AssertionError('pagination repetition/cap')
  print('PASS',len(tests),'bounded adversarial guards; pending/sealed/closed/additive controls')
 def source_check(pdf):
+ import re
+ weapons=subprocess.run(['pdftotext','-f','91','-l','91','-layout',str(pdf),'-'],capture_output=True,text=True,check=True).stdout
+ assert re.search(r'Spear\s+1d6 Piercing[^\n]+Versatile \(1d8\)',weapons), 'PDF91 Spear normal/Versatile source'
  assert sha(pdf.read_bytes())==PIN
  for s in ['monk','open_hand','advancement','multiclass']:
   subprocess.run(['python3',str(ROOT/'scripts'/('verify_srd_'+s+'.py')),str(pdf)],check=True)
