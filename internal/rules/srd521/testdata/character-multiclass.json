@@ -1,0 +1,859 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Multiclass section and table adapted to non-executable metadata. Edda IDs, scope bindings and unresolved requirements added; canonical class and advancement owners referenced."
+  },
+  "scope": {
+    "issue": 320,
+    "section": "multiclassing",
+    "first_page": 24,
+    "last_page": 26
+  },
+  "catalogues": [
+    "character-barbarian.json",
+    "character-bard.json",
+    "character-cleric.json",
+    "character-druid.json",
+    "character-fighter.json",
+    "character-monk.json",
+    "character-paladin.json",
+    "character-ranger.json",
+    "character-rogue.json",
+    "character-sorcerer.json",
+    "character-warlock.json",
+    "character-wizard.json",
+    "character-advancement.json"
+  ],
+  "classes": [
+    {
+      "class_ref": "srd-5.2.1:character/class/barbarian",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/barbarian",
+        "page": 28
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "strength"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/barbarian"
+      ],
+      "proficiencies": [
+        "martial-weapons",
+        "shields"
+      ]
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/bard",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/bard",
+        "page": 31
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "charisma"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/bard",
+        "srd-5.2.1:character/choice/bard/multiclass-skill",
+        "srd-5.2.1:character/choice/bard/multiclass-instrument"
+      ],
+      "proficiencies": [
+        "any-skill",
+        "musical-instrument",
+        "light-armor"
+      ]
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/cleric",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/cleric",
+        "page": 36
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "wisdom"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/cleric"
+      ],
+      "proficiencies": [
+        "light-armor",
+        "medium-armor",
+        "shields"
+      ]
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/druid",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/druid",
+        "page": 41
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "wisdom"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/druid"
+      ],
+      "proficiencies": [
+        "light-armor",
+        "shields"
+      ]
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/fighter",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/fighter",
+        "page": 47
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "strength"
+        ],
+        [
+          "dexterity"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/fighter"
+      ],
+      "proficiencies": [
+        "martial-weapons",
+        "light-armor",
+        "medium-armor",
+        "shields"
+      ]
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/monk",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/monk",
+        "page": 49
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "dexterity",
+          "wisdom"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/monk"
+      ],
+      "proficiencies": []
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/paladin",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/paladin",
+        "page": 53
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "strength",
+          "charisma"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/paladin"
+      ],
+      "proficiencies": [
+        "martial-weapons",
+        "light-armor",
+        "medium-armor",
+        "shields"
+      ]
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/ranger",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/ranger",
+        "page": 57
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "dexterity",
+          "wisdom"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/ranger",
+        "srd-5.2.1:character/choice/ranger/multiclass-skill"
+      ],
+      "proficiencies": [
+        "martial-weapons",
+        "class-skill",
+        "light-armor",
+        "medium-armor",
+        "shields"
+      ]
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/rogue",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/rogue",
+        "page": 61
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "dexterity"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/rogue",
+        "srd-5.2.1:character/choice/rogue/multiclass-skill"
+      ],
+      "proficiencies": [
+        "class-skill",
+        "thieves-tools",
+        "light-armor"
+      ]
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/sorcerer",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+        "page": 64
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "charisma"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/sorcerer"
+      ],
+      "proficiencies": []
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/warlock",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/warlock",
+        "page": 70
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "charisma"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/warlock"
+      ],
+      "proficiencies": [
+        "light-armor"
+      ]
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/wizard",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/wizard",
+        "page": 77
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "intelligence"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/wizard"
+      ],
+      "proficiencies": []
+    }
+  ],
+  "requirements": [
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/prerequisites",
+      "first_page": 24,
+      "last_page": 25,
+      "clauses": [
+        "new-and-every-current-class",
+        "each-primary-ability-at-least-minimum",
+        "alternatives-preserved"
+      ],
+      "record_refs": [],
+      "parameters": {}
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/experience-and-proficiency",
+      "first_page": 25,
+      "last_page": 25,
+      "clauses": [
+        "use-total-character-level",
+        "reuse-global-advancement"
+      ],
+      "record_refs": [
+        "srd-5.2.1:character/advancement/1",
+        "srd-5.2.1:character/advancement/2",
+        "srd-5.2.1:character/advancement/3",
+        "srd-5.2.1:character/advancement/4",
+        "srd-5.2.1:character/advancement/5",
+        "srd-5.2.1:character/advancement/6",
+        "srd-5.2.1:character/advancement/7",
+        "srd-5.2.1:character/advancement/8",
+        "srd-5.2.1:character/advancement/9",
+        "srd-5.2.1:character/advancement/10",
+        "srd-5.2.1:character/advancement/11",
+        "srd-5.2.1:character/advancement/12",
+        "srd-5.2.1:character/advancement/13",
+        "srd-5.2.1:character/advancement/14",
+        "srd-5.2.1:character/advancement/15",
+        "srd-5.2.1:character/advancement/16",
+        "srd-5.2.1:character/advancement/17",
+        "srd-5.2.1:character/advancement/18",
+        "srd-5.2.1:character/advancement/19",
+        "srd-5.2.1:character/advancement/20"
+      ],
+      "parameters": {}
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/hit-points-and-dice",
+      "first_page": 25,
+      "last_page": 25,
+      "clauses": [
+        "new-class-hp-as-levels-after-first",
+        "first-level-hp-only-at-total-level-one",
+        "sum-class-hit-dice",
+        "same-die-type-may-pool",
+        "different-die-types-tracked-separately"
+      ],
+      "record_refs": [
+        "srd-5.2.1:character/class/barbarian",
+        "srd-5.2.1:character/class/bard",
+        "srd-5.2.1:character/class/cleric",
+        "srd-5.2.1:character/class/druid",
+        "srd-5.2.1:character/class/fighter",
+        "srd-5.2.1:character/class/monk",
+        "srd-5.2.1:character/class/paladin",
+        "srd-5.2.1:character/class/ranger",
+        "srd-5.2.1:character/class/rogue",
+        "srd-5.2.1:character/class/sorcerer",
+        "srd-5.2.1:character/class/warlock",
+        "srd-5.2.1:character/class/wizard"
+      ],
+      "parameters": {
+        "first-level-hp-total-level": 1
+      }
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/proficiencies",
+      "first_page": 25,
+      "last_page": 25,
+      "clauses": [
+        "first-level-in-noninitial-class",
+        "only-listed-starting-proficiencies",
+        "no-other-core-traits"
+      ],
+      "record_refs": [],
+      "parameters": {}
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/class-features",
+      "first_page": 25,
+      "last_page": 25,
+      "clauses": [
+        "new-class-level-features",
+        "check-class-specific-multiclass-rules"
+      ],
+      "record_refs": [
+        "srd-5.2.1:character/class/barbarian",
+        "srd-5.2.1:character/class/bard",
+        "srd-5.2.1:character/class/cleric",
+        "srd-5.2.1:character/class/druid",
+        "srd-5.2.1:character/class/fighter",
+        "srd-5.2.1:character/class/monk",
+        "srd-5.2.1:character/class/paladin",
+        "srd-5.2.1:character/class/ranger",
+        "srd-5.2.1:character/class/rogue",
+        "srd-5.2.1:character/class/sorcerer",
+        "srd-5.2.1:character/class/warlock",
+        "srd-5.2.1:character/class/wizard"
+      ],
+      "parameters": {}
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/armor-class",
+      "first_page": 25,
+      "last_page": 25,
+      "clauses": [
+        "multiple-calculations",
+        "benefit-from-only-one-at-a-time",
+        "monk-unarmored-defense-or-sorcerer-draconic-resilience-example"
+      ],
+      "record_refs": [
+        "srd-5.2.1:character/feature/monk/unarmored-defense"
+      ],
+      "parameters": {
+        "simultaneous-calculations": 1
+      }
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/extra-attack",
+      "first_page": 25,
+      "last_page": 25,
+      "clauses": [
+        "extra-attack-from-multiple-classes-does-not-stack",
+        "maximum-two-unless-feature-explicitly-says-more",
+        "fighter-two-extra-attacks-exception",
+        "thirsting-blade-pact-weapon-no-additional-attacks-with-extra-attack"
+      ],
+      "record_refs": [
+        "srd-5.2.1:character/feature/fighter/extra-attack",
+        "srd-5.2.1:character/feature/fighter/two-extra-attacks",
+        "srd-5.2.1:character/feature/warlock/eldritch-invocations"
+      ],
+      "parameters": {
+        "ordinary-maximum-attacks": 2
+      }
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/spellcasting-scope",
+      "first_page": 25,
+      "last_page": 25,
+      "clauses": [
+        "combined-and-individual-class-levels",
+        "shared-rules-only-with-spellcasting-from-more-than-one-class",
+        "one-spellcasting-class-use-own-class-rules"
+      ],
+      "record_refs": [
+        "srd-5.2.1:character/feature/bard/spellcasting",
+        "srd-5.2.1:character/feature/cleric/spellcasting",
+        "srd-5.2.1:character/feature/druid/spellcasting",
+        "srd-5.2.1:character/feature/paladin/spellcasting",
+        "srd-5.2.1:character/feature/ranger/spellcasting",
+        "srd-5.2.1:character/feature/sorcerer/spellcasting",
+        "srd-5.2.1:character/feature/wizard/spellcasting"
+      ],
+      "parameters": {
+        "minimum-spellcasting-classes": 2
+      }
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/prepared-spells",
+      "first_page": 25,
+      "last_page": 26,
+      "clauses": [
+        "prepare-per-class-as-single-class",
+        "each-prepared-spell-associated-with-one-class",
+        "use-that-class-spellcasting-ability",
+        "higher-slots-do-not-unlock-higher-preparations"
+      ],
+      "record_refs": [
+        "srd-5.2.1:character/feature/bard/spellcasting",
+        "srd-5.2.1:character/feature/cleric/spellcasting",
+        "srd-5.2.1:character/feature/druid/spellcasting",
+        "srd-5.2.1:character/feature/paladin/spellcasting",
+        "srd-5.2.1:character/feature/ranger/spellcasting",
+        "srd-5.2.1:character/feature/sorcerer/spellcasting",
+        "srd-5.2.1:character/feature/wizard/spellcasting"
+      ],
+      "parameters": {}
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/cantrips",
+      "first_page": 25,
+      "last_page": 25,
+      "clauses": [
+        "power-scaling-total-character-level",
+        "unless-spell-says-otherwise"
+      ],
+      "record_refs": [],
+      "parameters": {}
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/spell-slots",
+      "first_page": 25,
+      "last_page": 26,
+      "clauses": [
+        "sum-full-caster-levels",
+        "add-half-paladin-and-ranger-levels-rounded-up",
+        "look-up-total-in-shared-table",
+        "cast-appropriate-level-spells-from-any-owned-spellcasting-class",
+        "higher-slots-only-cast-prepared-lower-level-spells",
+        "enhanced-effect-only-if-spell-provides-it"
+      ],
+      "record_refs": [
+        "srd-5.2.1:character/feature/bard/spellcasting",
+        "srd-5.2.1:character/feature/cleric/spellcasting",
+        "srd-5.2.1:character/feature/druid/spellcasting",
+        "srd-5.2.1:character/feature/paladin/spellcasting",
+        "srd-5.2.1:character/feature/ranger/spellcasting",
+        "srd-5.2.1:character/feature/sorcerer/spellcasting",
+        "srd-5.2.1:character/feature/wizard/spellcasting"
+      ],
+      "parameters": {
+        "full-caster-divisor": 1,
+        "paladin-divisor": 2,
+        "ranger-divisor": 2,
+        "round-up": 1
+      }
+    },
+    {
+      "key": "srd-5.2.1:mechanic/multiclass/pact-magic",
+      "first_page": 26,
+      "last_page": 26,
+      "clauses": [
+        "requires-warlock-pact-magic-and-spellcasting",
+        "pact-slots-cast-prepared-spellcasting-class-spells",
+        "spellcasting-slots-cast-prepared-warlock-spells",
+        "pact-levels-excluded-from-shared-slot-sum"
+      ],
+      "record_refs": [
+        "srd-5.2.1:character/feature/warlock/pact-magic",
+        "srd-5.2.1:character/feature/bard/spellcasting",
+        "srd-5.2.1:character/feature/cleric/spellcasting",
+        "srd-5.2.1:character/feature/druid/spellcasting",
+        "srd-5.2.1:character/feature/paladin/spellcasting",
+        "srd-5.2.1:character/feature/ranger/spellcasting",
+        "srd-5.2.1:character/feature/sorcerer/spellcasting",
+        "srd-5.2.1:character/feature/wizard/spellcasting"
+      ],
+      "parameters": {}
+    }
+  ],
+  "slot_rows": [
+    {
+      "level": 1,
+      "slots": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 2,
+      "slots": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 3,
+      "slots": [
+        4,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 4,
+      "slots": [
+        4,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 5,
+      "slots": [
+        4,
+        3,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 6,
+      "slots": [
+        4,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 7,
+      "slots": [
+        4,
+        3,
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 8,
+      "slots": [
+        4,
+        3,
+        3,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 9,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 10,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 11,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 12,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 13,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 14,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 15,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "level": 16,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "level": 17,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "level": 18,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        3,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "level": 19,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "level": 20,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        3,
+        2,
+        2,
+        1,
+        1
+      ]
+    }
+  ],
+  "slot_terms": [
+    {
+      "class_ref": "srd-5.2.1:character/class/bard",
+      "level_divisor": 1,
+      "rounding": "none"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/cleric",
+      "level_divisor": 1,
+      "rounding": "none"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/druid",
+      "level_divisor": 1,
+      "rounding": "none"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/paladin",
+      "level_divisor": 2,
+      "rounding": "up"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/ranger",
+      "level_divisor": 2,
+      "rounding": "up"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/sorcerer",
+      "level_divisor": 1,
+      "rounding": "none"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/wizard",
+      "level_divisor": 1,
+      "rounding": "none"
+    }
+  ]
+}
