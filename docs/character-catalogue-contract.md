@@ -310,3 +310,10 @@ currency, and Soldier’s matching choice. Go fixtures require neither the PDF
 nor Poppler. These checks establish metadata transcription and graph integrity;
 independent source review and hosted qualification remain separate. Database,
 browser and paid inference checks are outside this metadata-only scope.
+
+## Epic Boon feats (#298)
+
+The seven page-88 Epic Boon feats use the existing guarded contract, with owned
+ability choices, level and source-condition predicates, operand references and
+single-use resources. See [the source evidence and checks](srd-5.2.1-epic-boon-feats.md).
+They are unavailable metadata; validation grants no runtime support.

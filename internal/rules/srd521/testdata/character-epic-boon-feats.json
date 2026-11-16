@@ -1,0 +1,1064 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Names, prerequisites, ability choices, numeric limits and conditional benefits adapted as unavailable structured metadata from PDF p88; default acquisition from p87. Mechanic keys, IDs and graph structure are Edda additions. No rule prose or executable effects imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+      "kind": "feat",
+      "name": "Boon of Combat Prowess",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-combat-prowess",
+          "page": 88
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/boon-of-combat-prowess/ability-score"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/boon-of-combat-prowess/peerless-aim"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/boon-of-combat-prowess/level",
+        "srd-5.2.1:character/prerequisite/boon-of-combat-prowess/miss"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/epic-boon",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/ability-score-increase",
+        "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/maximum-ability-score",
+        "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/optional-replace-miss-with-hit",
+        "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/recover-at-start-of-your-next-turn"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/ability-score-increase": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/maximum-ability-score": 30
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-combat-prowess/level",
+      "kind": "prerequisite",
+      "name": "Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-combat-prowess",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+        "record_refs": [],
+        "parameters": {
+          "minimum-level": 19
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/boon-of-combat-prowess/ability-score",
+      "kind": "choice",
+      "name": "Ability Score Increase",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-combat-prowess",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/increase-one-selected-ability",
+        "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/subject-to-maximum-ability-score"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/strength",
+        "srd-5.2.1:mechanic/abilities/dexterity",
+        "srd-5.2.1:mechanic/abilities/constitution",
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-combat-prowess/miss",
+      "kind": "prerequisite",
+      "name": "Miss",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-combat-prowess",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/attack-roll-missed"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/attack-roll-missed",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/boon-of-combat-prowess/peerless-aim",
+      "kind": "resource",
+      "name": "Peerless Aim",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-combat-prowess",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-combat-prowess",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/uses",
+        "srd-5.2.1:mechanic/feats/boon-of-combat-prowess/peerless-aim/recover-on-start-of-your-next-turn"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+      "kind": "feat",
+      "name": "Boon of Dimensional Travel",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-dimensional-travel",
+          "page": 88
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/boon-of-dimensional-travel/ability-score"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/level",
+        "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/action",
+        "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/destination"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/epic-boon",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/ability-score-increase",
+        "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/maximum-ability-score",
+        "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/optional-teleport-immediately-after-attack-or-magic-action",
+        "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/destination-unoccupied-space-you-can-see",
+        "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/maximum-distance-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/ability-score-increase": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/maximum-ability-score": 30,
+        "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/blink-steps/maximum-distance-feet": 30
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/level",
+      "kind": "prerequisite",
+      "name": "Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-dimensional-travel",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+        "record_refs": [],
+        "parameters": {
+          "minimum-level": 19
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/boon-of-dimensional-travel/ability-score",
+      "kind": "choice",
+      "name": "Ability Score Increase",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-dimensional-travel",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/increase-one-selected-ability",
+        "srd-5.2.1:mechanic/feats/boon-of-dimensional-travel/subject-to-maximum-ability-score"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/strength",
+        "srd-5.2.1:mechanic/abilities/dexterity",
+        "srd-5.2.1:mechanic/abilities/constitution",
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/action",
+      "kind": "prerequisite",
+      "name": "Action",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-dimensional-travel",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/immediately-after-you-take-attack-or-magic-action"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/immediately-after-you-take-attack-or-magic-action",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-dimensional-travel/destination",
+      "kind": "prerequisite",
+      "name": "Destination",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-dimensional-travel",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-dimensional-travel",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/teleport-destination-unoccupied-and-visible-to-you"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/teleport-destination-unoccupied-and-visible-to-you",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-fate",
+      "kind": "feat",
+      "name": "Boon of Fate",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-fate",
+          "page": 88
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/boon-of-fate/ability-score"
+      ],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/boon-of-fate/improve-fate"
+      ],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/boon-of-fate/level",
+        "srd-5.2.1:character/prerequisite/boon-of-fate/d20-test"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/epic-boon",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/boon-of-fate/ability-score-increase",
+        "srd-5.2.1:mechanic/feats/boon-of-fate/maximum-ability-score",
+        "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/optional-roll-and-apply-total-as-bonus-or-penalty-to-triggering-d20-roll",
+        "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/dice-count",
+        "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/die-sides",
+        "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/other-creature-range-feet",
+        "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/recover-on-roll-initiative-or-finish-short-or-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-fate/ability-score-increase": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-fate/maximum-ability-score": 30,
+        "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/dice-count": 2,
+        "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/die-sides": 4,
+        "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/other-creature-range-feet": 60
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-fate/level",
+      "kind": "prerequisite",
+      "name": "Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-fate",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-fate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+        "record_refs": [],
+        "parameters": {
+          "minimum-level": 19
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/boon-of-fate/ability-score",
+      "kind": "choice",
+      "name": "Ability Score Increase",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-fate",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-fate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/boon-of-fate/increase-one-selected-ability",
+        "srd-5.2.1:mechanic/feats/boon-of-fate/subject-to-maximum-ability-score"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/strength",
+        "srd-5.2.1:mechanic/abilities/dexterity",
+        "srd-5.2.1:mechanic/abilities/constitution",
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-fate/d20-test",
+      "kind": "prerequisite",
+      "name": "D20 test",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-fate",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-fate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/you-or-another-creature-in-range-succeeds-or-fails-d20-test"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/you-or-another-creature-in-range-succeeds-or-fails-d20-test",
+        "record_refs": [],
+        "parameters": {
+          "other-creature-range-feet": 60
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/boon-of-fate/improve-fate",
+      "kind": "resource",
+      "name": "Improve Fate",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-fate",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-fate",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/uses",
+        "srd-5.2.1:mechanic/feats/boon-of-fate/improve-fate/recover-on-roll-initiative-or-finish-short-or-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+      "kind": "feat",
+      "name": "Boon of Irresistible Offense",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-irresistible-offense",
+          "page": 88
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/boon-of-irresistible-offense/ability-score"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/level",
+        "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/attack-roll",
+        "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/damage-amount"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/epic-boon",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/ability-score-increase",
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/maximum-ability-score",
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overcome-defenses/your-bludgeoning-piercing-slashing-damage-always-ignores-resistance",
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/optional-extra-damage-to-attack-target",
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/extra-damage-equals-selected-ability-score-not-modifier",
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/extra-damage-type-same-as-attack",
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/attack-d20-result"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/ability-score-increase": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/maximum-ability-score": 30,
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/overwhelming-strike/attack-d20-result": 20
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/level",
+      "kind": "prerequisite",
+      "name": "Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-irresistible-offense",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+        "record_refs": [],
+        "parameters": {
+          "minimum-level": 19
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/boon-of-irresistible-offense/ability-score",
+      "kind": "choice",
+      "name": "Ability Score Increase",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-irresistible-offense",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/increase-one-selected-ability",
+        "srd-5.2.1:mechanic/feats/boon-of-irresistible-offense/subject-to-maximum-ability-score"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/strength",
+        "srd-5.2.1:mechanic/abilities/dexterity"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/attack-roll",
+      "kind": "prerequisite",
+      "name": "Attack roll",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-irresistible-offense",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/attack-roll-d20-equals"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/attack-roll-d20-equals",
+        "record_refs": [],
+        "parameters": {
+          "d20-result": 20
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-irresistible-offense/damage-amount",
+      "kind": "prerequisite",
+      "name": "Damage amount",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-irresistible-offense",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-irresistible-offense",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/extra-damage-equals-ability-score-increased-by-this-feat"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/extra-damage-equals-ability-score-increased-by-this-feat",
+        "record_refs": [
+          "srd-5.2.1:character/choice/boon-of-irresistible-offense/ability-score"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+      "kind": "feat",
+      "name": "Boon of Spell Recall",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+          "page": 88
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/boon-of-spell-recall/ability-score"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/boon-of-spell-recall/level",
+        "srd-5.2.1:character/prerequisite/boon-of-spell-recall/spellcasting",
+        "srd-5.2.1:character/prerequisite/boon-of-spell-recall/slot",
+        "srd-5.2.1:character/prerequisite/boon-of-spell-recall/roll-match"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/epic-boon",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/ability-score-increase",
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/maximum-ability-score",
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/roll-on-every-spell-cast-with-level-one-to-four-slot",
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/dice-count",
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/die-sides",
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/do-not-expend-slot-only-if-roll-equals-slot-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/ability-score-increase": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/maximum-ability-score": 30,
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/dice-count": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/free-casting/die-sides": 4
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-spell-recall/level",
+      "kind": "prerequisite",
+      "name": "Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+        "record_refs": [],
+        "parameters": {
+          "minimum-level": 19
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/boon-of-spell-recall/ability-score",
+      "kind": "choice",
+      "name": "Ability Score Increase",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/increase-one-selected-ability",
+        "srd-5.2.1:mechanic/feats/boon-of-spell-recall/subject-to-maximum-ability-score"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-spell-recall/spellcasting",
+      "kind": "prerequisite",
+      "name": "Spellcasting",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/has-spellcasting-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/has-spellcasting-feature",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-spell-recall/slot",
+      "kind": "prerequisite",
+      "name": "Slot",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/cast-spell-with-slot-level-in-range"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/cast-spell-with-slot-level-in-range",
+        "record_refs": [],
+        "parameters": {
+          "minimum-slot-level": 1,
+          "maximum-slot-level": 4
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-spell-recall/roll-match",
+      "kind": "prerequisite",
+      "name": "Roll match",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-spell-recall",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-spell-recall",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/die-result-equals-triggering-spell-slot-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/die-result-equals-triggering-spell-slot-level",
+        "record_refs": [
+          "srd-5.2.1:character/prerequisite/boon-of-spell-recall/slot"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+      "kind": "feat",
+      "name": "Boon of the Night Spirit",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-the-night-spirit",
+          "page": 88
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/boon-of-the-night-spirit/ability-score"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/level",
+        "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/light",
+        "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/invisibility-end"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/epic-boon",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/ability-score-increase",
+        "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/maximum-ability-score",
+        "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/merge-with-shadows/optional-give-self-invisible-condition-as-bonus-action-in-dim-light-or-darkness",
+        "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/merge-with-shadows/ends-immediately-after-you-take-action-or-bonus-action-or-reaction",
+        "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/shadowy-form/resistance-to-all-damage-except-psychic-and-radiant-in-dim-light-or-darkness"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/ability-score-increase": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/maximum-ability-score": 30
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/level",
+      "kind": "prerequisite",
+      "name": "Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-the-night-spirit",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+        "record_refs": [],
+        "parameters": {
+          "minimum-level": 19
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/boon-of-the-night-spirit/ability-score",
+      "kind": "choice",
+      "name": "Ability Score Increase",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-the-night-spirit",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/increase-one-selected-ability",
+        "srd-5.2.1:mechanic/feats/boon-of-the-night-spirit/subject-to-maximum-ability-score"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/strength",
+        "srd-5.2.1:mechanic/abilities/dexterity",
+        "srd-5.2.1:mechanic/abilities/constitution",
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/light",
+      "kind": "prerequisite",
+      "name": "Light",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-the-night-spirit",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/within-dim-light-or-darkness"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/within-dim-light-or-darkness",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-the-night-spirit/invisibility-end",
+      "kind": "prerequisite",
+      "name": "Invisibility end",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-the-night-spirit",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-the-night-spirit",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/immediately-after-you-take-action-or-bonus-action-or-reaction"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/immediately-after-you-take-action-or-bonus-action-or-reaction",
+        "record_refs": [],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feat/boon-of-truesight",
+      "kind": "feat",
+      "name": "Boon of Truesight",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-truesight",
+          "page": 88
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/boon-of-truesight/ability-score"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/boon-of-truesight/level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/category/epic-boon",
+        "srd-5.2.1:mechanic/feats/maximum-times-taken",
+        "srd-5.2.1:mechanic/feats/boon-of-truesight/ability-score-increase",
+        "srd-5.2.1:mechanic/feats/boon-of-truesight/maximum-ability-score",
+        "srd-5.2.1:mechanic/feats/boon-of-truesight/truesight/have-truesight",
+        "srd-5.2.1:mechanic/feats/boon-of-truesight/truesight/range-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/feats/maximum-times-taken": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-truesight/ability-score-increase": 1,
+        "srd-5.2.1:mechanic/feats/boon-of-truesight/maximum-ability-score": 30,
+        "srd-5.2.1:mechanic/feats/boon-of-truesight/truesight/range-feet": 60
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/boon-of-truesight/level",
+      "kind": "prerequisite",
+      "name": "Level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-truesight",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-truesight",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/prerequisite/minimum-character-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/prerequisite/minimum-character-level",
+        "record_refs": [],
+        "parameters": {
+          "minimum-level": 19
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/boon-of-truesight/ability-score",
+      "kind": "choice",
+      "name": "Ability Score Increase",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/feats/boon-of-truesight",
+          "page": 88
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feat/boon-of-truesight",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/feats/boon-of-truesight/increase-one-selected-ability",
+        "srd-5.2.1:mechanic/feats/boon-of-truesight/subject-to-maximum-ability-score"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/abilities/strength",
+        "srd-5.2.1:mechanic/abilities/dexterity",
+        "srd-5.2.1:mechanic/abilities/constitution",
+        "srd-5.2.1:mechanic/abilities/intelligence",
+        "srd-5.2.1:mechanic/abilities/wisdom",
+        "srd-5.2.1:mechanic/abilities/charisma"
+      ],
+      "capacity": 0
+    }
+  ]
+}
