@@ -1,0 +1,844 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Thief subclass and five feature identities on PDF p64 adapted into unavailable offline metadata with nested choices, prerequisites, operands, costs, timing and limits. Mechanic keys and graph are Edda additions. Canonical Rogue is composed externally; spell and item definitions remain opaque. No executable support imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/rogue/thief/identity",
+      "kind": "subclass",
+      "name": "Thief",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/rogue-thief",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/identity-level",
+        "srd-5.2.1:character/prerequisite/rogue/thief/identity-selection"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/subclass"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/identity-level",
+      "kind": "prerequisite",
+      "name": "Thief level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/rogue-thief",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/rogue/thief/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/identity-selection",
+      "kind": "prerequisite",
+      "name": "Thief selection",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/rogue-thief",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/rogue/thief/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/requires-canonical-thief-subclass-selection"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/requires-canonical-thief-subclass-selection",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/rogue-subclass"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/thief/fast-hands",
+      "kind": "feature",
+      "name": "Fast Hands",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-3-fast-hands",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/rogue/thief/identity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/thief/fast-hands"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/fast-hands-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/fast-hands/bonus-action"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/fast-hands-level",
+      "kind": "prerequisite",
+      "name": "Fast Hands level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-3-fast-hands",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/thief/fast-hands",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/thief/fast-hands",
+      "kind": "choice",
+      "name": "Fast Hands options",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-3-fast-hands",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/thief/fast-hands",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/thief/sleight-of-hand",
+        "srd-5.2.1:character/choice/rogue/thief/use-an-object"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/choose-one/fast-hands"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/thief/fast-hands/sleight-of-hand",
+        "srd-5.2.1:mechanic/rogue/thief/fast-hands/use-an-object"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/thief/sleight-of-hand",
+      "kind": "choice",
+      "name": "Sleight of Hand targets",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-3-fast-hands",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/fast-hands",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/sleight-of-hand-check",
+        "srd-5.2.1:character/prerequisite/rogue/thief/sleight-of-hand-selection"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/choose-one/sleight-of-hand"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/thief/sleight-of-hand/pick-lock-with-thieves-tools",
+        "srd-5.2.1:mechanic/rogue/thief/sleight-of-hand/disarm-trap-with-thieves-tools",
+        "srd-5.2.1:mechanic/rogue/thief/sleight-of-hand/pick-pocket"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/sleight-of-hand-check",
+      "kind": "prerequisite",
+      "name": "Sleight of Hand targets check",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-3-fast-hands",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/sleight-of-hand",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/sleight-of-hand/dexterity-sleight-of-hand-check"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/sleight-of-hand/dexterity-sleight-of-hand-check",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/thief/sleight-of-hand"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/thief/use-an-object",
+      "kind": "choice",
+      "name": "Use an Object actions",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-3-fast-hands",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/fast-hands",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/use-an-object-selection"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/choose-one/use-an-object"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/thief/use-an-object/utilize-action",
+        "srd-5.2.1:mechanic/rogue/thief/use-an-object/magic-action-use-magic-item-requiring-that-action"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/use-an-object-selection",
+      "kind": "prerequisite",
+      "name": "Use an Object actions selection",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-3-fast-hands",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/use-an-object",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/fast-hands/conditional-on-use-an-object-option"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/fast-hands/conditional-on-use-an-object-option",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/thief/fast-hands"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/sleight-of-hand-selection",
+      "kind": "prerequisite",
+      "name": "Sleight of Hand targets selection",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-3-fast-hands",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/sleight-of-hand",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/fast-hands/conditional-on-sleight-of-hand-option"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/fast-hands/conditional-on-sleight-of-hand-option",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/thief/fast-hands"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/thief/second-story-work",
+      "kind": "feature",
+      "name": "Second-Story Work",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-3-second-story-work",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/rogue/thief/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/second-story-work-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/climber/climb-speed-equals-speed",
+        "srd-5.2.1:mechanic/rogue/thief/jumper/may-use-dexterity-instead-of-strength-for-jump-distance"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/second-story-work-level",
+      "kind": "prerequisite",
+      "name": "Second-Story Work level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-3-second-story-work",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/thief/second-story-work",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/thief/supreme-sneak",
+      "kind": "feature",
+      "name": "Supreme Sneak",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-9-supreme-sneak",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/rogue/thief/identity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/thief/stealth-attack"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/supreme-sneak-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/supreme-sneak/add-cunning-strike-option"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/supreme-sneak-level",
+      "kind": "prerequisite",
+      "name": "Supreme Sneak level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-9-supreme-sneak",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/thief/supreme-sneak",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue"
+        ],
+        "parameters": {
+          "minimum-level": 9
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/thief/stealth-attack",
+      "kind": "choice",
+      "name": "Stealth Attack",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-9-supreme-sneak",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/thief/supreme-sneak",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/thief/stealth-cover"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/stealth-attack-strike",
+        "srd-5.2.1:character/prerequisite/rogue/thief/stealth-attack-hide"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/choose-one/stealth-attack"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/thief/stealth-attack/retain-hide-invisible-if-end-turn-behind-required-cover"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/stealth-attack-strike",
+      "kind": "prerequisite",
+      "name": "Stealth Attack strike",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-9-supreme-sneak",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/stealth-attack",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/stealth-attack/extends-canonical-cunning-strike-pay-sneak-attack-dice-before-roll"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/stealth-attack/extends-canonical-cunning-strike-pay-sneak-attack-dice-before-roll",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/cunning-strike",
+          "srd-5.2.1:character/feature/rogue/sneak-attack"
+        ],
+        "parameters": {
+          "cost-dice": 1,
+          "die-sides": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/stealth-attack-hide",
+      "kind": "prerequisite",
+      "name": "Stealth Attack hide",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-9-supreme-sneak",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/stealth-attack",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/stealth-attack/requires-hide-actions-invisible-condition-on-self"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/stealth-attack/requires-hide-actions-invisible-condition-on-self",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/cunning-action"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/thief/stealth-cover",
+      "kind": "choice",
+      "name": "Stealth Attack end-turn cover",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-9-supreme-sneak",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/stealth-attack",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/stealth-cover-timing"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/choose-one/stealth-cover"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/thief/stealth-attack/end-turn-behind-three-quarters-cover",
+        "srd-5.2.1:mechanic/rogue/thief/stealth-attack/end-turn-behind-total-cover"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/stealth-cover-timing",
+      "kind": "prerequisite",
+      "name": "Stealth Attack end-turn cover timing",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-9-supreme-sneak",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/stealth-cover",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/stealth-attack/this-attack-does-not-end-that-condition-only-if-end-turn-behind-cover"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/stealth-attack/this-attack-does-not-end-that-condition-only-if-end-turn-behind-cover",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/thief/stealth-attack"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/thief/use-magic-device",
+      "kind": "feature",
+      "name": "Use Magic Device",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-13-use-magic-device",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/rogue/thief/identity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/thief/scrolls"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/use-magic-device-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/attunement/up-to-maximum-magic-items-at-once",
+        "srd-5.2.1:mechanic/rogue/thief/charges/whenever-using-magic-item-property-that-expends-charges-roll-die",
+        "srd-5.2.1:mechanic/rogue/thief/charges/on-success-use-property-without-expending-charges",
+        "srd-5.2.1:mechanic/rogue/thief/scrolls/any-spell-scroll-intelligence-spellcasting-ability",
+        "srd-5.2.1:mechanic/rogue/thief/attunement/maximum-items",
+        "srd-5.2.1:mechanic/rogue/thief/charges/dice-count",
+        "srd-5.2.1:mechanic/rogue/thief/charges/die-sides",
+        "srd-5.2.1:mechanic/rogue/thief/charges/success-roll"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/thief/attunement/maximum-items": 4,
+        "srd-5.2.1:mechanic/rogue/thief/charges/dice-count": 1,
+        "srd-5.2.1:mechanic/rogue/thief/charges/die-sides": 6,
+        "srd-5.2.1:mechanic/rogue/thief/charges/success-roll": 6
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/use-magic-device-level",
+      "kind": "prerequisite",
+      "name": "Use Magic Device level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-13-use-magic-device",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/thief/use-magic-device",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue"
+        ],
+        "parameters": {
+          "minimum-level": 13
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/thief/scrolls",
+      "kind": "choice",
+      "name": "Spell Scroll level cases",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-13-use-magic-device",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/thief/use-magic-device",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/thief/scroll-check"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/scrolls-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/choose-one/scrolls"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/thief/scrolls/cantrip-or-level-one-cast-reliably",
+        "srd-5.2.1:mechanic/rogue/thief/scrolls/higher-level-requires-intelligence-arcana-check-dc-base-plus-spell-level"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/scrolls-level",
+      "kind": "prerequisite",
+      "name": "Spell Scroll level cases level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-13-use-magic-device",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/scrolls",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/scrolls/reliable-through-level-otherwise-higher-level-check"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/scrolls/reliable-through-level-otherwise-higher-level-check",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/thief/scrolls"
+        ],
+        "parameters": {
+          "reliable-maximum-spell-level": 1,
+          "check-dc-base": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/thief/scroll-check",
+      "kind": "choice",
+      "name": "Higher-level scroll check outcomes",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-13-use-magic-device",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/scrolls",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/scroll-check-condition"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/choose-one/scroll-check"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/thief/scrolls/success-cast-spell-from-scroll",
+        "srd-5.2.1:mechanic/rogue/thief/scrolls/failure-scroll-disintegrates"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/scroll-check-condition",
+      "kind": "prerequisite",
+      "name": "Higher-level scroll check outcomes condition",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-13-use-magic-device",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/thief/scroll-check",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/scrolls/outcomes-only-for-higher-level-scroll-check"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/scrolls/outcomes-only-for-higher-level-scroll-check",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/thief/scrolls"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/thief/thiefs-reflexes",
+      "kind": "feature",
+      "name": "Thief’s Reflexes",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-17-thiefs-reflexes",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/rogue/thief/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/thief/thiefs-reflexes-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/reflexes/may-take-two-turns-first-round-any-combat",
+        "srd-5.2.1:mechanic/rogue/thief/reflexes/first-turn-normal-initiative",
+        "srd-5.2.1:mechanic/rogue/thief/reflexes/second-turn-own-initiative-minus-offset",
+        "srd-5.2.1:mechanic/rogue/thief/reflexes/turn-count",
+        "srd-5.2.1:mechanic/rogue/thief/reflexes/combat-round",
+        "srd-5.2.1:mechanic/rogue/thief/reflexes/second-turn-initiative-offset"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/thief/reflexes/turn-count": 2,
+        "srd-5.2.1:mechanic/rogue/thief/reflexes/combat-round": 1,
+        "srd-5.2.1:mechanic/rogue/thief/reflexes/second-turn-initiative-offset": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/thief/thiefs-reflexes-level",
+      "kind": "prerequisite",
+      "name": "Thief’s Reflexes level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/rogue-level-17-thiefs-reflexes",
+          "page": 64
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/thief/thiefs-reflexes",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/thief/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/thief/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue"
+        ],
+        "parameters": {
+          "minimum-level": 17
+        }
+      }
+    }
+  ]
+}
