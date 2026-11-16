@@ -1,0 +1,2458 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Rogue source identities, all 20 progression rows, nested choices, prerequisites, costs, limits and recovery on PDF pp61-63 adapted into unavailable offline metadata. Mechanic keys and graph are Edda additions. Thief, spell and feat definitions remain opaque. No executable support imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/class/rogue",
+      "kind": "class",
+      "name": "Rogue",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/skills",
+        "srd-5.2.1:character/choice/rogue/multiclass-skill",
+        "srd-5.2.1:character/choice/rogue/starting-equipment"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/primary-ability/dexterity",
+        "srd-5.2.1:mechanic/rogue/saves/dexterity",
+        "srd-5.2.1:mechanic/rogue/saves/intelligence",
+        "srd-5.2.1:mechanic/rogue/weapons/simple",
+        "srd-5.2.1:mechanic/rogue/weapons/martial-finesse-or-light",
+        "srd-5.2.1:mechanic/rogue/tools/thieves-tools",
+        "srd-5.2.1:mechanic/rogue/armor/light",
+        "srd-5.2.1:mechanic/rogue/level-1/all-core-traits-and-level-1-features",
+        "srd-5.2.1:mechanic/rogue/multiclass/hit-die-one-class-skill-thieves-tools-light-armor-and-level-1-features",
+        "srd-5.2.1:mechanic/rogue/hit-die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/hit-die-sides": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/skills",
+      "kind": "choice",
+      "name": "Skills",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/skills"
+      ],
+      "select": 4,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/acrobatics",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/deception",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/intimidation",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/perception",
+        "srd-5.2.1:mechanic/skills/persuasion",
+        "srd-5.2.1:mechanic/skills/sleight-of-hand",
+        "srd-5.2.1:mechanic/skills/stealth"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/multiclass-skill",
+      "kind": "choice",
+      "name": "Multiclass Skill",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/multiclass-skill"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/acrobatics",
+        "srd-5.2.1:mechanic/skills/athletics",
+        "srd-5.2.1:mechanic/skills/deception",
+        "srd-5.2.1:mechanic/skills/insight",
+        "srd-5.2.1:mechanic/skills/intimidation",
+        "srd-5.2.1:mechanic/skills/investigation",
+        "srd-5.2.1:mechanic/skills/perception",
+        "srd-5.2.1:mechanic/skills/persuasion",
+        "srd-5.2.1:mechanic/skills/sleight-of-hand",
+        "srd-5.2.1:mechanic/skills/stealth"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/starting-equipment",
+      "kind": "choice",
+      "name": "Starting Equipment",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/starting-equipment",
+        "srd-5.2.1:mechanic/equipment/leather-armor",
+        "srd-5.2.1:mechanic/equipment/dagger",
+        "srd-5.2.1:mechanic/equipment/shortsword",
+        "srd-5.2.1:mechanic/equipment/shortbow",
+        "srd-5.2.1:mechanic/equipment/arrows",
+        "srd-5.2.1:mechanic/equipment/quiver",
+        "srd-5.2.1:mechanic/equipment/thieves-tools",
+        "srd-5.2.1:mechanic/equipment/burglars-pack",
+        "srd-5.2.1:mechanic/currency/gp"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/equipment/a",
+        "srd-5.2.1:mechanic/rogue/equipment/b"
+      ],
+      "capacity": 0,
+      "options": [
+        {
+          "key": "srd-5.2.1:mechanic/rogue/equipment/a",
+          "quantities": {
+            "srd-5.2.1:mechanic/equipment/leather-armor": 1,
+            "srd-5.2.1:mechanic/equipment/dagger": 2,
+            "srd-5.2.1:mechanic/equipment/shortsword": 1,
+            "srd-5.2.1:mechanic/equipment/shortbow": 1,
+            "srd-5.2.1:mechanic/equipment/arrows": 20,
+            "srd-5.2.1:mechanic/equipment/quiver": 1,
+            "srd-5.2.1:mechanic/equipment/thieves-tools": 1,
+            "srd-5.2.1:mechanic/equipment/burglars-pack": 1,
+            "srd-5.2.1:mechanic/currency/gp": 8
+          }
+        },
+        {
+          "key": "srd-5.2.1:mechanic/rogue/equipment/b",
+          "quantities": {
+            "srd-5.2.1:mechanic/currency/gp": 100
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/1",
+      "kind": "level",
+      "name": "Rogue level 1",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 1,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 1,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/expertise",
+          "srd-5.2.1:character/feature/rogue/sneak-attack",
+          "srd-5.2.1:character/feature/rogue/thieves-cant",
+          "srd-5.2.1:character/feature/rogue/weapon-mastery"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/2",
+      "kind": "level",
+      "name": "Rogue level 2",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 2,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 1,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/cunning-action"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/3",
+      "kind": "level",
+      "name": "Rogue level 3",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 3,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 2,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/rogue-subclass",
+          "srd-5.2.1:character/feature/rogue/steady-aim"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/4",
+      "kind": "level",
+      "name": "Rogue level 4",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 4,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 2,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 2,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/5",
+      "kind": "level",
+      "name": "Rogue level 5",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 5,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 3,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/cunning-strike",
+          "srd-5.2.1:character/feature/rogue/uncanny-dodge"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/6",
+      "kind": "level",
+      "name": "Rogue level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 6,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 3,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/expertise"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/7",
+      "kind": "level",
+      "name": "Rogue level 7",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 7,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 4,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/evasion",
+          "srd-5.2.1:character/feature/rogue/reliable-talent"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/8",
+      "kind": "level",
+      "name": "Rogue level 8",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 8,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 4,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 3,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/9",
+      "kind": "level",
+      "name": "Rogue level 9",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 9,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides",
+        "srd-5.2.1:mechanic/rogue/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 5,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/rogue/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/10",
+      "kind": "level",
+      "name": "Rogue level 10",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 10,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 5,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/11",
+      "kind": "level",
+      "name": "Rogue level 11",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 11,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 6,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/improved-cunning-strike"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/12",
+      "kind": "level",
+      "name": "Rogue level 12",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 12,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 6,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 4,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/13",
+      "kind": "level",
+      "name": "Rogue level 13",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 13,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides",
+        "srd-5.2.1:mechanic/rogue/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 7,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/rogue/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/14",
+      "kind": "level",
+      "name": "Rogue level 14",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 14,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 7,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/devious-strikes"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/15",
+      "kind": "level",
+      "name": "Rogue level 15",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 15,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 8,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/slippery-mind"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/16",
+      "kind": "level",
+      "name": "Rogue level 16",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 16,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 8,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 5,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/ability-score-improvement"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/17",
+      "kind": "level",
+      "name": "Rogue level 17",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 17,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides",
+        "srd-5.2.1:mechanic/rogue/subclass-feature"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 9,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [],
+        "feature_keys": [
+          "srd-5.2.1:mechanic/rogue/subclass-feature"
+        ]
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/18",
+      "kind": "level",
+      "name": "Rogue level 18",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 18,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 9,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/elusive"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/19",
+      "kind": "level",
+      "name": "Rogue level 19",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 19,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 10,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/epic-boon"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/level/rogue/20",
+      "kind": "level",
+      "name": "Rogue level 20",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/classes/rogue",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/rogue",
+      "level": 20,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/class-progression",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-count": 10,
+        "srd-5.2.1:mechanic/rogue/sneak-attack/dice-sides": 6
+      },
+      "progression": {
+        "proficiency_bonus": 6,
+        "feature_refs": [
+          "srd-5.2.1:character/feature/rogue/stroke-of-luck"
+        ],
+        "feature_keys": []
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/expertise",
+      "kind": "feature",
+      "name": "Expertise",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-expertise",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/expertise-initial",
+        "srd-5.2.1:character/choice/rogue/expertise-level-6"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/expertise/skill-proficiencies-only",
+        "srd-5.2.1:mechanic/rogue/expertise/recommend-sleight-of-hand-and-stealth-if-proficient",
+        "srd-5.2.1:mechanic/rogue/expertise/initial-count",
+        "srd-5.2.1:mechanic/rogue/expertise/additional-level",
+        "srd-5.2.1:mechanic/rogue/expertise/additional-count"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/expertise/initial-count": 2,
+        "srd-5.2.1:mechanic/rogue/expertise/additional-level": 6,
+        "srd-5.2.1:mechanic/rogue/expertise/additional-count": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/sneak-attack",
+      "kind": "feature",
+      "name": "Sneak Attack",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-sneak-attack",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/sneak-attack-eligibility"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/sneak-attack-eligibility"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/sneak-attack/once-per-turn",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/hit-one-creature-with-attack-roll",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/finesse-or-ranged-weapon",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/same-damage-type-as-weapon",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/table-scaling",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/ally-must-not-be-incapacitated",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/ally-alternative-requires-no-disadvantage"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/thieves-cant",
+      "kind": "feature",
+      "name": "Thieves’ Cant",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-thieves-cant",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/additional-language"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/language/thieves-cant"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/weapon-mastery",
+      "kind": "feature",
+      "name": "Weapon Mastery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-weapon-mastery",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/1",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/weapon-mastery"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/weapon-mastery/change-kinds-on-long-rest",
+        "srd-5.2.1:mechanic/rogue/weapon-mastery/recommend-daggers-shortbows"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/cunning-action",
+      "kind": "feature",
+      "name": "Cunning Action",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-2-cunning-action",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/2",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/cunning-action"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-action/bonus-action-on-own-turn"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/rogue-subclass",
+      "kind": "feature",
+      "name": "Rogue Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-3-rogue-subclass",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/3",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/rogue-subclass"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/subclass/grant-features-at-own-class-level-or-lower"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/steady-aim",
+      "kind": "feature",
+      "name": "Steady Aim",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-3-steady-aim",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/3",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/steady-aim-unmoved"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/steady-aim/bonus-action",
+        "srd-5.2.1:mechanic/rogue/steady-aim/advantage-next-attack-roll-current-turn",
+        "srd-5.2.1:mechanic/rogue/steady-aim/speed-zero-until-current-turn-end"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/ability-score-improvement",
+      "kind": "feature",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-4-ability-score-improvement",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/4",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/ability-score-improvement"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/ability-score-improvement/qualified-feat-choice"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/cunning-strike",
+      "kind": "feature",
+      "name": "Cunning Strike",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/5",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/cunning-strike"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/when-dealing-sneak-attack",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/forgo-dice-before-roll",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/effect-immediately-after-attack-damage",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/save-dc-eight-plus-dexterity-modifier-plus-proficiency-bonus",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/base-effect-limit",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/save-dc-base"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/cunning-strike/base-effect-limit": 1,
+        "srd-5.2.1:mechanic/rogue/cunning-strike/save-dc-base": 8
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/uncanny-dodge",
+      "kind": "feature",
+      "name": "Uncanny Dodge",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-uncanny-dodge",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/5",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/uncanny-dodge/reaction",
+        "srd-5.2.1:mechanic/rogue/uncanny-dodge/attacker-you-can-see-hits-with-attack-roll",
+        "srd-5.2.1:mechanic/rogue/uncanny-dodge/halve-attacks-damage-round-down",
+        "srd-5.2.1:mechanic/rogue/uncanny-dodge/damage-divisor"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/uncanny-dodge/damage-divisor": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/evasion",
+      "kind": "feature",
+      "name": "Evasion",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-7-evasion",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/7",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/evasion/dexterity-save-for-half-damage",
+        "srd-5.2.1:mechanic/rogue/evasion/success-no-damage",
+        "srd-5.2.1:mechanic/rogue/evasion/failure-half-damage",
+        "srd-5.2.1:mechanic/rogue/evasion/unavailable-while-incapacitated"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/reliable-talent",
+      "kind": "feature",
+      "name": "Reliable Talent",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-7-reliable-talent",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/7",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/reliable-talent/ability-check-using-own-skill-or-tool-proficiency",
+        "srd-5.2.1:mechanic/rogue/reliable-talent/maximum-d20-roll",
+        "srd-5.2.1:mechanic/rogue/reliable-talent/replacement-roll"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/reliable-talent/maximum-d20-roll": 9,
+        "srd-5.2.1:mechanic/rogue/reliable-talent/replacement-roll": 10
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/improved-cunning-strike",
+      "kind": "feature",
+      "name": "Improved Cunning Strike",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-11-improved-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/11",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/improved-cunning-strike-operands"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/improved-cunning-strike/pay-each-effect-cost",
+        "srd-5.2.1:mechanic/rogue/improved-cunning-strike/maximum-effects"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/improved-cunning-strike/maximum-effects": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/devious-strikes",
+      "kind": "feature",
+      "name": "Devious Strikes",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/14",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/devious-strikes"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/devious-strikes/add-to-cunning-strike-options"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/slippery-mind",
+      "kind": "feature",
+      "name": "Slippery Mind",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-15-slippery-mind",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/15",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/saves/wisdom",
+        "srd-5.2.1:mechanic/rogue/saves/charisma"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/elusive",
+      "kind": "feature",
+      "name": "Elusive",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-18-elusive",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/18",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/elusive/no-attack-roll-advantage-against-self-unless-incapacitated"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/epic-boon",
+      "kind": "feature",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-19-epic-boon",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/19",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/epic-boon"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/epic-boon/qualified-feat-choice",
+        "srd-5.2.1:mechanic/rogue/epic-boon/recommend-boon-of-the-night-spirit"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/rogue/stroke-of-luck",
+      "kind": "feature",
+      "name": "Stroke of Luck",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-20-stroke-of-luck",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/level/rogue/20",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [
+        "srd-5.2.1:character/resource/rogue/stroke-of-luck"
+      ],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/stroke-of-luck/failed-d20-test",
+        "srd-5.2.1:mechanic/rogue/stroke-of-luck/turn-roll-into-twenty",
+        "srd-5.2.1:mechanic/rogue/stroke-of-luck/replacement-roll"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/rogue/stroke-of-luck/replacement-roll": 20
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/expertise-initial",
+      "kind": "choice",
+      "name": "Expertise Initial",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-expertise",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/expertise",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/expertise-initial"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/expertise-initial"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/own-proficiencies"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/expertise-initial",
+      "kind": "prerequisite",
+      "name": "Expertise Initial",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-expertise",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/expertise-initial",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/expertise/requires-own-skill-proficiency"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/expertise/requires-own-skill-proficiency",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue",
+          "srd-5.2.1:character/feature/rogue/expertise"
+        ],
+        "parameters": {
+          "minimum-level": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/expertise-level-6",
+      "kind": "choice",
+      "name": "Expertise Level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-expertise",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/expertise",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/expertise-level-6"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/expertise-level-6"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/skills/own-proficiencies"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/expertise-level-6",
+      "kind": "prerequisite",
+      "name": "Expertise Level 6",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-expertise",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/expertise-level-6",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/expertise/requires-own-skill-proficiency"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/expertise/requires-own-skill-proficiency",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue",
+          "srd-5.2.1:character/feature/rogue/expertise"
+        ],
+        "parameters": {
+          "minimum-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/sneak-attack-eligibility",
+      "kind": "choice",
+      "name": "Sneak Attack Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-sneak-attack",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/sneak-attack",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/sneak-attack-eligibility"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/sneak-attack/advantage",
+        "srd-5.2.1:mechanic/rogue/sneak-attack/ally-within-five-feet-not-incapacitated-and-no-disadvantage"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/sneak-attack-eligibility",
+      "kind": "prerequisite",
+      "name": "Sneak Attack Eligibility",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-sneak-attack",
+          "page": 61
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/sneak-attack",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/sneak-attack/requires-eligible-hit"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/sneak-attack/requires-eligible-hit",
+        "record_refs": [
+          "srd-5.2.1:character/feature/rogue/sneak-attack",
+          "srd-5.2.1:character/choice/rogue/sneak-attack-eligibility"
+        ],
+        "parameters": {
+          "ally-distance-feet": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/additional-language",
+      "kind": "choice",
+      "name": "Additional Language",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-thieves-cant",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/thieves-cant",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/additional-language"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/languages/character-creation-tables"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/weapon-mastery",
+      "kind": "choice",
+      "name": "Weapon Mastery",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-weapon-mastery",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/weapon-mastery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/weapon-mastery-proficiency"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/weapon-mastery"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/weapons/own-proficiencies"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/weapon-mastery-proficiency",
+      "kind": "prerequisite",
+      "name": "Weapon Mastery Proficiency",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-1-weapon-mastery",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/weapon-mastery",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/weapon-mastery/requires-weapon-proficiency"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/weapon-mastery/requires-weapon-proficiency",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/cunning-action",
+      "kind": "choice",
+      "name": "Cunning Action",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-2-cunning-action",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/cunning-action",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-action"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/actions/dash",
+        "srd-5.2.1:mechanic/actions/disengage",
+        "srd-5.2.1:mechanic/actions/hide"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/rogue-subclass",
+      "kind": "choice",
+      "name": "Rogue Subclass",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-3-rogue-subclass",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/rogue-subclass",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/rogue-subclass"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/subclasses",
+        "srd-5.2.1:mechanic/rogue/subclasses/thief"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/steady-aim-unmoved",
+      "kind": "prerequisite",
+      "name": "Steady Aim Unmoved",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-3-steady-aim",
+          "page": 62
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/steady-aim",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/steady-aim/requires-no-movement-this-turn"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/steady-aim/requires-no-movement-this-turn",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue"
+        ],
+        "parameters": {
+          "maximum-feet-moved": 0
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/ability-score-improvement",
+      "kind": "choice",
+      "name": "Ability Score Improvement",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-4-ability-score-improvement",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/ability-score-improvement-qualification"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/ability-score-improvement"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/ability-score-improvement",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/ability-score-improvement-qualification",
+      "kind": "prerequisite",
+      "name": "Ability Score Improvement Qualification",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-4-ability-score-improvement",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/ability-score-improvement",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/feat/requires-qualification",
+        "srd-5.2.1:mechanic/rogue/predicate/conditional-on-option/feats/qualified"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/feat/requires-qualification",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/epic-boon",
+      "kind": "choice",
+      "name": "Epic Boon",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-19-epic-boon",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/epic-boon-qualification"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/epic-boon"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/feats/epic-boon",
+        "srd-5.2.1:mechanic/feats/qualified"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/epic-boon-qualification",
+      "kind": "prerequisite",
+      "name": "Epic Boon Qualification",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-19-epic-boon",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/epic-boon",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/feat/requires-qualification",
+        "srd-5.2.1:mechanic/rogue/predicate/conditional-on-option/feats/qualified"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/feat/requires-qualification",
+        "record_refs": [
+          "srd-5.2.1:character/class/rogue"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/cunning-strike",
+      "kind": "choice",
+      "name": "Cunning Strike",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/cunning-strike",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/strike-poison",
+        "srd-5.2.1:character/choice/rogue/strike-trip",
+        "srd-5.2.1:character/choice/rogue/strike-withdraw"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/poison",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/trip",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/withdraw"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/devious-strikes",
+      "kind": "choice",
+      "name": "Devious Strikes",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/devious-strikes",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/strike-daze",
+        "srd-5.2.1:character/choice/rogue/strike-knock-out",
+        "srd-5.2.1:character/choice/rogue/strike-obscure"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/devious-strikes-options"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/devious-strikes"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/daze",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/obscure"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/devious-strikes-options",
+      "kind": "prerequisite",
+      "name": "Devious Strikes Options",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/devious-strikes",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/devious-strikes/extends-cunning-strike"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/devious-strikes/extends-cunning-strike",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/cunning-strike",
+          "srd-5.2.1:character/feature/rogue/cunning-strike"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/strike-poison",
+      "kind": "choice",
+      "name": "Strike Poison",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/cunning-strike",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/strike-poison-selected",
+        "srd-5.2.1:character/prerequisite/rogue/strike-poison-numbers"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/strike-poison",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/poison/constitution-save",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/poison/poisoned-on-failure",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/poison/repeat-save-end-each-target-turn",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/poison/end-on-success",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/poison/requires-poisoners-kit-on-person"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/poison"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/strike-poison-selected",
+      "kind": "prerequisite",
+      "name": "Strike Poison Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/strike-poison",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/poison/selected",
+        "srd-5.2.1:mechanic/rogue/predicate/conditional-on-option/rogue/cunning-strike/poison"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/cunning-strike/poison/selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/cunning-strike",
+          "srd-5.2.1:character/feature/rogue/sneak-attack"
+        ],
+        "parameters": {
+          "cost-d6": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/strike-poison-numbers",
+      "kind": "prerequisite",
+      "name": "Strike Poison Numbers",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/strike-poison",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/poison/limits"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/cunning-strike/poison/limits",
+        "record_refs": [
+          "srd-5.2.1:character/feature/rogue/sneak-attack"
+        ],
+        "parameters": {
+          "duration-minutes": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/strike-trip",
+      "kind": "choice",
+      "name": "Strike Trip",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/cunning-strike",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/strike-trip-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/strike-trip",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/trip/dexterity-save",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/trip/prone-on-failure",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/trip/target-large-or-smaller"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/trip"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/strike-trip-selected",
+      "kind": "prerequisite",
+      "name": "Strike Trip Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/strike-trip",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/trip/selected",
+        "srd-5.2.1:mechanic/rogue/predicate/conditional-on-option/rogue/cunning-strike/trip"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/cunning-strike/trip/selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/cunning-strike",
+          "srd-5.2.1:character/feature/rogue/sneak-attack"
+        ],
+        "parameters": {
+          "cost-d6": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/strike-withdraw",
+      "kind": "choice",
+      "name": "Strike Withdraw",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/cunning-strike",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/strike-withdraw-selected",
+        "srd-5.2.1:character/prerequisite/rogue/strike-withdraw-numbers"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/strike-withdraw",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/withdraw/immediately-after-attack",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/withdraw/move-up-to-half-speed",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/withdraw/no-opportunity-attacks"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/withdraw"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/strike-withdraw-selected",
+      "kind": "prerequisite",
+      "name": "Strike Withdraw Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/strike-withdraw",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/withdraw/selected",
+        "srd-5.2.1:mechanic/rogue/predicate/conditional-on-option/rogue/cunning-strike/withdraw"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/cunning-strike/withdraw/selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/cunning-strike",
+          "srd-5.2.1:character/feature/rogue/sneak-attack"
+        ],
+        "parameters": {
+          "cost-d6": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/strike-withdraw-numbers",
+      "kind": "prerequisite",
+      "name": "Strike Withdraw Numbers",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-5-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/strike-withdraw",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/withdraw/limits"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/cunning-strike/withdraw/limits",
+        "record_refs": [
+          "srd-5.2.1:character/feature/rogue/sneak-attack"
+        ],
+        "parameters": {
+          "speed-divisor": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/strike-daze",
+      "kind": "choice",
+      "name": "Strike Daze",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/devious-strikes",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/rogue/daze-restricted-turn"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/strike-daze-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/strike-daze",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/daze/constitution-save",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/daze/on-failure-next-turn-only-one-of-move-action-bonus-action"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/daze"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/strike-daze-selected",
+      "kind": "prerequisite",
+      "name": "Strike Daze Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/strike-daze",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/daze/selected",
+        "srd-5.2.1:mechanic/rogue/predicate/conditional-on-option/rogue/cunning-strike/daze"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/cunning-strike/daze/selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/devious-strikes",
+          "srd-5.2.1:character/feature/rogue/sneak-attack"
+        ],
+        "parameters": {
+          "cost-d6": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/daze-restricted-turn",
+      "kind": "choice",
+      "name": "Daze Restricted Turn",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/strike-daze",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/daze-restricted-turn",
+        "srd-5.2.1:mechanic/rogue/daze/only-on-failed-save-next-turn"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/daze/move",
+        "srd-5.2.1:mechanic/rogue/daze/action",
+        "srd-5.2.1:mechanic/rogue/daze/bonus-action"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/strike-knock-out",
+      "kind": "choice",
+      "name": "Strike Knock Out",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/devious-strikes",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/strike-knock-out-selected",
+        "srd-5.2.1:character/prerequisite/rogue/strike-knock-out-numbers"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/strike-knock-out",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out/constitution-save",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out/unconscious-on-failure",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out/ends-on-any-damage",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out/repeat-save-end-each-target-turn",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out/end-on-success"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/strike-knock-out-selected",
+      "kind": "prerequisite",
+      "name": "Strike Knock Out Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/strike-knock-out",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out/selected",
+        "srd-5.2.1:mechanic/rogue/predicate/conditional-on-option/rogue/cunning-strike/knock-out"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out/selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/devious-strikes",
+          "srd-5.2.1:character/feature/rogue/sneak-attack"
+        ],
+        "parameters": {
+          "cost-d6": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/strike-knock-out-numbers",
+      "kind": "prerequisite",
+      "name": "Strike Knock Out Numbers",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/strike-knock-out",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out/limits"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/cunning-strike/knock-out/limits",
+        "record_refs": [
+          "srd-5.2.1:character/feature/rogue/sneak-attack"
+        ],
+        "parameters": {
+          "duration-minutes": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/rogue/strike-obscure",
+      "kind": "choice",
+      "name": "Strike Obscure",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/devious-strikes",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/rogue/strike-obscure-selected"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/strike-obscure",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/obscure/dexterity-save",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/obscure/blinded-on-failure",
+        "srd-5.2.1:mechanic/rogue/cunning-strike/obscure/until-end-target-next-turn"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/obscure"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/strike-obscure-selected",
+      "kind": "prerequisite",
+      "name": "Strike Obscure Selected",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-14-devious-strikes",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/rogue/strike-obscure",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/cunning-strike/obscure/selected",
+        "srd-5.2.1:mechanic/rogue/predicate/conditional-on-option/rogue/cunning-strike/obscure"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/cunning-strike/obscure/selected",
+        "record_refs": [
+          "srd-5.2.1:character/choice/rogue/devious-strikes",
+          "srd-5.2.1:character/feature/rogue/sneak-attack"
+        ],
+        "parameters": {
+          "cost-d6": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/rogue/improved-cunning-strike-operands",
+      "kind": "prerequisite",
+      "name": "Improved Cunning Strike Operands",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-11-improved-cunning-strike",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/improved-cunning-strike",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/improved-cunning-strike/requires-sneak-attack-and-strike"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/rogue/improved-cunning-strike/requires-sneak-attack-and-strike",
+        "record_refs": [
+          "srd-5.2.1:character/feature/rogue/sneak-attack",
+          "srd-5.2.1:character/choice/rogue/cunning-strike"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/resource/rogue/stroke-of-luck",
+      "kind": "resource",
+      "name": "Stroke Of Luck",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/class-features/rogue-level-20-stroke-of-luck",
+          "page": 63
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/rogue/stroke-of-luck",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/rogue/stroke-of-luck/recover-on-short-or-long-rest"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 1
+    }
+  ]
+}
