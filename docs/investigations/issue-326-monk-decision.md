@@ -126,17 +126,19 @@ Every terminal includes inert prepare, explicit confirmation, authoritative curr
 
 ## Publication and proof
 
-Exact native bodies/titles/parents/prerequisites and Task/Project Size metadata are in issue-326-link-verification.json. Source snapshots, unique key owners, receipts and pending append artifacts are committed. The verifier supports offline receipts and bounded read-only live GraphQL; it rejects missing gates, source/numeric/operand drift, body/title/metadata/parent changes, both cycle types and deleted historical requirements. Later unrelated append-only bodies and additive unowned class edges remain admissible.
+Exact native bodies/titles/parents/prerequisites and Task/Project Size metadata are in issue-326-link-verification.json. Source snapshots, unique key owners, receipts and exact published append artifacts are committed. The verifier supports offline receipts and bounded read-only live GraphQL; it rejects missing gates, source/numeric/operand drift, body/title/metadata/parent changes, both cycle types and deleted historical requirements. Later unrelated append-only bodies and additive unowned class edges remain admissible.
 
-Shared bodies47/54/283/337 were not edited. Parent must serially publish issue-326-parent-supplements.json, preserving current prefixes, then run scripts/verify_monk_scope.py --live --require-supplements --probes --pdf /tmp/edda-wave1/SRD_CC_v5.2.1.pdf. The #47 section is under100 characters; fuller references live here and in native hierarchy. Published seals reject original-only rollback, changed/duplicate sections and partial markers while allowing later unrelated appends.
+The parent serially published all four exact sections from issue-326-parent-supplements.json to #47/#54/#283/#337, preserving the immutable accepted Fighter prefixes. The refreshed receipt seals each published prefix, and scripts/verify_monk_scope.py --live --require-supplements --probes --pdf /tmp/edda-wave1/SRD_CC_v5.2.1.pdf passed. The #47 section is under100 characters; fuller references live here and in native hierarchy. Published seals reject original-only rollback, changed/duplicate sections and partial markers while allowing later unrelated appends.
 
 Full Go short race and vet passed once using GOMAXPROCS=2 and -p2 with default assertions and limits. Source comparators passed. These checks establish planning/source consistency and existing-suite regression evidence, not new executable feature or UI/database journey qualification. Hosted CI and independent parent review remain separate.
 
-Parent publication from this checkout (serially, after review):
+Parent publication and sealed audit from this checkout (the publisher is idempotent):
 
 ```sh
 rtk proxy python3 scripts/publish_monk_supplements.py --apply
 rtk proxy python3 scripts/verify_monk_scope.py --live --require-supplements --probes --pdf /tmp/edda-wave1/SRD_CC_v5.2.1.pdf
 ```
 
-The default publisher invocation is a read-only preflight. All four pending sections and the accepted baseline are immutable inputs; fresh-prefix and exact-section guards preserve unrelated later appends, reject rollback/partial/duplicate sections, and stop on concurrent edits before PATCH. The implementation child executed preflight only.
+The default publisher invocation is a read-only preflight. All four exact sections and the accepted baseline are immutable inputs; fresh-prefix and exact-section guards preserve unrelated later appends, reject rollback/partial/duplicate sections, and stop on concurrent edits before PATCH. The implementation child executed preflight only; the parent subsequently applied and read back all four sections.
+
+Parent publication readback at 2026-11-16T17:36:35.389310+00:00: 694 nodes, 98 mandatory new/reused terminals, 99 gate blockers, all 1,770 corruption guards and the pinned source comparators passed. The four shared bodies are 64,779 / 40,405 / 28,871 / 27,854 characters respectively. Compared with the implementation handoff, only those four graph bodies and their publication seals changed; every owned terminal/gate, source operand, numeric witness, prerequisite and Project field is unchanged. The parent did not repeat the full Go suite or vet.
