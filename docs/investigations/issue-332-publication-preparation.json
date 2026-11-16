@@ -18,5 +18,11 @@
   "scope_tests": {
     "count": 15,
     "seconds": 9.739
+  },
+  "milestone_contract_sha256": "58c5aacb2a3e73b759dff6b98316661fb6bd9870b95e5c7fa9a0d39e7ee736ba",
+  "milestone_tests": {
+    "count": 6,
+    "seconds": 0.359,
+    "fixture": "SYNTHETIC ONLY; no actual milestone delivered or native proof"
   }
 }

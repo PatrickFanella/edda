@@ -141,3 +141,9 @@ semantic scope changes, incomplete or noninjective registries, PR substitutions,
 body overrides and lost old requirements. Thirteen focused publication-proof tests
 passed against the complete synthetic 1,888-node fixture; those IDs are tests only.
 No actual allocation or native readback is claimed by those tests.
+
+Milestone provenance uses immutable registry-byte snapshots at IDS_ALLOCATED and
+VERIFIED, the exact canonical stable nodes-map digest and the preserved coordinator
+receipt byte hash/observation time. Six focused contrary tests pass. These checks
+remain separate from Wizard's one fresh native collection; no status/hash-only
+qualification or live final claim is made before the actual deliveries.

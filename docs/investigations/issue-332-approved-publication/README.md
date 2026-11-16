@@ -31,29 +31,31 @@ Run the offline frozen approval and renderer check now:
 rtk proxy python scripts/wizard_publication_proof.py
 ```
 
-After the root delivers `IDS_ALLOCATED`, bind the complete real registry without
-performing any GitHub mutation:
+After the root delivers `IDS_ALLOCATED`, use its immutable registry snapshot and
+milestone sidecar, with the exact delivered sidecar byte hash. The binder requires
+`--registry`, `--ids-milestone` and `--ids-milestone-sha256`; it writes only the own
+`--binding-output`. Never substitute mutable `registry.json` after a status change.
+The actual paths and hashes will be recorded when delivered; no command is supplied
+before that evidence exists.
 
-```sh
-rtk proxy python scripts/wizard_publication_proof.py \
-  --registry /home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/registry.json \
-  --binding-output docs/investigations/issue-332-native-binding.json
-```
+After the root delivers `VERIFIED`, retain the allocated snapshot with
+`--allocated-registry`, and supply the immutable verified snapshot through
+`--registry`. Supply the root's `--verified-milestone`,
+`--verified-milestone-sha256` and exact `--coordinator-receipt`. The verifier pins
+both milestone files, independently recomputes both registry byte hashes and the
+stable nodes-map digest, checks unchanged identity assignments and the collected
+evidence's byte hash/observation time. It does not add registry fields. The pinned
+milestone contract SHA-256 is
+`58c5aacb2a3e73b759dff6b98316661fb6bd9870b95e5c7fa9a0d39e7ee736ba`.
 
-After the root delivers the `VERIFIED` wiring boundary, collect one complete fresh
-native readback. This verifies the own 285 nodes, complete foreign dependencies
-and roots, all three caps, both DAGs and the old body/title/parent/prerequisite/
-Task/Size protections. It binds database IDs and GraphQL IDs to real Issues,
-rejecting PR substitutions, partial/duplicate identities and altered annotations.
-
-```sh
-rtk proxy python scripts/wizard_publication_proof.py \
-  --registry /home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/registry.json \
-  --binding-output docs/investigations/issue-332-native-binding.json \
-  --collect-native \
-  --native-receipt docs/investigations/issue-332-native-readback.json.gz \
-  --proof-output docs/investigations/issue-332-published-native-proof.json
-```
+Only then run `--collect-native` once, saving the actual collection through
+`--native-receipt` and the independent result through `--proof-output`. The proof
+checks all own 285 nodes and complete foreign dependencies/roots, all three caps,
+both DAGs and old body/title/parent/prerequisite/Task/Size protections. It binds
+actual database and GraphQL IDs to real Issues, rejects PR substitutions, partial
+or duplicate identities and altered annotations, and preserves the collected raw
+receipt even if validation fails. `--provenance-output` records the separate
+milestone checks; status/hash agreement alone never qualifies the native graph.
 
 That proof remains explicitly UNSEALED. The root's accepted POST-WARLOCK prefix
 release and real four serial appends are still required for a final prefix seal.

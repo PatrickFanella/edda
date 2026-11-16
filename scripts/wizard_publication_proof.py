@@ -66,6 +66,16 @@ def validate_candidate(candidate,frozen):
     assert candidate==frozen,'own semantic scope/counts/source ownership must stay exactly frozen; bindings use sidecar only'
 
 
+def decode_registry(data):
+    def unique(pairs):
+        result={}
+        for key,value in pairs:
+            assert key not in result,('duplicate registry JSON key',key)
+            result[key]=value
+        return result
+    return json.loads(data,object_pairs_hook=unique)
+
+
 def validate_registry(registry,nodes,baseline):
     """Canonical registry input: exact alias -> {number,id,node_id} mapping."""
     assert isinstance(registry,dict),'registry must be an object'
@@ -232,6 +242,13 @@ def main():
     p.add_argument('--collect-native',action='store_true',help='Run ONCE only after ROOT VERIFIED wiring delivery')
     p.add_argument('--native-receipt',type=Path,help='Existing receipt, or output path with --collect-native')
     p.add_argument('--proof-output',type=Path)
+    p.add_argument('--ids-milestone',type=Path)
+    p.add_argument('--ids-milestone-sha256')
+    p.add_argument('--allocated-registry',type=Path)
+    p.add_argument('--verified-milestone',type=Path)
+    p.add_argument('--verified-milestone-sha256')
+    p.add_argument('--coordinator-receipt',type=Path)
+    p.add_argument('--provenance-output',type=Path)
     p.add_argument('--final',action='store_true')
     a=p.parse_args();inputs=trusted_inputs();renderer_contract()
     own=Path(__file__).resolve().parents[1]/'docs/investigations/issue-332-wizard-scope.json'
@@ -239,10 +256,25 @@ def main():
     if a.final:
         raise AssertionError('accepted POST-WARLOCK root prefix release and real four appends are still HELD; no final seal may be fabricated')
     if not a.registry:
-        assert not any([a.binding_output,a.collect_native,a.native_receipt,a.proof_output]),'registry required'
+        assert not any([a.binding_output,a.collect_native,a.native_receipt,a.proof_output,a.ids_milestone,a.ids_milestone_sha256,a.allocated_registry,a.verified_milestone,a.verified_milestone_sha256,a.coordinator_receipt,a.provenance_output]),'registry required'
         print('PASS exact frozen871-node approval and renderer; IDs/native publication proof pending ROOT boundary delivery')
         return
-    registry=json.loads(a.registry.read_text());binding=build_binding(registry,inputs)
+    from wizard_milestone_proof import validate_milestone,validate_transition
+    registry_bytes=a.registry.read_bytes();registry=decode_registry(registry_bytes)
+    assert a.ids_milestone and a.ids_milestone_sha256,'ROOT-delivered IDS_ALLOCATED milestone path/hash required'
+    ids_delivery=read_pinned(a.ids_milestone,a.ids_milestone_sha256)
+    if registry['status']=='IDS_ALLOCATED':
+        assert Path(ids_delivery['registry_path']).resolve()==a.registry.resolve(),'use immutable delivered registry_path'
+        validate_milestone(ids_delivery,registry_bytes,inputs,'IDS_ALLOCATED')
+    else:
+        assert a.allocated_registry and a.verified_milestone and a.verified_milestone_sha256 and a.coordinator_receipt,'preserved allocated snapshot and ROOT VERIFIED provenance required'
+        verified_delivery=read_pinned(a.verified_milestone,a.verified_milestone_sha256)
+        assert Path(ids_delivery['registry_path']).resolve()==a.allocated_registry.resolve()
+        assert Path(verified_delivery['registry_path']).resolve()==a.registry.resolve()
+        assert Path(verified_delivery['verified_receipt_path']).resolve()==a.coordinator_receipt.resolve()
+        provenance=validate_transition(ids_delivery,a.allocated_registry.read_bytes(),verified_delivery,registry_bytes,a.coordinator_receipt.read_bytes(),inputs)
+        if a.provenance_output:a.provenance_output.write_text(json.dumps(provenance,indent=2)+'\n')
+    binding=build_binding(registry,inputs)
     if a.binding_output:a.binding_output.write_text(json.dumps(binding,indent=2)+'\n')
     if a.collect_native:
         assert a.native_receipt is not None and registry['status']=='VERIFIED','ROOT VERIFIED receipt boundary required'
