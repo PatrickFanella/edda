@@ -235,7 +235,8 @@ def typed_native_graph(receipt):
         assert type(t['number']) is int and t['number']>0, 'exact native number type'
         assert t['parent'] is None or type(t['parent']) is int and t['parent']>0, 'exact native parent type'
         assert all(type(n) is int and n>0 for n in t['blocked_by']), 'exact native prerequisite types'
-    graph=typed_native_graph(receipt), 'duplicate native node'
+    graph={t['number']:t for t in receipt['graph']}
+    assert len(graph)==len(receipt['graph']), 'duplicate native node'
     return graph
 
 
@@ -243,54 +244,12 @@ def validate_publication(m,receipt,pdf=Path('/tmp/edda-wave1/SRD_CC_v5.2.1.pdf')
     rr=validate_plan(m)
     assert m['status']=='PUBLISHED', 'PENDING checkpoint cannot qualify publication'
     assert all(type(t['issue']) is int for t in rr.values()), 'native publication identities incomplete'
-    assert set(APPROVED_EXTERNAL_HEADS)=={'warlock-shared-output','wizard-shared-output'}, 'root-approved complete external structures missing'
-    assert set(ACCEPTED_PREFIX_SHA256)=={'47','54','283','337'}, 'root POST-ROGUE release required'
+    from sorcerer_native_binding import validate_native
+    validate_native(m, receipt, parent_supplements=True)
     graph=typed_native_graph(receipt)
-    identities={key:t['issue'] for key,t in rr.items()} | {key:t['number'] for key,t in APPROVED_EXTERNAL_HEADS.items()}
-    assert len(set(identities.values()))==len(identities), 'distinct exact native owners'
-    for key,t in rr.items():
-        live=graph[t['issue']]
-        assert live['title']==t['title'] and live['body']==native_body(t,identities), 'complete actual native contract'
-        parent=identities[t['parent']] if isinstance(t['parent'],str) else t['parent']
-        blockers=sorted(t['prerequisites']+[identities[d] for d in t['depends']])
-        assert live['parent']==parent and live['blocked_by']==blockers, 'exact parent/prerequisites'
-        assert receipt['project'][str(t['issue'])]==dict(type='Task',size='M'), 'native Task ProjectSize'
-    baseline=json.loads(BASELINE.read_text())
-    for old in baseline['graph']:
-        live=graph[old['number']]
-        assert live['parent']==old['parent'] and set(old['blocked_by'])<=set(live['blocked_by']), 'old hierarchy/edges preserved'
-        if old['number'] not in [279,280,337]:
-            assert live['blocked_by']==old['blocked_by'], 'unapproved old prerequisite addition, including183'
-    for n,extra in [(279,'shared-aggregate'),(280,'shared-aggregate'),(337,'class-gate')]:
-        assert identities[extra] in graph[n]['blocked_by'], 'mandatory terminal root obligation'
     assert graph[330]['parent']==283 and graph[330]['blocked_by']==[285,295,305,317]
     for n in [285,295,305,317]:
         assert graph[n]['state'].lower()=='closed'
-    for n,old in baseline['protected_owners'].items():
-        live=graph[int(n)]
-        assert all(live[k]==old[k] for k in ['title','body','parent','blocked_by']), 'old exact source owner guards'
-    for key,head in APPROVED_EXTERNAL_HEADS.items():
-        live=graph[head['number']]
-        assert all(live[k]==head[k] for k in ['title','body','parent']), 'future head immutable envelope'
-        assert set(head['blocked_by'])<=set(live['blocked_by']) and live['blocked_by'], 'future head prior inputs preserved'
-        cls='warlock' if key=='warlock-shared-output' else 'wizard'
-        assert head['source_roster']==FINITE_CONSUMED[cls], 'future finite source boundary'
-        assert receipt['project'][str(head['number'])]==dict(type='Task',size='M'), 'future head TaskSize'
-        additions=set(live['blocked_by'])-set(head['blocked_by'])
-        approved=head.get('approved_extensions',{})
-        assert additions<=set(map(int,approved)), 'unapproved future extension'
-        for n in additions:
-            approval=approved[str(n)]
-            assert approval['manifest_sha256'] and approval['accepted_head'] and approval['native_receipt_sha256'], 'root-approved manifest/head/receipt required'
-            actual=graph[n]
-            assert all(actual[k]==approval[k] for k in ['title','body','parent','blocked_by']), 'exact approved extension contract'
-            assert set(approval['source_identities'])<=set(FINITE_CONSUMED[cls]), 'source-bound monotonic extension'
-    native_caps({n:t['blocked_by'] for n,t in graph.items()},{n:t['parent'] for n,t in graph.items() if t['parent']})
-    for n,digest in ACCEPTED_PREFIX_SHA256.items():
-        seal=m['accepted_parent_prefix'][n]
-        assert hashlib.sha256(seal['prefix'].encode()).hexdigest()==digest, 'accepted complete prefix'
-        append=m['parent_appends'][n]
-        prefix_check(graph[int(n)]['body'],seal['prefix'],append['text'],append['marker'])
     source_check(pdf)
     return True
 
@@ -304,13 +263,13 @@ def read_live(m):
     cursors=set()
     numbers=set()
     for _ in range(25):
-        query='query($cursor:String){repository(owner:"subculture-collective",name:"edda"){issues(first:100,after:$cursor){pageInfo{hasNextPage endCursor}nodes{number title body state parent{number} blockedBy(first:100){pageInfo{hasNextPage}nodes{number}}}}}}'
+        query='query($cursor:String){repository(owner:"subculture-collective",name:"edda"){issues(first:100,after:$cursor){pageInfo{hasNextPage endCursor}nodes{number databaseId id title body state parent{number} blockedBy(first:100){pageInfo{hasNextPage}nodes{number}}}}}}'
         page=api('graphql',{'query':query,'variables':{'cursor':cursor}})['data']['repository']['issues']
         for node in page['nodes']:
             assert type(node['number']) is int and node['number'] not in numbers, 'repeated native graph page'
             numbers.add(node['number'])
             assert not node['blockedBy']['pageInfo']['hasNextPage'], 'incoming over100 or truncated'
-            graph.append(dict(number=node['number'],title=node['title'],body=node['body'] or '',state=node['state'].lower(),parent=(node['parent']or{}).get('number'),blocked_by=sorted(n['number'] for n in node['blockedBy']['nodes'])))
+            graph.append(dict(number=node['number'],id=node['databaseId'],node_id=node['id'],title=node['title'],body=node['body'] or '',state=node['state'].lower(),parent=(node['parent']or{}).get('number'),blocked_by=sorted(n['number'] for n in node['blockedBy']['nodes'])))
         info=page['pageInfo']
         if not info['hasNextPage']:
             break
@@ -320,6 +279,12 @@ def read_live(m):
     else:
         raise AssertionError('native graph call cap')
     nums=sorted({t['issue'] for t in m['tasks']+m['shared_split_proposal']+m['gates'] if t['issue'] is not None}|{int(n) for n in m['protected_owners']})
+    if m['status']=='PUBLISHED':
+        from sorcerer_native_binding import pinned_inputs, registry_check
+        approval, baseline = pinned_inputs()
+        registry=json.loads(Path(approval['registry']).read_text())
+        registry_check(registry,approval,baseline)
+        nums=sorted({v['number'] for v in registry['nodes'].values()} | set(map(int,baseline['project'])))
     project={}
     for start in range(0,len(nums),25):
         batch=nums[start:start+25]
