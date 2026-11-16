@@ -1,0 +1,26 @@
+[
+  {
+    "issue": 47,
+    "path": "docs/investigations/issue-326-parent-47-supplement.md",
+    "append": "\n<!-- edda-326:start -->\n#326\u2192#776\u2192#337\n<!-- edda-326:end -->\n",
+    "previous_sha256": "2e392b2ef553de2444c1c46ba8136d28c6ecd8f88e59abf2ae70d859beca5191"
+  },
+  {
+    "issue": 54,
+    "path": "docs/investigations/issue-326-parent-54-supplement.md",
+    "append": "\n<!-- edda-326:start -->\nMonk decision #326:94 records (77+17),208 mechanic/option keys;66 new implementation leaves777-842,32 reused; qualification#776 requires all98 terminals and326 and directly blocks337. First-class823-842 covers all20 rows; later-class822; D8/fixed5 adapter783 consumes429. Shared777/778 under270;779-782 under50. Exact source/fixture ownership, complete native parents/prerequisites/Task/Project Size receipt and source/engine/web/TUI matrix: docs/investigations/issue-326-monk-scope.json and issue-326-monk-decision.md. Decision closure does not grant execution, admission, derived stats, coverage or Full Rules. Monk remains unavailable.\n<!-- edda-326:end -->\n",
+    "previous_sha256": "91c24ff513de979743f15cb6a5f683ada04b5f10ee3d49d424f0efbfc052a15f"
+  },
+  {
+    "issue": 283,
+    "path": "docs/investigations/issue-326-parent-283-supplement.md",
+    "append": "\n<!-- edda-326:start -->\nMonk decision #326:94 records (77+17),208 mechanic/option keys;66 new implementation leaves777-842,32 reused; qualification#776 requires all98 terminals and326 and directly blocks337. First-class823-842 covers all20 rows; later-class822; D8/fixed5 adapter783 consumes429. Shared777/778 under270;779-782 under50. Exact source/fixture ownership, complete native parents/prerequisites/Task/Project Size receipt and source/engine/web/TUI matrix: docs/investigations/issue-326-monk-scope.json and issue-326-monk-decision.md. Decision closure does not grant execution, admission, derived stats, coverage or Full Rules. Monk remains unavailable.\n<!-- edda-326:end -->\n",
+    "previous_sha256": "34dc91ed4bca31cd38abdb780e0a404203274c1f56c7da4ffaba2c9dd8a40da4"
+  },
+  {
+    "issue": 337,
+    "path": "docs/investigations/issue-326-parent-337-supplement.md",
+    "append": "\n<!-- edda-326:start -->\nMonk decision #326:94 records (77+17),208 mechanic/option keys;66 new implementation leaves777-842,32 reused; qualification#776 requires all98 terminals and326 and directly blocks337. First-class823-842 covers all20 rows; later-class822; D8/fixed5 adapter783 consumes429. Shared777/778 under270;779-782 under50. Exact source/fixture ownership, complete native parents/prerequisites/Task/Project Size receipt and source/engine/web/TUI matrix: docs/investigations/issue-326-monk-scope.json and issue-326-monk-decision.md. Decision closure does not grant execution, admission, derived stats, coverage or Full Rules. Monk remains unavailable.\n<!-- edda-326:end -->\n",
+    "previous_sha256": "b5930003dfd217148acd3657817d5f7170cabf98af6251d1a31de3fa404aa0ac"
+  }
+]
