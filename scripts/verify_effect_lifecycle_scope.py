@@ -68,9 +68,22 @@ def live(m):
         assert not result.get("errors"), result.get("errors")
         batch = result["data"]["repository"]["issues"]
         for node in batch["nodes"]:
-            assert not node["blockedBy"]["pageInfo"]["hasNextPage"], "blocker pagination needed"
+            blockers = node["blockedBy"]["nodes"]
+            if node["blockedBy"]["pageInfo"]["hasNextPage"]:
+                # Read every reported blocker page rather than truncating
+                # a qualification gate or relaxing required edges.
+                blockers, seen, page = [], set(), 1
+                while True:
+                    batch_edges = api(f"repos/subculture-collective/edda/issues/{node['number']}/dependencies/blocked_by?per_page=100&page={page}")
+                    ids = [edge["id"] for edge in batch_edges]
+                    assert len(ids) == len(set(ids)) and not seen.intersection(ids), "repeated blocker page"
+                    seen.update(ids)
+                    blockers.extend(batch_edges)
+                    if len(batch_edges) < 100:
+                        break
+                    page += 1
             graph.append({"number": node["number"], "parent": (node["parent"] or {}).get("number"),
-                          "blocked_by": sorted(n["number"] for n in node["blockedBy"]["nodes"])})
+                          "blocked_by": sorted(n["number"] for n in blockers)})
         if not batch["pageInfo"]["hasNextPage"]:
             break
         cursor = batch["pageInfo"]["endCursor"]
