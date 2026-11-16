@@ -1,0 +1,22 @@
+{
+  "status": "APPROVED_FROZEN_PROOF_CODE_READY; root boundary deliveries pending",
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+  "golden_vectors_sha256": "4ba7f97dd6f1702ff049056f10e46736cb1da27fe7274553b4bff9e54077bdee",
+  "single_native_writer": 330,
+  "own_nodes": 285,
+  "global_new_nodes": 871,
+  "approved_graph_nodes": 1888,
+  "proof_tests": {
+    "count": 13,
+    "seconds": 15.62,
+    "fixture": "SYNTHETIC ONLY; not a live native proof"
+  },
+  "actual_native_collected": false,
+  "accepted_parent_prefix": null,
+  "runtime_status": "UNQUALIFIED",
+  "scope_tests": {
+    "count": 15,
+    "seconds": 9.739
+  }
+}

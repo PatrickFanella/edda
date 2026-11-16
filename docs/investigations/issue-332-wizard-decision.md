@@ -1,8 +1,10 @@
 # Wizard/Evoker source decision (#332)
 
-This is an audit checkpoint. Wizard remains unavailable in the engine. Native
-publication, the combined capacity proof and accepted POST-WARLOCK prefix release
-are pending. This document does not satisfy issue #332's closure criteria yet.
+The root approved the exact finite 871-node three-class publication after independent
+reservation repair and delta recheck. Wizard remains unavailable in the engine.
+The single Sorcerer publisher owns allocation and wiring; Wizard authors only local
+proofs and bindings. Actual native readback and the accepted POST-WARLOCK prefix
+release remain pending, so issue #332's closure criteria are not yet satisfied.
 
 The prepared clean base was `e7cd1ba8318ba296edd4fc5b6b84715ca11016f2`, branch
 `feat/wizard-evoker-roadmap`, physical path
@@ -102,10 +104,13 @@ The reserved union remains 245; Phantasmal Force is not a silently added 246th.
   1,017 native + 305 Sorcerer + 281 Warlock + 285 Wizard = 1,888 nodes. The
   proposal receipt records exact input hashes. #285 has 82 outgoing, #67 has 100,
   #279 has 100 incoming, #280 has 95, #283 has 95 children and #429 has 100
-  outgoing. Recheck changed inputs and obtain root publication approval. This is
-  a proposed graph, not a native publication receipt.
-- Publish only approved bounded actual children; read back exact bodies, titles,
-  parent, prerequisites, Task and Project Size. No placeholders qualify.
+  outgoing. The root approved these exact inputs under the pinned durable approval. The
+  Sorcerer coordinator alone publishes them. This projection is not a live receipt.
+- The single Sorcerer coordinator publishes all 871 frozen nodes. After root
+  allocation and verified-wiring deliveries, Wizard binds the complete global
+  registry and performs one fresh own-node/full-foreign native proof. Exact bodies,
+  real Issue IDs, parents, prerequisites, Task and Project Size must match the
+  independently pinned approval and renderer; partial golden vectors cannot qualify.
 - Root alone applies the four compact supplements. Each remains a local PENDING
   artifact. #47 append is at most70 characters, other appends at most750.
 - Freeze immutable parent prefixes only after the root's accepted POST-WARLOCK
@@ -129,3 +134,10 @@ One authorized serial full run passed on the unchanged runtime tree:
 `GOMAXPROCS=2 go vet -p2 ./...` in 2.924 seconds, both exit0. Logs and timing are in
 the local validation receipt. No toolchain changes or unavailable linter installs.
 Hosted CI, independent acceptance, native publication and final seal remain separate.
+
+The portable frozen inputs and phase-specific commands are documented in
+`issue-332-approved-publication/README.md`. `wizard_publication_proof.py` rejects
+semantic scope changes, incomplete or noninjective registries, PR substitutions,
+body overrides and lost old requirements. Thirteen focused publication-proof tests
+passed against the complete synthetic 1,888-node fixture; those IDs are tests only.
+No actual allocation or native readback is claimed by those tests.
