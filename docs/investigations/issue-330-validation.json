@@ -1,0 +1,91 @@
+{
+  "status": "PENDING",
+  "comparators": [
+    {
+      "check": "sorcerer",
+      "exit_code": 0,
+      "seconds": 0.22,
+      "output": "Sorcerer: 63 graph records, 11 identities, 20 progression rows, 9 slot columns and 5 conversion rows match pinned pp64\u201366; 11 semantic controls rejected\n"
+    },
+    {
+      "check": "metamagic",
+      "exit_code": 0,
+      "seconds": 0.36,
+      "output": "Metamagic: ten identities, costs, conditions, alternatives, exceptions and canonical operands match pinned PDF\n"
+    },
+    {
+      "check": "draconic",
+      "exit_code": 0,
+      "seconds": 0.31,
+      "output": "Sorcerer: 63 graph records, 11 identities, 20 progression rows, 9 slot columns and 5 conversion rows match pinned pp64\u201366; 11 semantic controls rejected\npp69\u201370: six identities and 18 complete records match independent source facts\n"
+    },
+    {
+      "check": "advancement",
+      "exit_code": 0,
+      "seconds": 0.07,
+      "output": "SRD 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87: all 20 identities/pages and XP/proficiency values match PDF p23\n"
+    },
+    {
+      "check": "multiclass",
+      "exit_code": 0,
+      "seconds": 1.23,
+      "output": "PASS: all 12 classes, 180 actual PDF cells, all requirement fields and canonical source bindings\n"
+    },
+    {
+      "check": "origin_feats",
+      "exit_code": 0,
+      "seconds": 0.11,
+      "output": "SRD 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87: exact four Origin feat identities, p87, choices, numeric limits, conditions, recovery and repeatability anchors match\n"
+    },
+    {
+      "check": "general_feats",
+      "exit_code": 0,
+      "seconds": 0.11,
+      "output": "SRD 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87: exact two General feat identities on PDF p87; complete source text, prerequisites, alternatives, nested choices, caps and conditional benefits agree\n"
+    },
+    {
+      "check": "fighting_styles",
+      "exit_code": 0,
+      "seconds": 0.15,
+      "output": "SRD 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87: exact four Fighting Style identities/pages; category, general prerequisite, acquisition limit, all benefits/numbers/conditions agree with PDF pp87-88\n"
+    },
+    {
+      "check": "epic_boon_feats",
+      "exit_code": 0,
+      "seconds": 0.44,
+      "output": "Rejected 255 contrary-source comparator fixtures\nSRD 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87: exact seven Epic Boon identities, complete PDF pp87\u201388 source and complete metadata graph agree\n"
+    }
+  ],
+  "full_short_race": {
+    "command": "GOMAXPROCS=2 go test -p 2 -short -race ./...",
+    "exit_code": 0,
+    "srd521_package_seconds": 209.746,
+    "total_wall_seconds": null,
+    "runs": 1
+  },
+  "vet": {
+    "command": "GOMAXPROCS=2 go vet -p 2 ./...",
+    "exit_code": 0,
+    "seconds": 2.728,
+    "output": ""
+  },
+  "contrary_tests": {
+    "command": "python3 -m unittest discover -s scripts -p test_verify_sorcerer_scope.py -v",
+    "methods": 10,
+    "seconds": 2.384,
+    "exit_code": 0
+  },
+  "not_verified": [
+    "final source/shared execution oracle",
+    "native publication",
+    "PostgreSQL integration",
+    "browser/device",
+    "parent appends",
+    "final prefix release",
+    "hosted final head"
+  ],
+  "unavailable_tools": {
+    "golangci-lint": "mise: not provided by active go@1.27.3",
+    "ruff": "mise: no version set for shim"
+  }
+}
