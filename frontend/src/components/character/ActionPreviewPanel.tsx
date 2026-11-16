@@ -33,6 +33,7 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
     try { return JSON.parse(sessionStorage.getItem(storageKey) ?? 'null') as PreparedAction | null; } catch { return null; }
   });
   const requestRef = useRef(pending);
+  const restoredActionId = useRef(pending?.action_id);
   const [completed, setCompleted] = useState<TurnResponse | null>(null);
   const finish = (result: TurnResponse) => {
     setCompleted(result);
@@ -44,13 +45,14 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
     void client.invalidateQueries({ queryKey: ['campaign', campaignId] });
   };
   useEffect(() => {
-    if (!pending) return;
+    if (!pending || pending.action_id !== restoredActionId.current) return;
     let active = true;
     void readActionReceipt(campaignId, pending.action_id).then(receipt => {
       if (active && receipt?.result) finish(receipt.result);
     }).catch(() => { /* The same action ID remains available for retry. */ });
     return () => { active = false; };
-    // Only reconcile the durable request identity, not callback renders.
+    // Reconcile requests restored on mount, never a live confirmation: its
+    // receipt can exist before a lost response, while its retry ID is still needed.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaignId, pending?.action_id]);
   const confirmation = useMutation({

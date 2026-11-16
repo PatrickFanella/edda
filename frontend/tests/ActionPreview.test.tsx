@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { expect, it, vi } from 'vitest';
@@ -107,6 +107,32 @@ it('confirms once and retries uncertain delivery with the same action identity',
   expect(await screen.findByText('Action saved.')).toBeVisible();
   expect(vi.mocked(confirmCharacterAction).mock.calls[1][1]).toEqual(request);
 });
+it('retains a live confirmation identity when its receipt exists before a lost response', async () => {
+  const campaign = 'receipt-before-response';
+  const storageKey = `edda:prepared-action:${campaign}:hero`;
+  let rejectConfirmation!: (error: Error) => void;
+  vi.mocked(confirmCharacterAction).mockReturnValueOnce(new Promise((_, reject) => { rejectConfirmation = reject; }));
+  vi.mocked(readActionReceipt).mockImplementation(async (_campaign, actionId) => ({ result: {
+    action_id: actionId, turn_number: 2, narrative: 'Committed before response was lost.',
+    state_changes: [], resolution_events: [], combat_active: false,
+  } }));
+  const view = mount(campaign, 'hero', ready);
+  await userEvent.click(screen.getByRole('button', { name: 'Confirm action' }));
+  const request = vi.mocked(confirmCharacterAction).mock.calls[0][1];
+  expect(sessionStorage.getItem(storageKey)).toBe(JSON.stringify(request));
+  expect(readActionReceipt).not.toHaveBeenCalled();
+  await act(async () => { rejectConfirmation(new Error('response lost after commit')); });
+  expect(await screen.findByRole('alert')).toHaveTextContent('ID is retained');
+  expect(sessionStorage.getItem(storageKey)).toBe(JSON.stringify(request));
+  view.unmount();
+  mount(campaign);
+  expect(await screen.findByText('Committed before response was lost.')).toBeVisible();
+  expect(readActionReceipt).toHaveBeenCalledExactlyOnceWith(campaign, request.action_id);
+  expect(confirmCharacterAction).toHaveBeenCalledTimes(1);
+  expect(sessionStorage.getItem(storageKey)).toBeNull();
+  vi.mocked(readActionReceipt).mockResolvedValue(null);
+});
+
 it('reconciles a saved receipt after remount instead of rolling again', async () => {
   const request = { action_id: 'retained', expected_revision: ready.expected_revision, intent: ready.intent };
   sessionStorage.setItem('edda:prepared-action:reload:hero', JSON.stringify(request));
