@@ -1,0 +1,169 @@
+[
+  {
+    "name": "schema",
+    "record": -1,
+    "field": "schema_version",
+    "value": 2
+  },
+  {
+    "name": "pin",
+    "record": -1,
+    "field": "source.sha256",
+    "value": "bad"
+  },
+  {
+    "name": "attribution",
+    "record": -1,
+    "field": "source.attribution",
+    "value": ""
+  },
+  {
+    "name": "adaptation",
+    "record": -1,
+    "field": "source.changes",
+    "value": ""
+  },
+  {
+    "name": "empty",
+    "record": -1,
+    "field": "records",
+    "value": []
+  },
+  {
+    "name": "source-less",
+    "record": 0,
+    "field": "source_id",
+    "value": ""
+  },
+  {
+    "name": "wrong-source",
+    "record": 0,
+    "field": "source_id",
+    "value": "srd-5.2.1:content/spells/cure-wounds"
+  },
+  {
+    "name": "page",
+    "record": 0,
+    "field": "source_page",
+    "value": 0
+  },
+  {
+    "name": "unknown-field",
+    "record": 0,
+    "field": "playable",
+    "value": true
+  },
+  {
+    "name": "level",
+    "record": 0,
+    "field": "level",
+    "value": 10
+  },
+  {
+    "name": "school",
+    "record": 0,
+    "field": "school",
+    "value": "invented"
+  },
+  {
+    "name": "lists",
+    "record": 0,
+    "field": "lists",
+    "value": []
+  },
+  {
+    "name": "component",
+    "record": 0,
+    "field": "components.verbal",
+    "value": null
+  },
+  {
+    "name": "consumption",
+    "record": 0,
+    "field": "components.material.consumed",
+    "value": null
+  },
+  {
+    "name": "cost",
+    "record": 0,
+    "field": "components.material.cost_cp",
+    "value": -1
+  },
+  {
+    "name": "ritual",
+    "record": 0,
+    "field": "ritual",
+    "value": null
+  },
+  {
+    "name": "duration",
+    "record": 0,
+    "field": "duration_seconds",
+    "value": -1
+  },
+  {
+    "name": "target",
+    "record": 0,
+    "field": "target.count",
+    "value": 0
+  },
+  {
+    "name": "range",
+    "record": 0,
+    "field": "range.feet",
+    "value": -1
+  },
+  {
+    "name": "mechanics",
+    "record": 0,
+    "field": "required_mechanics",
+    "value": []
+  },
+  {
+    "name": "duplicate-keys",
+    "record": 0,
+    "field": "required_mechanics",
+    "value": [
+      "x",
+      "x"
+    ]
+  },
+  {
+    "name": "effects",
+    "record": 0,
+    "field": "effects",
+    "value": []
+  },
+  {
+    "name": "scaling-reference",
+    "record": 0,
+    "field": "scaling.effect_ids",
+    "value": [
+      "absent"
+    ]
+  },
+  {
+    "name": "slots",
+    "record": 0,
+    "field": "slot_levels",
+    "value": [
+      2,
+      2
+    ]
+  },
+  {
+    "name": "widen-target",
+    "record": 1,
+    "field": "target.eligibility",
+    "value": "creature-in-range"
+  },
+  {
+    "name": "widen-slots",
+    "record": 1,
+    "field": "slot_levels",
+    "value": [
+      1,
+      2
+    ]
+  }
+]

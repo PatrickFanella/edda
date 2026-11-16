@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD spell facts adapted into structured records: Acid Arrow complete; Cure Wounds and Shield of Faith restricted to existing conscious-self, level-one-slot fixtures. No rules prose or new executable effects."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/acid-arrow",
+      "name": "Acid Arrow",
+      "source_id": "srd-5.2.1:content/spells/acid-arrow",
+      "source_page": 107,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "evocation",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 90
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "target-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "powdered rhubarb leaf",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 2,
+        "dice_count": 1,
+        "die_sides": 4,
+        "effect_ids": [
+          "initial",
+          "later"
+        ]
+      },
+      "effects": [
+        {
+          "id": "initial",
+          "mechanic": "attack.ranged-spell",
+          "timing": "on-hit",
+          "dice_count": 4,
+          "die_sides": 4,
+          "damage_type": "acid",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": true
+        },
+        {
+          "id": "later",
+          "mechanic": "damage.end-next-target-turn",
+          "timing": "on-hit-end-next-target-turn",
+          "dice_count": 2,
+          "die_sides": 4,
+          "damage_type": "acid",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "attack.ranged-spell",
+        "damage.acid",
+        "damage.end-next-target-turn",
+        "damage.miss-half-initial-only",
+        "scaling.per-slot",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/spells/cure-wounds",
+      "name": "Cure Wounds",
+      "source_id": "srd-5.2.1:content/spells/cure-wounds",
+      "source_page": 121,
+      "scope": "bounded-self-level-1",
+      "level": 1,
+      "school": "abjuration",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid",
+        "paladin",
+        "ranger"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "conscious-self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "healing",
+          "mechanic": "healing.cure-wounds-self",
+          "timing": "immediate",
+          "dice_count": 2,
+          "die_sides": 8,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": true,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "cast.cleric-self-slot-1",
+        "healing.cure-wounds-self"
+      ],
+      "slot_levels": [
+        1
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/spells/shield-of-faith",
+      "name": "Shield of Faith",
+      "source_id": "srd-5.2.1:content/spells/shield-of-faith",
+      "source_page": 162,
+      "scope": "bounded-self-level-1",
+      "level": 1,
+      "school": "abjuration",
+      "lists": [
+        "cleric",
+        "paladin"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "conscious-self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a prayer scroll",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "ac",
+          "mechanic": "defense.shield-of-faith-self",
+          "timing": "while-concentrating",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 2,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "cast.cleric-self-slot-1",
+        "defense.shield-of-faith-self",
+        "concentration.self-600-seconds"
+      ],
+      "slot_levels": [
+        1
+      ]
+    }
+  ]
+}
