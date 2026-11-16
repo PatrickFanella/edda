@@ -1,0 +1,621 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Evoker and five feature identities on PDF p82 adapted into unavailable offline metadata with spell choices, conditions, operands, numbers, timing and escalating costs. Mechanic keys and graph are Edda additions. Canonical Wizard is composed externally; adjacent spells remain opaque. No executable support imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/subclass/wizard/evoker/identity",
+      "kind": "subclass",
+      "name": "Evoker",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/wizard-evoker",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/class/wizard",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/evoker/identity-level",
+        "srd-5.2.1:character/prerequisite/wizard/evoker/identity-selection"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/subclass"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/identity-level",
+      "kind": "prerequisite",
+      "name": "Evoker level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/wizard-evoker",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/wizard/evoker/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/identity-selection",
+      "kind": "prerequisite",
+      "name": "Evoker selection",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclasses/wizard-evoker",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/wizard/evoker/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/requires-canonical-evoker-subclass-selection"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/requires-canonical-evoker-subclass-selection",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/wizard-subclass"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/evoker/evocation-savant",
+      "kind": "feature",
+      "name": "Evocation Savant",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-3-evocation-savant",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/wizard/evoker/identity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/wizard/evoker/savant-initial",
+        "srd-5.2.1:character/choice/wizard/evoker/savant-new-slots"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/evoker/evocation-savant-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/savant/add-chosen-spells-to-spellbook-for-free"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/evocation-savant-level",
+      "kind": "prerequisite",
+      "name": "Evocation Savant level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-3-evocation-savant",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/evoker/evocation-savant",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/evoker/savant-initial",
+      "kind": "choice",
+      "name": "Initial Evocation spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-3-evocation-savant",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/evoker/evocation-savant",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/evoker/savant-initial-book"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/choose/savant-initial"
+      ],
+      "select": 2,
+      "option_keys": [
+        "srd-5.2.1:mechanic/wizard/evoker/savant/wizard-evocation-spells-no-higher-than-level-two"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/savant-initial-book",
+      "kind": "prerequisite",
+      "name": "Initial Evocation spells book",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-3-evocation-savant",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/evoker/savant-initial",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/savant/initial-wizard-evocation-spells-maximum-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/savant/initial-wizard-evocation-spells-maximum-level",
+        "record_refs": [
+          "srd-5.2.1:character/choice/wizard/spellbook-initial"
+        ],
+        "parameters": {
+          "maximum-spell-level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/evoker/savant-new-slots",
+      "kind": "choice",
+      "name": "New spell-slot level Evocation spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-3-evocation-savant",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/evoker/evocation-savant",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/evoker/savant-new-slots-trigger"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/choose/savant-new-slots"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/wizard/evoker/savant/wizard-evocation-spell-at-a-level-with-slots"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/savant-new-slots-trigger",
+      "kind": "prerequisite",
+      "name": "New spell-slot level Evocation spell trigger",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-3-evocation-savant",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/wizard/evoker/savant-new-slots",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/savant/whenever-gain-access-to-new-slot-level-in-this-class"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/savant/whenever-gain-access-to-new-slot-level-in-this-class",
+        "record_refs": [
+          "srd-5.2.1:character/feature/wizard/spellcasting",
+          "srd-5.2.1:character/choice/wizard/spellbook-level-gain",
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/evoker/potent-cantrip",
+      "kind": "feature",
+      "name": "Potent Cantrip",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-3-potent-cantrip",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/wizard/evoker/identity",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/wizard/evoker/potent-trigger"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/evoker/potent-cantrip-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/potent/when-cast-damaging-cantrip-at-creature",
+        "srd-5.2.1:mechanic/wizard/evoker/potent/target-takes-half-cantrip-damage-if-any",
+        "srd-5.2.1:mechanic/wizard/evoker/potent/no-additional-cantrip-effect",
+        "srd-5.2.1:mechanic/wizard/evoker/potent/damage-divisor"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/wizard/evoker/potent/damage-divisor": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/potent-cantrip-level",
+      "kind": "prerequisite",
+      "name": "Potent Cantrip level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-3-potent-cantrip",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/evoker/potent-cantrip",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "minimum-level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/wizard/evoker/potent-trigger",
+      "kind": "choice",
+      "name": "Alternative Potent Cantrip triggers",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-3-potent-cantrip",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/evoker/potent-cantrip",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/choose/potent-trigger"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/wizard/evoker/potent/miss-with-attack-roll",
+        "srd-5.2.1:mechanic/wizard/evoker/potent/target-succeeds-on-save-against-cantrip"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/evoker/sculpt-spells",
+      "kind": "feature",
+      "name": "Sculpt Spells",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-6-sculpt-spells",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/wizard/evoker/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/evoker/sculpt-spells-level"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/sculpt/when-cast-evocation-affecting-other-creatures-you-can-see",
+        "srd-5.2.1:mechanic/wizard/evoker/sculpt/may-choose-number-of-them-equal-to-base-plus-spell-level",
+        "srd-5.2.1:mechanic/wizard/evoker/sculpt/chosen-creatures-automatically-succeed-on-saves-against-spell",
+        "srd-5.2.1:mechanic/wizard/evoker/sculpt/no-damage-only-if-normally-half-on-successful-save",
+        "srd-5.2.1:mechanic/wizard/evoker/sculpt/creature-count-base"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/wizard/evoker/sculpt/creature-count-base": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/sculpt-spells-level",
+      "kind": "prerequisite",
+      "name": "Sculpt Spells level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-6-sculpt-spells",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/evoker/sculpt-spells",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "minimum-level": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/evoker/empowered-evocation",
+      "kind": "feature",
+      "name": "Empowered Evocation",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-10-empowered-evocation",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/wizard/evoker/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/evoker/empowered-evocation-level",
+        "srd-5.2.1:character/prerequisite/wizard/evoker/empowered-evocation-ability"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/empowered/whenever-cast-wizard-evocation-spell",
+        "srd-5.2.1:mechanic/wizard/evoker/empowered/may-add-intelligence-modifier-to-one-damage-roll-of-that-spell",
+        "srd-5.2.1:mechanic/wizard/evoker/empowered/damage-roll-count"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/wizard/evoker/empowered/damage-roll-count": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/empowered-evocation-level",
+      "kind": "prerequisite",
+      "name": "Empowered Evocation level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-10-empowered-evocation",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/evoker/empowered-evocation",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "minimum-level": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/empowered-evocation-ability",
+      "kind": "prerequisite",
+      "name": "Empowered Evocation ability",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-10-empowered-evocation",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/evoker/empowered-evocation",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/empowered/canonical-intelligence-spellcasting-ability"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/empowered/canonical-intelligence-spellcasting-ability",
+        "record_refs": [
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/wizard/evoker/overchannel",
+      "kind": "feature",
+      "name": "Overchannel",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-14-overchannel",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/subclass/wizard/evoker/identity",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/wizard/evoker/overchannel-level",
+        "srd-5.2.1:character/prerequisite/wizard/evoker/overchannel-slots"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/when-cast-damaging-wizard-spell-with-qualifying-slot",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/may-deal-maximum-spell-damage-on-turn-you-cast-it",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/first-use-no-adverse-effect",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/reuse-before-finish-long-rest-necrotic-self-damage",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/initial-reuse-dice-per-spell-slot-level",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/immediately-after-casting",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/ignores-resistance-and-immunity",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/each-further-use-before-finish-long-rest-increases-damage-per-spell-level",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/minimum-slot-level",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/maximum-slot-level",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/initial-reuse-dice",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/die-sides",
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/further-use-dice-increase"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/minimum-slot-level": 1,
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/maximum-slot-level": 5,
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/initial-reuse-dice": 2,
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/die-sides": 12,
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/further-use-dice-increase": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/overchannel-level",
+      "kind": "prerequisite",
+      "name": "Overchannel level",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-14-overchannel",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/evoker/overchannel",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/class-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/class-level",
+        "record_refs": [
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "minimum-level": 14
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/wizard/evoker/overchannel-slots",
+      "kind": "prerequisite",
+      "name": "Overchannel slots",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/subclass-features/wizard-level-14-overchannel",
+          "page": 82
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/wizard/evoker/overchannel",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/wizard/evoker/overchannel/uses-canonical-wizard-slot-owner-not-prepared-count-or-character-level"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/wizard/evoker/overchannel/uses-canonical-wizard-slot-owner-not-prepared-count-or-character-level",
+        "record_refs": [
+          "srd-5.2.1:character/feature/wizard/spellcasting",
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {}
+      }
+    }
+  ]
+}

@@ -317,3 +317,11 @@ The seven page-88 Epic Boon feats use the existing guarded contract, with owned
 ability choices, level and source-condition predicates, operand references and
 single-use resources. See [the source evidence and checks](srd-5.2.1-epic-boon-feats.md).
 They are unavailable metadata; validation grants no runtime support.
+
+## Evoker catalogue (#319)
+
+The six p82 identities use the existing guarded contract and externally compose
+canonical Wizard once. See [Evoker source metadata](srd-5.2.1-evoker.md) for
+spellbook/slot operands, all source conditions and costs, the full Go graph
+oracle and standalone pinned-PDF semantic comparator. Catalogue completion
+leaves Wizard and Evoker unavailable and changes no runtime or coverage.
