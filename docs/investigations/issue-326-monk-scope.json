@@ -19076,7 +19076,7 @@
         "srd-5.2.1:mechanic/monk/multiclass/hit-point-die-and-level-1-features-only": "later",
         "srd-5.2.1:mechanic/monk/hit-die-sides": "d8"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19093,7 +19093,7 @@
         "srd-5.2.1:mechanic/skills/religion": "traits",
         "srd-5.2.1:mechanic/skills/stealth": "traits"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19106,7 +19106,7 @@
         "srd-5.2.1:mechanic/tools/any-artisans-tools": "traits",
         "srd-5.2.1:mechanic/tools/any-musical-instrument": "traits"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19124,7 +19124,7 @@
         "srd-5.2.1:mechanic/monk/equipment/a": "equipment",
         "srd-5.2.1:mechanic/monk/equipment/b": "equipment"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19135,7 +19135,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/equipment/tool-matches-proficiency": "equipment"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19151,7 +19151,7 @@
         "srd-5.2.1:mechanic/monk/martial-arts/dexterous-attacks/dexterity-instead-of-strength-attack-and-damage": "dexterous",
         "srd-5.2.1:mechanic/monk/martial-arts/dexterous-attacks/grapple-or-shove-save-dc-dexterity-instead-of-strength": "dexterous"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19162,7 +19162,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/martial-arts/unarmed-or-only-monk-weapons-and-no-armor-or-shield": "martial-die"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19174,7 +19174,7 @@
         "srd-5.2.1:mechanic/monk/unarmored-defense/base-ac-plus-dexterity-and-wisdom-modifiers": "defense",
         "srd-5.2.1:mechanic/monk/unarmored-defense/base-ac": "defense"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19185,7 +19185,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/unarmored-defense/no-armor-or-shield": "defense"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19203,7 +19203,7 @@
         "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-cost": "wind",
         "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-jump-multiplier": "wind"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19215,7 +19215,7 @@
         "srd-5.2.1:mechanic/monk/focus-points/regain-all-expended-on-short-or-long-rest": "focus",
         "srd-5.2.1:mechanic/monk/focus-points/expended-unavailable-until-recovered": "focus"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19229,7 +19229,7 @@
         "srd-5.2.1:mechanic/monk/focus/patient-defense": "patient",
         "srd-5.2.1:mechanic/monk/focus/step-of-the-wind": "wind"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19242,7 +19242,7 @@
         "srd-5.2.1:mechanic/monk/flurry-of-blows/paid/two-unarmed-strikes": "flurry",
         "srd-5.2.1:mechanic/monk/flurry-of-blows/paid": "flurry"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19253,7 +19253,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/flurry-of-blows/available-focus": "flurry"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19268,7 +19268,7 @@
         "srd-5.2.1:mechanic/monk/patient-defense/free-disengage": "patient",
         "srd-5.2.1:mechanic/monk/patient-defense/paid-disengage-and-dodge": "patient"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19279,7 +19279,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/patient-defense/paid-option-requires-focus": "patient"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19294,7 +19294,7 @@
         "srd-5.2.1:mechanic/monk/step-of-the-wind/free-dash": "wind",
         "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-disengage-and-dash": "wind"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19305,7 +19305,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/step-of-the-wind/paid-option-requires-focus": "wind"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19316,7 +19316,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/unarmored-movement/speed-increase-scales-with-table": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19327,7 +19327,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/unarmored-movement/no-armor-or-shield": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19340,7 +19340,7 @@
         "srd-5.2.1:mechanic/monk/uncanny-metabolism/on-use/heal-monk-level-plus-martial-arts-die": "metabolism",
         "srd-5.2.1:mechanic/monk/uncanny-metabolism/once-per-long-rest": "metabolism"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19351,7 +19351,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/uncanny-metabolism/regain-use-on-long-rest": "metabolism"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19373,7 +19373,7 @@
         "srd-5.2.1:mechanic/monk/deflect-attacks/melee-range-feet": "redirect",
         "srd-5.2.1:mechanic/monk/deflect-attacks/ranged-range-feet": "redirect"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19384,7 +19384,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/deflect-attacks/reduced-damage-zero-and-available-focus": "redirect"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19397,7 +19397,7 @@
         "srd-5.2.1:mechanic/monk/deflect-attacks/melee-target": "redirect",
         "srd-5.2.1:mechanic/monk/deflect-attacks/ranged-target": "redirect"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19408,7 +19408,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/monk-subclass/gain-subclass-features-at-or-below-monk-level": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19420,7 +19420,7 @@
         "srd-5.2.1:mechanic/monk/subclass/source-named-option-not-imported": "subclass",
         "srd-5.2.1:mechanic/monk/subclasses/warrior-of-the-open-hand": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19432,7 +19432,7 @@
         "srd-5.2.1:mechanic/monk/ability-score-improvement/gain-asi-feat-or-another-qualified-feat": "asi",
         "srd-5.2.1:mechanic/monk/ability-score-improvement/repeat-at-levels-8-12-16": "asi"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19445,7 +19445,7 @@
         "srd-5.2.1:mechanic/feats/ability-score-improvement": "external:389",
         "srd-5.2.1:mechanic/feats/another-qualified-feat": "external:384"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19456,7 +19456,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/asi/chosen-feat-prerequisites": "asi"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19468,7 +19468,7 @@
         "srd-5.2.1:mechanic/monk/slow-fall/reaction/when-falling-reduce-fall-damage-by-multiplier-times-monk-level": "slow-fall",
         "srd-5.2.1:mechanic/monk/slow-fall/level-multiplier": "slow-fall"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19480,7 +19480,7 @@
         "srd-5.2.1:mechanic/monk/extra-attack/attack-action-on-own-turn/replace-one-attack-with-two": "extra",
         "srd-5.2.1:mechanic/monk/extra-attack/attacks": "extra"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19497,7 +19497,7 @@
         "srd-5.2.1:mechanic/monk/stunning-strike/focus-cost": "stunning",
         "srd-5.2.1:mechanic/monk/stunning-strike/speed-divisor": "stunning"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19508,7 +19508,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/stunning-strike/available-focus": "stunning"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19519,7 +19519,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/empowered-strikes/whenever-unarmed-strike-deals-damage/choose-type": "empowered"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19532,7 +19532,7 @@
         "srd-5.2.1:mechanic/damage/force": "empowered",
         "srd-5.2.1:mechanic/monk/unarmed-strike/normal-damage-type": "empowered"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19543,7 +19543,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/evasion/dexterity-save-for-half-damage/success-none-failure-half": "asi"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19554,7 +19554,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/evasion/not-incapacitated": "asi"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19565,7 +19565,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/acrobatic-movement/vertical-surfaces-and-liquids-on-own-turn/no-falling-during-movement": "acrobatic"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19576,7 +19576,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/acrobatic-movement/no-armor-or-shield": "acrobatic"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19595,7 +19595,7 @@
         "srd-5.2.1:mechanic/monk/heightened-focus/step-of-the-wind-range-feet": "height-wind",
         "srd-5.2.1:mechanic/monk/heightened-focus/continued-on-pdf-page-52": "height-wind"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19608,7 +19608,7 @@
         "srd-5.2.1:mechanic/monk/heightened-wind/no-passenger": "height-wind",
         "srd-5.2.1:mechanic/monk/heightened-wind/willing-large-or-smaller-creature": "height-wind"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19619,7 +19619,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/heightened-wind/paid-step-willing-large-or-smaller-within-range": "height-wind"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19632,7 +19632,7 @@
         "srd-5.2.1:mechanic/monk/self-restoration/no-exhaustion-from-forgoing-food-and-drink": "restoration",
         "srd-5.2.1:mechanic/monk/self-restoration/conditions-removed": "restoration"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19646,7 +19646,7 @@
         "srd-5.2.1:mechanic/conditions/frightened": "external:488",
         "srd-5.2.1:mechanic/conditions/poisoned": "external:727"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19657,7 +19657,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/deflect-energy/deflect-attacks/any-damage-type-instead-of-bludgeoning-piercing-slashing": "energy"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19668,7 +19668,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/deflect-energy/modifies-deflect-attacks": "energy"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19681,7 +19681,7 @@
         "srd-5.2.1:mechanic/monk/disciplined-survivor/on-failed-saving-throw/expend-focus-reroll-must-use-new-roll": "survivor-reroll",
         "srd-5.2.1:mechanic/monk/disciplined-survivor/reroll-cost": "survivor-reroll"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19692,7 +19692,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/disciplined-survivor/available-focus": "survivor-reroll"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19705,7 +19705,7 @@
         "srd-5.2.1:mechanic/monk/perfect-focus/threshold": "perfect",
         "srd-5.2.1:mechanic/monk/perfect-focus/regain-to": "perfect"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19716,7 +19716,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/perfect-focus/initiative-not-using-metabolism-and-focus-at-most-threshold": "perfect"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19731,7 +19731,7 @@
         "srd-5.2.1:mechanic/monk/superior-defense/focus-cost": "superior",
         "srd-5.2.1:mechanic/monk/superior-defense/duration-minutes": "superior"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19742,7 +19742,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/superior-defense/available-focus": "superior"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19754,7 +19754,7 @@
         "srd-5.2.1:mechanic/monk/epic-boon/gain-epic-boon-or-another-qualified-feat": "boon",
         "srd-5.2.1:mechanic/monk/epic-boon/recommended/boon-of-irresistible-offense": "boon"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19767,7 +19767,7 @@
         "srd-5.2.1:mechanic/feats/epic-boon": "external:384",
         "srd-5.2.1:mechanic/feats/another-qualified-feat": "external:384"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19778,7 +19778,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/epic-boon/chosen-feat-prerequisites": "boon"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19791,7 +19791,7 @@
         "srd-5.2.1:mechanic/monk/body-and-mind/increase": "body",
         "srd-5.2.1:mechanic/monk/body-and-mind/maximum": "body"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19806,7 +19806,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points/absent": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement/absent": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19821,7 +19821,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19836,7 +19836,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19851,7 +19851,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19866,7 +19866,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19882,7 +19882,7 @@
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement",
         "srd-5.2.1:mechanic/monk/subclass-feature": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19897,7 +19897,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19912,7 +19912,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19927,7 +19927,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19942,7 +19942,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19958,7 +19958,7 @@
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement",
         "srd-5.2.1:mechanic/monk/subclass-feature": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19973,7 +19973,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -19988,7 +19988,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20003,7 +20003,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20018,7 +20018,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20033,7 +20033,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20049,7 +20049,7 @@
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement",
         "srd-5.2.1:mechanic/monk/subclass-feature": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20064,7 +20064,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20079,7 +20079,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20094,7 +20094,7 @@
         "srd-5.2.1:mechanic/monk/table/focus-points": "focus",
         "srd-5.2.1:mechanic/monk/table/unarmored-movement-feet": "movement"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20105,7 +20105,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/subclass": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20116,7 +20116,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20129,7 +20129,7 @@
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/target/hit-creature": "technique",
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/push/maximum-distance-feet": "technique"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20140,7 +20140,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20151,7 +20151,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/hit-with-attack-granted-by-flurry-of-blows": "technique"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20165,7 +20165,7 @@
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/push/strength-save-or-pushed-up-to-15-feet-away-from-you": "technique",
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/open-hand-technique/topple/dexterity-save-or-prone": "technique"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20184,7 +20184,7 @@
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/uses-minimum": "wholeness",
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/uses-expended": "wholeness"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20195,7 +20195,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20206,7 +20206,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/wholeness-of-body/roll-canonical-martial-arts-die": "wholeness"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20217,7 +20217,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/fleet-step/optional-step-of-the-wind-immediately-after-bonus-action": "fleet"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20228,7 +20228,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20239,7 +20239,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/fleet-step/bonus-action-other-than-step-of-the-wind": "fleet"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20250,7 +20250,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/fleet-step/use-canonical-step-of-the-wind-with-its-alternatives-and-costs": "fleet"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20272,7 +20272,7 @@
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/damage-die-sides": "palm-end",
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/maximum-simultaneous-creatures": "palm-start"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20283,7 +20283,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/class-level": "subclass"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20294,7 +20294,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/expend-available-focus": "palm-start"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"
@@ -20305,7 +20305,7 @@
       "key_owners": {
         "srd-5.2.1:mechanic/monk/warrior-of-the-open-hand/quivering-palm/vibration-duration-days-equals-monk-level": "palm-start"
       },
-      "engine": "Project/NormalizeBuild admit supported Fighter/Cleric only; no Monk resolver",
+      "engine": "Project/SupportedBuildForConcept admit supported Fighter/Cleric only; no Monk resolver",
       "database": "Generic character properties and action receipts are storage, not Monk admission",
       "web": "Guided form labels include Monk; no supported Monk confirmation contract",
       "tui": "Shared engine boundary; no Monk executable choice handler"

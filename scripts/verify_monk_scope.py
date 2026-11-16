@@ -90,7 +90,7 @@ def validate(m,r,require=False):
  assert all(v<=100 for k,v in counts.items() if k is not None), 'native child capacity'
  assert all(v<=100 for v in outgoing.values()), 'blocking relation capacity'
  assert graph[326]['parent']==283 and set(graph[326]['blocked_by'])=={285,291,313}
- assert all(graph[n]['state']=='closed' for n in [285,291,313])
+ assert all(graph[n]['state']=='closed' for n in [285,291,313,321,322,323,324,334])
  g=m['gates'][0]; assert g['parent']==326 and g['issue'] in graph[337]['blocked_by']
  terminals={x['issue'] for x in m['issues']}|set(m['reused_terminals'])
  assert len(terminals)==98 and set(g['blocked_by_issues'])==terminals|{326}
@@ -140,6 +140,13 @@ def validate(m,r,require=False):
   assert rows['d8']['issue'] in graph[x['issue']]['blocked_by'] and 429 in graph[rows['d8']['issue']]['blocked_by']
   assert 336 in graph[429]['blocked_by'] and 285 in graph[429]['blocked_by'] and 285 in graph[336]['blocked_by']
   if level>1:assert 'level-'+str(level-1) in x['depends']
+ factor=json.loads((MANIFEST.parent/'issue-326-advancement-factorization.json').read_text())
+ assert factor['unchanged_flattened_gate_blockers']==g['blocked_by_issues']
+ assert factor['older_owner_changes']==[] and factor['native_removed_owned_edges']=={'822':[429],'823':[285,336,429],'824':[285,336]}
+ assert set(factor['native_paths'])=={str(x['issue']) for x in m['issues'] if x['key'].startswith('level-') or x['key']=='later'}
+ for paths in factor['native_paths'].values():
+  for path in paths:
+   for a,b in zip(path,path[1:]):assert b in graph[a]['blocked_by'], 'factored source transaction path'
  return len(terminals),len(graph)
 def probes(m,r):
  def reject(label,fn):
@@ -150,6 +157,7 @@ def probes(m,r):
  def node(b,n):return next(x for x in b['graph'] if x['number']==n)
  tests=[
  ('source',lambda a,b:a['catalogues'][next(iter(a['catalogues']))]['records'][0]['parameters'].update(bad=9)),
+ ('numeric',lambda a,b:a['catalogues'][next(iter(a['catalogues']))]['records'][0]['parameters'].update({'srd-5.2.1:mechanic/monk/hit-die-sides':9})),
  ('pin',lambda a,b:a['source'].update(sha256='bad')),
  ('operand',lambda a,b:a['issues'][0].update(fixture='wrong clause')),
  ('owner',lambda a,b:a['source_key_owners'].pop(next(iter(a['source_key_owners']))))]
@@ -163,6 +171,16 @@ def probes(m,r):
   for field,val in [('title','bad'),('body','bad'),('parent',283)]:
    tests.append((f'{field}{n}',lambda a,b,n=n,f=field,v=val:node(b,n).update({f:v})))
   tests.append((f'metadata{n}',lambda a,b,n=n:b['project'][str(n)].update(type='Feature')))
+ for old_n in m['preserved']:
+  if int(old_n) in [47,54,283,337]:continue
+  for field,val in [('title','bad'),('body','bad'),('parent',None)]:
+   if field=='parent' and node(r,int(old_n))['parent'] is None:val=283
+   tests.append((f'preserved {field}{old_n}',lambda a,b,n=int(old_n),f=field,v=val:node(b,n).update({f:v})))
+ for old_n in m['reused_terminals']:
+  for field,val in [('type','Feature'),('size','XL')]:
+   tests.append((f'consumed metadata{old_n}/{field}',lambda a,b,n=old_n,f=field,v=val:b['project'][str(n)].update({f:v})))
+ for source_n in [285,291,313,321,322,323,324,334]:
+  tests.append((f'closed source{source_n}',lambda a,b,n=source_n:node(b,n).update(state='open')))
  g=m['gates'][0]['issue'];n=m['issues'][0]['issue']
  tests += [('dependency cycle',lambda a,b:node(b,n)['blocked_by'].append(g)),('parent cycle',lambda a,b:node(b,326).update(parent=g))]
  for s in m['supplements']:
