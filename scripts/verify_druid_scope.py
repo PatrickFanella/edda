@@ -189,7 +189,9 @@ def validate(m, r):
             seal=r['body_seals'][n]
             assert digest(seal['prefix'])==seal['sha256'] and seal['prefix'].startswith(old['body']), 'parent prefix seal'
             assert actual['body'].startswith(seal['prefix']), 'preserved parent prefix rollback'
-            assert actual['body'].count(supplement)<=1, 'duplicate supplement'
+            assert (actual['body'].count('<!-- edda-324-followups:start -->')
+                    == actual['body'].count('<!-- edda-324-followups:end -->')
+                    == actual['body'].count(supplement) <= 1), 'duplicate or altered supplement section'
         else:
             assert actual['body']==old['body'], 'preserved body drift'
         if int(n) not in [337,279,280]:assert actual['blocked_by']==old['blocked_by']
@@ -225,13 +227,26 @@ def probes(m,r):
            ('spell text',lambda a,b:next(x for x in a['issues'] if x.get('source_excerpt')).update(source_excerpt='bad')),
            ('metadata',lambda a,b:b['project'][str(a['gates'][0]['issue'])].update(type='Feature'))]
     for target in [324,334,337,279,280]+[x['issue'] for x in m['issues']+m['gates']]:
-        for edge in next(x for x in r['graph'] if x['number']==target)['blocked_by']:
+        edges=set(next(x for x in r['graph'] if x['number']==target)['blocked_by'])
+        if target==337:
+            edges=set(m['preserved_direct_337'])|set(m['preserved']['337']['blocked_by'])|{x['issue'] for x in m['gates'] if x['parent']==324}
+        elif target in [279,280]:
+            edges=set(m['preserved'][str(target)]['blocked_by'])|{x['issue'] for x in m['issues'] if x['parent'] in [191,193,270]}
+        for edge in sorted(edges):
             tests.append((f'edge{target}/{edge}',lambda a,b,n=target,e=edge:next(x for x in b['graph'] if x['number']==n)['blocked_by'].remove(e)))
     n=m['issues'][0]['issue'];g=m['gates'][0]['issue']
     tests += [('body',lambda a,b:next(x for x in b['graph'] if x['number']==n).update(body='bad')),
               ('parent',lambda a,b:next(x for x in b['graph'] if x['number']==n).update(parent=283)),
               ('dependency cycle',lambda a,b:next(x for x in b['graph'] if x['number']==n)['blocked_by'].append(g)),
               ('containment cycle',lambda a,b:next(x for x in b['graph'] if x['number']==324).update(parent=g))]
+    for supplement in m['supplements']:
+        section_issue=supplement['issue']
+        altered=supplement['append'].replace('141mandatory leaves','140mandatory leaves',1)
+        assert altered!=supplement['append']
+        for label,suffix in [('altered duplicate',altered),
+                             ('duplicate start','\n<!-- edda-324-followups:start -->\n'),
+                             ('duplicate end','\n<!-- edda-324-followups:end -->\n')]:
+            tests.append((f'{label}{section_issue}',lambda a,b,n=section_issue,t=suffix:next(x for x in b['graph'] if x['number']==n).update(body=next(x for x in b['graph'] if x['number']==n)['body']+t)))
     for label,fn in tests:rejects(label,fn)
     calls=[]
     def synthetic(url):

@@ -16152,7 +16152,7 @@
     {
       "key": "spell-wall-of-stone-panels",
       "title": "Resolve Wall of Stone panel damage and authorized collapse",
-      "fixture": "PDF174-175 wall panel object AC15,HP30perinch,Poison/Psychicimmune;0HP destroys one; adjacentcollapse ONLY authorizedGM decision, no inferred structural destruction. Attack costs owned by original action. Deterministic6inch180HP and3inch90HP boundary fixtures.",
+      "fixture": "PDF173 wall panel object AC15,HP30perinch,Poison/Psychicimmune;0HP destroys one; adjacentcollapse ONLY authorizedGM decision, no inferred structural destruction. Attack costs owned by original action. Deterministic6inch180HP and3inch90HP boundary fixtures.",
       "depends": [
         "spell-wall-of-stone"
       ],
@@ -16248,7 +16248,7 @@
     {
       "key": "spell-wall-of-stone-ending",
       "title": "Resolve Wall of Stone concentration permanence",
-      "fixture": "PDF174-175 full10minute uninterruptedConcentration becomes permanent and cannotdispell; earlyend disappears. Durable campaign time/condition/reload/once-only materialization, no merely elapsedclock permanence.",
+      "fixture": "PDF173 full10minute uninterruptedConcentration becomes permanent and cannotdispell; earlyend disappears. Durable campaign time/condition/reload/once-only materialization, no merely elapsedclock permanence.",
       "depends": [
         "spell-wall-of-stone"
       ],
@@ -16536,7 +16536,7 @@
     {
       "key": "spell-web-escape-fire",
       "title": "Resolve Web escape burning and source contribution ending",
-      "fixture": "PDF175 action STRAthletics vs spellDC escapes; leaveweb ends itsrestrain;5ftCube exposedfire burns1round,2d4Fire atturnstart, removeburnedvolume/condition only; retain unrelatedrestraints. Action costs/original receipts, no arbitraryobjectburning.",
+      "fixture": "PDF174 action STRAthletics vs spellDC escapes; leaveweb ends itsrestrain;5ftCube exposedfire burns1round,2d4Fire atturnstart, removeburnedvolume/condition only; retain unrelatedrestraints. Action costs/original receipts, no arbitraryobjectburning.",
       "depends": [
         "spell-web",
         "condition-admission"
