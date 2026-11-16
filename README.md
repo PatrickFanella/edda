@@ -15,6 +15,10 @@ The [SRD 5.2.1 conformance register](docs/srd-5.2.1-conformance.md) pins the
 reference and records coverage. All initial scopes are unsupported pending
 conformance tests.
 
+The [remaining roadmap and development plan](docs/remaining-development-plan.md)
+orders the open work, separates current-slice qualification from full SRD
+coverage, and records dependencies and verification requirements.
+
 ## Features
 
 - **Campaign setup:** a guided interview creates the campaign and the player
