@@ -1,0 +1,729 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Ten Metamagic identities on PDF pp66\u201367 adapted into unavailable option metadata. Conditions, alternatives, costs and exceptions are opaque keys and numbers; graph and keys are Edda additions. Canonical Sorcerer is composed externally once. No executable support or spell definitions imported."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic/careful-spell",
+      "kind": "feature",
+      "name": "Careful Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/careful-spell",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/metamagic/careful-spell-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/careful-spell/when-cast-forces-other-creatures-saving-throw",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/careful-spell/choose-up-to-charisma-modifier-creatures",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/careful-spell/chosen-auto-succeed-save",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/careful-spell/chosen-no-damage-only-if-normally-half-on-success",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/careful-spell/sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/careful-spell/minimum-creatures"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/metamagic/careful-spell/sorcery-point-cost": 1,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/careful-spell/minimum-creatures": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/metamagic/careful-spell-owners",
+      "kind": "prerequisite",
+      "name": "Careful Spell canonical owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/careful-spell",
+          "page": 66
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/careful-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/careful-spell/chosen-option-spend-canonical-points-modify-own-cast-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/metamagic/careful-spell/chosen-option-spend-canonical-points-modify-own-cast-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/metamagic",
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic/distant-spell",
+      "kind": "feature",
+      "name": "Distant Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/distant-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/metamagic/distant-spell-alternatives"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/metamagic/distant-spell-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/when-cast",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/choose-one-range-alternative",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/minimum-range-feet",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/range-multiplier",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/touch-range-feet"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/sorcery-point-cost": 1,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/minimum-range-feet": 5,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/range-multiplier": 2,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/touch-range-feet": 30
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/metamagic/distant-spell-owners",
+      "kind": "prerequisite",
+      "name": "Distant Spell canonical owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/distant-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/distant-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/chosen-option-spend-canonical-points-modify-own-cast-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/chosen-option-spend-canonical-points-modify-own-cast-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/metamagic",
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/metamagic/distant-spell-alternatives",
+      "kind": "choice",
+      "name": "Distant Spell alternatives",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/distant-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/distant-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/choose-alternative"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/range-at-least-minimum-double",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/distant-spell/range-touch-becomes-fixed-feet"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic/empowered-spell",
+      "kind": "feature",
+      "name": "Empowered Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/empowered-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/metamagic/empowered-spell-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/empowered-spell/when-roll-spell-damage",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/empowered-spell/reroll-up-to-charisma-modifier-damage-dice",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/empowered-spell/must-use-new-rolls",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/empowered-spell/may-use-after-different-metamagic-during-casting",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/empowered-spell/sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/empowered-spell/minimum-dice"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/metamagic/empowered-spell/sorcery-point-cost": 1,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/empowered-spell/minimum-dice": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/metamagic/empowered-spell-owners",
+      "kind": "prerequisite",
+      "name": "Empowered Spell canonical owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/empowered-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/empowered-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/empowered-spell/chosen-option-spend-canonical-points-modify-own-cast-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/metamagic/empowered-spell/chosen-option-spend-canonical-points-modify-own-cast-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/metamagic",
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic/extended-spell",
+      "kind": "feature",
+      "name": "Extended Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/extended-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/metamagic/extended-spell-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/when-cast-duration-at-least-minimum",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/double-duration-up-to-maximum",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/if-concentration-advantage-all-saves-to-maintain-it",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/minimum-duration-minutes",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/duration-multiplier",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/maximum-duration-hours"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/sorcery-point-cost": 1,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/minimum-duration-minutes": 1,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/duration-multiplier": 2,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/maximum-duration-hours": 24
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/metamagic/extended-spell-owners",
+      "kind": "prerequisite",
+      "name": "Extended Spell canonical owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/extended-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/extended-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/chosen-option-spend-canonical-points-modify-own-cast-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/metamagic/extended-spell/chosen-option-spend-canonical-points-modify-own-cast-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/metamagic",
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic/heightened-spell",
+      "kind": "feature",
+      "name": "Heightened Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/heightened-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/metamagic/heightened-spell-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/heightened-spell/when-cast-forces-creature-saving-throw",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/heightened-spell/one-spell-target-disadvantage-all-saves-against-spell",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/heightened-spell/sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/heightened-spell/target-count"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/metamagic/heightened-spell/sorcery-point-cost": 2,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/heightened-spell/target-count": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/metamagic/heightened-spell-owners",
+      "kind": "prerequisite",
+      "name": "Heightened Spell canonical owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/heightened-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/heightened-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/heightened-spell/chosen-option-spend-canonical-points-modify-own-cast-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/metamagic/heightened-spell/chosen-option-spend-canonical-points-modify-own-cast-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/metamagic",
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic/quickened-spell",
+      "kind": "feature",
+      "name": "Quickened Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/quickened-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/metamagic/quickened-spell-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/quickened-spell/when-cast-action-casting-time",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/quickened-spell/change-to-bonus-action-for-this-casting",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/quickened-spell/cannot-if-already-cast-level-one-plus-spell-current-turn",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/quickened-spell/cannot-cast-level-one-plus-spell-after-use-this-turn",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/quickened-spell/sorcery-point-cost"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/metamagic/quickened-spell/sorcery-point-cost": 2
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/metamagic/quickened-spell-owners",
+      "kind": "prerequisite",
+      "name": "Quickened Spell canonical owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/quickened-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/quickened-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/quickened-spell/chosen-option-spend-canonical-points-modify-own-cast-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/metamagic/quickened-spell/chosen-option-spend-canonical-points-modify-own-cast-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/metamagic",
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic/seeking-spell",
+      "kind": "feature",
+      "name": "Seeking Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/seeking-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/metamagic/seeking-spell-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/seeking-spell/when-spell-attack-roll-misses",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/seeking-spell/reroll-attack-d20",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/seeking-spell/must-use-new-roll",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/seeking-spell/may-use-after-different-metamagic-during-casting",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/seeking-spell/sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/seeking-spell/die-sides"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/metamagic/seeking-spell/sorcery-point-cost": 1,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/seeking-spell/die-sides": 20
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/metamagic/seeking-spell-owners",
+      "kind": "prerequisite",
+      "name": "Seeking Spell canonical owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/seeking-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/seeking-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/seeking-spell/chosen-option-spend-canonical-points-modify-own-cast-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/metamagic/seeking-spell/chosen-option-spend-canonical-points-modify-own-cast-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/metamagic",
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic/subtle-spell",
+      "kind": "feature",
+      "name": "Subtle Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/subtle-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/metamagic/subtle-spell-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/subtle-spell/when-cast",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/subtle-spell/omit-verbal-somatic-material-components",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/subtle-spell/retain-consumed-material-components",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/subtle-spell/retain-material-components-with-specified-cost",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/subtle-spell/sorcery-point-cost"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/metamagic/subtle-spell/sorcery-point-cost": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/metamagic/subtle-spell-owners",
+      "kind": "prerequisite",
+      "name": "Subtle Spell canonical owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/subtle-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/subtle-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/subtle-spell/chosen-option-spend-canonical-points-modify-own-cast-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/metamagic/subtle-spell/chosen-option-spend-canonical-points-modify-own-cast-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/metamagic",
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic/transmuted-spell",
+      "kind": "feature",
+      "name": "Transmuted Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/transmuted-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [
+        "srd-5.2.1:character/choice/sorcerer/metamagic/transmuted-spell-alternatives"
+      ],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/metamagic/transmuted-spell-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/when-cast-dealing-listed-damage-type",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/change-that-type-to-one-other-listed-type",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/sorcery-point-cost"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/sorcery-point-cost": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/metamagic/transmuted-spell-owners",
+      "kind": "prerequisite",
+      "name": "Transmuted Spell canonical owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/transmuted-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/transmuted-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/chosen-option-spend-canonical-points-modify-own-cast-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/chosen-option-spend-canonical-points-modify-own-cast-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/metamagic",
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells"
+        ],
+        "parameters": {}
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/choice/sorcerer/metamagic/transmuted-spell-alternatives",
+      "kind": "choice",
+      "name": "Transmuted Spell alternatives",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/transmuted-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/transmuted-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/choose-alternative"
+      ],
+      "select": 1,
+      "option_keys": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/acid",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/cold",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/fire",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/lightning",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/poison",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/transmuted-spell/thunder"
+      ],
+      "capacity": 0
+    },
+    {
+      "id": "srd-5.2.1:character/feature/sorcerer/metamagic/twinned-spell",
+      "kind": "feature",
+      "name": "Twinned Spell",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/twinned-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/choice/sorcerer/metamagic",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [
+        "srd-5.2.1:character/prerequisite/sorcerer/metamagic/twinned-spell-owners"
+      ],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/twinned-spell/when-cast-spell-upcastable-with-higher-slot-to-target-additional-creature",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/twinned-spell/increase-effective-spell-level-not-slot-level",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/twinned-spell/sorcery-point-cost",
+        "srd-5.2.1:mechanic/sorcerer/metamagic/twinned-spell/effective-level-increase"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "parameters": {
+        "srd-5.2.1:mechanic/sorcerer/metamagic/twinned-spell/sorcery-point-cost": 1,
+        "srd-5.2.1:mechanic/sorcerer/metamagic/twinned-spell/effective-level-increase": 1
+      }
+    },
+    {
+      "id": "srd-5.2.1:character/prerequisite/sorcerer/metamagic/twinned-spell-owners",
+      "kind": "prerequisite",
+      "name": "Twinned Spell canonical owners",
+      "sources": [
+        {
+          "inventory_id": "srd-5.2.1:planning/metamagic/twinned-spell",
+          "page": 67
+        }
+      ],
+      "parent_id": "srd-5.2.1:character/feature/sorcerer/metamagic/twinned-spell",
+      "level": 0,
+      "choice_refs": [],
+      "resource_refs": [],
+      "prerequisite_refs": [],
+      "required_mechanics": [
+        "srd-5.2.1:mechanic/sorcerer/metamagic/twinned-spell/chosen-option-spend-canonical-points-modify-own-cast-spell"
+      ],
+      "select": 0,
+      "option_keys": [],
+      "capacity": 0,
+      "requirement": {
+        "key": "srd-5.2.1:mechanic/sorcerer/metamagic/twinned-spell/chosen-option-spend-canonical-points-modify-own-cast-spell",
+        "record_refs": [
+          "srd-5.2.1:character/choice/sorcerer/metamagic",
+          "srd-5.2.1:character/resource/sorcerer/sorcery-points",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/choice/sorcerer/prepared-spells",
+          "srd-5.2.1:character/resource/sorcerer/spell-slot-1",
+          "srd-5.2.1:character/resource/sorcerer/spell-slot-2",
+          "srd-5.2.1:character/resource/sorcerer/spell-slot-3",
+          "srd-5.2.1:character/resource/sorcerer/spell-slot-4",
+          "srd-5.2.1:character/resource/sorcerer/spell-slot-5",
+          "srd-5.2.1:character/resource/sorcerer/spell-slot-6",
+          "srd-5.2.1:character/resource/sorcerer/spell-slot-7",
+          "srd-5.2.1:character/resource/sorcerer/spell-slot-8",
+          "srd-5.2.1:character/resource/sorcerer/spell-slot-9"
+        ],
+        "parameters": {}
+      }
+    }
+  ]
+}
