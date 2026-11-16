@@ -172,7 +172,7 @@
       "status": "unsupported",
       "fixtures": [],
       "follow_up": 194,
-      "notes": "Partial Cure Wounds/Shield of Faith self fixtures only. #80 inventories 339 named spells; #194 starts the source-linked record contract. All record/mechanic and qualification follow-ups remain required before full coverage."
+      "notes": "Partial Cure Wounds self/qualified adjacent ally and Shield of Faith self fixtures only. #80 inventories 339 named spells; #194 starts the source-linked record contract. All record/mechanic and qualification follow-ups remain required before full coverage."
     },
     {
       "id": "srd-5.2.1:family/magic-items",
@@ -829,10 +829,11 @@
       "fixtures": [
         "internal/rules/srd521/spell_test.go",
         "internal/rules/srd521/testdata/cleric1.json",
-        "internal/handlers/spell_action_integration_test.go"
+        "internal/handlers/spell_action_integration_test.go",
+        "internal/handlers/ally_spell_integration_test.go"
       ],
       "follow_up": 80,
-      "notes": "Conscious-self level-one Cleric, one level-one slot, explicit components, capped healing and committed replay only; fixed creation #72 and bounded recovery #77 are merged. #80 assigns other targets/slots/effects and full qualification to explicit follow-ups."
+      "notes": "Conscious self or one explicitly willing conscious player-known adjacent allied NPC outside encounters; level-one Cleric, one level-one slot, explicit components, capped healing and committed replay only; fixed creation #72 and bounded recovery #77 are merged. #80 assigns other targets/slots/effects and full qualification to explicit follow-ups."
     }
   ]
 }

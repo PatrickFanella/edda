@@ -1,14 +1,14 @@
 # Cure Wounds casting fixture
 
 Issue #68 adds a level-one, unarmored Cleric fixture to the shared sheet
-prepare/confirm path. It supports Cure Wounds on the conscious caster only,
+prepare/confirm path. The original slice supports Cure Wounds on the conscious caster,
 using one level-one spell slot and a Magic action. This is a bounded mechanical
 fixture, not a complete Cleric implementation. Issue #72 adds a valid fixed creation build.
 
 The sheet exposes Wisdom, known/prepared status, verbal and somatic components,
 component availability and current/maximum level-one slots. Choose Cure Wounds,
 inspect the supported slot level, preview its healing and cost, explicitly select
-self, then confirm. Preparation never rolls or changes state. Confirmation rolls
+a prepared target, then confirm. Preparation never rolls or changes state. Confirmation rolls
 2d8 + Wisdom, caps healing at maximum HP, decrements one slot and saves the
 receipt and history in the existing transaction. Reusing the same action ID,
 including after an engine restart or consuming the last slot, reads the saved
@@ -21,14 +21,14 @@ rulings, not client-selected overrides or a general condition system. Other
 stored character stats are retained when HP and slots change. No schema change,
 automatic legacy conversion, production seed or production mutation is needed.
 
-Missing preparation, unavailable components, zero slots, other targets, higher
+Missing preparation, unavailable components, zero slots, unqualified targets, higher
 slots and unsupported builds cannot cast. The revision hashes the campaign and
 entire actor snapshot, including casting resources; confirmation reloads and
 locks them. A failed history write rolls back both HP and slots. Supported
 encounters enforce their action budget; active legacy combat is rejected.
 The current Cleric fixture does not start the Fighter's longsword encounter.
 Concentration, duration and rest recovery use the [bounded lifecycle fixture](caster-lifecycle.md) from #77; the wider catalogue and
-additional Cure Wounds targets/levels remain #80. The full spell entry stays
+further Cure Wounds targets/levels remain roadmap work; the bounded ally slice is described below. The full spell entry stays
 unsupported in the coverage register.
 
 The pinned [SRD 5.2.1](https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf)
@@ -82,3 +82,77 @@ Sources in the pinned SRD: character creation pp. 19–22, Cleric pp. 36–38,
 Acolyte p. 83, Human p. 86, and Magic Initiate/Skilled p. 87. This is an adaptation
 under the attribution linked above. Broader character choice and advancement
 remain later roadmap work; no legacy data is converted.
+
+## Willing adjacent ally (#263)
+
+Cure Wounds also accepts one player-known allied NPC in the caster's current
+location, outside the two-actor encounter fixture. The public preview offers
+only qualified targets; selecting a target and inspecting the level-one slot
+cost precede confirmation. Self-casting and legacy reads retain their existing
+paths. The spell catalogue's self fixture and wider coverage status are unchanged;
+this additional qualified slice does not enable arbitrary spell records.
+
+Eligibility is a trusted fixture ruling stored in NPC `properties.srd521_ally`:
+
+```json
+{
+  "profile": "cure-wounds-ally-v1",
+  "actor_id": "8b2d58b7-9952-40bf-8641-af62ed37334e",
+  "location_id": "5d6c90cf-55d1-4416-b2cc-248f586d640e",
+  "allied": true,
+  "willing": true,
+  "conscious": true,
+  "hidden": false,
+  "conditions": "ordinary",
+  "max_hp": 10,
+  "distance_feet": 5,
+  "line_of_sight": true,
+  "cover": "none"
+}
+```
+
+The example actor UUID identifies the fixture caster; the actual ruling must
+name the campaign's caster. The location UUID binds the touch ruling to the
+location where it was adjudicated. Both participants must currently be there;
+moving them to another location does not transfer the old ruling, even after a
+new preview. A trusted ruling for the new location is required. The existing
+NPC type has current HP but no maximum HP field, so this bounded fixture explicitly supplies `max_hp`. All booleans,
+ordinary conditions, maximum HP and spatial facts are required. Unknown fields
+also fail closed, including case aliases and an input `revision` property. The
+fixture exposes only distance, sight and cover from the spatial contract; its
+revision is derived by the server. Positive NPC HP and alive state are
+independently required; positive HP alone does not establish consciousness. Existing session history
+must identify the NPC in `npcs_involved`. Disposition, faction, descriptions and
+model output never establish alliance or willingness. `create_npc` rejects the
+reserved `srd521_ally` key; `update_npc` does not accept properties. No fixture
+installer, model inference, migration or production seed is added.
+
+The existing `combat.Space` validates exact distance (0–5 feet), sight and cover;
+this slice additionally requires no cover. These visibility, consent, ordinary
+condition and five-foot restrictions bound Edda's supported fixture; they do not
+claim to be additional SRD Cure Wounds requirements. Unconscious targets,
+unresolved facts, hidden NPCs, other slots, conditions and encounter allies stay
+unavailable. Hidden statistics/properties are never copied into public previews.
+
+Confirmation locks and reloads the NPC rows in the same transaction as the
+caster. The opaque revision includes qualified target HP, maximum HP, spatial
+facts and update timestamp. Changed membership or eligibility invalidates a
+prepared revision before dice. Healing changes only the chosen NPC's HP;
+slot cost changes only the caster. Both changes, the dice/target receipt and
+history commit together. Receipt lookup precedes revalidation, so replay after
+reload or slot exhaustion returns the original result without another roll.
+
+Additional evidence lives in `internal/handlers/ally_spell_integration_test.go`:
+real PostgreSQL scene mutations, HTTP ownership and public preview checks,
+failed-history rollback, deterministic 2d8 plus Wisdom, capping, new-engine
+replay, receipt reload and zero-slot rejection. Existing receipt projection
+fixtures exercise the shared web/TUI representation. Frontend browser fixtures
+at 1440 and 390 pixels exercise ally selection, explicit confirmation, lost
+response retry and reload reconciliation using API doubles. Those doubles do
+not establish database atomicity, and the phone width is not a physical phone.
+
+This adaptation uses the pinned SRD 5.2.1 PDF pp. 14–17, 105–106 and 121, verified
+locally with SHA-256
+`8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`.
+The [CC-BY-4.0 attribution and adaptation notice](srd-5.2.1-conformance.md)
+continue to apply.

@@ -495,3 +495,25 @@ func TestNextNarrativeChunkPreservesUTF8Runes(t *testing.T) {
 		t.Fatalf("unexpected remaining chunk: %q", remaining)
 	}
 }
+
+// The TUI consumes the same engine result narrative; this does not add a typed
+// spell picker or a second mechanical execution path to the terminal client.
+func TestAppRendersConfirmedAllyHealingResult(t *testing.T) {
+	app := NewAppWithEngine(testCfg, statedb.Campaign{ID: dbutil.ToPgtype(uuid.New())}, context.Background(), &mockGameEngine{}, nil)
+	model, _ := app.Update(tea.WindowSizeMsg{Width: 100, Height: 30})
+	app = model.(App)
+	text := "Mira casts Cure Wounds on Rowan using a level 1 slot: regains 7 HP."
+	app.turnBusy = true
+	model, cmd := app.Update(turnProcessedMsg{result: &engine.TurnResult{Narrative: text}})
+	app = model.(App)
+	for app.turnBusy {
+		if cmd == nil {
+			t.Fatal("stream ended without result")
+		}
+		model, cmd = app.Update(cmd())
+		app = model.(App)
+	}
+	if !strings.Contains(app.View(), text) {
+		t.Fatal("shared ally result missing from terminal view")
+	}
+}

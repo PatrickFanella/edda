@@ -28,3 +28,13 @@ func TestSRDItemReceiptsExcludePrivateEnvelopes(t *testing.T) {
 		})
 	}
 }
+
+func TestAllySpellReceiptProjectionAndHistory(t *testing.T) {
+	call := engine.AppliedToolCall{Tool: "srd_spell", Arguments: json.RawMessage(`{"secret":"private notes"}`), Result: json.RawMessage(`{"secret":"private notes","receipt":{"rules_version":"srd-5.2.1","kind":"spell-cast","spell":"Cure Wounds","target_id":"known-ally","target":"Rowan","slot_level":1,"slots_before":2,"slots_after":1,"dice":[2,2],"rolled_healing":7,"healing":2,"hp_before":8,"hp_after":10,"secret":"private notes"}}`)}
+	live := engineResolutionEventsToAPI([]engine.AppliedToolCall{call})
+	history := engineResolutionEventsToAPI(appliedToolCallsFromSessionLog(mustJSON(t, []engine.AppliedToolCall{call})))
+	data := mustJSON(t, live)
+	if len(live) != 1 || !bytes.Equal(data, mustJSON(t, history)) || !bytes.Contains(data, []byte(`"target":"Rowan"`)) || !bytes.Contains(data, []byte(`"dice":[2,2]`)) || bytes.Contains(data, []byte("private notes")) {
+		t.Fatalf("unsafe or changed ally receipt: %s", data)
+	}
+}

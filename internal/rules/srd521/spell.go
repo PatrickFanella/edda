@@ -2,7 +2,7 @@ package srd521
 
 import "fmt"
 
-// SpellCast identifies the explicit Cure Wounds self-casting slice.
+// SpellCast identifies the explicit supported casting slices.
 const SpellCast = "spell-cast"
 
 // CastingBuild stores only the resources and component rulings for this fixture.
@@ -60,16 +60,24 @@ type SpellReceipt struct {
 }
 
 // ResolveCureWounds resolves a level-one slot on a conscious self target.
-// Other targets and higher slots are not supported.
 func ResolveCureWounds(sheet *CharacterSheet, dice Dice) (*SpellReceipt, error) {
-	if sheet == nil || sheet.Spellcasting == nil || sheet.Scope != "cleric-1-cure-wounds-self-fixture" || len(sheet.Resources) == 0 || sheet.Resources[0].ID != "spell-slot-1" || sheet.HP.Value <= 0 || sheet.HP.Value > sheet.MaxHP.Value || dice == nil {
+	if sheet == nil {
+		return nil, fmt.Errorf("supported conscious caster required")
+	}
+	return ResolveCureWoundsTarget(sheet, sheet.HP.Value, sheet.MaxHP.Value, dice)
+}
+
+// ResolveCureWoundsTarget rolls healing for an independently validated conscious
+// target. Scene eligibility and target identity belong to the shared engine.
+func ResolveCureWoundsTarget(sheet *CharacterSheet, hp, maxHP int, dice Dice) (*SpellReceipt, error) {
+	if hp <= 0 || maxHP < hp || sheet == nil || sheet.Spellcasting == nil || sheet.Scope != "cleric-1-cure-wounds-self-fixture" || len(sheet.Resources) == 0 || sheet.Resources[0].ID != "spell-slot-1" || sheet.HP.Value <= 0 || sheet.HP.Value > sheet.MaxHP.Value || dice == nil {
 		return nil, fmt.Errorf("supported conscious caster required")
 	}
 	spell := sheet.Spellcasting.Spells[0]
 	if !spell.Prepared || !spell.ComponentsAvailable || sheet.Resources[0].Current <= 0 {
 		return nil, fmt.Errorf("spell or slot unavailable")
 	}
-	r := &SpellReceipt{RulesVersion: "srd-5.2.1", Kind: SpellCast, Spell: "Cure Wounds", SlotLevel: 1, SlotsBefore: sheet.Resources[0].Current, SlotsAfter: sheet.Resources[0].Current - 1, Modifier: sheet.Spellcasting.Modifier, HPBefore: sheet.HP.Value, SourceIDs: []string{prefix + "spells/cure-wounds", prefix + "cleric/spellcasting", prefix + "damage/healing"}}
+	r := &SpellReceipt{RulesVersion: "srd-5.2.1", Kind: SpellCast, Spell: "Cure Wounds", SlotLevel: 1, SlotsBefore: sheet.Resources[0].Current, SlotsAfter: sheet.Resources[0].Current - 1, Modifier: sheet.Spellcasting.Modifier, HPBefore: hp, SourceIDs: []string{prefix + "spells/cure-wounds", prefix + "cleric/spellcasting", prefix + "damage/healing"}}
 	r.RolledHealing = r.Modifier.Value
 	for i := 0; i < 2; i++ {
 		v := dice.Intn(8)
@@ -79,7 +87,7 @@ func ResolveCureWounds(sheet *CharacterSheet, dice Dice) (*SpellReceipt, error) 
 		r.Dice = append(r.Dice, v+1)
 		r.RolledHealing += v + 1
 	}
-	r.HPAfter = min(sheet.MaxHP.Value, r.HPBefore+max(0, r.RolledHealing))
+	r.HPAfter = min(maxHP, r.HPBefore+max(0, r.RolledHealing))
 	r.Healing = r.HPAfter - r.HPBefore
 	return r, nil
 }

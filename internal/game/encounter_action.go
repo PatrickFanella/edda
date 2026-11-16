@@ -113,6 +113,12 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	unavailable := func(reason string) (*StoredAction, error) { p.Available = false; p.Reason = reason; return result, nil }
 	active := encounter != nil && encounter.Status == "active"
+	// The existing two-actor encounter has no allied participant slice.
+	if active && intent.Kind == srd521.SpellCast && intent.EntryID == "cure-wounds" {
+		result.HealingTargets = nil
+		p.Targets = []ActionTarget{{ID: pc.ID, Label: pc.Name + " (self; touch)"}}
+		p.Options = []string{"Cure Wounds; self only in the two-actor encounter; verbal and somatic components; 2d8 + Wisdom capped at maximum HP; one level 1 slot; Magic action."}
+	}
 	// Revalidate membership on every encounter action, including NPC resolution.
 	// Never send stale encounter actors/stats when a target is no longer public.
 	if encounter != nil {

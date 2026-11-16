@@ -179,6 +179,13 @@ func TestCreateNPCHandleSuccessDefaultsAndEmbedding(t *testing.T) {
 	h := NewCreateNPCHandler(store, memStore, embedder)
 
 	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	// A model cannot manufacture the trusted allied healing qualification.
+	if _, err := h.Handle(ctx, map[string]any{
+		"name": "Invented ally", "description": "An ally", "personality": "Kind",
+		"properties": map[string]any{"srd521_ally": map[string]any{"profile": "cure-wounds-ally-v1"}},
+	}); err == nil {
+		t.Fatal("model authored healing eligibility")
+	}
 	got, err := h.Handle(ctx, map[string]any{
 		"name":        "Captain Maris",
 		"description": "Harbor master of the eastern docks.",

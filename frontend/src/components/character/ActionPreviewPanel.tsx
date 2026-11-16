@@ -124,7 +124,7 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
         try { sessionStorage.setItem(storageKey, JSON.stringify(request)); } catch { /* In-memory retry still keeps the ID. */ }
         confirmation.mutate(request);
       }}>{confirmation.isPending ? 'Confirming…' : pending ? 'Retry same action' : 'Confirm action'}</button>}
-      <p className="text-pewter">Cure Wounds and Shield of Faith support Cleric self-casting with a level 1 slot. Shield of Faith takes a Bonus Action and concentration; it replaces the current concentration effect. Potion of Healing supports conscious self-use only. Checks require scene adjudication. Martial attacks support only the prepared one-handed longsword fixture; encounter turns are limited to the ordinary two-actor fixture; mastery and other reaction features remain unavailable. Opportunity attacks require a saved explicit trigger.</p>
+      <p className="text-pewter">Cure Wounds supports self or one prepared willing, conscious adjacent ally with a level 1 slot outside encounters. Shield of Faith supports self-casting with a level 1 slot. Shield of Faith takes a Bonus Action and concentration; it replaces the current concentration effect. Potion of Healing supports conscious self-use only. Checks require scene adjudication. Martial attacks support only the prepared one-handed longsword fixture; encounter turns are limited to the ordinary two-actor fixture; mastery and other reaction features remain unavailable. Opportunity attacks require a saved explicit trigger.</p>
     </div>}
   </section>;
 }

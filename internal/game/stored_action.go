@@ -28,13 +28,14 @@ type MartialTarget struct {
 // StoredAction adds persisted equipment and legal fixture targets to preparation.
 // Only its Preview is public. Targets deliberately exclude arbitrary NPC stats.
 type StoredAction struct {
-	Equipment *srd521.EquipmentReceipt
-	Build     *srd521.Build
-	Clock     int
-	Preview   *ActionPreview
-	Targets   []MartialTarget
-	Quantity  int
-	Encounter *combat.Encounter
+	HealingTargets []HealingTarget
+	Equipment      *srd521.EquipmentReceipt
+	Build          *srd521.Build
+	Clock          int
+	Preview        *ActionPreview
+	Targets        []MartialTarget
+	Quantity       int
+	Encounter      *combat.Encounter
 }
 
 // PrepareStoredAction is shared by API preparation and transactional confirmation.
@@ -51,7 +52,7 @@ func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaig
 		return prepareLifecycle(ctx, campaign, pc, intent)
 	}
 	if intent.Kind == srd521.SpellCast {
-		return prepareSpell(ctx, campaign, pc, intent)
+		return prepareStoredSpell(ctx, database, campaign, pc, intent, lock)
 	}
 	if intent.Kind == srd521.ConsumableUse {
 		return prepareConsumable(ctx, database, campaign, pc, intent, lock)

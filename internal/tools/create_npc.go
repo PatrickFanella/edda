@@ -177,6 +177,11 @@ func (h *CreateNPCHandler) Handle(ctx context.Context, args map[string]any) (*To
 		return nil, err
 	}
 
+	// Healing eligibility is a trusted fixture ruling, never model-authored.
+	if _, reserved := propertiesObj["srd521_ally"]; reserved {
+		return nil, errors.New("srd521_ally is reserved for trusted fixtures")
+	}
+
 	statsJSON, err := marshalOptionalJSONObject(statsObj, statsSet, "stats")
 	if err != nil {
 		return nil, err

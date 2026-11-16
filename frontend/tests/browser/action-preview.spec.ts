@@ -109,3 +109,50 @@ for (const width of [1440,390]) {
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  });
 }
+
+for (const width of [1440,390]) {
+ for (const recovery of ['confirm','retry','reload']) {
+ test(`casts Cure Wounds on ally with ${recovery} at ${width}px`,async({page,game})=>{
+  await page.setViewportSize({width,height:844});
+  let slots=2,confirmations=0, reconcile=false;
+  const hp=1;
+  let requestId='';
+  const spellcasting={ability:'wisdom',modifier:{value:3,derivation:[]},spells:[{id:'cure-wounds',label:'Cure Wounds',known:true,prepared:true,components:['verbal','somatic'],components_available:true,slot_levels:[1],source_id:'spell'}]};
+  await page.route('**/api/v1/campaigns/alpha/character',route=>route.fulfill({json:{...character(),hp,max_hp:10,rules_version:'srd-5.2.1',sheet:{...fixture.sheet,scope:'cleric-1-cure-wounds-self-fixture',spellcasting,hp:{value:hp,derivation:[]},max_hp:{value:10,derivation:[]},resources:[{id:'spell-slot-1',label:'Level 1 spell slots',current:slots,maximum:2,source_id:'spell'}],capabilities:[]}}}));
+  await page.route('**/api/v1/campaigns/alpha/character/action-preview?*',route=>{
+   expect(new URL(route.request().url()).searchParams.get('slot_level')).toBe('1');
+   return route.fulfill({json:{intent:{actor_id:'hero',kind:'spell-cast',entry_id:'cure-wounds',slot_level:1},rules_version:'srd-5.2.1',expected_revision:'casting-fixture',available:true,targets:[{id:'hero',label:'Mira (self; touch)'},{id:'ally',label:'Rowan (willing conscious ally; touch)',distance_feet:5,reach_feet:5}],options:['2d8 + Wisdom; verbal and somatic; touch; willing conscious ally'],costs:[{resource_id:'spell-slot-1',amount:1},{resource_id:'magic-action',amount:1}],cost_status:'fixture-only',source_ids:[]}});
+  });
+  const saved={action_id:'saved',turn_number:3,narrative:'Mira casts Cure Wounds on Rowan: regains 7 HP.',combat_active:false,state_changes:[],resolution_events:[{type:'srd_spell',label:'Cure Wounds',outcome:'healed',details:{receipt:{rules_version:'srd-5.2.1',kind:'spell-cast',spell:'Cure Wounds',target:'Rowan',target_id:'ally',slot_level:1,slots_before:2,slots_after:1,dice:[2,2],modifier:{value:3,derivation:[]},rolled_healing:7,healing:7,hp_before:1,hp_after:8,source_ids:[]}}}]};
+  await page.route('**/api/v1/campaigns/alpha/action?*',route=>{if(reconcile) expect(new URL(route.request().url()).searchParams.get('action_id')).toBe(requestId);return route.fulfill({json:reconcile?{result:saved}:null})});
+  await page.route('**/api/v1/campaigns/alpha/action/confirm',route=>{
+   confirmations++;
+   const body=route.request().postDataJSON();
+   expect(body).toMatchObject({target_id:'ally',intent:{slot_level:1,entry_id:'cure-wounds'}});
+   if(requestId) expect(body.action_id).toBe(requestId);
+   requestId=body.action_id;saved.action_id=requestId;slots=1;
+   if(recovery!=='confirm' && confirmations===1) return route.abort('failed');
+   return route.fulfill({json:saved});
+  });
+  await signIn(page);await page.goto('/play/alpha');await page.getByRole('tab',{name:'Character',exact:true}).click();
+  await expect(page.getByLabel('Spellcasting', {exact:true})).toContainText('Known · Prepared');
+  await page.getByLabel('Character action').selectOption('spell-cast:cure-wounds');
+  await expect(page.getByLabel('Spell slot level')).toHaveValue('1');
+  await page.getByRole('button',{name:'Preview action',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Confirm action',exact:true})).toBeDisabled();
+  await page.getByLabel('Spell target').selectOption('ally');expect(confirmations).toBe(0);expect(game.actions).toEqual([]);
+  await page.getByRole('button',{name:'Confirm action',exact:true}).click();
+  if(recovery!=='confirm') {
+   await expect(page.getByRole('button',{name:'Retry same action',exact:true})).toBeVisible();
+   if(recovery==='reload') {reconcile=true;await page.reload();await page.getByRole('tab',{name:'Character',exact:true}).click();}
+   else await page.getByRole('button',{name:'Retry same action',exact:true}).click();
+  }
+  await expect(page.getByText('Action saved.')).toBeVisible();expect(confirmations).toBe(recovery==='retry'?2:1);
+  await expect(page.getByText('Level 1 spell slots: 1 / 2')).toBeVisible();
+  await page.getByRole('tab',{name:'Play',exact:true}).click();await expect(page.getByText('Mira casts Cure Wounds on Rowan: regains 7 HP.',{exact:true})).toBeVisible();
+  await page.getByRole('article',{name:'Game Master entry'}).last().getByText('Turn details').click();
+  await page.getByRole('tabpanel',{name:'Play',exact:true}).getByText('Cure Wounds: Rowan regains 7 HP').click();await expect(page.getByText('Level 1 slots 2 → 1')).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ });
+ }
+}
