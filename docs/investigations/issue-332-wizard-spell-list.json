@@ -1,0 +1,1521 @@
+[
+  {
+    "name": "Acid Splash",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Chill Touch",
+    "school": "Necromancy",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Dancing Lights",
+    "school": "Illusion",
+    "special": "C",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Elementalism",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Fire Bolt",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Light",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Mage Hand",
+    "school": "Conjuration",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Mending",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Message",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Minor Illusion",
+    "school": "Illusion",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Poison Spray",
+    "school": "Necromancy",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Prestidigitation",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Ray of Frost",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Shocking Grasp",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "True Strike",
+    "school": "Divination",
+    "special": "\u2014",
+    "level": 0,
+    "page": 79
+  },
+  {
+    "name": "Alarm",
+    "school": "Abjuration",
+    "special": "R",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Burning Hands",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Charm Person",
+    "school": "Enchantment",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Chromatic Orb",
+    "school": "Evocation",
+    "special": "M",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Color Spray",
+    "school": "Illusion",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Comprehend Languages",
+    "school": "Divination",
+    "special": "R",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Detect Magic",
+    "school": "Divination",
+    "special": "C, R",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Disguise Self",
+    "school": "Illusion",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Expeditious Retreat",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "False Life",
+    "school": "Necromancy",
+    "special": "\u2013",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Feather Fall",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Find Familiar",
+    "school": "Conjuration",
+    "special": "R, M",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Floating Disk",
+    "school": "Conjuration",
+    "special": "R",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Fog Cloud",
+    "school": "Conjuration",
+    "special": "C",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Grease",
+    "school": "Conjuration",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Hideous Laughter",
+    "school": "Enchantment",
+    "special": "C",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Ice Knife",
+    "school": "Conjuration",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Identify",
+    "school": "Divination",
+    "special": "R, M",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Illusory Script",
+    "school": "Illusion",
+    "special": "R, M",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Jump",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Longstrider",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Mage Armor",
+    "school": "Abjuration",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Magic Missile",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Protection from Evil and Good",
+    "school": "Abjuration",
+    "special": "C, M",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Ray of Sickness",
+    "school": "Necromancy",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Shield",
+    "school": "Abjuration",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Silent Image",
+    "school": "Illusion",
+    "special": "C",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Sleep",
+    "school": "Enchantment",
+    "special": "C",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Thunderwave",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Unseen Servant",
+    "school": "Conjuration",
+    "special": "R",
+    "level": 1,
+    "page": 79
+  },
+  {
+    "name": "Acid Arrow",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Alter Self",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Arcane Lock",
+    "school": "Abjuration",
+    "special": "M",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Arcanist\u2019s Magic Aura",
+    "school": "Illusion",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Augury",
+    "school": "Divination",
+    "special": "R, M",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Blindness/Deafness",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Blur",
+    "school": "Illusion",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Continual Flame",
+    "school": "Evocation",
+    "special": "M",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Darkness",
+    "school": "Evocation",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Darkvision",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Detect Thoughts",
+    "school": "Divination",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Dragon\u2019s Breath",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Enhance Ability",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Enlarge/Reduce",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Flaming Sphere",
+    "school": "Evocation",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Gentle Repose",
+    "school": "Necromancy",
+    "special": "R, M",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Gust of Wind",
+    "school": "Evocation",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Hold Person",
+    "school": "Enchantment",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Invisibility",
+    "school": "Illusion",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Knock",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Levitate",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Locate Object",
+    "school": "Divination",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Magic Mouth",
+    "school": "Illusion",
+    "special": "R, M",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Magic Weapon",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Mind Spike",
+    "school": "Divination",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Mirror Image",
+    "school": "Illusion",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Misty Step",
+    "school": "Conjuration",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Ray of Enfeeblement",
+    "school": "Necromancy",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Rope Trick",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Scorching Ray",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "See Invisibility",
+    "school": "Divination",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Shatter",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Spider Climb",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Suggestion",
+    "school": "Enchantment",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Web",
+    "school": "Conjuration",
+    "special": "C",
+    "level": 2,
+    "page": 80
+  },
+  {
+    "name": "Animate Dead",
+    "school": "Necromancy",
+    "special": "\u2014",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Bestow Curse",
+    "school": "Necromancy",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Blink",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Clairvoyance",
+    "school": "Divination",
+    "special": "C, M",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Counterspell",
+    "school": "Abjuration",
+    "special": "\u2014",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Dispel Magic",
+    "school": "Abjuration",
+    "special": "\u2014",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Fear",
+    "school": "Illusion",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Fireball",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Fly",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Gaseous Form",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Glyph of Warding",
+    "school": "Abjuration",
+    "special": "M",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Haste",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Hypnotic Pattern",
+    "school": "Illusion",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Lightning Bolt",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Magic Circle",
+    "school": "Abjuration",
+    "special": "M",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Major Image",
+    "school": "Illusion",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Nondetection",
+    "school": "Abjuration",
+    "special": "M",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Phantom Steed",
+    "school": "Illusion",
+    "special": "R",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Protection from Energy",
+    "school": "Abjuration",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Remove Curse",
+    "school": "Abjuration",
+    "special": "\u2014",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Sending",
+    "school": "Divination",
+    "special": "\u2014",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Sleet Storm",
+    "school": "Conjuration",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Slow",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Speak with Dead",
+    "school": "Necromancy",
+    "special": "\u2014",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Stinking Cloud",
+    "school": "Conjuration",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Tiny Hut",
+    "school": "Evocation",
+    "special": "R",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Tongues",
+    "school": "Divination",
+    "special": "\u2014",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Vampiric Touch",
+    "school": "Necromancy",
+    "special": "C",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Water Breathing",
+    "school": "Transmutation",
+    "special": "R",
+    "level": 3,
+    "page": 80
+  },
+  {
+    "name": "Arcane Eye",
+    "school": "Divination",
+    "special": "C",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Banishment",
+    "school": "Abjuration",
+    "special": "C",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Black Tentacles",
+    "school": "Conjuration",
+    "special": "C",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Blight",
+    "school": "Necromancy",
+    "special": "\u2014",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Charm Monster",
+    "school": "Enchantment",
+    "special": "\u2014",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Confusion",
+    "school": "Enchantment",
+    "special": "C",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Conjure Minor Elementals",
+    "school": "Conjuration",
+    "special": "C",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Control Water",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Dimension Door",
+    "school": "Conjuration",
+    "special": "\u2014",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Divination",
+    "school": "Divination",
+    "special": "R, M",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Fabricate",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Faithful Hound",
+    "school": "Conjuration",
+    "special": "\u2014",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Fire Shield",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Greater Invisibility",
+    "school": "Illusion",
+    "special": "C",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Hallucinatory Terrain",
+    "school": "Illusion",
+    "special": "\u2014",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Ice Storm",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Locate Creature",
+    "school": "Divination",
+    "special": "C",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Phantasmal Killer",
+    "school": "Illusion",
+    "special": "C",
+    "level": 4,
+    "page": 80
+  },
+  {
+    "name": "Polymorph",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 4,
+    "page": 81
+  },
+  {
+    "name": "Private Sanctum",
+    "school": "Abjuration",
+    "special": "\u2014",
+    "level": 4,
+    "page": 81
+  },
+  {
+    "name": "Resilient Sphere",
+    "school": "Abjuration",
+    "special": "C",
+    "level": 4,
+    "page": 81
+  },
+  {
+    "name": "Secret Chest",
+    "school": "Conjuration",
+    "special": "M",
+    "level": 4,
+    "page": 81
+  },
+  {
+    "name": "Stone Shape",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 4,
+    "page": 81
+  },
+  {
+    "name": "Stoneskin",
+    "school": "Transmutation",
+    "special": "C, M",
+    "level": 4,
+    "page": 81
+  },
+  {
+    "name": "Vitriolic Sphere",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 4,
+    "page": 81
+  },
+  {
+    "name": "Wall of Fire",
+    "school": "Evocation",
+    "special": "C",
+    "level": 4,
+    "page": 81
+  },
+  {
+    "name": "Animate Objects",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Arcane Hand",
+    "school": "Evocation",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Cloudkill",
+    "school": "Conjuration",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Cone of Cold",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Conjure Elemental",
+    "school": "Conjuration",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Contact Other Plane",
+    "school": "Divination",
+    "special": "R",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Creation",
+    "school": "Illusion",
+    "special": "\u2014",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Dominate Person",
+    "school": "Enchantment",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Dream",
+    "school": "Illusion",
+    "special": "\u2014",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Geas",
+    "school": "Enchantment",
+    "special": "\u2014",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Hold Monster",
+    "school": "Enchantment",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Legend Lore",
+    "school": "Divination",
+    "special": "M",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Mislead",
+    "school": "Illusion",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Modify Memory",
+    "school": "Enchantment",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Passwall",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Planar Binding",
+    "school": "Abjuration",
+    "special": "M",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Scrying",
+    "school": "Divination",
+    "special": "C, M",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Seeming",
+    "school": "Illusion",
+    "special": "\u2014",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Summon Dragon",
+    "school": "Conjuration",
+    "special": "C, M",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Telekinesis",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Telepathic Bond",
+    "school": "Divination",
+    "special": "R",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Teleportation Circle",
+    "school": "Conjuration",
+    "special": "M",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Wall of Force",
+    "school": "Evocation",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Wall of Stone",
+    "school": "Evocation",
+    "special": "C",
+    "level": 5,
+    "page": 81
+  },
+  {
+    "name": "Chain Lightning",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Circle of Death",
+    "school": "Necromancy",
+    "special": "M",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Contingency",
+    "school": "Abjuration",
+    "special": "M",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Create Undead",
+    "school": "Necromancy",
+    "special": "M",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Disintegrate",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Eyebite",
+    "school": "Necromancy",
+    "special": "C",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Flesh to Stone",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Freezing Sphere",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Globe of Invulnerability",
+    "school": "Abjuration",
+    "special": "C",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Guards and Wards",
+    "school": "Abjuration",
+    "special": "M",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Instant Summons",
+    "school": "Conjuration",
+    "special": "R, M",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Irresistible Dance",
+    "school": "Enchantment",
+    "special": "C",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Magic Jar",
+    "school": "Necromancy",
+    "special": "M",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Mass Suggestion",
+    "school": "Enchantment",
+    "special": "\u2014",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Move Earth",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Programmed Illusion",
+    "school": "Illusion",
+    "special": "M",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Sunbeam",
+    "school": "Evocation",
+    "special": "C",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "True Seeing",
+    "school": "Divination",
+    "special": "M",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Wall of Ice",
+    "school": "Evocation",
+    "special": "C",
+    "level": 6,
+    "page": 81
+  },
+  {
+    "name": "Arcane Sword",
+    "school": "Evocation",
+    "special": "C, M",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Delayed Blast Fireball",
+    "school": "Evocation",
+    "special": "C",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Etherealness",
+    "school": "Conjuration",
+    "special": "\u2014",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Finger of Death",
+    "school": "Necromancy",
+    "special": "\u2014",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Forcecage",
+    "school": "Evocation",
+    "special": "C, M",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Magnificent Mansion",
+    "school": "Conjuration",
+    "special": "M",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Mirage Arcane",
+    "school": "Illusion",
+    "special": "\u2014",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Plane Shift",
+    "school": "Conjuration",
+    "special": "M",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Prismatic Spray",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Project Image",
+    "school": "Illusion",
+    "special": "C, M",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Reverse Gravity",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Sequester",
+    "school": "Transmutation",
+    "special": "M",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Simulacrum",
+    "school": "Illusion",
+    "special": "M",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Symbol",
+    "school": "Abjuration",
+    "special": "M",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Teleport",
+    "school": "Conjuration",
+    "special": "\u2014",
+    "level": 7,
+    "page": 81
+  },
+  {
+    "name": "Antimagic Field",
+    "school": "Abjuration",
+    "special": "C",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Antipathy/Sympathy",
+    "school": "Enchantment",
+    "special": "\u2014",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Befuddlement",
+    "school": "Enchantment",
+    "special": "\u2014",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Clone",
+    "school": "Necromancy",
+    "special": "M",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Control Weather",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Demiplane",
+    "school": "Conjuration",
+    "special": "\u2014",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Dominate Monster",
+    "school": "Enchantment",
+    "special": "C",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Incendiary Cloud",
+    "school": "Conjuration",
+    "special": "C",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Maze",
+    "school": "Conjuration",
+    "special": "C",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Mind Blank",
+    "school": "Abjuration",
+    "special": "\u2014",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Power Word Stun",
+    "school": "Enchantment",
+    "special": "\u2014",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Sunburst",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 8,
+    "page": 82
+  },
+  {
+    "name": "Astral Projection",
+    "school": "Necromancy",
+    "special": "M",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "Foresight",
+    "school": "Divination",
+    "special": "\u2014",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "Gate",
+    "school": "Conjuration",
+    "special": "C, M",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "Imprisonment",
+    "school": "Abjuration",
+    "special": "M",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "Meteor Swarm",
+    "school": "Evocation",
+    "special": "\u2014",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "Power Word Kill",
+    "school": "Enchantment",
+    "special": "\u2014",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "Prismatic Wall",
+    "school": "Abjuration",
+    "special": "\u2014",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "Shapechange",
+    "school": "Transmutation",
+    "special": "C, M",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "Time Stop",
+    "school": "Transmutation",
+    "special": "\u2014",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "True Polymorph",
+    "school": "Transmutation",
+    "special": "C",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "Weird",
+    "school": "Illusion",
+    "special": "C",
+    "level": 9,
+    "page": 82
+  },
+  {
+    "name": "Wish",
+    "school": "Conjuration",
+    "special": "\u2014",
+    "level": 9,
+    "page": 82
+  }
+]

@@ -1,0 +1,79 @@
+{
+  "status": "LOCAL checkpoint only; not runtime/DB/UI/native/hosted acceptance",
+  "base": "e7cd1ba8318ba296edd4fc5b6b84715ca11016f2",
+  "session": 68399,
+  "go": [
+    {
+      "command": [
+        "go",
+        "test",
+        "-p",
+        "2",
+        "-short",
+        "-race",
+        "./..."
+      ],
+      "start": 1794862435.624871,
+      "seconds": 234.0596785545349,
+      "exit_code": 0,
+      "log": "/tmp/edda-332/race.log",
+      "GOMAXPROCS": "2",
+      "log_sha256": "62a2a92f01ebbedb6558f2d14fb1fbe22e799009e9b61c15cc500853222dce9a"
+    },
+    {
+      "command": [
+        "go",
+        "vet",
+        "-p",
+        "2",
+        "./..."
+      ],
+      "start": 1794862669.6847177,
+      "seconds": 2.924034357070923,
+      "exit_code": 0,
+      "log": "/tmp/edda-332/vet.log",
+      "GOMAXPROCS": "2",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source": "PASS actual PDF/candidate checkpoint",
+  "python": "13 tests PASS in9.364seconds; actual candidate contracts and protocol/native-reader contrary controls",
+  "evidence_hashes": {
+    "internal/rules/srd521/character.go": "33ecc9a817f601f5d4255235463743bd75e13f039fdff56e3c264d0d52dab327",
+    "internal/rules/srd521/advancement.go": "9cebf34ab743e37038264058cd7d961cc85b1e9153d4b06586cf28cf46763dd2",
+    "internal/engine/action_confirmation.go": "000dd1eba710dc7d00a2a6c493b05f90faf489896038eb88e809e5e18e6e475f",
+    "internal/game/spell_preview.go": "15e97f6bb569b65fcbfdb50f93aa41385d9ab006da61963fc9839651d771a0c0",
+    "internal/game/advancement_preview.go": "126dcb6304e0b20e3420eb381d0cb2d9dbe5aaaea521be6f9c0853f7da1f0da1",
+    "frontend/src/lib/startupWorkflow.ts": "3488d57ac02e39a08b6ca6f67a53cf046f0444435707bb0bfc8b7ab0bbe2b9b2"
+  },
+  "source_log_sha256": "a2f34fe5dcf6e86c1fb24160260c3da3bec148be8c2b782bc57d84d5ded2afa9",
+  "python_log_sha256": "fd3d68e671998ef4dbe039db079a8f0f9af060052a32849b30e2ee936d3d022e",
+  "root_reservation_repair": {
+    "status": "PENDING native publication; ROOT reservation witness repair only",
+    "review": "/tmp/edda-reservation-independent-review.txt",
+    "parent_head": "e0929cd5cd32fb2fe57f30f8608955023ae155d5",
+    "observed_at": "2026-11-16T21:35:06.956723+00:00",
+    "changed_contract": "ritual",
+    "changed_fields": [
+      "fixture",
+      "body"
+    ],
+    "source": {
+      "pin": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+      "facts": "PDF123 Detect Magic Action or Ritual; PDF104 adds10minutes to normal time; PDF78 preparation exception; PDF105 Magic each turn/Concentration retained"
+    },
+    "independent_guard": "Rejects original wrong witness even with agreeing oracle; exact parent accepts original",
+    "focused_tests": {
+      "count": 15,
+      "seconds": 9.564,
+      "result": "PASS"
+    },
+    "source_proof": "PASS actual candidate/source+217list/339headers/235typedforms; exact3sourceconflicts",
+    "preserved": "All source records, ownership, dependencies, parents, counts, scope restrictions, typed form bindings and PENDING parent artifacts unchanged",
+    "combined_graph": "305+281+285 proposed+1017native=1888;caps100/100/95,bothDAGs;old183 unchanged,worldcohort mandatory through330shared-output",
+    "full_go_vet": "Original single runs retained; not repeated",
+    "native_writes": false,
+    "final_seal": false,
+    "projection_guard_repair": "Removed obsolete old183addition; independently require ownworldcohort path and raise on cap violations; positive/reroute-removal/101consumer tests"
+  }
+}

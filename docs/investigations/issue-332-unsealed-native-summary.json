@@ -1,0 +1,13 @@
+{
+  "status": "UNSEALED LIVE CHECKPOINT ONLY; no approved scope publication or POST-WARLOCK prefix release",
+  "observed_at": "2026-11-16T21:06:20.272626+00:00",
+  "api_calls": 11,
+  "caps": {
+    "max_incoming": 99,
+    "max_outgoing": 100,
+    "max_children": 95
+  },
+  "accepted_parent_prefix": null,
+  "issues": 1017,
+  "graph_sha256": "c5514d9f55ba936c4787fd472d37ef26f7e8d928b773dcdce8fc1295f429f092"
+}
