@@ -47,7 +47,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 				base = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "wisdom"}
 			}
 		}
-	case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline:
+	case srd521.ActionSurge, combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline:
 		base = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}
 	}
 	result, err := prepareStoredActionBase(ctx, database, campaign, pc, base, lock)
@@ -73,10 +73,10 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if err != nil {
 		return nil, err
 	}
-	if srd521.IsLifecycle(intent.Kind) || intent.Kind == srd521.SpellCast || intent.Kind == combat.EncounterEndTurn || intent.Kind == combat.EncounterStart || intent.Kind == combat.EncounterReact || intent.Kind == combat.EncounterDecline || intent.Kind == combat.EncounterMove || intent.Kind == combat.EncounterDash || intent.Kind == combat.EncounterApproach || intent.Kind == combat.EncounterRetreat {
+	if intent.Kind == srd521.ActionSurge || srd521.IsLifecycle(intent.Kind) || intent.Kind == srd521.SpellCast || intent.Kind == combat.EncounterEndTurn || intent.Kind == combat.EncounterStart || intent.Kind == combat.EncounterReact || intent.Kind == combat.EncounterDecline || intent.Kind == combat.EncounterMove || intent.Kind == combat.EncounterDash || intent.Kind == combat.EncounterApproach || intent.Kind == combat.EncounterRetreat {
 		p.ExpectedRevision = fmt.Sprintf("clock-v1:%x", sha256.Sum256(encodedClock))
 	}
-	if sheet, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience); err == nil && sheet.Spellcasting != nil {
+	if _, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience); err == nil {
 		var envelope struct {
 			Build srd521.Build `json:"srd521"`
 		}
@@ -84,7 +84,11 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			return nil, err
 		}
 		c := envelope.Build.Casting
-		if intent.Kind == srd521.LongRest && c.LastLongRest != nil && result.Clock-*c.LastLongRest < 16*3600 {
+		last := envelope.Build.LastFighterLongRest
+		if c != nil {
+			last = c.LastLongRest
+		}
+		if intent.Kind == srd521.LongRest && last != nil && result.Clock-*last < 16*3600 {
 			p.Available = false
 			p.Reason = "Wait 16 hours after the previous Long Rest before starting another."
 		}
@@ -162,6 +166,35 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			return nil, err
 		}
 		p.ExpectedRevision = fmt.Sprintf("space-v1:%x", sha256.Sum256(encoded))
+	}
+	if intent.Kind == srd521.ActionSurge {
+		// These ownership inputs are read again under the confirmation's actor
+		// and campaign locks, so an ownership change invalidates the preview.
+		var owner, actorOwner string
+		if err := database.QueryRow(ctx, `SELECT c.created_by::text,COALESCE(p.user_id::text,'') FROM campaigns c JOIN player_characters p ON p.campaign_id=c.id WHERE c.id=$1 AND p.id=$2`, campaign.ID, pc.ID).Scan(&owner, &actorOwner); err != nil {
+			return nil, err
+		}
+		if owner != actorOwner {
+			return unavailable("Action Surge requires a Fighter owned by the campaign owner.")
+		}
+		ownership, err := json.Marshal([]any{p.ExpectedRevision, owner, actorOwner})
+		if err != nil {
+			return nil, err
+		}
+		p.ExpectedRevision = fmt.Sprintf("surge-v1:%x", sha256.Sum256(ownership))
+		var envelope struct {
+			Build *srd521.Build `json:"srd521"`
+		}
+		if json.Unmarshal(pc.Stats, &envelope) != nil || !srd521.SupportsActionSurge(pc.Stats, pc.Level) || srd521.ActionSurgeUses(envelope.Build) != 1 || intent.EntryID != "" || intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 {
+			return unavailable("Action Surge requires the level-two Human Soldier Fighter and one available use.")
+		}
+		if !active {
+			return unavailable("Action Surge requires your active ordinary encounter turn.")
+		}
+		p.Modifier = nil
+		p.Options = []string{"Spend one Action Surge use for one additional Action this turn, except Magic. Bonus Action, Reaction and movement are unchanged. Recover on a Short or Long Rest."}
+		p.Costs = []ActionCost{{ResourceID: "action-surge", Amount: 1}}
+		p.SourceIDs = []string{"srd-5.2.1:content/fighter/action-surge"}
 	}
 	if !p.Available {
 		return result, nil
@@ -250,7 +283,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	if !active {
 		switch intent.Kind {
-		case combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline, combat.EncounterReact:
+		case srd521.ActionSurge, combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline, combat.EncounterReact:
 			return unavailable("No supported encounter is active.")
 		}
 		return result, nil
@@ -295,7 +328,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	// Do not pretend arbitrary checks are encounter actions in this slice.
 	switch intent.Kind {
-	case srd521.MartialAttack:
+	case srd521.ActionSurge, srd521.MartialAttack:
 
 	case srd521.EndConcentration, srd521.SpellCast, srd521.ConsumableUse:
 	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline:

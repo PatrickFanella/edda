@@ -192,6 +192,22 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			encounter.Advance()
 			narrative = "Player turn ended."
 		}
+	} else if request.Intent.Kind == srd521.ActionSurge {
+		var envelope struct {
+			Build srd521.Build `json:"srd521"`
+		}
+		if err := json.Unmarshal(pc.Stats, &envelope); err != nil {
+			return nil, err
+		}
+		surge, err := srd521.UseActionSurge(&envelope.Build)
+		if err != nil {
+			return nil, ErrActionRefresh
+		}
+		if _, err := tx.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(stats,'{srd521,action_surge_spent}','true'::jsonb),updated_at=clock_timestamp() WHERE id=$1 AND campaign_id=$2`, pc.ID, campaignID); err != nil {
+			return nil, err
+		}
+		receipt, tool, label = surge, "srd_action_surge", "Action Surge"
+		narrative = "Action Surge saved: one additional Action this turn, except Magic. Bonus Action, Reaction and movement unchanged."
 	} else if request.Intent.Kind == srd521.MartialAttack || request.Intent.Kind == combat.EncounterReact {
 		var target *game.MartialTarget
 		for i := range prepared.Targets {
@@ -294,7 +310,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			return nil, err
 		}
 		receipt, tool, label = advancement, "srd_advancement", "Fighter level 2"
-		narrative = fmt.Sprintf("Fighter level 2 saved: %s HP choice, d10 value %d, maximum HP %d to %d. Current HP unchanged. Defense and weapon mastery choices retained. Action Surge and Tactical Mind recorded; their effects remain unavailable.", advancement.Choice, advancement.Die, advancement.MaxHPBefore, advancement.MaxHPAfter)
+		narrative = fmt.Sprintf("Fighter level 2 saved: %s HP choice, d10 value %d, maximum HP %d to %d. Current HP unchanged. Defense and weapon mastery choices retained. Action Surge available on your encounter turn; Tactical Mind effect remains unavailable.", advancement.Choice, advancement.Die, advancement.MaxHPBefore, advancement.MaxHPAfter)
 	} else if srd521.IsLifecycle(request.Intent.Kind) || (request.Intent.Kind == srd521.SpellCast && request.Intent.EntryID == "shield-of-faith") {
 		var envelope struct {
 			Build srd521.Build `json:"srd521"`
@@ -499,4 +515,24 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		return nil, err
 	}
 	return result, nil
+}
+
+// PreviewActionSurge exposes the same read-only preparation to the trusted TUI.
+func (e *Engine) PreviewActionSurge(ctx context.Context, campaignID uuid.UUID) (*game.ActionPreview, error) {
+	encounter, err := game.ReadEncounter(ctx, e.baseDB, campaignID)
+	if err != nil {
+		return nil, err
+	}
+	if encounter == nil || encounter.Status != "active" || !encounter.Active().Player {
+		return nil, ErrActionRefresh
+	}
+	c, pc, err := game.ReadActionSnapshot(ctx, e.baseDB, campaignID, encounter.Active().ID, uuid.Nil, false)
+	if err != nil {
+		return nil, err
+	}
+	prepared, err := game.PrepareStoredAction(ctx, e.baseDB, c, pc, game.ActionIntent{ActorID: pc.ID, Kind: srd521.ActionSurge}, false)
+	if err != nil {
+		return nil, err
+	}
+	return prepared.Preview, nil
 }

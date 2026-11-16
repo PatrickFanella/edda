@@ -43,6 +43,8 @@ func (e *Encounter) Public() *Encounter {
 
 // TurnBudget persists the current actor's remaining turn resources.
 type TurnBudget struct {
+	SurgeAction    bool `json:"surge_action,omitempty"`
+	SurgeUsed      bool `json:"surge_used,omitempty"`
 	SpellSlotSpent bool `json:"spell_slot_spent,omitempty"`
 	Action         bool `json:"action"`
 	BonusAction    bool `json:"bonus_action"`
@@ -89,11 +91,19 @@ func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 		return fmt.Errorf("not this actor's turn")
 	}
 	switch kind {
-	case srd521.SpellCast, srd521.MartialAttack, EncounterDash:
-		if !e.Budget.Action {
-			return fmt.Errorf("action already spent")
+	case srd521.ActionSurge:
+		if e.Budget.SurgeUsed {
+			return fmt.Errorf("Action Surge already used this turn")
 		}
-		e.Budget.Action = false
+		e.Budget.SurgeUsed, e.Budget.SurgeAction = true, true
+	case srd521.SpellCast, srd521.MartialAttack, EncounterDash:
+		if e.Budget.Action {
+			e.Budget.Action = false
+		} else if kind != srd521.SpellCast && e.Budget.SurgeAction {
+			e.Budget.SurgeAction = false
+		} else {
+			return fmt.Errorf("no eligible action remains")
+		}
 		if kind == EncounterDash {
 			e.Budget.Movement += actorSpeed(*e.Active())
 		}

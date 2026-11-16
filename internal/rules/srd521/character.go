@@ -11,17 +11,19 @@ import (
 // Build is an explicit read-only fixture contract, not a character creator.
 // Stored beneath stats.srd521, it never interprets legacy free-form stats.
 type Build struct {
-	Advancement   *Advancement   `json:"advancement,omitempty"`
-	Casting       *CastingBuild  `json:"casting,omitempty"`
-	FightingStyle string         `json:"fighting_style"`
-	Class         string         `json:"class"`
-	Abilities     map[string]int `json:"abilities"`
-	Skills        []string       `json:"skills"`
-	Expertise     []string       `json:"expertise,omitempty"`
-	Armor         string         `json:"armor"`
-	Shield        bool           `json:"shield"`
-	SecondWind    int            `json:"second_wind"`
-	HitDice       int            `json:"hit_dice"`
+	ActionSurgeSpent    bool           `json:"action_surge_spent,omitempty"`
+	LastFighterLongRest *int           `json:"last_fighter_long_rest,omitempty"`
+	Advancement         *Advancement   `json:"advancement,omitempty"`
+	Casting             *CastingBuild  `json:"casting,omitempty"`
+	FightingStyle       string         `json:"fighting_style"`
+	Class               string         `json:"class"`
+	Abilities           map[string]int `json:"abilities"`
+	Skills              []string       `json:"skills"`
+	Expertise           []string       `json:"expertise,omitempty"`
+	Armor               string         `json:"armor"`
+	Shield              bool           `json:"shield"`
+	SecondWind          int            `json:"second_wind"`
+	HitDice             int            `json:"hit_dice"`
 }
 
 type Term struct {
@@ -236,8 +238,8 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 	sheet.Progression = Progression{xp, 0, 300, prefix + "character/level-advancement"}
 	if level == 2 {
 		sheet.Progression.LevelXP, sheet.Progression.NextLevelXP = 300, 900
-		sheet.Resources = append(sheet.Resources, Resource{"action-surge", "Action Surge (effect unavailable)", 1, 1, prefix + "fighter/action-surge"})
-		sheet.Capabilities = append(sheet.Capabilities, Capability{"action-surge", "Action Surge", prefix + "fighter/action-surge", false}, Capability{"tactical-mind", "Tactical Mind", prefix + "fighter/tactical-mind", false})
+		sheet.Resources = append(sheet.Resources, Resource{"action-surge", "Action Surge", ActionSurgeUses(b), 1, prefix + "fighter/action-surge"})
+		sheet.Capabilities = append(sheet.Capabilities, Capability{"action-surge", "Action Surge", prefix + "fighter/action-surge", SupportsActionSurge(stats, level)}, Capability{"tactical-mind", "Tactical Mind", prefix + "fighter/tactical-mind", false})
 	}
 	return sheet, nil
 }

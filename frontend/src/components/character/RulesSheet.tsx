@@ -39,11 +39,11 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialP
     <h3 className="font-heading text-gold">Skills</h3>
     <dl className="grid gap-3 sm:grid-cols-2">{Object.entries(sheet.skills).map(([name,value]) => <RuleValue key={name} label={name} value={value} />)}</dl>
     {campaignId && actorId && <ActionPreviewPanel key={`${campaignId}:${actorId}`} campaignId={campaignId} actorId={actorId} sheet={sheet} initialPreview={initialPreview} />}
-    <p className="text-sm text-pewter">Fighter advancement supports level 1 to 2 at 300 earned XP. Choose fixed or rolled HP and retain Defense and the recorded mastery choices. Later levels and new feature effects remain unavailable.</p>
+    <p className="text-sm text-pewter">Fighter advancement supports level 1 to 2 at 300 earned XP. Choose fixed or rolled HP and retain Defense and the recorded mastery choices. Action Surge supports one extra Action except Magic on your owned active ordinary encounter turn. Tactical Mind and later levels remain unavailable.</p>
     <h3 className="font-heading text-gold">Resources</h3>
     {sheet.resources.map(resource => <p key={resource.id}>{resource.label}: {resource.current} / {resource.maximum}<small className="block break-all text-pewter">{resource.source_id}</small></p>)}
     <h3 className="font-heading text-gold">Capabilities</h3>
-    {sheet.capabilities.map(capability => <p key={capability.id}>{capability.label} (read only)<small className="block break-all text-pewter">{capability.source_id}</small></p>)}
+    {sheet.capabilities.map(capability => <p key={capability.id}>{capability.label} ({capability.playable ? 'supported' : 'read only'})<small className="block break-all text-pewter">{capability.source_id}</small></p>)}
     {receipts.length > 0 && <section aria-label="Check receipts" className="space-y-3">
       <h3 className="font-heading text-gold">Check receipts</h3>
       {receipts.map((receipt, index) => <CheckReceipt key={index} receipt={receipt} />)}

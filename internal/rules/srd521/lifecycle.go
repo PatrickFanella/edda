@@ -20,22 +20,24 @@ type Concentration struct {
 
 // EffectReceipt is a public, saved account of timing, costs and required checks.
 type EffectReceipt struct {
-	RulesVersion  string         `json:"rules_version"`
-	Kind          string         `json:"kind"`
-	Reason        string         `json:"reason"`
-	Before        *Concentration `json:"before,omitempty"`
-	After         *Concentration `json:"after,omitempty"`
-	TimeBefore    int            `json:"time_before"`
-	TimeAfter     int            `json:"time_after"`
-	SlotsBefore   int            `json:"slots_before"`
-	SlotsAfter    int            `json:"slots_after"`
-	HPBefore      int            `json:"hp_before"`
-	HPAfter       int            `json:"hp_after"`
-	HitDiceBefore int            `json:"hit_dice_before"`
-	HitDiceAfter  int            `json:"hit_dice_after"`
-	HealingDie    int            `json:"healing_die,omitempty"`
-	Check         *CheckReceipt  `json:"check,omitempty"`
-	SourceIDs     []string       `json:"source_ids"`
+	ActionSurgeBefore int            `json:"action_surge_before,omitempty"`
+	ActionSurgeAfter  int            `json:"action_surge_after,omitempty"`
+	RulesVersion      string         `json:"rules_version"`
+	Kind              string         `json:"kind"`
+	Reason            string         `json:"reason"`
+	Before            *Concentration `json:"before,omitempty"`
+	After             *Concentration `json:"after,omitempty"`
+	TimeBefore        int            `json:"time_before"`
+	TimeAfter         int            `json:"time_after"`
+	SlotsBefore       int            `json:"slots_before"`
+	SlotsAfter        int            `json:"slots_after"`
+	HPBefore          int            `json:"hp_before"`
+	HPAfter           int            `json:"hp_after"`
+	HitDiceBefore     int            `json:"hit_dice_before"`
+	HitDiceAfter      int            `json:"hit_dice_after"`
+	HealingDie        int            `json:"healing_die,omitempty"`
+	Check             *CheckReceipt  `json:"check,omitempty"`
+	SourceIDs         []string       `json:"source_ids"`
 }
 
 func IsLifecycle(kind string) bool {
@@ -45,6 +47,9 @@ func IsLifecycle(kind string) bool {
 // Lifecycle mutates a detached build under the caller's transaction. Rest means
 // explicitly confirmed uninterrupted downtime; interruptions are not simulated.
 func Lifecycle(b *Build, sheet *CharacterSheet, kind, entry, actionID string, now int, dice Dice) (*EffectReceipt, error) {
+	if b != nil && b.Class == "fighter" {
+		return RestActionSurge(b, sheet, kind, entry, now)
+	}
 	if b == nil || b.Class != "cleric" || b.Casting == nil || sheet == nil || sheet.Spellcasting == nil || sheet.HP.Value <= 0 || now < 0 {
 		return nil, fmt.Errorf("conscious supported caster and campaign clock required")
 	}

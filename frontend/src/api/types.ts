@@ -73,6 +73,7 @@ export interface Spellcasting {
 }
 export interface Concentration { id: string; spell: string; started_at: number; expires_at: number }
 export interface EffectReceipt {
+ action_surge_before?: number; action_surge_after?: number;
  rules_version: string; kind: string; reason: string;
  before?: Concentration; after?: Concentration;
  time_before: number; time_after: number;
@@ -649,7 +650,7 @@ export interface Encounter {
  round: number;
  turn: number;
  actors: { id: string; name: string; player: boolean; hp?: number; max_hp?: number; initiative: number; initiative_die: number }[];
- budget: { spell_slot_spent?: boolean; action: boolean; bonus_action: boolean; movement: number };
+ budget: { surge_action?: boolean; surge_used?: boolean; spell_slot_spent?: boolean; action: boolean; bonus_action: boolean; movement: number };
 }
 
 export interface AdvancementReceipt { rules_version: string; kind: string; choice: string; die: number; hp_gain: number; level_before: number; level_after: number; max_hp_before: number; max_hp_after: number; source_ids: string[]; }
@@ -660,3 +661,5 @@ export interface EquipmentReceipt {
  time_before: number; time_after: number; expired?: { id: string; spell: string };
  source_ids: string[];
 }
+
+export interface ActionSurgeReceipt { rules_version: string; kind: string; uses_before: number; uses_after: number; additional_actions: number; excluded_action: string; source_ids: string[]; }

@@ -34,7 +34,7 @@ func prepareLifecycle(ctx context.Context, campaign domain.Campaign, pc domain.P
 		return r, nil
 	}
 	sheet, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience)
-	if err != nil || sheet.Spellcasting == nil {
+	if err != nil {
 		return r, nil
 	}
 	var envelope struct {
@@ -42,6 +42,16 @@ func prepareLifecycle(ctx context.Context, campaign domain.Campaign, pc domain.P
 	}
 	if err := json.Unmarshal(pc.Stats, &envelope); err != nil {
 		return nil, err
+	}
+	if sheet.Spellcasting == nil {
+		if !srd521.SupportsActionSurge(pc.Stats, pc.Level) || intent.EntryID != "" || (intent.Kind != srd521.ShortRest && intent.Kind != srd521.LongRest) {
+			return r, nil
+		}
+		p.Available, p.Reason, p.Modifier = true, "", nil
+		p.Options = []string{"Confirm uninterrupted downtime: Short Rest one hour; Long Rest eight hours including six hours sleep. Recover Action Surge; Short Rest recovers one Second Wind, Long Rest recovers HP, Hit Dice and all Second Wind."}
+		p.SourceIDs = []string{"srd-5.2.1:content/fighter/action-surge", "srd-5.2.1:content/rules-glossary/short-rest", "srd-5.2.1:content/rules-glossary/long-rest"}
+		p.CostStatus = "fixture-only"
+		return r, nil
 	}
 	switch intent.Kind {
 	case srd521.EndConcentration:

@@ -11,7 +11,7 @@ for (const width of [1440, 390]) {
       const params = new URL(route.request().url()).searchParams;
       expect(params.get('kind')).toBe('advance-level');
       expect(params.get('entry_id')).toBe('fixed');
-      return route.fulfill({ json: { intent: { actor_id: 'hero', kind: 'advance-level', entry_id: 'fixed' }, rules_version: 'srd-5.2.1', expected_revision: 'advancement', available: level === 1, reason: 'Only level 1 Fighter advancement is supported.', targets: [], options: ['Fixed HP: 6 + Constitution; retain Defense and mastery. Action Surge and Tactical Mind effects unavailable.'], costs: [], cost_status: 'fixture-only', source_ids: [] } });
+      return route.fulfill({ json: { intent: { actor_id: 'hero', kind: 'advance-level', entry_id: 'fixed' }, rules_version: 'srd-5.2.1', expected_revision: 'advancement', available: level === 1, reason: 'Only level 1 Fighter advancement is supported.', targets: [], options: ['Fixed HP: 6 + Constitution; retain Defense and mastery. Action Surge supports its owned active ordinary encounter turn; Tactical Mind remains read only.'], costs: [], cost_status: 'fixture-only', source_ids: [] } });
     });
     await page.route('**/api/v1/campaigns/alpha/action?*', route => route.fulfill({ json: null }));
     await page.route('**/api/v1/campaigns/alpha/action/confirm', route => {

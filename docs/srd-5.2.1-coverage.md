@@ -5,10 +5,11 @@ claim Full Rules support. The character sheet gets the boundary from the server.
 Campaign setup reads a checked-in JSON snapshot of that same report, and a Go
 test rejects a change when the snapshot and server report differ. The declared
 slice includes the two supported level-one Human builds, the narrow Fighter
-level-two transition with Action Surge and Tactical Mind still read-only,
-inspectable checks and saves, one-handed longsword attacks, named self-only
-spells/items, one explicit opportunity-attack trigger, and the recorded rest
-and concentration fixtures.
+level-two transition with confirmed Action Surge during the Fighter’s owned
+active ordinary encounter turn, while Tactical Mind remains read only;
+inspectable checks and saves, one-handed longsword attacks, the bounded
+self/ally healing fixtures, self-only Shield of Faith, one explicit
+opportunity-attack trigger, and the recorded rest and concentration fixtures.
 
 `internal/rules/srd521/coverage.json` is the register of source scopes. The
 machine gate refuses a full-support claim unless every stable scope remains in

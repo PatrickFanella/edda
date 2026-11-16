@@ -10,9 +10,11 @@ retry can roll again. Current HP and spent Second Wind uses do not reset.
 
 The transition retains Defense and the three recorded weapon mastery choices.
 Replacing them, multiclassing and later levels are unavailable. Proficiency
-stays +2; the next XP threshold is 900. Action Surge (one use) and Tactical Mind
-are recorded and shown as unavailable effects, as the existing level-one
-feature effects are. This is a progression fixture, not full Fighter support.
+stays +2; the next XP threshold is 900. Action Surge has one use and supports explicit preview and confirmation on the
+Fighter’s owned active ordinary encounter turn; it grants one extra Action
+except Magic. Tactical Mind remains read only. Other level-one feature effects
+retain their existing boundaries. This progression fixture does not qualify
+full Fighter support.
 
 XP must already have been earned and recorded by a trusted source. This PR does
 not add an XP award button or infer rewards from narrative or defeated targets;

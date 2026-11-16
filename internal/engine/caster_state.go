@@ -8,9 +8,17 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-// saveCaster changes only the fixture's casting/Hit Dice fields, keeping other
+// saveCaster changes only the fixture's casting or Fighter recovery fields, keeping other
 // stored stats (including unknown metadata) intact. The caller owns the lock.
 func saveCaster(ctx context.Context, tx pgx.Tx, campaign, actor uuid.UUID, b *srd521.Build, hp int) error {
+	if b.Class == "fighter" {
+		fields, err := json.Marshal(map[string]any{"second_wind": b.SecondWind, "hit_dice": b.HitDice, "action_surge_spent": b.ActionSurgeSpent, "last_fighter_long_rest": b.LastFighterLongRest})
+		if err != nil {
+			return err
+		}
+		_, err = tx.Exec(ctx, `UPDATE player_characters SET hp=$4,stats=jsonb_set(stats,'{srd521}',(stats->'srd521')||$1::jsonb),updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3`, fields, actor, campaign, hp)
+		return err
+	}
 	casting, err := json.Marshal(b.Casting)
 	if err != nil {
 		return err

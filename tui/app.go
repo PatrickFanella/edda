@@ -16,6 +16,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/config"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/logging"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
@@ -26,6 +27,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/tui/narrative"
 	"git.subcult.tv/subculture-collective/edda/tui/quest"
 	"git.subcult.tv/subculture-collective/edda/tui/styles"
+	"github.com/google/uuid"
 )
 
 // ViewState identifies which sub-view is currently active.
@@ -68,7 +70,22 @@ type narrativeStreamDoneMsg struct {
 // active view opts into receiving conflicting shortcuts directly.
 // Sub-view state is preserved across view switches because each view is stored
 // independently and only the active index changes.
+type surgePreparedMsg struct {
+	preview *game.ActionPreview
+	err     error
+}
+type surgeConfirmedMsg struct {
+	result *engine.TurnResult
+	err    error
+}
+type surgeEngine interface {
+	PreviewActionSurge(context.Context, uuid.UUID) (*game.ActionPreview, error)
+	ConfirmAction(context.Context, uuid.UUID, engine.PreparedAction) (*engine.TurnResult, error)
+}
+
 type App struct {
+	surgeRequest *engine.PreparedAction
+
 	cfg      config.Config
 	ctx      context.Context
 	engine   engine.GameEngine
@@ -110,7 +127,7 @@ func NewAppWithEngine(cfg config.Config, campaign statedb.Campaign, ctx context.
 	// Seed the narrative log with a welcome message for the selected campaign.
 	nv.AddEntry(narrative.Entry{
 		Kind: narrative.KindSystem,
-		Text: fmt.Sprintf("Welcome to Edda  ·  Provider: %s", cfg.LLM.Provider),
+		Text: fmt.Sprintf("Welcome to Edda  ·  Provider: %s · /action-surge: preview level-two Fighter encounter feature", cfg.LLM.Provider),
 	})
 	if campaign.Name != "" {
 		nv.AddEntry(narrative.Entry{
@@ -223,7 +240,78 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		return a, nil
 
+	case surgePreparedMsg:
+		a.turnBusy = false
+		nv := a.narrativeView()
+		if nv == nil {
+			return a, nil
+		}
+		_ = nv.SetLoading(false)
+		if msg.err != nil || msg.preview == nil {
+			nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Action Surge unavailable; requires the owned active level-two Human Soldier Fighter encounter turn."})
+			return a, nil
+		}
+		if !msg.preview.Available {
+			nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: msg.preview.Reason})
+			return a, nil
+		}
+		a.surgeRequest = &engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: msg.preview.ExpectedRevision, Intent: msg.preview.Intent}
+		nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Preview only: " + strings.Join(msg.preview.Options, " ") + " Type /confirm-action-surge to spend the use, or /cancel-action-surge. No dice or resources spent."})
+		return a, nil
+	case surgeConfirmedMsg:
+		a.turnBusy = false
+		if nv := a.narrativeView(); nv != nil {
+			_ = nv.SetLoading(false)
+			text := "Delivery uncertain. /confirm-action-surge retries the same saved action ID."
+			if msg.err == engine.ErrActionRefresh {
+				a.surgeRequest = nil
+				text = "Action changed; /action-surge to preview again."
+			}
+			if msg.err == nil && msg.result != nil {
+				text = msg.result.Narrative
+				a.surgeRequest = nil
+			}
+			nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: text})
+		}
+		return a, nil
 	case narrative.SubmitMsg:
+		if strings.TrimSpace(msg.Input) == "/action-surge" || strings.TrimSpace(msg.Input) == "/confirm-action-surge" || strings.TrimSpace(msg.Input) == "/cancel-action-surge" {
+			if a.turnBusy {
+				return a, nil
+			}
+			nv := a.narrativeView()
+			se, ok := a.engine.(surgeEngine)
+			if nv == nil || !ok {
+				return a, nil
+			}
+			input := strings.TrimSpace(msg.Input)
+			if input == "/cancel-action-surge" {
+				a.surgeRequest = nil
+				nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Action Surge confirmation dismissed."})
+				return a, nil
+			}
+			if input == "/confirm-action-surge" {
+				if a.surgeRequest == nil {
+					nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Use /action-surge to preview first."})
+					return a, nil
+				}
+				request := *a.surgeRequest
+				a.turnBusy = true
+				return a, func() tea.Msg {
+					result, err := se.ConfirmAction(a.ctx, dbutil.FromPgtype(a.campaign.ID), request)
+					return surgeConfirmedMsg{result, err}
+				}
+			}
+			if a.surgeRequest != nil {
+				nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Confirm/retry or cancel the pending Action Surge first."})
+				return a, nil
+			}
+			a.turnBusy = true
+			return a, func() tea.Msg {
+				p, err := se.PreviewActionSurge(a.ctx, dbutil.FromPgtype(a.campaign.ID))
+				return surgePreparedMsg{p, err}
+			}
+		}
 		if a.turnBusy {
 			return a, nil
 		}
