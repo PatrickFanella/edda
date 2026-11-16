@@ -114,11 +114,20 @@ func DecodeItemCatalogue(data []byte) (ItemCatalogue, error) {
 
 // uniqueItemJSON prevents encoding/json's last-key-wins behavior hiding properties.
 func uniqueItemJSON(d *json.Decoder) error {
+	return uniqueCatalogueJSON(d, false)
+}
+
+// uniqueCatalogueJSON checks member names before typed decoding can discard them.
+// Existing catalogues retain their null policy; multiclass rejects null values.
+func uniqueCatalogueJSON(d *json.Decoder, rejectNull bool) error {
 	var walk func() error
 	walk = func() error {
 		tok, err := d.Token()
 		if err != nil {
 			return err
+		}
+		if tok == nil && rejectNull {
+			return fmt.Errorf("null catalogue values are not allowed")
 		}
 		delim, ok := tok.(json.Delim)
 		if !ok {
@@ -134,7 +143,7 @@ func uniqueItemJSON(d *json.Decoder) error {
 				}
 				name, ok := key.(string)
 				if !ok || seen[name] || name != strings.ToLower(name) {
-					return fmt.Errorf("duplicate or invalid item property %v", key)
+					return fmt.Errorf("duplicate or invalid catalogue property %v", key)
 				}
 				seen[name] = true
 				if err := walk(); err != nil {
@@ -154,10 +163,10 @@ func uniqueItemJSON(d *json.Decoder) error {
 		return err
 	}
 	if err := walk(); err != nil {
-		return fmt.Errorf("item JSON: %w", err)
+		return fmt.Errorf("catalogue JSON: %w", err)
 	}
 	if _, err := d.Token(); err != io.EOF {
-		return fmt.Errorf("item catalogue must contain one JSON object")
+		return fmt.Errorf("catalogue must contain one JSON object")
 	}
 	return nil
 }

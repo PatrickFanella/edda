@@ -1,6 +1,7 @@
 package srd521
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -69,10 +70,20 @@ type MulticlassSlots struct {
 	Slots []int `json:"slots"`
 }
 
-// DecodeMulticlassCatalogue rejects unknown fields and trailing JSON.
+// DecodeMulticlassCatalogue rejects unknown or duplicate members, null values,
+// non-integer numbers and trailing JSON. Explicit integer zero remains valid.
 func DecodeMulticlassCatalogue(r io.Reader) (MulticlassCatalogue, error) {
 	var c MulticlassCatalogue
-	d := json.NewDecoder(r)
+	data, err := io.ReadAll(r)
+	if err != nil {
+		return c, fmt.Errorf("read multiclass: %w", err)
+	}
+	members := json.NewDecoder(bytes.NewReader(data))
+	members.UseNumber()
+	if err := uniqueCatalogueJSON(members, true); err != nil {
+		return c, fmt.Errorf("decode multiclass: %w", err)
+	}
+	d := json.NewDecoder(bytes.NewReader(data))
 	d.DisallowUnknownFields()
 	if err := d.Decode(&c); err != nil {
 		return c, fmt.Errorf("decode multiclass: %w", err)

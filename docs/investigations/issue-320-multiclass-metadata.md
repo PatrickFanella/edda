@@ -86,6 +86,13 @@ ownership, attack/AC stacking, table cells and invented grants/scaling. Set
 `EDDA_SRD_PDF` to run the standalone comparator against each control. Ordinary
 Go checks require no PDF and still run the independent semantic expectations.
 
+Both input paths reject repeated JSON members, including escaped spellings of
+the same key. Multiclass JSON does not permit null values. Slot cells retain
+explicit integer zero for source dashes; booleans and decimal numbers cannot
+stand in for integers. The Go reader checks members before typed decoding, and
+the Python proof compares exact JSON types as well as values. Raw JSON controls
+cover null zero and positive cells, numeric types, and shadowed members.
+
 ```sh
 GOMAXPROCS=2 EDDA_SRD_PDF=/tmp/edda-wave1/SRD_CC_v5.2.1.pdf go test -p 2 -short ./internal/rules/srd521 -run Multiclass -count=1
 python3 scripts/verify_srd_multiclass.py /tmp/edda-wave1/SRD_CC_v5.2.1.pdf

@@ -23,6 +23,47 @@ func multiclassCatalogue(t *testing.T) MulticlassCatalogue {
 	return c
 }
 
+func TestMulticlassRejectsAmbiguousRawJSON(t *testing.T) {
+	baseline, err := json.Marshal(multiclassCatalogue(t))
+	if err != nil {
+		t.Fatal(err)
+	}
+	slots := `"slots":[2,0,0,0,0,0,0,0,0]`
+	for _, tt := range []struct{ name, old, replacement string }{
+		{"null-zero-cell", `"slots":[2,0`, `"slots":[2,null`},
+		{"null-positive-cell", `"slots":[2,0`, `"slots":[null,0`},
+		{"null-parameter", `"round-up":1`, `"round-up":null`},
+		{"boolean-zero-cell", `"slots":[2,0`, `"slots":[2,false`},
+		{"boolean-divisor", `"level_divisor":1`, `"level_divisor":true`},
+		{"boolean-schema", `"schema_version":1`, `"schema_version":true`},
+		{"decimal-zero-cell", `"slots":[2,0`, `"slots":[2,0.0`},
+		{"decimal-parameter", `"round-up":1`, `"round-up":1.0`},
+		{"duplicate-envelope-member", `"schema_version":1`, `"schema_version":2,"schema_version":1`},
+		{"duplicate-row-member", slots, slots + "," + slots},
+		{"shadowed-null-row-member", slots, `"slots":[null,0,0,0,0,0,0,0,0],` + slots},
+		{"escaped-duplicate-row-member", slots, slots + "," + strings.Replace(slots, `"slots"`, `"\u0073lots"`, 1)},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			if !bytes.Contains(baseline, []byte(tt.old)) {
+				t.Fatal("raw control did not match the baseline")
+			}
+			raw := bytes.Replace(baseline, []byte(tt.old), []byte(tt.replacement), 1)
+			if _, err := DecodeMulticlassCatalogue(bytes.NewReader(raw)); err == nil {
+				t.Error("Go decoder accepted ambiguous numeric data or repeated members")
+			}
+			if pdf := os.Getenv("EDDA_SRD_PDF"); pdf != "" {
+				file := filepath.Join(t.TempDir(), "candidate.json")
+				if err := os.WriteFile(file, raw, 0600); err != nil {
+					t.Fatal(err)
+				}
+				if out, err := exec.Command("python3", "../../../scripts/verify_srd_multiclass.py", pdf, file).CombinedOutput(); err == nil {
+					t.Errorf("PDF comparator accepted ambiguous raw JSON: %s", out)
+				}
+			}
+		})
+	}
+}
+
 func TestMulticlassCompleteSourceAndBoundaries(t *testing.T) {
 	c := multiclassCatalogue(t)
 	repo := os.DirFS("../../..")

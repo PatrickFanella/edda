@@ -136,22 +136,42 @@ def source_expectations(pdf):
     return classes, rules, rows
 
 
+def unique_members(pairs):
+    result = {}
+    for key, value in pairs:
+        assert key not in result, 'duplicate JSON member: ' + key
+        result[key] = value
+    return result
+
+
+def exact(actual, expected, path='$'):
+    assert type(actual) is type(expected), 'JSON type mismatch at ' + path
+    if isinstance(expected, dict):
+        assert actual.keys() == expected.keys(), 'JSON members mismatch at ' + path
+        for key in expected:
+            exact(actual[key], expected[key], path + '.' + key)
+    elif isinstance(expected, list):
+        assert len(actual) == len(expected), 'JSON array length mismatch at ' + path
+        for index, (value, wanted) in enumerate(zip(actual, expected)):
+            exact(value, wanted, path + '[' + str(index) + ']')
+    else:
+        assert actual == expected, 'source value mismatch at ' + path
+
+
 def compare(candidate, expected):
     classes, rules, rows = expected
-    assert set(candidate) == {'schema_version', 'source', 'scope', 'catalogues', 'classes', 'requirements', 'slot_rows', 'slot_terms'}
-    assert candidate['schema_version'] == 1
-    assert candidate['scope'] == dict(issue=320, section='multiclassing', first_page=24, last_page=26)
-    assert candidate['catalogues'] == ['character-'+n+'.json' for n in NAMES]+['character-advancement.json']
-    assert candidate['classes'] == classes, 'class prerequisite/proficiency/source/ownership mismatch'
-    assert candidate['requirements'] == rules, 'requirement operands/clauses/parameters/source mismatch'
-    assert candidate['slot_terms'] == [dict(class_ref=C+'class/'+n,
-        level_divisor=2 if n in ('paladin', 'ranger') else 1,
-        rounding='up' if n in ('paladin', 'ranger') else 'none')
-        for n in 'bard cleric druid paladin ranger sorcerer wizard'.split()], 'slot formula operands'
-    assert candidate['slot_rows'] == rows, 'actual PDF table cells mismatch'
     source = json.loads((ROOT/'internal/rules/srd521/testdata/character-advancement.json').read_text())['source']
     source['changes'] = 'Multiclass section and table adapted to non-executable metadata. Edda IDs, scope bindings and unresolved requirements added; canonical class and advancement owners referenced.'
-    assert candidate['source'] == source and source['sha256'] == PIN, 'source pin/attribution/adaptation'
+    assert source['sha256'] == PIN, 'source pin'
+    exact(candidate, dict(
+        schema_version=1, source=source,
+        scope=dict(issue=320, section='multiclassing', first_page=24, last_page=26),
+        catalogues=['character-'+n+'.json' for n in NAMES]+['character-advancement.json'],
+        classes=classes, requirements=rules, slot_rows=rows,
+        slot_terms=[dict(class_ref=C+'class/'+n,
+            level_divisor=2 if n in ('paladin', 'ranger') else 1,
+            rounding='up' if n in ('paladin', 'ranger') else 'none')
+            for n in 'bard cleric druid paladin ranger sorcerer wizard'.split()]))
 
 
 def main():
@@ -161,7 +181,7 @@ def main():
     args = parser.parse_args()
     assert hashlib.sha256(args.pdf.read_bytes()).hexdigest() == PIN, 'PDF SHA256'
     expected = source_expectations(args.pdf)
-    compare(json.loads(args.candidate.read_text()), expected)
+    compare(json.loads(args.candidate.read_text(), object_pairs_hook=unique_members), expected)
     print('PASS: all 12 classes, 180 actual PDF cells, all requirement fields and canonical source bindings')
 
 
