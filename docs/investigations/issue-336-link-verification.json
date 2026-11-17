@@ -1,0 +1,305 @@
+{
+  "schema_version": 1,
+  "decision": 336,
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
+  "observed_at": "2026-11-17T08:13:57.401608+00:00",
+  "new_task_metadata": {
+    "2053": {
+      "id": "I_kwDOSicKg88AAAABf96JoQ",
+      "databaseId": 6440257953,
+      "number": 2053,
+      "title": "Confirm source-correct higher-level creation through qualified class outputs",
+      "body": "<!-- edda-336:higher-start -->\nDecision #336; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1 PDF19\u201326, especially the complete advancement table on23 and Starting at Higher Levels on24; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. Retain CC-BY-4.0 attribution and adaptation notice in `docs/srd-5.2.1-conformance.md`.\n\nImplement one confirmed creation workflow at an authoritative GM-selected starting total level 2\u201320. Reuse qualified first-character creation and every intervening adjacent class application; never weaken those applications to accept jumps. Select minimum starting XP and live PB from the complete canonical #285 table by TOTAL character level. Class features, slots and HP dice remain indexed by the relevant class level. A first-class character's first Hit Die is maximal; every later level, including entry into another class, uses that class's qualified later-level roll/fixed adapter. Reuse #968's qualification of the existing #429 atomic transition protocol; add no direct #429 consumer and implement no copied HP/CON transaction.\n\nThe workflow owns the outer creation plan/confirmation and composes existing qualified outputs in one database transaction. It does not emulate a Long Rest after each level, refill spent resources on a capacity increase, skip a feature choice or infer class/origin entitlement from catalogues. Every chosen class configuration and origin must have actual qualified creation/entry/feature outputs; unknown combinations remain unavailable. #333 owns broader origin and trinket choices, #335 the multiclass policy. The existing #430 supplies only its declared creation-provenance contract and is not widened to execute unsupported origins. Preserve recorded first-class versus later-class grants.\n\nStarting equipment is a GM decision, not an automatic award. Normal class/background starting equipment remains available through its qualified builder. If the GM explicitly adopts the PDF24 guide, record the complete four-band policy: levels2\u20134 normal equipment and one Common item; levels5\u201310 add500GP+1d10\u00d725GP and one Common/one Uncommon item; levels11\u201316 add5000GP+1d10\u00d7250GP and two Common/three Uncommon/one Rare; levels17\u201320 add20000GP+1d10\u00d7250GP and two Common/four Uncommon/three Rare/one Very Rare. Store the injected roll and actual approved identities once. The guide is optional; available purchases and deviations require authoritative GM facts. Item identity never executes an unqualified magical effect. Unknown item profiles or purchase facts stay unavailable.\n\nPositive fixtures: pure Fighter10, CON+2 and fixed later HP gives XP64000, PB+4 and maximum HP84 = (10+2)+9\u00d7(6+2). With CON+3 the same ten attained levels give94, not an extra heal. A supplied qualified Fighter4/Rogue2 start uses total6 XP14000/PB+3 and maximum HP50 at CON+2/fixed gains:12+3\u00d78+2\u00d77; Rogue entry gets later-class HP. With the optional equipment guide adopted at level10, injected d10=4 adds600GP plus normal equipment and the exact approved Common/Uncommon identities; disabling the guide gives no invented600GP or magic items. Cover starting levels2\u201320 and every equipment band boundary. Reject total21, boolean/fractional levels, class-level XP/PB selection, wrong class HP die, missing earlier choice, unsupported class/origin/item, unapproved guide, duplicate item/coin grant and legacy custom-XP conversion.\n\nPreview is inert. Confirm revalidates campaign/actor/GM authority, source version, complete class vector, every choice, selected starting policy and expected revision. Persist the whole new character, saved rolls, grants, equipment/money, derived sheet and public history atomically. Fail at each stage and prove full isolated PostgreSQL rollback. Same-ID retry/reload/reconnect returns the same creation receipt without repeating levels, rolls, money or grants; conflicting payload rejects and concurrent confirmations commit once. Shared web/TUI expose only qualified choices and explicit unavailable reasons, accessible cancel/confirm/reconnect, with desktop/phone checks for changed web. Keep private GM choices and unapproved item facts out of public history.\n\nNative parent #336; directly block #337. Hard prerequisites: #195, #285, #384, #430, #968 and the twelve actual class qualification outputs #498/#501/#551/#630/#728/#776/#845/#970/#1093/#1475/#1758/#2036. These are build/qualification obligations; runtime requires only the selected qualified configuration, not arbitrary class features on the new character. Existing bodies, parents and edges remain unchanged. No new #283 child, #67 or #429 edge.\n\nImplementation verification: deterministic source/numeric/choice tests, isolated PostgreSQL atomic rollback/replay/concurrency/reload, shared web/TUI disclosure/confirmation checks, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests do not qualify PostgreSQL or devices. No production grant, deployment or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 336
+      },
+      "blockedBy": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2036
+          },
+          {
+            "number": 1758
+          },
+          {
+            "number": 1475
+          },
+          {
+            "number": 1093
+          },
+          {
+            "number": 970
+          },
+          {
+            "number": 968
+          },
+          {
+            "number": 845
+          },
+          {
+            "number": 776
+          },
+          {
+            "number": 728
+          },
+          {
+            "number": 630
+          },
+          {
+            "number": 551
+          },
+          {
+            "number": 501
+          },
+          {
+            "number": 498
+          },
+          {
+            "number": 430
+          },
+          {
+            "number": 384
+          },
+          {
+            "number": 285
+          },
+          {
+            "number": 195
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhJa4oE",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2054": {
+      "id": "I_kwDOSicKg88AAAABf97GMQ",
+      "databaseId": 6440273457,
+      "number": 2054,
+      "title": "Confirm optional post-level20 feat thresholds without granting level21",
+      "body": "<!-- edda-336:post20-feats -->\nDecision #336; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1 PDF23\u201324 and actual feat clauses PDF87\u201388; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution/adaptation: `docs/srd-5.2.1-conformance.md`.\n\nImplement only the GM-enabled Bonus Feats at Level20 option. Canonical total character level remains20. For each30000 earned XP above355000, the character gains one eligible feat choice. The choice is not restricted to Epic Boons: use the actual prerequisite, category and repeatability rules through #384 and the separately owned #385\u2013401 effects. Store grant provenance by threshold/actor/source version and bind each confirmation to an unspent grant. A selected feat must have an actual qualified resolver, not merely a catalogue entry. No feat effect, selection engine or class eligibility is copied here.\n\nExplicit GM policy is required; default disabled grants nothing. With the policy enabled, XP355000 and384999 yield zero bonus grants;385000 yields one;415000 yields two in total. Subtract already issued grants so retry or lowering/reloading/replaying XP never grants again. Reject forged thresholds, duplicate provenance, negative/boolean/fractional XP, unqualified class state, a level21 grant, extra HP/Hit Dice/PB/slots or a legacy custom-XP campaign silently converted to this rule. If an authorized XP correction lowers the earned threshold, preserve existing grant/effect history and fail closed for a conflicting correction; do not invent source authority to claw back a feat.\n\nPositive: an actual qualified level20 character chooses an eligible repeatable Ability Score Improvement within its own cap, or a qualified Epic Boon, using one canonical threshold grant. For Boon of Spell Recall, require actual owned Spellcasting from the selected qualified class; Magic Initiate alone is not that feature. Other eligible feats gain no blanket Spellcasting requirement. Retain the concrete #487 Incapacitated, #427/#428 rest, #778/#779 Unarmed/Grappled and #962 Invisible outputs where the selected feat consumes them; planning parents #269/#272/#270/#268 are not executable support. Every selected ability increase keeps its source cap and source-limited replacement behavior.\n\nPreview is inert and reveals only supported eligible choices. Confirm revalidates actor/campaign/GM option, canonical total20, earned XP, threshold provenance, source/version, selected feat prerequisites and revision. Persist threshold grant, exact choice, selected owned effect and public history in one transaction. Inject failure after each stage for complete isolated PostgreSQL rollback; same-ID retry/reload/reconnect returns the saved receipt without regrant/reroll; conflicts reject and racing confirmations spend the grant once. Web and trusted TUI share availability, accessible cancel/confirm/reconnect and disclosure controls. Changed web requires focused build/lint and desktop/phone fixtures. Preserve unrelated JSON and legacy reads.\n\nNative parent #336; directly block #337. Exact hard prerequisites: #285, #384, each actual feat resolver #385\u2013401, #427/#428/#487/#778/#779/#962, and twelve qualified class-state outputs #498/#501/#551/#630/#728/#776/#845/#970/#1093/#1475/#1758/#2036. Native build obligations do not grant runtime features to the character; only the selected qualified source combination may execute. Preserve all old contracts and edges; no new #283 child, #67 or #429 consumer.\n\nImplementation verification: exact XP boundaries and repeatability/eligibility controls; isolated PostgreSQL rollback/replay/concurrency/reload; shared web/TUI disclosure/confirmation checks; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Runtime implementation stays unavailable until qualified; no deployment or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 336
+      },
+      "blockedBy": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2036
+          },
+          {
+            "number": 1758
+          },
+          {
+            "number": 1475
+          },
+          {
+            "number": 1093
+          },
+          {
+            "number": 970
+          },
+          {
+            "number": 962
+          },
+          {
+            "number": 845
+          },
+          {
+            "number": 779
+          },
+          {
+            "number": 778
+          },
+          {
+            "number": 776
+          },
+          {
+            "number": 728
+          },
+          {
+            "number": 630
+          },
+          {
+            "number": 551
+          },
+          {
+            "number": 501
+          },
+          {
+            "number": 498
+          },
+          {
+            "number": 487
+          },
+          {
+            "number": 428
+          },
+          {
+            "number": 427
+          },
+          {
+            "number": 401
+          },
+          {
+            "number": 400
+          },
+          {
+            "number": 399
+          },
+          {
+            "number": 398
+          },
+          {
+            "number": 397
+          },
+          {
+            "number": 396
+          },
+          {
+            "number": 395
+          },
+          {
+            "number": 394
+          },
+          {
+            "number": 393
+          },
+          {
+            "number": 392
+          },
+          {
+            "number": 391
+          },
+          {
+            "number": 390
+          },
+          {
+            "number": 389
+          },
+          {
+            "number": 388
+          },
+          {
+            "number": 387
+          },
+          {
+            "number": 386
+          },
+          {
+            "number": 385
+          },
+          {
+            "number": 384
+          },
+          {
+            "number": 285
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhJa5ms",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "caps": {
+    "nodes": 1891,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "incoming279": 100,
+    "incoming280": 96,
+    "incoming337": 61,
+    "outgoing429": 100,
+    "outgoing285": 84,
+    "children283": 95
+  },
+  "all_1889_prior_graph_contracts_preserved_except_two_337_additions": true,
+  "source_witnesses": {
+    "all_twenty_XP_PB_rows": "PASS",
+    "Fighter10_CON2_fixed_HP": 84,
+    "Fighter10_CON3_fixed_HP": 94,
+    "Fighter4_Rogue2_CON2_fixed_HP": 50,
+    "Fighter10_XP": 64000,
+    "Fighter10_PB": 4,
+    "total6_XP": 14000,
+    "total6_PB": 3,
+    "optional_level10_d10_4_extra_GP": 600,
+    "post20_XP": [
+      355000,
+      384999,
+      385000,
+      415000
+    ],
+    "post20_total_grants": [
+      0,
+      0,
+      1,
+      2
+    ]
+  },
+  "closure_controls": "PASS;closed336retainsbothnewtasks,12classqualificationsand12HPpaths",
+  "missing_qualification_controls": "REJECTED for each removed337->newtaskedge",
+  "mutation_records": {
+    "plan.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/336-publication/plan.json",
+      "sha256": "104926e64aabc57f5b3c0fb0798fcefee117588f7feb90c063adfcc40abe4008"
+    },
+    "journal.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/336-publication/journal.json",
+      "sha256": "54bc53479c986abaa00d1bc60df03a1a13a9d6249e38db7773f94993002aaa4b"
+    },
+    "preflight-graph.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/336-publication/preflight-graph.json",
+      "sha256": "29a08249f692b904aca18e3d4cb68fef510c9458a340e0e0796bb50a92e21ed8"
+    },
+    "final-graph.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/336-publication/final-graph.json",
+      "sha256": "d0d7c8cb98b6fc4f4b2c784a74a17f93ea49f30e191cd06afe884d3f1a3b4396"
+    },
+    "result.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/336-publication/result.json",
+      "sha256": "5df36eaced5baa69bceb9476a74775ab746ab46f6dbc6c24738af9a430c5da1f"
+    }
+  },
+  "runtime_qualified": false
+}
