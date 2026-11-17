@@ -1,4 +1,4 @@
-# Warlock publication proof at the approved reservation
+# Warlock publication proof before final prefix acceptance
 
 ROOT approved exactly 871 future Tasks: Sorcerer 305, Warlock 281 and Wizard 285. The 1017-node baseline and those Tasks form the approved 1888-node projection. Sorcerer is the sole native writer. This checkout contains read-only proof code and frozen input copies; it has no native mutation implementation.
 
@@ -14,6 +14,32 @@ The Warlock proposal remains byte-for-byte SHA256 `8d4a8ea724ee8e997093d0e387705
 `warlock_approved_native.py` independently normalizes every frozen approved alias and compares all 871 complete bodies, titles, parents, prerequisites and Task/M expectations to the pinned approval. It implements the renderer with independent literal templates and tests those literals against the pinned golden vectors. It imports no coordinator renderer. The partial synthetic vectors cannot satisfy the complete 871-alias registry requirement.
 
 Every registry identity must have exactly `number`, `id` and `node_id`. Numeric identities must be positive JSON integers; booleans and floats fail. All three fields must be unique across the 871 aliases, and issue numbers cannot overlap the baseline. Duplicate JSON fields and nonfinite values fail. The final body preserves all approved body text and trailing newlines, then appends only the exact renderer suffix with actual issue, parent and numerically sorted prerequisite numbers.
+
+## Unsealed actual-native proof
+
+ROOT's immutable VERIFIED delivery has now been validated independently. A single complete read-only collection from `2026-11-17T06:25:56.471901+00:00` to `2026-11-17T06:26:52.428367+00:00` used 63 bounded GraphQL queries and recorded 1888 graph nodes plus 1096 Project metadata rows. The existing independent `validate_wiring` function passed all 871 complete rendered bodies, titles, database/node identities, OPEN states, exact native parents/prerequisites and Task/M fields; all 1017 baseline protections; dependency/containment DAGs and caps; and the mandatory Warlock paths through 337 and shared roots 279/280.
+
+The actual result is **NATIVE_WIRING_PASS_PREFIX_PENDING**, with native readback **PASS**. Final acceptance remains **UNQUALIFIED**; `final_prefix_sealed` and `runtime_qualified` remain false. Native counts are 279 incoming 100, 280 incoming 95, 337 incoming 59, 283 children 95 and 429 consumers 100. This supersedes the earlier allocation-only boundary below, while retaining that checkpoint's original bytes and claims.
+
+| Committed actual evidence | SHA256 |
+| --- | --- |
+| `issue-331-verified-registry.json` | `e1e879b87b24914f08007677d30aad713c9e148363c404153bfd6be3f9564753` |
+| `issue-331-verified-milestone.json` | `fe8969fcdb5b11f81c00e47c8be1a2496472a4b7bee2b32c4cc932f4ad806305` |
+| `issue-331-coordinator-verified-receipt.json` | `087b2521ad5b9f8c40b278f3b23d8eea4b1b3e025ed2069285a9c3947db11d54` |
+| `issue-331-native-readback.json` | `e2f47080079473c2c08a0f837b811ca0ca24225e8116866f0ba87d7e4ff1abdc` |
+
+`issue-331-unsealed-native-validation.json` records the observation interval, API budget, original delivered paths, exact artifact hashes, caps and qualification boundary. Delivered files were copied byte-for-byte with exclusive creation; existing allocation copies and originals were reread and hashed, never rewritten. Both milestones retain canonical nodes-map digest `866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c`. The coordinator's actual collected fields also pass the independent wiring validator after an in-memory REST `open`/`closed` to GraphQL `OPEN`/`CLOSED` conversion; its original receipt bytes remain exact. Producer reports and recorded expected-body hashes do not substitute for comparing actual fields.
+
+Recheck the saved actual evidence offline, without collecting again:
+
+```sh
+rtk proxy python3 scripts/warlock_verified_proof.py
+rtk proxy python3 -m unittest discover -s scripts -p 'test_warlock_verified_proof.py' -v
+```
+
+The three actual-evidence replay controls pass, including rejection of body, parent, prerequisite, Task/M and old-owner drift; allocation status cannot qualify wiring. The existing 14 approved-native controls and four allocation-binding controls also pass. Final proof still rejects the absent accepted prefix release. `--collect-once` is an explicit live mode and refuses to replace existing native evidence; do not run it for replay.
+
+No frozen semantic manifest or proposal changed, no source generation or full source/Go/vet audit ran, and no native mutation occurred. ROOT owns acceptance in order 330 then 331 then 332, supplements, final hosted CI and merge. The accepted POST-SORCERER release remains HELD; all four appends remain root-only pending. Runtime roadmap implementation remains PAUSED. Await explicit accepted predecessor-prefix delivery before final sealing.
 
 ## Delivered allocation binding checkpoint
 
@@ -37,7 +63,7 @@ rtk proxy python3 -m unittest discover -s scripts -p 'test_warlock_approved_nati
 
 The binder validates strict JSON, complete exact typed identities, frozen approval/renderer/contract hashes, raw delivery hashes and stable map continuity using the existing pure functions. It compares the committed binding against deterministic derivation by default; `--write` explicitly rewrites only that derived sidecar. It never imports the native reader or follows the sidecar's live-registry path. Four actual-delivery binding controls and 14 existing synthetic approved-native controls passed. Changed bytes, coherent reassignment and altered frozen renderer inputs are rejected. Tests also confirm that IDS_ALLOCATED cannot satisfy wiring and that the default strict proof and final native proof still reject the absent accepted prefix release.
 
-ROOT reports that the first `330:creation` wiring attempt returned HTTP 502, possibly after partial native field changes. Native writes are halted under `b5c5cbe912a3c2afae2d5bb66bf5026d29bd5c83e1fb2577aeb051f552a5cc50`; reconciliation belongs to ROOT. This checkpoint performs no live queries, allocation readback or native mutations, and makes no claim about those partial fields. There is no delivered VERIFIED milestone. The accepted POST-SORCERER prefix remains HELD and all four appends remain root-only pending. Issue #331 remains open; runtime and broader implementation qualification are unchanged.
+At the allocation checkpoint, ROOT reported that the first `330:creation` wiring attempt returned HTTP 502, possibly after partial native field changes. That checkpoint recorded native writes halted under `b5c5cbe912a3c2afae2d5bb66bf5026d29bd5c83e1fb2577aeb051f552a5cc50`; reconciliation belongs to ROOT. This checkpoint performs no live queries, allocation readback or native mutations, and makes no claim about those partial fields. No VERIFIED milestone had been delivered at that checkpoint; the later unsealed proof above records the subsequent delivery. The accepted POST-SORCERER prefix remains HELD and all four appends remain root-only pending. Issue #331 remains open; runtime and broader implementation qualification are unchanged.
 
 The three proof stages have different claims:
 
