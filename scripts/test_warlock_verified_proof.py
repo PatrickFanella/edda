@@ -24,9 +24,10 @@ class VerifiedNativeEvidence(unittest.TestCase):
         self.assertEqual(result['final_acceptance'], 'UNQUALIFIED')
         self.assertFalse(result['final_prefix_sealed'])
         self.assertFalse(result['runtime_qualified'])
-        self.assertIsNone(native.ACCEPTED_POST_SORCERER_PREFIXES)
-        with self.assertRaisesRegex(AssertionError, 'accepted POST-SORCERER prefix release pending'):
-            native.validate_native(None, None, None, None)
+        self.assertEqual(set(native.ACCEPTED_POST_SORCERER_PREFIXES), {47, 54, 283, 337})
+        _, proposals, _, _, _, _ = proof.a.load_frozen()
+        with self.assertRaisesRegex(AssertionError, 'exact accepted prefix and pinned own section pending'):
+            native.validate_native(None, proposals[331], self.evidence, self.evidence['snapshot'])
 
     def test_actual_owned_body_parent_edge_and_metadata_drift_fail(self):
         number = self.registry['nodes']['331:hp']['number']

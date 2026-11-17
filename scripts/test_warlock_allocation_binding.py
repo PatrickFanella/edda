@@ -76,12 +76,10 @@ class AllocationBinding(unittest.TestCase):
     def test_allocation_cannot_qualify_wiring_or_final_proof(self):
         with self.assertRaisesRegex(AssertionError, 'requires coordinator VERIFIED'):
             b.a.validate_wiring(None, self.expected, self.baseline, self.registry, {})
-        self.assertIsNone(native.ACCEPTED_POST_SORCERER_PREFIXES)
-        with self.assertRaisesRegex(AssertionError, 'accepted POST-SORCERER prefix release pending'):
-            native.validate_native(None, None, None, None)
+        self.assertEqual(set(native.ACCEPTED_POST_SORCERER_PREFIXES), {47, 54, 283, 337})
         with self.assertRaisesRegex(AssertionError, 'strict proof requires live'):
             scope.validate_publication({}, self.result)
-        with self.assertRaisesRegex(AssertionError, 'ROOT final prefix release pending'):
+        with self.assertRaisesRegex(AssertionError, 'PENDING native publication'):
             scope.validate_publication({}, self.result, live=True)
 
 

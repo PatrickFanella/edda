@@ -366,7 +366,7 @@ def validate_publication(m, receipt, live=False):
         Path(delivery['verified_receipt_path']).read_bytes(), Path(receipt['allocation_delivery']['registry_path']).read_bytes())
     assert exact(registry, receipt['registry']), 'retained actual registry matches immutable delivered bytes'
     plan = json.loads(native.PROPOSAL.read_text())
-    native.validate_proposal(m, plan, baseline, frozen[330])
+    assert exact(plan, frozen[331]), 'unchanged approved proposal; no source regeneration'
     numbers = validate_registry(receipt['registry'], expected, baseline)
     snapshot = native.read_live(numbers, baseline['project'])
     return native.validate_native(m, plan, receipt, snapshot)

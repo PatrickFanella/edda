@@ -15,6 +15,30 @@ The Warlock proposal remains byte-for-byte SHA256 `8d4a8ea724ee8e997093d0e387705
 
 Every registry identity must have exactly `number`, `id` and `node_id`. Numeric identities must be positive JSON integers; booleans and floats fail. All three fields must be unique across the 871 aliases, and issue numbers cannot overlap the baseline. Duplicate JSON fields and nonfinite values fail. The final body preserves all approved body text and trailing newlines, then appends only the exact renderer suffix with actual issue, parent and numerically sorted prerequisite numbers.
 
+## Accepted predecessor and pending ROOT append package
+
+ROOT delivered the accepted POST-SORCERER release after Sorcerer PR #2048 merged as `6936b36af81ca9eec036395c4851c916ae25a8e1`. The exact-byte copy is `issue-331-accepted-post-sorcerer.json`, independently pinned at SHA256 `85f9f6cdcfedb453d3ec7abbaa52042c3cea2f1fb62d57e802b70efa3fbae92d`. Its four complete predecessor bodies and their character/UTF-8 byte counts are checked against literal verifier pins in `warlock_parent_seal.py`. The semantic proposal, allocated identities, source contracts and earlier native evidence are unchanged.
+
+**Preparation status: PENDING_ROOT_ONLY_APPENDS. No final seal has been observed.** The earlier HELD predecessor boundary is superseded by this accepted delivery, but ROOT must still apply the four Warlock sections. `issue-331-pending-root-appends.json` (SHA256 `a27066d3ea03181b3cdcff196b0a5c2c9ab6432db71f5230565d9fb0d93a82fe`) records concrete artifact paths, hashes, marker, expected full-body hashes and capacities.
+
+| ROOT-only artifact | Independently pinned raw section SHA256 | Append chars/bytes | Expected total chars/bytes |
+| --- | --- | --- | --- |
+| `issue-331-append-47.md` | `3ed33bbc6f54d90ecd4c6309500772da424e0bb3245c753ca755623910745d39` | 70 / 70 | 65117 / 65211 |
+| `issue-331-append-54.md` | `4b26cef7c1223c2fcbae56739793ac485c2c7c7ddd6f2ac100c4b434248d536d` | 258 / 258 | 44263 / 44307 |
+| `issue-331-append-283.md` | `d860127155f529fbb1258ab168a392490e41218f08cb1cf80002f44c259bf81e` | 379 / 379 | 32930 / 32970 |
+| `issue-331-append-337.md` | `fc12aed1b22a3a0a252f6866d0ca3e44fa59b6d02171a65ea855e4861986d0a1` | 418 / 418 | 32012 / 32051 |
+
+The marker is independently fixed as `<!-- edda331 -->`. The verifier checks exact predecessor+owned section, then permits later unrelated appends while rejecting repeated own markers, altered marker variants and repeated own payloads with removed or altered markers. Candidate files and matching candidate-controlled receipt/hash/marker changes cannot redefine these literals. Final validation runs these checks on all four native parents and retains every existing wiring/old-owner/DAG/cap requirement. Only these four parent extensions receive this allowance; no other body protection is weakened. The #47 append is below 100 characters; all expected complete bodies are below 65536 in both characters and UTF-8 bytes, leaving 419 characters and 325 bytes on #47.
+
+Six offline controls pass: exact/later unrelated sections, all four rollback/change/partial/duplicate/altered-duplicate cases, coherent section/marker forgery, predecessor/hash forgery, complete synthetic final scaffolding and rejection of the saved unsealed actual receipt. Synthetic positive results are never saved as native evidence. The final proof path compares the proposal to the pinned frozen approval instead of regenerating source. Its accepted predecessor constant is now set from independently validated release bytes; this does not assert that Warlock's sections are live.
+
+```sh
+rtk proxy python3 scripts/warlock_parent_seal.py
+rtk proxy python3 -m unittest discover -s scripts -p 'test_warlock_parent_seal.py' -v
+```
+
+After ROOT supplies its append receipt, collect one fresh sealed native graph/metadata snapshot, preserve it exclusively, and validate it against these independent pins and all existing native requirements. Final hosted head status remains deferred until that actual seal push. ROOT owns native writes, fresh independent review, exact-head CI, merge, closure and the subsequent Wizard release. Runtime implementation remains PAUSED.
+
 ## Unsealed actual-native proof
 
 ROOT's immutable VERIFIED delivery has now been validated independently. A single complete read-only collection from `2026-11-17T06:25:56.471901+00:00` to `2026-11-17T06:26:52.428367+00:00` used 63 bounded GraphQL queries and recorded 1888 graph nodes plus 1096 Project metadata rows. The existing independent `validate_wiring` function passed all 871 complete rendered bodies, titles, database/node identities, OPEN states, exact native parents/prerequisites and Task/M fields; all 1017 baseline protections; dependency/containment DAGs and caps; and the mandatory Warlock paths through 337 and shared roots 279/280.
@@ -69,7 +93,7 @@ The three proof stages have different claims:
 
 1. **Allocation readback:** accepts only a ROOT-delivered immutable IDS_ALLOCATED registry snapshot and sidecar. It validates the complete typed identity map and independently reads real GitHub Issues, full allocation/final bodies, Task/M metadata and permitted partial wiring. Its result explicitly leaves wiring, final prefix and runtime qualification false.
 2. **Wiring readback:** requires the delivered immutable VERIFIED registry snapshot, actual coordinator receipt bytes and the retained allocation delivery. It rereads and hashes both registry snapshots, recomputes the canonical stable nodes-map digest and requires identical identity maps across milestones. It then independently reads all actual native Issues and protected Project metadata. All 871 final bodies, actual database/node identities, titles, parents, exact prerequisites, OPEN states and Task/M fields must match. Every own Task remains mandatory through 337 after decision 331 closes; shared leaves also retain their 279/280 paths. This stage leaves the final prefix and runtime qualification false.
-3. **Final acceptance proof:** additionally requires ROOT's accepted POST-SORCERER prefix release and the four exact ROOT-applied compact supplements. The current prefix constant is deliberately unset. No baseline, status flag, recorded hash, approval reservation or wiring result can fill that release.
+3. **Final acceptance proof:** additionally requires ROOT's accepted POST-SORCERER prefix release and the four exact ROOT-applied compact supplements. The accepted predecessor constant is independently pinned; the actual own sections must still pass live readback. No baseline, status flag, recorded hash, approval reservation or wiring result can fill that release.
 
 The native reader has a fixed 80-call budget, at most 20 issue pages, 100 prerequisites per issue and 25 metadata issues per query. It rejects repeated issue identities or cursors, missing endpoints, truncated prerequisite/Project connections and GraphQL errors. Every subprocess has a 45-second limit. Incoming dependencies, outgoing consumers and native children each retain their 100 cap; dependency and containment cycles are checked separately. No new 429 consumer or 283 child is allowed. All old bodies, titles, parents, prerequisites and protected Project fields remain guarded. Roots 279/280/337 may receive unrelated additive prerequisites while preserving their old edges and the exact five approved owned additions; 183 remains unchanged. Historical parent-body prefixes are preserved during wiring, independently of the later final seal.
 
