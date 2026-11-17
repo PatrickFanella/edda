@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "decision": 273,
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
+  "observed_at": "2026-11-17T07:50:45.437404+00:00",
+  "native_task": {
+    "id": "I_kwDOSicKg88AAAABf9nCeA",
+    "databaseId": 6439944824,
+    "number": 2051,
+    "title": "Cast Disguise Self from an attuned Hat of Disguise",
+    "body": "<!-- edda-273:hat-of-disguise-casting -->\nDecision #273; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 23, 102–106, 124, 206, 224; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only one source identity: Hat of Disguise, worn as headwear by its attuned user. Reuse the actual Disguise Self execution output #1293; do not copy its illusion, physical-inspection or Study/Investigation resolution. This adapter owns the Hat's attunement profile, item-casting operands and removal ending. No other item, learned spell, class admission or unrestricted spell dispatch is enabled.\n\nAttunement follows PDF102–103: physical contact and one focused completed Short Rest, distinct from identification; interruption fails. Use the canonical rest receipt #427. Normal capacity is three items; a different capacity requires an independently qualified source, never an implicit Thief grant. Reject a duplicate copy and a full capacity. Preserve the existing bonds. End this bond on death, another creature's attunement, lost prerequisites where applicable, separation greater than 100 feet for at least 24 hours, or a separate voluntary focused Short Rest unless cursed. A curse or anatomical exception must be authoritative; unknown facts remain unavailable. #1141 remains limited to its four original item identities and is not widened or required as an unrelated effect bundle.\n\nWhile attuned and wearing the Hat, cast its level-one Disguise Self using its normal Action, Self range and one-hour duration. PDF206 supplies the lowest possible spell/caster level, no user slot and no components; the Hat supplies no charge cost or daily cap. Its source has no Concentration requirement. Item permission does not require the Spellcasting feature or the spell on a class list. Preserve the source's ability rule: choose among actual qualified spellcasting abilities; without any such ability use modifier +0 and the user's proficiency bonus. The absence of the Spellcasting feature alone does not erase an ability supplied by a separately qualified trait/feat. Bind the selected ability, PB and DC to the committed cast; changing equipment or choosing a different ability later must not rewrite an existing receipt. The spell ends when this Hat is removed. Consume #1450 for qualified duration/dismissal/stacking behavior; do not invent Light's recast-ending rule for Disguise Self.\n\n## Deterministic fixtures\n\n- A user with no spellcasting ability and PB+2 casts at spell level one: DC = 8 + 0 + 2 = 10, no slot, component, charge or learned-spell grant. The existing #1293 output supplies the actual disguise and Investigation comparison.\n- A user with separately qualified CHA+3, WIS+4 and PB+3 explicitly chooses CHA for DC14 or WIS for DC15. Persist that choice once. A qualified Magic Initiate ability can exist without the Spellcasting feature; do not substitute +0 merely because that feature is absent.\n- One uninterrupted attunement rest succeeds; an interrupted rest, identification-only rest, fourth normal bond, duplicate Hat, unattuned user, unworn Hat, foreign actor/item or unknown curse/anatomy fails without partial changes. Exactly 100 feet alone does not meet the greater-than-100-feet ending predicate; 101 feet for 24 hours does.\n- Removal ends only this Hat's source-bound ongoing casts. Reject an invented higher-slot cast, upcast, Concentration cost, daily recharge, charge destruction, material cost, automatic tactile success or duplicate effect execution. Preserve unrelated effects and independent source instances.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, item ownership, attunement, wearing, ability entitlement, source version, clock and expected revisions. Commit the rest/bond or cast/effect/ending, saved operands and public history atomically. Inject failures after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry/reload/reconnect returns the same receipt; conflicting payload rejects; racing confirmations commit once. A source-triggered ending belongs to its triggering event, with no invented optional activation. Web and trusted TUI share availability and confirmation/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private checks, targets and item facts.\n\nHard prerequisites: #195 item contract, #427 completed Short Rest output, #1293 actual Disguise Self resolver, #1450 duration/dismissal/stack output. Parent: #273. Directly block item qualification #280. This adds an item mode only; #279 already requires the unchanged Disguise Self resolver through the accepted finite shared aggregate. Do not add a new #279, #67 or #429 edge or alter any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+    "state": "OPEN",
+    "issueType": {
+      "name": "Task"
+    },
+    "parent": {
+      "number": 273
+    },
+    "blockedBy": {
+      "pageInfo": {
+        "hasNextPage": false
+      },
+      "nodes": [
+        {
+          "number": 1450
+        },
+        {
+          "number": 1293
+        },
+        {
+          "number": 427
+        },
+        {
+          "number": 195
+        }
+      ]
+    },
+    "projectItems": {
+      "pageInfo": {
+        "hasNextPage": false
+      },
+      "nodes": [
+        {
+          "id": "PVTI_lADODjtmGM4BrFJ2zhJaifE",
+          "project": {
+            "id": "PVT_kwDODjtmGM4BrFJ2"
+          },
+          "fieldValueByName": {
+            "name": "M"
+          }
+        }
+      ]
+    }
+  },
+  "caps": {
+    "nodes": 1889,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "incoming279": 100,
+    "incoming280": 96,
+    "incoming337": 59,
+    "outgoing429": 100,
+    "outgoing285": 82,
+    "children283": 95
+  },
+  "source_clauses": "PASS",
+  "numeric_witnesses": [
+    {
+      "ability": 0,
+      "PB": 2,
+      "DC": 10
+    },
+    {
+      "ability": 3,
+      "PB": 3,
+      "DC": 14
+    },
+    {
+      "ability": 4,
+      "PB": 3,
+      "DC": 15
+    }
+  ],
+  "all_1888_old_graph_contracts_preserved_except_required_280_addition": true,
+  "closure_control": "PASS;2051 remains required by280 and1293 by279 after273closure",
+  "missing_item_qualification_control": "REJECTED;removing280->2051 losesmandatorypath",
+  "native_mutations": 9,
+  "mutation_records": {
+    "journal.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/273-publication/journal.json",
+      "sha256": "8f79bedf13cb4e3e4d7e25912063ae2af81135be279b14a73b8b3190f18c158b"
+    },
+    "preflight-graph.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/273-publication/preflight-graph.json",
+      "sha256": "89b253d85ba87b0f553a5c5b52c9000384e728f468a4a583dce6ce68700d3180"
+    },
+    "final-graph.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/273-publication/final-graph.json",
+      "sha256": "11fc02ea900214cd030e2a1fc8efa7b3ea32c09568b46406610c48fe78dbc9cb"
+    },
+    "result.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/273-publication/result.json",
+      "sha256": "c4b11cb17d4d72dd7a93cbab1215707f38bc3570285361d77aec3ec249de62cb"
+    }
+  },
+  "runtime_qualified": false
+}
