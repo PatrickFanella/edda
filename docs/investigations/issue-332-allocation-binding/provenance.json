@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "IDS_BOUND_NATIVE_READBACK_PENDING",
+  "base_commit": "7bfe904701d4078aac6ca8c88c1343b4006aebc9",
+  "registry_copy": {
+    "path": "IDS_ALLOCATED.registry.json",
+    "sha256": "73d9755cd7181155544f5d79a944bdaf653028425a75b5131b9adef1faf76392",
+    "original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/IDS_ALLOCATED.registry.json"
+  },
+  "milestone_copy": {
+    "path": "ids-allocated-milestone.json",
+    "sha256": "4ada8b216c27369df0cca9304d4ec5f4f556035362ee0c3d26ebef8d21fdf9a6",
+    "original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/ids-allocated-milestone.json"
+  },
+  "binding": {
+    "path": "wizard-bindings.json",
+    "sha256": "2853d05cf5bd61c50ab604a07fdc3a7f6d7f366cd8fd86e5c544b0fa96a3417c",
+    "registry_sha256_meaning": "build_binding normalized JSON digest; original byte digest is registry_copy.sha256"
+  },
+  "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+  "observed_at": "2026-11-17T01:44:25.687122+00:00",
+  "milestone_contract_sha256": "58c5aacb2a3e73b759dff6b98316661fb6bd9870b95e5c7fa9a0d39e7ee736ba",
+  "actual_native_collected": false,
+  "wiring_status": "UNQUALIFIED; ROOT reconciliation pending after first WIRING HTTP502",
+  "root_halt_sha256": "b5c5cbe912a3c2afae2d5bb66bf5026d29bd5c83e1fb2577aeb051f552a5cc50",
+  "verified_milestone": null,
+  "native_proof_status": "PENDING",
+  "accepted_parent_prefix": null,
+  "final_prefix_status": "PENDING; no accepted POST-WARLOCK prefix supplied",
+  "parent_supplements_status": "PENDING ROOT-only serial application for #47, #54, #283, #337",
+  "runtime_status": "UNQUALIFIED"
+}
