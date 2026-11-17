@@ -1,22 +1,30 @@
 {
   "47": {
-    "status": "PENDING root-only publication",
+    "status": "PUBLISHED; ROOT serial append and exact live readback PASS",
     "limit": 70,
-    "text": "Sorcerer330: bounded execution gates pending; no class support."
+    "marker": "<!-- edda-330 -->",
+    "text": "\n\n<!-- edda-330 -->\nSorcerer #330: 305 Tasks; runtime unavailable.\n",
+    "sha256": "d78127873f03867b6d9b233435d246c8589831dc1380ea942871dc578c4800f9"
   },
   "54": {
-    "status": "PENDING root-only publication",
+    "status": "PUBLISHED; ROOT serial append and exact live readback PASS",
     "limit": 750,
-    "text": "Sorcerer #330 audits103source records/all20rows and defines67class leaves,211shared leaves and27qualification nodes. Runtime remains unavailable. Exact shared effects require finite cohorts and the reserved330/331/332shared-output aggregate to279/280, plus own class qualification to337. All existing edges remain mandatory. Native publication/combined foreign approval/final seal PENDING."
+    "marker": "<!-- edda-330 -->",
+    "text": "\n\n<!-- edda-330 -->\nSorcerer #330 reconciles 103 source records, 278 mechanic/option contexts and all20 class rows. Its305 Task/M contracts (67 class,211 shared,27 qualification) are natively published and remain OPEN. One frozen coordinator also published331/332 contracts through the exact three-output aggregate to279/280. Source-only decisions and Task closure confer no runtime support. Printed-list/header conflicts and unbound variants remain unavailable.\n",
+    "sha256": "dc53871545bdc4eb173e791ea6a25c7398a6701e97bb1c3b73bf189c0b78977a"
   },
   "283": {
-    "status": "PENDING root-only publication",
+    "status": "PUBLISHED; ROOT serial append and exact live readback PASS",
     "limit": 750,
-    "text": "Sorcerer #330 keeps qualification beneath330: distinct predicates, creation/proficiencies/equipment/choices, ownD6/fixed4HP\u2192968, multiclass-slot adapter, features/subclass/repeated improvements, resources/recovery and20applications. Source285/487outputs use finite qualification-only gateways; old primitives unchanged. No283children added. Unknown variants and disputed list admissions unavailable. Native publication/final seal PENDING."
+    "marker": "<!-- edda-330 -->",
+    "text": "\n\n<!-- edda-330 -->\nSorcerer #330 keeps qualification under330; no new283 child. Separate predicates, creation/proficiencies/equipment/choices, D6/fixed4 HP via968, multiclass/slots, subclass, repeated improvements, resources/recovery and all20 adjacent applications retain distinct owners. Exact source285 and487 outputs use finite qualification-only gateways. All305 Tasks are OPEN; class/runtime support remains unavailable until actual implementation outputs qualify.\n",
+    "sha256": "a2fac40d2e2df2b7e5e7f296dc2ffce59db432bfd85970087db3b2f7f49687ac"
   },
   "337": {
-    "status": "PENDING root-only publication",
+    "status": "PUBLISHED; ROOT serial append and exact live readback PASS",
     "limit": 750,
-    "text": "Sorcerer #330 cannot satisfy character qualification by decision closure. Require every exact class/level leaf through own class gate; every shared execution leaf also through finite cohorts/class-shared output\u2192reserved330/331/332aggregate\u2192279/280. OwnHP consumes968,never a new direct429edge. Full native body/title/parent/blocked-by/Task/ProjectSize, threecaps and separateDAG proof plus acceptedPOST-ROGUEprefix seals are PENDING."
+    "marker": "<!-- edda-330 -->",
+    "text": "\n\n<!-- edda-330 -->\nSorcerer #330 decision closure cannot bypass implementation gates. Every exact class/level output reaches own qualification; every shared output also reaches finite cohorts, its class-shared head and the330/331/332 aggregate to279/280. Frozen source bodies, real IDs/parents/prerequisites/Task/M, both DAGs, all3 caps and historical paths passed native readback. No183 mutation, new429 consumer or283 child. Runtime, production grants, deploy and FullRules remain unavailable.\n",
+    "sha256": "de8c3777066dca5e8495069a5927f6243ec08d9e0deb72c8e8b0be0e58926461"
   }
 }

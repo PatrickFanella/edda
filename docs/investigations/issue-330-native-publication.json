@@ -1,0 +1,1666 @@
+{
+  "status": "VERIFIED mechanical source publication and final parent seal PASS; independent PR acceptance/CI/merge pending",
+  "own_issues": {
+    "330:hp": {
+      "number": 1173,
+      "id": 6431781781,
+      "node_id": "I_kwDOSicKg88AAAABf10zlQ"
+    },
+    "330:predicates": {
+      "number": 1174,
+      "id": 6431782679,
+      "node_id": "I_kwDOSicKg88AAAABf103Fw"
+    },
+    "330:creation": {
+      "number": 1175,
+      "id": 6431783589,
+      "node_id": "I_kwDOSicKg88AAAABf106pQ"
+    },
+    "330:proficiencies": {
+      "number": 1176,
+      "id": 6431784792,
+      "node_id": "I_kwDOSicKg88AAAABf10_WA"
+    },
+    "330:equipment": {
+      "number": 1177,
+      "id": 6431785705,
+      "node_id": "I_kwDOSicKg88AAAABf11C6Q"
+    },
+    "330:later-entry": {
+      "number": 1178,
+      "id": 6431786522,
+      "node_id": "I_kwDOSicKg88AAAABf11GGg"
+    },
+    "330:spellcasting": {
+      "number": 1179,
+      "id": 6431787853,
+      "node_id": "I_kwDOSicKg88AAAABf11LTQ"
+    },
+    "330:cantrips": {
+      "number": 1180,
+      "id": 6431788747,
+      "node_id": "I_kwDOSicKg88AAAABf11Oyw"
+    },
+    "330:preparation": {
+      "number": 1181,
+      "id": 6431804028,
+      "node_id": "I_kwDOSicKg88AAAABf12KfA"
+    },
+    "330:slots": {
+      "number": 1182,
+      "id": 6431805768,
+      "node_id": "I_kwDOSicKg88AAAABf12RSA"
+    },
+    "330:points": {
+      "number": 1183,
+      "id": 6431806778,
+      "node_id": "I_kwDOSicKg88AAAABf12VOg"
+    },
+    "330:slot-to-points": {
+      "number": 1184,
+      "id": 6431807957,
+      "node_id": "I_kwDOSicKg88AAAABf12Z1Q"
+    },
+    "330:points-to-slot": {
+      "number": 1185,
+      "id": 6431808921,
+      "node_id": "I_kwDOSicKg88AAAABf12dmQ"
+    },
+    "330:created-slot-ending": {
+      "number": 1186,
+      "id": 6431809877,
+      "node_id": "I_kwDOSicKg88AAAABf12hVQ"
+    },
+    "330:innate-activation": {
+      "number": 1187,
+      "id": 6431810725,
+      "node_id": "I_kwDOSicKg88AAAABf12kpQ"
+    },
+    "330:innate-benefits": {
+      "number": 1188,
+      "id": 6431811633,
+      "node_id": "I_kwDOSicKg88AAAABf12oMQ"
+    },
+    "330:innate-recovery": {
+      "number": 1189,
+      "id": 6431812654,
+      "node_id": "I_kwDOSicKg88AAAABf12sLg"
+    },
+    "330:metamagic-selection": {
+      "number": 1190,
+      "id": 6431813475,
+      "node_id": "I_kwDOSicKg88AAAABf12vYw"
+    },
+    "330:metamagic-combination": {
+      "number": 1191,
+      "id": 6431814485,
+      "node_id": "I_kwDOSicKg88AAAABf12zVQ"
+    },
+    "330:sorcerer-subclass": {
+      "number": 1192,
+      "id": 6431815474,
+      "node_id": "I_kwDOSicKg88AAAABf123Mg"
+    },
+    "330:ability-score-improvement": {
+      "number": 1193,
+      "id": 6431816517,
+      "node_id": "I_kwDOSicKg88AAAABf127RQ"
+    },
+    "330:sorcerous-restoration": {
+      "number": 1194,
+      "id": 6431817434,
+      "node_id": "I_kwDOSicKg88AAAABf12-2g"
+    },
+    "330:restoration-reset": {
+      "number": 1195,
+      "id": 6431818494,
+      "node_id": "I_kwDOSicKg88AAAABf13C_g"
+    },
+    "330:incarnate-activation": {
+      "number": 1196,
+      "id": 6431819988,
+      "node_id": "I_kwDOSicKg88AAAABf13I1A"
+    },
+    "330:incarnate-combination": {
+      "number": 1197,
+      "id": 6431821012,
+      "node_id": "I_kwDOSicKg88AAAABf13M1A"
+    },
+    "330:epic-boon": {
+      "number": 1198,
+      "id": 6431822223,
+      "node_id": "I_kwDOSicKg88AAAABf13Rjw"
+    },
+    "330:arcane-apotheosis": {
+      "number": 1199,
+      "id": 6431823710,
+      "node_id": "I_kwDOSicKg88AAAABf13XXg"
+    },
+    "330:draconic-hp": {
+      "number": 1200,
+      "id": 6431825087,
+      "node_id": "I_kwDOSicKg88AAAABf13cvw"
+    },
+    "330:draconic-ac": {
+      "number": 1201,
+      "id": 6431826287,
+      "node_id": "I_kwDOSicKg88AAAABf13hbw"
+    },
+    "330:draconic-spells": {
+      "number": 1202,
+      "id": 6431827180,
+      "node_id": "I_kwDOSicKg88AAAABf13k7A"
+    },
+    "330:elemental-affinity": {
+      "number": 1203,
+      "id": 6431828104,
+      "node_id": "I_kwDOSicKg88AAAABf13oiA"
+    },
+    "330:affinity-damage": {
+      "number": 1204,
+      "id": 6431829357,
+      "node_id": "I_kwDOSicKg88AAAABf13tbQ"
+    },
+    "330:dragon-wings": {
+      "number": 1205,
+      "id": 6431830517,
+      "node_id": "I_kwDOSicKg88AAAABf13x9Q"
+    },
+    "330:wings-recovery": {
+      "number": 1206,
+      "id": 6431831492,
+      "node_id": "I_kwDOSicKg88AAAABf131xA"
+    },
+    "330:companion-casting": {
+      "number": 1207,
+      "id": 6431832869,
+      "node_id": "I_kwDOSicKg88AAAABf137JQ"
+    },
+    "330:companion-modification": {
+      "number": 1208,
+      "id": 6431833892,
+      "node_id": "I_kwDOSicKg88AAAABf13_JA"
+    },
+    "330:careful-spell": {
+      "number": 1209,
+      "id": 6431834980,
+      "node_id": "I_kwDOSicKg88AAAABf14DZA"
+    },
+    "330:distant-spell": {
+      "number": 1210,
+      "id": 6431836031,
+      "node_id": "I_kwDOSicKg88AAAABf14Hfw"
+    },
+    "330:empowered-spell": {
+      "number": 1211,
+      "id": 6431837096,
+      "node_id": "I_kwDOSicKg88AAAABf14LqA"
+    },
+    "330:extended-spell": {
+      "number": 1212,
+      "id": 6431838034,
+      "node_id": "I_kwDOSicKg88AAAABf14PUg"
+    },
+    "330:heightened-spell": {
+      "number": 1213,
+      "id": 6431839152,
+      "node_id": "I_kwDOSicKg88AAAABf14TsA"
+    },
+    "330:quickened-spell": {
+      "number": 1214,
+      "id": 6431840329,
+      "node_id": "I_kwDOSicKg88AAAABf14YSQ"
+    },
+    "330:seeking-spell": {
+      "number": 1215,
+      "id": 6431841220,
+      "node_id": "I_kwDOSicKg88AAAABf14bxA"
+    },
+    "330:subtle-spell": {
+      "number": 1216,
+      "id": 6431842073,
+      "node_id": "I_kwDOSicKg88AAAABf14fGQ"
+    },
+    "330:transmuted-spell": {
+      "number": 1217,
+      "id": 6431842934,
+      "node_id": "I_kwDOSicKg88AAAABf14idg"
+    },
+    "330:twinned-spell": {
+      "number": 1218,
+      "id": 6431843911,
+      "node_id": "I_kwDOSicKg88AAAABf14mRw"
+    },
+    "330:multiclass-slots": {
+      "number": 1219,
+      "id": 6431844857,
+      "node_id": "I_kwDOSicKg88AAAABf14p-Q"
+    },
+    "330:level-1": {
+      "number": 1220,
+      "id": 6431846012,
+      "node_id": "I_kwDOSicKg88AAAABf14ufA"
+    },
+    "330:level-2": {
+      "number": 1221,
+      "id": 6431847003,
+      "node_id": "I_kwDOSicKg88AAAABf14yWw"
+    },
+    "330:level-3": {
+      "number": 1222,
+      "id": 6431847909,
+      "node_id": "I_kwDOSicKg88AAAABf1415Q"
+    },
+    "330:level-4": {
+      "number": 1223,
+      "id": 6431848849,
+      "node_id": "I_kwDOSicKg88AAAABf145kQ"
+    },
+    "330:level-5": {
+      "number": 1224,
+      "id": 6431849786,
+      "node_id": "I_kwDOSicKg88AAAABf149Og"
+    },
+    "330:level-6": {
+      "number": 1225,
+      "id": 6431850928,
+      "node_id": "I_kwDOSicKg88AAAABf15BsA"
+    },
+    "330:level-7": {
+      "number": 1226,
+      "id": 6431852419,
+      "node_id": "I_kwDOSicKg88AAAABf15Hgw"
+    },
+    "330:level-8": {
+      "number": 1227,
+      "id": 6431853416,
+      "node_id": "I_kwDOSicKg88AAAABf15LaA"
+    },
+    "330:level-9": {
+      "number": 1228,
+      "id": 6431854649,
+      "node_id": "I_kwDOSicKg88AAAABf15QOQ"
+    },
+    "330:level-10": {
+      "number": 1229,
+      "id": 6431855544,
+      "node_id": "I_kwDOSicKg88AAAABf15TuA"
+    },
+    "330:level-11": {
+      "number": 1230,
+      "id": 6431856767,
+      "node_id": "I_kwDOSicKg88AAAABf15Yfw"
+    },
+    "330:level-12": {
+      "number": 1231,
+      "id": 6431858456,
+      "node_id": "I_kwDOSicKg88AAAABf15fGA"
+    },
+    "330:level-13": {
+      "number": 1232,
+      "id": 6431859724,
+      "node_id": "I_kwDOSicKg88AAAABf15kDA"
+    },
+    "330:level-14": {
+      "number": 1233,
+      "id": 6431860800,
+      "node_id": "I_kwDOSicKg88AAAABf15oQA"
+    },
+    "330:level-15": {
+      "number": 1234,
+      "id": 6431861990,
+      "node_id": "I_kwDOSicKg88AAAABf15s5g"
+    },
+    "330:level-16": {
+      "number": 1235,
+      "id": 6431862944,
+      "node_id": "I_kwDOSicKg88AAAABf15woA"
+    },
+    "330:level-17": {
+      "number": 1236,
+      "id": 6431864002,
+      "node_id": "I_kwDOSicKg88AAAABf150wg"
+    },
+    "330:level-18": {
+      "number": 1237,
+      "id": 6431864786,
+      "node_id": "I_kwDOSicKg88AAAABf1530g"
+    },
+    "330:level-19": {
+      "number": 1238,
+      "id": 6431865666,
+      "node_id": "I_kwDOSicKg88AAAABf157Qg"
+    },
+    "330:level-20": {
+      "number": 1239,
+      "id": 6431866831,
+      "node_id": "I_kwDOSicKg88AAAABf15_zw"
+    },
+    "330:spell-alter-self-appearance": {
+      "number": 1240,
+      "id": 6431867837,
+      "node_id": "I_kwDOSicKg88AAAABf16DvQ"
+    },
+    "330:spell-alter-self-aquatic": {
+      "number": 1241,
+      "id": 6431869280,
+      "node_id": "I_kwDOSicKg88AAAABf16JYA"
+    },
+    "330:spell-alter-self-natural-weapons": {
+      "number": 1242,
+      "id": 6431870690,
+      "node_id": "I_kwDOSicKg88AAAABf16O4g"
+    },
+    "330:spell-animate-objects-summon-scaling": {
+      "number": 1243,
+      "id": 6431871854,
+      "node_id": "I_kwDOSicKg88AAAABf16Tbg"
+    },
+    "330:spell-animate-objects-initiative-commands": {
+      "number": 1244,
+      "id": 6431872915,
+      "node_id": "I_kwDOSicKg88AAAABf16Xkw"
+    },
+    "330:spell-animate-objects-actions": {
+      "number": 1245,
+      "id": 6431873895,
+      "node_id": "I_kwDOSicKg88AAAABf16bZw"
+    },
+    "330:spell-animate-objects-ending": {
+      "number": 1246,
+      "id": 6431874791,
+      "node_id": "I_kwDOSicKg88AAAABf16e5w"
+    },
+    "330:spell-arcane-eye-sensor": {
+      "number": 1247,
+      "id": 6431875892,
+      "node_id": "I_kwDOSicKg88AAAABf16jNA"
+    },
+    "330:spell-arcane-eye-movement-disclosure": {
+      "number": 1248,
+      "id": 6431876856,
+      "node_id": "I_kwDOSicKg88AAAABf16m-A"
+    },
+    "330:spell-arcane-hand-manifest-scaling": {
+      "number": 1249,
+      "id": 6431878009,
+      "node_id": "I_kwDOSicKg88AAAABf16reQ"
+    },
+    "330:spell-arcane-hand-clenched-fist": {
+      "number": 1250,
+      "id": 6431879040,
+      "node_id": "I_kwDOSicKg88AAAABf16vgA"
+    },
+    "330:spell-arcane-hand-forceful-hand": {
+      "number": 1251,
+      "id": 6431880229,
+      "node_id": "I_kwDOSicKg88AAAABf160JQ"
+    },
+    "330:spell-arcane-hand-grasping-hand": {
+      "number": 1252,
+      "id": 6431881177,
+      "node_id": "I_kwDOSicKg88AAAABf1632Q"
+    },
+    "330:spell-arcane-hand-interposing-hand": {
+      "number": 1253,
+      "id": 6431882347,
+      "node_id": "I_kwDOSicKg88AAAABf168aw"
+    },
+    "330:spell-arcane-hand-ending": {
+      "number": 1254,
+      "id": 6431883181,
+      "node_id": "I_kwDOSicKg88AAAABf16_rQ"
+    },
+    "330:spell-blindness-deafness-admission": {
+      "number": 1255,
+      "id": 6431884188,
+      "node_id": "I_kwDOSicKg88AAAABf17DnA"
+    },
+    "330:spell-blindness-deafness-repeat-save-ending": {
+      "number": 1256,
+      "id": 6431885203,
+      "node_id": "I_kwDOSicKg88AAAABf17Hkw"
+    },
+    "330:spell-blink-roll-plane-transition": {
+      "number": 1257,
+      "id": 6431886274,
+      "node_id": "I_kwDOSicKg88AAAABf17Lwg"
+    },
+    "330:spell-blink-return-ending": {
+      "number": 1258,
+      "id": 6431887201,
+      "node_id": "I_kwDOSicKg88AAAABf17PYQ"
+    },
+    "330:spell-chain-lightning-targets-damage": {
+      "number": 1259,
+      "id": 6431888395,
+      "node_id": "I_kwDOSicKg88AAAABf17UCw"
+    },
+    "330:spell-charm-monster-charm": {
+      "number": 1260,
+      "id": 6431889429,
+      "node_id": "I_kwDOSicKg88AAAABf17YFQ"
+    },
+    "330:spell-charm-monster-ending-awareness": {
+      "number": 1261,
+      "id": 6431890328,
+      "node_id": "I_kwDOSicKg88AAAABf17bmA"
+    },
+    "330:spell-charm-person-charm": {
+      "number": 1262,
+      "id": 6431891675,
+      "node_id": "I_kwDOSicKg88AAAABf17g2w"
+    },
+    "330:spell-charm-person-ending-awareness": {
+      "number": 1263,
+      "id": 6431892903,
+      "node_id": "I_kwDOSicKg88AAAABf17lpw"
+    },
+    "330:spell-chill-touch-effect": {
+      "number": 1264,
+      "id": 6431893819,
+      "node_id": "I_kwDOSicKg88AAAABf17pOw"
+    },
+    "330:spell-chromatic-orb-damage": {
+      "number": 1265,
+      "id": 6431894913,
+      "node_id": "I_kwDOSicKg88AAAABf17tgQ"
+    },
+    "330:spell-chromatic-orb-bounce": {
+      "number": 1266,
+      "id": 6431895862,
+      "node_id": "I_kwDOSicKg88AAAABf17xNg"
+    },
+    "330:spell-circle-of-death-effect": {
+      "number": 1267,
+      "id": 6431896913,
+      "node_id": "I_kwDOSicKg88AAAABf171UQ"
+    },
+    "330:spell-clairvoyance-sensor": {
+      "number": 1268,
+      "id": 6431897851,
+      "node_id": "I_kwDOSicKg88AAAABf174-w"
+    },
+    "330:spell-clairvoyance-sense-choice-disclosure": {
+      "number": 1269,
+      "id": 6431899027,
+      "node_id": "I_kwDOSicKg88AAAABf179kw"
+    },
+    "330:spell-cloudkill-area-movement": {
+      "number": 1270,
+      "id": 6431899975,
+      "node_id": "I_kwDOSicKg88AAAABf18BRw"
+    },
+    "330:spell-cloudkill-damage-events": {
+      "number": 1271,
+      "id": 6431900936,
+      "node_id": "I_kwDOSicKg88AAAABf18FCA"
+    },
+    "330:spell-color-spray-effect": {
+      "number": 1272,
+      "id": 6431901923,
+      "node_id": "I_kwDOSicKg88AAAABf18I4w"
+    },
+    "330:spell-comprehend-languages-effect": {
+      "number": 1273,
+      "id": 6431902788,
+      "node_id": "I_kwDOSicKg88AAAABf18MRA"
+    },
+    "330:spell-confusion-admission": {
+      "number": 1274,
+      "id": 6431903825,
+      "node_id": "I_kwDOSicKg88AAAABf18QUQ"
+    },
+    "330:spell-confusion-turn-table": {
+      "number": 1275,
+      "id": 6431904800,
+      "node_id": "I_kwDOSicKg88AAAABf18UIA"
+    },
+    "330:spell-confusion-ending": {
+      "number": 1276,
+      "id": 6431905989,
+      "node_id": "I_kwDOSicKg88AAAABf18YxQ"
+    },
+    "330:spell-counterspell-player-and-general-casting-trigger": {
+      "number": 1277,
+      "id": 6431906965,
+      "node_id": "I_kwDOSicKg88AAAABf18clQ"
+    },
+    "330:spell-counterspell-save-cost-resume": {
+      "number": 1278,
+      "id": 6431908032,
+      "node_id": "I_kwDOSicKg88AAAABf18gwA"
+    },
+    "330:spell-creation-object-material": {
+      "number": 1279,
+      "id": 6431908938,
+      "node_id": "I_kwDOSicKg88AAAABf18kSg"
+    },
+    "330:spell-creation-duration-ending": {
+      "number": 1280,
+      "id": 6431909899,
+      "node_id": "I_kwDOSicKg88AAAABf18oCw"
+    },
+    "330:spell-dancing-lights-effect": {
+      "number": 1281,
+      "id": 6431911130,
+      "node_id": "I_kwDOSicKg88AAAABf18s2g"
+    },
+    "330:spell-darkness-effect": {
+      "number": 1282,
+      "id": 6431912100,
+      "node_id": "I_kwDOSicKg88AAAABf18wpA"
+    },
+    "330:spell-delayed-blast-fireball-bead-growth": {
+      "number": 1283,
+      "id": 6431913220,
+      "node_id": "I_kwDOSicKg88AAAABf181BA"
+    },
+    "330:spell-delayed-blast-fireball-touch-detonation": {
+      "number": 1284,
+      "id": 6431914359,
+      "node_id": "I_kwDOSicKg88AAAABf185dw"
+    },
+    "330:spell-delayed-blast-fireball-ending-damage": {
+      "number": 1285,
+      "id": 6431915376,
+      "node_id": "I_kwDOSicKg88AAAABf189cA"
+    },
+    "330:spell-demiplane-door": {
+      "number": 1286,
+      "id": 6431916421,
+      "node_id": "I_kwDOSicKg88AAAABf19BhQ"
+    },
+    "330:spell-demiplane-persistent-room-access": {
+      "number": 1287,
+      "id": 6431917379,
+      "node_id": "I_kwDOSicKg88AAAABf19FQw"
+    },
+    "330:spell-detect-thoughts-detection-ending": {
+      "number": 1288,
+      "id": 6431918357,
+      "node_id": "I_kwDOSicKg88AAAABf19JFQ"
+    },
+    "330:spell-detect-thoughts-surface": {
+      "number": 1289,
+      "id": 6431919399,
+      "node_id": "I_kwDOSicKg88AAAABf19NJw"
+    },
+    "330:spell-detect-thoughts-probe": {
+      "number": 1290,
+      "id": 6431920571,
+      "node_id": "I_kwDOSicKg88AAAABf19Ruw"
+    },
+    "330:spell-dimension-door-transport": {
+      "number": 1291,
+      "id": 6431921473,
+      "node_id": "I_kwDOSicKg88AAAABf19VQQ"
+    },
+    "330:spell-dimension-door-blocked-arrival": {
+      "number": 1292,
+      "id": 6431922676,
+      "node_id": "I_kwDOSicKg88AAAABf19Z9A"
+    },
+    "330:spell-disguise-self-effect": {
+      "number": 1293,
+      "id": 6431923758,
+      "node_id": "I_kwDOSicKg88AAAABf19eLg"
+    },
+    "330:spell-disintegrate-creature": {
+      "number": 1294,
+      "id": 6431924759,
+      "node_id": "I_kwDOSicKg88AAAABf19iFw"
+    },
+    "330:spell-disintegrate-object-force": {
+      "number": 1295,
+      "id": 6431925692,
+      "node_id": "I_kwDOSicKg88AAAABf19lvA"
+    },
+    "330:spell-dominate-monster-charm": {
+      "number": 1296,
+      "id": 6431926830,
+      "node_id": "I_kwDOSicKg88AAAABf19qLg"
+    },
+    "330:spell-dominate-monster-commands": {
+      "number": 1297,
+      "id": 6431928051,
+      "node_id": "I_kwDOSicKg88AAAABf19u8w"
+    },
+    "330:spell-dominate-monster-ending": {
+      "number": 1298,
+      "id": 6431929551,
+      "node_id": "I_kwDOSicKg88AAAABf190zw"
+    },
+    "330:spell-dominate-person-charm": {
+      "number": 1299,
+      "id": 6431930477,
+      "node_id": "I_kwDOSicKg88AAAABf194bQ"
+    },
+    "330:spell-dominate-person-commands": {
+      "number": 1300,
+      "id": 6431931511,
+      "node_id": "I_kwDOSicKg88AAAABf198dw"
+    },
+    "330:spell-dominate-person-ending": {
+      "number": 1301,
+      "id": 6431932553,
+      "node_id": "I_kwDOSicKg88AAAABf1-AiQ"
+    },
+    "330:spell-dragons-breath-grant": {
+      "number": 1302,
+      "id": 6431933323,
+      "node_id": "I_kwDOSicKg88AAAABf1-Diw"
+    },
+    "330:spell-dragons-breath-breath-action": {
+      "number": 1303,
+      "id": 6431934536,
+      "node_id": "I_kwDOSicKg88AAAABf1-ISA"
+    },
+    "330:spell-earthquake-area-events": {
+      "number": 1304,
+      "id": 6431935466,
+      "node_id": "I_kwDOSicKg88AAAABf1-L6g"
+    },
+    "330:spell-earthquake-fissures": {
+      "number": 1305,
+      "id": 6431936567,
+      "node_id": "I_kwDOSicKg88AAAABf1-QNw"
+    },
+    "330:spell-earthquake-structures": {
+      "number": 1306,
+      "id": 6431937848,
+      "node_id": "I_kwDOSicKg88AAAABf1-VOA"
+    },
+    "330:spell-enlarge-reduce-enlarge": {
+      "number": 1307,
+      "id": 6431938746,
+      "node_id": "I_kwDOSicKg88AAAABf1-Yug"
+    },
+    "330:spell-enlarge-reduce-reduce": {
+      "number": 1308,
+      "id": 6431939836,
+      "node_id": "I_kwDOSicKg88AAAABf1-c_A"
+    },
+    "330:spell-enlarge-reduce-gear-ending": {
+      "number": 1309,
+      "id": 6431940821,
+      "node_id": "I_kwDOSicKg88AAAABf1-g1Q"
+    },
+    "330:spell-etherealness-plane-transition": {
+      "number": 1310,
+      "id": 6431941699,
+      "node_id": "I_kwDOSicKg88AAAABf1-kQw"
+    },
+    "330:spell-etherealness-movement-perception": {
+      "number": 1311,
+      "id": 6431942785,
+      "node_id": "I_kwDOSicKg88AAAABf1-ogQ"
+    },
+    "330:spell-etherealness-return-ending": {
+      "number": 1312,
+      "id": 6431943747,
+      "node_id": "I_kwDOSicKg88AAAABf1-sQw"
+    },
+    "330:spell-expeditious-retreat-effect": {
+      "number": 1313,
+      "id": 6431944772,
+      "node_id": "I_kwDOSicKg88AAAABf1-wRA"
+    },
+    "330:spell-eyebite-repeat-target-ending": {
+      "number": 1314,
+      "id": 6431945857,
+      "node_id": "I_kwDOSicKg88AAAABf1-0gQ"
+    },
+    "330:spell-eyebite-asleep": {
+      "number": 1315,
+      "id": 6431946760,
+      "node_id": "I_kwDOSicKg88AAAABf1-4CA"
+    },
+    "330:spell-eyebite-panicked": {
+      "number": 1316,
+      "id": 6431948285,
+      "node_id": "I_kwDOSicKg88AAAABf1-9_Q"
+    },
+    "330:spell-eyebite-sickened": {
+      "number": 1317,
+      "id": 6431949288,
+      "node_id": "I_kwDOSicKg88AAAABf1_B6A"
+    },
+    "330:spell-false-life-effect": {
+      "number": 1318,
+      "id": 6431950220,
+      "node_id": "I_kwDOSicKg88AAAABf1_FjA"
+    },
+    "330:spell-fear-admission": {
+      "number": 1319,
+      "id": 6431951166,
+      "node_id": "I_kwDOSicKg88AAAABf1_JPg"
+    },
+    "330:spell-fear-movement-ending": {
+      "number": 1320,
+      "id": 6431952471,
+      "node_id": "I_kwDOSicKg88AAAABf1_OVw"
+    },
+    "330:spell-feather-fall-effect": {
+      "number": 1321,
+      "id": 6431953324,
+      "node_id": "I_kwDOSicKg88AAAABf1_RrA"
+    },
+    "330:spell-finger-of-death-damage": {
+      "number": 1322,
+      "id": 6431954621,
+      "node_id": "I_kwDOSicKg88AAAABf1_WvQ"
+    },
+    "330:spell-finger-of-death-zombie-creation-control": {
+      "number": 1323,
+      "id": 6431955750,
+      "node_id": "I_kwDOSicKg88AAAABf1_bJg"
+    },
+    "330:spell-fire-shield-choice-resistance": {
+      "number": 1324,
+      "id": 6431956892,
+      "node_id": "I_kwDOSicKg88AAAABf1_fnA"
+    },
+    "330:spell-fire-shield-reactive-damage": {
+      "number": 1325,
+      "id": 6431958063,
+      "node_id": "I_kwDOSicKg88AAAABf1_kLw"
+    },
+    "330:spell-fire-storm-effect": {
+      "number": 1326,
+      "id": 6431959129,
+      "node_id": "I_kwDOSicKg88AAAABf1_oWQ"
+    },
+    "330:spell-flame-blade-manifest": {
+      "number": 1327,
+      "id": 6431960244,
+      "node_id": "I_kwDOSicKg88AAAABf1_stA"
+    },
+    "330:spell-flame-blade-attack": {
+      "number": 1328,
+      "id": 6431961285,
+      "node_id": "I_kwDOSicKg88AAAABf1_wxQ"
+    },
+    "330:spell-flaming-sphere-placement": {
+      "number": 1329,
+      "id": 6431962282,
+      "node_id": "I_kwDOSicKg88AAAABf1_0qg"
+    },
+    "330:spell-flaming-sphere-movement-damage": {
+      "number": 1330,
+      "id": 6431963236,
+      "node_id": "I_kwDOSicKg88AAAABf1_4ZA"
+    },
+    "330:spell-flaming-sphere-ending": {
+      "number": 1331,
+      "id": 6431964277,
+      "node_id": "I_kwDOSicKg88AAAABf1_8dQ"
+    },
+    "330:spell-flesh-to-stone-restraint": {
+      "number": 1332,
+      "id": 6431965475,
+      "node_id": "I_kwDOSicKg88AAAABf2ABIw"
+    },
+    "330:spell-flesh-to-stone-repeat-saves": {
+      "number": 1333,
+      "id": 6431966410,
+      "node_id": "I_kwDOSicKg88AAAABf2AEyg"
+    },
+    "330:spell-flesh-to-stone-petrification-ending": {
+      "number": 1334,
+      "id": 6431967391,
+      "node_id": "I_kwDOSicKg88AAAABf2AInw"
+    },
+    "330:spell-fly-speed": {
+      "number": 1335,
+      "id": 6431968265,
+      "node_id": "I_kwDOSicKg88AAAABf2AMCQ"
+    },
+    "330:spell-fly-ending-fall": {
+      "number": 1336,
+      "id": 6431969250,
+      "node_id": "I_kwDOSicKg88AAAABf2AP4g"
+    },
+    "330:spell-freezing-sphere-burst": {
+      "number": 1337,
+      "id": 6431970509,
+      "node_id": "I_kwDOSicKg88AAAABf2AUzQ"
+    },
+    "330:spell-freezing-sphere-water": {
+      "number": 1338,
+      "id": 6431971418,
+      "node_id": "I_kwDOSicKg88AAAABf2AYWg"
+    },
+    "330:spell-freezing-sphere-delayed-globe": {
+      "number": 1339,
+      "id": 6431972398,
+      "node_id": "I_kwDOSicKg88AAAABf2AcLg"
+    },
+    "330:spell-gaseous-form-transform": {
+      "number": 1340,
+      "id": 6431973373,
+      "node_id": "I_kwDOSicKg88AAAABf2Af_Q"
+    },
+    "330:spell-gaseous-form-movement-restrictions": {
+      "number": 1341,
+      "id": 6431974665,
+      "node_id": "I_kwDOSicKg88AAAABf2AlCQ"
+    },
+    "330:spell-gaseous-form-ending": {
+      "number": 1342,
+      "id": 6431975816,
+      "node_id": "I_kwDOSicKg88AAAABf2ApiA"
+    },
+    "330:spell-gate-portal": {
+      "number": 1343,
+      "id": 6431976938,
+      "node_id": "I_kwDOSicKg88AAAABf2At6g"
+    },
+    "330:spell-gate-named-creature": {
+      "number": 1344,
+      "id": 6431977984,
+      "node_id": "I_kwDOSicKg88AAAABf2AyAA"
+    },
+    "330:spell-globe-of-invulnerability-barrier": {
+      "number": 1345,
+      "id": 6431979024,
+      "node_id": "I_kwDOSicKg88AAAABf2A2EA"
+    },
+    "330:spell-globe-of-invulnerability-level-interaction": {
+      "number": 1346,
+      "id": 6431980335,
+      "node_id": "I_kwDOSicKg88AAAABf2A7Lw"
+    },
+    "330:spell-grease-area": {
+      "number": 1347,
+      "id": 6431981392,
+      "node_id": "I_kwDOSicKg88AAAABf2A_UA"
+    },
+    "330:spell-grease-prone-ending": {
+      "number": 1348,
+      "id": 6431982281,
+      "node_id": "I_kwDOSicKg88AAAABf2BCyQ"
+    },
+    "330:spell-greater-invisibility-effect": {
+      "number": 1349,
+      "id": 6431983068,
+      "node_id": "I_kwDOSicKg88AAAABf2BF3A"
+    },
+    "330:spell-haste-benefits": {
+      "number": 1350,
+      "id": 6431984183,
+      "node_id": "I_kwDOSicKg88AAAABf2BKNw"
+    },
+    "330:spell-haste-limited-action": {
+      "number": 1351,
+      "id": 6431984994,
+      "node_id": "I_kwDOSicKg88AAAABf2BNYg"
+    },
+    "330:spell-haste-ending-lethargy": {
+      "number": 1352,
+      "id": 6431986271,
+      "node_id": "I_kwDOSicKg88AAAABf2BSXw"
+    },
+    "330:spell-hold-monster-paralysis": {
+      "number": 1353,
+      "id": 6431987308,
+      "node_id": "I_kwDOSicKg88AAAABf2BWbA"
+    },
+    "330:spell-hold-monster-repeat-save-ending": {
+      "number": 1354,
+      "id": 6431988168,
+      "node_id": "I_kwDOSicKg88AAAABf2BZyA"
+    },
+    "330:spell-hypnotic-pattern-admission": {
+      "number": 1355,
+      "id": 6431989274,
+      "node_id": "I_kwDOSicKg88AAAABf2BeGg"
+    },
+    "330:spell-hypnotic-pattern-ending": {
+      "number": 1356,
+      "id": 6431990049,
+      "node_id": "I_kwDOSicKg88AAAABf2BhIQ"
+    },
+    "330:spell-ice-knife-effect": {
+      "number": 1357,
+      "id": 6431991045,
+      "node_id": "I_kwDOSicKg88AAAABf2BlBQ"
+    },
+    "330:spell-incendiary-cloud-area-movement": {
+      "number": 1358,
+      "id": 6431992135,
+      "node_id": "I_kwDOSicKg88AAAABf2BpRw"
+    },
+    "330:spell-incendiary-cloud-damage": {
+      "number": 1359,
+      "id": 6431993186,
+      "node_id": "I_kwDOSicKg88AAAABf2BtYg"
+    },
+    "330:spell-invisibility-admission": {
+      "number": 1360,
+      "id": 6431994072,
+      "node_id": "I_kwDOSicKg88AAAABf2Bw2A"
+    },
+    "330:spell-invisibility-ending": {
+      "number": 1361,
+      "id": 6431995337,
+      "node_id": "I_kwDOSicKg88AAAABf2B1yQ"
+    },
+    "330:spell-knock-effect": {
+      "number": 1362,
+      "id": 6431996598,
+      "node_id": "I_kwDOSicKg88AAAABf2B6tg"
+    },
+    "330:spell-legend-lore-effect": {
+      "number": 1363,
+      "id": 6431997571,
+      "node_id": "I_kwDOSicKg88AAAABf2B-gw"
+    },
+    "330:spell-levitate-effect": {
+      "number": 1364,
+      "id": 6431998488,
+      "node_id": "I_kwDOSicKg88AAAABf2CCGA"
+    },
+    "330:spell-mage-armor-effect": {
+      "number": 1365,
+      "id": 6431999363,
+      "node_id": "I_kwDOSicKg88AAAABf2CFgw"
+    },
+    "330:spell-mage-hand-manifest": {
+      "number": 1366,
+      "id": 6432000393,
+      "node_id": "I_kwDOSicKg88AAAABf2CJiQ"
+    },
+    "330:spell-mage-hand-manipulation": {
+      "number": 1367,
+      "id": 6432001630,
+      "node_id": "I_kwDOSicKg88AAAABf2COXg"
+    },
+    "330:spell-magic-missile-effect": {
+      "number": 1368,
+      "id": 6432002643,
+      "node_id": "I_kwDOSicKg88AAAABf2CSUw"
+    },
+    "330:spell-major-image-image": {
+      "number": 1369,
+      "id": 6432003658,
+      "node_id": "I_kwDOSicKg88AAAABf2CWSg"
+    },
+    "330:spell-major-image-movement-interaction": {
+      "number": 1370,
+      "id": 6432004659,
+      "node_id": "I_kwDOSicKg88AAAABf2CaMw"
+    },
+    "330:spell-major-image-upcast": {
+      "number": 1371,
+      "id": 6432005697,
+      "node_id": "I_kwDOSicKg88AAAABf2CeQQ"
+    },
+    "330:spell-mass-suggestion-suggestion": {
+      "number": 1372,
+      "id": 6432006808,
+      "node_id": "I_kwDOSicKg88AAAABf2CimA"
+    },
+    "330:spell-mass-suggestion-duration-ending": {
+      "number": 1373,
+      "id": 6432007650,
+      "node_id": "I_kwDOSicKg88AAAABf2Cl4g"
+    },
+    "330:spell-meteor-swarm-effect": {
+      "number": 1374,
+      "id": 6432008608,
+      "node_id": "I_kwDOSicKg88AAAABf2CpoA"
+    },
+    "330:spell-minor-illusion-sound": {
+      "number": 1375,
+      "id": 6432009602,
+      "node_id": "I_kwDOSicKg88AAAABf2Ctgg"
+    },
+    "330:spell-minor-illusion-image-interaction": {
+      "number": 1376,
+      "id": 6432010401,
+      "node_id": "I_kwDOSicKg88AAAABf2CwoQ"
+    },
+    "330:spell-mirror-image-images": {
+      "number": 1377,
+      "id": 6432011378,
+      "node_id": "I_kwDOSicKg88AAAABf2C0cg"
+    },
+    "330:spell-mirror-image-attack-interception": {
+      "number": 1378,
+      "id": 6432012418,
+      "node_id": "I_kwDOSicKg88AAAABf2C4gg"
+    },
+    "330:spell-move-earth-area-shaping": {
+      "number": 1379,
+      "id": 6432013779,
+      "node_id": "I_kwDOSicKg88AAAABf2C90w"
+    },
+    "330:spell-move-earth-restrictions": {
+      "number": 1380,
+      "id": 6432015393,
+      "node_id": "I_kwDOSicKg88AAAABf2DEIQ"
+    },
+    "330:spell-plane-shift-willing-transport": {
+      "number": 1381,
+      "id": 6432016380,
+      "node_id": "I_kwDOSicKg88AAAABf2DH_A"
+    },
+    "330:spell-power-word-stun-admission": {
+      "number": 1382,
+      "id": 6432017377,
+      "node_id": "I_kwDOSicKg88AAAABf2DL4Q"
+    },
+    "330:spell-power-word-stun-repeat-save-ending": {
+      "number": 1383,
+      "id": 6432018304,
+      "node_id": "I_kwDOSicKg88AAAABf2DPgA"
+    },
+    "330:spell-prestidigitation-instant-sensory-clean": {
+      "number": 1384,
+      "id": 6432019326,
+      "node_id": "I_kwDOSicKg88AAAABf2DTfg"
+    },
+    "330:spell-prestidigitation-lasting-effect": {
+      "number": 1385,
+      "id": 6432020527,
+      "node_id": "I_kwDOSicKg88AAAABf2DYLw"
+    },
+    "330:spell-prestidigitation-trinket-image": {
+      "number": 1386,
+      "id": 6432021457,
+      "node_id": "I_kwDOSicKg88AAAABf2Db0Q"
+    },
+    "330:spell-prismatic-spray-rays1-5": {
+      "number": 1387,
+      "id": 6432022371,
+      "node_id": "I_kwDOSicKg88AAAABf2DfYw"
+    },
+    "330:spell-prismatic-spray-indigo": {
+      "number": 1388,
+      "id": 6432023691,
+      "node_id": "I_kwDOSicKg88AAAABf2Dkiw"
+    },
+    "330:spell-prismatic-spray-violet": {
+      "number": 1389,
+      "id": 6432024788,
+      "node_id": "I_kwDOSicKg88AAAABf2Do1A"
+    },
+    "330:spell-prismatic-spray-special8": {
+      "number": 1390,
+      "id": 6432026044,
+      "node_id": "I_kwDOSicKg88AAAABf2DtvA"
+    },
+    "330:spell-reverse-gravity-area-fall": {
+      "number": 1391,
+      "id": 6432027161,
+      "node_id": "I_kwDOSicKg88AAAABf2DyGQ"
+    },
+    "330:spell-reverse-gravity-restrained-object-save": {
+      "number": 1392,
+      "id": 6432028191,
+      "node_id": "I_kwDOSicKg88AAAABf2D2Hw"
+    },
+    "330:spell-reverse-gravity-ending-fall": {
+      "number": 1393,
+      "id": 6432029179,
+      "node_id": "I_kwDOSicKg88AAAABf2D5-w"
+    },
+    "330:spell-scorching-ray-effect": {
+      "number": 1394,
+      "id": 6432030000,
+      "node_id": "I_kwDOSicKg88AAAABf2D9MA"
+    },
+    "330:spell-see-invisibility-perception": {
+      "number": 1395,
+      "id": 6432030979,
+      "node_id": "I_kwDOSicKg88AAAABf2EBAw"
+    },
+    "330:spell-seeming-appearance": {
+      "number": 1396,
+      "id": 6432032024,
+      "node_id": "I_kwDOSicKg88AAAABf2EFGA"
+    },
+    "330:spell-seeming-inspection-ending": {
+      "number": 1397,
+      "id": 6432033018,
+      "node_id": "I_kwDOSicKg88AAAABf2EI-g"
+    },
+    "330:spell-shatter-effect": {
+      "number": 1398,
+      "id": 6432034209,
+      "node_id": "I_kwDOSicKg88AAAABf2ENoQ"
+    },
+    "330:spell-shield-effect": {
+      "number": 1399,
+      "id": 6432035154,
+      "node_id": "I_kwDOSicKg88AAAABf2ERUg"
+    },
+    "330:spell-silent-image-effect": {
+      "number": 1400,
+      "id": 6432036054,
+      "node_id": "I_kwDOSicKg88AAAABf2EU1g"
+    },
+    "330:spell-slow-target-admission": {
+      "number": 1401,
+      "id": 6432037232,
+      "node_id": "I_kwDOSicKg88AAAABf2EZcA"
+    },
+    "330:spell-slow-turn-limits": {
+      "number": 1402,
+      "id": 6432038273,
+      "node_id": "I_kwDOSicKg88AAAABf2EdgQ"
+    },
+    "330:spell-slow-repeat-save-ending": {
+      "number": 1403,
+      "id": 6432039554,
+      "node_id": "I_kwDOSicKg88AAAABf2Eigg"
+    },
+    "330:spell-sorcerous-burst-attack": {
+      "number": 1404,
+      "id": 6432040933,
+      "node_id": "I_kwDOSicKg88AAAABf2En5Q"
+    },
+    "330:spell-sorcerous-burst-exploding-dice": {
+      "number": 1405,
+      "id": 6432041846,
+      "node_id": "I_kwDOSicKg88AAAABf2Erdg"
+    },
+    "330:spell-spider-climb-effect": {
+      "number": 1406,
+      "id": 6432042757,
+      "node_id": "I_kwDOSicKg88AAAABf2EvBQ"
+    },
+    "330:spell-suggestion-suggestion": {
+      "number": 1407,
+      "id": 6432043649,
+      "node_id": "I_kwDOSicKg88AAAABf2EygQ"
+    },
+    "330:spell-suggestion-duration-ending": {
+      "number": 1408,
+      "id": 6432044476,
+      "node_id": "I_kwDOSicKg88AAAABf2E1vA"
+    },
+    "330:spell-sunbeam-line-damage-blindness": {
+      "number": 1409,
+      "id": 6432045368,
+      "node_id": "I_kwDOSicKg88AAAABf2E5OA"
+    },
+    "330:spell-sunbeam-repeat-action-light-ending": {
+      "number": 1410,
+      "id": 6432046216,
+      "node_id": "I_kwDOSicKg88AAAABf2E8iA"
+    },
+    "330:spell-sunburst-burst": {
+      "number": 1411,
+      "id": 6432047217,
+      "node_id": "I_kwDOSicKg88AAAABf2FAcQ"
+    },
+    "330:spell-sunburst-blindness-repeat-save": {
+      "number": 1412,
+      "id": 6432048045,
+      "node_id": "I_kwDOSicKg88AAAABf2FDrQ"
+    },
+    "330:spell-sunburst-darkness-ending": {
+      "number": 1413,
+      "id": 6432048821,
+      "node_id": "I_kwDOSicKg88AAAABf2FGtQ"
+    },
+    "330:spell-telekinesis-creature": {
+      "number": 1414,
+      "id": 6432049743,
+      "node_id": "I_kwDOSicKg88AAAABf2FKTw"
+    },
+    "330:spell-telekinesis-unheld-object": {
+      "number": 1415,
+      "id": 6432050702,
+      "node_id": "I_kwDOSicKg88AAAABf2FODg"
+    },
+    "330:spell-telekinesis-held-object": {
+      "number": 1416,
+      "id": 6432051511,
+      "node_id": "I_kwDOSicKg88AAAABf2FRNw"
+    },
+    "330:spell-telekinesis-fine-control-ending": {
+      "number": 1417,
+      "id": 6432052312,
+      "node_id": "I_kwDOSicKg88AAAABf2FUWA"
+    },
+    "330:spell-teleport-destination-category": {
+      "number": 1418,
+      "id": 6432053251,
+      "node_id": "I_kwDOSicKg88AAAABf2FYAw"
+    },
+    "330:spell-teleport-mishap-table": {
+      "number": 1419,
+      "id": 6432053999,
+      "node_id": "I_kwDOSicKg88AAAABf2Fa7w"
+    },
+    "330:spell-teleport-arrival": {
+      "number": 1420,
+      "id": 6432055015,
+      "node_id": "I_kwDOSicKg88AAAABf2Fe5w"
+    },
+    "330:spell-teleportation-circle-sigil-material-creation": {
+      "number": 1421,
+      "id": 6432056302,
+      "node_id": "I_kwDOSicKg88AAAABf2Fj7g"
+    },
+    "330:spell-teleportation-circle-portal-travel": {
+      "number": 1422,
+      "id": 6432057771,
+      "node_id": "I_kwDOSicKg88AAAABf2Fpqw"
+    },
+    "330:spell-teleportation-circle-permanence": {
+      "number": 1423,
+      "id": 6432058585,
+      "node_id": "I_kwDOSicKg88AAAABf2Fs2Q"
+    },
+    "330:spell-thunderwave-effect": {
+      "number": 1424,
+      "id": 6432059419,
+      "node_id": "I_kwDOSicKg88AAAABf2FwGw"
+    },
+    "330:spell-time-stop-extra-turns": {
+      "number": 1425,
+      "id": 6432060293,
+      "node_id": "I_kwDOSicKg88AAAABf2FzhQ"
+    },
+    "330:spell-time-stop-ending-triggers": {
+      "number": 1426,
+      "id": 6432061188,
+      "node_id": "I_kwDOSicKg88AAAABf2F3BA"
+    },
+    "330:spell-tongues-effect": {
+      "number": 1427,
+      "id": 6432062429,
+      "node_id": "I_kwDOSicKg88AAAABf2F73Q"
+    },
+    "330:spell-true-seeing-senses-disclosure": {
+      "number": 1428,
+      "id": 6432063200,
+      "node_id": "I_kwDOSicKg88AAAABf2F-4A"
+    },
+    "330:spell-true-strike-weapon-attack": {
+      "number": 1429,
+      "id": 6432064197,
+      "node_id": "I_kwDOSicKg88AAAABf2GCxQ"
+    },
+    "330:spell-true-strike-damage-scaling": {
+      "number": 1430,
+      "id": 6432065111,
+      "node_id": "I_kwDOSicKg88AAAABf2GGVw"
+    },
+    "330:spell-vampiric-touch-attack-healing": {
+      "number": 1431,
+      "id": 6432066078,
+      "node_id": "I_kwDOSicKg88AAAABf2GKHg"
+    },
+    "330:spell-vampiric-touch-repeat-action-ending": {
+      "number": 1432,
+      "id": 6432067037,
+      "node_id": "I_kwDOSicKg88AAAABf2GN3Q"
+    },
+    "330:spell-vitriolic-sphere-effect": {
+      "number": 1433,
+      "id": 6432068106,
+      "node_id": "I_kwDOSicKg88AAAABf2GSCg"
+    },
+    "330:spell-wall-of-fire-placement-damage": {
+      "number": 1434,
+      "id": 6432068997,
+      "node_id": "I_kwDOSicKg88AAAABf2GVhQ"
+    },
+    "330:spell-wall-of-fire-hot-side": {
+      "number": 1435,
+      "id": 6432069946,
+      "node_id": "I_kwDOSicKg88AAAABf2GZOg"
+    },
+    "330:spell-wall-of-fire-movement-ending": {
+      "number": 1436,
+      "id": 6432070749,
+      "node_id": "I_kwDOSicKg88AAAABf2GcXQ"
+    },
+    "330:spell-summon-dragon-manifest-and-slot-scaling": {
+      "number": 1437,
+      "id": 6432071642,
+      "node_id": "I_kwDOSicKg88AAAABf2Gf2g"
+    },
+    "330:spell-summon-dragon-initiative-verbal-command-and-default-dodge": {
+      "number": 1438,
+      "id": 6432073091,
+      "node_id": "I_kwDOSicKg88AAAABf2Glgw"
+    },
+    "330:spell-summon-dragon-draconic-spirit-defenses-senses": {
+      "number": 1439,
+      "id": 6432074414,
+      "node_id": "I_kwDOSicKg88AAAABf2Gqrg"
+    },
+    "330:spell-summon-dragon-shared-resistance": {
+      "number": 1440,
+      "id": 6432075535,
+      "node_id": "I_kwDOSicKg88AAAABf2GvDw"
+    },
+    "330:spell-summon-dragon-rend-and-multiattack": {
+      "number": 1441,
+      "id": 6432076520,
+      "node_id": "I_kwDOSicKg88AAAABf2Gy6A"
+    },
+    "330:spell-summon-dragon-breath-weapon": {
+      "number": 1442,
+      "id": 6432077788,
+      "node_id": "I_kwDOSicKg88AAAABf2G33A"
+    },
+    "330:spell-summon-dragon-zerohp-and-spell-ending": {
+      "number": 1443,
+      "id": 6432078796,
+      "node_id": "I_kwDOSicKg88AAAABf2G7zA"
+    },
+    "330:condition-petrified": {
+      "number": 1444,
+      "id": 6432079854,
+      "node_id": "I_kwDOSicKg88AAAABf2G_7g"
+    },
+    "330:zombie-stat-actions": {
+      "number": 1445,
+      "id": 6432080998,
+      "node_id": "I_kwDOSicKg88AAAABf2HEZg"
+    },
+    "330:zombie-undead-fortitude": {
+      "number": 1446,
+      "id": 6432082031,
+      "node_id": "I_kwDOSicKg88AAAABf2HIbw"
+    },
+    "330:cast-components": {
+      "number": 1447,
+      "id": 6432082814,
+      "node_id": "I_kwDOSicKg88AAAABf2HLfg"
+    },
+    "330:cast-cost-privacy": {
+      "number": 1448,
+      "id": 6432083730,
+      "node_id": "I_kwDOSicKg88AAAABf2HPEg"
+    },
+    "330:cast-long-ritual": {
+      "number": 1449,
+      "id": 6432084673,
+      "node_id": "I_kwDOSicKg88AAAABf2HSwQ"
+    },
+    "330:effect-time-span-stack": {
+      "number": 1450,
+      "id": 6432085515,
+      "node_id": "I_kwDOSicKg88AAAABf2HWCw"
+    },
+    "330:advancement-output-gateway": {
+      "number": 1451,
+      "id": 6432086258,
+      "node_id": "I_kwDOSicKg88AAAABf2HY8g"
+    },
+    "330:incapacitated-output-gateway": {
+      "number": 1452,
+      "id": 6432087144,
+      "node_id": "I_kwDOSicKg88AAAABf2HcaA"
+    },
+    "330:execution-gateway-1": {
+      "number": 1453,
+      "id": 6432088037,
+      "node_id": "I_kwDOSicKg88AAAABf2Hf5Q"
+    },
+    "330:casting-gateway-1": {
+      "number": 1454,
+      "id": 6432088866,
+      "node_id": "I_kwDOSicKg88AAAABf2HjIg"
+    },
+    "330:execution-gateway-2": {
+      "number": 1455,
+      "id": 6432090447,
+      "node_id": "I_kwDOSicKg88AAAABf2HpTw"
+    },
+    "330:casting-gateway-2": {
+      "number": 1456,
+      "id": 6432091365,
+      "node_id": "I_kwDOSicKg88AAAABf2Hs5Q"
+    },
+    "330:execution-gateway-3": {
+      "number": 1457,
+      "id": 6432092388,
+      "node_id": "I_kwDOSicKg88AAAABf2Hw5A"
+    },
+    "330:casting-gateway-3": {
+      "number": 1458,
+      "id": 6432093509,
+      "node_id": "I_kwDOSicKg88AAAABf2H1RQ"
+    },
+    "330:spell-cohort-1": {
+      "number": 1459,
+      "id": 6432094655,
+      "node_id": "I_kwDOSicKg88AAAABf2H5vw"
+    },
+    "330:spell-cohort-2": {
+      "number": 1460,
+      "id": 6432095621,
+      "node_id": "I_kwDOSicKg88AAAABf2H9hQ"
+    },
+    "330:spell-cohort-3": {
+      "number": 1461,
+      "id": 6432096510,
+      "node_id": "I_kwDOSicKg88AAAABf2IA_g"
+    },
+    "330:spell-cohort-4": {
+      "number": 1462,
+      "id": 6432097418,
+      "node_id": "I_kwDOSicKg88AAAABf2IEig"
+    },
+    "330:spell-cohort-5": {
+      "number": 1463,
+      "id": 6432098309,
+      "node_id": "I_kwDOSicKg88AAAABf2IIBQ"
+    },
+    "330:spell-cohort-6": {
+      "number": 1464,
+      "id": 6432099285,
+      "node_id": "I_kwDOSicKg88AAAABf2IL1Q"
+    },
+    "330:spell-cohort-7": {
+      "number": 1465,
+      "id": 6432100262,
+      "node_id": "I_kwDOSicKg88AAAABf2IPpg"
+    },
+    "330:spell-cohort-8": {
+      "number": 1466,
+      "id": 6432101219,
+      "node_id": "I_kwDOSicKg88AAAABf2ITYw"
+    },
+    "330:spell-cohort-9": {
+      "number": 1467,
+      "id": 6432102121,
+      "node_id": "I_kwDOSicKg88AAAABf2IW6Q"
+    },
+    "330:spell-cohort-10": {
+      "number": 1468,
+      "id": 6432103205,
+      "node_id": "I_kwDOSicKg88AAAABf2IbJQ"
+    },
+    "330:spell-cohort-11": {
+      "number": 1469,
+      "id": 6432104408,
+      "node_id": "I_kwDOSicKg88AAAABf2If2A"
+    },
+    "330:reuse-cohort-1": {
+      "number": 1470,
+      "id": 6432105471,
+      "node_id": "I_kwDOSicKg88AAAABf2Ij_w"
+    },
+    "330:reuse-cohort-2": {
+      "number": 1471,
+      "id": 6432106938,
+      "node_id": "I_kwDOSicKg88AAAABf2Ipug"
+    },
+    "330:feature-cohort": {
+      "number": 1472,
+      "id": 6432107876,
+      "node_id": "I_kwDOSicKg88AAAABf2ItZA"
+    },
+    "330:level-cohort": {
+      "number": 1473,
+      "id": 6432108712,
+      "node_id": "I_kwDOSicKg88AAAABf2IwqA"
+    },
+    "330:shared-output": {
+      "number": 1474,
+      "id": 6432109664,
+      "node_id": "I_kwDOSicKg88AAAABf2I0YA"
+    },
+    "330:class-gate": {
+      "number": 1475,
+      "id": 6432110515,
+      "node_id": "I_kwDOSicKg88AAAABf2I3sw"
+    },
+    "330:world-cohort": {
+      "number": 1476,
+      "id": 6432111532,
+      "node_id": "I_kwDOSicKg88AAAABf2I7rA"
+    },
+    "330:shared-aggregate": {
+      "number": 1477,
+      "id": 6432112303,
+      "node_id": "I_kwDOSicKg88AAAABf2I-rw"
+    }
+  },
+  "global_nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+  "ids_allocated": {
+    "milestone": "IDS_ALLOCATED",
+    "observed_at": "2026-11-17T01:44:25.687122+00:00",
+    "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+    "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+    "registry_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/IDS_ALLOCATED.registry.json",
+    "live_registry_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/registry.json",
+    "registry_file_sha256": "73d9755cd7181155544f5d79a944bdaf653028425a75b5131b9adef1faf76392",
+    "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+    "node_count": 871,
+    "class_counts": {
+      "330": 305,
+      "331": 281,
+      "332": 285
+    }
+  },
+  "verified": {
+    "milestone": "VERIFIED",
+    "observed_at": "2026-11-17T06:21:15.065632+00:00",
+    "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+    "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+    "registry_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.registry.json",
+    "live_registry_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/registry.json",
+    "registry_file_sha256": "e1e879b87b24914f08007677d30aad713c9e148363c404153bfd6be3f9564753",
+    "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+    "node_count": 871,
+    "class_counts": {
+      "330": 305,
+      "331": 281,
+      "332": 285
+    },
+    "verified_receipt_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.native-receipt.json",
+    "verified_receipt_sha256": "087b2521ad5b9f8c40b278f3b23d8eea4b1b3e025ed2069285a9c3947db11d54",
+    "verified_receipt_observed_at": "2026-11-17T06:21:14.784180+00:00",
+    "graph_node_count": 1888,
+    "all_new_tasks_open": true,
+    "native_body_parent_prerequisite_Task_Size_validation": true,
+    "both_DAGs": true,
+    "all_three_caps": true,
+    "old_protections": true,
+    "validation_details": {
+      "native_body_parent_prerequisite_Task_Size_validation": "PASS; exact871 frozen contracts",
+      "both_DAGs": "PASS; independently checked dependency and containment DAGs",
+      "all_three_caps": {
+        "nodes": 1888,
+        "max_incoming": 100,
+        "max_outgoing": 100,
+        "max_children": 95,
+        "incoming279": 100,
+        "incoming280": 95,
+        "incoming337": 59,
+        "outgoing429": 100,
+        "outgoing285": 82,
+        "children283": 95
+      },
+      "old_protections": "PASS; all1017 old bodies/titles/states/parents/Project metadata and all old edges; only five approved root additions"
+    }
+  },
+  "independent_own_validation": {
+    "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+    "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+    "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+    "global_nodes": 1888,
+    "own_nodes": 305,
+    "native": "PASS; all871 exact source contracts Task/M OPEN",
+    "future_policy": "Frozen nonempty source heads/old requirements; only separately ROOT-approved source-bound monotonic extensions with manifest/head/native receipt. Publication may precede decision acceptance; no incomplete head qualifies."
+  },
+  "sealed_parent_validation": {
+    "status": "ACTUAL_SEALED_RECEIPT_AND_DIRECT_PARENT_NEGATIVE_CONTROL_PASS",
+    "native_observed_at": "2026-11-17T06:33:03.552194+00:00",
+    "native_api_calls": 63,
+    "graph_nodes": 1888,
+    "receipt_sha256": "40ec648912be57fad3fb07367a7d96f3e71629f14703481e468a70fe501a7ffd",
+    "native": {
+      "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+      "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+      "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+      "global_nodes": 1888,
+      "own_nodes": 305,
+      "native": "PASS; all871 exact source contracts Task/M OPEN",
+      "future_policy": "Frozen nonempty source heads/old requirements; only separately ROOT-approved source-bound monotonic extensions with manifest/head/native receipt. Publication may precede decision acceptance; no incomplete head qualifies."
+    },
+    "coherent_rewrite_controls": [
+      {
+        "parent": 47,
+        "mutation": "text",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 47,
+        "mutation": "marker",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 54,
+        "mutation": "text",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 54,
+        "mutation": "marker",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 283,
+        "mutation": "text",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 283,
+        "mutation": "marker",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 337,
+        "mutation": "text",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 337,
+        "mutation": "marker",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      }
+    ],
+    "independent_parent_pins": true,
+    "runtime_qualified": false
+  }
+}
