@@ -19,6 +19,15 @@ PIN = '8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
 BASE = 'e7cd1ba8318ba296edd4fc5b6b84715ca11016f2'
 
 
+# Exact ROOT-published Sorcerer sections, independent of candidate manifests.
+PUBLISHED_APPEND_SHA256 = {
+    '47': 'd78127873f03867b6d9b233435d246c8589831dc1380ea942871dc578c4800f9',
+    '54': 'dc53871545bdc4eb173e791ea6a25c7398a6701e97bb1c3b73bf189c0b78977a',
+    '283': 'a2fac40d2e2df2b7e5e7f296dc2ffce59db432bfd85970087db3b2f7f49687ac',
+    '337': 'de8c3777066dca5e8495069a5927f6243ec08d9e0deb72c8e8b0be0e58926461',
+}
+
+
 def exact(a, b):
     """JSON equality must distinguish bool, integer and decimal operands."""
     if type(a) is not type(b):

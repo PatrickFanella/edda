@@ -145,11 +145,13 @@ def validate_evidence(manifest, receipt, approval, baseline, registry, parent_su
                 assert actual[field] in ['open','closed'], 'decision state; mandatory gates remain below'
                 continue
             if field == 'body' and parent_supplements and str(old['number']) in ['47','54','283','337']:
-                from verify_sorcerer_scope import prefix_check, ACCEPTED_PREFIX_SHA256
+                from verify_sorcerer_scope import prefix_check, ACCEPTED_PREFIX_SHA256, PUBLISHED_APPEND_SHA256
                 key = str(old['number'])
                 seal = manifest['accepted_parent_prefix'][key]
                 assert seal['prefix'] == old['body'] and digest(seal['prefix'].encode()) == ACCEPTED_PREFIX_SHA256[key]
                 section = manifest['parent_appends'][key]
+                assert section['marker'] == '<!-- edda-330 -->', 'published parent append marker'
+                assert digest(section['text'].encode()) == section['sha256'] == PUBLISHED_APPEND_SHA256[key], 'published parent append text'
                 prefix_check(actual['body'],seal['prefix'],section['text'],section['marker'])
                 continue
             assert actual[field] == old[field], 'old contract preservation'

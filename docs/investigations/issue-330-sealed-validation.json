@@ -1,0 +1,68 @@
+{
+  "status": "ACTUAL_SEALED_RECEIPT_AND_DIRECT_PARENT_NEGATIVE_CONTROL_PASS",
+  "native_observed_at": "2026-11-17T06:33:03.552194+00:00",
+  "native_api_calls": 63,
+  "graph_nodes": 1888,
+  "receipt_sha256": "40ec648912be57fad3fb07367a7d96f3e71629f14703481e468a70fe501a7ffd",
+  "native": {
+    "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+    "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+    "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+    "global_nodes": 1888,
+    "own_nodes": 305,
+    "native": "PASS; all871 exact source contracts Task/M OPEN",
+    "future_policy": "Frozen nonempty source heads/old requirements; only separately ROOT-approved source-bound monotonic extensions with manifest/head/native receipt. Publication may precede decision acceptance; no incomplete head qualifies."
+  },
+  "coherent_rewrite_controls": [
+    {
+      "parent": 47,
+      "mutation": "text",
+      "prior": "ACCEPTED",
+      "repaired": "REJECTED"
+    },
+    {
+      "parent": 47,
+      "mutation": "marker",
+      "prior": "ACCEPTED",
+      "repaired": "REJECTED"
+    },
+    {
+      "parent": 54,
+      "mutation": "text",
+      "prior": "ACCEPTED",
+      "repaired": "REJECTED"
+    },
+    {
+      "parent": 54,
+      "mutation": "marker",
+      "prior": "ACCEPTED",
+      "repaired": "REJECTED"
+    },
+    {
+      "parent": 283,
+      "mutation": "text",
+      "prior": "ACCEPTED",
+      "repaired": "REJECTED"
+    },
+    {
+      "parent": 283,
+      "mutation": "marker",
+      "prior": "ACCEPTED",
+      "repaired": "REJECTED"
+    },
+    {
+      "parent": 337,
+      "mutation": "text",
+      "prior": "ACCEPTED",
+      "repaired": "REJECTED"
+    },
+    {
+      "parent": 337,
+      "mutation": "marker",
+      "prior": "ACCEPTED",
+      "repaired": "REJECTED"
+    }
+  ],
+  "independent_parent_pins": true,
+  "runtime_qualified": false
+}

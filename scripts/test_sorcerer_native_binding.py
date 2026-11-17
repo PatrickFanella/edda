@@ -29,6 +29,48 @@ class NativeBindingTests(unittest.TestCase):
     def validate(self, receipt):
         return binding.validate_evidence(self.manifest,receipt,self.approval,self.baseline,self.registry)
 
+    def sealed_candidate(self):
+        from pathlib import Path
+        manifest=deepcopy(self.manifest);receipt=deepcopy(self.receipt)
+        current=json.loads((Path(__file__).resolve().parents[1]/'docs/investigations/issue-330-parent-appends.json').read_text())
+        manifest['parent_appends']=deepcopy(current);manifest['accepted_parent_prefix']={}
+        old={n['number']:n for n in self.baseline['graph']}
+        for key, section in current.items():
+            prefix=old[int(key)]['body']
+            manifest['accepted_parent_prefix'][key]=dict(prefix=prefix,sha256=binding.digest(prefix.encode()))
+            next(n for n in receipt['graph'] if n['number']==int(key))['body']=prefix+section['text']
+        return manifest,receipt
+
+    def test_published_parent_sections_and_later_appends(self):
+        manifest,receipt=self.sealed_candidate()
+        for number in [47,54,283,337]:
+            next(n for n in receipt['graph'] if n['number']==number)['body']+='\nUnrelated later acceptance note.\n'
+        result=binding.validate_evidence(manifest,receipt,self.approval,self.baseline,self.registry,parent_supplements=True)
+        self.assertEqual(result['own_nodes'],305)
+
+    def test_coherent_parent_section_and_marker_rewrites_rejected(self):
+        manifest,receipt=self.sealed_candidate()
+        for key in ['47','54','283','337']:
+            for mutation in ['text','marker']:
+                candidate=deepcopy(manifest);observed=deepcopy(receipt);section=candidate['parent_appends'][key]
+                if mutation=='text':section['text']=section['text'].replace('Sorcerer','Qualified Sorcerer',1)
+                else:
+                    original=section['marker'];section['marker']='<!-- edda-330-forged -->';section['text']=section['text'].replace(original,section['marker'])
+                section['sha256']=binding.digest(section['text'].encode())
+                next(n for n in observed['graph'] if n['number']==int(key))['body']=candidate['accepted_parent_prefix'][key]['prefix']+section['text']
+                with self.subTest(parent=key,mutation=mutation),self.assertRaisesRegex(AssertionError,'published parent append'):
+                    binding.validate_evidence(candidate,observed,self.approval,self.baseline,self.registry,parent_supplements=True)
+
+    def test_published_parent_rollback_corruption_and_duplicates_rejected(self):
+        manifest,receipt=self.sealed_candidate()
+        for key in ['47','54','283','337']:
+            prefix=manifest['accepted_parent_prefix'][key]['prefix'];section=manifest['parent_appends'][key]
+            for body in [prefix, prefix+section['text']+section['text'], 'changed'+prefix+section['text'],
+                         prefix+section['text']+section['marker'],prefix+section['text'].replace('Sorcerer','Other',1)]:
+                observed=deepcopy(receipt);next(n for n in observed['graph'] if n['number']==int(key))['body']=body
+                with self.subTest(parent=key),self.assertRaises(AssertionError):
+                    binding.validate_evidence(manifest,observed,self.approval,self.baseline,self.registry,parent_supplements=True)
+
     def test_literal_renderer_vectors(self):
         vectors=json.loads(binding.evidence('native-renderer-vectors.json'))
         for case in vectors['cases']:

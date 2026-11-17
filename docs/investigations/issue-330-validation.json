@@ -1,5 +1,5 @@
 {
-  "status": "PENDING; ROOT one-attempt consumed, second ambiguous response, all native writes halted",
+  "status": "Source, actual native publication and exact parent seal PASS; final independent PR acceptance/CI/merge pending",
   "comparators": [
     {
       "check": "sorcerer",
@@ -77,11 +77,8 @@
     "scope": "22 source controls;8 null/fence/coordinator controls;7 independent full871 body/graph controls;5 one-use recovery/HTTP-sanitization/halt controls"
   },
   "not_verified": [
-    "remaining157 native allocations",
-    "all871 final bodies/parents/prerequisites/readback",
-    "ROOT parent supplement publication/final seal",
-    "actual runtime qualification",
-    "PostgreSQL integration",
+    "runtime qualification",
+    "fresh PostgreSQL integration",
     "browser/device",
     "independent final PR acceptance/CI/merge"
   ],
@@ -98,7 +95,7 @@
     "class_leaves": 67,
     "qualification_nodes": 27,
     "all_own_source_contracts_complete": true,
-    "native_publication_complete": false
+    "native_publication_complete": true
   },
   "combined_structural_snapshot": {
     "own_nodes": 305,
@@ -116,7 +113,7 @@
     "max_outgoing": 100,
     "max_children": 95,
     "old183_prerequisites": "EXACTLY unchanged;world-cohort is an additional shared-output prerequisite",
-    "native_approval": false
+    "native_approval": true
   },
   "root_reservation_repair": {
     "status": "PENDING native publication; ROOT reservation witness repair only",
@@ -225,5 +222,227 @@
     "wiring_started": false,
     "root_appends_published": false,
     "final_publication_proof": false
-  }
+  },
+  "native_publication": {
+    "milestone": "VERIFIED",
+    "observed_at": "2026-11-17T06:21:15.065632+00:00",
+    "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+    "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+    "registry_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.registry.json",
+    "live_registry_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/registry.json",
+    "registry_file_sha256": "e1e879b87b24914f08007677d30aad713c9e148363c404153bfd6be3f9564753",
+    "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+    "node_count": 871,
+    "class_counts": {
+      "330": 305,
+      "331": 281,
+      "332": 285
+    },
+    "verified_receipt_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.native-receipt.json",
+    "verified_receipt_sha256": "087b2521ad5b9f8c40b278f3b23d8eea4b1b3e025ed2069285a9c3947db11d54",
+    "verified_receipt_observed_at": "2026-11-17T06:21:14.784180+00:00",
+    "graph_node_count": 1888,
+    "all_new_tasks_open": true,
+    "native_body_parent_prerequisite_Task_Size_validation": true,
+    "both_DAGs": true,
+    "all_three_caps": true,
+    "old_protections": true,
+    "validation_details": {
+      "native_body_parent_prerequisite_Task_Size_validation": "PASS; exact871 frozen contracts",
+      "both_DAGs": "PASS; independently checked dependency and containment DAGs",
+      "all_three_caps": {
+        "nodes": 1888,
+        "max_incoming": 100,
+        "max_outgoing": 100,
+        "max_children": 95,
+        "incoming279": 100,
+        "incoming280": 95,
+        "incoming337": 59,
+        "outgoing429": 100,
+        "outgoing285": 82,
+        "children283": 95
+      },
+      "old_protections": "PASS; all1017 old bodies/titles/states/parents/Project metadata and all old edges; only five approved root additions"
+    }
+  },
+  "independent_native_binding": {
+    "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+    "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+    "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+    "global_nodes": 1888,
+    "own_nodes": 305,
+    "native": "PASS; all871 exact source contracts Task/M OPEN",
+    "future_policy": "Frozen nonempty source heads/old requirements; only separately ROOT-approved source-bound monotonic extensions with manifest/head/native receipt. Publication may precede decision acceptance; no incomplete head qualifies."
+  },
+  "acceptance_followup_focused_tests": {
+    "command": "PYTHONPATH=scripts python3 -m unittest test_verify_sorcerer_scope test_sorcerer_native_binding -q",
+    "methods": 32,
+    "seconds": 21.068,
+    "result": "PASS; binding10 methods rerun after marker-control refinement, PASS0.857s",
+    "full_Go_vet_repeated": false
+  },
+  "parent_publication": {
+    "schema_version": 1,
+    "status": "FOUR_SERIAL_APPENDS_AND_EXACT_LIVE_READBACK_PASS",
+    "observed_at": "2026-11-17T06:32:08.670954+00:00",
+    "journal_sha256": "48e6cb30ede3ce5e58f2710c1b0bc5816ef22e3ee46cc6461b8794d383d7d0ae",
+    "operations": [
+      {
+        "number": 47,
+        "operation": "root-parent-append-330 47",
+        "started_at": "2026-11-17T06:31:17.548833+00:00",
+        "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+        "prior_sha256": "b471db938c1d2357fee6bf70f03e19529f6d991422f8a978820874e3c8e2c842",
+        "append_sha256": "d78127873f03867b6d9b233435d246c8589831dc1380ea942871dc578c4800f9",
+        "expected_sha256": "a4b56fe0bf38237499bec40387204ee72835f16ac77339d6574ef9c95b049243",
+        "finished_at": "2026-11-17T06:31:19.855001+00:00"
+      },
+      {
+        "number": 54,
+        "operation": "root-parent-append-330 54",
+        "started_at": "2026-11-17T06:31:25.052524+00:00",
+        "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+        "prior_sha256": "bd76c98ef2c4f8710f359cae305bc462770c637309de90a560b96ba07bd96ae4",
+        "append_sha256": "dc53871545bdc4eb173e791ea6a25c7398a6701e97bb1c3b73bf189c0b78977a",
+        "expected_sha256": "1255b663f2161b564deea9f7597e1661b3521741da8f04aa53f23aaff902ad2e",
+        "finished_at": "2026-11-17T06:31:27.655791+00:00"
+      },
+      {
+        "number": 283,
+        "operation": "root-parent-append-330 283",
+        "started_at": "2026-11-17T06:31:32.556038+00:00",
+        "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+        "prior_sha256": "a643f239df6a0eef4abaa685c0038a6c00b512c8cb6b93f307599bf392d13010",
+        "append_sha256": "a2fac40d2e2df2b7e5e7f296dc2ffce59db432bfd85970087db3b2f7f49687ac",
+        "expected_sha256": "110b18f6c7629e1286f7a6d8c1d1d705579b7a71dc48274bd024ea18d3213ba8",
+        "finished_at": "2026-11-17T06:31:34.693485+00:00"
+      },
+      {
+        "number": 337,
+        "operation": "root-parent-append-330 337",
+        "started_at": "2026-11-17T06:31:40.059587+00:00",
+        "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+        "prior_sha256": "328223c535edca542515767b900738d33beb301ade6f22865d49782bffc77c44",
+        "append_sha256": "de8c3777066dca5e8495069a5927f6243ec08d9e0deb72c8e8b0be0e58926461",
+        "expected_sha256": "0defeea1fa26056e4a8126fa3440ccd55919e58633b38d37afa92f20378f7a25",
+        "finished_at": "2026-11-17T06:31:42.416366+00:00"
+      }
+    ],
+    "preflight": {
+      "status": "PREFLIGHT_PASS_NO_WRITES",
+      "rows": [
+        {
+          "number": 47,
+          "title": "[Roadmap] Story-led Edda gameplay with SRD 5.2.1",
+          "old_body_sha256": "b471db938c1d2357fee6bf70f03e19529f6d991422f8a978820874e3c8e2c842",
+          "section_sha256": "d78127873f03867b6d9b233435d246c8589831dc1380ea942871dc578c4800f9",
+          "expected_result_sha256": "a4b56fe0bf38237499bec40387204ee72835f16ac77339d6574ef9c95b049243",
+          "old_characters": 64980,
+          "append_characters": 67,
+          "new_characters": 65047
+        },
+        {
+          "number": 54,
+          "title": "Complete and qualify the declared SRD 5.2.1 coverage",
+          "old_body_sha256": "bd76c98ef2c4f8710f359cae305bc462770c637309de90a560b96ba07bd96ae4",
+          "section_sha256": "dc53871545bdc4eb173e791ea6a25c7398a6701e97bb1c3b73bf189c0b78977a",
+          "expected_result_sha256": "1255b663f2161b564deea9f7597e1661b3521741da8f04aa53f23aaff902ad2e",
+          "old_characters": 43542,
+          "append_characters": 463,
+          "new_characters": 44005
+        },
+        {
+          "number": 283,
+          "title": "Resolve and qualify all SRD character mechanics",
+          "old_body_sha256": "a643f239df6a0eef4abaa685c0038a6c00b512c8cb6b93f307599bf392d13010",
+          "section_sha256": "a2fac40d2e2df2b7e5e7f296dc2ffce59db432bfd85970087db3b2f7f49687ac",
+          "expected_result_sha256": "110b18f6c7629e1286f7a6d8c1d1d705579b7a71dc48274bd024ea18d3213ba8",
+          "old_characters": 32079,
+          "append_characters": 472,
+          "new_characters": 32551
+        },
+        {
+          "number": 337,
+          "title": "Qualify all SRD character origins classes levels and multiclass coverage",
+          "old_body_sha256": "328223c535edca542515767b900738d33beb301ade6f22865d49782bffc77c44",
+          "section_sha256": "de8c3777066dca5e8495069a5927f6243ec08d9e0deb72c8e8b0be0e58926461",
+          "expected_result_sha256": "0defeea1fa26056e4a8126fa3440ccd55919e58633b38d37afa92f20378f7a25",
+          "old_characters": 31097,
+          "append_characters": 497,
+          "new_characters": 31594
+        }
+      ]
+    },
+    "accepted_prefix": "Accepted post-Rogue; exact prefixes independently pinned in source verifier and manifest",
+    "runtime_qualified": false
+  },
+  "sealed_native_proof": {
+    "status": "ACTUAL_SEALED_RECEIPT_AND_DIRECT_PARENT_NEGATIVE_CONTROL_PASS",
+    "native_observed_at": "2026-11-17T06:33:03.552194+00:00",
+    "native_api_calls": 63,
+    "graph_nodes": 1888,
+    "receipt_sha256": "40ec648912be57fad3fb07367a7d96f3e71629f14703481e468a70fe501a7ffd",
+    "native": {
+      "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+      "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+      "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+      "global_nodes": 1888,
+      "own_nodes": 305,
+      "native": "PASS; all871 exact source contracts Task/M OPEN",
+      "future_policy": "Frozen nonempty source heads/old requirements; only separately ROOT-approved source-bound monotonic extensions with manifest/head/native receipt. Publication may precede decision acceptance; no incomplete head qualifies."
+    },
+    "coherent_rewrite_controls": [
+      {
+        "parent": 47,
+        "mutation": "text",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 47,
+        "mutation": "marker",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 54,
+        "mutation": "text",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 54,
+        "mutation": "marker",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 283,
+        "mutation": "text",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 283,
+        "mutation": "marker",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 337,
+        "mutation": "text",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      },
+      {
+        "parent": 337,
+        "mutation": "marker",
+        "prior": "ACCEPTED",
+        "repaired": "REJECTED"
+      }
+    ],
+    "independent_parent_pins": true,
+    "runtime_qualified": false
+  },
+  "historical_checkpoint_notes": "native_allocation_checkpoint and root_one_attempt_recovery retain their original dated failed/recovery observations. Current publication is complete; see native_publication and sealed_native_proof."
 }
