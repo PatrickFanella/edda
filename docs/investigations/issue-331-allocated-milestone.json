@@ -1,0 +1,16 @@
+{
+  "milestone": "IDS_ALLOCATED",
+  "observed_at": "2026-11-17T01:44:25.687122+00:00",
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+  "registry_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/IDS_ALLOCATED.registry.json",
+  "live_registry_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/registry.json",
+  "registry_file_sha256": "73d9755cd7181155544f5d79a944bdaf653028425a75b5131b9adef1faf76392",
+  "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+  "node_count": 871,
+  "class_counts": {
+    "330": 305,
+    "331": 281,
+    "332": 285
+  }
+}

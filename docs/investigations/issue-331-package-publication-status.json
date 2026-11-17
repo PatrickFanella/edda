@@ -1,0 +1,22 @@
+{
+  "status": "SOURCE_PUBLICATION_PASS",
+  "package_sha256": "a27066d3ea03181b3cdcff196b0a5c2c9ab6432db71f5230565d9fb0d93a82fe",
+  "root_publication": {
+    "issue-331-root-parent-publication-receipt.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/root-warlock-parent-publication-receipt.json",
+      "sha256": "53e8b461f52d2010ef488612886b80c9ee31347991a2a09ba7eae6af9498811e"
+    },
+    "issue-331-root-parent-publication-journal.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/root-warlock-parent-publication.json",
+      "sha256": "4b403e2bfaa0bfe2e222f21054401dbf6afb468990492ea4385702d996f0c9e1"
+    }
+  },
+  "independent_actual_receipt": {
+    "path": "issue-331-sealed-native-readback.json",
+    "sha256": "5103886c8bcb1175ef7a9d1e9bc696684a14e1d01ace59d222518ffa7fe8738b"
+  },
+  "final_prefix_sealed": true,
+  "runtime_qualified": false,
+  "runtime_implementation": "PAUSED",
+  "decision_acceptance": "PENDING_ROOT_REVIEW_CI_MERGE"
+}

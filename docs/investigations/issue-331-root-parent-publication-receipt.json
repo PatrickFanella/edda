@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "status": "ROOT_FOUR_WARLOCK_APPENDS_PUBLISHED_AND_EXACT_READBACK_PASS",
+  "observed_at": "2026-11-17T06:55:59.219945+00:00",
+  "accepted_predecessor_release_sha256": "85f9f6cdcfedb453d3ec7abbaa52042c3cea2f1fb62d57e802b70efa3fbae92d",
+  "package_sha256": "a27066d3ea03181b3cdcff196b0a5c2c9ab6432db71f5230565d9fb0d93a82fe",
+  "journal_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/root-warlock-parent-publication.json",
+  "journal_sha256": "4b403e2bfaa0bfe2e222f21054401dbf6afb468990492ea4385702d996f0c9e1",
+  "operations": [
+    {
+      "number": 47,
+      "operation": "root-parent-append-331 47",
+      "started_at": "2026-11-17T06:54:35.392364+00:00",
+      "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+      "prior_sha256": "a4b56fe0bf38237499bec40387204ee72835f16ac77339d6574ef9c95b049243",
+      "append_sha256": "3ed33bbc6f54d90ecd4c6309500772da424e0bb3245c753ca755623910745d39",
+      "expected_sha256": "2a519871a0cabc51b76d2bf6862f092a8c85b6fb8f9e6d28e0072ee1dff80fb9",
+      "finished_at": "2026-11-17T06:54:37.801020+00:00"
+    },
+    {
+      "number": 54,
+      "operation": "root-parent-append-331 54",
+      "started_at": "2026-11-17T06:54:42.896077+00:00",
+      "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+      "prior_sha256": "1255b663f2161b564deea9f7597e1661b3521741da8f04aa53f23aaff902ad2e",
+      "append_sha256": "4b26cef7c1223c2fcbae56739793ac485c2c7c7ddd6f2ac100c4b434248d536d",
+      "expected_sha256": "84dfad7c3b64fbb6432fb86503b00bd0c610d0bb7462ba6a2836104802333925",
+      "finished_at": "2026-11-17T06:54:45.225554+00:00"
+    },
+    {
+      "number": 283,
+      "operation": "root-parent-append-331 283",
+      "started_at": "2026-11-17T06:54:50.399683+00:00",
+      "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+      "prior_sha256": "110b18f6c7629e1286f7a6d8c1d1d705579b7a71dc48274bd024ea18d3213ba8",
+      "append_sha256": "d860127155f529fbb1258ab168a392490e41218f08cb1cf80002f44c259bf81e",
+      "expected_sha256": "8cdcdb3a307539e7be9f5d3d1cb3c31c71bf1f5efc52647bae3c8defa411835b",
+      "finished_at": "2026-11-17T06:54:52.579686+00:00"
+    },
+    {
+      "number": 337,
+      "operation": "root-parent-append-331 337",
+      "started_at": "2026-11-17T06:54:57.903284+00:00",
+      "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+      "prior_sha256": "0defeea1fa26056e4a8126fa3440ccd55919e58633b38d37afa92f20378f7a25",
+      "append_sha256": "fc12aed1b22a3a0a252f6866d0ca3e44fa59b6d02171a65ea855e4861986d0a1",
+      "expected_sha256": "e762e12de06dc3af6479c948c5a89bb40fc00df7435208b9210c07c2f15972f8",
+      "finished_at": "2026-11-17T06:55:00.904709+00:00"
+    }
+  ],
+  "expected_results": {
+    "47": {
+      "path": "/home/shared/Work/Worktrees/edda/t3-6a52e06b-5fa7cfca13d50ec1/docs/investigations/issue-331-append-47.md",
+      "prefix_sha256": "a4b56fe0bf38237499bec40387204ee72835f16ac77339d6574ef9c95b049243",
+      "section_sha256": "3ed33bbc6f54d90ecd4c6309500772da424e0bb3245c753ca755623910745d39",
+      "marker": "<!-- edda331 -->",
+      "append_characters": 70,
+      "append_utf8_bytes": 70,
+      "expected_body_sha256": "2a519871a0cabc51b76d2bf6862f092a8c85b6fb8f9e6d28e0072ee1dff80fb9",
+      "expected_body_characters": 65117,
+      "expected_body_utf8_bytes": 65211
+    },
+    "54": {
+      "path": "/home/shared/Work/Worktrees/edda/t3-6a52e06b-5fa7cfca13d50ec1/docs/investigations/issue-331-append-54.md",
+      "prefix_sha256": "1255b663f2161b564deea9f7597e1661b3521741da8f04aa53f23aaff902ad2e",
+      "section_sha256": "4b26cef7c1223c2fcbae56739793ac485c2c7c7ddd6f2ac100c4b434248d536d",
+      "marker": "<!-- edda331 -->",
+      "append_characters": 258,
+      "append_utf8_bytes": 258,
+      "expected_body_sha256": "84dfad7c3b64fbb6432fb86503b00bd0c610d0bb7462ba6a2836104802333925",
+      "expected_body_characters": 44263,
+      "expected_body_utf8_bytes": 44307
+    },
+    "283": {
+      "path": "/home/shared/Work/Worktrees/edda/t3-6a52e06b-5fa7cfca13d50ec1/docs/investigations/issue-331-append-283.md",
+      "prefix_sha256": "110b18f6c7629e1286f7a6d8c1d1d705579b7a71dc48274bd024ea18d3213ba8",
+      "section_sha256": "d860127155f529fbb1258ab168a392490e41218f08cb1cf80002f44c259bf81e",
+      "marker": "<!-- edda331 -->",
+      "append_characters": 379,
+      "append_utf8_bytes": 379,
+      "expected_body_sha256": "8cdcdb3a307539e7be9f5d3d1cb3c31c71bf1f5efc52647bae3c8defa411835b",
+      "expected_body_characters": 32930,
+      "expected_body_utf8_bytes": 32970
+    },
+    "337": {
+      "path": "/home/shared/Work/Worktrees/edda/t3-6a52e06b-5fa7cfca13d50ec1/docs/investigations/issue-331-append-337.md",
+      "prefix_sha256": "0defeea1fa26056e4a8126fa3440ccd55919e58633b38d37afa92f20378f7a25",
+      "section_sha256": "fc12aed1b22a3a0a252f6866d0ca3e44fa59b6d02171a65ea855e4861986d0a1",
+      "marker": "<!-- edda331 -->",
+      "append_characters": 418,
+      "append_utf8_bytes": 418,
+      "expected_body_sha256": "e762e12de06dc3af6479c948c5a89bb40fc00df7435208b9210c07c2f15972f8",
+      "expected_body_characters": 32012,
+      "expected_body_utf8_bytes": 32051
+    }
+  },
+  "native_changes": "Only four exact body appends; no title,state,parent,TaskSize or prerequisite mutation",
+  "final_class_acceptance": "PENDING author fresh sealed proof/final independent review/CI/merge",
+  "runtime_qualified": false
+}

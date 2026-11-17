@@ -1,16 +1,17 @@
-"""Read-only actual-candidate/native proof; ROOT release is deliberately unset."""
+"""Read-only native proof with independently pinned accepted predecessor bodies."""
 import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 import subprocess
 
-from verify_warlock_scope import ROOT, exact, caps, prefix_check
+from verify_warlock_scope import ROOT, exact, caps
 from warlock_native_plan import build, projection, PROJECT
 
-# Set only from ROOT's explicitly accepted POST-SORCERER release. The observed
-# graph baseline below is NOT that release and can never stand in for it.
-ACCEPTED_POST_SORCERER_PREFIXES = None
+# Independent raw/body pins bind ROOT's accepted predecessor release.
+# This release permits preparation; actual own sections must still be read back.
+from warlock_parent_seal import load_prefixes, validate_parents
+ACCEPTED_POST_SORCERER_PREFIXES = load_prefixes()
 APPROVED_FINITE_EXTENSIONS = ()
 BASELINE = ROOT / 'docs/investigations/issue-331-native-baseline.json'
 FOREIGN = ROOT / 'docs/investigations/issue-331-sorcerer-boundary.json'
@@ -114,12 +115,9 @@ def validate_native(m, plan, receipt, snapshot):
     from warlock_approved_native import load_frozen, validate_wiring
     approval, proposals, baseline, expected, _, _ = load_frozen()
     assert exact(plan, proposals[331]), 'exact approved own proposal'
-    result = validate_wiring(approval, expected, baseline, receipt['registry'], snapshot)
     graph = {t['number']: t for t in snapshot['graph']}
-    for n, prefix in ACCEPTED_POST_SORCERER_PREFIXES.items():
-        append = (ROOT / f'docs/investigations/issue-331-append-{n}.md').read_text()
-        assert len(append) <= (70 if n == 47 else 750)
-        prefix_check(graph[n]['body'], prefix, append, '<!-- edda331 -->')
+    validate_parents(graph)
+    result = validate_wiring(approval, expected, baseline, receipt['registry'], snapshot)
     return {**result, 'status': 'FINAL_NATIVE_AND_PREFIX_PASS', 'final_prefix_sealed': True}
 
 

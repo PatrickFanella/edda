@@ -1,0 +1,48 @@
+{
+  "result": {
+    "status": "NATIVE_WIRING_PASS_PREFIX_PENDING",
+    "own_nodes": 281,
+    "published_nodes": 871,
+    "final_prefix_sealed": false,
+    "runtime_qualified": false,
+    "native_readback": "PASS",
+    "final_acceptance": "UNQUALIFIED",
+    "caps": {
+      "279": 100,
+      "280": 95,
+      "337": 59,
+      "children283": 95,
+      "outgoing429": 100
+    }
+  },
+  "observation": {
+    "observed_from": "2026-11-17T06:25:56.471901+00:00",
+    "observed_at": "2026-11-17T06:26:52.428367+00:00",
+    "api_calls": 63,
+    "graph_nodes": 1888,
+    "project_rows": 1096
+  },
+  "artifacts": {
+    "issue-331-verified-registry.json": {
+      "sha256": "e1e879b87b24914f08007677d30aad713c9e148363c404153bfd6be3f9564753",
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.registry.json"
+    },
+    "issue-331-verified-milestone.json": {
+      "sha256": "fe8969fcdb5b11f81c00e47c8be1a2496472a4b7bee2b32c4cc932f4ad806305",
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/verified-milestone.json"
+    },
+    "issue-331-coordinator-verified-receipt.json": {
+      "sha256": "087b2521ad5b9f8c40b278f3b23d8eea4b1b3e025ed2069285a9c3947db11d54",
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.native-receipt.json"
+    },
+    "issue-331-native-readback.json": {
+      "sha256": "e2f47080079473c2c08a0f837b811ca0ca24225e8116866f0ba87d7e4ff1abdc"
+    }
+  },
+  "checks": {
+    "approved_native_tests": 14,
+    "allocation_binding_tests": 4,
+    "verified_native_tests": 3
+  },
+  "boundary": "Unsealed actual-native proof only. Accepted POST-SORCERER release HELD; four appends root-only pending; runtime roadmap PAUSED. No native writes or final acceptance."
+}
