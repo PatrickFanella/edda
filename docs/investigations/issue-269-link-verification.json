@@ -1,0 +1,331 @@
+{
+  "schema_version": 1,
+  "decision": 269,
+  "status": "SOURCE_AND_NATIVE_SPLIT_DECISION_PASS; ACCEPTANCE_PR_PENDING",
+  "observed_at": "2026-11-17T07:09:16.004888+00:00",
+  "source_clauses_checked": [
+    {
+      "condition": "Charmed",
+      "PDF": 178,
+      "execution_owner": 488,
+      "checked_clauses": [
+        "can’t attack the",
+        "Social Advantage"
+      ]
+    },
+    {
+      "condition": "Frightened",
+      "PDF": 182,
+      "execution_owner": 488,
+      "checked_clauses": [
+        "Disadvantage on ability checks and attack rolls",
+        "Can’t Approach"
+      ]
+    },
+    {
+      "condition": "Incapacitated",
+      "PDF": 184,
+      "execution_owner": 487,
+      "checked_clauses": [
+        "No Concentration",
+        "Speechless",
+        "Surprised"
+      ]
+    },
+    {
+      "condition": "Stunned",
+      "PDF": 189,
+      "execution_owner": 777,
+      "checked_clauses": [
+        "Stunned [Condition]",
+        "automatically fail",
+        "Attack rolls against you have"
+      ]
+    },
+    {
+      "condition": "Paralyzed",
+      "PDF": 186,
+      "execution_owner": 727,
+      "checked_clauses": [
+        "Paralyzed [Condition]",
+        "Speed 0",
+        "Automatic Critical Hits"
+      ]
+    },
+    {
+      "condition": "Unconscious",
+      "PDF": 191,
+      "execution_owner": 487,
+      "checked_clauses": [
+        "Unconscious [Condition]",
+        "you drop whatever you’re holding",
+        "When this condition ends, you remain Prone",
+        "Unaware"
+      ]
+    }
+  ],
+  "native_nodes": 1888,
+  "native_caps": {
+    "nodes": 1888,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "incoming279": 100,
+    "incoming280": 95,
+    "incoming337": 59,
+    "outgoing429": 100,
+    "outgoing285": 82,
+    "children283": 95
+  },
+  "decision_native": {
+    "number": 269,
+    "state": "open",
+    "parent": 193,
+    "blocked_by": [
+      80
+    ],
+    "prerequisite80_state": "closed"
+  },
+  "published_owners": [
+    {
+      "number": 487,
+      "id": 6419835035,
+      "node_id": "I_kwDOSicKg88AAAABfqbomw",
+      "title": "Resolve shared Incapacitated and Unconscious condition admission",
+      "body": "<!-- edda-321:incapacitated -->\nParent: #269; decision #321; roadmap #47; blocks #498; #498 directly blocks #337.\n\nDelivery: one reviewable PR, Task Size M.\n\nSource: pinned English SRD5.2.1 pp28-30 and explicitly named referenced pages below; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation: docs/srd-5.2.1-conformance.md.\n\nScope and deterministic positive fixture: PDF pp184/191: Incapacitated forbids actions/Bonus Actions/Reactions, ends Concentration, prevents speech, imposes Initiative disadvantage. Unconscious includes Incapacitated/Prone, drops held objects, Speed0, incoming attack advantage, automatic STR/DEX save failure, hits within5 feet critical, unaware. Ending Unconscious leaves Prone. Shared state consumed by Rage, Persistent Rage and Danger Sense, never duplicate condition flags.\n\nNegative fixtures: violate each stated eligibility/number/target/action/resource/timing predicate independently; reject unsupported variants and forged levels. Preview and cancellation never mutate.\n\nRequired acceptance: Authoritative campaign/actor/source/rules-version/class-level eligibility; isolated high-level test entitlements grant no production access. Prepare previews costs/choices/targets/timing without dice or writes; explicit confirm revalidates current revision and commits choices, injectable dice, resource/action costs, effects, derived sheet and public history atomically. Store durable action receipt: same-ID retry/reload/reconnect returns exact committed result with no reroll/recharge/regrant; conflicting payload or concurrent stale confirmation rejected; two concurrent confirmations spend/apply once. Inject history/effect/choice failure and prove full PostgreSQL rollback. Protect private NPC HP, hidden actors, tactics and private choices in discovery/preview/history/error/reconnect. Shared web/TUI availability, disabled reason, accessible confirmation/cancel and reconnect fixtures required; desktop/phone confirmation journeys for changed web UI. Unknown prerequisites fail closed. Run GOMAXPROCS=2 go test -p2 -short -race ./... and go vet -p2 ./...; isolated PostgreSQL integration rollback/replay/reload/concurrency tests; frontend build, changed-file lint and behavior fixtures when UI changes. Preserve legacy reads/unrelated JSON; retain CC-BY-4.0 attribution and adaptations. No production deployment, inference or broad coverage promotion.\n\nOwnership: feature resolvers own behavior; level/entry applications consume them and apply grants once. Feature tests use explicit isolated entitlements, never grant production class admission. Data and earlier levels never unlock broader support. Shared #272 rests, #273 casting, #333 origins, #335 multiclass, #336 advancement, #384 selection/#389 ability updater, #269/#270 conditions and #278 equipment retain their scopes. Exact shared terminals in this matrix must block #498 natively; #498 blocks #337. Planning closure is insufficient. Selected feat effect must have its own terminal gate before admission; never implement spell/item effects here. No child implementation or qualification is supplied by this decision.\n\nNative blocked-by: #269, #351, #353.\n\nExact owned source keys (shared keys have one owner, consumers do not implement them):\n- Application/shared referenced-rule scope above; no duplicate mechanic ownership.\n\nExact source records including nested alternatives, conditions and numbers (context, not duplicate ownership):\n```json\n[]\n```\n",
+      "state": "open",
+      "parent": 269,
+      "blocked_by": [
+        269,
+        351,
+        353
+      ],
+      "project": {
+        "type": "Task",
+        "size": "M"
+      }
+    },
+    {
+      "number": 488,
+      "id": 6419835182,
+      "node_id": "I_kwDOSicKg88AAAABfqbpLg",
+      "title": "Resolve shared Charmed Frightened and Prone condition consumers",
+      "body": "<!-- edda-321:fear-charm -->\nParent: #270; decision #321; roadmap #47; blocks #498; #498 directly blocks #337.\n\nDelivery: one reviewable PR, Task Size M.\n\nSource: pinned English SRD5.2.1 pp28-30 and explicitly named referenced pages below; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation: docs/srd-5.2.1-conformance.md.\n\nScope and deterministic positive fixture: PDF pp178/182/186: Charmed cannot attack or harm charmer and charmer has social-check advantage. Frightened disadvantage checks/attacks when source in sight and cannot willingly approach source. Prone crawl or spend half Speed to stand; disadvantage own attacks, incoming advantage within5 feet otherwise disadvantage. Source-bound persisted ending/immunity APIs consumed by Mindless Rage/Presence/Topple; no duplicate condition store.\n\nNegative fixtures: violate each stated eligibility/number/target/action/resource/timing predicate independently; reject unsupported variants and forged levels. Preview and cancellation never mutate.\n\nRequired acceptance: Authoritative campaign/actor/source/rules-version/class-level eligibility; isolated high-level test entitlements grant no production access. Prepare previews costs/choices/targets/timing without dice or writes; explicit confirm revalidates current revision and commits choices, injectable dice, resource/action costs, effects, derived sheet and public history atomically. Store durable action receipt: same-ID retry/reload/reconnect returns exact committed result with no reroll/recharge/regrant; conflicting payload or concurrent stale confirmation rejected; two concurrent confirmations spend/apply once. Inject history/effect/choice failure and prove full PostgreSQL rollback. Protect private NPC HP, hidden actors, tactics and private choices in discovery/preview/history/error/reconnect. Shared web/TUI availability, disabled reason, accessible confirmation/cancel and reconnect fixtures required; desktop/phone confirmation journeys for changed web UI. Unknown prerequisites fail closed. Run GOMAXPROCS=2 go test -p2 -short -race ./... and go vet -p2 ./...; isolated PostgreSQL integration rollback/replay/reload/concurrency tests; frontend build, changed-file lint and behavior fixtures when UI changes. Preserve legacy reads/unrelated JSON; retain CC-BY-4.0 attribution and adaptations. No production deployment, inference or broad coverage promotion.\n\nOwnership: feature resolvers own behavior; level/entry applications consume them and apply grants once. Feature tests use explicit isolated entitlements, never grant production class admission. Data and earlier levels never unlock broader support. Shared #272 rests, #273 casting, #333 origins, #335 multiclass, #336 advancement, #384 selection/#389 ability updater, #269/#270 conditions and #278 equipment retain their scopes. Exact shared terminals in this matrix must block #498 natively; #498 blocks #337. Planning closure is insufficient. Selected feat effect must have its own terminal gate before admission; never implement spell/item effects here. No child implementation or qualification is supplied by this decision.\n\nNative blocked-by: #61, #65, #67, #269, #270.\n\nExact owned source keys (shared keys have one owner, consumers do not implement them):\n- Application/shared referenced-rule scope above; no duplicate mechanic ownership.\n\nExact source records including nested alternatives, conditions and numbers (context, not duplicate ownership):\n```json\n[]\n```\n",
+      "state": "open",
+      "parent": 270,
+      "blocked_by": [
+        61,
+        65,
+        67,
+        269,
+        270
+      ],
+      "project": {
+        "type": "Task",
+        "size": "M"
+      }
+    },
+    {
+      "number": 727,
+      "id": 6424698734,
+      "node_id": "I_kwDOSicKg88AAAABfvEfbg",
+      "title": "Admit exact Paralyzed Poisoned and Restrained condition projections",
+      "body": "<!-- edda-324:condition-admission -->\nParent: #270; decision #324; roadmap #47. Task Size M.\n\nOne reviewable PR. Required native path: #727 -> #632 -> #630 -> #337.\n\nSource: pinned English SRD5.2.1 PDF41-46 and exact referenced clauses below; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation: docs/srd-5.2.1-conformance.md. Fixture boundaries and ownership are Edda additions.\n\nScope and deterministic positive fixture: PDF184/186-187: trusted source-linked condition admission only. Paralyzed consumes487 Incapacitated (no actions/BonusActions/Reactions, breaksConcentration, noSpeech, InitiativeDisadvantage); Speed0cannotincrease, autoFailSTR/DEXsaves, attacksagainstAdvantage, hitCritical only attackerwithin5ft. Poisoned disadvantageAttack/AbilityChecks (not saves). Restrained Speed0cannotincrease, ownAttackDisadvantage/attacksagainstAdvantage, DEXsaveDisadvantage (not autoFail). Immunities revalidated; sourcecontributions independent, no arbitraryclientconditionwrites, no defaultduration. Trusted endings retain504; no conditionframework/othercondition/worldadjudication.\n\nNegative fixtures: violate each stated source/level/choice/target/resource/action/timing/numeric predicate independently; assert no mutation. Unknown variants remain unavailable.\n\nFor this one PR, preview is inert; explicit confirmation revalidates authoritative eligibility, source/version, target facts and expected revision. Persist choice, exact dice, once-only cost/use and history atomically. Receipt replay/retry/reload returns the same result without rerolling or charging again. Inject history failure for full rollback; race two confirmations and require one commit; stale/foreign/unsupported state rejects without mutation. Prove this with deterministic dice and isolated PostgreSQL handler/state fixtures. Disclose only player-known targets, choices, costs and source derivations; hidden/foreign facts never enter previews, receipts or errors. Shared engine serves web and TUI: explicitly expose supported choices or show unavailable with a reason on both; require desktop/phone confirmation and reconnect plus TUI behavior fixtures before availability. No Full Rules/coverage promotion. Higher-level isolated fixture state never grants production entitlement. Run GOMAXPROCS=2 go test -p 2 -short -race ./... and go vet -p 2 ./...; changed UI requires build, focused lint and behavior tests.\n\nFeature behavior uses explicit isolated entitlements. Entry and level applications consume implemented contracts and apply grants once. Druid remains unavailable until independent qualification. #58 sheet projection; #427/#428 completed rests; #429 shared XP/PB/CON transaction (Druid adapter distinct); #430 provenance; #503 class list membership distinct from spell execution. #384/#389 selection/caps and all exact #334 effect children required. #181/#184/#185 retain familiar/creature lifecycle ownership and #183 world qualification. No runtime/grants/coverage/Full Rules promotion, inference or deployment in this decision.\n\nNative prerequisites: #351, #353, #487, #504.\n\nOwned mechanic keys:\n\n\nExact contextual source records (references do not duplicate shared execution):\n```json\n[]\n```\n",
+      "state": "open",
+      "parent": 270,
+      "blocked_by": [
+        351,
+        353,
+        487,
+        504
+      ],
+      "project": {
+        "type": "Task",
+        "size": "M"
+      }
+    },
+    {
+      "number": 777,
+      "id": 6426025987,
+      "node_id": "I_kwDOSicKg88AAAABfwVgAw",
+      "title": "Admit shared Stunned with source-bound consequences",
+      "body": "<!-- edda-326:stunned -->\nParent: #270; decision #326; Task Size M; roadmap #47.\n\nOne reviewable PR. Source: SRD5.2.1 PDF49-52 and exact named clauses below. Pin 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution/adaptation: docs/srd-5.2.1-conformance.md; fixture/ownership boundaries are Edda additions.\n\nScope and source-bound positive/negative deterministic fixtures: PDF189: trusted Stunned instance contributes Incapacitated, automatic STR/DEX save failure and incoming attack Advantage; no Speed0 or automatic critical. Expiry removes only its contribution. Positive: fail STR save without dice; negative: CON save still rolls, other Incapacitated source survives.\n\nFor this one PR, preview is inert; explicit confirmation revalidates authoritative eligibility, source/version, target facts and expected revision. Persist choice, exact dice, once-only cost/use and history atomically. Receipt replay/retry/reload returns the same result without rerolling or charging again. Inject history failure for full rollback; race two confirmations and require one commit; stale/foreign/unsupported state rejects without mutation. Prove this with deterministic dice and isolated PostgreSQL handler/state fixtures. Disclose only player-known targets, choices, costs and source derivations; hidden/foreign facts never enter previews, receipts or errors. Shared engine serves web and TUI: explicitly expose supported choices or show unavailable with a reason on both; require desktop/phone confirmation and reconnect plus TUI behavior fixtures before availability. No Full Rules/coverage promotion. Higher-level isolated fixture state never grants production entitlement. Run GOMAXPROCS=2 go test -p 2 -short -race ./... and go vet -p 2 ./...; changed UI requires build, focused lint and behavior tests. Prepare performs no dice rolls or writes; cancellation is inert. Confirmation atomically commits action/resource costs, dice, target/effect state, derived sheet and history with one durable receipt.\n\nFeature execution uses isolated entitlements, never production class admission. Class applications consume implemented contracts and grant once. Unknown origin/multiclass/feat/variant fails closed. #58 sheet; #61 dice; #64 confirmation; #65 martial actions; #67 trusted targets; #427/#428 completed rests; #429 XP/PB/CON transaction with distinct Monk D8/fixed5 adapter; #430 provenance only. #333/#335/#336 retain planning scopes. No runtime, grants, derived bonuses, coverage, deployment or Full Rules promotion in decision326.\n\nRequired native qualification path: this terminal -> #776 -> #337.\nNative prerequisites: #61, #64, #66, #67, #487, #504.\n\nUnique owned mechanic keys:\n\n\nExact contextual source records (shared operands are references, not duplicate execution):\n```json\n[]\n```\n",
+      "state": "open",
+      "parent": 270,
+      "blocked_by": [
+        61,
+        64,
+        66,
+        67,
+        487,
+        504
+      ],
+      "project": {
+        "type": "Task",
+        "size": "M"
+      }
+    }
+  ],
+  "mandatory_paths": {
+    "487": {
+      "number": 487,
+      "title": "Resolve shared Incapacitated and Unconscious condition admission",
+      "parent": 269,
+      "blocked_by": [
+        269,
+        351,
+        353
+      ],
+      "body_sha256": "74aeead11f2085b6e89b4888f0caee89bb8d73b67733cafb0da66bd701b9912c",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      },
+      "required_paths": {
+        "279": [
+          279,
+          504,
+          487
+        ],
+        "280": [
+          280,
+          504,
+          487
+        ],
+        "337": [
+          337,
+          498,
+          487
+        ]
+      }
+    },
+    "488": {
+      "number": 488,
+      "title": "Resolve shared Charmed Frightened and Prone condition consumers",
+      "parent": 270,
+      "blocked_by": [
+        61,
+        65,
+        67,
+        269,
+        270
+      ],
+      "body_sha256": "009a793cf71efa8420190edabdc41aa7790b575e095698ec8710f9a978ca16c5",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      },
+      "required_paths": {
+        "279": [
+          279,
+          505,
+          488
+        ],
+        "280": [
+          280,
+          505,
+          488
+        ],
+        "337": [
+          337,
+          498,
+          488
+        ]
+      }
+    },
+    "727": {
+      "number": 727,
+      "title": "Admit exact Paralyzed Poisoned and Restrained condition projections",
+      "parent": 270,
+      "blocked_by": [
+        351,
+        353,
+        487,
+        504
+      ],
+      "body_sha256": "8d739e36d9bb9b00d1808bc022d1dce8d849297d802d7ec2f5c0a19bd805bd92",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      },
+      "required_paths": {
+        "279": [
+          279,
+          727
+        ],
+        "280": [
+          280,
+          727
+        ],
+        "337": [
+          337,
+          776,
+          727
+        ]
+      }
+    },
+    "777": {
+      "number": 777,
+      "title": "Admit shared Stunned with source-bound consequences",
+      "parent": 270,
+      "blocked_by": [
+        61,
+        64,
+        66,
+        67,
+        487,
+        504
+      ],
+      "body_sha256": "68e8f5e1c634f7d5e51ffb247bdcabcccc8e97bc31cf9a9d1fa62bf1df0adbd0",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      },
+      "required_paths": {
+        "279": [
+          279,
+          777
+        ],
+        "280": [
+          280,
+          777
+        ],
+        "337": [
+          337,
+          776,
+          777
+        ]
+      }
+    }
+  },
+  "closure_control": "PASS: only269closedinmemory retains all4 openimplementation owners and all12 root-to-owner mandatory paths",
+  "missing_owner_controls": [
+    {
+      "owner": 487,
+      "mutation": "remove all incoming prerequisite paths",
+      "rejected": true
+    },
+    {
+      "owner": 488,
+      "mutation": "remove all incoming prerequisite paths",
+      "rejected": true
+    },
+    {
+      "owner": 727,
+      "mutation": "remove all incoming prerequisite paths",
+      "rejected": true
+    },
+    {
+      "owner": 777,
+      "mutation": "remove all incoming prerequisite paths",
+      "rejected": true
+    }
+  ],
+  "full_native_receipt_archive": {
+    "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/269-fresh-native.json.gz",
+    "raw_gzip_sha256": "05132c9076c75565c2e77f0ef76e4767d4aae7e46b595261f63280bb5a9f90cb"
+  },
+  "tracker_writes": 0,
+  "new_issues": 0,
+  "runtime_qualified": false
+}
