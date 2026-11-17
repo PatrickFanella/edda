@@ -1,0 +1,27 @@
+<!-- edda-273:hat-of-disguise-casting -->
+Decision #273; roadmap #47. One implementation PR; Task / Size M.
+
+Source: English SRD 5.2.1, PDF 23, 102–106, 124, 206, 224; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.
+
+## Bounded outcome
+
+Implement only one source identity: Hat of Disguise, worn as headwear by its attuned user. Reuse the actual Disguise Self execution output #1293; do not copy its illusion, physical-inspection or Study/Investigation resolution. This adapter owns the Hat's attunement profile, item-casting operands and removal ending. No other item, learned spell, class admission or unrestricted spell dispatch is enabled.
+
+Attunement follows PDF102–103: physical contact and one focused completed Short Rest, distinct from identification; interruption fails. Use the canonical rest receipt #427. Normal capacity is three items; a different capacity requires an independently qualified source, never an implicit Thief grant. Reject a duplicate copy and a full capacity. Preserve the existing bonds. End this bond on death, another creature's attunement, lost prerequisites where applicable, separation greater than 100 feet for at least 24 hours, or a separate voluntary focused Short Rest unless cursed. A curse or anatomical exception must be authoritative; unknown facts remain unavailable. #1141 remains limited to its four original item identities and is not widened or required as an unrelated effect bundle.
+
+While attuned and wearing the Hat, cast its level-one Disguise Self using its normal Action, Self range and one-hour duration. PDF206 supplies the lowest possible spell/caster level, no user slot and no components; the Hat supplies no charge cost or daily cap. Its source has no Concentration requirement. Item permission does not require the Spellcasting feature or the spell on a class list. Preserve the source's ability rule: choose among actual qualified spellcasting abilities; without any such ability use modifier +0 and the user's proficiency bonus. The absence of the Spellcasting feature alone does not erase an ability supplied by a separately qualified trait/feat. Bind the selected ability, PB and DC to the committed cast; changing equipment or choosing a different ability later must not rewrite an existing receipt. The spell ends when this Hat is removed. Consume #1450 for qualified duration/dismissal/stacking behavior; do not invent Light's recast-ending rule for Disguise Self.
+
+## Deterministic fixtures
+
+- A user with no spellcasting ability and PB+2 casts at spell level one: DC = 8 + 0 + 2 = 10, no slot, component, charge or learned-spell grant. The existing #1293 output supplies the actual disguise and Investigation comparison.
+- A user with separately qualified CHA+3, WIS+4 and PB+3 explicitly chooses CHA for DC14 or WIS for DC15. Persist that choice once. A qualified Magic Initiate ability can exist without the Spellcasting feature; do not substitute +0 merely because that feature is absent.
+- One uninterrupted attunement rest succeeds; an interrupted rest, identification-only rest, fourth normal bond, duplicate Hat, unattuned user, unworn Hat, foreign actor/item or unknown curse/anatomy fails without partial changes. Exactly 100 feet alone does not meet the greater-than-100-feet ending predicate; 101 feet for 24 hours does.
+- Removal ends only this Hat's source-bound ongoing casts. Reject an invented higher-slot cast, upcast, Concentration cost, daily recharge, charge destruction, material cost, automatic tactile success or duplicate effect execution. Preserve unrelated effects and independent source instances.
+
+## Durable implementation acceptance
+
+Preview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, item ownership, attunement, wearing, ability entitlement, source version, clock and expected revisions. Commit the rest/bond or cast/effect/ending, saved operands and public history atomically. Inject failures after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry/reload/reconnect returns the same receipt; conflicting payload rejects; racing confirmations commit once. A source-triggered ending belongs to its triggering event, with no invented optional activation. Web and trusted TUI share availability and confirmation/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private checks, targets and item facts.
+
+Hard prerequisites: #195 item contract, #427 completed Short Rest output, #1293 actual Disguise Self resolver, #1450 duration/dismissal/stack output. Parent: #273. Directly block item qualification #280. This adds an item mode only; #279 already requires the unchanged Disguise Self resolver through the accepted finite shared aggregate. Do not add a new #279, #67 or #429 edge or alter any existing owner.
+
+Validation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.

@@ -1,0 +1,743 @@
+{
+  "schema_version": 1,
+  "decision": 273,
+  "status": "SOURCE_AND_NATIVE_PUBLICATION_PASS",
+  "source": {
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "attribution": "docs/srd-5.2.1-conformance.md",
+    "checked_source_clauses": {
+      "23": [
+        "Spell save DC = 8 + spellcasting ability modifier + Proficiency Bonus"
+      ],
+      "102": [
+        "Attune during a Short Rest",
+        "No More Than Three Items"
+      ],
+      "103": [
+        "Wearing and Wielding Items"
+      ],
+      "104": [
+        "Ritual",
+        "10 minutes"
+      ],
+      "105": [
+        "Concentration",
+        "Magic action"
+      ],
+      "106": [
+        "Duration",
+        "you can dismiss it"
+      ],
+      "124": [
+        "Disguise Self",
+        "1 hour",
+        "Study action"
+      ],
+      "206": [
+        "Spells Cast from Items",
+        "lowest possible",
+        "modifier is +0"
+      ],
+      "224": [
+        "Hat of Disguise",
+        "Requires Attunement",
+        "The spell ends if the hat is removed."
+      ]
+    }
+  },
+  "scopes": [
+    {
+      "scope": "ritual",
+      "PDF": [
+        104,
+        105
+      ],
+      "owners": [
+        906,
+        1449
+      ]
+    },
+    {
+      "scope": "costly/consumed components",
+      "PDF": [
+        104,
+        105
+      ],
+      "owners": [
+        1447
+      ]
+    },
+    {
+      "scope": "slot/free routing",
+      "PDF": [
+        104,
+        106
+      ],
+      "owners": [
+        1448,
+        386
+      ]
+    },
+    {
+      "scope": "scroll permission/casting",
+      "PDF": [
+        205,
+        206,
+        244
+      ],
+      "owners": [
+        1142,
+        1133
+      ]
+    },
+    {
+      "scope": "item casting/Concentration/recharge",
+      "PDF": [
+        206,
+        251
+      ],
+      "owners": [
+        1140,
+        906,
+        1148
+      ]
+    },
+    {
+      "scope": "duration/dismissal/stacking",
+      "PDF": [
+        106
+      ],
+      "owners": [
+        1450
+      ]
+    },
+    {
+      "scope": "Hat attunement/item ability/default/removal",
+      "PDF": [
+        23,
+        102,
+        103,
+        124,
+        206,
+        224
+      ],
+      "owners": [
+        2051
+      ]
+    }
+  ],
+  "existing_owners": {
+    "386": {
+      "number": 386,
+      "title": "Resolve source-exact Magic Initiate with durable deterministic fixtures",
+      "parent": 283,
+      "blocked_by": [
+        265,
+        272,
+        273,
+        336,
+        384
+      ],
+      "body_sha256": "b21e60c27279ecd3eacd22e1123878a99ac5abe2e75e90ede1177a05b473421d",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          2033,
+          2032,
+          2031,
+          506,
+          502,
+          386
+        ],
+        "280": [
+          280,
+          1477,
+          2033,
+          2032,
+          2031,
+          506,
+          502,
+          386
+        ],
+        "337": [
+          337,
+          2036,
+          2035,
+          1818,
+          1817,
+          1816,
+          1815,
+          1814,
+          1813,
+          1812,
+          1811,
+          1810,
+          1809,
+          1808,
+          1807,
+          1806,
+          1805,
+          1804,
+          1803,
+          1802,
+          1801,
+          1794,
+          2033,
+          2032,
+          2031,
+          506,
+          502,
+          386
+        ]
+      }
+    },
+    "427": {
+      "number": 427,
+      "title": "Complete source-correct Short Rest and publish recharge events",
+      "parent": 272,
+      "blocked_by": [
+        272,
+        286,
+        308
+      ],
+      "body_sha256": "5356cf09ae69c28bac1a08c901ce3fde57fcf877f3bbf619eb29c575cfca3a75",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          2033,
+          2032,
+          2031,
+          1971,
+          2006,
+          1717,
+          428,
+          427
+        ],
+        "280": [
+          280,
+          2051,
+          427
+        ],
+        "337": [
+          337,
+          2036,
+          2035,
+          1818,
+          1817,
+          1816,
+          1815,
+          1814,
+          1813,
+          1812,
+          1811,
+          1810,
+          1809,
+          1808,
+          1807,
+          1806,
+          1805,
+          1804,
+          1803,
+          1802,
+          1801,
+          1800,
+          1799,
+          1778,
+          1775,
+          428,
+          427
+        ]
+      }
+    },
+    "906": {
+      "number": 906,
+      "title": "Resolve Detect Magic detect extension",
+      "parent": 848,
+      "blocked_by": [
+        265,
+        273
+      ],
+      "body_sha256": "6341163472e337b9dd5046203244d2e35d5ac15f74b1d1a9948e17dba55037dc",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          2033,
+          2016,
+          2015,
+          906
+        ],
+        "280": [
+          280,
+          1477,
+          2033,
+          2016,
+          2015,
+          906
+        ],
+        "337": [
+          337,
+          2036,
+          2035,
+          1818,
+          1817,
+          1816,
+          1815,
+          1814,
+          1813,
+          1812,
+          1811,
+          1810,
+          1809,
+          1808,
+          1807,
+          1806,
+          1805,
+          1804,
+          1803,
+          1802,
+          1801,
+          1794,
+          2033,
+          2016,
+          2015,
+          906
+        ]
+      }
+    },
+    "1133": {
+      "number": 1133,
+      "title": "Rogue: scroll check",
+      "parent": 1094,
+      "blocked_by": [
+        1097,
+        1108,
+        1142
+      ],
+      "body_sha256": "0169a5719397da8b07387b780dc6fd2859a72c583abd374df03ab5a66d5170b2",
+      "root_paths": {
+        "337": [
+          337,
+          1093,
+          1095,
+          1168,
+          1167,
+          1166,
+          1165,
+          1164,
+          1163,
+          1162,
+          1161,
+          1143,
+          1133
+        ]
+      }
+    },
+    "1140": {
+      "number": 1140,
+      "title": "Rogue: magic item",
+      "parent": 1096,
+      "blocked_by": [
+        195,
+        906,
+        1097
+      ],
+      "body_sha256": "46496ae1daa0ccf0187353cf3601fc16bdf18efc5164b229817be9edc888d39c",
+      "root_paths": {
+        "279": [
+          279,
+          1096,
+          1148,
+          1140
+        ],
+        "280": [
+          280,
+          1096,
+          1148,
+          1140
+        ],
+        "337": [
+          337,
+          1093,
+          1096,
+          1148,
+          1140
+        ]
+      }
+    },
+    "1142": {
+      "number": 1142,
+      "title": "Rogue: scroll item",
+      "parent": 1096,
+      "blocked_by": [
+        195,
+        1097
+      ],
+      "body_sha256": "d2a9bf291bf511a3ab6a84a1ed3bdbe6e8409dae8f837cdf3d3c5f4abe4071af",
+      "root_paths": {
+        "279": [
+          279,
+          1096,
+          1142
+        ],
+        "280": [
+          280,
+          1096,
+          1142
+        ],
+        "337": [
+          337,
+          1093,
+          1096,
+          1142
+        ]
+      }
+    },
+    "1148": {
+      "number": 1148,
+      "title": "Rogue: wand dawn",
+      "parent": 1096,
+      "blocked_by": [
+        195,
+        1097,
+        1140
+      ],
+      "body_sha256": "f9dfb55ccdb250dc47bccf54edc6a448869dc8f3aa6653e32067e590e3623574",
+      "root_paths": {
+        "279": [
+          279,
+          1096,
+          1148
+        ],
+        "280": [
+          280,
+          1096,
+          1148
+        ],
+        "337": [
+          337,
+          1093,
+          1096,
+          1148
+        ]
+      }
+    },
+    "1293": {
+      "number": 1293,
+      "title": "Resolve Disguise Self effect",
+      "parent": 1461,
+      "blocked_by": [
+        1453,
+        1454
+      ],
+      "body_sha256": "f869e94338124abab047eef03315687dac005a22534457d0481336bcff89cdc8",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          2033,
+          2016,
+          2015,
+          1293
+        ],
+        "280": [
+          280,
+          2051,
+          1293
+        ],
+        "337": [
+          337,
+          2036,
+          2035,
+          1818,
+          1817,
+          1816,
+          1815,
+          1814,
+          1813,
+          1812,
+          1811,
+          1810,
+          1809,
+          1808,
+          1807,
+          1806,
+          1805,
+          1804,
+          1803,
+          1802,
+          1801,
+          1794,
+          2033,
+          2016,
+          2015,
+          1293
+        ]
+      }
+    },
+    "1447": {
+      "number": 1447,
+      "title": "Resolve bounded cast components",
+      "parent": 1469,
+      "blocked_by": [
+        68,
+        273,
+        1457
+      ],
+      "body_sha256": "3061aa1f96c328eaffff56a289c64544a62e126e8277be1049a0dca6988a19be",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          2033,
+          2032,
+          2031,
+          1971,
+          2039,
+          2008,
+          1447
+        ],
+        "280": [
+          280,
+          2051,
+          1293,
+          1454,
+          1447
+        ],
+        "337": [
+          337,
+          2036,
+          2035,
+          1818,
+          1817,
+          1816,
+          1815,
+          1814,
+          1813,
+          1812,
+          1811,
+          1810,
+          1809,
+          1808,
+          1807,
+          1806,
+          1805,
+          1804,
+          1803,
+          1802,
+          1801,
+          1800,
+          1799,
+          1777,
+          2038,
+          2008,
+          1447
+        ]
+      }
+    },
+    "1448": {
+      "number": 1448,
+      "title": "Resolve bounded cast cost privacy",
+      "parent": 1469,
+      "blocked_by": [
+        64,
+        67,
+        68,
+        1457
+      ],
+      "body_sha256": "62418a99c58fe8bd31a9ea09941cb45bfa9f415f7d372783305e58b0e7d8b3cd",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          2033,
+          2032,
+          2031,
+          1971,
+          2039,
+          2008,
+          1448
+        ],
+        "280": [
+          280,
+          2051,
+          1293,
+          1454,
+          1448
+        ],
+        "337": [
+          337,
+          2036,
+          2035,
+          1818,
+          1817,
+          1816,
+          1815,
+          1814,
+          1813,
+          1812,
+          1811,
+          1810,
+          1809,
+          1808,
+          1807,
+          1806,
+          1805,
+          1804,
+          1803,
+          1802,
+          1801,
+          1800,
+          1799,
+          1777,
+          2038,
+          2008,
+          1448
+        ]
+      }
+    },
+    "1449": {
+      "number": 1449,
+      "title": "Resolve bounded cast long ritual",
+      "parent": 1469,
+      "blocked_by": [
+        273,
+        353,
+        1452,
+        1457
+      ],
+      "body_sha256": "ee103c607bc7a2f8006546eb837b2eb2896feb7561910c8d4793fd55f132c406",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          2033,
+          2032,
+          2031,
+          1971,
+          2039,
+          2008,
+          1449
+        ],
+        "280": [
+          280,
+          2051,
+          1293,
+          1454,
+          1449
+        ],
+        "337": [
+          337,
+          2036,
+          2035,
+          1818,
+          1817,
+          1816,
+          1815,
+          1814,
+          1813,
+          1812,
+          1811,
+          1810,
+          1809,
+          1808,
+          1807,
+          1806,
+          1805,
+          1804,
+          1803,
+          1802,
+          1801,
+          1800,
+          1799,
+          1777,
+          2038,
+          2008,
+          1449
+        ]
+      }
+    },
+    "1450": {
+      "number": 1450,
+      "title": "Resolve bounded effect time span stack",
+      "parent": 1469,
+      "blocked_by": [
+        351,
+        1452,
+        1457
+      ],
+      "body_sha256": "74316aa1a8877579a8eaa61f31e8811eaa393f09dc366f269c76596c788c0e7e",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          2033,
+          2032,
+          2031,
+          1971,
+          2039,
+          2008,
+          1450
+        ],
+        "280": [
+          280,
+          2051,
+          1450
+        ],
+        "337": [
+          337,
+          2036,
+          2035,
+          1818,
+          1817,
+          1816,
+          1815,
+          1814,
+          1813,
+          1812,
+          1811,
+          1810,
+          1809,
+          1808,
+          1807,
+          1806,
+          1805,
+          1804,
+          1803,
+          1802,
+          1801,
+          1800,
+          1799,
+          1777,
+          2038,
+          2008,
+          1450
+        ]
+      }
+    }
+  },
+  "new_task": {
+    "number": 2051,
+    "title": "Cast Disguise Self from an attuned Hat of Disguise",
+    "parent": 273,
+    "blocked_by": [
+      195,
+      427,
+      1293,
+      1450
+    ],
+    "type": "Task",
+    "size": "M",
+    "body_sha256": "1a30e77f82c28374eb6e8c26e4f20a69d8a45006e38fa23ddd5c02c82ba4037e",
+    "body": "<!-- edda-273:hat-of-disguise-casting -->\nDecision #273; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 23, 102–106, 124, 206, 224; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only one source identity: Hat of Disguise, worn as headwear by its attuned user. Reuse the actual Disguise Self execution output #1293; do not copy its illusion, physical-inspection or Study/Investigation resolution. This adapter owns the Hat's attunement profile, item-casting operands and removal ending. No other item, learned spell, class admission or unrestricted spell dispatch is enabled.\n\nAttunement follows PDF102–103: physical contact and one focused completed Short Rest, distinct from identification; interruption fails. Use the canonical rest receipt #427. Normal capacity is three items; a different capacity requires an independently qualified source, never an implicit Thief grant. Reject a duplicate copy and a full capacity. Preserve the existing bonds. End this bond on death, another creature's attunement, lost prerequisites where applicable, separation greater than 100 feet for at least 24 hours, or a separate voluntary focused Short Rest unless cursed. A curse or anatomical exception must be authoritative; unknown facts remain unavailable. #1141 remains limited to its four original item identities and is not widened or required as an unrelated effect bundle.\n\nWhile attuned and wearing the Hat, cast its level-one Disguise Self using its normal Action, Self range and one-hour duration. PDF206 supplies the lowest possible spell/caster level, no user slot and no components; the Hat supplies no charge cost or daily cap. Its source has no Concentration requirement. Item permission does not require the Spellcasting feature or the spell on a class list. Preserve the source's ability rule: choose among actual qualified spellcasting abilities; without any such ability use modifier +0 and the user's proficiency bonus. The absence of the Spellcasting feature alone does not erase an ability supplied by a separately qualified trait/feat. Bind the selected ability, PB and DC to the committed cast; changing equipment or choosing a different ability later must not rewrite an existing receipt. The spell ends when this Hat is removed. Consume #1450 for qualified duration/dismissal/stacking behavior; do not invent Light's recast-ending rule for Disguise Self.\n\n## Deterministic fixtures\n\n- A user with no spellcasting ability and PB+2 casts at spell level one: DC = 8 + 0 + 2 = 10, no slot, component, charge or learned-spell grant. The existing #1293 output supplies the actual disguise and Investigation comparison.\n- A user with separately qualified CHA+3, WIS+4 and PB+3 explicitly chooses CHA for DC14 or WIS for DC15. Persist that choice once. A qualified Magic Initiate ability can exist without the Spellcasting feature; do not substitute +0 merely because that feature is absent.\n- One uninterrupted attunement rest succeeds; an interrupted rest, identification-only rest, fourth normal bond, duplicate Hat, unattuned user, unworn Hat, foreign actor/item or unknown curse/anatomy fails without partial changes. Exactly 100 feet alone does not meet the greater-than-100-feet ending predicate; 101 feet for 24 hours does.\n- Removal ends only this Hat's source-bound ongoing casts. Reject an invented higher-slot cast, upcast, Concentration cost, daily recharge, charge destruction, material cost, automatic tactile success or duplicate effect execution. Preserve unrelated effects and independent source instances.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, item ownership, attunement, wearing, ability entitlement, source version, clock and expected revisions. Commit the rest/bond or cast/effect/ending, saved operands and public history atomically. Inject failures after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry/reload/reconnect returns the same receipt; conflicting payload rejects; racing confirmations commit once. A source-triggered ending belongs to its triggering event, with no invented optional activation. Web and trusted TUI share availability and confirmation/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private checks, targets and item facts.\n\nHard prerequisites: #195 item contract, #427 completed Short Rest output, #1293 actual Disguise Self resolver, #1450 duration/dismissal/stack output. Parent: #273. Directly block item qualification #280. This adds an item mode only; #279 already requires the unchanged Disguise Self resolver through the accepted finite shared aggregate. Do not add a new #279, #67 or #429 edge or alter any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+  },
+  "finite_boundaries": {
+    "shared_protocol_spells": 245,
+    "scroll_identity_permission": 339,
+    "residual_spell_owner": 277,
+    "residual_item_owner": 278
+  },
+  "runtime_qualified": false
+}
