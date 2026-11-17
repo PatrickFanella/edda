@@ -24,6 +24,22 @@ class PublicationProofTests(unittest.TestCase):
             identity=cls.registry['nodes'].get(aliases.get(number,''),dict(id=number+100,node_id='old-'+str(number)))
             rows.append(dict(number=number,id=identity['id'],node_id=identity['node_id'],typename='Issue',title=title,body=body,state=state,parent=parents.get(number),blocked_by=deps,type=md['type'],projects=[dict(project=dict(id=PROJECT),fieldValueByName=dict(name=md['size']))]))
         cls.receipt=dict(status='SYNTHETIC TEST FIXTURE ONLY',graph=rows)
+    def test_closed_decisions_still_require_all_source_and_terminal_edges(self):
+        receipt=copy.deepcopy(self.receipt)
+        for row in receipt['graph']:
+            if row['number'] in (330,331,332):row['state']='CLOSED'
+        validate_live(receipt,self.registry,self.inputs)
+        for alias in ['330:shared-aggregate','331:shared-output','332:class-gate']:
+            changed=copy.deepcopy(receipt)
+            number=self.registry['nodes'][alias]['number']
+            row=next(r for r in changed['graph'] if r['number']==number)
+            row['blocked_by'].pop()
+            with self.assertRaises(AssertionError):validate_live(changed,self.registry,self.inputs)
+        changed=copy.deepcopy(receipt)
+        old=next(r for r in changed['graph'] if r['number'] not in (330,331,332))
+        old['state']='CLOSED' if old['state'].upper()=='OPEN' else 'OPEN'
+        with self.assertRaises(AssertionError):validate_live(changed,self.registry,self.inputs)
+
     def test_frozen_sources_and_approved_template_semantics(self):
         _,f,_,_,_=self.inputs
         actual=json.loads((Path(__file__).resolve().parents[1]/'docs/investigations/issue-332-wizard-scope.json').read_text())

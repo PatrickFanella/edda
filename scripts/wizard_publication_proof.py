@@ -199,8 +199,11 @@ def validate_live(receipt,registry,inputs):
     for old in baseline['graph']:
         now=live[old['number']]
         assert now['title']==old['title'] and now['body']==old['body'],('old body/title changed before root prefix release',old['number'])
-        # Closed decisions may close after their accepted PR. They still remain
-        # mandatory nodes/edges: never filter the graph by issue state.
+        # Only these three decisions can change state; every path remains required.
+        if old['number'] in (330,331,332):
+            assert now['state'].upper() in ('OPEN','CLOSED'), ('decision state',old['number'])
+        else:
+            assert now['state'].upper()==old['state'].upper(), ('old state drift',old['number'])
         if str(old['number']) in baseline['project']:
             assert metadata(now)==baseline['project'][str(old['number'])],('old Task/Project metadata changed',old['number'])
     assert live[183]['blocked_by']==next(r['blocked_by'] for r in baseline['graph'] if r['number']==183),'old183 unchanged'
