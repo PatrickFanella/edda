@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "decision": 268,
+  "status": "ALL_NAMED_SCOPES_HAVE_EXISTING_PUBLISHED_OWNERS",
+  "source": {
+    "PDF_SHA256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "pages": [
+      177,
+      181,
+      184
+    ],
+    "license": "CC-BY-4.0; docs/srd-5.2.1-conformance.md"
+  },
+  "scopes": [
+    {
+      "condition": "Blinded",
+      "PDF": 177,
+      "execution_owner": 960,
+      "predicates": [
+        "Sight unavailable; sight-required checks automatically fail",
+        "Own attacks Disadvantage; incoming attacks Advantage",
+        "Separately qualified senses remain distinct; no invented condition source or duration"
+      ]
+    },
+    {
+      "condition": "Deafened",
+      "PDF": 181,
+      "execution_owner": 961,
+      "predicates": [
+        "Hearing unavailable; hearing-required checks automatically fail",
+        "No penalty to unrelated checks or saving throws",
+        "Independent source contributions preserved"
+      ]
+    },
+    {
+      "condition": "Invisible",
+      "PDF": 184,
+      "execution_owner": 962,
+      "predicates": [
+        "Initiative roll Advantage",
+        "Seen-target effects excluded unless creator can see recipient; equipment concealed",
+        "Attack advantage/disadvantage observer-specific",
+        "No automatic Hide or undetectable-position grant"
+      ]
+    }
+  ],
+  "new_implementation_issues_required": 0,
+  "owners": {
+    "960": {
+      "number": 960,
+      "title": "Admit shared Blinded with source-bound sight and attack consequences",
+      "parent": 268,
+      "blocked_by": [
+        61,
+        65,
+        67,
+        268
+      ],
+      "body_sha256": "fb4148647db71e25a5aaabf65874293da9ec10a7ef5617b8ab54b309fe744e2e",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      }
+    },
+    "961": {
+      "number": 961,
+      "title": "Admit shared Deafened with source-bound hearing consequences",
+      "parent": 268,
+      "blocked_by": [
+        61,
+        67,
+        268
+      ],
+      "body_sha256": "d9d151dfedf9a7d9f5e72363f7f9076cebf167c38950f8ed6b5c5218e75bd602",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      }
+    },
+    "962": {
+      "number": 962,
+      "title": "Admit shared Invisible with observer-specific sight and attack consequences",
+      "parent": 268,
+      "blocked_by": [
+        61,
+        65,
+        66,
+        67,
+        268
+      ],
+      "body_sha256": "8008a68323b2754fb2dbf75925495f52d5e133c1905ae6ba829e54255c672c89",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      }
+    }
+  },
+  "secondary_existing_endings": [
+    963,
+    964
+  ],
+  "ownership_preservation": "Reuse accepted whole contracts; no title/body/parent/prerequisite/Project edits or new issues.",
+  "runtime_qualified": false
+}
