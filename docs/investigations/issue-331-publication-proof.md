@@ -15,6 +15,30 @@ The Warlock proposal remains byte-for-byte SHA256 `8d4a8ea724ee8e997093d0e387705
 
 Every registry identity must have exactly `number`, `id` and `node_id`. Numeric identities must be positive JSON integers; booleans and floats fail. All three fields must be unique across the 871 aliases, and issue numbers cannot overlap the baseline. Duplicate JSON fields and nonfinite values fail. The final body preserves all approved body text and trailing newlines, then appends only the exact renderer suffix with actual issue, parent and numerically sorted prerequisite numbers.
 
+## Delivered allocation binding checkpoint
+
+The immutable ROOT delivery observed at `2026-11-17T01:44:25.687122+00:00` has been independently validated offline. Its 871 typed identities cover Sorcerer 305, Warlock 281 and Wizard 285. This checkpoint is **ALLOCATION IDS_BOUND**. Native wiring, native readback and final acceptance remain **UNQUALIFIED**.
+
+`issue-331-allocated-registry.json` and `issue-331-allocated-milestone.json` are exact-byte portable copies of the delivered files. `issue-331-allocation-bindings.json` records their original absolute paths and hashes, the canonical nodes-map digest, unchanged proposal/approval/renderer/contract pins, and all 281 own identities. Each own entry includes the expected native parent, sorted native prerequisites and SHA256 of the expected complete rendered body. These are expectations derived from frozen approval and allocated IDs; they are not observations of native fields.
+
+| Delivered artifact | SHA256 |
+| --- | --- |
+| Immutable IDS_ALLOCATED registry | `73d9755cd7181155544f5d79a944bdaf653028425a75b5131b9adef1faf76392` |
+| Milestone sidecar | `4ada8b216c27369df0cca9304d4ec5f4f556035362ee0c3d26ebef8d21fdf9a6` |
+| Canonical complete nodes map | `866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c` |
+
+Reproduce the binding from the committed copies without accessing the original paths or network:
+
+```sh
+rtk proxy python3 scripts/warlock_allocation_binding.py
+rtk proxy python3 -m unittest discover -s scripts -p 'test_warlock_allocation_binding.py' -v
+rtk proxy python3 -m unittest discover -s scripts -p 'test_warlock_approved_native.py' -v
+```
+
+The binder validates strict JSON, complete exact typed identities, frozen approval/renderer/contract hashes, raw delivery hashes and stable map continuity using the existing pure functions. It compares the committed binding against deterministic derivation by default; `--write` explicitly rewrites only that derived sidecar. It never imports the native reader or follows the sidecar's live-registry path. Four actual-delivery binding controls and 14 existing synthetic approved-native controls passed. Changed bytes, coherent reassignment and altered frozen renderer inputs are rejected. Tests also confirm that IDS_ALLOCATED cannot satisfy wiring and that the default strict proof and final native proof still reject the absent accepted prefix release.
+
+ROOT reports that the first `330:creation` wiring attempt returned HTTP 502, possibly after partial native field changes. Native writes are halted under `b5c5cbe912a3c2afae2d5bb66bf5026d29bd5c83e1fb2577aeb051f552a5cc50`; reconciliation belongs to ROOT. This checkpoint performs no live queries, allocation readback or native mutations, and makes no claim about those partial fields. There is no delivered VERIFIED milestone. The accepted POST-SORCERER prefix remains HELD and all four appends remain root-only pending. Issue #331 remains open; runtime and broader implementation qualification are unchanged.
+
 The three proof stages have different claims:
 
 1. **Allocation readback:** accepts only a ROOT-delivered immutable IDS_ALLOCATED registry snapshot and sidecar. It validates the complete typed identity map and independently reads real GitHub Issues, full allocation/final bodies, Task/M metadata and permitted partial wiring. Its result explicitly leaves wiring, final prefix and runtime qualification false.
@@ -29,6 +53,6 @@ The source-only command remains:
 rtk proxy python3 scripts/verify_warlock_scope.py --pdf /tmp/edda-wave1/SRD_CC_v5.2.1.pdf --source-class-checkpoint
 ```
 
-After ROOT delivers each milestone, use `--allocated-registry` or `--wired-registry` with that delivery's exact immutable `registry_path`, `--milestone` with its sidecar and `--live`. Wiring also requires `--allocation-evidence` pointing to the retained own allocation readback. These modes refuse to overwrite existing milestone evidence. They do not poll or discover mutable registry progress. The default strict mode requires `--live`, actual wiring evidence and ROOT's final release.
+Only after ROOT explicitly authorizes live collection at a delivered milestone, use `--allocated-registry` or `--wired-registry` with that delivery's exact immutable `registry_path`, `--milestone` with its sidecar and `--live`. Wiring also requires `--allocation-evidence` pointing to the retained own allocation readback. These modes refuse to overwrite existing milestone evidence. They do not poll or discover mutable registry progress. The default strict mode requires `--live`, actual wiring evidence and ROOT's final release.
 
-The offline controls use synthetic native IDs only. They check coherent body/hash/receipt weakening, complete alias coverage, numeric types, duplicate identities, renderer whitespace/suffix changes, parent/prerequisite/Task/Size mutations, old-owner changes, lost mandatory paths, byte snapshot replacement and reassignment between milestones. Synthetic success is never recorded as actual native publication. Runtime spell effects, class admission, database behavior, browser/device behavior and FullRules remain unqualified.
+The existing approved-native controls use synthetic native IDs; the allocation-binding controls above use the delivered immutable identities offline. They check coherent body/hash/receipt weakening, complete alias coverage, numeric types, duplicate identities, renderer whitespace/suffix changes, parent/prerequisite/Task/Size mutations, old-owner changes, lost mandatory paths, byte snapshot replacement and reassignment between milestones. Synthetic success is never recorded as actual native publication. Runtime spell effects, class admission, database behavior, browser/device behavior and FullRules remain unqualified.

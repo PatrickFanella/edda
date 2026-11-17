@@ -1,0 +1,4089 @@
+{
+  "status": "ALLOCATION IDS_BOUND",
+  "own_nodes": 281,
+  "allocated_nodes": 871,
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "own_proposal_sha256": "8d4a8ea724ee8e997093d0e3877054a1c4a499f1f00a059bcbb9d2d51bc4268a",
+  "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+  "milestone_contract_sha256": "58c5aacb2a3e73b759dff6b98316661fb6bd9870b95e5c7fa9a0d39e7ee736ba",
+  "observed_at": "2026-11-17T01:44:25.687122+00:00",
+  "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+  "copied_artifacts": {
+    "issue-331-allocated-registry.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/IDS_ALLOCATED.registry.json",
+      "sha256": "73d9755cd7181155544f5d79a944bdaf653028425a75b5131b9adef1faf76392"
+    },
+    "issue-331-allocated-milestone.json": {
+      "source": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/ids-allocated-milestone.json",
+      "sha256": "4ada8b216c27369df0cca9304d4ec5f4f556035362ee0c3d26ebef8d21fdf9a6"
+    }
+  },
+  "native_wiring": "UNQUALIFIED",
+  "native_readback": "UNQUALIFIED",
+  "final_acceptance": "UNQUALIFIED",
+  "final_prefix_sealed": false,
+  "runtime_qualified": false,
+  "bindings": {
+    "331:ability-score-improvement": {
+      "number": 1492,
+      "id": 6432126864,
+      "node_id": "I_kwDOSicKg88AAAABf2J3kA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        390,
+        391,
+        392,
+        393,
+        394,
+        395,
+        396,
+        397,
+        398,
+        399,
+        400,
+        401,
+        1733
+      ],
+      "expected_rendered_body_sha256": "a91f4c6fe29ec534269d8bb36256413b6cfb8d4155a374c8ee6b0fa50d0105f5"
+    },
+    "331:agonizing-blast": {
+      "number": 1502,
+      "id": 6432136857,
+      "node_id": "I_kwDOSicKg88AAAABf2KemQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "050828e8474707ea605091bab8a5526f00baf00f14e7a78b0e94724232a97a88"
+    },
+    "331:arcanum-6": {
+      "number": 1554,
+      "id": 6432225026,
+      "node_id": "I_kwDOSicKg88AAAABf2P3Ag",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "31b143231619832783e777c0a5e0a9b08c41d4384959c0b675d9dc96b040e30a"
+    },
+    "331:arcanum-7": {
+      "number": 1555,
+      "id": 6432225924,
+      "node_id": "I_kwDOSicKg88AAAABf2P6hA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "88386afb701a71cb7c09fd82d264e63d09dec49ed59d00e54986f27e18f731ac"
+    },
+    "331:arcanum-8": {
+      "number": 1556,
+      "id": 6432227107,
+      "node_id": "I_kwDOSicKg88AAAABf2P_Iw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "2d1a67d209abeaf9ea992d2a60c7d60e82bb94bffa2536599ebf96afe3a90cb9"
+    },
+    "331:arcanum-9": {
+      "number": 1557,
+      "id": 6432228048,
+      "node_id": "I_kwDOSicKg88AAAABf2QC0A",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "c15b9dcf408cbe7a233162892f9f83412905a69d32d1097024d52829f11d72cb"
+    },
+    "331:armor-of-shadows": {
+      "number": 1503,
+      "id": 6432137764,
+      "node_id": "I_kwDOSicKg88AAAABf2KiJA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1365,
+        1733
+      ],
+      "expected_rendered_body_sha256": "96015438792c0c238f83702afeb1f614054edcc14aa879616069f6ff638653eb"
+    },
+    "331:ascendant-step": {
+      "number": 1504,
+      "id": 6432138604,
+      "node_id": "I_kwDOSicKg88AAAABf2KlbA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1364,
+        1733
+      ],
+      "expected_rendered_body_sha256": "26493bb997fbf46f8bfbc0ab3084000db5340b969c7b43a9ffc0edecbe497643"
+    },
+    "331:blade-bond": {
+      "number": 1530,
+      "id": 6432166634,
+      "node_id": "I_kwDOSicKg88AAAABf2MS6g",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "e392f22f7cbd7146df576addedf17a072006019f473a8440a460956e1ee1ed74"
+    },
+    "331:blade-combat": {
+      "number": 1531,
+      "id": 6432167840,
+      "node_id": "I_kwDOSicKg88AAAABf2MXoA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "3d63f2d535cd2d5d77b582bf3c2e5453efdc75742a3c69e42cdd5e27cb37d879"
+    },
+    "331:blade-ending": {
+      "number": 1533,
+      "id": 6432202593,
+      "node_id": "I_kwDOSicKg88AAAABf2OfYQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "b5a74ecc3232a4e8dcaa2ae662f88757da3609529d116db350d0c7c02600c00f"
+    },
+    "331:blade-proficiency-focus": {
+      "number": 1532,
+      "id": 6432168810,
+      "node_id": "I_kwDOSicKg88AAAABf2Mbag",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733,
+        1738
+      ],
+      "expected_rendered_body_sha256": "93acd6a48417d2f6d280c2a9b0933180178ade0035f9b73888ca386feb40632d"
+    },
+    "331:casting-output": {
+      "number": 1737,
+      "id": 6432412759,
+      "node_id": "I_kwDOSicKg88AAAABf2bUVw",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        1447,
+        1448,
+        1449,
+        1450
+      ],
+      "expected_rendered_body_sha256": "4e03372589192e530dd189d83b98c291320b7d7cd16184b1b8c05e08f52ced79"
+    },
+    "331:chain-attack-exchange": {
+      "number": 1536,
+      "id": 6432205779,
+      "node_id": "I_kwDOSicKg88AAAABf2Or0w",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1648,
+        1649,
+        1650,
+        1651,
+        1652,
+        1653,
+        1654,
+        1655,
+        1656,
+        1657,
+        1658,
+        1659,
+        1660,
+        1661,
+        1662,
+        1663,
+        1664,
+        1665,
+        1666,
+        1667,
+        1668,
+        1669,
+        1670,
+        1671,
+        1672,
+        1673,
+        1674,
+        1675,
+        1676,
+        1677,
+        1678,
+        1679,
+        1680,
+        1681,
+        1682,
+        1683,
+        1684,
+        1685,
+        1686,
+        1687,
+        1688,
+        1689,
+        1690,
+        1691,
+        1692,
+        1693,
+        1694,
+        1695,
+        1711,
+        1712,
+        1713,
+        1714,
+        1715,
+        1716,
+        1717,
+        1733
+      ],
+      "expected_rendered_body_sha256": "b030f05dc12835756fa353602d79b4c04d4ec8b347e628319c266f4c85ccd7ff"
+    },
+    "331:chain-cast-mode": {
+      "number": 1534,
+      "id": 6432203570,
+      "node_id": "I_kwDOSicKg88AAAABf2OjMg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1648,
+        1649,
+        1650,
+        1651,
+        1652,
+        1653,
+        1654,
+        1655,
+        1656,
+        1657,
+        1658,
+        1659,
+        1660,
+        1661,
+        1662,
+        1663,
+        1664,
+        1665,
+        1666,
+        1667,
+        1668,
+        1669,
+        1670,
+        1671,
+        1672,
+        1673,
+        1674,
+        1675,
+        1676,
+        1677,
+        1678,
+        1679,
+        1680,
+        1681,
+        1682,
+        1683,
+        1684,
+        1685,
+        1686,
+        1687,
+        1688,
+        1689,
+        1690,
+        1691,
+        1692,
+        1693,
+        1694,
+        1695,
+        1711,
+        1712,
+        1713,
+        1714,
+        1715,
+        1716,
+        1717,
+        1733,
+        1737
+      ],
+      "expected_rendered_body_sha256": "6465df57cb89967dd6108ce6be886eb9f0053ec5d18dd2895875a54bb20d0c52"
+    },
+    "331:chain-form-choice": {
+      "number": 1535,
+      "id": 6432204624,
+      "node_id": "I_kwDOSicKg88AAAABf2OnUA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1648,
+        1649,
+        1650,
+        1651,
+        1652,
+        1653,
+        1654,
+        1655,
+        1656,
+        1657,
+        1658,
+        1659,
+        1660,
+        1661,
+        1662,
+        1663,
+        1664,
+        1665,
+        1666,
+        1667,
+        1668,
+        1669,
+        1670,
+        1671,
+        1672,
+        1673,
+        1674,
+        1675,
+        1676,
+        1677,
+        1678,
+        1679,
+        1680,
+        1681,
+        1682,
+        1683,
+        1684,
+        1685,
+        1686,
+        1687,
+        1688,
+        1689,
+        1690,
+        1691,
+        1692,
+        1693,
+        1694,
+        1695,
+        1711,
+        1712,
+        1713,
+        1714,
+        1715,
+        1716,
+        1717,
+        1733
+      ],
+      "expected_rendered_body_sha256": "dbdfa338c44df7ed5b4f42266860ab6bdf71d6c88eb5a6641d9c997b6bb2bdd1"
+    },
+    "331:class-gate": {
+      "number": 1758,
+      "id": 6432431824,
+      "node_id": "I_kwDOSicKg88AAAABf2ce0A",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        331,
+        1748,
+        1749,
+        1757
+      ],
+      "expected_rendered_body_sha256": "6d0fda2b9a74d2355deddd072f3c8e14aab7d33bcc681986c4a2954579a57b1f"
+    },
+    "331:condition-output": {
+      "number": 1736,
+      "id": 6432411910,
+      "node_id": "I_kwDOSicKg88AAAABf2bRBg",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        487,
+        488,
+        504,
+        727,
+        777,
+        778,
+        960,
+        961,
+        962,
+        963,
+        964
+      ],
+      "expected_rendered_body_sha256": "859eed8865a0918f2ac58483201ab2cb7a627ef97fc1d26179b2d2807ac6cffb"
+    },
+    "331:consumed-output-1-1": {
+      "number": 1750,
+      "id": 6432424304,
+      "node_id": "I_kwDOSicKg88AAAABf2cBcA",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        677,
+        680,
+        694,
+        907,
+        939,
+        940,
+        1035,
+        1240,
+        1241,
+        1242,
+        1247,
+        1248,
+        1260,
+        1261,
+        1262,
+        1263,
+        1264,
+        1267,
+        1273,
+        1277,
+        1278,
+        1281,
+        1578,
+        1579,
+        1580,
+        1581,
+        1582,
+        1583,
+        1584,
+        1585,
+        1586,
+        1587,
+        1588,
+        1589
+      ],
+      "expected_rendered_body_sha256": "3cb7cec30f47e84662a51acd74c3bd2687d860eab638076f5d8d654c57472176"
+    },
+    "331:consumed-output-2-1": {
+      "number": 1751,
+      "id": 6432425059,
+      "node_id": "I_kwDOSicKg88AAAABf2cEYw",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        355,
+        906,
+        909,
+        965,
+        966,
+        1049,
+        1050,
+        1051,
+        1052,
+        1053,
+        1282,
+        1286,
+        1287,
+        1291,
+        1292,
+        1293,
+        1296,
+        1297,
+        1298,
+        1310,
+        1311,
+        1312,
+        1313,
+        1314,
+        1315,
+        1316,
+        1317,
+        1318,
+        1319,
+        1320,
+        1322,
+        1323,
+        1648,
+        1649,
+        1650,
+        1651,
+        1652,
+        1653,
+        1654,
+        1655,
+        1656,
+        1657,
+        1658,
+        1659,
+        1660,
+        1661,
+        1662,
+        1663,
+        1664,
+        1665,
+        1666,
+        1667,
+        1668,
+        1669,
+        1672,
+        1673,
+        1674,
+        1675,
+        1676,
+        1677,
+        1678,
+        1679,
+        1680,
+        1681,
+        1682,
+        1683,
+        1684,
+        1685,
+        1686,
+        1687,
+        1688,
+        1691,
+        1692,
+        1711,
+        1712,
+        1713,
+        1714,
+        1715,
+        1716,
+        1717
+      ],
+      "expected_rendered_body_sha256": "f5442493f028cb12cf90bdac8b3883c3648146f82a60da1fd69c93f9b277cb22"
+    },
+    "331:consumed-output-2-2": {
+      "number": 1752,
+      "id": 6432425943,
+      "node_id": "I_kwDOSicKg88AAAABf2cH1w",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        1590,
+        1591,
+        1592,
+        1593,
+        1594,
+        1670,
+        1671,
+        1689,
+        1690,
+        1693,
+        1694,
+        1695
+      ],
+      "expected_rendered_body_sha256": "a94b8dad112e41ca0e73862fa04373123e50df79c54c614976f9795a26c9d8d5"
+    },
+    "331:consumed-output-3-1": {
+      "number": 1753,
+      "id": 6432426777,
+      "node_id": "I_kwDOSicKg88AAAABf2cLGQ",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        678,
+        679,
+        683,
+        945,
+        946,
+        954,
+        1324,
+        1325,
+        1335,
+        1336,
+        1340,
+        1341,
+        1342,
+        1343,
+        1344,
+        1353,
+        1354,
+        1355,
+        1356,
+        1595,
+        1596,
+        1597,
+        1598,
+        1599,
+        1600,
+        1601,
+        1602,
+        1603,
+        1604,
+        1605,
+        1606,
+        1607,
+        1608,
+        1609,
+        1610,
+        1611,
+        1612,
+        1613,
+        1614
+      ],
+      "expected_rendered_body_sha256": "c7e22684b1c49fefe64d15908c54611c252bd7e30cd93376056ffa5a99f6e114"
+    },
+    "331:consumed-output-4-1": {
+      "number": 1754,
+      "id": 6432428002,
+      "node_id": "I_kwDOSicKg88AAAABf2cP4g",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        688,
+        699,
+        935,
+        936,
+        955,
+        967,
+        1064,
+        1070,
+        1360,
+        1361,
+        1364,
+        1365,
+        1366,
+        1367,
+        1369,
+        1370,
+        1371,
+        1375,
+        1376,
+        1377,
+        1378,
+        1381,
+        1615,
+        1616,
+        1617,
+        1618,
+        1619,
+        1620,
+        1621,
+        1622,
+        1623,
+        1624,
+        1625,
+        1626,
+        1627,
+        1628,
+        1629,
+        1630
+      ],
+      "expected_rendered_body_sha256": "f2d7b57c7abcd43858954b41fcab2c63949434aeb3d7497595a3c2d7654b6a53"
+    },
+    "331:consumed-output-5-1": {
+      "number": 1755,
+      "id": 6432429205,
+      "node_id": "I_kwDOSicKg88AAAABf2cUlQ",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        506,
+        684,
+        689,
+        700,
+        913,
+        914,
+        937,
+        938,
+        956,
+        957,
+        958,
+        1075,
+        1076,
+        1077,
+        1079,
+        1382,
+        1383,
+        1384,
+        1385,
+        1386,
+        1394,
+        1400,
+        1404,
+        1405,
+        1631,
+        1632,
+        1633,
+        1634,
+        1635
+      ],
+      "expected_rendered_body_sha256": "dc94f67be19f1906a2392743f05a7be86949379836638aad20c9fdacc3a2293c"
+    },
+    "331:consumed-output-6-1": {
+      "number": 1756,
+      "id": 6432429941,
+      "node_id": "I_kwDOSicKg88AAAABf2cXdQ",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        697,
+        959,
+        1085,
+        1087,
+        1406,
+        1407,
+        1408,
+        1421,
+        1422,
+        1423,
+        1427,
+        1428,
+        1429,
+        1430,
+        1431,
+        1432,
+        1434,
+        1435,
+        1436,
+        1636,
+        1637,
+        1638,
+        1639,
+        1640,
+        1641,
+        1642,
+        1643,
+        1644,
+        1645,
+        1646,
+        1647
+      ],
+      "expected_rendered_body_sha256": "e7c1f15e3fd9158c8b903f3e878ce129e6807e109f683fad73c6dc2191e95ed1"
+    },
+    "331:contact-patron": {
+      "number": 1493,
+      "id": 6432127877,
+      "node_id": "I_kwDOSicKg88AAAABf2J7hQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1584,
+        1585,
+        1733,
+        1737
+      ],
+      "expected_rendered_body_sha256": "5765ea38565d935ee1e8724765eb31a03e8a504bc4ad5d8c004458713a9a5547"
+    },
+    "331:core-traits": {
+      "number": 1478,
+      "id": 6432113098,
+      "node_id": "I_kwDOSicKg88AAAABf2JByg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733,
+        1738
+      ],
+      "expected_rendered_body_sha256": "1e8b1e987a76d2b631abbdd5b735a3733e3bb988df466a617d2da0bf6c0e6550"
+    },
+    "331:creation": {
+      "number": 1484,
+      "id": 6432118428,
+      "node_id": "I_kwDOSicKg88AAAABf2JWnA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        430,
+        1478,
+        1479,
+        1480,
+        1483,
+        1486,
+        1487,
+        1733,
+        1738
+      ],
+      "expected_rendered_body_sha256": "9f901f015d8d6c45ef933dfa6837d5a1bd54ec844174762b09adb053f1f2699b"
+    },
+    "331:creature-baboon-bounded-stat-actions": {
+      "number": 1648,
+      "id": 6432325805,
+      "node_id": "I_kwDOSicKg88AAAABf2WArQ",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "27db354115b70bacef3db5e52bfed1ddffc637a1c643fc4eba0e5e1a697b32c5"
+    },
+    "331:creature-badger-bounded-stat-actions": {
+      "number": 1649,
+      "id": 6432327078,
+      "node_id": "I_kwDOSicKg88AAAABf2WFpg",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "383265cb7509768f1729490f21393b75df3d3d3978e7c996bbd01ad056749f5c"
+    },
+    "331:creature-bat-bounded-stat-actions": {
+      "number": 1650,
+      "id": 6432327905,
+      "node_id": "I_kwDOSicKg88AAAABf2WI4Q",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "80af74ceb9e0c6594e8208dc8a3562220ce211c36ceca5132402c0f53362359f"
+    },
+    "331:creature-cat-bounded-stat-actions": {
+      "number": 1651,
+      "id": 6432328861,
+      "node_id": "I_kwDOSicKg88AAAABf2WMnQ",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "dac95bad37c37768d9d34a4d8b0166c5583f96577702375d2effa6a73f24f776"
+    },
+    "331:creature-crab-bounded-stat-actions": {
+      "number": 1652,
+      "id": 6432329629,
+      "node_id": "I_kwDOSicKg88AAAABf2WPnQ",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "24a8d506c32fc9218e5ba2aa2e4bfe680835838d0d6eec15faf7341255f77eef"
+    },
+    "331:creature-deer-bounded-stat-actions": {
+      "number": 1653,
+      "id": 6432330558,
+      "node_id": "I_kwDOSicKg88AAAABf2WTPg",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "c1d91f64fa6a7d9a5159369bf4fc43daa6c1ef0931f491ca482560c5c3beb623"
+    },
+    "331:creature-eagle-bounded-stat-actions": {
+      "number": 1654,
+      "id": 6432331763,
+      "node_id": "I_kwDOSicKg88AAAABf2WX8w",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "c28cce4213c85a856540630dd3b608c0d856d9bd1bfcadec359d8a5f3f6d0e51"
+    },
+    "331:creature-find-familiar-familiar-cast-form": {
+      "number": 1711,
+      "id": 6432387709,
+      "node_id": "I_kwDOSicKg88AAAABf2ZyfQ",
+      "expected_parent_number": 1746,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "d7d84a2ac96d63691933f92a605b21eafb2c086e1bd3e0b89cd9fb0d6196ed9c"
+    },
+    "331:creature-find-familiar-familiar-dismiss-reappear": {
+      "number": 1715,
+      "id": 6432391363,
+      "node_id": "I_kwDOSicKg88AAAABf2aAww",
+      "expected_parent_number": 1746,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "70e64ed8513bc27ce068d2e9563d5ae374fe9f0164ed0086bd4cbe460540933e"
+    },
+    "331:creature-find-familiar-familiar-initiative-control": {
+      "number": 1712,
+      "id": 6432388598,
+      "node_id": "I_kwDOSicKg88AAAABf2Z19g",
+      "expected_parent_number": 1746,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "0deff848552253dd0910033077f3e87084d3bfafdf90767c48636bc496c50a96"
+    },
+    "331:creature-find-familiar-familiar-single-reform": {
+      "number": 1716,
+      "id": 6432392244,
+      "node_id": "I_kwDOSicKg88AAAABf2aENA",
+      "expected_parent_number": 1746,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "221412d3f722736bc987514fd4de12326226c8f46d2bf36794aca6c8a941cf5a"
+    },
+    "331:creature-find-familiar-familiar-telepathy": {
+      "number": 1713,
+      "id": 6432389680,
+      "node_id": "I_kwDOSicKg88AAAABf2Z6MA",
+      "expected_parent_number": 1746,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "6b3fda9c41e29773840f9721043b7c73f5d1e14f2b75fc664a2360942af5ff2a"
+    },
+    "331:creature-find-familiar-familiar-touch-delivery": {
+      "number": 1714,
+      "id": 6432390487,
+      "node_id": "I_kwDOSicKg88AAAABf2Z9Vw",
+      "expected_parent_number": 1746,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "00bfe9c202af2eb2868713ef7d8d5ab2e73eb6f3c17e60fbba5f6a473f6520c2"
+    },
+    "331:creature-frog-bounded-stat-actions": {
+      "number": 1655,
+      "id": 6432332648,
+      "node_id": "I_kwDOSicKg88AAAABf2WbaA",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "e52dbcfc89dcfaee82811bcdb55841d0ba64a355fe55c398ce73815c22ca3c51"
+    },
+    "331:creature-ghast-bite": {
+      "number": 1701,
+      "id": 6432376947,
+      "node_id": "I_kwDOSicKg88AAAABf2ZIcw",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "5c727a3b864b937e716ddbd018e4abbebf01d0b145db0325c407ea465cc09651"
+    },
+    "331:creature-ghast-claw": {
+      "number": 1702,
+      "id": 6432377771,
+      "node_id": "I_kwDOSicKg88AAAABf2ZLqw",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "a1dc74f5e59d386f03432ee0ac9d95f5a2828cde819d1b9504f41859a6cdd539"
+    },
+    "331:creature-ghast-statistics": {
+      "number": 1699,
+      "id": 6432374994,
+      "node_id": "I_kwDOSicKg88AAAABf2ZA0g",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "87e3abee4f4986ecdf6247f2b9be15df6b13ac7ca92c714570548c309f5020ec"
+    },
+    "331:creature-ghast-stench": {
+      "number": 1700,
+      "id": 6432375964,
+      "node_id": "I_kwDOSicKg88AAAABf2ZEnA",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "ad0851e4e51518d6b366ec5e6d7349608a6d4a78dde9a92e9141544a91119c61"
+    },
+    "331:creature-ghoul-bite-multiattack": {
+      "number": 1697,
+      "id": 6432373009,
+      "node_id": "I_kwDOSicKg88AAAABf2Y5EQ",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "63b51b29b6b42c5bcd98f0d3882f88667353260ec65df9478d7ccfd6b7bacd1c"
+    },
+    "331:creature-ghoul-claw": {
+      "number": 1698,
+      "id": 6432374095,
+      "node_id": "I_kwDOSicKg88AAAABf2Y9Tw",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "5452a18bbe5ff485298a1a6f4c54a7ec15510ae534a1c80f58481256a7c9903e"
+    },
+    "331:creature-ghoul-statistics": {
+      "number": 1696,
+      "id": 6432372157,
+      "node_id": "I_kwDOSicKg88AAAABf2Y1vQ",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "7d3ead1e28f9be14f504f2bca2e258ef0b0c8dbd58a6161db9807038e8c396f0"
+    },
+    "331:creature-giant-fire-beetle-bounded-stat-actions": {
+      "number": 1656,
+      "id": 6432333434,
+      "node_id": "I_kwDOSicKg88AAAABf2Weeg",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "7a9d622e786f05acd90db524c523ef13ae0ee0ad4afc76b821f06a048223cac5"
+    },
+    "331:creature-goat-bounded-stat-actions": {
+      "number": 1657,
+      "id": 6432334237,
+      "node_id": "I_kwDOSicKg88AAAABf2WhnQ",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "c6ae7a8cc6c35599e6815f568800f277ee430c81128abf7119ecaab2c5d33838"
+    },
+    "331:creature-hawk-bounded-stat-actions": {
+      "number": 1658,
+      "id": 6432335216,
+      "node_id": "I_kwDOSicKg88AAAABf2WlcA",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "09a0a9524243a00c303041acf05e82eeac59c32f90a279480cb2b5da9b751bc7"
+    },
+    "331:creature-hyena-bounded-stat-actions": {
+      "number": 1659,
+      "id": 6432336046,
+      "node_id": "I_kwDOSicKg88AAAABf2Worg",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "08d567668dd612fd19d14621262134a3a15e9417b7e25fd45cc77dccc00f0d97"
+    },
+    "331:creature-imp-invisibility": {
+      "number": 1674,
+      "id": 6432350009,
+      "node_id": "I_kwDOSicKg88AAAABf2XfOQ",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1360,
+        1361,
+        1733,
+        1737
+      ],
+      "expected_rendered_body_sha256": "cb12a7a937b1ce1ee649846b38103ce055a57bb86e501926ea8dbcfca64fed5b"
+    },
+    "331:creature-imp-shape-shift": {
+      "number": 1675,
+      "id": 6432351076,
+      "node_id": "I_kwDOSicKg88AAAABf2XjZA",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "61b9d07822fde41fcdbb4b24c533dfca7df0ad0e5d871bc46ad8bc5eed5c62b8"
+    },
+    "331:creature-imp-statistics": {
+      "number": 1672,
+      "id": 6432347705,
+      "node_id": "I_kwDOSicKg88AAAABf2XWOQ",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "07abcf0a7ae792a900ccdacb82e8591f0a3103d03e0db4b898de0c1d9b4ae82d"
+    },
+    "331:creature-imp-sting": {
+      "number": 1673,
+      "id": 6432348914,
+      "node_id": "I_kwDOSicKg88AAAABf2Xa8g",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "a34b139dffd1e45eaff8cf16aa6580cd3c26ed9668fe179e5496be0fcb54e785"
+    },
+    "331:creature-jackal-bounded-stat-actions": {
+      "number": 1660,
+      "id": 6432336756,
+      "node_id": "I_kwDOSicKg88AAAABf2WrdA",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "0f367fc297bf6fe97974fa17f56b1aeb8c521460adee1a473464b563abc191e6"
+    },
+    "331:creature-lizard-bounded-stat-actions": {
+      "number": 1661,
+      "id": 6432337609,
+      "node_id": "I_kwDOSicKg88AAAABf2WuyQ",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "cab9e201b6e0323274fe2132305a7ed6587b4eff52f9e5157542abaaf5c927e9"
+    },
+    "331:creature-mummy-fist-multiattack": {
+      "number": 1708,
+      "id": 6432384629,
+      "node_id": "I_kwDOSicKg88AAAABf2ZmdQ",
+      "expected_parent_number": 1746,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "16f03c464990aeb949e4cc39859c52a99795cb7909ed7b17dd0626c9b2699e65"
+    },
+    "331:creature-mummy-glare": {
+      "number": 1710,
+      "id": 6432386544,
+      "node_id": "I_kwDOSicKg88AAAABf2Zt8A",
+      "expected_parent_number": 1746,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "08a11943a7fba29ad452f4511da0ddc4f86c45b65d1c2b25f47e256b66a68751"
+    },
+    "331:creature-mummy-rot-curse": {
+      "number": 1709,
+      "id": 6432385594,
+      "node_id": "I_kwDOSicKg88AAAABf2ZqOg",
+      "expected_parent_number": 1746,
+      "expected_blocked_by_numbers": [
+        428,
+        625,
+        937,
+        1733
+      ],
+      "expected_rendered_body_sha256": "7182586a602a2179ff22efb9df389a6d4fb8ac998865e884c84c64e948fd3903"
+    },
+    "331:creature-mummy-statistics": {
+      "number": 1707,
+      "id": 6432383630,
+      "node_id": "I_kwDOSicKg88AAAABf2Zijg",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "ea79bcac82cb35fa7998124920da2846c003cf33dd7d2aab20998ec3c50b8566"
+    },
+    "331:creature-octopus-bounded-stat-actions": {
+      "number": 1662,
+      "id": 6432338385,
+      "node_id": "I_kwDOSicKg88AAAABf2Wx0Q",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "58e839e26ace0ceb5aed55749cf7947b46c1560611b010836dd92bad79d6d7e2"
+    },
+    "331:creature-octopus-octopus-ink": {
+      "number": 1717,
+      "id": 6432393126,
+      "node_id": "I_kwDOSicKg88AAAABf2aHpg",
+      "expected_parent_number": 1746,
+      "expected_blocked_by_numbers": [
+        428,
+        1733
+      ],
+      "expected_rendered_body_sha256": "0e8d413183dcc4031e95d9a89c72624ff21cdae729deaf7eaf1a3b0067394c6e"
+    },
+    "331:creature-owl-bounded-stat-actions": {
+      "number": 1663,
+      "id": 6432339341,
+      "node_id": "I_kwDOSicKg88AAAABf2W1jQ",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "b57f5d359bd59b0f268252de083a355efc946d6ea5bdf3fb4e6eb517dac33e75"
+    },
+    "331:creature-piranha-bounded-stat-actions": {
+      "number": 1664,
+      "id": 6432340052,
+      "node_id": "I_kwDOSicKg88AAAABf2W4VA",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "3f15d3e03a30c7f3f24a6fea83e0aaf9a421770ee174a98e0ace96382f918193"
+    },
+    "331:creature-pseudodragon-bite-multiattack": {
+      "number": 1677,
+      "id": 6432352921,
+      "node_id": "I_kwDOSicKg88AAAABf2XqmQ",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "c551f62e20273924394ed52cc9b9eb90f44d526cae998be2f16915eb3c17b8c8"
+    },
+    "331:creature-pseudodragon-statistics": {
+      "number": 1676,
+      "id": 6432351993,
+      "node_id": "I_kwDOSicKg88AAAABf2Xm-Q",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "36ceaf49bf588251fcdf7ac2561017c56fb61bb90ac7137b4dba387ab6c592eb"
+    },
+    "331:creature-pseudodragon-sting": {
+      "number": 1678,
+      "id": 6432354100,
+      "node_id": "I_kwDOSicKg88AAAABf2XvNA",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "3a658d9be7ecf43e335ed8eab33583e3df08e2c88ef366e0b20a0f10c8b2835f"
+    },
+    "331:creature-quasit-invisibility": {
+      "number": 1682,
+      "id": 6432358554,
+      "node_id": "I_kwDOSicKg88AAAABf2YAmg",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1360,
+        1361,
+        1733,
+        1737
+      ],
+      "expected_rendered_body_sha256": "5af1fab1fc8add64aa5597d2da985db67c1df6bfb329383e0314ee6ed1a184c4"
+    },
+    "331:creature-quasit-rend": {
+      "number": 1680,
+      "id": 6432356412,
+      "node_id": "I_kwDOSicKg88AAAABf2X4PA",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "24bc2b6de0e5dd56a480acc36590f174855352aea700cda200d7e8e94a6cce81"
+    },
+    "331:creature-quasit-scare": {
+      "number": 1681,
+      "id": 6432357574,
+      "node_id": "I_kwDOSicKg88AAAABf2X8xg",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        428,
+        1733
+      ],
+      "expected_rendered_body_sha256": "c15a43e8e1057855569d97d88fc8179a31963e2efa778edab576ed52aca6a3e1"
+    },
+    "331:creature-quasit-shape-shift": {
+      "number": 1683,
+      "id": 6432359373,
+      "node_id": "I_kwDOSicKg88AAAABf2YDzQ",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "db1f121c77b140aba8a4f76358cafdc7356fe5e2983e70472e6978109ba19a22"
+    },
+    "331:creature-quasit-statistics": {
+      "number": 1679,
+      "id": 6432355188,
+      "node_id": "I_kwDOSicKg88AAAABf2XzdA",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "67b14cd47eadd222b0ed612e45a42819fb9d486dca511d604bf547994d4b0544"
+    },
+    "331:creature-rat-bounded-stat-actions": {
+      "number": 1665,
+      "id": 6432340996,
+      "node_id": "I_kwDOSicKg88AAAABf2W8BA",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "a35311e36c56697a2469b766ac5deb9b7e3d28ce9e780d65a668dd41ccad1b8a"
+    },
+    "331:creature-raven-bounded-stat-actions": {
+      "number": 1666,
+      "id": 6432341923,
+      "node_id": "I_kwDOSicKg88AAAABf2W_ow",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "6b07fdb65afbb02178b85ed0c3276cabc3237842bc3c4ae99fe956807463d400"
+    },
+    "331:creature-scorpion-bounded-stat-actions": {
+      "number": 1667,
+      "id": 6432342936,
+      "node_id": "I_kwDOSicKg88AAAABf2XDmA",
+      "expected_parent_number": 1743,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "76ed692936ef9a3a8f9f702a39f1209f6d1c5c6bfda6b16e10d2eddb4ed6c1db"
+    },
+    "331:creature-seahorse-bounded-stat-actions": {
+      "number": 1668,
+      "id": 6432343784,
+      "node_id": "I_kwDOSicKg88AAAABf2XG6A",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "25e03574266896f17b496746b0b162f631357d2a9e5278cfe3c8d049d50da35a"
+    },
+    "331:creature-skeleton-attacks": {
+      "number": 1685,
+      "id": 6432361336,
+      "node_id": "I_kwDOSicKg88AAAABf2YLeA",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "b0cb3e227cbbeb2304923035c6f0b4a47a74896e17c9d000ed811776eb7074d3"
+    },
+    "331:creature-skeleton-statistics": {
+      "number": 1684,
+      "id": 6432360175,
+      "node_id": "I_kwDOSicKg88AAAABf2YG7w",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "bd6ff78e56f1c8b5518dfd00233092f96011e3e6fab76db1887b38f0c93dafa2"
+    },
+    "331:creature-sphinx-of-wonder-burst-ingenuity": {
+      "number": 1688,
+      "id": 6432364471,
+      "node_id": "I_kwDOSicKg88AAAABf2YXtw",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        428,
+        1733
+      ],
+      "expected_rendered_body_sha256": "8b8fda56c36994bee72fffb773b4ce854d9b7083af74b9e52639ffd7fde0c57a"
+    },
+    "331:creature-sphinx-of-wonder-rend": {
+      "number": 1687,
+      "id": 6432363229,
+      "node_id": "I_kwDOSicKg88AAAABf2YS3Q",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "ffb4e49034d946bf9899d6dce639a67baf75140d1136d6c44b53f2aa4a24dd6c"
+    },
+    "331:creature-sphinx-of-wonder-statistics": {
+      "number": 1686,
+      "id": 6432362153,
+      "node_id": "I_kwDOSicKg88AAAABf2YOqQ",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "9b0b4ebda5acc11d0568c11a14922fa853640d46141c9825aca8c1b525249130"
+    },
+    "331:creature-spider-bounded-stat-actions": {
+      "number": 1669,
+      "id": 6432344628,
+      "node_id": "I_kwDOSicKg88AAAABf2XKNA",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "a85f1c1df53394cb813f73c23c9cd811310d8bfabcd20faf8d12fad3cab727aa"
+    },
+    "331:creature-sprite-enchanting-bow": {
+      "number": 1691,
+      "id": 6432367355,
+      "node_id": "I_kwDOSicKg88AAAABf2Yi-w",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "a64602bd1bcfbaf821acb919ba9bc5ff70efa4bb856733b4c3ed9fea126a1cd8"
+    },
+    "331:creature-sprite-heart-sight": {
+      "number": 1692,
+      "id": 6432368251,
+      "node_id": "I_kwDOSicKg88AAAABf2Ymew",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "a09e6c3cf6e8951b3d6efb3fd65975a9e651a64ffb49fce4000c04c78f1ebddb"
+    },
+    "331:creature-sprite-invisibility": {
+      "number": 1693,
+      "id": 6432369311,
+      "node_id": "I_kwDOSicKg88AAAABf2Yqnw",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1360,
+        1361,
+        1733,
+        1737
+      ],
+      "expected_rendered_body_sha256": "defe5add63b9d925233a9e479d4ff797598c09188fcef96551899978ba1ebb93"
+    },
+    "331:creature-sprite-needle-sword": {
+      "number": 1690,
+      "id": 6432366161,
+      "node_id": "I_kwDOSicKg88AAAABf2YeUQ",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "c3be15e26e92d38b835ec9253d0d55f769e9ea66ffe11455242ab0dea09a4aa7"
+    },
+    "331:creature-sprite-statistics": {
+      "number": 1689,
+      "id": 6432365330,
+      "node_id": "I_kwDOSicKg88AAAABf2YbEg",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "e59385ca25a9ed346160857478dd450eb487aa7f07991b46246d7ff8e5e22571"
+    },
+    "331:creature-venomous-snake-bite": {
+      "number": 1695,
+      "id": 6432371032,
+      "node_id": "I_kwDOSicKg88AAAABf2YxWA",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "4b53653e2e7b94ddcc7db85315b6a3827505dc89f076f4b23649757a8026647b"
+    },
+    "331:creature-venomous-snake-statistics": {
+      "number": 1694,
+      "id": 6432370105,
+      "node_id": "I_kwDOSicKg88AAAABf2YtuQ",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "d28f84b5cc7118dabf9a52fbd658d8cd1c8cd012831f30b9439797dec8759752"
+    },
+    "331:creature-vulture-bounded-stat-actions": {
+      "number": 1670,
+      "id": 6432345491,
+      "node_id": "I_kwDOSicKg88AAAABf2XNkw",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "a31cba016bfba4f2f2405d5cfbcbc1dbc65932e88493002f0fd7b33eadb13ec3"
+    },
+    "331:creature-weasel-bounded-stat-actions": {
+      "number": 1671,
+      "id": 6432346431,
+      "node_id": "I_kwDOSicKg88AAAABf2XRPw",
+      "expected_parent_number": 1744,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "ea9d228c5e674b846fe2842f9f8086db335b17f6bb6f88a0a8cefd097384142b"
+    },
+    "331:creature-wight-life-drain": {
+      "number": 1705,
+      "id": 6432381540,
+      "node_id": "I_kwDOSicKg88AAAABf2ZaZA",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "d3e305e22f62df1c53168f6fb81ee06cef0843fe9f1a6f51c86a20f937f107f2"
+    },
+    "331:creature-wight-statistics-sunlight": {
+      "number": 1703,
+      "id": 6432379094,
+      "node_id": "I_kwDOSicKg88AAAABf2ZQ1g",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "926be9659600050d668e380fe43f8e054954ffa02570d15459882c3a2c54e519"
+    },
+    "331:creature-wight-weapon-multiattack": {
+      "number": 1704,
+      "id": 6432380628,
+      "node_id": "I_kwDOSicKg88AAAABf2ZW1A",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "8ae422db824cf1f8caec8de1b8cbea076c0a3dcccc6637b0d9b67da7508b0c74"
+    },
+    "331:creature-wight-zombie-rise": {
+      "number": 1706,
+      "id": 6432382432,
+      "node_id": "I_kwDOSicKg88AAAABf2Zd4A",
+      "expected_parent_number": 1745,
+      "expected_blocked_by_numbers": [
+        1445,
+        1446,
+        1733
+      ],
+      "expected_rendered_body_sha256": "62859b2bd3c6e9496f126e70dfe7b971786598f0a6d5b8871522f1b355f01173"
+    },
+    "331:dark-ones-blessing": {
+      "number": 1497,
+      "id": 6432131682,
+      "node_id": "I_kwDOSicKg88AAAABf2KKYg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "5258ae800f3e6a3cfd69d94671a7fa8e4f000e22d249700e0de240824bfd1073"
+    },
+    "331:dark-ones-own-luck": {
+      "number": 1499,
+      "id": 6432133649,
+      "node_id": "I_kwDOSicKg88AAAABf2KSEQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1733
+      ],
+      "expected_rendered_body_sha256": "a17214fe6117cb0d6593cad3bc4fd97703714dc9d714af9e3dbac5ce7c30d7ce"
+    },
+    "331:depths-cast-mode": {
+      "number": 1543,
+      "id": 6432213621,
+      "node_id": "I_kwDOSicKg88AAAABf2PKdQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1087,
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "6ce5c7618885c2fc0185ac8b14876097ff309cbd3343da4b003f8fc9b759af19"
+    },
+    "331:depths-passive": {
+      "number": 1542,
+      "id": 6432212579,
+      "node_id": "I_kwDOSicKg88AAAABf2PGYw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "6cdb44a5dd208430c698e0cbc83ad84cba7fe19ed58f7411f177c429dc89c04e"
+    },
+    "331:devils-sight": {
+      "number": 1505,
+      "id": 6432139767,
+      "node_id": "I_kwDOSicKg88AAAABf2Kp9w",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "1ef163ba0122def635fde4eab46d59636cc5aabe7df334abfc93b53cfb9c0ae0"
+    },
+    "331:devouring-blade": {
+      "number": 1506,
+      "id": 6432140814,
+      "node_id": "I_kwDOSicKg88AAAABf2KuDg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "9e39abfbba3500de5facaf820974665227a004413ec1d48dc7dc0a23ce56999d"
+    },
+    "331:eldritch-invocations": {
+      "number": 1486,
+      "id": 6432120453,
+      "node_id": "I_kwDOSicKg88AAAABf2JehQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "a896f23d6c03db890db8bb358a22374828fb39c825e0df2a39b070c6afe3723f"
+    },
+    "331:eldritch-master": {
+      "number": 1496,
+      "id": 6432130578,
+      "node_id": "I_kwDOSicKg88AAAABf2KGEg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1490,
+        1734
+      ],
+      "expected_rendered_body_sha256": "030676cedf2dd61da002c5b7474bbad81f64ba56d31dc4971f5adc94c4f3a94d"
+    },
+    "331:eldritch-mind": {
+      "number": 1507,
+      "id": 6432141667,
+      "node_id": "I_kwDOSicKg88AAAABf2KxYw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "df00a6c583da2ba509dbaaad7d46e4b77e9a4a3a847dc75e2803dd05bc290ca9"
+    },
+    "331:eldritch-smite": {
+      "number": 1508,
+      "id": 6432142773,
+      "node_id": "I_kwDOSicKg88AAAABf2K1tQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "5c673a3f8d4da3f3e59f4265c872e9e1d96b47e5431d3de0521509eb28367fee"
+    },
+    "331:eldritch-spear": {
+      "number": 1509,
+      "id": 6432143766,
+      "node_id": "I_kwDOSicKg88AAAABf2K5lg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "d9ea5e333cd9c847e249335d5019fda4a8cdef930656faf4ef750ffd07c10db2"
+    },
+    "331:epic-boon": {
+      "number": 1495,
+      "id": 6432129744,
+      "node_id": "I_kwDOSicKg88AAAABf2KC0A",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        390,
+        391,
+        392,
+        393,
+        394,
+        395,
+        396,
+        397,
+        398,
+        399,
+        400,
+        401,
+        1734
+      ],
+      "expected_rendered_body_sha256": "26ce5f7bc95843b577a584eb7e4c23beaa9fb9d66fbdac5e62bfe0ecc6f272dd"
+    },
+    "331:equipment": {
+      "number": 1480,
+      "id": 6432114723,
+      "node_id": "I_kwDOSicKg88AAAABf2JIIw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1718,
+        1719,
+        1720,
+        1721,
+        1722,
+        1723,
+        1724,
+        1725,
+        1726,
+        1727,
+        1728,
+        1729,
+        1730,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "3369b7c55c6cbac6df091e4bd97c6ea41694d0a26af5c2ccc4b57709db231801"
+    },
+    "331:execution-cohort-1": {
+      "number": 1733,
+      "id": 6432408191,
+      "node_id": "I_kwDOSicKg88AAAABf2bCfw",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        1732,
+        1736
+      ],
+      "expected_rendered_body_sha256": "b6331737eba237593d2279ab06b7ba39468218561136b5e5e40d434f1c743997"
+    },
+    "331:execution-cohort-2": {
+      "number": 1734,
+      "id": 6432408970,
+      "node_id": "I_kwDOSicKg88AAAABf2bFig",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        1732,
+        1736
+      ],
+      "expected_rendered_body_sha256": "fb61276e87fb7281324ed649d1bfc1e85401c2ed4dd75bb508629f124f9ae224"
+    },
+    "331:execution-cohort-3": {
+      "number": 1735,
+      "id": 6432410637,
+      "node_id": "I_kwDOSicKg88AAAABf2bMDQ",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        1732,
+        1736
+      ],
+      "expected_rendered_body_sha256": "aaeeaad7a81ae97a1ff4bda76c994bc4905155b9c065a17aad3ed6aa16c48754"
+    },
+    "331:execution-output": {
+      "number": 1732,
+      "id": 6432407404,
+      "node_id": "I_kwDOSicKg88AAAABf2a_bA",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        61,
+        64,
+        65,
+        66,
+        67,
+        353,
+        774,
+        780,
+        781,
+        782
+      ],
+      "expected_rendered_body_sha256": "1523f4b1792eb782efabdbca7bc85b3dedee2c925913ede214b1ac40eb85b16b"
+    },
+    "331:features-cohort": {
+      "number": 1748,
+      "id": 6432422503,
+      "node_id": "I_kwDOSicKg88AAAABf2b6Zw",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        1478,
+        1479,
+        1480,
+        1481,
+        1482,
+        1483,
+        1484,
+        1485,
+        1486,
+        1487,
+        1488,
+        1489,
+        1490,
+        1491,
+        1492,
+        1493,
+        1494,
+        1495,
+        1496,
+        1497,
+        1498,
+        1499,
+        1500,
+        1501,
+        1502,
+        1503,
+        1504,
+        1505,
+        1506,
+        1507,
+        1508,
+        1509,
+        1510,
+        1511,
+        1512,
+        1513,
+        1514,
+        1515,
+        1516,
+        1517,
+        1518,
+        1519,
+        1520,
+        1521,
+        1522,
+        1523,
+        1524,
+        1525,
+        1526,
+        1527,
+        1528,
+        1529,
+        1530,
+        1531,
+        1532,
+        1533,
+        1534,
+        1535,
+        1536,
+        1537,
+        1538,
+        1539,
+        1540,
+        1541,
+        1542,
+        1543,
+        1544,
+        1545,
+        1546,
+        1547,
+        1548,
+        1549,
+        1550,
+        1551,
+        1552,
+        1553,
+        1554,
+        1555,
+        1556,
+        1557
+      ],
+      "expected_rendered_body_sha256": "f9a761b8f9c1829b7a076e630e4a7c38e31ed2f3308ae3284d40c8f561688d92"
+    },
+    "331:fiend-spells": {
+      "number": 1498,
+      "id": 6432132536,
+      "node_id": "I_kwDOSicKg88AAAABf2KNuA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "8960b79e39117d3209e174f9a82172ad79eef3be6cab1782abd71896a1ff7988"
+    },
+    "331:fiendish-resilience": {
+      "number": 1500,
+      "id": 6432134701,
+      "node_id": "I_kwDOSicKg88AAAABf2KWLQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "b2564d2f79adc4378a2b2e6f8c132bfda63b4e08db9bbb61e2721a6cd5921b99"
+    },
+    "331:fiendish-vigor": {
+      "number": 1510,
+      "id": 6432144723,
+      "node_id": "I_kwDOSicKg88AAAABf2K9Uw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1318,
+        1734
+      ],
+      "expected_rendered_body_sha256": "a336f4ec3ae72acaf7963e1b648d7e84055ea2a373161e1871f2a2d2648a481e"
+    },
+    "331:gaze-cast-origin": {
+      "number": 1541,
+      "id": 6432211307,
+      "node_id": "I_kwDOSicKg88AAAABf2PBaw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "10ad376fa7e4ddb0f8b018e68b40d0fc2a59302d6d052a1db63aee41f512e33a"
+    },
+    "331:gaze-connection": {
+      "number": 1540,
+      "id": 6432210315,
+      "node_id": "I_kwDOSicKg88AAAABf2O9iw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "a73a4abb9b910d031048e2261ed5f99b969cd74be45a8034f4b7c1b2df609200"
+    },
+    "331:gaze-of-two-minds": {
+      "number": 1511,
+      "id": 6432145761,
+      "node_id": "I_kwDOSicKg88AAAABf2LBYQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1540,
+        1541
+      ],
+      "expected_rendered_body_sha256": "819223482a5c0e1aa9c7a5caac7e25d431c7763898d0f860c58462434929e96e"
+    },
+    "331:gear-backpack-capacity": {
+      "number": 1725,
+      "id": 6432400804,
+      "node_id": "I_kwDOSicKg88AAAABf2alpA",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "0a80e05c3e50d2841fe2d171f9e327abd7a0436de0ea1395a049394378ce7cf9"
+    },
+    "331:gear-book-consult": {
+      "number": 1723,
+      "id": 6432398878,
+      "node_id": "I_kwDOSicKg88AAAABf2aeHg",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "68e2679f8d582e11f3bfb76da008c1092f7bb80cc5d40b8f19ac19a95e065298"
+    },
+    "331:gear-dagger": {
+      "number": 1719,
+      "id": 6432394881,
+      "node_id": "I_kwDOSicKg88AAAABf2aOgQ",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1721,
+        1734
+      ],
+      "expected_rendered_body_sha256": "fb2ad84e78fc1b6af08c9f3694bf47efa7363dbd2e1e23a5007423d4dda51f7d"
+    },
+    "331:gear-dagger-sickle-light": {
+      "number": 1721,
+      "id": 6432397238,
+      "node_id": "I_kwDOSicKg88AAAABf2aXtg",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        394,
+        491,
+        1734
+      ],
+      "expected_rendered_body_sha256": "2d46231236437271a6ca4690abb8d8e23ea0a4a8b076eba419147753b7e29dce"
+    },
+    "331:gear-glass-bottle-profile": {
+      "number": 1731,
+      "id": 6432406575,
+      "node_id": "I_kwDOSicKg88AAAABf2a8Lw",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "9bf1471b08b7cf786c80215f91781f64730e16a473cf60fd9a270851d2095e95"
+    },
+    "331:gear-lamp-oil-fuel": {
+      "number": 1727,
+      "id": 6432402863,
+      "node_id": "I_kwDOSicKg88AAAABf2atrw",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1730,
+        1734
+      ],
+      "expected_rendered_body_sha256": "4d3c6db080a23d7b0b536903858c53591f768038e49b4cfe3130b414cacf0438"
+    },
+    "331:gear-leather-armor": {
+      "number": 1718,
+      "id": 6432393875,
+      "node_id": "I_kwDOSicKg88AAAABf2aKkw",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "1780ac28d445ebcce18023349feaafb20ddea707fcb6100c401338f2f124a235"
+    },
+    "331:gear-oil-space": {
+      "number": 1729,
+      "id": 6432404714,
+      "node_id": "I_kwDOSicKg88AAAABf2a06g",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "fd1d0a0d9c482bd87a23151ae1cd6996b1a521358e91d3d6be320df06414c69c"
+    },
+    "331:gear-oil-target": {
+      "number": 1728,
+      "id": 6432403912,
+      "node_id": "I_kwDOSicKg88AAAABf2axyA",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "fb757d6659c4e7c3498dc5a695585488f4d1e10412cd1d9dd49d7b2a2a9cc8a7"
+    },
+    "331:gear-orb-focus": {
+      "number": 1722,
+      "id": 6432398068,
+      "node_id": "I_kwDOSicKg88AAAABf2aa9A",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "3b2783795cc918a06263b007429e597cbcf68e394ff569bdcaac2c20d7a1bb74"
+    },
+    "331:gear-scholar-pack": {
+      "number": 1724,
+      "id": 6432399752,
+      "node_id": "I_kwDOSicKg88AAAABf2ahiA",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "fed3cfd45939c7c031be313fe9c6dd97fc134e5e6eb985b9a0381319627f428c"
+    },
+    "331:gear-sickle": {
+      "number": 1720,
+      "id": 6432396304,
+      "node_id": "I_kwDOSicKg88AAAABf2aUEA",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1721,
+        1734
+      ],
+      "expected_rendered_body_sha256": "f52209fc2604fc1486deaaf75999fec150560fee6087a05ed915b72f251561a8"
+    },
+    "331:gear-tinderbox": {
+      "number": 1730,
+      "id": 6432405585,
+      "node_id": "I_kwDOSicKg88AAAABf2a4UQ",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "1366abcac7c1c5931d2505577303fc4b89ef2e49f4dc685cbdd6b16f12123090"
+    },
+    "331:gear-writing-supplies": {
+      "number": 1726,
+      "id": 6432401870,
+      "node_id": "I_kwDOSicKg88AAAABf2apzg",
+      "expected_parent_number": 1747,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "ea9c9cacb791226b6a5986740a9d426051931e3de7b6bab6c5b34a08e9d9e565"
+    },
+    "331:gift-of-the-depths": {
+      "number": 1512,
+      "id": 6432146790,
+      "node_id": "I_kwDOSicKg88AAAABf2LFZg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1542,
+        1543
+      ],
+      "expected_rendered_body_sha256": "9e22dff64957db51b56bf63e9c74648a6da299c9011e4e73667c28c197f3a2cb"
+    },
+    "331:gift-of-the-protectors": {
+      "number": 1513,
+      "id": 6432147670,
+      "node_id": "I_kwDOSicKg88AAAABf2LI1g",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1544,
+        1545
+      ],
+      "expected_rendered_body_sha256": "ce2aa930e77f03ec4e3e3a0149839f2ad8a5e00baecc2d8dfcd00b8692c988cd"
+    },
+    "331:hp": {
+      "number": 1483,
+      "id": 6432117411,
+      "node_id": "I_kwDOSicKg88AAAABf2JSow",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        774,
+        968
+      ],
+      "expected_rendered_body_sha256": "a2e9a2df95343ee9ea6f21e12cbdc460dc61b2fddd94dba063fad732c9258b9e"
+    },
+    "331:hurl-admission-cost": {
+      "number": 1551,
+      "id": 6432221969,
+      "node_id": "I_kwDOSicKg88AAAABf2PrEQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "8164e39fbb8b591608fadfb07683cecc244a8e90b8a8e3d080f41082bf0121ed"
+    },
+    "331:hurl-psychic": {
+      "number": 1553,
+      "id": 6432224147,
+      "node_id": "I_kwDOSicKg88AAAABf2Pzkw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "b1b02b82df1ddb315c641702685942c64be78ff1927a0f0081d538e03ae002e4"
+    },
+    "331:hurl-through-hell": {
+      "number": 1501,
+      "id": 6432135707,
+      "node_id": "I_kwDOSicKg88AAAABf2KaGw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1551,
+        1552,
+        1553
+      ],
+      "expected_rendered_body_sha256": "f931785d837a5b277b7f8d8cf93a0f6e76c1304577e0cd77794f8ee24a36763c"
+    },
+    "331:hurl-transit-ending": {
+      "number": 1552,
+      "id": 6432223129,
+      "node_id": "I_kwDOSicKg88AAAABf2PvmQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "26da4af3a5f8f28c0cea8a53b308b524694885c5e79828213a0576c62a5f24d2"
+    },
+    "331:investment-command": {
+      "number": 1547,
+      "id": 6432218031,
+      "node_id": "I_kwDOSicKg88AAAABf2Pbrw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1648,
+        1649,
+        1650,
+        1651,
+        1652,
+        1653,
+        1654,
+        1655,
+        1656,
+        1657,
+        1658,
+        1659,
+        1660,
+        1661,
+        1662,
+        1663,
+        1664,
+        1665,
+        1666,
+        1667,
+        1668,
+        1669,
+        1670,
+        1671,
+        1672,
+        1673,
+        1674,
+        1675,
+        1676,
+        1677,
+        1678,
+        1679,
+        1680,
+        1681,
+        1682,
+        1683,
+        1684,
+        1685,
+        1686,
+        1687,
+        1688,
+        1689,
+        1690,
+        1691,
+        1692,
+        1693,
+        1694,
+        1695,
+        1711,
+        1712,
+        1713,
+        1714,
+        1715,
+        1716,
+        1717,
+        1734
+      ],
+      "expected_rendered_body_sha256": "47ca13c7bb6585b1ed1b5270f30c542857039f7d91b7a811a23fc860af805119"
+    },
+    "331:investment-damage": {
+      "number": 1548,
+      "id": 6432219007,
+      "node_id": "I_kwDOSicKg88AAAABf2Pffw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "d92d67c5eda92967cd2e9d238456aa1e928f3d74471909683256c4952e749555"
+    },
+    "331:investment-movement": {
+      "number": 1546,
+      "id": 6432217019,
+      "node_id": "I_kwDOSicKg88AAAABf2PXuw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "4bdf5dbe0ffeeb3aea295f0db8fcf4bb977d8b8712b3c850278c9bcc10b2e264"
+    },
+    "331:investment-of-the-chain-master": {
+      "number": 1514,
+      "id": 6432148716,
+      "node_id": "I_kwDOSicKg88AAAABf2LM7A",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1546,
+        1547,
+        1548,
+        1549,
+        1550
+      ],
+      "expected_rendered_body_sha256": "bd2170c5834ab4929232285f6660bc245be1784824a94e51b0abeb4f1117044e"
+    },
+    "331:investment-resistance": {
+      "number": 1550,
+      "id": 6432221018,
+      "node_id": "I_kwDOSicKg88AAAABf2PnWg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "94373fabe8166bf8bca2844674bf919b29a97f0ba306fe518407634057ea6db0"
+    },
+    "331:investment-save-dc": {
+      "number": 1549,
+      "id": 6432220073,
+      "node_id": "I_kwDOSicKg88AAAABf2PjqQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "c4734aedf0d81c650f425e8a6e014cef7187348bb9d16318ba311add9412de38"
+    },
+    "331:later-entry": {
+      "number": 1485,
+      "id": 6432119396,
+      "node_id": "I_kwDOSicKg88AAAABf2JaZA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "528c92573dbac35121ec09416b3c12aa9d1aba738c61ccd9f802eccc7bd47432"
+    },
+    "331:lessons-of-the-first-ones": {
+      "number": 1515,
+      "id": 6432149804,
+      "node_id": "I_kwDOSicKg88AAAABf2LRLA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        1734
+      ],
+      "expected_rendered_body_sha256": "6b09815c92293492d80112bcde1dc2adacadfcba15525560e1867266c2b6798d"
+    },
+    "331:level-1": {
+      "number": 1558,
+      "id": 6432229135,
+      "node_id": "I_kwDOSicKg88AAAABf2QHDw",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1484,
+        1485,
+        1486,
+        1487,
+        1488,
+        1489,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "3c3b88fb2f1cff8317e73dd0e6737777ac50dff0b366edace8941c9d17bc391b"
+    },
+    "331:level-10": {
+      "number": 1567,
+      "id": 6432239176,
+      "node_id": "I_kwDOSicKg88AAAABf2QuSA",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1491,
+        1497,
+        1498,
+        1499,
+        1500,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "01792bd8e20998a841c431c15303a5739290deb2b3b78726a34e59edc7ed9391"
+    },
+    "331:level-11": {
+      "number": 1568,
+      "id": 6432240457,
+      "node_id": "I_kwDOSicKg88AAAABf2QzSQ",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1494,
+        1497,
+        1498,
+        1499,
+        1500,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "b5c2062e43cdb5de3eaf06a25d5984eb42b59175add5051c95263c2ed0d2d46f"
+    },
+    "331:level-12": {
+      "number": 1569,
+      "id": 6432241775,
+      "node_id": "I_kwDOSicKg88AAAABf2Q4bw",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1492,
+        1497,
+        1498,
+        1499,
+        1500,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "af9d6225a81ca171c9a60496c853da1d84df7b69c8fbd145d7abe49c5793c759"
+    },
+    "331:level-13": {
+      "number": 1570,
+      "id": 6432242979,
+      "node_id": "I_kwDOSicKg88AAAABf2Q9Iw",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1494,
+        1497,
+        1498,
+        1499,
+        1500,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "052d3c566f709e385d8dfeacff4450d207c65996457a87282f666df4b5410b2e"
+    },
+    "331:level-14": {
+      "number": 1571,
+      "id": 6432244104,
+      "node_id": "I_kwDOSicKg88AAAABf2RBiA",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1491,
+        1497,
+        1498,
+        1499,
+        1500,
+        1501,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "4ddebce07548140897c238b9ff6e9ac925fe2655164b8e183f46edddb500c20a"
+    },
+    "331:level-15": {
+      "number": 1572,
+      "id": 6432245438,
+      "node_id": "I_kwDOSicKg88AAAABf2RGvg",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1494,
+        1497,
+        1498,
+        1499,
+        1500,
+        1501,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "0eeed8ee7bde7bdaa6a970ce6f05a0e5c4feb147f360242b1b8ec0d943a78d90"
+    },
+    "331:level-16": {
+      "number": 1573,
+      "id": 6432246471,
+      "node_id": "I_kwDOSicKg88AAAABf2RKxw",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1492,
+        1497,
+        1498,
+        1499,
+        1500,
+        1501,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "702100ce2b73cdac956dd277b9da19467bf36c421e836ba812ecc12183dc5d54"
+    },
+    "331:level-17": {
+      "number": 1574,
+      "id": 6432247639,
+      "node_id": "I_kwDOSicKg88AAAABf2RPVw",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1494,
+        1497,
+        1498,
+        1499,
+        1500,
+        1501,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "4f9e7f94acb8c1c9235fa8a21d8aff8ff74a432ab6897fe3737f529f00ee7189"
+    },
+    "331:level-18": {
+      "number": 1575,
+      "id": 6432248899,
+      "node_id": "I_kwDOSicKg88AAAABf2RUQw",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1497,
+        1498,
+        1499,
+        1500,
+        1501,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "08a0897c2dbece95898e2cd89db64b4d5950cdd21e8779682355c8877ebfa415"
+    },
+    "331:level-19": {
+      "number": 1576,
+      "id": 6432250089,
+      "node_id": "I_kwDOSicKg88AAAABf2RY6Q",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1495,
+        1497,
+        1498,
+        1499,
+        1500,
+        1501,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "ffe440dcd5b35987f183e7113a94539cb700fe42544f51df00a93886c21318ab"
+    },
+    "331:level-2": {
+      "number": 1559,
+      "id": 6432230246,
+      "node_id": "I_kwDOSicKg88AAAABf2QLZg",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1490,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "b1e06b5b278c16d225815566292185e14b223f9ec531bf54ba6cf730d9d91b0f"
+    },
+    "331:level-20": {
+      "number": 1577,
+      "id": 6432251188,
+      "node_id": "I_kwDOSicKg88AAAABf2RdNA",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1496,
+        1497,
+        1498,
+        1499,
+        1500,
+        1501,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "ca58bb130c2f6b00e63252eb8ffa9ed2ff1f0e7cbde665aa5075a7ca525f7132"
+    },
+    "331:level-3": {
+      "number": 1560,
+      "id": 6432231186,
+      "node_id": "I_kwDOSicKg88AAAABf2QPEg",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1491,
+        1497,
+        1498,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "7a8c0ec509e3ebc936ad03d84d20c7e4a8bcd16c3981abf2d3a19e77b78a15d8"
+    },
+    "331:level-4": {
+      "number": 1561,
+      "id": 6432232157,
+      "node_id": "I_kwDOSicKg88AAAABf2QS3Q",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1492,
+        1497,
+        1498,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "49af332d2061d63f5d96f5211fded24c077265079300da7e24d70538f2302c88"
+    },
+    "331:level-5": {
+      "number": 1562,
+      "id": 6432233296,
+      "node_id": "I_kwDOSicKg88AAAABf2QXUA",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1497,
+        1498,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "5c7ab9158ccf573ff7024de8f50a3c12fe044a1f0942131ee8d4d62dbbf386b1"
+    },
+    "331:level-6": {
+      "number": 1563,
+      "id": 6432234485,
+      "node_id": "I_kwDOSicKg88AAAABf2Qb9Q",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1491,
+        1497,
+        1498,
+        1499,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "7a6956a6d7e736c4d11d0f7176ee553d5981e73bf34b6a09bd555fe5f990e077"
+    },
+    "331:level-7": {
+      "number": 1564,
+      "id": 6432235489,
+      "node_id": "I_kwDOSicKg88AAAABf2Qf4Q",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1497,
+        1498,
+        1499,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "e9d835cea56bc3529709178f87fe540112d56a692cc1630788bc1c898fed52b1"
+    },
+    "331:level-8": {
+      "number": 1565,
+      "id": 6432236509,
+      "node_id": "I_kwDOSicKg88AAAABf2Qj3Q",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1492,
+        1497,
+        1498,
+        1499,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "78194d980cf6919025927faaf0d59aee98418100b8afecbc2ff4cb52718cbcd8"
+    },
+    "331:level-9": {
+      "number": 1566,
+      "id": 6432237613,
+      "node_id": "I_kwDOSicKg88AAAABf2QoLQ",
+      "expected_parent_number": 1749,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1483,
+        1485,
+        1486,
+        1488,
+        1489,
+        1493,
+        1497,
+        1498,
+        1499,
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "b468902d93ec89f694ed0d5ab4363a137947ec26c47047643ea9bf992ac786f8"
+    },
+    "331:levels-cohort": {
+      "number": 1749,
+      "id": 6432423498,
+      "node_id": "I_kwDOSicKg88AAAABf2b-Sg",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        1558,
+        1559,
+        1560,
+        1561,
+        1562,
+        1563,
+        1564,
+        1565,
+        1566,
+        1567,
+        1568,
+        1569,
+        1570,
+        1571,
+        1572,
+        1573,
+        1574,
+        1575,
+        1576,
+        1577
+      ],
+      "expected_rendered_body_sha256": "d7eeecb1919169122c6437203e3196cef223a0684a7cf3e0975a18d7be03a3a1"
+    },
+    "331:lifedrinker": {
+      "number": 1516,
+      "id": 6432150596,
+      "node_id": "I_kwDOSicKg88AAAABf2LURA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "61d616e5c18813d943f9088d162c0a4039db92d54af0206c673ccf815d74181f"
+    },
+    "331:magical-cunning": {
+      "number": 1490,
+      "id": 6432124821,
+      "node_id": "I_kwDOSicKg88AAAABf2JvlQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        428,
+        1489,
+        1734
+      ],
+      "expected_rendered_body_sha256": "ee9705870f5eeb24ccf57f07fc6d9f92fdbc96094dab38d83665045309f10a48"
+    },
+    "331:mask-of-many-faces": {
+      "number": 1517,
+      "id": 6432151569,
+      "node_id": "I_kwDOSicKg88AAAABf2LYEQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1293,
+        1734
+      ],
+      "expected_rendered_body_sha256": "8887d09f71245d63298745fa22b8b2eb6c820e9d8232cbe9aca78bb76937f2af"
+    },
+    "331:master-of-myriad-forms": {
+      "number": 1518,
+      "id": 6432152861,
+      "node_id": "I_kwDOSicKg88AAAABf2LdHQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1240,
+        1241,
+        1242,
+        1734
+      ],
+      "expected_rendered_body_sha256": "3420e82b79cb0887a7ae41998e2662873a6a90c480df62d06370e3be74563314"
+    },
+    "331:misty-visions": {
+      "number": 1519,
+      "id": 6432153831,
+      "node_id": "I_kwDOSicKg88AAAABf2Lg5w",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1400,
+        1734
+      ],
+      "expected_rendered_body_sha256": "9c585e1ed6daf85384db3f353414f6b78a9d2bfc77a2b7c1d7408bc7fd6c6fa1"
+    },
+    "331:mystic-arcanum": {
+      "number": 1494,
+      "id": 6432128806,
+      "node_id": "I_kwDOSicKg88AAAABf2J_Jg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1554,
+        1555,
+        1556,
+        1557
+      ],
+      "expected_rendered_body_sha256": "a9b67328fd0fe2e129743698672d6af1a936d4adc3ae1c56f9efa50147f34f54"
+    },
+    "331:one-with-shadows": {
+      "number": 1520,
+      "id": 6432155121,
+      "node_id": "I_kwDOSicKg88AAAABf2Ll8Q",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1360,
+        1361,
+        1734
+      ],
+      "expected_rendered_body_sha256": "15a8f4ac1631f8ecb297e4a4ed96a93e35d241cf87bb8cd0e18160651f7da8f3"
+    },
+    "331:otherworldly-leap": {
+      "number": 1521,
+      "id": 6432155919,
+      "node_id": "I_kwDOSicKg88AAAABf2LpDw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1064,
+        1734
+      ],
+      "expected_rendered_body_sha256": "b6e5d19b127ebb4aadf7807c880adfe2e96db5e5d4a884158b6b8c1c0054bf1a"
+    },
+    "331:pact-cross-casting": {
+      "number": 1482,
+      "id": 6432116479,
+      "node_id": "I_kwDOSicKg88AAAABf2JO_w",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "249483a2a97afd3af49eede994182f962cc3007ea94065417a734c4cc1d9e24d"
+    },
+    "331:pact-magic": {
+      "number": 1487,
+      "id": 6432121523,
+      "node_id": "I_kwDOSicKg88AAAABf2Jisw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1481,
+        1482,
+        1488,
+        1489,
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "7916845bbde910eec474de8ca06910a7a79a00b23e7a49c9a77ac34d03f2c653"
+    },
+    "331:pact-of-the-blade": {
+      "number": 1522,
+      "id": 6432156922,
+      "node_id": "I_kwDOSicKg88AAAABf2Ls-g",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1530,
+        1531,
+        1532,
+        1533
+      ],
+      "expected_rendered_body_sha256": "f56a463c4f3053339259770a29c0e7ff5b4227875918de9a72ff35f05355f614"
+    },
+    "331:pact-of-the-chain": {
+      "number": 1523,
+      "id": 6432158162,
+      "node_id": "I_kwDOSicKg88AAAABf2Lx0g",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1534,
+        1535,
+        1536
+      ],
+      "expected_rendered_body_sha256": "8999fdeba8d50642ef834372e0a99b2971ea2c1f89b9e409284e60bf3af760fb"
+    },
+    "331:pact-of-the-tome": {
+      "number": 1524,
+      "id": 6432159166,
+      "node_id": "I_kwDOSicKg88AAAABf2L1vg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1537,
+        1538,
+        1539
+      ],
+      "expected_rendered_body_sha256": "1fd3f79362517134aa064177b21f8714d039f0a81b2b68f30eee53a7e04d6bc5"
+    },
+    "331:preparation": {
+      "number": 1488,
+      "id": 6432122856,
+      "node_id": "I_kwDOSicKg88AAAABf2Jn6A",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "4f4ff201c97eee77bf2be77a15e4dc95b2d55a694002e4a816ca46c23d94ca63"
+    },
+    "331:protectors-inscription": {
+      "number": 1544,
+      "id": 6432214896,
+      "node_id": "I_kwDOSicKg88AAAABf2PPcA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "4e410040f6209ed4de2d04dc7af1023a91d91a19a800c992dd0d03e695cf6892"
+    },
+    "331:protectors-rescue": {
+      "number": 1545,
+      "id": 6432215846,
+      "node_id": "I_kwDOSicKg88AAAABf2PTJg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "51cc271b7a7d596fb7cea9d4a5ec2eb4bdf0f1db09f10497a8c1dea0084db000"
+    },
+    "331:provenance-output": {
+      "number": 1738,
+      "id": 6432413649,
+      "node_id": "I_kwDOSicKg88AAAABf2bX0Q",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        430
+      ],
+      "expected_rendered_body_sha256": "692eddad579377cbade3b0d3f0ae68bedaef3970ee8b57080c3d7dca2742b7c0"
+    },
+    "331:repelling-blast": {
+      "number": 1525,
+      "id": 6432160469,
+      "node_id": "I_kwDOSicKg88AAAABf2L61Q",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734
+      ],
+      "expected_rendered_body_sha256": "4603722a907138d6847b227b42b74876a242d292f888b1601e21307ef72c3b07"
+    },
+    "331:shared-creature-cohort-1": {
+      "number": 1743,
+      "id": 6432417843,
+      "node_id": "I_kwDOSicKg88AAAABf2boMw",
+      "expected_parent_number": 277,
+      "expected_blocked_by_numbers": [
+        1648,
+        1649,
+        1650,
+        1651,
+        1652,
+        1653,
+        1654,
+        1655,
+        1656,
+        1657,
+        1658,
+        1659,
+        1660,
+        1661,
+        1662,
+        1663,
+        1664,
+        1665,
+        1666,
+        1667
+      ],
+      "expected_rendered_body_sha256": "0dad6a6a5303eb43d16c8f588260fd4effb95d2d40d3cd925e40a04be5429856"
+    },
+    "331:shared-creature-cohort-2": {
+      "number": 1744,
+      "id": 6432418674,
+      "node_id": "I_kwDOSicKg88AAAABf2brcg",
+      "expected_parent_number": 277,
+      "expected_blocked_by_numbers": [
+        1668,
+        1669,
+        1670,
+        1671,
+        1672,
+        1673,
+        1674,
+        1675,
+        1676,
+        1677,
+        1678,
+        1679,
+        1680,
+        1681,
+        1682,
+        1683,
+        1684,
+        1685,
+        1686,
+        1687
+      ],
+      "expected_rendered_body_sha256": "4dfe0b18700e1603b544b5a791204f255c3d562dcfa8a9dab5ff4bea293f7965"
+    },
+    "331:shared-creature-cohort-3": {
+      "number": 1745,
+      "id": 6432419941,
+      "node_id": "I_kwDOSicKg88AAAABf2bwZQ",
+      "expected_parent_number": 277,
+      "expected_blocked_by_numbers": [
+        1688,
+        1689,
+        1690,
+        1691,
+        1692,
+        1693,
+        1694,
+        1695,
+        1696,
+        1697,
+        1698,
+        1699,
+        1700,
+        1701,
+        1702,
+        1703,
+        1704,
+        1705,
+        1706,
+        1707
+      ],
+      "expected_rendered_body_sha256": "a9d1f3084df2a4aa6e4966f687389d73d8fd8a78922d155f07619a3cfcda5a12"
+    },
+    "331:shared-creature-cohort-4": {
+      "number": 1746,
+      "id": 6432421039,
+      "node_id": "I_kwDOSicKg88AAAABf2b0rw",
+      "expected_parent_number": 277,
+      "expected_blocked_by_numbers": [
+        1708,
+        1709,
+        1710,
+        1711,
+        1712,
+        1713,
+        1714,
+        1715,
+        1716,
+        1717
+      ],
+      "expected_rendered_body_sha256": "ecc059caeb1322ecfead91b8b30c9a7b037c90fbf449662b04b9e8824fe57958"
+    },
+    "331:shared-effects-cohort-1": {
+      "number": 1739,
+      "id": 6432414532,
+      "node_id": "I_kwDOSicKg88AAAABf2bbRA",
+      "expected_parent_number": 277,
+      "expected_blocked_by_numbers": [
+        1578,
+        1579,
+        1580,
+        1581,
+        1582,
+        1583,
+        1584,
+        1585,
+        1586,
+        1587,
+        1588,
+        1589,
+        1590,
+        1591,
+        1592,
+        1593,
+        1594,
+        1595,
+        1596,
+        1597
+      ],
+      "expected_rendered_body_sha256": "27e5807eaacdecf0680e3126f8b5fdbc0cc8ba6ab5435794725ccc635bcf57d2"
+    },
+    "331:shared-effects-cohort-2": {
+      "number": 1740,
+      "id": 6432415202,
+      "node_id": "I_kwDOSicKg88AAAABf2bd4g",
+      "expected_parent_number": 277,
+      "expected_blocked_by_numbers": [
+        1598,
+        1599,
+        1600,
+        1601,
+        1602,
+        1603,
+        1604,
+        1605,
+        1606,
+        1607,
+        1608,
+        1609,
+        1610,
+        1611,
+        1612,
+        1613,
+        1614,
+        1615,
+        1616,
+        1617
+      ],
+      "expected_rendered_body_sha256": "459d9eaf16c94edb2be7e9f94ba8b215153d5c8748f78058d9a8f3c043cfcc36"
+    },
+    "331:shared-effects-cohort-3": {
+      "number": 1741,
+      "id": 6432416122,
+      "node_id": "I_kwDOSicKg88AAAABf2bheg",
+      "expected_parent_number": 277,
+      "expected_blocked_by_numbers": [
+        1618,
+        1619,
+        1620,
+        1621,
+        1622,
+        1623,
+        1624,
+        1625,
+        1626,
+        1627,
+        1628,
+        1629,
+        1630,
+        1631,
+        1632,
+        1633,
+        1634,
+        1635,
+        1636,
+        1637
+      ],
+      "expected_rendered_body_sha256": "a48c69dd9498edb90de1bfeb299283bb328eff604a4d48534b691f6d7759d729"
+    },
+    "331:shared-effects-cohort-4": {
+      "number": 1742,
+      "id": 6432416837,
+      "node_id": "I_kwDOSicKg88AAAABf2bkRQ",
+      "expected_parent_number": 277,
+      "expected_blocked_by_numbers": [
+        1638,
+        1639,
+        1640,
+        1641,
+        1642,
+        1643,
+        1644,
+        1645,
+        1646,
+        1647
+      ],
+      "expected_rendered_body_sha256": "27fe49c1b4944103f7696971333d2d7bea4689e5cb2eca13256d8347e9dfeb35"
+    },
+    "331:shared-gear-cohort": {
+      "number": 1747,
+      "id": 6432421730,
+      "node_id": "I_kwDOSicKg88AAAABf2b3Yg",
+      "expected_parent_number": 278,
+      "expected_blocked_by_numbers": [
+        1718,
+        1719,
+        1720,
+        1721,
+        1722,
+        1723,
+        1724,
+        1725,
+        1726,
+        1727,
+        1728,
+        1729,
+        1730,
+        1731
+      ],
+      "expected_rendered_body_sha256": "6f9d38f470d198b7c9a050ce82890e6e8a709f7c113766296da3d094b53c4363"
+    },
+    "331:shared-output": {
+      "number": 1757,
+      "id": 6432430944,
+      "node_id": "I_kwDOSicKg88AAAABf2cbYA",
+      "expected_parent_number": 331,
+      "expected_blocked_by_numbers": [
+        1739,
+        1740,
+        1741,
+        1742,
+        1743,
+        1744,
+        1745,
+        1746,
+        1747,
+        1750,
+        1751,
+        1752,
+        1753,
+        1754,
+        1755,
+        1756
+      ],
+      "expected_rendered_body_sha256": "79abf8f1fe374135978d9fbf269cac4776d1d0fb6a3d338a537c19d34e2a8ad0"
+    },
+    "331:skills": {
+      "number": 1479,
+      "id": 6432113923,
+      "node_id": "I_kwDOSicKg88AAAABf2JFAw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1734,
+        1738
+      ],
+      "expected_rendered_body_sha256": "879884302724bd4bf4de247aac0600351038d6e1faf650e07105e3f1b6aed1f9"
+    },
+    "331:slots": {
+      "number": 1489,
+      "id": 6432123866,
+      "node_id": "I_kwDOSicKg88AAAABf2Jr2g",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        427,
+        428,
+        1734
+      ],
+      "expected_rendered_body_sha256": "7629a09dfb2f57e51a2fd2783ce11d2a98bde2960d9cd4031c2628c8e5b8b804"
+    },
+    "331:spell-astral-projection-cord-travel": {
+      "number": 1579,
+      "id": 6432254000,
+      "node_id": "I_kwDOSicKg88AAAABf2RoMA",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "9f77ceae6127afad15927723255b7ca0c489a4b4b261faafb27f3d6855d6d752"
+    },
+    "331:spell-astral-projection-damage-ending": {
+      "number": 1580,
+      "id": 6432255064,
+      "node_id": "I_kwDOSicKg88AAAABf2RsWA",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "8da51df7c72c53cbfdc15370038a03a5a70a8e815cbb9c03585543d9d6100b2d"
+    },
+    "331:spell-astral-projection-projection": {
+      "number": 1578,
+      "id": 6432252566,
+      "node_id": "I_kwDOSicKg88AAAABf2Rilg",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "e11e38a439aee54fa6aa97f878dfbd85edf77230e225448a95950598b1542c0b"
+    },
+    "331:spell-bane-save-penalty": {
+      "number": 1581,
+      "id": 6432256425,
+      "node_id": "I_kwDOSicKg88AAAABf2RxqQ",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "892daba5efb3bbf1b3511ae444e4872e6518e544580860427f7028f2fb549f2d"
+    },
+    "331:spell-befuddlement-damage-block": {
+      "number": 1582,
+      "id": 6432257400,
+      "node_id": "I_kwDOSicKg88AAAABf2R1eA",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "46f18faa26250a6921c6e7885468c019d696ddee018327c5b6c625b39b83440d"
+    },
+    "331:spell-befuddlement-ending": {
+      "number": 1583,
+      "id": 6432258426,
+      "node_id": "I_kwDOSicKg88AAAABf2R5eg",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        585,
+        621,
+        623,
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "15d0e8dcf10cc8c199f701c98076f4313287219a5cc3a9339ededbf990ecfc9f"
+    },
+    "331:spell-contact-other-plane-contact-questions": {
+      "number": 1584,
+      "id": 6432259504,
+      "node_id": "I_kwDOSicKg88AAAABf2R9sA",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "1cee9fc52627826b62b6fedb2dbc932b03dc0df01bf939ee42036736d9001113"
+    },
+    "331:spell-contact-other-plane-failed-contact": {
+      "number": 1585,
+      "id": 6432260595,
+      "node_id": "I_kwDOSicKg88AAAABf2SB8w",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        428,
+        621,
+        623,
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "6a400684be5937f29376281a4c8f0b323b3f5568fd25120ac98fcddde6b1bd33"
+    },
+    "331:spell-create-undead-animate": {
+      "number": 1586,
+      "id": 6432261570,
+      "node_id": "I_kwDOSicKg88AAAABf2SFwg",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "2ba5cd191053d7075b239ce1e4142b4e1d608e1cde4c2b59371f85fc12e6373c"
+    },
+    "331:spell-create-undead-command": {
+      "number": 1587,
+      "id": 6432262903,
+      "node_id": "I_kwDOSicKg88AAAABf2SK9w",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "715ac1805aabfc3e9695e7b0ab774c9751a6408c029ef9832c0f7e7c0e02e633"
+    },
+    "331:spell-create-undead-control-renewal": {
+      "number": 1588,
+      "id": 6432264030,
+      "node_id": "I_kwDOSicKg88AAAABf2SPXg",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "f67942d857a095253d99d365c710642b6d93a606bcf4bfc5d6ff2f61bbdd274b"
+    },
+    "331:spell-create-undead-upcast": {
+      "number": 1589,
+      "id": 6432265485,
+      "node_id": "I_kwDOSicKg88AAAABf2SVDQ",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1696,
+        1697,
+        1698,
+        1699,
+        1700,
+        1701,
+        1702,
+        1703,
+        1704,
+        1705,
+        1706,
+        1707,
+        1708,
+        1709,
+        1710,
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "f7137ababfe568bc90f3329072e1af6570210f545f1ea2a6c6c0f092f6c32df1"
+    },
+    "331:spell-dream-awake-wait": {
+      "number": 1591,
+      "id": 6432268079,
+      "node_id": "I_kwDOSicKg88AAAABf2SfLw",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "f9501314df7cf34c3d299224f98104e792fc558d03a9dd0bf11a60a4e1adface"
+    },
+    "331:spell-dream-messenger": {
+      "number": 1590,
+      "id": 6432266493,
+      "node_id": "I_kwDOSicKg88AAAABf2SY_Q",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "d493af782e54f1d8e3be14831d4634aee1d7f1b4f8154b34307253a0f6a69e7d"
+    },
+    "331:spell-dream-nightmare": {
+      "number": 1592,
+      "id": 6432269084,
+      "node_id": "I_kwDOSicKg88AAAABf2SjHA",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1734,
+        1737
+      ],
+      "expected_rendered_body_sha256": "0d0d4214a6fbb8ccd9cec4257fbc3ae2c7415f475f445514614fcd75ed0bca4f"
+    },
+    "331:spell-eldritch-blast-beams": {
+      "number": 1593,
+      "id": 6432270069,
+      "node_id": "I_kwDOSicKg88AAAABf2Sm9Q",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "2c91dbe125c164795621e2f7e39865db8195e8a0bd3f38c28e1a6aa8bd0e655c"
+    },
+    "331:spell-enthrall-perception": {
+      "number": 1594,
+      "id": 6432271026,
+      "node_id": "I_kwDOSicKg88AAAABf2Sqsg",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "85638d89027c35b00460b7174318f0c247952ebbb63d58514e551e7d692b3d3e"
+    },
+    "331:spell-floating-disk-distance-ending": {
+      "number": 1597,
+      "id": 6432275446,
+      "node_id": "I_kwDOSicKg88AAAABf2S79g",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "d94506880198b726a23cbf4b845ff739f8d4edb7fe14a35940dec5015b84a00e"
+    },
+    "331:spell-floating-disk-follow": {
+      "number": 1596,
+      "id": 6432274065,
+      "node_id": "I_kwDOSicKg88AAAABf2S2kQ",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "39fc4f07ad29ba2636c5db60a55597d5e0067037c8186a789bd873dce6f2775a"
+    },
+    "331:spell-floating-disk-manifest-load": {
+      "number": 1595,
+      "id": 6432272249,
+      "node_id": "I_kwDOSicKg88AAAABf2SveQ",
+      "expected_parent_number": 1739,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "dab273fe7ed149da7545cdbd645e9c34d7f45d0d2ff05bf1e40878d000cd0d99"
+    },
+    "331:spell-forcecage-ending": {
+      "number": 1601,
+      "id": 6432279664,
+      "node_id": "I_kwDOSicKg88AAAABf2TMcA",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "54622e1eb0fed43109f2ebf4b901f0f7aa28e0c39f89d2c770e12851d3c7c5c1"
+    },
+    "331:spell-forcecage-escape": {
+      "number": 1600,
+      "id": 6432278857,
+      "node_id": "I_kwDOSicKg88AAAABf2TJSQ",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "5d4dbe41e91f9a51d0d6478f93e7ebd1012ce597aa0ee13ffd98c5bcee45fc5d"
+    },
+    "331:spell-forcecage-occupancy": {
+      "number": 1599,
+      "id": 6432277759,
+      "node_id": "I_kwDOSicKg88AAAABf2TE_w",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "2a4c0b7f55fb77ad2362c5f43bac64909af194bc3c28e1b4b27d1ebf9ba29281"
+    },
+    "331:spell-forcecage-prison": {
+      "number": 1598,
+      "id": 6432276867,
+      "node_id": "I_kwDOSicKg88AAAABf2TBgw",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "a651881bb5f188ffd5f6b85888cfc80093e2e913b7c60cbaea9af683f0794bdc"
+    },
+    "331:spell-foresight-benefits-ending": {
+      "number": 1602,
+      "id": 6432281190,
+      "node_id": "I_kwDOSicKg88AAAABf2TSZg",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "4813feee7eb584e1ff69eff3283155e73b74871b9037a13e7807a1295f13a34b"
+    },
+    "331:spell-glibness-check-floor": {
+      "number": 1603,
+      "id": 6432282180,
+      "node_id": "I_kwDOSicKg88AAAABf2TWRA",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "82f65c1029929fed7a27f0afb5ce879387bf398842969e642a4ae1ce9e17db80"
+    },
+    "331:spell-glibness-truth-magic": {
+      "number": 1604,
+      "id": 6432283173,
+      "node_id": "I_kwDOSicKg88AAAABf2TaJQ",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "c654789341089e0c5eb39989f1b785607b9984a3fa368b1a8bd6b518977bde8d"
+    },
+    "331:spell-hallucinatory-terrain-discern": {
+      "number": 1606,
+      "id": 6432285577,
+      "node_id": "I_kwDOSicKg88AAAABf2TjiQ",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "8532991aac83182f67a12ed0a6ed4ed375ffb1d40f2f25c7e25b1575dfc37fa4"
+    },
+    "331:spell-hallucinatory-terrain-terrain": {
+      "number": 1605,
+      "id": 6432284498,
+      "node_id": "I_kwDOSicKg88AAAABf2TfUg",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "f621c27e96d225e4bcf82426304a7916244c20f725a83135cee043ab628acf49"
+    },
+    "331:spell-hellish-rebuke-reaction-damage": {
+      "number": 1607,
+      "id": 6432286650,
+      "node_id": "I_kwDOSicKg88AAAABf2Tnug",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "85394a7dac49c62e12663b2c89507b602dd4b2c99679886ba2e78a69d8bfec07"
+    },
+    "331:spell-hex-curse-hit": {
+      "number": 1608,
+      "id": 6432287691,
+      "node_id": "I_kwDOSicKg88AAAABf2Tryw",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "27f476d27f22d9498d641ca5103aca2b93b0206ff5a0b4e5bc133992d4b89ef5"
+    },
+    "331:spell-hex-duration": {
+      "number": 1610,
+      "id": 6432289749,
+      "node_id": "I_kwDOSicKg88AAAABf2Tz1Q",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "6754d9a090015a0b4864edad5d876c4ea6cf6d386628210c4fc0e3f09bf6cb7c"
+    },
+    "331:spell-hex-retarget": {
+      "number": 1609,
+      "id": 6432288667,
+      "node_id": "I_kwDOSicKg88AAAABf2Tvmw",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "b150d0fe96792f94e13c6f9372dc4d8312077e9aa141662757750dea1da36447"
+    },
+    "331:spell-hideous-laughter-admission": {
+      "number": 1611,
+      "id": 6432290502,
+      "node_id": "I_kwDOSicKg88AAAABf2T2xg",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "dfbd740749b5fe3bbebd4164089838d0711120465092ca0956ec864523973608"
+    },
+    "331:spell-hideous-laughter-repeat-ending": {
+      "number": 1612,
+      "id": 6432291531,
+      "node_id": "I_kwDOSicKg88AAAABf2T6yw",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "481cd8e292c7c8ba04cb82616ffed1df2597088cfe3787aa4f253e056d6e10c9"
+    },
+    "331:spell-identify-creature": {
+      "number": 1614,
+      "id": 6432293086,
+      "node_id": "I_kwDOSicKg88AAAABf2UA3g",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "7e19ce755ef2137fe9aa70807e144edb9fcf105576bd46425f235e08521767c9"
+    },
+    "331:spell-identify-object": {
+      "number": 1613,
+      "id": 6432292396,
+      "node_id": "I_kwDOSicKg88AAAABf2T-LA",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "c12f57ba0a09a91ecf7baa4176b0b121b5f8a2e73e4934b64d9effc01aae05c1"
+    },
+    "331:spell-illusory-script-dispel-truesight": {
+      "number": 1616,
+      "id": 6432295387,
+      "node_id": "I_kwDOSicKg88AAAABf2UJ2w",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "f82a1d037d80270f3d0906ee45b95eff35d7630499345a89d1875116d9028f5d"
+    },
+    "331:spell-illusory-script-write-view": {
+      "number": 1615,
+      "id": 6432294229,
+      "node_id": "I_kwDOSicKg88AAAABf2UFVQ",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "36a319a5424e498795da438b29a35a336ff075741da27283e00c9aadd2d9987d"
+    },
+    "331:spell-imprisonment-admission": {
+      "number": 1617,
+      "id": 6432296261,
+      "node_id": "I_kwDOSicKg88AAAABf2UNRQ",
+      "expected_parent_number": 1740,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "7c562dcb5f8136c82eb5c79e2d6e76426730152718e87428654aa9a63de847be"
+    },
+    "331:spell-imprisonment-burial": {
+      "number": 1618,
+      "id": 6432297279,
+      "node_id": "I_kwDOSicKg88AAAABf2URPw",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "d350b8438a071f6a18a50bb596f7971ea89345d240d5889550f73756c26a0d57"
+    },
+    "331:spell-imprisonment-chaining": {
+      "number": 1619,
+      "id": 6432298309,
+      "node_id": "I_kwDOSicKg88AAAABf2UVRQ",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "0a29fcf08c9f9c2326c6dea1f686345c30cc22a74f88f828a671254fee7e6b65"
+    },
+    "331:spell-imprisonment-ending": {
+      "number": 1623,
+      "id": 6432301680,
+      "node_id": "I_kwDOSicKg88AAAABf2UicA",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "4cea0590d863c9aba53a2639eb7d9e856bc45965036cab8cd88c78ac86488836"
+    },
+    "331:spell-imprisonment-hedged-prison": {
+      "number": 1620,
+      "id": 6432299036,
+      "node_id": "I_kwDOSicKg88AAAABf2UYHA",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "36e652561014cc5a0fd1f7fa9cea4f79c1591038397a9bd41b8311fa48edf577"
+    },
+    "331:spell-imprisonment-minimus": {
+      "number": 1621,
+      "id": 6432299875,
+      "node_id": "I_kwDOSicKg88AAAABf2UbYw",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "c8ba3cb051db4e7fbd879db669834a97dec168fe2aadf319bce57f79e5896aa6"
+    },
+    "331:spell-imprisonment-slumber": {
+      "number": 1622,
+      "id": 6432300744,
+      "node_id": "I_kwDOSicKg88AAAABf2UeyA",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "4daca20640f221fd863919304b866b8ecedd98b8c2dab11db01c3ae5838b9966"
+    },
+    "331:spell-mind-spike-damage": {
+      "number": 1624,
+      "id": 6432302480,
+      "node_id": "I_kwDOSicKg88AAAABf2UlkA",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "d768aa193f7f591dc90e24b8d76cfb0a96d5836d3957bc04333db66695635737"
+    },
+    "331:spell-mind-spike-tracking": {
+      "number": 1625,
+      "id": 6432303166,
+      "node_id": "I_kwDOSicKg88AAAABf2UoPg",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "6f6d26e7acf4a4312d0a8597736e1a6a896606d29a185cbb9810f8926c25b011"
+    },
+    "331:spell-mislead-double-invisible": {
+      "number": 1626,
+      "id": 6432304335,
+      "node_id": "I_kwDOSicKg88AAAABf2Uszw",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "7e2c516876faebcadc852d469b9fb5125dfb14ee930c4b493bd96439f57a7475"
+    },
+    "331:spell-mislead-move-perceive": {
+      "number": 1627,
+      "id": 6432305416,
+      "node_id": "I_kwDOSicKg88AAAABf2UxCA",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "21d22bf63349d5ce47862304906d7fa1e6e4a31125b106885ae0d015ec06250d"
+    },
+    "331:spell-planar-binding-binding": {
+      "number": 1628,
+      "id": 6432306451,
+      "node_id": "I_kwDOSicKg88AAAABf2U1Ew",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "59c843eef63a4a4359d7b6cdcfaa9a0385c75bb2c18dd9cab182d79270bb628e"
+    },
+    "331:spell-planar-binding-commands-return": {
+      "number": 1629,
+      "id": 6432307290,
+      "node_id": "I_kwDOSicKg88AAAABf2U4Wg",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "7c4a8c4cb5b7f27535a950e83312ba00644c02293f3494f172a91e1a0fcbca40"
+    },
+    "331:spell-planar-binding-duration": {
+      "number": 1630,
+      "id": 6432308214,
+      "node_id": "I_kwDOSicKg88AAAABf2U79g",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "7ab3fb16d50243024ff07c0d3ea6ad6b712f1bc7bff5533a08bcf48578daf371"
+    },
+    "331:spell-ray-of-enfeeblement-failure-ending": {
+      "number": 1632,
+      "id": 6432310216,
+      "node_id": "I_kwDOSicKg88AAAABf2VDyA",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "3e7dd1b58533475e4e6e4fc0a9f4c872a7b7bd4fe80900facbd9940daa96ad39"
+    },
+    "331:spell-ray-of-enfeeblement-success": {
+      "number": 1631,
+      "id": 6432309199,
+      "node_id": "I_kwDOSicKg88AAAABf2U_zw",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "bab060bef5786bb273551db4fbc5cbc36899c83d7e3b974ee7b4a8441c25e0ce"
+    },
+    "331:spell-scrying-creature-save": {
+      "number": 1633,
+      "id": 6432311018,
+      "node_id": "I_kwDOSicKg88AAAABf2VG6g",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "c494f4d9f4027fe45713e9fdd072c368d1e711f05754423cd82fc02b4808956a"
+    },
+    "331:spell-scrying-location": {
+      "number": 1635,
+      "id": 6432312459,
+      "node_id": "I_kwDOSicKg88AAAABf2VMiw",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "80ee7bbc2ac21248bbce6d8db613804ee8936e0241342372907821c35b14a03d"
+    },
+    "331:spell-scrying-sensor": {
+      "number": 1634,
+      "id": 6432311702,
+      "node_id": "I_kwDOSicKg88AAAABf2VJlg",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "4eb931ae4062a55c6bd1a343136c7f3dd5a40875b6daa1da23972023d90787ff"
+    },
+    "331:spell-speak-with-dead-corpse-questions": {
+      "number": 1636,
+      "id": 6432313408,
+      "node_id": "I_kwDOSicKg88AAAABf2VQQA",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "cca4ed57f9529894a905efac7c0e4539090d55a128ad9c71582d78230d15e15c"
+    },
+    "331:spell-speak-with-dead-knowledge-ending": {
+      "number": 1637,
+      "id": 6432314539,
+      "node_id": "I_kwDOSicKg88AAAABf2VUqw",
+      "expected_parent_number": 1741,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "fde2f35b2c96578f8bbb1bdaccbb95df2a603055f5ff34fff809bef4b1ebd4bb"
+    },
+    "331:spell-true-polymorph-admission-duration": {
+      "number": 1638,
+      "id": 6432315584,
+      "node_id": "I_kwDOSicKg88AAAABf2VYwA",
+      "expected_parent_number": 1742,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "3f0eaf0247be23d4e3d3dafd5351263eef6b0723a55c8b540ca33e8cd859a3f0"
+    },
+    "331:spell-true-polymorph-creature-form": {
+      "number": 1639,
+      "id": 6432316586,
+      "node_id": "I_kwDOSicKg88AAAABf2Vcqg",
+      "expected_parent_number": 1742,
+      "expected_blocked_by_numbers": [
+        1663,
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "56d1ce3f3bddde861370d3892d430f98efd36355e451ac8ffc14e9f680d6e8f6"
+    },
+    "331:spell-true-polymorph-creature-object": {
+      "number": 1642,
+      "id": 6432319500,
+      "node_id": "I_kwDOSicKg88AAAABf2VoDA",
+      "expected_parent_number": 1742,
+      "expected_blocked_by_numbers": [
+        1731,
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "4e415ba0a6a6270623252723763e7000be45969d22084f07f0e6bd849b92a550"
+    },
+    "331:spell-true-polymorph-equipment": {
+      "number": 1640,
+      "id": 6432317372,
+      "node_id": "I_kwDOSicKg88AAAABf2VfvA",
+      "expected_parent_number": 1742,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "9e3ee98e4ee7cdf816ae5a89a17a1b26043d9a63171b5b27a08be31d949acc49"
+    },
+    "331:spell-true-polymorph-object-creature": {
+      "number": 1641,
+      "id": 6432318441,
+      "node_id": "I_kwDOSicKg88AAAABf2Vj6Q",
+      "expected_parent_number": 1742,
+      "expected_blocked_by_numbers": [
+        1663,
+        1731,
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "79491f9b058cd23af4c2b536af30cfb60dd59ba3a400b2a432a705427106a8e7"
+    },
+    "331:spell-unseen-servant-command": {
+      "number": 1644,
+      "id": 6432321939,
+      "node_id": "I_kwDOSicKg88AAAABf2Vxkw",
+      "expected_parent_number": 1742,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "ab66c95e82c554b2164e706beb1349d065bd56b2d622ebe1f3da501235e3b0cd"
+    },
+    "331:spell-unseen-servant-manifest-ending": {
+      "number": 1643,
+      "id": 6432320815,
+      "node_id": "I_kwDOSicKg88AAAABf2VtLw",
+      "expected_parent_number": 1742,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "6a707abc90946c0ccbf6d69989703ef9c79f3b8f898081a509a0a57a4fb08d18"
+    },
+    "331:spell-vicious-mockery-damage-disadvantage": {
+      "number": 1645,
+      "id": 6432322828,
+      "node_id": "I_kwDOSicKg88AAAABf2V1DA",
+      "expected_parent_number": 1742,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "be51bf295c152a57db23f763f057f019a6eea846cb6f27f7c05525e7a7ca4b2f"
+    },
+    "331:spell-weird-initial": {
+      "number": 1646,
+      "id": 6432323990,
+      "node_id": "I_kwDOSicKg88AAAABf2V5lg",
+      "expected_parent_number": 1742,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "40ee8c05be0353337e70d4a3d8ba38e705f1d401b380f487f80f687562ed72ff"
+    },
+    "331:spell-weird-repeat-ending": {
+      "number": 1647,
+      "id": 6432324892,
+      "node_id": "I_kwDOSicKg88AAAABf2V9HA",
+      "expected_parent_number": 1742,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737
+      ],
+      "expected_rendered_body_sha256": "ed87d54edc35e4e6da43c8651cbad32592cc263a66cb6d0f33e52d6457a78863"
+    },
+    "331:thirsting-blade": {
+      "number": 1526,
+      "id": 6432161613,
+      "node_id": "I_kwDOSicKg88AAAABf2L_TQ",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1735
+      ],
+      "expected_rendered_body_sha256": "f64de669c2af183b2ce9a23df3b95adda0491edd2820ce3a75ce29e71cfd3e1d"
+    },
+    "331:tome-conjuration-ending": {
+      "number": 1537,
+      "id": 6432206899,
+      "node_id": "I_kwDOSicKg88AAAABf2OwMw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1735
+      ],
+      "expected_rendered_body_sha256": "d8e303abeb1990b5a8dc504aab6c8851477339fc16583ea3e58c8f2b7df1820d"
+    },
+    "331:tome-finite-preparation": {
+      "number": 1538,
+      "id": 6432208056,
+      "node_id": "I_kwDOSicKg88AAAABf2O0uA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1735,
+        1737,
+        1738
+      ],
+      "expected_rendered_body_sha256": "d69b00d53db54064b960d05b5ac6937ad5ab70b94df4dab2887955a2c51306b7"
+    },
+    "331:tome-focus": {
+      "number": 1539,
+      "id": 6432209203,
+      "node_id": "I_kwDOSicKg88AAAABf2O5Mw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1735
+      ],
+      "expected_rendered_body_sha256": "c4399a09ef4f1087151beb7f77eb8951c7370c5ac71ae3dacce17a0347419c93"
+    },
+    "331:visions-of-distant-realms": {
+      "number": 1527,
+      "id": 6432162654,
+      "node_id": "I_kwDOSicKg88AAAABf2MDXg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1247,
+        1248,
+        1735
+      ],
+      "expected_rendered_body_sha256": "63c1f6b2ab396aefb1ac9aed2939f4e0766219502b13eb73d5df0a709ad51140"
+    },
+    "331:warlock-list": {
+      "number": 1481,
+      "id": 6432115476,
+      "node_id": "I_kwDOSicKg88AAAABf2JLFA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1735
+      ],
+      "expected_rendered_body_sha256": "d783c3e60e85945bb28b13019b2d32a36efd851c374be2a36b2da9041c8a7ff0"
+    },
+    "331:warlock-subclass": {
+      "number": 1491,
+      "id": 6432125831,
+      "node_id": "I_kwDOSicKg88AAAABf2Jzhw",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1735
+      ],
+      "expected_rendered_body_sha256": "77b67457274a0f695e6dcc160cacd24e101f01f805f060f369855fafb70b3e05"
+    },
+    "331:whispers-of-the-grave": {
+      "number": 1528,
+      "id": 6432164228,
+      "node_id": "I_kwDOSicKg88AAAABf2MJhA",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1636,
+        1637,
+        1735
+      ],
+      "expected_rendered_body_sha256": "5074694546d4201c7ca83022e3328d20f9f7b63b665cfea5e190bbbe75025909"
+    },
+    "331:witch-sight": {
+      "number": 1529,
+      "id": 6432165450,
+      "node_id": "I_kwDOSicKg88AAAABf2MOSg",
+      "expected_parent_number": 1748,
+      "expected_blocked_by_numbers": [
+        1735
+      ],
+      "expected_rendered_body_sha256": "77ba757c7d9b6dad4f743d6bfa008f40e1786809e39cc5285d5e1c2cc1abca9e"
+    }
+  }
+}
