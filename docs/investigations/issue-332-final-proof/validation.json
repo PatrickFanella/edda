@@ -1,0 +1,33 @@
+{
+  "status": "FINAL_SOURCE_PUBLICATION_PASS",
+  "final_prefix_sealed": true,
+  "observed_at": "2026-11-17T07:26:28.110243+00:00",
+  "native_collection_count": 1,
+  "native_api_calls": 19,
+  "observed_nodes": 1888,
+  "global_new_nodes": 871,
+  "protected_old_nodes": 1017,
+  "own_nodes": 285,
+  "source_obligation_maps": 6,
+  "focused_offline_tests": {
+    "methods": 43,
+    "publication_milestone_final_methods": 38,
+    "publication_milestone_final_seconds": 18.322,
+    "allocation_methods": 5,
+    "allocation_seconds": 0.159
+  },
+  "actual_saved_evidence_replay": "PASS",
+  "actual_receipt_contrary_controls": {
+    "count": 5,
+    "result": "PASS; parent prefix/owned source/old owner/root edge/Task metadata changes reject"
+  },
+  "compile": "PASS",
+  "whitespace": "PASS",
+  "own_frozen_source_sha256": "ef1f0ea92dd01f8ced8195fb1ef61b082f7cad35a50a8d44bc05bb43fe4b4634",
+  "native_receipt_sha256": "e830bc3b02a57e1bfdff14ed3d038c3fa411b99e448b7bc6a1ea300b7a358f95",
+  "native_receipt_raw_sha256": "5659b9d39056759253c46cab33e7465dab5ea4c2acd63eb8d8ef14d3c46987db",
+  "final_proof_sha256": "4467711b780cb682fb5f293362fe5d65bc917c8827fb6fca251ed49c184b6b3e",
+  "runtime_qualified": false,
+  "runtime_implementation": "PAUSED",
+  "root_independent_review_ci_merge": "PENDING ROOT ownership; one final-head hosted snapshot follows push"
+}

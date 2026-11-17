@@ -14,6 +14,9 @@ ACCEPTED_MERGE = '4b703526c2a0aa05d68dd4bfe721430dc686625e'
 NODES_SHA = '866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c'
 SOURCE_SHA = 'ef1f0ea92dd01f8ced8195fb1ef61b082f7cad35a50a8d44bc05bb43fe4b4634'
 PRIOR_RECEIPT_SHA = '05253922cd8b93e72e1feaa5d2b24c98cf316cd5eca8f147dadf779324a3a6df'
+ROOT_RECEIPT_SHA = '3f429d86cb00e7b457aeece26918821e494bb9c2536266b9dc95a740de9d039d'
+ROOT_JOURNAL_SHA = 'b5fdd3dc0ef02ceb07df4fba891a638dfb7c993248d46879af3d998905b48e47'
+PUBLICATION_DIRECTORY = ROOT / 'docs/investigations/issue-332-final-proof'
 MARKER = '<!-- edda-332 -->'
 SHORT = '\n\n<!-- edda-332 -->\nWizard #332: source decision; execution gated.\n'
 LONG = ('\n\n<!-- edda-332 -->\nWizard/Evoker #332 reconciles 106 source contexts, 20 class rows and the 217 printed spell identities. '
@@ -93,6 +96,36 @@ def validate_parent_extensions(receipt, directory=DIRECTORY):
     return set(expected)
 
 
+
+def load_root_publication(directory=PUBLICATION_DIRECTORY):
+    from wizard_milestone_proof import timestamp
+    receipt_raw = (directory / 'root-wizard-parent-publication-receipt.json').read_bytes()
+    journal_raw = (directory / 'root-wizard-parent-publication.json').read_bytes()
+    assert sha(receipt_raw) == ROOT_RECEIPT_SHA, 'pinned actual ROOT publication receipt'
+    assert sha(journal_raw) == ROOT_JOURNAL_SHA, 'pinned actual ROOT publication journal'
+    publication, journal = json.loads(receipt_raw), json.loads(journal_raw)
+    assert publication['status'] == 'ROOT_FOUR_WIZARD_APPENDS_PUBLISHED_AND_EXACT_READBACK_PASS'
+    assert publication['accepted_predecessor_release_sha256'] == RELEASE_SHA
+    assert publication['package_sha256'] == journal['package_sha256'] == PACKAGE_SHA
+    assert publication['journal_sha256'] == ROOT_JOURNAL_SHA
+    assert publication['source_states'] == {'330': 'CLOSED', '331': 'CLOSED', '332': 'OPEN'}
+    assert publication['runtime_qualified'] is False
+    assert publication['operations'] == journal['operations']
+    assert [row['number'] for row in publication['operations']] == list(PREFIXES)
+    release, _ = load_policy()
+    prior_time = timestamp(release['observed_at'])
+    for operation in publication['operations']:
+        number = operation['number']
+        assert operation['status'] == 'ACKNOWLEDGED_AND_EXACT_READBACK'
+        assert operation['prior_sha256'] == PREFIXES[number]
+        assert operation['append_sha256'] == SECTIONS[number]
+        assert operation['expected_sha256'] == RESULTS[number]
+        assert prior_time <= timestamp(operation['started_at']) <= timestamp(operation['finished_at'])
+        prior_time = timestamp(operation['finished_at'])
+    assert prior_time <= timestamp(publication['observed_at'])
+    return publication
+
+
 def validate_final(receipt, registry, inputs):
     from wizard_milestone_proof import nodes_digest, timestamp
     from wizard_publication_proof import validate_live, validate_candidate
@@ -103,6 +136,8 @@ def validate_final(receipt, registry, inputs):
     assert nodes_digest(registry, inputs) == NODES_SHA
     release, _ = load_policy()
     assert timestamp(receipt['observed_at']) >= timestamp(release['observed_at']), 'receipt predates accepted release'
+    publication = load_root_publication()
+    assert timestamp(receipt['observed_at']) >= timestamp(publication['observed_at']), 'receipt predates actual ROOT appends'
     # Retain actual old database/GraphQL identities, absent from the old source baseline.
     prior_raw = (ROOT / 'docs/investigations/issue-332-native-proof/wizard-native-receipt.json.gz').read_bytes()
     assert sha(prior_raw) == PRIOR_RECEIPT_SHA, 'pinned prior actual native identities'
@@ -120,4 +155,6 @@ def validate_final(receipt, registry, inputs):
                 accepted_predecessor_merge=ACCEPTED_MERGE, owned_section_sha256=SECTIONS,
                 expected_parent_result_sha256=RESULTS,
                 observed_parent_body_sha256={n: sha(rows[n]['body'].encode()) for n in PREFIXES},
-                observed_at=receipt['observed_at'], runtime_implementation_status='PAUSED')
+                observed_at=receipt['observed_at'], root_publication_receipt_sha256=ROOT_RECEIPT_SHA,
+                root_publication_journal_sha256=ROOT_JOURNAL_SHA, runtime_qualified=False,
+                runtime_implementation_status='PAUSED')

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "phase": "ROOT_SERIAL_WIZARD_PARENT_PUBLICATION",
+  "package_sha256": "5d80a055a6ed236b7dee4b50299d9617438f20702a79837b858914fdc51990b1",
+  "operations": [
+    {
+      "number": 47,
+      "operation": "root-parent-append-332 47",
+      "started_at": "2026-11-17T07:16:23.150382+00:00",
+      "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+      "prior_sha256": "2a519871a0cabc51b76d2bf6862f092a8c85b6fb8f9e6d28e0072ee1dff80fb9",
+      "append_sha256": "d38fa5ff4e509f940e0d9face47f45c4d4627bc0254ee7da40bad58a95fd513b",
+      "expected_sha256": "efe58e4675d673d047c39efbd4d2b288e13dcf7c98abb0f372bb6015295330d4",
+      "finished_at": "2026-11-17T07:16:26.278639+00:00"
+    },
+    {
+      "number": 54,
+      "operation": "root-parent-append-332 54",
+      "started_at": "2026-11-17T07:16:30.654232+00:00",
+      "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+      "prior_sha256": "84dfad7c3b64fbb6432fb86503b00bd0c610d0bb7462ba6a2836104802333925",
+      "append_sha256": "7a9125eb0853fe27486c2ad299ced0dd24d40f9e658932220fe2eb36eb9a3944",
+      "expected_sha256": "cdba8e04845f6161749dd5aaf819aa36c2cc02c912f960868adad6d567a635b3",
+      "finished_at": "2026-11-17T07:16:32.811820+00:00"
+    },
+    {
+      "number": 283,
+      "operation": "root-parent-append-332 283",
+      "started_at": "2026-11-17T07:16:38.157741+00:00",
+      "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+      "prior_sha256": "8cdcdb3a307539e7be9f5d3d1cb3c31c71bf1f5efc52647bae3c8defa411835b",
+      "append_sha256": "7a9125eb0853fe27486c2ad299ced0dd24d40f9e658932220fe2eb36eb9a3944",
+      "expected_sha256": "dc7c29eaf9073b3954c0f6b7f060b5d79f1cf768889f0289407bdaad3a2529de",
+      "finished_at": "2026-11-17T07:16:40.760244+00:00"
+    },
+    {
+      "number": 337,
+      "operation": "root-parent-append-332 337",
+      "started_at": "2026-11-17T07:16:45.662124+00:00",
+      "status": "ACKNOWLEDGED_AND_EXACT_READBACK",
+      "prior_sha256": "e762e12de06dc3af6479c948c5a89bb40fc00df7435208b9210c07c2f15972f8",
+      "append_sha256": "7a9125eb0853fe27486c2ad299ced0dd24d40f9e658932220fe2eb36eb9a3944",
+      "expected_sha256": "7b73e50fc1c12be4d7a8175f7ddb9b22fec60194d222402e6d7d0bbf59c9a242",
+      "finished_at": "2026-11-17T07:16:48.229002+00:00"
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "status": "FINAL_NATIVE_AND_PREFIX_PASS",
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "own_nodes": 285,
+  "global_new_nodes": 871,
+  "approved_graph_nodes": 1888,
+  "observed_nodes": 1888,
+  "caps": {
+    "incoming": 100,
+    "outgoing": 100,
+    "children": 95
+  },
+  "accepted_parent_prefix": "2a14082c35d68c6859490194738c74a6b820f81737ff6b81cd2ddf57fbbc4524",
+  "source_bindings": {
+    "animate-dead": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-animate-dead-creation": 1820,
+        "332:spell-animate-dead-command": 1821,
+        "332:spell-animate-dead-control-renewal": 1822,
+        "332:spell-animate-dead-upcast": 1823,
+        "331:creature-skeleton-statistics": 1684,
+        "331:creature-skeleton-attacks": 1685,
+        "330:zombie-stat-actions": 1445,
+        "330:zombie-undead-fortitude": 1446
+      }
+    },
+    "phantom-steed": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-phantom-steed-create": 1930,
+        "332:spell-phantom-steed-ride-ending": 1931,
+        "332:form-riding-horse-statistics": 1999,
+        "332:form-riding-horse-hooves": 2000
+      }
+    },
+    "shapechange": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-shapechange-form-admission": 1968,
+        "332:spell-shapechange-statistics": 1970,
+        "332:spell-shapechange-temporary-hp": 1969,
+        "332:spell-shapechange-equipment": 1971,
+        "332:qualified-form-output": 2006
+      }
+    },
+    "simulacrum": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-simulacrum-create-statistics": 1972,
+        "332:spell-simulacrum-command-limitations": 1973,
+        "332:spell-simulacrum-repair": 1974,
+        "332:spell-simulacrum-ending": 1975,
+        "332:form-qualified-snapshot": 2004,
+        "332:form-commoner-statistics": 2001,
+        "332:form-commoner-training": 2002,
+        "332:form-commoner-club": 2003
+      }
+    },
+    "named-interoperability": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-glyph-of-warding-stored-spell": 1880,
+        "332:spell-contingency-store": 1856,
+        "332:spell-guards-and-wards-doors": 1885,
+        "332:spell-guards-and-wards-stairs": 1886,
+        "332:spell-prismatic-wall-green": 1939,
+        "332:spell-resilient-sphere-disintegrate": 1956,
+        "332:spell-magic-jar-possession": 1899,
+        "332:spell-modify-memory-restore": 1923
+      }
+    },
+    "complete-cross-class-output-graph": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "330:shared-output": 1474,
+        "331:shared-output": 1757,
+        "332:shared-output": 2033,
+        "330:shared-aggregate": 1477,
+        "332:class-gate": 2036,
+        "332:source-advancement-output": 2005,
+        "332:casting-output": 2008,
+        "332:execution-output": 2041
+      }
+    }
+  },
+  "runtime_status": "UNQUALIFIED; source/native decision proof only",
+  "final_prefix_sealed": true,
+  "accepted_predecessor_head": "11f18dc15b1e214e6fe829a28177a32ebd0c39a1",
+  "accepted_predecessor_merge": "4b703526c2a0aa05d68dd4bfe721430dc686625e",
+  "owned_section_sha256": {
+    "47": "d38fa5ff4e509f940e0d9face47f45c4d4627bc0254ee7da40bad58a95fd513b",
+    "54": "7a9125eb0853fe27486c2ad299ced0dd24d40f9e658932220fe2eb36eb9a3944",
+    "283": "7a9125eb0853fe27486c2ad299ced0dd24d40f9e658932220fe2eb36eb9a3944",
+    "337": "7a9125eb0853fe27486c2ad299ced0dd24d40f9e658932220fe2eb36eb9a3944"
+  },
+  "expected_parent_result_sha256": {
+    "47": "efe58e4675d673d047c39efbd4d2b288e13dcf7c98abb0f372bb6015295330d4",
+    "54": "cdba8e04845f6161749dd5aaf819aa36c2cc02c912f960868adad6d567a635b3",
+    "283": "dc7c29eaf9073b3954c0f6b7f060b5d79f1cf768889f0289407bdaad3a2529de",
+    "337": "7b73e50fc1c12be4d7a8175f7ddb9b22fec60194d222402e6d7d0bbf59c9a242"
+  },
+  "observed_parent_body_sha256": {
+    "47": "efe58e4675d673d047c39efbd4d2b288e13dcf7c98abb0f372bb6015295330d4",
+    "54": "cdba8e04845f6161749dd5aaf819aa36c2cc02c912f960868adad6d567a635b3",
+    "283": "dc7c29eaf9073b3954c0f6b7f060b5d79f1cf768889f0289407bdaad3a2529de",
+    "337": "7b73e50fc1c12be4d7a8175f7ddb9b22fec60194d222402e6d7d0bbf59c9a242"
+  },
+  "observed_at": "2026-11-17T07:26:28.110243+00:00",
+  "root_publication_receipt_sha256": "3f429d86cb00e7b457aeece26918821e494bb9c2536266b9dc95a740de9d039d",
+  "root_publication_journal_sha256": "b5fdd3dc0ef02ceb07df4fba891a638dfb7c993248d46879af3d998905b48e47",
+  "runtime_qualified": false,
+  "runtime_implementation_status": "PAUSED",
+  "native_receipt_sha256": "e830bc3b02a57e1bfdff14ed3d038c3fa411b99e448b7bc6a1ea300b7a358f95",
+  "native_receipt_raw_sha256": "5659b9d39056759253c46cab33e7465dab5ea4c2acd63eb8d8ef14d3c46987db",
+  "api_calls": 19,
+  "protected_old_nodes": 1017,
+  "own_frozen_source_sha256": "ef1f0ea92dd01f8ced8195fb1ef61b082f7cad35a50a8d44bc05bb43fe4b4634",
+  "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+  "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+  "parent_capacities": {
+    "47": {
+      "characters": 65184,
+      "utf8_bytes": 65278,
+      "remaining_characters": 352,
+      "remaining_utf8_bytes": 258
+    },
+    "54": {
+      "characters": 44748,
+      "utf8_bytes": 44792,
+      "remaining_characters": 20788,
+      "remaining_utf8_bytes": 20744
+    },
+    "283": {
+      "characters": 33415,
+      "utf8_bytes": 33455,
+      "remaining_characters": 32121,
+      "remaining_utf8_bytes": 32081
+    },
+    "337": {
+      "characters": 32497,
+      "utf8_bytes": 32536,
+      "remaining_characters": 33039,
+      "remaining_utf8_bytes": 33000
+    }
+  }
+}

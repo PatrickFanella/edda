@@ -9,7 +9,7 @@ import tempfile
 import unittest
 
 from wizard_final_proof import (ROOT, DIRECTORY, MARKER, load_policy,
-                                validate_parent_extensions, validate_final)
+                                validate_parent_extensions, validate_final, load_root_publication)
 from wizard_publication_proof import trusted_inputs, validate_live
 
 
@@ -22,7 +22,7 @@ class WizardFinalProofTests(unittest.TestCase):
         cls.registry = json.loads((ROOT / 'docs/investigations/issue-332-native-proof/VERIFIED.registry.json').read_bytes())
         cls.fixture = copy.deepcopy(cls.original)
         cls.fixture['status'] = 'SYNTHETIC FINAL APPENDS TEST ONLY; not collected native evidence'
-        cls.fixture['observed_at'] = '2026-11-17T07:08:00+00:00'
+        cls.fixture['observed_at'] = '2026-11-17T07:25:00+00:00'
         for row in cls.fixture['graph']:
             if row['number'] in cls.expected:
                 row['body'] = cls.expected[row['number']]
@@ -161,6 +161,26 @@ class WizardFinalProofTests(unittest.TestCase):
     def test_default_unsealed_proof_does_not_accept_new_parent_exception(self):
         with self.assertRaises(AssertionError):
             validate_live(self.fixture, self.registry, self.inputs)
+
+    def test_actual_root_publication_provenance_rejects_rehashed_receipt_or_journal(self):
+        directory_source = ROOT / 'docs/investigations/issue-332-final-proof'
+        for name in ['root-wizard-parent-publication-receipt.json', 'root-wizard-parent-publication.json']:
+            with tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                for source in directory_source.glob('root-wizard-parent-publication*.json'):
+                    shutil.copyfile(source, directory / source.name)
+                path = directory / name
+                value = json.loads(path.read_bytes())
+                value['operations'][0]['expected_sha256'] = 'self-consistent-forgery'
+                path.write_text(json.dumps(value))
+                with self.assertRaisesRegex(AssertionError, 'pinned actual ROOT publication'):
+                    load_root_publication(directory)
+
+    def test_receipt_between_release_and_root_appends_rejects(self):
+        receipt = copy.deepcopy(self.fixture)
+        receipt['observed_at'] = '2026-11-17T07:08:00+00:00'
+        with self.assertRaisesRegex(AssertionError, 'predates actual ROOT appends'):
+            validate_final(receipt, self.registry, self.inputs)
 
     def test_predecessor_reopening_or_stale_receipt_reject(self):
         for number in [330, 331]:
