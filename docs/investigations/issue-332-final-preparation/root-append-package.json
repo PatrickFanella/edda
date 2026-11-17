@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "status": "PENDING ROOT-only exact four appends; NOT a final seal",
+  "release_original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/accepted-post-warlock-parent-baselines.json",
+  "release_raw_sha256": "2a14082c35d68c6859490194738c74a6b820f81737ff6b81cd2ddf57fbbc4524",
+  "accepted_head": "11f18dc15b1e214e6fe829a28177a32ebd0c39a1",
+  "accepted_merge": "4b703526c2a0aa05d68dd4bfe721430dc686625e",
+  "marker": "<!-- edda-332 -->",
+  "appends": {
+    "47": {
+      "path": "append-47.md",
+      "prefix_sha256": "2a519871a0cabc51b76d2bf6862f092a8c85b6fb8f9e6d28e0072ee1dff80fb9",
+      "section_sha256": "d38fa5ff4e509f940e0d9face47f45c4d4627bc0254ee7da40bad58a95fd513b",
+      "expected_result_sha256": "efe58e4675d673d047c39efbd4d2b288e13dcf7c98abb0f372bb6015295330d4",
+      "prefix_characters": 65117,
+      "prefix_utf8_bytes": 65211,
+      "section_characters": 67,
+      "section_utf8_bytes": 67,
+      "result_characters": 65184,
+      "result_utf8_bytes": 65278,
+      "remaining_characters": 352,
+      "remaining_utf8_bytes": 258
+    },
+    "54": {
+      "path": "append-54.md",
+      "prefix_sha256": "84dfad7c3b64fbb6432fb86503b00bd0c610d0bb7462ba6a2836104802333925",
+      "section_sha256": "7a9125eb0853fe27486c2ad299ced0dd24d40f9e658932220fe2eb36eb9a3944",
+      "expected_result_sha256": "cdba8e04845f6161749dd5aaf819aa36c2cc02c912f960868adad6d567a635b3",
+      "prefix_characters": 44263,
+      "prefix_utf8_bytes": 44307,
+      "section_characters": 485,
+      "section_utf8_bytes": 485,
+      "result_characters": 44748,
+      "result_utf8_bytes": 44792,
+      "remaining_characters": 20788,
+      "remaining_utf8_bytes": 20744
+    },
+    "283": {
+      "path": "append-283.md",
+      "prefix_sha256": "8cdcdb3a307539e7be9f5d3d1cb3c31c71bf1f5efc52647bae3c8defa411835b",
+      "section_sha256": "7a9125eb0853fe27486c2ad299ced0dd24d40f9e658932220fe2eb36eb9a3944",
+      "expected_result_sha256": "dc7c29eaf9073b3954c0f6b7f060b5d79f1cf768889f0289407bdaad3a2529de",
+      "prefix_characters": 32930,
+      "prefix_utf8_bytes": 32970,
+      "section_characters": 485,
+      "section_utf8_bytes": 485,
+      "result_characters": 33415,
+      "result_utf8_bytes": 33455,
+      "remaining_characters": 32121,
+      "remaining_utf8_bytes": 32081
+    },
+    "337": {
+      "path": "append-337.md",
+      "prefix_sha256": "e762e12de06dc3af6479c948c5a89bb40fc00df7435208b9210c07c2f15972f8",
+      "section_sha256": "7a9125eb0853fe27486c2ad299ced0dd24d40f9e658932220fe2eb36eb9a3944",
+      "expected_result_sha256": "7b73e50fc1c12be4d7a8175f7ddb9b22fec60194d222402e6d7d0bbf59c9a242",
+      "prefix_characters": 32012,
+      "prefix_utf8_bytes": 32051,
+      "section_characters": 485,
+      "section_utf8_bytes": 485,
+      "result_characters": 32497,
+      "result_utf8_bytes": 32536,
+      "remaining_characters": 33039,
+      "remaining_utf8_bytes": 33000
+    }
+  },
+  "accepted_parent_prefix": null,
+  "runtime_status": "UNQUALIFIED",
+  "runtime_implementation": "PAUSED"
+}
