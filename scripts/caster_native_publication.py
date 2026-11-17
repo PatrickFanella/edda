@@ -471,15 +471,18 @@ class Coordinator:
                 mutations.append(('parent', 'addSubIssue', dict(issueId=identities[parent], subIssueId=identity['node_id'])))
             for i, dep in enumerate(d for d in deps if d not in prior):
                 mutations.append(('d'+str(i), 'addBlockedBy', dict(issueId=identity['node_id'], blockingIssueId=identities[dep])))
-            if mutations:
-                # GraphQL mutation fields execute serially. Variables keep the
-                # source bodies and identifiers out of executable query text.
+            # Bound serial server work per request. This mitigates timeouts;
+            # it does not establish the cause of the earlier ambiguous 502.
+            # Each chunk retains the API's pacing, journal and immediate halt.
+            for offset in range(0, len(mutations), 4):
+                chunk = mutations[offset:offset + 4]
+                # Variables keep source bodies out of executable query text.
                 inputs = {}; fields = []; declarations = []
-                for i, (field, operation, value) in enumerate(mutations):
+                for i, (field, operation, value) in enumerate(chunk):
                     inputs['v' + str(i)] = value
                     declarations.append('$v%d:%sInput!' % (i, operation[0].upper() + operation[1:]))
                     fields.append(field + ':' + operation + '(input:$v' + str(i) + '){issue{id}}')
-                self.api('mutation(' + ','.join(declarations) + '){' + ' '.join(fields) + '}', inputs, 'wire ' + alias)
+                self.api('mutation(' + ','.join(declarations) + '){' + ' '.join(fields) + '}', inputs, 'wire ' + alias + ' fields ' + ','.join(field for field, _, _ in chunk))
             if index % 10 == 0 or index == 871:
                 print('WIRED', index, '/871', alias, '#' + str(number), flush=True)
         for edge in self.approval['allowed_old_root_edges']:
