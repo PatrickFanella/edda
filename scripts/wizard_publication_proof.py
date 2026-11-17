@@ -171,8 +171,12 @@ def renderer_contract():
     return contract,vectors
 
 
-def validate_live(receipt,registry,inputs):
+def validate_live(receipt,registry,inputs,*,final_parent_policy=False):
     approval,frozen,baseline,projection,nodes=inputs
+    extended_parents=set()
+    if final_parent_policy:
+        from wizard_final_proof import validate_parent_extensions
+        extended_parents=validate_parent_extensions(receipt)
     validate_registry(registry,nodes,baseline)
     assert registry['status']=='VERIFIED','ROOT verified wiring boundary required for native proof'
     renderer_contract()
@@ -198,7 +202,9 @@ def validate_live(receipt,registry,inputs):
         assert r['state'].upper()=='OPEN',('implementation/qualification task closed prematurely',alias)
     for old in baseline['graph']:
         now=live[old['number']]
-        assert now['title']==old['title'] and now['body']==old['body'],('old body/title changed before root prefix release',old['number'])
+        assert now['title']==old['title'],('old title changed',old['number'])
+        if old['number'] not in extended_parents:
+            assert now['body']==old['body'],('old body changed outside exact parent extensions',old['number'])
         # Only these three decisions can change state; every path remains required.
         if old['number'] in (330,331,332):
             assert now['state'].upper() in ('OPEN','CLOSED'), ('decision state',old['number'])
@@ -257,7 +263,7 @@ def main():
     own=Path(__file__).resolve().parents[1]/'docs/investigations/issue-332-wizard-scope.json'
     validate_candidate(json.loads(own.read_text()),inputs[1]['332'])
     if a.final:
-        raise AssertionError('accepted POST-WARLOCK root prefix release and real four appends are still HELD; no final seal may be fabricated')
+        assert a.registry and a.native_receipt, 'accepted POST-WARLOCK root prefix release and real four appends require actual final native evidence; no final seal may be fabricated'
     if not a.registry:
         assert not any([a.binding_output,a.collect_native,a.native_receipt,a.proof_output,a.ids_milestone,a.ids_milestone_sha256,a.allocated_registry,a.verified_milestone,a.verified_milestone_sha256,a.coordinator_receipt,a.provenance_output]),'registry required'
         print('PASS exact frozen871-node approval and renderer; IDs/native publication proof pending ROOT boundary delivery')
@@ -281,6 +287,7 @@ def main():
     if a.binding_output:a.binding_output.write_text(json.dumps(binding,indent=2)+'\n')
     if a.collect_native:
         assert a.native_receipt is not None and registry['status']=='VERIFIED','ROOT VERIFIED receipt boundary required'
+        assert not a.native_receipt.exists(),'refuse to overwrite actual native evidence'
         from wizard_native_checkpoint import collect
         receipt=collect()
     elif a.native_receipt:
@@ -291,10 +298,15 @@ def main():
         return
     if a.collect_native:
         encoded=json.dumps(receipt,indent=2).encode()
-        a.native_receipt.write_bytes(gzip.compress(encoded,mtime=0) if a.native_receipt.suffix=='.gz' else encoded)
-    proof=validate_live(receipt,registry,inputs)
+        with a.native_receipt.open('xb') as output:
+            output.write(gzip.compress(encoded,mtime=0) if a.native_receipt.suffix=='.gz' else encoded)
+    if a.final:
+        from wizard_final_proof import validate_final
+        proof=validate_final(receipt,registry,inputs)
+    else:
+        proof=validate_live(receipt,registry,inputs)
     proof['native_receipt_sha256']=digest(a.native_receipt.read_bytes())
     if a.proof_output:a.proof_output.write_text(json.dumps(proof,indent=2)+'\n')
-    print('PASS own285/global871 actual native identities/bodies/parents/edges/TaskSize; full foreign graph, both DAGs/caps/old protections; final prefixes HELD, runtime UNQUALIFIED')
+    print('PASS own285/global871 actual native identities/bodies/parents/edges/TaskSize; full foreign graph, both DAGs/caps/old protections; '+('final prefix proof PASS' if a.final else 'final prefixes HELD')+', runtime UNQUALIFIED')
 
 if __name__=='__main__':main()

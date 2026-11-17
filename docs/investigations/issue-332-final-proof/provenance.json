@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "status": "FINAL_SOURCE_PUBLICATION_PASS",
+  "source_preparation_head": "bdc13ba132f376fb23de69e9bffd0a70912a201f",
+  "root_publication_receipt_original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/root-wizard-parent-publication-receipt.json",
+  "root_publication_receipt_sha256": "3f429d86cb00e7b457aeece26918821e494bb9c2536266b9dc95a740de9d039d",
+  "root_publication_journal_original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/root-wizard-parent-publication.json",
+  "root_publication_journal_sha256": "b5fdd3dc0ef02ceb07df4fba891a638dfb7c993248d46879af3d998905b48e47",
+  "native_observed_at": "2026-11-17T07:26:28.110243+00:00",
+  "native_collection_count": 1,
+  "native_receipt_sha256": "e830bc3b02a57e1bfdff14ed3d038c3fa411b99e448b7bc6a1ea300b7a358f95",
+  "native_receipt_raw_sha256": "5659b9d39056759253c46cab33e7465dab5ea4c2acd63eb8d8ef14d3c46987db",
+  "runtime_qualified": false,
+  "runtime_implementation_status": "PAUSED",
+  "root_acceptance_review_ci_merge": "PENDING ROOT ownership",
+  "artifacts": {
+    "milestone-provenance-proof.json": "ceb59e8c8dd08623efdb275cde6b84b2076327f788e7020bb21af6705337e931",
+    "root-wizard-parent-publication-receipt.json": "3f429d86cb00e7b457aeece26918821e494bb9c2536266b9dc95a740de9d039d",
+    "root-wizard-parent-publication.json": "b5fdd3dc0ef02ceb07df4fba891a638dfb7c993248d46879af3d998905b48e47",
+    "wizard-final-bindings.json": "3ba19d55fdcc54bb656f2f0e7edc919a7a164ecb6f1bb10dbadc527777480aeb",
+    "wizard-final-native-proof.json": "4467711b780cb682fb5f293362fe5d65bc917c8827fb6fca251ed49c184b6b3e",
+    "wizard-final-native-receipt.json.gz": "e830bc3b02a57e1bfdff14ed3d038c3fa411b99e448b7bc6a1ea300b7a358f95"
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "status": "PUBLISHED_NATIVE_PROOF_PASS_UNSEALED",
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "own_nodes": 285,
+  "global_new_nodes": 871,
+  "approved_graph_nodes": 1888,
+  "observed_nodes": 1888,
+  "caps": {
+    "incoming": 100,
+    "outgoing": 100,
+    "children": 95
+  },
+  "accepted_parent_prefix": null,
+  "source_bindings": {
+    "animate-dead": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-animate-dead-creation": 1820,
+        "332:spell-animate-dead-command": 1821,
+        "332:spell-animate-dead-control-renewal": 1822,
+        "332:spell-animate-dead-upcast": 1823,
+        "331:creature-skeleton-statistics": 1684,
+        "331:creature-skeleton-attacks": 1685,
+        "330:zombie-stat-actions": 1445,
+        "330:zombie-undead-fortitude": 1446
+      }
+    },
+    "phantom-steed": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-phantom-steed-create": 1930,
+        "332:spell-phantom-steed-ride-ending": 1931,
+        "332:form-riding-horse-statistics": 1999,
+        "332:form-riding-horse-hooves": 2000
+      }
+    },
+    "shapechange": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-shapechange-form-admission": 1968,
+        "332:spell-shapechange-statistics": 1970,
+        "332:spell-shapechange-temporary-hp": 1969,
+        "332:spell-shapechange-equipment": 1971,
+        "332:qualified-form-output": 2006
+      }
+    },
+    "simulacrum": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-simulacrum-create-statistics": 1972,
+        "332:spell-simulacrum-command-limitations": 1973,
+        "332:spell-simulacrum-repair": 1974,
+        "332:spell-simulacrum-ending": 1975,
+        "332:form-qualified-snapshot": 2004,
+        "332:form-commoner-statistics": 2001,
+        "332:form-commoner-training": 2002,
+        "332:form-commoner-club": 2003
+      }
+    },
+    "named-interoperability": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-glyph-of-warding-stored-spell": 1880,
+        "332:spell-contingency-store": 1856,
+        "332:spell-guards-and-wards-doors": 1885,
+        "332:spell-guards-and-wards-stairs": 1886,
+        "332:spell-prismatic-wall-green": 1939,
+        "332:spell-resilient-sphere-disintegrate": 1956,
+        "332:spell-magic-jar-possession": 1899,
+        "332:spell-modify-memory-restore": 1923
+      }
+    },
+    "complete-cross-class-output-graph": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "330:shared-output": 1474,
+        "331:shared-output": 1757,
+        "332:shared-output": 2033,
+        "330:shared-aggregate": 1477,
+        "332:class-gate": 2036,
+        "332:source-advancement-output": 2005,
+        "332:casting-output": 2008,
+        "332:execution-output": 2041
+      }
+    }
+  },
+  "runtime_status": "UNQUALIFIED; source/native decision proof only",
+  "native_receipt_sha256": "05253922cd8b93e72e1feaa5d2b24c98cf316cd5eca8f147dadf779324a3a6df",
+  "native_receipt_raw_sha256": "2f81e3e6911c8adad0dcd6808e10d0575d3795942351d81796bbf61530e4c9ef",
+  "observed_at": "2026-11-17T06:27:03.985841+00:00",
+  "api_calls": 19,
+  "protected_old_nodes": 1017,
+  "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+  "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+  "wiring_status": "VERIFIED by independent native readback; final parent prefixes HELD",
+  "final_prefix_status": "HELD; accepted POST-WARLOCK prefix not supplied",
+  "parent_supplements_status": "PENDING ROOT-only serial acceptance 330 then 331 then 332",
+  "runtime_implementation_status": "PAUSED",
+  "specific_caps": {
+    "incoming279": 100,
+    "incoming280": 95,
+    "incoming337": 59,
+    "children283": 95,
+    "outgoing429": 100
+  }
+}

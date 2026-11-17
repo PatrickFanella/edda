@@ -1,10 +1,30 @@
 # Wizard/Evoker source decision (#332)
 
-The root approved the exact finite 871-node three-class publication after independent
-reservation repair and delta recheck. Wizard remains unavailable in the engine.
-The single Sorcerer publisher owns allocation and wiring; Wizard authors only local
-proofs and bindings. Actual native readback and the accepted POST-WARLOCK prefix
-release remain pending, so issue #332's closure criteria are not yet satisfied.
+The Wizard/Evoker source-publication decision has passed the final pinned native
+and parent-prefix proof. One independent complete readback observed 1,888 issues
+at `2026-11-17T07:26:28.110243+00:00`, including all 871 published implementation
+contracts and 1,017 old-node protections. All 285 Wizard binding rows and six
+source-obligation maps remain unchanged. ROOT's four actual parent appends match
+the exact accepted POST-WARLOCK prefixes and owned sections, including complete
+body hashes and Unicode capacities.
+
+Current evidence, exact hashes, provenance and offline replay are in
+[the final source-publication checkpoint](issue-332-final-proof/README.md).
+The proof result is `FINAL_NATIVE_AND_PREFIX_PASS`. This completes the author's
+source/native/prefix proof; #332 remains OPEN pending ROOT's fresh independent
+review, exact-head CI and merge of the draft PR. No issue closure is performed
+by the author.
+
+Runtime qualification remains **false**, Wizard remains unavailable in the
+engine, and runtime roadmap implementation remains **PAUSED**. Published contracts
+and this source decision do not supply playable admission.
+
+## Historical source audit and preparation
+
+The remaining sections retain the earlier source audit and phase-specific
+preparation evidence. Their pending gates describe those earlier checkpoints;
+the final checkpoint linked above records the completed publication proof.
+No broad source/PDF or runtime audit was repeated for the final seal.
 
 The prepared clean base was `e7cd1ba8318ba296edd4fc5b6b84715ca11016f2`, branch
 `feat/wizard-evoker-roadmap`, physical path

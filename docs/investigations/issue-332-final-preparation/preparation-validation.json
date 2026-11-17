@@ -1,0 +1,19 @@
+{
+  "status": "PREPARATION_CHECKS_PASS; actual ROOT appends and final seal PENDING",
+  "release_raw_sha256": "2a14082c35d68c6859490194738c74a6b820f81737ff6b81cd2ddf57fbbc4524",
+  "package_raw_sha256": "5d80a055a6ed236b7dee4b50299d9617438f20702a79837b858914fdc51990b1",
+  "focused_test_methods": 41,
+  "final_policy_test_methods": 16,
+  "positive_final_tests": "SYNTHETIC ONLY; no actual final receipt exists",
+  "saved_actual_receipt_final_result": "REJECTED; predates accepted release and lacks actual four appends",
+  "source_manifest_sha256": "ef1f0ea92dd01f8ced8195fb1ef61b082f7cad35a50a8d44bc05bb43fe4b4634",
+  "compile": "PASS",
+  "whitespace": "PASS",
+  "native_collection_performed": false,
+  "native_writes_performed": false,
+  "final_prefix_sealed": false,
+  "accepted_release_pinned": true,
+  "actual_append_receipt": null,
+  "runtime_status": "UNQUALIFIED",
+  "runtime_implementation": "PAUSED"
+}
