@@ -57,6 +57,17 @@ class ApprovedNativeProof(unittest.TestCase):
         self.assertFalse(result['final_prefix_sealed'])
         self.assertFalse(result['runtime_qualified'])
 
+    def test_closed_decisions_keep_every_source_and_terminal_edge(self):
+        snapshot=copy.deepcopy(self.snapshot)
+        for row in snapshot['graph']:
+            if row['number'] in (330,331,332):row['state']='CLOSED'
+        a.validate_wiring(self.approval,self.expected,self.baseline,self.registry,snapshot)
+        for alias in ['330:shared-aggregate','331:shared-output','332:class-gate']:
+            changed=copy.deepcopy(snapshot)
+            row=next(r for r in changed['graph'] if r['number']==self.registry['nodes'][alias]['number'])
+            row['blocked_by'].pop()
+            with self.assertRaises(AssertionError):a.validate_wiring(self.approval,self.expected,self.baseline,self.registry,changed)
+
     def test_pinned_approval_rejects_coherent_forged_template(self):
         with tempfile.TemporaryDirectory() as tmp:
             approval = copy.deepcopy(self.approval)

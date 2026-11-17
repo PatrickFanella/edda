@@ -264,6 +264,10 @@ def _old_protection(approval, baseline, graph, snapshot, numbers):
     for old in baseline['graph']:
         actual = graph[old['number']]
         assert actual['title'] == old['title'] and actual['parent'] == old['parent'], 'old title/parent'
+        if old['number'] in (330, 331, 332):
+            assert actual['state'].upper() in ('OPEN', 'CLOSED'), 'decision state only'
+        else:
+            assert actual['state'].upper() == old['state'].upper(), 'old state drift'
         if old['number'] in (279, 280, 337):
             assert set(old['blocked_by']) <= set(actual['blocked_by']), 'old required root edge removed'
             permitted = {numbers[e['blocker']] for e in approval['allowed_old_root_edges'] if int(e['issue']) == old['number']}

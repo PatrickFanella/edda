@@ -103,7 +103,7 @@ class PublicationTest(unittest.TestCase):
     def test_null_success_and_malformed_identity_are_durably_fenced(self):
         for issue in [None,{},dict(number=True,databaseId=123,id='I_TEST'),dict(number=2101,databaseId=1.5,id='I_TEST')]:
             with self.subTest(issue=issue),TemporaryDirectory() as directory:
-                c=self.fake_allocator();c.journal_path=Path(directory)/'journal.json'
+                c=self.fake_allocator();c.directory=Path(directory);c.journal_path=Path(directory)/'journal.json'
                 response=dict(createIssue=dict(issue=issue))
                 def acknowledged(query,variables,operation):
                     c.journal['operations'].append(dict(operation=operation,status='ACKNOWLEDGED',response=dict(data=response)))

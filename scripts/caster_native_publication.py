@@ -89,11 +89,46 @@ def check_registry(registry, nodes, baseline, complete):
         assert len(set(values)) == len(values), 'duplicate registry ' + key
 
 
+# Only these three decision closures were caused by the already merged PRs.
+MERGED_DECISIONS = {330: 1170, 331: 1171, 332: 1172}
+
+
+def old_state_matches(old, state):
+    return state.lower() in ('open', 'closed') if old['number'] in MERGED_DECISIONS else state == old['state']
+
+
+def old_contract_matches(actual, old):
+    return all((old_state_matches(old, actual[k]) if k == 'state' else actual[k] == v)
+               for k, v in old.items())
+
+
 def uncertain_creation(journal, alias):
     # Called only when neither the registry nor the complete marker readback has
     # this alias. Even an ACK can precede a crash or contain issue:null. A prior
     # creation intent is never permission for a second blind create.
-    return any(entry['operation']=='create '+alias for entry in journal['operations'])
+    return any(entry['operation']=='create '+alias and entry.get('status')!='NOT_DISPATCHED'
+               for entry in journal['operations'])
+
+
+def require_mutation_identities(query, data):
+    targets = dict(createIssue='issue', updateIssue='issue', addSubIssue='issue',
+                   addBlockedBy='issue', addProjectV2ItemById='item',
+                   updateProjectV2ItemFieldValue='projectV2Item')
+    pattern = r'\b(?:(\w+)\s*:\s*)?(' + '|'.join(targets) + r')\s*(?=[({])'
+    fields = [(alias or operation, operation) for alias, operation in re.findall(pattern, query)]
+    assert fields and len({field for field, _ in fields}) == len(fields), 'distinct supported mutation fields required'
+    assert isinstance(data, dict) and set(data) == {field for field, _ in fields}, 'missing mutation field'
+    for field, operation in fields:
+        payload = data[field]; target = targets[operation]
+        assert isinstance(payload, dict) and set(payload) == {target}, ('missing nested mutation result', field)
+        record = payload[target]
+        assert isinstance(record, dict) and type(record.get('id')) is str and record['id'], ('missing typed mutation identity', field)
+        if operation == 'createIssue':
+            assert all(type(record.get(key)) is int and record[key] > 0 for key in ('number', 'databaseId')), 'incomplete created identity'
+
+
+class ExistingProjectItem(RuntimeError):
+    """Explicit single-operation rejection; allocator must read the existing item."""
 
 
 def caps(graph, parents):
@@ -179,21 +214,58 @@ class Coordinator:
         payload = dict(query=query, variables=variables or {})
         entry = None
         if operation:
-            entry = dict(operation=operation, started_at=now(), request_sha256=sha(json.dumps(payload, sort_keys=True)), status='INTENT')
+            entry = dict(operation=operation, started_at=now(), request_sha256=sha(json.dumps(payload, sort_keys=True)), request=payload, status='INTENT')
             self.journal['operations'].append(entry)
             atomic(self.journal_path, self.journal)
-        result = subprocess.run(['gh', 'api', 'graphql', '--input', '-'], input=json.dumps(payload), text=True,
-                                capture_output=True, timeout=90)
-        try:
-            value = json.loads(result.stdout)
-        except ValueError:
-            value = None
         if entry is not None:
-            entry.update(finished_at=now(), status='ACKNOWLEDGED' if result.returncode == 0 and value and not value.get('errors') else 'RECONCILE_REQUIRED',
-                         response=value, stderr=result.stderr[-4000:])
+            from caster_mutation_guard import MutationGuard, http_graphql
+            # The intent is already durable. Exclude only this unsent intent
+            # from the timing calculation; a restart sees it and fails closed.
+            prior = dict(operations=self.journal['operations'][:-1])
+            try:
+                MutationGuard(prior).wait()
+            except Exception:
+                # No transport was called. Preserve the refusal without turning
+                # it into another ambiguous write or extending its cooldown.
+                entry.update(finished_at=now(), status='NOT_DISPATCHED')
+                atomic(self.journal_path, self.journal)
+                raise
+            entry['started_at'] = now()
             atomic(self.journal_path, self.journal)
-        if result.returncode or not value or value.get('errors'):
-            raise RuntimeError('API operation failed; read-before-write reconciliation required: ' + str(value or result.stderr[-4000:]))
+            try:
+                response = http_graphql(query, variables or {})
+                entry['sanitized_http_response'] = response
+                value = json.loads(response['body'])
+                errors = value.get('errors')
+                if (operation.startswith('project-add ') and response['status'] == 200
+                        and value.get('data') == {'addProjectV2ItemById': None}
+                        and isinstance(errors, list) and errors
+                        and all(isinstance(error, dict) and error.get('type') == 'UNPROCESSABLE'
+                                and error.get('path') == ['addProjectV2ItemById']
+                                and error.get('message') == 'Content already exists in this project'
+                                for error in errors)):
+                    entry.update(finished_at=now(), status='REJECTED_EXISTING_PROJECT', response=value)
+                    atomic(self.journal_path, self.journal)
+                    raise ExistingProjectItem('Content already exists in this project')
+                assert response['exit_code'] == 0 and 200 <= response['status'] < 300 and not value.get('errors')
+                require_mutation_identities(query, value.get('data'))
+            except ExistingProjectItem:
+                raise
+            except Exception:
+                entry.update(finished_at=now(), status='RECONCILE_REQUIRED')
+                atomic(self.journal_path, self.journal)
+                halt = self.directory / 'native-write-halt.json'
+                if not halt.exists():
+                    atomic(halt, dict(status='AMBIGUOUS; native writes held', operation=operation, observed_at=now()))
+                raise
+            entry.update(finished_at=now(), status='ACKNOWLEDGED', response=value)
+            atomic(self.journal_path, self.journal)
+        else:
+            result = subprocess.run(['gh', 'api', 'graphql', '--input', '-'], input=json.dumps(payload), text=True,
+                                    capture_output=True, timeout=90)
+            value = json.loads(result.stdout)
+            if result.returncode or not value or value.get('errors'):
+                raise RuntimeError('Read-only GraphQL failed')
         return value['data']
 
     def save_registry(self, status):
@@ -285,7 +357,7 @@ class Coordinator:
     def preflight(self):
         graph = self.full_graph(); live = {n['number']: n for n in graph}
         for old in self.baseline['graph']:
-            assert all(live[old['number']][k] == v for k, v in old.items()), 'pre-publication baseline drift #' + str(old['number'])
+            assert old_contract_matches(live[old['number']], old), 'pre-publication baseline drift #' + str(old['number'])
         assert len(live) == 1017, 'unexpected issue identities before allocation'
         meta = self.metadata(sorted(map(int, self.baseline['project'])))
         for number, expected in self.baseline['project'].items():
@@ -300,7 +372,7 @@ class Coordinator:
         graph = self.full_graph()
         live = {n['number']:n for n in graph}
         for old in self.baseline['graph']:
-            assert all(live[old['number']][k] == v for k, v in old.items()), 'old contract changed before allocation'
+            assert old_contract_matches(live[old['number']], old), 'old contract changed before allocation'
         by_marker = {}
         for item in graph:
             for alias in re.findall(r'<!-- edda-caster-native:([^\s]+) -->', item['body']):
@@ -332,6 +404,9 @@ class Coordinator:
                 if not valid:
                     self.journal['operations'][-1]['status']='RECONCILE_REQUIRED'
                     atomic(self.journal_path,self.journal)
+                    halt = self.directory/'native-write-halt.json'
+                    if not halt.exists():
+                        atomic(halt, dict(status='AMBIGUOUS; native writes held', alias=alias, observed_at=now()))
                     raise RuntimeError('Ambiguous createIssue returned no complete typed identity; reconcile exact marker before any retry: '+alias)
                 self.registry['nodes'][alias] = dict(number=data['number'], id=data['databaseId'], node_id=data['id'])
                 self.save_registry('ALLOCATING')
@@ -430,7 +505,7 @@ class Coordinator:
             actual = live[old['number']]
             for key, value in old.items():
                 if key != 'blocked_by':
-                    assert actual[key] == value, 'old contract changed #' + str(old['number']) + ' ' + key
+                    assert (old_state_matches(old, actual[key]) if key == 'state' else actual[key] == value), 'old contract changed #' + str(old['number']) + ' ' + key
             expected = sorted(old['blocked_by'] + [resolve(e['blocker'], self.registry) for e in self.approval['allowed_old_root_edges'] if int(e['issue']) == old['number']])
             assert actual['blocked_by'] == expected, 'old edges changed #' + str(old['number'])
         for number, expected in self.baseline['project'].items():
