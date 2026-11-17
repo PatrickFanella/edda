@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "status": "PUBLISHED_NATIVE_PROOF_PASS_UNSEALED",
+  "source_head": "c20b1f55cf0aff5f25143ba6208d4d7dd7ac5002",
+  "delivered_sources": [
+    {
+      "original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/IDS_ALLOCATED.registry.json",
+      "raw_sha256": "73d9755cd7181155544f5d79a944bdaf653028425a75b5131b9adef1faf76392"
+    },
+    {
+      "original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/ids-allocated-milestone.json",
+      "raw_sha256": "4ada8b216c27369df0cca9304d4ec5f4f556035362ee0c3d26ebef8d21fdf9a6"
+    },
+    {
+      "original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.registry.json",
+      "raw_sha256": "e1e879b87b24914f08007677d30aad713c9e148363c404153bfd6be3f9564753"
+    },
+    {
+      "original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/verified-milestone.json",
+      "raw_sha256": "fe8969fcdb5b11f81c00e47c8be1a2496472a4b7bee2b32c4cc932f4ad806305"
+    },
+    {
+      "original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.native-receipt.json",
+      "raw_sha256": "087b2521ad5b9f8c40b278f3b23d8eea4b1b3e025ed2069285a9c3947db11d54"
+    }
+  ],
+  "portable_copies": {
+    "VERIFIED.registry.json": {
+      "original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.registry.json",
+      "raw_sha256": "e1e879b87b24914f08007677d30aad713c9e148363c404153bfd6be3f9564753"
+    },
+    "verified-milestone.json": {
+      "original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/verified-milestone.json",
+      "raw_sha256": "fe8969fcdb5b11f81c00e47c8be1a2496472a4b7bee2b32c4cc932f4ad806305"
+    },
+    "VERIFIED.native-receipt.json.gz": {
+      "original_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.native-receipt.json",
+      "raw_sha256": "087b2521ad5b9f8c40b278f3b23d8eea4b1b3e025ed2069285a9c3947db11d54"
+    }
+  },
+  "coordinator_receipt_scope": "Original byte hash and milestone provenance validated; coordinator schema lacks typename/projects and is not substituted for independent collection",
+  "independent_observed_at": "2026-11-17T06:27:03.985841+00:00",
+  "independent_collection_count": 1,
+  "accepted_parent_prefix": null,
+  "runtime_implementation_status": "PAUSED",
+  "runtime_status": "UNQUALIFIED",
+  "artifacts": {
+    "VERIFIED.native-receipt.json.gz": "1ea7820e9a6425daa51ff6e28701f26c9b56622817c7e21d74478c6d8c56badc",
+    "VERIFIED.registry.json": "e1e879b87b24914f08007677d30aad713c9e148363c404153bfd6be3f9564753",
+    "milestone-provenance-proof.json": "ceb59e8c8dd08623efdb275cde6b84b2076327f788e7020bb21af6705337e931",
+    "verified-milestone.json": "fe8969fcdb5b11f81c00e47c8be1a2496472a4b7bee2b32c4cc932f4ad806305",
+    "wizard-native-proof.json": "de40bfdd0e37f0198840525545668defb5eea25fc2c576bf9bb7beb609ff50bf",
+    "wizard-native-receipt.json.gz": "05253922cd8b93e72e1feaa5d2b24c98cf316cd5eca8f147dadf779324a3a6df",
+    "wizard-verified-bindings.json": "4ecb1c39b51a22c0497eaee00d3155c64b9f1c743080a9d96bc349d8e7be9590"
+  }
+}

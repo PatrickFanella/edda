@@ -1,0 +1,42 @@
+{
+  "milestone": "VERIFIED",
+  "observed_at": "2026-11-17T06:21:15.065632+00:00",
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+  "registry_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.registry.json",
+  "live_registry_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/registry.json",
+  "registry_file_sha256": "e1e879b87b24914f08007677d30aad713c9e148363c404153bfd6be3f9564753",
+  "nodes_map_sha256": "866246ec119bba3198ee6f6809141d7afc8efba596ad1bcadd3a8ab2194afa4c",
+  "node_count": 871,
+  "class_counts": {
+    "330": 305,
+    "331": 281,
+    "332": 285
+  },
+  "verified_receipt_path": "/home/onnwee/.local/state/edda-overnight-219965e8/caster-publication/milestones/VERIFIED.native-receipt.json",
+  "verified_receipt_sha256": "087b2521ad5b9f8c40b278f3b23d8eea4b1b3e025ed2069285a9c3947db11d54",
+  "verified_receipt_observed_at": "2026-11-17T06:21:14.784180+00:00",
+  "graph_node_count": 1888,
+  "all_new_tasks_open": true,
+  "native_body_parent_prerequisite_Task_Size_validation": true,
+  "both_DAGs": true,
+  "all_three_caps": true,
+  "old_protections": true,
+  "validation_details": {
+    "native_body_parent_prerequisite_Task_Size_validation": "PASS; exact871 frozen contracts",
+    "both_DAGs": "PASS; independently checked dependency and containment DAGs",
+    "all_three_caps": {
+      "nodes": 1888,
+      "max_incoming": 100,
+      "max_outgoing": 100,
+      "max_children": 95,
+      "incoming279": 100,
+      "incoming280": 95,
+      "incoming337": 59,
+      "outgoing429": 100,
+      "outgoing285": 82,
+      "children283": 95
+    },
+    "old_protections": "PASS; all1017 old bodies/titles/states/parents/Project metadata and all old edges; only five approved root additions"
+  }
+}

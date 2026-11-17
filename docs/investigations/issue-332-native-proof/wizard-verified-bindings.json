@@ -1,0 +1,5088 @@
+{
+  "schema_version": 1,
+  "status": "PUBLISHED_NATIVE_PROOF_PASS_UNSEALED",
+  "approval_sha256": "66b934f5cac58d21644822bd36098b0ee1cad535708a9e3f6b49bdf0a2f0fe41",
+  "renderer_contract_sha256": "e466e1b41506c35f6f03b6c3cc8d2bbbfb57e168607fa3c63954291930247238",
+  "registry_sha256": "611357bcea88e7e3b3b4b1fdbdb8431bace838cbd1c9b788d8fed91e32e5ea80",
+  "own_frozen_source_sha256": "ef1f0ea92dd01f8ced8195fb1ef61b082f7cad35a50a8d44bc05bb43fe4b4634",
+  "own_nodes": {
+    "332:hp": {
+      "number": 1759,
+      "id": 6432432709,
+      "node_id": "I_kwDOSicKg88AAAABf2ciRQ",
+      "title": "Implement Wizard hp",
+      "parent": 2034,
+      "blocked_by": [
+        968
+      ],
+      "body_sha256": "72561c1f281fb173698a88aac36e43659f2e11c589d9165d276a7b76e99b12cb",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:core": {
+      "number": 1760,
+      "id": 6432433412,
+      "node_id": "I_kwDOSicKg88AAAABf2clBA",
+      "title": "Implement Wizard core",
+      "parent": 2034,
+      "blocked_by": [
+        430
+      ],
+      "body_sha256": "c4f25d317a34f32b4433f3d510cc8120fea9567b98b6f7ff04128e4ed99ceefd",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:skills": {
+      "number": 1761,
+      "id": 6432434192,
+      "node_id": "I_kwDOSicKg88AAAABf2coEA",
+      "title": "Implement Wizard skills",
+      "parent": 2034,
+      "blocked_by": [
+        430
+      ],
+      "body_sha256": "bd82a4867fee3b5f50c721f60cb9f3583c3cc8c8931eebf499a280f62ba49ec8",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:equipment": {
+      "number": 1762,
+      "id": 6432435197,
+      "node_id": "I_kwDOSicKg88AAAABf2cr_Q",
+      "title": "Implement Wizard equipment",
+      "parent": 2034,
+      "blocked_by": [],
+      "body_sha256": "cce28fd93eeaebc59d67a9007e02b2590770bfabb6f18d9cc416dcb9700f7a75",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:later-entry": {
+      "number": 1763,
+      "id": 6432436009,
+      "node_id": "I_kwDOSicKg88AAAABf2cvKQ",
+      "title": "Implement Wizard later-entry",
+      "parent": 2034,
+      "blocked_by": [
+        430,
+        1759,
+        1765,
+        1766,
+        1768,
+        1773,
+        1775,
+        1776,
+        1777,
+        1778
+      ],
+      "body_sha256": "282fa9ec07e96485ad09089fa72deb6da9a4edcefa9c9874bd7db7e37e8f3b7f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:membership": {
+      "number": 1764,
+      "id": 6432436998,
+      "node_id": "I_kwDOSicKg88AAAABf2czBg",
+      "title": "Implement Wizard membership",
+      "parent": 2034,
+      "blocked_by": [],
+      "body_sha256": "ea7cec82ce223b33366692205da4fedc70894796770414037fb83ce2c3dc15a5",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:casting": {
+      "number": 1765,
+      "id": 6432437972,
+      "node_id": "I_kwDOSicKg88AAAABf2c21A",
+      "title": "Implement Wizard casting",
+      "parent": 2034,
+      "blocked_by": [
+        1764,
+        1773,
+        1775,
+        2038,
+        2042
+      ],
+      "body_sha256": "2efc27664e48733187400682c6b7dfdc5df0f7e9478335dffd4da5943352d454",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:cantrips": {
+      "number": 1766,
+      "id": 6432438883,
+      "node_id": "I_kwDOSicKg88AAAABf2c6Yw",
+      "title": "Implement Wizard cantrips",
+      "parent": 2034,
+      "blocked_by": [],
+      "body_sha256": "7b01ad7f9d47105c39ecd2dacbfbef34e4317c834928cf2529dfe544699dfc3a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:book-identity": {
+      "number": 1767,
+      "id": 6432439881,
+      "node_id": "I_kwDOSicKg88AAAABf2c-SQ",
+      "title": "Implement Wizard book-identity",
+      "parent": 2034,
+      "blocked_by": [],
+      "body_sha256": "3cb04469c925e5699286c0ee77115c8d98cd64c3be28f4828f35dd8d049ccb8f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:book-initial": {
+      "number": 1768,
+      "id": 6432440777,
+      "node_id": "I_kwDOSicKg88AAAABf2dByQ",
+      "title": "Implement Wizard book-initial",
+      "parent": 2034,
+      "blocked_by": [
+        1764,
+        1767
+      ],
+      "body_sha256": "2b991389a61002e930c642f1c27bdd95491127743565d1847f5feb7c945128e0",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:book-learning": {
+      "number": 1769,
+      "id": 6432441663,
+      "node_id": "I_kwDOSicKg88AAAABf2dFPw",
+      "title": "Implement Wizard book-learning",
+      "parent": 2034,
+      "blocked_by": [
+        1764,
+        1767,
+        1775
+      ],
+      "body_sha256": "3c79d18448bf29ceed9f7a901593f7e006cfcbddca1bc9be741e1b919e9fdc87",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:copy-found": {
+      "number": 1770,
+      "id": 6432442395,
+      "node_id": "I_kwDOSicKg88AAAABf2dIGw",
+      "title": "Implement Wizard copy-found",
+      "parent": 2034,
+      "blocked_by": [
+        1764,
+        1767,
+        1773
+      ],
+      "body_sha256": "dba6ce5e74f1e57a7742af7d4f49eee317447b90ad131a3140453388696aac48",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:copy-own": {
+      "number": 1771,
+      "id": 6432443747,
+      "node_id": "I_kwDOSicKg88AAAABf2dNYw",
+      "title": "Implement Wizard copy-own",
+      "parent": 2034,
+      "blocked_by": [
+        1767
+      ],
+      "body_sha256": "333a02998c6fe4ad3b4cb762ec27b88ee5b36b3be533fff5c5d851d9fb5be8dc",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:lost-book": {
+      "number": 1772,
+      "id": 6432444531,
+      "node_id": "I_kwDOSicKg88AAAABf2dQcw",
+      "title": "Implement Wizard lost-book",
+      "parent": 2034,
+      "blocked_by": [
+        1771,
+        1773
+      ],
+      "body_sha256": "b4e244187de39edb56d1175468f1800d9c4d98d29db0ef949a1563ed331a0142",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:preparation": {
+      "number": 1773,
+      "id": 6432445173,
+      "node_id": "I_kwDOSicKg88AAAABf2dS9Q",
+      "title": "Implement Wizard preparation",
+      "parent": 2034,
+      "blocked_by": [
+        1764,
+        1767
+      ],
+      "body_sha256": "b9c252b3c72ab5051a8093d4bb15017e25f8acd0cdf63088a74dab77200a3110",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:prepare-rest": {
+      "number": 1774,
+      "id": 6432446096,
+      "node_id": "I_kwDOSicKg88AAAABf2dWkA",
+      "title": "Implement Wizard prepare-rest",
+      "parent": 2034,
+      "blocked_by": [
+        1773
+      ],
+      "body_sha256": "28f7ea21258c2d0e5bade73bc4b41f16341c9dc88b94de2f531717a6590c4d0a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:slots": {
+      "number": 1775,
+      "id": 6432446874,
+      "node_id": "I_kwDOSicKg88AAAABf2dZmg",
+      "title": "Implement Wizard slots",
+      "parent": 2034,
+      "blocked_by": [
+        428,
+        2005
+      ],
+      "body_sha256": "f9d36b2c2603bae50a25d72a2b2b1a06f4d58faf93c5df7eb15d6ca9283f2817",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:multiclass-slots": {
+      "number": 1776,
+      "id": 6432447842,
+      "node_id": "I_kwDOSicKg88AAAABf2ddYg",
+      "title": "Implement Wizard multiclass-slots",
+      "parent": 2034,
+      "blocked_by": [
+        428,
+        2005
+      ],
+      "body_sha256": "adf12657f56c80c783aa3beb566a83ea0cb0ed032716324f7a995ad049c94f3f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:ritual": {
+      "number": 1777,
+      "id": 6432448619,
+      "node_id": "I_kwDOSicKg88AAAABf2dgaw",
+      "title": "Implement Wizard ritual",
+      "parent": 2034,
+      "blocked_by": [
+        1767,
+        2038
+      ],
+      "body_sha256": "dacf7564254a866e483a5c1ab240218716809d7c397dea1519bfb1b2b652d1e7",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:arcane-recovery": {
+      "number": 1778,
+      "id": 6432449520,
+      "node_id": "I_kwDOSicKg88AAAABf2dj8A",
+      "title": "Implement Wizard arcane-recovery",
+      "parent": 2034,
+      "blocked_by": [
+        1767,
+        1775
+      ],
+      "body_sha256": "303ad86f814bc23bc9c573f2bcf9b679a86b35f8729e19f266d67a5ba1370fbc",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:scholar": {
+      "number": 1779,
+      "id": 6432450292,
+      "node_id": "I_kwDOSicKg88AAAABf2dm9A",
+      "title": "Implement Wizard scholar",
+      "parent": 2034,
+      "blocked_by": [],
+      "body_sha256": "2c09d109c87b6588381765dcce2020e602d1b9aec18daec06270b5e5aadb5de7",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:subclass": {
+      "number": 1780,
+      "id": 6432451355,
+      "node_id": "I_kwDOSicKg88AAAABf2drGw",
+      "title": "Implement Wizard subclass",
+      "parent": 2034,
+      "blocked_by": [
+        1790,
+        1791,
+        1792,
+        1793,
+        1794
+      ],
+      "body_sha256": "18ed513b37d887a3fe90e1c90c39493538cd1cb5363ff3516c90171dd7fd79a2",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:asi": {
+      "number": 1781,
+      "id": 6432452285,
+      "node_id": "I_kwDOSicKg88AAAABf2duvQ",
+      "title": "Implement Wizard asi",
+      "parent": 2034,
+      "blocked_by": [
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        390,
+        391,
+        392,
+        393,
+        394,
+        395,
+        396,
+        397,
+        398,
+        399,
+        400,
+        401
+      ],
+      "body_sha256": "bfc348a3f659d9f9e8f2fe756027087d138eb222e1ad39fdaa131bc20c8643ae",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:epic-boon": {
+      "number": 1782,
+      "id": 6432453317,
+      "node_id": "I_kwDOSicKg88AAAABf2dyxQ",
+      "title": "Implement Wizard epic-boon",
+      "parent": 2034,
+      "blocked_by": [
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        390,
+        391,
+        392,
+        393,
+        394,
+        395,
+        396,
+        397,
+        398,
+        399,
+        400,
+        401
+      ],
+      "body_sha256": "eeb787967c39dccc447350a5ebcfe011780c39745391538f4b78d0b04ef99e3e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:memorize": {
+      "number": 1783,
+      "id": 6432454100,
+      "node_id": "I_kwDOSicKg88AAAABf2d11A",
+      "title": "Implement Wizard memorize",
+      "parent": 2034,
+      "blocked_by": [],
+      "body_sha256": "c0e128fd8b049773815e329d88f241fbd15b2a0ba5b401dae0d9b0a02652e61e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:mastery-select": {
+      "number": 1784,
+      "id": 6432454945,
+      "node_id": "I_kwDOSicKg88AAAABf2d5IQ",
+      "title": "Implement Wizard mastery-select",
+      "parent": 2034,
+      "blocked_by": [
+        1767,
+        1773
+      ],
+      "body_sha256": "381ed2ad656c7cafa0e8944a198899d41e065cfac3ca9011599d060fc1888481",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:mastery-cast": {
+      "number": 1785,
+      "id": 6432455889,
+      "node_id": "I_kwDOSicKg88AAAABf2d80Q",
+      "title": "Implement Wizard mastery-cast",
+      "parent": 2034,
+      "blocked_by": [
+        1784,
+        2038
+      ],
+      "body_sha256": "030f76e991d708101bc10d86fc533e642223bd409e5e8ecc748bbf3b9a759759",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:mastery-replace": {
+      "number": 1786,
+      "id": 6432457081,
+      "node_id": "I_kwDOSicKg88AAAABf2eBeQ",
+      "title": "Implement Wizard mastery-replace",
+      "parent": 2034,
+      "blocked_by": [
+        1784
+      ],
+      "body_sha256": "8d00c29032421bc61b43999f3f5aa6c50e57c0e62a67e4d4837937f56b93bd60",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:signature-select": {
+      "number": 1787,
+      "id": 6432458030,
+      "node_id": "I_kwDOSicKg88AAAABf2eFLg",
+      "title": "Implement Wizard signature-select",
+      "parent": 2034,
+      "blocked_by": [
+        1767
+      ],
+      "body_sha256": "b68b9f81b31e6faf75242859c30e245a700b37207aa32695a81e8c4b52995086",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:signature-cast": {
+      "number": 1788,
+      "id": 6432459357,
+      "node_id": "I_kwDOSicKg88AAAABf2eKXQ",
+      "title": "Implement Wizard signature-cast",
+      "parent": 2034,
+      "blocked_by": [
+        1787,
+        2038
+      ],
+      "body_sha256": "e9f0b87e56347a21e191c27b0714eebb1e99b75948ca090f23d2fe3abdbf6a99",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:signature-recovery": {
+      "number": 1789,
+      "id": 6432460255,
+      "node_id": "I_kwDOSicKg88AAAABf2eN3w",
+      "title": "Implement Wizard signature-recovery",
+      "parent": 2034,
+      "blocked_by": [
+        1788
+      ],
+      "body_sha256": "8632a8f6c42aee725e41b35a0918e2108e21e8439aab515a4fd401077fe23a38",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:evoker-identity": {
+      "number": 1790,
+      "id": 6432461237,
+      "node_id": "I_kwDOSicKg88AAAABf2eRtQ",
+      "title": "Implement Wizard evoker-identity",
+      "parent": 2034,
+      "blocked_by": [],
+      "body_sha256": "f2024733701d24cb1c9701e1cd0b3ad27d326051f17212f4f099126ad772e744",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:savant-initial": {
+      "number": 1791,
+      "id": 6432462217,
+      "node_id": "I_kwDOSicKg88AAAABf2eViQ",
+      "title": "Implement Wizard savant-initial",
+      "parent": 2034,
+      "blocked_by": [
+        1764,
+        1767
+      ],
+      "body_sha256": "83ffc2a118e861c0f033a6c84767679c9934cef611f09ae82befc2cb52ce5def",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:savant-new-slots": {
+      "number": 1792,
+      "id": 6432463235,
+      "node_id": "I_kwDOSicKg88AAAABf2eZgw",
+      "title": "Implement Wizard savant-new-slots",
+      "parent": 2034,
+      "blocked_by": [
+        1764,
+        1767,
+        1775
+      ],
+      "body_sha256": "4c74971b73cb260b2ea4115e6f219e53e0bed7c8b796d8ca7187d6b21bcff4f0",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:potent-attack": {
+      "number": 1793,
+      "id": 6432464408,
+      "node_id": "I_kwDOSicKg88AAAABf2eeGA",
+      "title": "Implement Wizard potent-attack",
+      "parent": 2034,
+      "blocked_by": [
+        1790,
+        2033,
+        2042
+      ],
+      "body_sha256": "f83d1a013bbc55a0c61edcd971062efa4cdd71f87dc0ef7e759ac04fdc71a405",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:potent-save": {
+      "number": 1794,
+      "id": 6432465621,
+      "node_id": "I_kwDOSicKg88AAAABf2ei1Q",
+      "title": "Implement Wizard potent-save",
+      "parent": 2034,
+      "blocked_by": [
+        1790,
+        2033,
+        2042
+      ],
+      "body_sha256": "397d4c2eea99dbf73c9e1b2a43c0787ee606dde471f619b9c7b1dcdf2385b8e4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:sculpt": {
+      "number": 1795,
+      "id": 6432466520,
+      "node_id": "I_kwDOSicKg88AAAABf2emWA",
+      "title": "Implement Wizard sculpt",
+      "parent": 2034,
+      "blocked_by": [
+        1790,
+        2033,
+        2042
+      ],
+      "body_sha256": "87d4c3c10e748c51a80216a4e8ec44fc9eef8ca01424f6741a090ba7ade7714a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:empowered": {
+      "number": 1796,
+      "id": 6432467492,
+      "node_id": "I_kwDOSicKg88AAAABf2eqJA",
+      "title": "Implement Wizard empowered",
+      "parent": 2034,
+      "blocked_by": [
+        1790,
+        2033,
+        2042
+      ],
+      "body_sha256": "6b2c7e13746f9960f897fb80ec761ec42136a1dc307b69d5f2ad9c64efc7a2a0",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:overchannel-damage": {
+      "number": 1797,
+      "id": 6432468489,
+      "node_id": "I_kwDOSicKg88AAAABf2euCQ",
+      "title": "Implement Wizard overchannel-damage",
+      "parent": 2034,
+      "blocked_by": [
+        1775,
+        1790,
+        2033,
+        2042
+      ],
+      "body_sha256": "03b97257c1204df1986287fba0b6df790dbf0afed1a590c482b6c4a44ce7693c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:overchannel-reuse": {
+      "number": 1798,
+      "id": 6432469358,
+      "node_id": "I_kwDOSicKg88AAAABf2exbg",
+      "title": "Implement Wizard overchannel-reuse",
+      "parent": 2034,
+      "blocked_by": [
+        1797,
+        2042
+      ],
+      "body_sha256": "730f1bc6b85e3494417864318c8a4dbe956094ae1937f88bfce984d01efc3d57",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-1": {
+      "number": 1799,
+      "id": 6432470362,
+      "node_id": "I_kwDOSicKg88AAAABf2e1Wg",
+      "title": "Apply Wizard class level 1",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1760,
+        1761,
+        1762,
+        1763,
+        1765,
+        1766,
+        1767,
+        1768,
+        1769,
+        1773,
+        1775,
+        1776,
+        1777,
+        1778,
+        2005
+      ],
+      "body_sha256": "6ab2063886d3c1e397a5d7d77405adb2ad339a249044bd4b8c3ebbdef20544da",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-2": {
+      "number": 1800,
+      "id": 6432471303,
+      "node_id": "I_kwDOSicKg88AAAABf2e5Bw",
+      "title": "Apply Wizard class level 2",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1779,
+        1799,
+        2005
+      ],
+      "body_sha256": "64c0409760e99a04b3e7d00627ae23e35216f4acce5c78c74536c5d45e6384bd",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-3": {
+      "number": 1801,
+      "id": 6432472173,
+      "node_id": "I_kwDOSicKg88AAAABf2e8bQ",
+      "title": "Apply Wizard class level 3",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1780,
+        1791,
+        1792,
+        1793,
+        1794,
+        1800,
+        2005
+      ],
+      "body_sha256": "4a1d88f5861fa5cd09e0e07eb5cb351f30be71371adbd24a72f89a3f34b4cebc",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-4": {
+      "number": 1802,
+      "id": 6432473032,
+      "node_id": "I_kwDOSicKg88AAAABf2e_yA",
+      "title": "Apply Wizard class level 4",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1766,
+        1769,
+        1773,
+        1775,
+        1781,
+        1801,
+        2005
+      ],
+      "body_sha256": "c14d3111c6e3b1b236aeda9df0bb3c9ed4260b982a6014891f1b41fbfddabcad",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-5": {
+      "number": 1803,
+      "id": 6432473983,
+      "node_id": "I_kwDOSicKg88AAAABf2fDfw",
+      "title": "Apply Wizard class level 5",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1783,
+        1792,
+        1802,
+        2005
+      ],
+      "body_sha256": "a4f8c21e19e54804c5e56892324a78cb60f564444afa1f897bf52c27bd90fb66",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-6": {
+      "number": 1804,
+      "id": 6432475004,
+      "node_id": "I_kwDOSicKg88AAAABf2fHfA",
+      "title": "Apply Wizard class level 6",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1795,
+        1803,
+        2005
+      ],
+      "body_sha256": "7a380225eedc2e048de023298974b881908ea812d33e3ed35a4ebf36dbfc6fdb",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-7": {
+      "number": 1805,
+      "id": 6432476162,
+      "node_id": "I_kwDOSicKg88AAAABf2fMAg",
+      "title": "Apply Wizard class level 7",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1792,
+        1804,
+        2005
+      ],
+      "body_sha256": "d966825c10e118936ef13015c506f7fb89c43b997cb5238971646c4eff5f3f48",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-8": {
+      "number": 1806,
+      "id": 6432477189,
+      "node_id": "I_kwDOSicKg88AAAABf2fQBQ",
+      "title": "Apply Wizard class level 8",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1781,
+        1805,
+        2005
+      ],
+      "body_sha256": "7a00a05e7386b7f172cb5f53f056e951167163c2910567431d3960691e5cea2a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-9": {
+      "number": 1807,
+      "id": 6432478452,
+      "node_id": "I_kwDOSicKg88AAAABf2fU9A",
+      "title": "Apply Wizard class level 9",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1792,
+        1806,
+        2005
+      ],
+      "body_sha256": "699d0948d957ade1ac56f265ca8f4509553a20296c65bde02a08cbdd561961d8",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-10": {
+      "number": 1808,
+      "id": 6432479402,
+      "node_id": "I_kwDOSicKg88AAAABf2fYqg",
+      "title": "Apply Wizard class level 10",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1766,
+        1769,
+        1773,
+        1775,
+        1796,
+        1807,
+        2005
+      ],
+      "body_sha256": "1e6419ed67832e7c281e0a7ec8bbc056d8237fb0d835ebddcd9395c80367ec0f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-11": {
+      "number": 1809,
+      "id": 6432480396,
+      "node_id": "I_kwDOSicKg88AAAABf2fcjA",
+      "title": "Apply Wizard class level 11",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1792,
+        1808,
+        2005
+      ],
+      "body_sha256": "129c21449d52fac6e25da70e6186efa8d5b59398dabb0a04dbc0637b18c41f46",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-12": {
+      "number": 1810,
+      "id": 6432481370,
+      "node_id": "I_kwDOSicKg88AAAABf2fgWg",
+      "title": "Apply Wizard class level 12",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1781,
+        1809,
+        2005
+      ],
+      "body_sha256": "033a88293db5332d125b7f2971c05d9f1c571c6a9cb38cbc30212fc329965ea9",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-13": {
+      "number": 1811,
+      "id": 6432482460,
+      "node_id": "I_kwDOSicKg88AAAABf2fknA",
+      "title": "Apply Wizard class level 13",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1792,
+        1810,
+        2005
+      ],
+      "body_sha256": "3a0cd07df4ce7677fb95251effb896574c80978cbdb25c067715981c181c64b3",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-14": {
+      "number": 1812,
+      "id": 6432483394,
+      "node_id": "I_kwDOSicKg88AAAABf2foQg",
+      "title": "Apply Wizard class level 14",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1797,
+        1798,
+        1811,
+        2005
+      ],
+      "body_sha256": "284f30782446fd645cf1e6efae2b9202e87cd959c6065d55519719fa2bf1da33",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-15": {
+      "number": 1813,
+      "id": 6432484323,
+      "node_id": "I_kwDOSicKg88AAAABf2fr4w",
+      "title": "Apply Wizard class level 15",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1792,
+        1812,
+        2005
+      ],
+      "body_sha256": "5c9e8b6a127150c1207e5d4678d53373a3b3dc97a2520568a37b56ce8acfd2fd",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-16": {
+      "number": 1814,
+      "id": 6432485146,
+      "node_id": "I_kwDOSicKg88AAAABf2fvGg",
+      "title": "Apply Wizard class level 16",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1781,
+        1813,
+        2005
+      ],
+      "body_sha256": "4288a2b0ab472eefdc69043f8eefff831b7ac9e7a418fc4597b45f984e0fb0d3",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-17": {
+      "number": 1815,
+      "id": 6432486066,
+      "node_id": "I_kwDOSicKg88AAAABf2fysg",
+      "title": "Apply Wizard class level 17",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1792,
+        1814,
+        2005
+      ],
+      "body_sha256": "25090e3d70bfde27a4e3aa08cd0011037291a42d659984547ddfa3419efd9261",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-18": {
+      "number": 1816,
+      "id": 6432486917,
+      "node_id": "I_kwDOSicKg88AAAABf2f2BQ",
+      "title": "Apply Wizard class level 18",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1784,
+        1785,
+        1786,
+        1815,
+        2005
+      ],
+      "body_sha256": "32350f7a18dcf9dbff028d333964f3c97a3a29228f6cd79be7f90146c4b56e33",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-19": {
+      "number": 1817,
+      "id": 6432487838,
+      "node_id": "I_kwDOSicKg88AAAABf2f5ng",
+      "title": "Apply Wizard class level 19",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1782,
+        1816,
+        2005
+      ],
+      "body_sha256": "5928a0299bb6813827d20305cf2af56e4bf20e0c6c39999dabcdde94b8f4aa3d",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-20": {
+      "number": 1818,
+      "id": 6432488927,
+      "node_id": "I_kwDOSicKg88AAAABf2f93w",
+      "title": "Apply Wizard class level 20",
+      "parent": 2035,
+      "blocked_by": [
+        1759,
+        1769,
+        1773,
+        1775,
+        1787,
+        1788,
+        1789,
+        1817,
+        2005
+      ],
+      "body_sha256": "b0fb265e4b4d08ec12ab51c2eb615bbf98f7e0ba8bd696c4daa3c5ed36a7a203",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-acid-arrow-higher-slot": {
+      "number": 1819,
+      "id": 6432489951,
+      "node_id": "I_kwDOSicKg88AAAABf2gB3w",
+      "title": "Resolve Acid Arrow higher-slot",
+      "parent": 2009,
+      "blocked_by": [
+        354,
+        2038,
+        2042
+      ],
+      "body_sha256": "8554a252e0c780d3a86e43a6b5472d6102eb0cd3edfec98ac0817a5ba49509c9",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-animate-dead-creation": {
+      "number": 1820,
+      "id": 6432491087,
+      "node_id": "I_kwDOSicKg88AAAABf2gGTw",
+      "title": "Resolve Animate Dead creation",
+      "parent": 2009,
+      "blocked_by": [
+        1445,
+        1446,
+        1684,
+        1685,
+        2038,
+        2042
+      ],
+      "body_sha256": "76e63222310b669d3ba5303c912da62fbff0b0cb539003c26e947cefa721eb1c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-animate-dead-command": {
+      "number": 1821,
+      "id": 6432491817,
+      "node_id": "I_kwDOSicKg88AAAABf2gJKQ",
+      "title": "Resolve Animate Dead command",
+      "parent": 2009,
+      "blocked_by": [
+        1445,
+        1446,
+        1684,
+        1685,
+        2038,
+        2042
+      ],
+      "body_sha256": "e1bc4a0fae0329b3a6e9f2b6f50ccd0bca25efc7fbfde429d4c547fcf89ba158",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-animate-dead-control-renewal": {
+      "number": 1822,
+      "id": 6432493043,
+      "node_id": "I_kwDOSicKg88AAAABf2gN8w",
+      "title": "Resolve Animate Dead control-renewal",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "d7c2b01f35e5383a569f597c97feacfda13750bcb140a2a9de45b88b1e85f962",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-animate-dead-upcast": {
+      "number": 1823,
+      "id": 6432494049,
+      "node_id": "I_kwDOSicKg88AAAABf2gR4Q",
+      "title": "Resolve Animate Dead upcast",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "3d761267101d478aa05416b5deff641ec4091211f16b8efe08b6807fedbe4948",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-antimagic-field-aura": {
+      "number": 1824,
+      "id": 6432494870,
+      "node_id": "I_kwDOSicKg88AAAABf2gVFg",
+      "title": "Resolve Antimagic Field aura",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "96108436d492180911b25bd3713d9c49b1284969e7b4b3ead7c2aef8c6af69c4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-antimagic-field-travel": {
+      "number": 1825,
+      "id": 6432495814,
+      "node_id": "I_kwDOSicKg88AAAABf2gYxg",
+      "title": "Resolve Antimagic Field travel",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "e2d3cb3997c59a4a04b12b90647211e6338f54e2471584503db00265c69d0e7f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-antimagic-field-suppression": {
+      "number": 1826,
+      "id": 6432496715,
+      "node_id": "I_kwDOSicKg88AAAABf2gcSw",
+      "title": "Resolve Antimagic Field suppression",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "de76066bf75da6221cd6b764f777d0421ce01841c6ac9d54cdbdf92ac5489df4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-antimagic-field-dispel-interaction": {
+      "number": 1827,
+      "id": 6432497501,
+      "node_id": "I_kwDOSicKg88AAAABf2gfXQ",
+      "title": "Resolve Antimagic Field dispel-interaction",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "11d0a7b9f970550498e1942fcab0e886d89710dba0c6a532aeadb6c036fdc791",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-antipathy-sympathy-admission": {
+      "number": 1828,
+      "id": 6432498513,
+      "node_id": "I_kwDOSicKg88AAAABf2gjUQ",
+      "title": "Resolve Antipathy/Sympathy admission",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "b9b86ed7992433ae3ce60a9303234f83dcec4f77ccb5c47a292e8f7d5f1b638f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-antipathy-sympathy-antipathy": {
+      "number": 1829,
+      "id": 6432499352,
+      "node_id": "I_kwDOSicKg88AAAABf2gmmA",
+      "title": "Resolve Antipathy/Sympathy antipathy",
+      "parent": 2009,
+      "blocked_by": [
+        2037,
+        2038,
+        2042
+      ],
+      "body_sha256": "58688aa3b62152e664c384717034e87c743fcbfe8c748e874364560f6ac8e27a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-antipathy-sympathy-sympathy": {
+      "number": 1830,
+      "id": 6432500587,
+      "node_id": "I_kwDOSicKg88AAAABf2graw",
+      "title": "Resolve Antipathy/Sympathy sympathy",
+      "parent": 2009,
+      "blocked_by": [
+        2037,
+        2038,
+        2042
+      ],
+      "body_sha256": "f2550bad928c97767a65842cd01cc38375037f3f6251aab05ba438bdd7f845f1",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-antipathy-sympathy-ending-immunity": {
+      "number": 1831,
+      "id": 6432501913,
+      "node_id": "I_kwDOSicKg88AAAABf2gwmQ",
+      "title": "Resolve Antipathy/Sympathy ending-immunity",
+      "parent": 2009,
+      "blocked_by": [
+        2037,
+        2038,
+        2042
+      ],
+      "body_sha256": "14801ec05d53f26f268fae1a16ce731fd1032401f133c5948005a9dade8e11f1",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-arcane-lock-lock-password": {
+      "number": 1832,
+      "id": 6432502899,
+      "node_id": "I_kwDOSicKg88AAAABf2g0cw",
+      "title": "Resolve Arcane Lock lock-password",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "6769ca17a446f2d53f415fa9c2b2bedf5777227eb06735e6c95a19666151d38a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-arcane-sword-create-attack": {
+      "number": 1833,
+      "id": 6432503767,
+      "node_id": "I_kwDOSicKg88AAAABf2g31w",
+      "title": "Resolve Arcane Sword create-attack",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "58326acf76e3cd69861f310d55d2875ca3fd185ef742628d54384ed6e4adfe04",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-arcane-sword-repeat-move": {
+      "number": 1834,
+      "id": 6432504908,
+      "node_id": "I_kwDOSicKg88AAAABf2g8TA",
+      "title": "Resolve Arcane Sword repeat-move",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "3c7c288dd526e9cdd1e7a4bea386b5c11e8428720510b8d90129b27a634f5543",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-arcanist-s-magic-aura-admission-permanence": {
+      "number": 1835,
+      "id": 6432506032,
+      "node_id": "I_kwDOSicKg88AAAABf2hAsA",
+      "title": "Resolve Arcanist\u2019s Magic Aura admission-permanence",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "519818e49ad4b0f71c27fa578351a4b3e1c4689392e41ecf8d585e6ac934fab9",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-arcanist-s-magic-aura-mask": {
+      "number": 1836,
+      "id": 6432506843,
+      "node_id": "I_kwDOSicKg88AAAABf2hD2w",
+      "title": "Resolve Arcanist\u2019s Magic Aura mask",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "0600f98bc1d736c73031879374c61c02716a7f628fba6e2ecc3d7fe8a385a135",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-arcanist-s-magic-aura-false-aura": {
+      "number": 1837,
+      "id": 6432507760,
+      "node_id": "I_kwDOSicKg88AAAABf2hHcA",
+      "title": "Resolve Arcanist\u2019s Magic Aura false-aura",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "849f1cdc719ae3377bfc43e8f31486912e0de2f142e2e1c9f85e913683ebcb16",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-augury-omen": {
+      "number": 1838,
+      "id": 6432508692,
+      "node_id": "I_kwDOSicKg88AAAABf2hLFA",
+      "title": "Resolve Augury omen",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "bb7d8d4f866ea8240f72b836147e1bdc1e3c66ce59f6a021e0d1cccd21b19f76",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-augury-repeat-failure": {
+      "number": 1839,
+      "id": 6432509462,
+      "node_id": "I_kwDOSicKg88AAAABf2hOFg",
+      "title": "Resolve Augury repeat-failure",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "127f5e6d05f331883c2109bb2cd12f82451da4be981672f1e63e114835349ce4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-bestow-curse-admission-ability": {
+      "number": 1840,
+      "id": 6432510357,
+      "node_id": "I_kwDOSicKg88AAAABf2hRlQ",
+      "title": "Resolve Bestow Curse admission-ability",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "f5501596d615a838eb39e88d9c42055ab3e09ff94f799f23bcae312d388299d7",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-bestow-curse-attack-disadvantage": {
+      "number": 1841,
+      "id": 6432511296,
+      "node_id": "I_kwDOSicKg88AAAABf2hVQA",
+      "title": "Resolve Bestow Curse attack-disadvantage",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "55c7b84726e7de422fcdb82576a9e9493268ac075aa9c19e36443623bfcff47e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-bestow-curse-dodge": {
+      "number": 1842,
+      "id": 6432512163,
+      "node_id": "I_kwDOSicKg88AAAABf2hYow",
+      "title": "Resolve Bestow Curse dodge",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "7891d53ed6b1d2e4cbfef1da4bf37d3745edde8bbd21e403714e3ee8ca751d9c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-bestow-curse-necrotic": {
+      "number": 1843,
+      "id": 6432512943,
+      "node_id": "I_kwDOSicKg88AAAABf2hbrw",
+      "title": "Resolve Bestow Curse necrotic",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "ef4af0d5929dfb68f8c4023716bb991be9f106d97b33c8133becbf671c9d41f1",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-bestow-curse-upcast-duration": {
+      "number": 1844,
+      "id": 6432513582,
+      "node_id": "I_kwDOSicKg88AAAABf2heLg",
+      "title": "Resolve Bestow Curse upcast-duration",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "6cba5b5474977d309c4326a3c135e10f9e77d238ad7af9266107cbb019926730",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-black-tentacles-area": {
+      "number": 1845,
+      "id": 6432514337,
+      "node_id": "I_kwDOSicKg88AAAABf2hhIQ",
+      "title": "Resolve Black Tentacles area",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "97ea1f84a9293751050baebb5dd44906328e17d65acdf11cb6dfba57c8a637e1",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-black-tentacles-save-restraint": {
+      "number": 1846,
+      "id": 6432515170,
+      "node_id": "I_kwDOSicKg88AAAABf2hkYg",
+      "title": "Resolve Black Tentacles save-restraint",
+      "parent": 2009,
+      "blocked_by": [
+        2037,
+        2038,
+        2042
+      ],
+      "body_sha256": "691c9345950c8bf257626dd5c84034878d941152686c1a7fe55e7fbe1f1b90e2",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-black-tentacles-escape": {
+      "number": 1847,
+      "id": 6432516328,
+      "node_id": "I_kwDOSicKg88AAAABf2ho6A",
+      "title": "Resolve Black Tentacles escape",
+      "parent": 2009,
+      "blocked_by": [
+        2037,
+        2038,
+        2042
+      ],
+      "body_sha256": "cbae024f124af29598aaabec101bd16d9c2f3c6e9882e82b58df2fec4341d947",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-clone-growth": {
+      "number": 1848,
+      "id": 6432517293,
+      "node_id": "I_kwDOSicKg88AAAABf2hsrQ",
+      "title": "Resolve Clone growth",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "80cc0a1bbcf975aaea595601d061d98ccb757ce9f9593a23bc2de040c6f03f4c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-clone-soul-transfer": {
+      "number": 1849,
+      "id": 6432518159,
+      "node_id": "I_kwDOSicKg88AAAABf2hwDw",
+      "title": "Resolve Clone soul-transfer",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "d6b199d0c92186e8c00d0c8732b03471ba13e01b20c14622d523dc6579faeb87",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-conjure-elemental-spirit": {
+      "number": 1850,
+      "id": 6432519192,
+      "node_id": "I_kwDOSicKg88AAAABf2h0GA",
+      "title": "Resolve Conjure Elemental spirit",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "108dfff88715edc22a3061cff535a2829f691fdb0e8e849b314d4adf74d383f0",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-conjure-elemental-capture-repeat": {
+      "number": 1851,
+      "id": 6432520133,
+      "node_id": "I_kwDOSicKg88AAAABf2h3xQ",
+      "title": "Resolve Conjure Elemental capture-repeat",
+      "parent": 2009,
+      "blocked_by": [
+        2037,
+        2038,
+        2042
+      ],
+      "body_sha256": "7855d03ec85bc674474f8cd9551622f15c0fd3215a3d1f41f1a8e14d7773685a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-conjure-elemental-upcast": {
+      "number": 1852,
+      "id": 6432521105,
+      "node_id": "I_kwDOSicKg88AAAABf2h7kQ",
+      "title": "Resolve Conjure Elemental upcast",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "873505c7034db72d6f321585970cc8c9a95c1627707caba81121d5a95328b9f4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-conjure-minor-elementals-damage": {
+      "number": 1853,
+      "id": 6432521771,
+      "node_id": "I_kwDOSicKg88AAAABf2h-Kw",
+      "title": "Resolve Conjure Minor Elementals damage",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "340a9efc44d349419a3221c6731779daea5116df589050b5eb31b9b0f5561cbd",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-conjure-minor-elementals-terrain": {
+      "number": 1854,
+      "id": 6432522630,
+      "node_id": "I_kwDOSicKg88AAAABf2iBhg",
+      "title": "Resolve Conjure Minor Elementals terrain",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "e789830d5e2e8e85b1fb4a8a8ad0cb738a05524b627aec529e958fa5a9013712",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-conjure-minor-elementals-upcast": {
+      "number": 1855,
+      "id": 6432523462,
+      "node_id": "I_kwDOSicKg88AAAABf2iExg",
+      "title": "Resolve Conjure Minor Elementals upcast",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "bc05611c2120973de08d8570058a29e38cd98d542039a6f859adec596f373df8",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-contingency-store": {
+      "number": 1856,
+      "id": 6432524240,
+      "node_id": "I_kwDOSicKg88AAAABf2iH0A",
+      "title": "Resolve Contingency store",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "412cb2ee7593f10b67fc7c2818c46ba615ae0277366704a404895f3cc9b46923",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-contingency-trigger": {
+      "number": 1857,
+      "id": 6432524885,
+      "node_id": "I_kwDOSicKg88AAAABf2iKVQ",
+      "title": "Resolve Contingency trigger",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "dabe8dc79469a46c94b93bbc954642f51f880ce3aef32c7356db901b499873a4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-contingency-ending": {
+      "number": 1858,
+      "id": 6432525567,
+      "node_id": "I_kwDOSicKg88AAAABf2iM_w",
+      "title": "Resolve Contingency ending",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "f94b83c6802914bd2934fc1cee7af6bee60810ba798d15ce0a0a5c05909dc054",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-continual-flame-light": {
+      "number": 1859,
+      "id": 6432526375,
+      "node_id": "I_kwDOSicKg88AAAABf2iQJw",
+      "title": "Resolve Continual Flame light",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "5b75fc3ba7991a25c982eafe835326781a0b0bce0ba61fc34ec5ddbdd805e6f0",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-control-water-selection": {
+      "number": 1860,
+      "id": 6432527326,
+      "node_id": "I_kwDOSicKg88AAAABf2iT3g",
+      "title": "Resolve Control Water selection",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "6385105b14009e6aa854e8246a7ef1bf4bb7e64e715ce3af4d6b133e555809af",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-control-water-flood": {
+      "number": 1861,
+      "id": 6432528239,
+      "node_id": "I_kwDOSicKg88AAAABf2iXbw",
+      "title": "Resolve Control Water flood",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "90214f28248091b79f25aa853378bb2bf7a128a3126da73f20d49602fba0d324",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-control-water-part": {
+      "number": 1862,
+      "id": 6432529181,
+      "node_id": "I_kwDOSicKg88AAAABf2ibHQ",
+      "title": "Resolve Control Water part",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "d247e51f7f56d844b6c34fc451747830fa4360b0cf4c26a71bd383a018034b4f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-control-water-redirect": {
+      "number": 1863,
+      "id": 6432530192,
+      "node_id": "I_kwDOSicKg88AAAABf2ifEA",
+      "title": "Resolve Control Water redirect",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "1fd518ca5bd10ddd56f9ef799f258acfb56f9150f3532e56ee9b1f2fb64114af",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-control-water-whirlpool": {
+      "number": 1864,
+      "id": 6432531574,
+      "node_id": "I_kwDOSicKg88AAAABf2ikdg",
+      "title": "Resolve Control Water whirlpool",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "3eacdd61629c7084510ac259814666e6ded013dcd2c232e31fc8794eef945b8f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-control-weather-admission": {
+      "number": 1865,
+      "id": 6432532609,
+      "node_id": "I_kwDOSicKg88AAAABf2iogQ",
+      "title": "Resolve Control Weather admission",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "47d3481dea5e8b0a09bce3131c0bca6a13f2f55d76e40ec23da8175420b573ed",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-control-weather-timing": {
+      "number": 1866,
+      "id": 6432533532,
+      "node_id": "I_kwDOSicKg88AAAABf2isHA",
+      "title": "Resolve Control Weather timing",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "0fc8120dd1626bb2cf8f922790e659705574b2218d797fb223ddefde1dba80e4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-control-weather-stages": {
+      "number": 1867,
+      "id": 6432534385,
+      "node_id": "I_kwDOSicKg88AAAABf2ivcQ",
+      "title": "Resolve Control Weather stages",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "50fb6ee9575cbec95f02014d73327cc919f6539741c785bfaf39d1b1aa8f125d",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-divination-truthful-answer": {
+      "number": 1868,
+      "id": 6432535167,
+      "node_id": "I_kwDOSicKg88AAAABf2iyfw",
+      "title": "Resolve Divination truthful-answer",
+      "parent": 2009,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "eaa457c4032fba5256f337c883778d14e5b8aea78a1beac028aff9aefdfb4081",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-divination-repeat-failure": {
+      "number": 1869,
+      "id": 6432536068,
+      "node_id": "I_kwDOSicKg88AAAABf2i2BA",
+      "title": "Resolve Divination repeat-failure",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "61d8e13ed128a13c02d5e40b4811f4c09004dde4cf4e38604da77bf0c16dd8d6",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-fabricate-materials": {
+      "number": 1870,
+      "id": 6432536735,
+      "node_id": "I_kwDOSicKg88AAAABf2i4nw",
+      "title": "Resolve Fabricate materials",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "3481e95a5da694b19d1830cebd67170c327fce7bd6dd404b9edd8714dfa45eed",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-fabricate-dimensions": {
+      "number": 1871,
+      "id": 6432537641,
+      "node_id": "I_kwDOSicKg88AAAABf2i8KQ",
+      "title": "Resolve Fabricate dimensions",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "6310a71029ead32e6ce37c4467a9721e70bfb7adafdbbc31a33f2599213d969b",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-fabricate-proficiencies": {
+      "number": 1872,
+      "id": 6432538453,
+      "node_id": "I_kwDOSicKg88AAAABf2i_VQ",
+      "title": "Resolve Fabricate proficiencies",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "312bc7f5d8e0e4098dfc7aff263cf95e2d2a8a19cb498768add489a7e27334ad",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-faithful-hound-create-ending": {
+      "number": 1873,
+      "id": 6432539592,
+      "node_id": "I_kwDOSicKg88AAAABf2jDyA",
+      "title": "Resolve Faithful Hound create-ending",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "e3f512daa59e697bb66318bb1ada7051d705781cf1c7bea6675143b4ea46734d",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-faithful-hound-detection": {
+      "number": 1874,
+      "id": 6432540342,
+      "node_id": "I_kwDOSicKg88AAAABf2jGtg",
+      "title": "Resolve Faithful Hound detection",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "e11955e2e8e65d7785369cf295e2e76d6c181983c4c18a492660d07b56db5d8f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-faithful-hound-bite": {
+      "number": 1875,
+      "id": 6432541175,
+      "node_id": "I_kwDOSicKg88AAAABf2jJ9w",
+      "title": "Resolve Faithful Hound bite",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "008516d63d1f6228b1148e48d386e1e334579a19dc9b790fb324cdfde818da17",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-faithful-hound-move": {
+      "number": 1876,
+      "id": 6432542006,
+      "node_id": "I_kwDOSicKg88AAAABf2jNNg",
+      "title": "Resolve Faithful Hound move",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "f675cbef54dff42f6e6c659131ecbcc360bb8d9231004d33832169234ca18b4b",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-glyph-of-warding-placement": {
+      "number": 1877,
+      "id": 6432543012,
+      "node_id": "I_kwDOSicKg88AAAABf2jRJA",
+      "title": "Resolve Glyph of Warding placement",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "c11636df2ec7fc02545aea073d2039bbf061ff68fe13ad21377b91907287897c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-glyph-of-warding-trigger": {
+      "number": 1878,
+      "id": 6432543939,
+      "node_id": "I_kwDOSicKg88AAAABf2jUww",
+      "title": "Resolve Glyph of Warding trigger",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "1abdb4630096b99b4228643fa7b83a2c220b55eaf325c08f42ba317ebb476a9f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-glyph-of-warding-explosive": {
+      "number": 1879,
+      "id": 6432544788,
+      "node_id": "I_kwDOSicKg88AAAABf2jYFA",
+      "title": "Resolve Glyph of Warding explosive",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "68016f1184b14c03d87228fa5e81b3f450703cd31800eb7b5d01ec397c09a720",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-glyph-of-warding-stored-spell": {
+      "number": 1880,
+      "id": 6432545749,
+      "node_id": "I_kwDOSicKg88AAAABf2jb1Q",
+      "title": "Resolve Glyph of Warding stored-spell",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "5c61aa18deb2f27307e4c7f0c2f183010f4a95829d797ca73e19df92f28ff408",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-glyph-of-warding-upcast": {
+      "number": 1881,
+      "id": 6432546587,
+      "node_id": "I_kwDOSicKg88AAAABf2jfGw",
+      "title": "Resolve Glyph of Warding upcast",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "953fd735b870029984db8061966d74fcc2810d2322044b526505559f6cca17e7",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-guards-and-wards-area-permission": {
+      "number": 1882,
+      "id": 6432547660,
+      "node_id": "I_kwDOSicKg88AAAABf2jjTA",
+      "title": "Resolve Guards and Wards area-permission",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "ac15c642448dbc4b75ca73be2b3a5363f3d3cb30eb4398b51787ea50df20a4f1",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-guards-and-wards-dispel-permanence": {
+      "number": 1883,
+      "id": 6432548497,
+      "node_id": "I_kwDOSicKg88AAAABf2jmkQ",
+      "title": "Resolve Guards and Wards dispel-permanence",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "3a2efe313c3b2c19e0dc058be49acf2914d85d2990b61007ad5bbdfe0169f29e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-guards-and-wards-corridors": {
+      "number": 1884,
+      "id": 6432549476,
+      "node_id": "I_kwDOSicKg88AAAABf2jqZA",
+      "title": "Resolve Guards and Wards corridors",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "body_sha256": "582fc9220886c22f19fa581da616783c9ac547ea7cf6fe7964d64e78d36ddf9e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-guards-and-wards-doors": {
+      "number": 1885,
+      "id": 6432550386,
+      "node_id": "I_kwDOSicKg88AAAABf2jt8g",
+      "title": "Resolve Guards and Wards doors",
+      "parent": 2010,
+      "blocked_by": [
+        1832,
+        2038,
+        2043
+      ],
+      "body_sha256": "0775570bd9ee27cd6f79b23db9ad0e05fee1cc7e5365e0041803f24b3bb19cb2",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-guards-and-wards-stairs": {
+      "number": 1886,
+      "id": 6432551242,
+      "node_id": "I_kwDOSicKg88AAAABf2jxSg",
+      "title": "Resolve Guards and Wards stairs",
+      "parent": 2010,
+      "blocked_by": [
+        696,
+        726,
+        2038,
+        2043
+      ],
+      "body_sha256": "9d18b2a90522c1aec71168ecb0bac26d702f45bfc6a9062d10480a136cf7fb44",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-guards-and-wards-dancing-lights": {
+      "number": 1888,
+      "id": 6434049421,
+      "node_id": "I_kwDOSicKg88AAAABf3_NjQ",
+      "title": "Resolve Guards and Wards dancing-lights",
+      "parent": 2010,
+      "blocked_by": [
+        1281,
+        2038,
+        2042
+      ],
+      "body_sha256": "d8ccd37608c755f8bf383eaa2549b2bea48539ffcb7c7a6a9232e3d75e41beae",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-guards-and-wards-magic-mouth": {
+      "number": 1889,
+      "id": 6434246285,
+      "node_id": "I_kwDOSicKg88AAAABf4LOjQ",
+      "title": "Resolve Guards and Wards magic-mouth",
+      "parent": 2010,
+      "blocked_by": [
+        1903,
+        1904,
+        1905,
+        2038,
+        2043
+      ],
+      "body_sha256": "dcdddd5269f3d595a8ab183316179006c10d536093a7377e15b21007f132e24e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-guards-and-wards-stinking-cloud": {
+      "number": 1890,
+      "id": 6434251438,
+      "node_id": "I_kwDOSicKg88AAAABf4Lirg",
+      "title": "Resolve Guards and Wards stinking-cloud",
+      "parent": 2010,
+      "blocked_by": [
+        697,
+        2038,
+        2043
+      ],
+      "body_sha256": "7756a17795c8fdfb5fb9ddd397b3a3a22eaff166f502899a318920640b8f9c9c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-guards-and-wards-gust": {
+      "number": 1891,
+      "id": 6434257065,
+      "node_id": "I_kwDOSicKg88AAAABf4L4qQ",
+      "title": "Resolve Guards and Wards gust",
+      "parent": 2010,
+      "blocked_by": [
+        1061,
+        2038,
+        2043
+      ],
+      "body_sha256": "2d499cfe382e32b197f39bb456e5109bf77e59ddfd4dccfca7aae6bd3fc41eaf",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-guards-and-wards-suggestion": {
+      "number": 1892,
+      "id": 6434260334,
+      "node_id": "I_kwDOSicKg88AAAABf4MFbg",
+      "title": "Resolve Guards and Wards suggestion",
+      "parent": 2010,
+      "blocked_by": [
+        1407,
+        1408,
+        2038,
+        2043
+      ],
+      "body_sha256": "e48d13512495a80212e78df4507dadb1945b25903fb4ba54dba215c2b36863ac",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-instant-summons-mark": {
+      "number": 1893,
+      "id": 6434265597,
+      "node_id": "I_kwDOSicKg88AAAABf4MZ_Q",
+      "title": "Resolve Instant Summons mark",
+      "parent": 2010,
+      "blocked_by": [
+        2037,
+        2038,
+        2043
+      ],
+      "body_sha256": "ed348689b938fdf882aa556491c1c1a933294b62aa41727b15c29d5e33549bbd",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-instant-summons-recall": {
+      "number": 1894,
+      "id": 6434270728,
+      "node_id": "I_kwDOSicKg88AAAABf4MuCA",
+      "title": "Resolve Instant Summons recall",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2043
+      ],
+      "body_sha256": "11205d5fc82179bd2b9ff7dd9ffe67b8fc8d8c504d02b771dd6fa0c8b708795d",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-instant-summons-held-disclosure": {
+      "number": 1895,
+      "id": 6434274085,
+      "node_id": "I_kwDOSicKg88AAAABf4M7JQ",
+      "title": "Resolve Instant Summons held-disclosure",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2043
+      ],
+      "body_sha256": "529080d3cea7aaca9e743dabd2b1786918212e84b66aad94da1e1b46040b6a20",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-irresistible-dance-success": {
+      "number": 1896,
+      "id": 6434279307,
+      "node_id": "I_kwDOSicKg88AAAABf4NPiw",
+      "title": "Resolve Irresistible Dance success",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "9f454f506985d2320c6082a242b8ae2fbaccd947bc8a3245059818e38ba6fabe",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-irresistible-dance-failure-repeat": {
+      "number": 1897,
+      "id": 6434284590,
+      "node_id": "I_kwDOSicKg88AAAABf4NkLg",
+      "title": "Resolve Irresistible Dance failure-repeat",
+      "parent": 2010,
+      "blocked_by": [
+        2037,
+        2039,
+        2043
+      ],
+      "body_sha256": "b73d558e00bb97f70c846c7e062febd0affe682157fe1d90b3539c0857c77bc4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magic-jar-container": {
+      "number": 1898,
+      "id": 6434289964,
+      "node_id": "I_kwDOSicKg88AAAABf4N5LA",
+      "title": "Resolve Magic Jar container",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "9b2fbb21b9ac564f763295ab817c11328c5e3b9b0b85e07c0c70505253c705fe",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magic-jar-possession": {
+      "number": 1899,
+      "id": 6434295299,
+      "node_id": "I_kwDOSicKg88AAAABf4OOAw",
+      "title": "Resolve Magic Jar possession",
+      "parent": 2010,
+      "blocked_by": [
+        913,
+        935,
+        936,
+        2039,
+        2043
+      ],
+      "body_sha256": "8a8cec818fe5e4cac98e40e7ac8492003d8cc13ef41242b12d841d4bc45c82f4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magic-jar-statistics": {
+      "number": 1900,
+      "id": 6434300447,
+      "node_id": "I_kwDOSicKg88AAAABf4OiHw",
+      "title": "Resolve Magic Jar statistics",
+      "parent": 2010,
+      "blocked_by": [
+        2037,
+        2039,
+        2043
+      ],
+      "body_sha256": "75877a0f5b3de86f8d56651c33ea88e6a51ed8120a3fe05e9861c3ed79559476",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magic-jar-return-host-death": {
+      "number": 1901,
+      "id": 6434305716,
+      "node_id": "I_kwDOSicKg88AAAABf4O2tA",
+      "title": "Resolve Magic Jar return-host-death",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "a4e488345a2d56374c7f53b0e12b652ed9c90231d0aa69ba79f765a906fe65ee",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magic-jar-ending-death": {
+      "number": 1902,
+      "id": 6434310560,
+      "node_id": "I_kwDOSicKg88AAAABf4PJoA",
+      "title": "Resolve Magic Jar ending-death",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "2a4f884ed02c42a977e7f5f6bd82d6602a5d2135247057c6443e261181975504",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magic-mouth-message": {
+      "number": 1903,
+      "id": 6434315631,
+      "node_id": "I_kwDOSicKg88AAAABf4Pdbw",
+      "title": "Resolve Magic Mouth message",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "ef16dc0aa8b94459acd49ecdded0ae270c519253ce6e08f0a2506641f454295a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magic-mouth-trigger-replay": {
+      "number": 1904,
+      "id": 6434320798,
+      "node_id": "I_kwDOSicKg88AAAABf4Pxng",
+      "title": "Resolve Magic Mouth trigger-replay",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "f4bcaa3a46e8f71272809fbb35d92eb405f62fb603c3aaec45204988664a7a0b",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magic-mouth-trigger-facts": {
+      "number": 1905,
+      "id": 6434325857,
+      "node_id": "I_kwDOSicKg88AAAABf4QFYQ",
+      "title": "Resolve Magic Mouth trigger-facts",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "18f6b5abdea4a8b2839a327ea7ea8024035c7e4e68a23ac99176e8fe7b88ebe1",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magnificent-mansion-door": {
+      "number": 1906,
+      "id": 6434330853,
+      "node_id": "I_kwDOSicKg88AAAABf4QY5Q",
+      "title": "Resolve Magnificent Mansion door",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "b2a8be40b3a7aa551010d5615168708abdfd6fc84a24f00d68aad7a36073d31f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magnificent-mansion-dwelling": {
+      "number": 1907,
+      "id": 6434335852,
+      "node_id": "I_kwDOSicKg88AAAABf4QsbA",
+      "title": "Resolve Magnificent Mansion dwelling",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "2d66dab3e4811b6b8c50688791da694c522fe16d787ec6a5ce63ea2147a49e55",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magnificent-mansion-contents": {
+      "number": 1908,
+      "id": 6434340554,
+      "node_id": "I_kwDOSicKg88AAAABf4Q-yg",
+      "title": "Resolve Magnificent Mansion contents",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "04017c9df4e40f78d7bafcfb4df3a786eb93eaae387fc3346913d24f08e0632b",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magnificent-mansion-servants": {
+      "number": 1909,
+      "id": 6434345489,
+      "node_id": "I_kwDOSicKg88AAAABf4RSEQ",
+      "title": "Resolve Magnificent Mansion servants",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "8c42d0f5efc177fff74a1d7233e838b3858ece0eda549e1f9237504731ff142a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-magnificent-mansion-ending": {
+      "number": 1910,
+      "id": 6434350530,
+      "node_id": "I_kwDOSicKg88AAAABf4Rlwg",
+      "title": "Resolve Magnificent Mansion ending",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "ebbc61c4470bc62dff2472e760690002ba6ba181774746bbe592c5297a51fdbd",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-maze-banish": {
+      "number": 1911,
+      "id": 6434356044,
+      "node_id": "I_kwDOSicKg88AAAABf4R7TA",
+      "title": "Resolve Maze banish",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "553825dfd092def0de30701eddb99055e28d08b8b5de3df6e81c57525fcc4240",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-maze-escape": {
+      "number": 1912,
+      "id": 6434361785,
+      "node_id": "I_kwDOSicKg88AAAABf4SRuQ",
+      "title": "Resolve Maze escape",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "b2683d472f5a3da17ed7e565f6076697a12798745b09cb536c261e7cff17ed17",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-maze-return": {
+      "number": 1913,
+      "id": 6434367527,
+      "node_id": "I_kwDOSicKg88AAAABf4SoJw",
+      "title": "Resolve Maze return",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "eb09b6432aaf889f4119b6c8d7f8f2ff020a2b4b492cb9b9a609592f18846d58",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-mind-blank-defenses": {
+      "number": 1914,
+      "id": 6434373242,
+      "node_id": "I_kwDOSicKg88AAAABf4S-eg",
+      "title": "Resolve Mind Blank defenses",
+      "parent": 2010,
+      "blocked_by": [
+        2037,
+        2039,
+        2043
+      ],
+      "body_sha256": "14b5d3d63590bef02782f70cb9870887079065e8d56e70785a2e871707631174",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-mirage-arcane-terrain": {
+      "number": 1915,
+      "id": 6434378823,
+      "node_id": "I_kwDOSicKg88AAAABf4TURw",
+      "title": "Resolve Mirage Arcane terrain",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "445f53203dea9f86e6214b8e244fe3540196dd9c2408a45467c1eb690ffc5dfb",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-mirage-arcane-structures": {
+      "number": 1916,
+      "id": 6434384271,
+      "node_id": "I_kwDOSicKg88AAAABf4Tpjw",
+      "title": "Resolve Mirage Arcane structures",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "da1cc341a0881b7a8986fb07d8ab01084ec8dced5d76fa730a88c41b2c019938",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-mirage-arcane-movement": {
+      "number": 1917,
+      "id": 6434389678,
+      "node_id": "I_kwDOSicKg88AAAABf4T-rg",
+      "title": "Resolve Mirage Arcane movement",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "7c98ebdd61e76108e80e93bf7748aa22df31aadd0be0ed9c66eaba40586aa7e4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-mirage-arcane-truesight": {
+      "number": 1918,
+      "id": 6434395198,
+      "node_id": "I_kwDOSicKg88AAAABf4UUPg",
+      "title": "Resolve Mirage Arcane truesight",
+      "parent": 2010,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "f48e7006afb8bf881b275666413c7cf46fa65f0c9a29e17ddd8e1e59bb1335f4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-modify-memory-admission-interrupt": {
+      "number": 1919,
+      "id": 6434400342,
+      "node_id": "I_kwDOSicKg88AAAABf4UoVg",
+      "title": "Resolve Modify Memory admission-interrupt",
+      "parent": 2010,
+      "blocked_by": [
+        2037,
+        2039,
+        2043
+      ],
+      "body_sha256": "a32aad9cf1d5fc385840bc0757f1bc2f2551c48a1b9b129edc88f7bb1c5d5247",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-modify-memory-event": {
+      "number": 1920,
+      "id": 6434405514,
+      "node_id": "I_kwDOSicKg88AAAABf4U8ig",
+      "title": "Resolve Modify Memory event",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "247f2527beaf6e3ad51114eef27b78688447533aaa51833f8f3c6b921528dbfe",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-modify-memory-description": {
+      "number": 1921,
+      "id": 6434410490,
+      "node_id": "I_kwDOSicKg88AAAABf4VP-g",
+      "title": "Resolve Modify Memory description",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "b918d4b56c9e406ae6281a3639301fb81dde75ba67ac87a439a6fa24b02f7ed4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-modify-memory-behavior": {
+      "number": 1922,
+      "id": 6434415499,
+      "node_id": "I_kwDOSicKg88AAAABf4Vjiw",
+      "title": "Resolve Modify Memory behavior",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "7c6db9990bbb80398a93ec9f81ad34d8ba526b5ffc56edfb9f285056e0ec0f7a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-modify-memory-restore": {
+      "number": 1923,
+      "id": 6434420437,
+      "node_id": "I_kwDOSicKg88AAAABf4V21Q",
+      "title": "Resolve Modify Memory restore",
+      "parent": 2011,
+      "blocked_by": [
+        625,
+        937,
+        938,
+        2039,
+        2043
+      ],
+      "body_sha256": "846401cdc0057a23419e5fcadba41be15fec7aef0c8c98ee510d2f4fb073f064",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-modify-memory-upcast": {
+      "number": 1924,
+      "id": 6434425512,
+      "node_id": "I_kwDOSicKg88AAAABf4WKqA",
+      "title": "Resolve Modify Memory upcast",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "923526212a046aab456846cca5381a961b3bfb79f0b931c6f0f88e1dcdd2eb6c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-passwall-passage": {
+      "number": 1925,
+      "id": 6434430887,
+      "node_id": "I_kwDOSicKg88AAAABf4Wfpw",
+      "title": "Resolve Passwall passage",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "5a5d7b83331697909545d412a0b2028ee9adea75e0e8d437fb0ebb8d077e2ae6",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-passwall-ending": {
+      "number": 1926,
+      "id": 6434436203,
+      "node_id": "I_kwDOSicKg88AAAABf4W0aw",
+      "title": "Resolve Passwall ending",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "fa6e1f907cc4f9762b4d7173a661b4f8e44cce6aecb32711ef4d8c66cfa3f849",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-phantasmal-killer-initial": {
+      "number": 1927,
+      "id": 6434441120,
+      "node_id": "I_kwDOSicKg88AAAABf4XHoA",
+      "title": "Resolve Phantasmal Killer initial",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "231035c6079ce574743ce2ef18a8c9882489ebc97daff208eec40797cb5f7eb6",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-phantasmal-killer-repeat": {
+      "number": 1928,
+      "id": 6434446719,
+      "node_id": "I_kwDOSicKg88AAAABf4Xdfw",
+      "title": "Resolve Phantasmal Killer repeat",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "03cc340d3b40d75b13211c7b51bffae6ae643851675db6de2c2139f205ee1043",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-phantasmal-killer-upcast": {
+      "number": 1929,
+      "id": 6434452436,
+      "node_id": "I_kwDOSicKg88AAAABf4Xz1A",
+      "title": "Resolve Phantasmal Killer upcast",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "def45985bab6d0bf9f64fa4dc6e7d633f414542171fc0c5c74b73f858ba7200f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-phantom-steed-create": {
+      "number": 1930,
+      "id": 6434457838,
+      "node_id": "I_kwDOSicKg88AAAABf4YI7g",
+      "title": "Resolve Phantom Steed create",
+      "parent": 2011,
+      "blocked_by": [
+        1999,
+        2000,
+        2039,
+        2043
+      ],
+      "body_sha256": "9606a9a63fdb6a556eb4035aeba3736d74a13a1701ba20076ae410a2a0c04689",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-phantom-steed-ride-ending": {
+      "number": 1931,
+      "id": 6434463134,
+      "node_id": "I_kwDOSicKg88AAAABf4Ydng",
+      "title": "Resolve Phantom Steed ride-ending",
+      "parent": 2011,
+      "blocked_by": [
+        1999,
+        2000,
+        2039,
+        2043
+      ],
+      "body_sha256": "99ba9071ae0a1ec981d6bdfaae681aeca6b79bf9cc79c3e8ce66536bb1a425dc",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-shape": {
+      "number": 1932,
+      "id": 6434468781,
+      "node_id": "I_kwDOSicKg88AAAABf4YzrQ",
+      "title": "Resolve Prismatic Wall shape",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "526c94ff912b039d636a2705158c4749b50cec7fcca5150124c621622c1b2ea2",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-light-blind": {
+      "number": 1933,
+      "id": 6434473882,
+      "node_id": "I_kwDOSicKg88AAAABf4ZHmg",
+      "title": "Resolve Prismatic Wall light-blind",
+      "parent": 2011,
+      "blocked_by": [
+        2037,
+        2039,
+        2043
+      ],
+      "body_sha256": "0c5e24fdbb24756738843c6aceac8a7966c4c38a3a9189d5eb1fdf24076899fd",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-ordered-layers": {
+      "number": 1934,
+      "id": 6434479228,
+      "node_id": "I_kwDOSicKg88AAAABf4ZcfA",
+      "title": "Resolve Prismatic Wall ordered-layers",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "1dd8315a7325ed9fde46e009c814af6fb1e356c2b332db7bcafcdc63a2253f08",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-destruction": {
+      "number": 1935,
+      "id": 6434484512,
+      "node_id": "I_kwDOSicKg88AAAABf4ZxIA",
+      "title": "Resolve Prismatic Wall destruction",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "771cc1248b388c35db185c13bf1632f994eb326ebffb84f85ca5843a195192ff",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-red": {
+      "number": 1936,
+      "id": 6434490052,
+      "node_id": "I_kwDOSicKg88AAAABf4aGxA",
+      "title": "Resolve Prismatic Wall red",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "54f6fcd64f28992f4dd34a4c0140d26477d57c7801379619f073cadedc8eddb2",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-orange": {
+      "number": 1937,
+      "id": 6434495296,
+      "node_id": "I_kwDOSicKg88AAAABf4abQA",
+      "title": "Resolve Prismatic Wall orange",
+      "parent": 2011,
+      "blocked_by": [
+        1061,
+        2039,
+        2043
+      ],
+      "body_sha256": "dea946a237b4745b34c172fe43630c8e57bafaf1c72de77c6c4d5216e257f8f2",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-yellow": {
+      "number": 1938,
+      "id": 6434500622,
+      "node_id": "I_kwDOSicKg88AAAABf4awDg",
+      "title": "Resolve Prismatic Wall yellow",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "31b76bc3167728c3ba26e83e8b5b8a6899ae993c21ff13ec9898c33ef387cdcb",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-green": {
+      "number": 1939,
+      "id": 6434505442,
+      "node_id": "I_kwDOSicKg88AAAABf4bC4g",
+      "title": "Resolve Prismatic Wall green",
+      "parent": 2011,
+      "blocked_by": [
+        1925,
+        1926,
+        2039,
+        2043
+      ],
+      "body_sha256": "a2d0d10e6384dd879e35404a646193c246459884a6edee171a19e2eba7d25077",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-blue": {
+      "number": 1940,
+      "id": 6434510129,
+      "node_id": "I_kwDOSicKg88AAAABf4bVMQ",
+      "title": "Resolve Prismatic Wall blue",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "cae3159d0c92c96dd9b2f8c33068b9b32de31e0983cb2d5cfff2ac7bfb2921d2",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-indigo": {
+      "number": 1941,
+      "id": 6434516395,
+      "node_id": "I_kwDOSicKg88AAAABf4btqw",
+      "title": "Resolve Prismatic Wall indigo",
+      "parent": 2011,
+      "blocked_by": [
+        934,
+        2037,
+        2039,
+        2043
+      ],
+      "body_sha256": "4e9cf479334b429477cdd29c23564fb3a4db3840180c7a0e86823e163719b174",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-prismatic-wall-violet": {
+      "number": 1942,
+      "id": 6434523234,
+      "node_id": "I_kwDOSicKg88AAAABf4cIYg",
+      "title": "Resolve Prismatic Wall violet",
+      "parent": 2011,
+      "blocked_by": [
+        355,
+        965,
+        966,
+        2037,
+        2039,
+        2043
+      ],
+      "body_sha256": "e832cf2ae64f92d56c98298293ffbd1adc5c77994aca4febb7ad96d94bb56167",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-private-sanctum-area": {
+      "number": 1943,
+      "id": 6434529892,
+      "node_id": "I_kwDOSicKg88AAAABf4ciZA",
+      "title": "Resolve Private Sanctum area",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "b288da63274489c09fe0caee1e888bbd62229952752d0ab6f7d1232df83fb39c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-private-sanctum-security": {
+      "number": 1944,
+      "id": 6434535129,
+      "node_id": "I_kwDOSicKg88AAAABf4c22Q",
+      "title": "Resolve Private Sanctum security",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "00a2eef4c4c0d60b5d9e75b4fbee5a05f742b61f880c6063d7d8bf957f7bce98",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-private-sanctum-permanence-upcast": {
+      "number": 1945,
+      "id": 6434540538,
+      "node_id": "I_kwDOSicKg88AAAABf4dL-g",
+      "title": "Resolve Private Sanctum permanence-upcast",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "20eccf989e27edbe08a99ed2dab9733c9815115c3c8a2b4cbbd75ad9919fe457",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-programmed-illusion-create": {
+      "number": 1946,
+      "id": 6434546321,
+      "node_id": "I_kwDOSicKg88AAAABf4dikQ",
+      "title": "Resolve Programmed Illusion create",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "16968ad05ee047df2b6b1140545c3cf97e3548153774b811d8faf5f97dffcb03",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-programmed-illusion-trigger-cycle": {
+      "number": 1947,
+      "id": 6434552267,
+      "node_id": "I_kwDOSicKg88AAAABf4d5yw",
+      "title": "Resolve Programmed Illusion trigger-cycle",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "e7a95adf2b402d56ec2cb122a55a963339739896795ddf21199eb66171d05e39",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-programmed-illusion-trigger-facts": {
+      "number": 1948,
+      "id": 6434556068,
+      "node_id": "I_kwDOSicKg88AAAABf4eIpA",
+      "title": "Resolve Programmed Illusion trigger-facts",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "0419d83f0b05386bdc6a832a14e2dc6324c6498eb10b721920a5edfaecd3f6a0",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-programmed-illusion-discovery": {
+      "number": 1949,
+      "id": 6434561566,
+      "node_id": "I_kwDOSicKg88AAAABf4eeHg",
+      "title": "Resolve Programmed Illusion discovery",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "83f52c7f99a8ce95b606aab3af7052c588273546f712894222f839f5aeab663c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-project-image-image": {
+      "number": 1950,
+      "id": 6434566201,
+      "node_id": "I_kwDOSicKg88AAAABf4ewOQ",
+      "title": "Resolve Project Image image",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "916d6e4d88a623da8ca5055ac082ec5f4cc3b5f11d09054af33fb1171dfff7ec",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-project-image-senses-control": {
+      "number": 1951,
+      "id": 6434570698,
+      "node_id": "I_kwDOSicKg88AAAABf4fByg",
+      "title": "Resolve Project Image senses-control",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "3fd18ab5a706d94df1a4c9a6cfc9535cf17bbb0a17100f58e5da54fbe6e03665",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-project-image-discovery": {
+      "number": 1952,
+      "id": 6434575575,
+      "node_id": "I_kwDOSicKg88AAAABf4fU1w",
+      "title": "Resolve Project Image discovery",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "5b301319bca96697b089b55d83785d0678cecff7f348b0edfe9e69ffc9e080a3",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-resilient-sphere-admission": {
+      "number": 1953,
+      "id": 6434579999,
+      "node_id": "I_kwDOSicKg88AAAABf4fmHw",
+      "title": "Resolve Resilient Sphere admission",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "caa37385244bc7d9359b0ed582d9cdde221dd586a8396a1f17af6745d353277b",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-resilient-sphere-barrier": {
+      "number": 1954,
+      "id": 6434585624,
+      "node_id": "I_kwDOSicKg88AAAABf4f8GA",
+      "title": "Resolve Resilient Sphere barrier",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "0154f68f33e9ab417c799b8fc9f2e4abafc56ffb6e52cdf95f98b75219a0da19",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-resilient-sphere-movement": {
+      "number": 1955,
+      "id": 6434590085,
+      "node_id": "I_kwDOSicKg88AAAABf4gNhQ",
+      "title": "Resolve Resilient Sphere movement",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "b331fa2451daf11c7b2042ece3813c94d70c9c9246ecc1fe2b4a2ddf15b857b7",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-resilient-sphere-disintegrate": {
+      "number": 1956,
+      "id": 6434595209,
+      "node_id": "I_kwDOSicKg88AAAABf4ghiQ",
+      "title": "Resolve Resilient Sphere disintegrate",
+      "parent": 2011,
+      "blocked_by": [
+        1294,
+        1295,
+        2039,
+        2043
+      ],
+      "body_sha256": "5c0fd8a568f36358d593ddf480a8acab29b1e42d471cbf672d8bf9847960414e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-rope-trick-portal": {
+      "number": 1957,
+      "id": 6434602624,
+      "node_id": "I_kwDOSicKg88AAAABf4g-gA",
+      "title": "Resolve Rope Trick portal",
+      "parent": 2011,
+      "blocked_by": [
+        2037,
+        2039,
+        2043
+      ],
+      "body_sha256": "5feea825e33e1dc041a1ce24d0464582c52e8e74ad0b26b2750a8ca36325b18a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-rope-trick-space-ending": {
+      "number": 1958,
+      "id": 6434606866,
+      "node_id": "I_kwDOSicKg88AAAABf4hPEg",
+      "title": "Resolve Rope Trick space-ending",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "96efcb195a24c60be623c2421e1c8230521d50bc65a32a5cb31d59cb292e0885",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-secret-chest-hide": {
+      "number": 1959,
+      "id": 6434612189,
+      "node_id": "I_kwDOSicKg88AAAABf4hj3Q",
+      "title": "Resolve Secret Chest hide",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "72a29d4632a1df362414e0828138e2946e4316e3171359ad7e6c14c3bba6fcb4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-secret-chest-recall": {
+      "number": 1960,
+      "id": 6434617869,
+      "node_id": "I_kwDOSicKg88AAAABf4h6DQ",
+      "title": "Resolve Secret Chest recall",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "6a78fdfa4e397c1e3fc8f53e31dc39845be723f36d12ba69b9d457c6ecf3059c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-secret-chest-ending": {
+      "number": 1961,
+      "id": 6434623419,
+      "node_id": "I_kwDOSicKg88AAAABf4iPuw",
+      "title": "Resolve Secret Chest ending",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "8116b44e74ca621fecdaefa1e5393262800770ba1147adfd8eb3544d2a75b8ed",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-sending-message": {
+      "number": 1962,
+      "id": 6434628215,
+      "node_id": "I_kwDOSicKg88AAAABf4iidw",
+      "title": "Resolve Sending message",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "8fdfc603833ab105e44ef3bc1e60f2e825900263b2c333e7823f71ad3b03be06",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-sending-plane-failure": {
+      "number": 1963,
+      "id": 6434633474,
+      "node_id": "I_kwDOSicKg88AAAABf4i3Ag",
+      "title": "Resolve Sending plane-failure",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "3496092013340ebe61704e62b12e97679aff3d45e7c043ba1dede5f8ae6c20a7",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-sending-block": {
+      "number": 1964,
+      "id": 6434638856,
+      "node_id": "I_kwDOSicKg88AAAABf4jMCA",
+      "title": "Resolve Sending block",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "e894bbefa35f16cacf1baebd67aeefdf45d0509142ebe7be67659ce3bc0ec3a2",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-sequester-hide": {
+      "number": 1965,
+      "id": 6434644470,
+      "node_id": "I_kwDOSicKg88AAAABf4jh9g",
+      "title": "Resolve Sequester hide",
+      "parent": 2011,
+      "blocked_by": [
+        2037,
+        2039,
+        2043
+      ],
+      "body_sha256": "d2ffdb9d8848176dc261b1a5d941b676ac668a1a6065115ddc75dc7b6dbec7e3",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-sequester-suspend": {
+      "number": 1966,
+      "id": 6434649744,
+      "node_id": "I_kwDOSicKg88AAAABf4j2kA",
+      "title": "Resolve Sequester suspend",
+      "parent": 2011,
+      "blocked_by": [
+        2037,
+        2039,
+        2044
+      ],
+      "body_sha256": "8088cc027fe18a99435d2f338eac99515b60ed12172f642cd809672b2e1a625a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-sequester-ending": {
+      "number": 1967,
+      "id": 6434655607,
+      "node_id": "I_kwDOSicKg88AAAABf4kNdw",
+      "title": "Resolve Sequester ending",
+      "parent": 2011,
+      "blocked_by": [
+        2039,
+        2043
+      ],
+      "body_sha256": "ec2628b5d101b0d5282f73696ce169fffc27776bb61506c70665cdba5947bf76",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-shapechange-form-admission": {
+      "number": 1968,
+      "id": 6434660105,
+      "node_id": "I_kwDOSicKg88AAAABf4kfCQ",
+      "title": "Resolve Shapechange form-admission",
+      "parent": 2011,
+      "blocked_by": [
+        2006,
+        2039,
+        2044
+      ],
+      "body_sha256": "cd96f91a315501e6c16ed0de1d017b93e7cdad5bed2c5310fbe8747834b29416",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-shapechange-temporary-hp": {
+      "number": 1969,
+      "id": 6434665357,
+      "node_id": "I_kwDOSicKg88AAAABf4kzjQ",
+      "title": "Resolve Shapechange temporary-hp",
+      "parent": 2011,
+      "blocked_by": [
+        2006,
+        2039,
+        2044
+      ],
+      "body_sha256": "128d49b7b4a8b7d3b7e07e887bca6e4f8cac38bb3e25f4c0f95e116bb3b1796e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-shapechange-statistics": {
+      "number": 1970,
+      "id": 6434670434,
+      "node_id": "I_kwDOSicKg88AAAABf4lHYg",
+      "title": "Resolve Shapechange statistics",
+      "parent": 2012,
+      "blocked_by": [
+        2006,
+        2039,
+        2044
+      ],
+      "body_sha256": "221e9befe8edac74db502601ff1e6eaaf05e9ea6171c76d74efa5b426364fb51",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-shapechange-equipment": {
+      "number": 1971,
+      "id": 6434675542,
+      "node_id": "I_kwDOSicKg88AAAABf4lbVg",
+      "title": "Resolve Shapechange equipment",
+      "parent": 2012,
+      "blocked_by": [
+        2006,
+        2039,
+        2044
+      ],
+      "body_sha256": "21590e124d224cd10209fe4e7c5c04741d28841c811864c51f12f54d0fa45b52",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-simulacrum-create-statistics": {
+      "number": 1972,
+      "id": 6434680679,
+      "node_id": "I_kwDOSicKg88AAAABf4lvZw",
+      "title": "Resolve Simulacrum create-statistics",
+      "parent": 2012,
+      "blocked_by": [
+        2004,
+        2006,
+        2039,
+        2044
+      ],
+      "body_sha256": "48b3d873d96a64afa07bcd8e39848df3815a5225ff205e96fb29cc92d7f0079d",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-simulacrum-command-limitations": {
+      "number": 1973,
+      "id": 6434685764,
+      "node_id": "I_kwDOSicKg88AAAABf4mDRA",
+      "title": "Resolve Simulacrum command-limitations",
+      "parent": 2012,
+      "blocked_by": [
+        2004,
+        2006,
+        2039,
+        2044
+      ],
+      "body_sha256": "69735f94a7d8753ed01341c4fd9017b009539517afad75ee01b19f396571d897",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-simulacrum-repair": {
+      "number": 1974,
+      "id": 6434690907,
+      "node_id": "I_kwDOSicKg88AAAABf4mXWw",
+      "title": "Resolve Simulacrum repair",
+      "parent": 2012,
+      "blocked_by": [
+        2004,
+        2006,
+        2039,
+        2044
+      ],
+      "body_sha256": "55e2919ec7cd2148dad59dd27d5fa666518bb719914f1ca602f178752f3a1cfa",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-simulacrum-ending": {
+      "number": 1975,
+      "id": 6434695842,
+      "node_id": "I_kwDOSicKg88AAAABf4mqog",
+      "title": "Resolve Simulacrum ending",
+      "parent": 2012,
+      "blocked_by": [
+        2004,
+        2006,
+        2039,
+        2044
+      ],
+      "body_sha256": "cfd33a781b69f4d7ae5e086f21067ae59375163a8f3d1966ba30612c7cec6526",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-stone-shape-shape": {
+      "number": 1976,
+      "id": 6434700951,
+      "node_id": "I_kwDOSicKg88AAAABf4m-lw",
+      "title": "Resolve Stone Shape shape",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "d4d8a801eda6553f5206ac51872833b4f6709af092916e345ae1cc3b21b1712e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-symbol-placement": {
+      "number": 1977,
+      "id": 6434704084,
+      "node_id": "I_kwDOSicKg88AAAABf4nK1A",
+      "title": "Resolve Symbol placement",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "f99d8a78c89bb6271664a328013a62e39da92ed38f29d2393fdf0bf5f276661f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-symbol-trigger": {
+      "number": 1978,
+      "id": 6434708907,
+      "node_id": "I_kwDOSicKg88AAAABf4ndqw",
+      "title": "Resolve Symbol trigger",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "d28652f85dd1f834fa9e3452f37a8cc91c6527e29a1cbdef9da01879bea507b7",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-symbol-sphere": {
+      "number": 1979,
+      "id": 6434714348,
+      "node_id": "I_kwDOSicKg88AAAABf4ny7A",
+      "title": "Resolve Symbol sphere",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "99643d35754da5bd27b3ea083443026b8ffb74e27907a05cfa4be47eae7ff9ee",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-symbol-death": {
+      "number": 1980,
+      "id": 6434718647,
+      "node_id": "I_kwDOSicKg88AAAABf4oDtw",
+      "title": "Resolve Symbol death",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "0cec5b8fb0010119c7b599caecff98933e544c77fd61f95176cac73a53ca4dca",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-symbol-discord": {
+      "number": 1981,
+      "id": 6434723581,
+      "node_id": "I_kwDOSicKg88AAAABf4oW_Q",
+      "title": "Resolve Symbol discord",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "a72e62dc92c0f5d5dd3495a1571c18bc2c839e12fe63fb21d04b8d09cfdd4199",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-symbol-fear": {
+      "number": 1982,
+      "id": 6434728602,
+      "node_id": "I_kwDOSicKg88AAAABf4oqmg",
+      "title": "Resolve Symbol fear",
+      "parent": 2012,
+      "blocked_by": [
+        2037,
+        2040,
+        2044
+      ],
+      "body_sha256": "7b1ff637e4a343430bf5b8e8bbbbd59eb7dfb805b0041c105b0fecec79497266",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-symbol-pain": {
+      "number": 1983,
+      "id": 6434733531,
+      "node_id": "I_kwDOSicKg88AAAABf4o92w",
+      "title": "Resolve Symbol pain",
+      "parent": 2012,
+      "blocked_by": [
+        2037,
+        2040,
+        2044
+      ],
+      "body_sha256": "191e67c00d69683adc6a4f8d3db7f62a9b39595acc69074981eee539c3d54590",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-symbol-sleep": {
+      "number": 1984,
+      "id": 6434738454,
+      "node_id": "I_kwDOSicKg88AAAABf4pRFg",
+      "title": "Resolve Symbol sleep",
+      "parent": 2012,
+      "blocked_by": [
+        2037,
+        2040,
+        2044
+      ],
+      "body_sha256": "5d6d6ec8995c4329e7d24e499135afec35b36e9ff5c9540aaaad9251add84c13",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-symbol-stunning": {
+      "number": 1985,
+      "id": 6434743436,
+      "node_id": "I_kwDOSicKg88AAAABf4pkjA",
+      "title": "Resolve Symbol stunning",
+      "parent": 2012,
+      "blocked_by": [
+        2037,
+        2040,
+        2044
+      ],
+      "body_sha256": "f81675e75ef1175e2eeaded4b2f9ec1a731d49d89d2a1519fa1ad26774d68d51",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-telepathic-bond-admission": {
+      "number": 1986,
+      "id": 6434748305,
+      "node_id": "I_kwDOSicKg88AAAABf4p3kQ",
+      "title": "Resolve Telepathic Bond admission",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "f61151cd02a34f0d538dbfd3046705891ddb0df2018ccebc6fdb4468c5e51ebb",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-telepathic-bond-communication": {
+      "number": 1987,
+      "id": 6434753348,
+      "node_id": "I_kwDOSicKg88AAAABf4qLRA",
+      "title": "Resolve Telepathic Bond communication",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "bf26f7e9788c44cec8b44e951ee74c6041af8398edef1a537ca422a5c79d5071",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-tiny-hut-area": {
+      "number": 1988,
+      "id": 6434758504,
+      "node_id": "I_kwDOSicKg88AAAABf4qfaA",
+      "title": "Resolve Tiny Hut area",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "5dd7f9d06815572b7336a3a4bef772e61662e8e448099f592a6e00ca0bc800cc",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-tiny-hut-barrier": {
+      "number": 1989,
+      "id": 6434763596,
+      "node_id": "I_kwDOSicKg88AAAABf4qzTA",
+      "title": "Resolve Tiny Hut barrier",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "d56351b41b684847f53cfd53e168462b3d4a3a814451fb3115ea6053ee548a04",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-tiny-hut-interior": {
+      "number": 1990,
+      "id": 6434768541,
+      "node_id": "I_kwDOSicKg88AAAABf4rGnQ",
+      "title": "Resolve Tiny Hut interior",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "2cd2d64a806822b8b2b979998bb2b7378ec1e334d91287bcc221291f5f5d137a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-tiny-hut-ending": {
+      "number": 1991,
+      "id": 6434773563,
+      "node_id": "I_kwDOSicKg88AAAABf4raOw",
+      "title": "Resolve Tiny Hut ending",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "a81f4c9b0ee4086b9c0709665d66b84eef4ceb48dc9b7f8e91e50ada8aa00076",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-wall-of-force-shape": {
+      "number": 1992,
+      "id": 6434778544,
+      "node_id": "I_kwDOSicKg88AAAABf4rtsA",
+      "title": "Resolve Wall of Force shape",
+      "parent": 2012,
+      "blocked_by": [
+        2037,
+        2040,
+        2044
+      ],
+      "body_sha256": "94f2ba708b9d6aed89df4ff1d341dcb93a793b687ab1b53147981286885d24f5",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-wall-of-force-barrier": {
+      "number": 1993,
+      "id": 6434783506,
+      "node_id": "I_kwDOSicKg88AAAABf4sBEg",
+      "title": "Resolve Wall of Force barrier",
+      "parent": 2012,
+      "blocked_by": [
+        1294,
+        1295,
+        2040,
+        2044
+      ],
+      "body_sha256": "b2466840f7cce7a03ce137ce3d593ab1ba93d43225090f72ac1a2088bf411988",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-wall-of-ice-shape": {
+      "number": 1994,
+      "id": 6434788885,
+      "node_id": "I_kwDOSicKg88AAAABf4sWFQ",
+      "title": "Resolve Wall of Ice shape",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "1dce5322d572c0f638d5c687675da495cdaa58a855d1baaced37f95f8dd932ae",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-wall-of-ice-initial-damage": {
+      "number": 1995,
+      "id": 6434794130,
+      "node_id": "I_kwDOSicKg88AAAABf4sqkg",
+      "title": "Resolve Wall of Ice initial-damage",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "40e6f4e7dd50ecd0f29ed2e7647011ca7258d4e8ca70271ceda9ae9596a615f8",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-wall-of-ice-object": {
+      "number": 1996,
+      "id": 6434799357,
+      "node_id": "I_kwDOSicKg88AAAABf4s-_Q",
+      "title": "Resolve Wall of Ice object",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "b3be144caa678139d59f3b8b52ebe2c92657c5f6fae82776b6cc7c7ff384d3d0",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-wall-of-ice-air-damage": {
+      "number": 1997,
+      "id": 6434805041,
+      "node_id": "I_kwDOSicKg88AAAABf4tVMQ",
+      "title": "Resolve Wall of Ice air-damage",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "3869c4117e479e5f85658541c5dd13bb150a4f8f0f9c5adfcb7513cc1ac5b257",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:spell-wall-of-ice-upcast": {
+      "number": 1998,
+      "id": 6434808660,
+      "node_id": "I_kwDOSicKg88AAAABf4tjVA",
+      "title": "Resolve Wall of Ice upcast",
+      "parent": 2012,
+      "blocked_by": [
+        2040,
+        2044
+      ],
+      "body_sha256": "bc5c80bcbfd56b019c77583d933b44c9beb4d38e8f9d26486920cfbadce0093e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:form-riding-horse-statistics": {
+      "number": 1999,
+      "id": 6434813777,
+      "node_id": "I_kwDOSicKg88AAAABf4t3UQ",
+      "title": "Resolve Wizard consumed Riding Horse form-riding-horse-statistics",
+      "parent": 2007,
+      "blocked_by": [
+        2042
+      ],
+      "body_sha256": "1758b6e068b481c58799760ea1d72b7019262ac0817cf1c88af6d49ca1c3f8d7",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:form-riding-horse-hooves": {
+      "number": 2000,
+      "id": 6434818784,
+      "node_id": "I_kwDOSicKg88AAAABf4uK4A",
+      "title": "Resolve Wizard consumed Riding Horse form-riding-horse-hooves",
+      "parent": 2007,
+      "blocked_by": [
+        2042
+      ],
+      "body_sha256": "47b06a5f875d765ffc6eb123daf9045838d415a43b97955a0b623ca4f8f846f7",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:form-commoner-statistics": {
+      "number": 2001,
+      "id": 6434823861,
+      "node_id": "I_kwDOSicKg88AAAABf4uetQ",
+      "title": "Resolve Wizard consumed Commoner form-commoner-statistics",
+      "parent": 2007,
+      "blocked_by": [
+        2042
+      ],
+      "body_sha256": "62d393164f360402208003e2f5ad188b5ad93df84c27685991045e9422ec5fb1",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:form-commoner-training": {
+      "number": 2002,
+      "id": 6434829117,
+      "node_id": "I_kwDOSicKg88AAAABf4uzPQ",
+      "title": "Resolve Wizard consumed Commoner form-commoner-training",
+      "parent": 2007,
+      "blocked_by": [
+        2042
+      ],
+      "body_sha256": "111c08b7dd6f8a34af0d47775813b7389d94ecc96b3c10db2b09aa443293ea53",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:form-commoner-club": {
+      "number": 2003,
+      "id": 6434834320,
+      "node_id": "I_kwDOSicKg88AAAABf4vHkA",
+      "title": "Resolve Wizard consumed Commoner form-commoner-club",
+      "parent": 2007,
+      "blocked_by": [
+        2042
+      ],
+      "body_sha256": "d37f8eb3fcf68ff9cf56d92651782e071bfc8a2ebab9a10d1c58198f7df86f48",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:form-qualified-snapshot": {
+      "number": 2004,
+      "id": 6434839426,
+      "node_id": "I_kwDOSicKg88AAAABf4vbgg",
+      "title": "Resolve Wizard consumed Qualified snapshot form-qualified-snapshot",
+      "parent": 2007,
+      "blocked_by": [
+        1651,
+        2001,
+        2002,
+        2003,
+        2042
+      ],
+      "body_sha256": "ac66fb0747214f14d5a312248fc7236a3c6c52ef6c71f147628f0cda0b9af349",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:source-advancement-output": {
+      "number": 2005,
+      "id": 6434844508,
+      "node_id": "I_kwDOSicKg88AAAABf4vvXA",
+      "title": "Qualify Wizard source-advancement-output",
+      "parent": 332,
+      "blocked_by": [
+        285
+      ],
+      "body_sha256": "e8c2e3f86c21bba8882d776e0522b0fe3e7a3e550da1cae1032ed5b71097733d",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:qualified-form-output": {
+      "number": 2006,
+      "id": 6434849442,
+      "node_id": "I_kwDOSicKg88AAAABf4wCog",
+      "title": "Qualify Wizard qualified-form-output",
+      "parent": 332,
+      "blocked_by": [
+        1648,
+        1649,
+        1650,
+        1651,
+        1652,
+        1653,
+        1654,
+        1655,
+        1656,
+        1657,
+        1658,
+        1659,
+        1660,
+        1661,
+        1662,
+        1663,
+        1664,
+        1665,
+        1666,
+        1667,
+        1668,
+        1669,
+        1670,
+        1671,
+        1717,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003
+      ],
+      "body_sha256": "43413aa2a70d43d5a7fbd57cfa16ec79cf958e17024bec3ab78c5c1d2f65ae90",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:form-cohort": {
+      "number": 2007,
+      "id": 6434854298,
+      "node_id": "I_kwDOSicKg88AAAABf4wVmg",
+      "title": "Qualify Wizard form-cohort",
+      "parent": 277,
+      "blocked_by": [
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004
+      ],
+      "body_sha256": "02886768beec4fb81a90913f2b3a2830cd2b0256fcbc117b9c7a1ee369beb2f2",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:casting-output": {
+      "number": 2008,
+      "id": 6434859516,
+      "node_id": "I_kwDOSicKg88AAAABf4wp_A",
+      "title": "Qualify Wizard casting-output",
+      "parent": 332,
+      "blocked_by": [
+        1447,
+        1448,
+        1449,
+        1450
+      ],
+      "body_sha256": "0e5356f2a76d8bd356fd072feba6f7ee0789b2f025f672ac8535cd409bae0c07",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:new-effect-cohort-1": {
+      "number": 2009,
+      "id": 6434864402,
+      "node_id": "I_kwDOSicKg88AAAABf4w9Eg",
+      "title": "Qualify Wizard new-effect-cohort-1",
+      "parent": 277,
+      "blocked_by": [
+        1819,
+        1820,
+        1821,
+        1822,
+        1823,
+        1824,
+        1825,
+        1826,
+        1827,
+        1828,
+        1829,
+        1830,
+        1831,
+        1832,
+        1833,
+        1834,
+        1835,
+        1836,
+        1837,
+        1838,
+        1839,
+        1840,
+        1841,
+        1842,
+        1843,
+        1844,
+        1845,
+        1846,
+        1847,
+        1848,
+        1849,
+        1850,
+        1851,
+        1852,
+        1853,
+        1854,
+        1855,
+        1856,
+        1857,
+        1858,
+        1859,
+        1860,
+        1861,
+        1862,
+        1863,
+        1864,
+        1865,
+        1866,
+        1867,
+        1868
+      ],
+      "body_sha256": "a3b942ea3e097bfd26552c2bd6742112096e0293211fa22dc51cf2d7160d74af",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:new-effect-cohort-2": {
+      "number": 2010,
+      "id": 6434869186,
+      "node_id": "I_kwDOSicKg88AAAABf4xPwg",
+      "title": "Qualify Wizard new-effect-cohort-2",
+      "parent": 277,
+      "blocked_by": [
+        1869,
+        1870,
+        1871,
+        1872,
+        1873,
+        1874,
+        1875,
+        1876,
+        1877,
+        1878,
+        1879,
+        1880,
+        1881,
+        1882,
+        1883,
+        1884,
+        1885,
+        1886,
+        1888,
+        1889,
+        1890,
+        1891,
+        1892,
+        1893,
+        1894,
+        1895,
+        1896,
+        1897,
+        1898,
+        1899,
+        1900,
+        1901,
+        1902,
+        1903,
+        1904,
+        1905,
+        1906,
+        1907,
+        1908,
+        1909,
+        1910,
+        1911,
+        1912,
+        1913,
+        1914,
+        1915,
+        1916,
+        1917,
+        1918,
+        1919
+      ],
+      "body_sha256": "c6d265e08dd04ee94466950955365fdfeafcc2f01c83ca3907db0c23db034896",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:new-effect-cohort-3": {
+      "number": 2011,
+      "id": 6434874433,
+      "node_id": "I_kwDOSicKg88AAAABf4xkQQ",
+      "title": "Qualify Wizard new-effect-cohort-3",
+      "parent": 277,
+      "blocked_by": [
+        1920,
+        1921,
+        1922,
+        1923,
+        1924,
+        1925,
+        1926,
+        1927,
+        1928,
+        1929,
+        1930,
+        1931,
+        1932,
+        1933,
+        1934,
+        1935,
+        1936,
+        1937,
+        1938,
+        1939,
+        1940,
+        1941,
+        1942,
+        1943,
+        1944,
+        1945,
+        1946,
+        1947,
+        1948,
+        1949,
+        1950,
+        1951,
+        1952,
+        1953,
+        1954,
+        1955,
+        1956,
+        1957,
+        1958,
+        1959,
+        1960,
+        1961,
+        1962,
+        1963,
+        1964,
+        1965,
+        1966,
+        1967,
+        1968,
+        1969
+      ],
+      "body_sha256": "0b467ba987a82f8d9f00f6d2e87022a7caffdcc24b39e85bce07dfe0bf8ca4f7",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:new-effect-cohort-4": {
+      "number": 2012,
+      "id": 6434879589,
+      "node_id": "I_kwDOSicKg88AAAABf4x4ZQ",
+      "title": "Qualify Wizard new-effect-cohort-4",
+      "parent": 277,
+      "blocked_by": [
+        1970,
+        1971,
+        1972,
+        1973,
+        1974,
+        1975,
+        1976,
+        1977,
+        1978,
+        1979,
+        1980,
+        1981,
+        1982,
+        1983,
+        1984,
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998
+      ],
+      "body_sha256": "b13157356dc2c81c81014461233c96c4029fada94e364f4c87fd1b0d38a7f75f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-0-outputs-1": {
+      "number": 2013,
+      "id": 6434884679,
+      "node_id": "I_kwDOSicKg88AAAABf4yMRw",
+      "title": "Qualify Wizard printed-level-0-outputs-1",
+      "parent": 2014,
+      "blocked_by": [
+        678,
+        684,
+        689,
+        694,
+        955,
+        967,
+        1051,
+        1052,
+        1053,
+        1070,
+        1075,
+        1264,
+        1281,
+        1366,
+        1367,
+        1375,
+        1376,
+        1384,
+        1385,
+        1386,
+        1429,
+        1430
+      ],
+      "body_sha256": "76a29c82daae4ec2e6b84d4549f5cd3c4bbbdcfbae154993a2d9a4def52ba411",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-0": {
+      "number": 2014,
+      "id": 6434889436,
+      "node_id": "I_kwDOSicKg88AAAABf4ye3A",
+      "title": "Qualify Wizard printed-level-0",
+      "parent": 2033,
+      "blocked_by": [
+        2013
+      ],
+      "body_sha256": "10cfab103a94fb97771a3624224a743756c4ed06912730213de53e4c6a76c9a4",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-1-outputs-1": {
+      "number": 2015,
+      "id": 6434894294,
+      "node_id": "I_kwDOSicKg88AAAABf4yx1g",
+      "title": "Qualify Wizard printed-level-1-outputs-1",
+      "parent": 2016,
+      "blocked_by": [
+        181,
+        677,
+        682,
+        690,
+        695,
+        906,
+        913,
+        1035,
+        1064,
+        1066,
+        1262,
+        1263,
+        1265,
+        1266,
+        1272,
+        1273,
+        1293,
+        1313,
+        1318,
+        1321,
+        1347,
+        1348,
+        1357,
+        1365,
+        1368,
+        1399,
+        1400,
+        1424,
+        1595,
+        1596,
+        1597,
+        1611,
+        1612,
+        1613,
+        1614,
+        1615,
+        1616,
+        1643,
+        1644,
+        1648,
+        1649,
+        1650,
+        1651,
+        1652,
+        1653,
+        1654,
+        1655,
+        1656,
+        1657,
+        1658,
+        1659,
+        1660,
+        1661,
+        1662,
+        1663,
+        1664,
+        1665,
+        1666,
+        1667,
+        1668,
+        1669,
+        1670,
+        1671,
+        1711,
+        1712,
+        1713,
+        1714,
+        1715,
+        1716,
+        1717
+      ],
+      "body_sha256": "73373eb752bae4d3fa63946396da4e13e05bf15d84b68e59817df6f944896447",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-1": {
+      "number": 2016,
+      "id": 6434899492,
+      "node_id": "I_kwDOSicKg88AAAABf4zGJA",
+      "title": "Qualify Wizard printed-level-1",
+      "parent": 2033,
+      "blocked_by": [
+        2015
+      ],
+      "body_sha256": "76ce6c6b8a17bac108d23eb03714bfbbaf8402e3b7828197b47d1a83a7992bea",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-2-outputs-1": {
+      "number": 2017,
+      "id": 6434904709,
+      "node_id": "I_kwDOSicKg88AAAABf4zahQ",
+      "title": "Qualify Wizard printed-level-2-outputs-1",
+      "parent": 2018,
+      "blocked_by": [
+        354,
+        676,
+        683,
+        688,
+        696,
+        726,
+        922,
+        923,
+        924,
+        1046,
+        1054,
+        1061,
+        1240,
+        1241,
+        1242,
+        1255,
+        1256,
+        1282,
+        1288,
+        1289,
+        1290,
+        1302,
+        1303,
+        1307,
+        1308,
+        1309,
+        1329,
+        1330,
+        1331,
+        1360,
+        1361,
+        1362,
+        1364,
+        1377,
+        1378,
+        1394,
+        1395,
+        1398,
+        1406,
+        1407,
+        1408,
+        1624,
+        1625,
+        1631,
+        1632,
+        1819,
+        1832,
+        1835,
+        1836,
+        1837,
+        1838,
+        1839,
+        1859,
+        1903,
+        1904,
+        1905,
+        1957,
+        1958
+      ],
+      "body_sha256": "6fe457fe2e326ac5e5d977c7be8bb01916d89146800465e437ddbaa46d858a9f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-2": {
+      "number": 2018,
+      "id": 6434909821,
+      "node_id": "I_kwDOSicKg88AAAABf4zufQ",
+      "title": "Qualify Wizard printed-level-2",
+      "parent": 2033,
+      "blocked_by": [
+        2017
+      ],
+      "body_sha256": "c2d9eb7cbd5b29f82d449f93beb12b2ce0b81a4079c2f359e1dc6aac684ea1cb",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-3-outputs-1": {
+      "number": 2019,
+      "id": 6434914911,
+      "node_id": "I_kwDOSicKg88AAAABf40CXw",
+      "title": "Qualify Wizard printed-level-3-outputs-1",
+      "parent": 2020,
+      "blocked_by": [
+        355,
+        679,
+        685,
+        691,
+        697,
+        935,
+        936,
+        937,
+        938,
+        965,
+        966,
+        1071,
+        1078,
+        1087,
+        1257,
+        1258,
+        1268,
+        1269,
+        1277,
+        1278,
+        1319,
+        1320,
+        1335,
+        1336,
+        1340,
+        1341,
+        1342,
+        1350,
+        1351,
+        1352,
+        1355,
+        1356,
+        1369,
+        1370,
+        1371,
+        1401,
+        1402,
+        1403,
+        1427,
+        1431,
+        1432,
+        1636,
+        1637,
+        1820,
+        1821,
+        1822,
+        1823,
+        1840,
+        1841,
+        1842,
+        1843,
+        1844,
+        1877,
+        1878,
+        1879,
+        1880,
+        1881,
+        1930,
+        1931,
+        1962,
+        1963,
+        1964,
+        1988,
+        1989,
+        1990,
+        1991
+      ],
+      "body_sha256": "97630809f7ee61d845fa0db5e5019f612006ba2c1232e265f1f0db6ee27ac4ca",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-3": {
+      "number": 2020,
+      "id": 6434920186,
+      "node_id": "I_kwDOSicKg88AAAABf40W-g",
+      "title": "Qualify Wizard printed-level-3",
+      "parent": 2033,
+      "blocked_by": [
+        2019
+      ],
+      "body_sha256": "5bf0b5552bd581e57833aefc1ef32022572940d96a06364cc9c1a6d31e01a5fa",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-4-outputs-1": {
+      "number": 2021,
+      "id": 6434925697,
+      "node_id": "I_kwDOSicKg88AAAABf40sgQ",
+      "title": "Qualify Wizard printed-level-4-outputs-1",
+      "parent": 2022,
+      "blocked_by": [
+        680,
+        686,
+        698,
+        724,
+        725,
+        939,
+        940,
+        941,
+        1086,
+        1247,
+        1248,
+        1260,
+        1261,
+        1274,
+        1275,
+        1276,
+        1291,
+        1292,
+        1324,
+        1325,
+        1349,
+        1433,
+        1434,
+        1435,
+        1436,
+        1605,
+        1606,
+        1845,
+        1846,
+        1847,
+        1853,
+        1854,
+        1855,
+        1860,
+        1861,
+        1862,
+        1863,
+        1864,
+        1868,
+        1869,
+        1870,
+        1871,
+        1872,
+        1873,
+        1874,
+        1875,
+        1876,
+        1927,
+        1928,
+        1929,
+        1943,
+        1944,
+        1945,
+        1953,
+        1954,
+        1955,
+        1956,
+        1959,
+        1960,
+        1961,
+        1976
+      ],
+      "body_sha256": "35a426f0387f66a3bfd8b86752265f357e91e82d34f33fd249cad1349fac775f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-4": {
+      "number": 2022,
+      "id": 6434931088,
+      "node_id": "I_kwDOSicKg88AAAABf41BkA",
+      "title": "Qualify Wizard printed-level-4",
+      "parent": 2033,
+      "blocked_by": [
+        2021
+      ],
+      "body_sha256": "4cf4923b50a836e3292d479d5fe210bfed9e4aa608c243e63676c0be4f1aad4a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-5-outputs-1": {
+      "number": 2023,
+      "id": 6434936513,
+      "node_id": "I_kwDOSicKg88AAAABf41WwQ",
+      "title": "Qualify Wizard printed-level-5-outputs-1",
+      "parent": 2024,
+      "blocked_by": [
+        681,
+        687,
+        722,
+        723,
+        945,
+        946,
+        1243,
+        1244,
+        1245,
+        1246,
+        1249,
+        1250,
+        1251,
+        1252,
+        1253,
+        1254,
+        1270,
+        1271,
+        1279,
+        1280,
+        1299,
+        1300,
+        1301,
+        1353,
+        1354,
+        1363,
+        1396,
+        1397,
+        1414,
+        1415,
+        1416,
+        1417,
+        1421,
+        1422,
+        1423,
+        1437,
+        1438,
+        1439,
+        1440,
+        1441,
+        1442,
+        1443,
+        1584,
+        1585,
+        1590,
+        1591,
+        1592,
+        1626,
+        1627,
+        1628,
+        1629,
+        1630,
+        1633,
+        1634,
+        1635,
+        1850,
+        1851,
+        1852,
+        1919,
+        1920,
+        1921,
+        1922,
+        1923,
+        1924,
+        1925,
+        1926,
+        1986,
+        1987,
+        1992,
+        1993
+      ],
+      "body_sha256": "03599dd6e3395fe0d78eada1e0b886901f39f084419064dd7b5da0a8d80f6fe3",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-5": {
+      "number": 2024,
+      "id": 6434941914,
+      "node_id": "I_kwDOSicKg88AAAABf41r2g",
+      "title": "Qualify Wizard printed-level-5",
+      "parent": 2033,
+      "blocked_by": [
+        2023
+      ],
+      "body_sha256": "ba409caaa028aca2f5fe47dbc8086eb389ca9a90fc0ce9f68c70bcb4b42c63a6",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-6-outputs-1": {
+      "number": 2025,
+      "id": 6434946735,
+      "node_id": "I_kwDOSicKg88AAAABf41-rw",
+      "title": "Qualify Wizard printed-level-6-outputs-1",
+      "parent": 2026,
+      "blocked_by": [
+        1259,
+        1267,
+        1294,
+        1295,
+        1314,
+        1315,
+        1316,
+        1317,
+        1332,
+        1333,
+        1334,
+        1337,
+        1338,
+        1339,
+        1345,
+        1346,
+        1372,
+        1373,
+        1379,
+        1380,
+        1409,
+        1410,
+        1428,
+        1586,
+        1587,
+        1588,
+        1589,
+        1856,
+        1857,
+        1858,
+        1882,
+        1883,
+        1884,
+        1885,
+        1886,
+        1888,
+        1889,
+        1890,
+        1891,
+        1892,
+        1893,
+        1894,
+        1895,
+        1896,
+        1897,
+        1898,
+        1899,
+        1900,
+        1901,
+        1902,
+        1946,
+        1947,
+        1948,
+        1949,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998
+      ],
+      "body_sha256": "068248caaa7e634ff4642f22b1489e4471d3e492c53259b9a40f60ffb45ac931",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-6": {
+      "number": 2026,
+      "id": 6434951668,
+      "node_id": "I_kwDOSicKg88AAAABf42R9A",
+      "title": "Qualify Wizard printed-level-6",
+      "parent": 2033,
+      "blocked_by": [
+        2025
+      ],
+      "body_sha256": "77ad67aa7e8f9ee6967741153d9d8fbc02b70074942b5c3ef2b899c3f4c53c6e",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-7-outputs-1": {
+      "number": 2027,
+      "id": 6434956561,
+      "node_id": "I_kwDOSicKg88AAAABf42lEQ",
+      "title": "Qualify Wizard printed-level-7-outputs-1",
+      "parent": 2028,
+      "blocked_by": [
+        1283,
+        1284,
+        1285,
+        1310,
+        1311,
+        1312,
+        1322,
+        1323,
+        1381,
+        1387,
+        1388,
+        1389,
+        1390,
+        1391,
+        1392,
+        1393,
+        1418,
+        1419,
+        1420,
+        1598,
+        1599,
+        1600,
+        1601,
+        1833,
+        1834,
+        1906,
+        1907,
+        1908,
+        1909,
+        1910,
+        1915,
+        1916,
+        1917,
+        1918,
+        1950,
+        1951,
+        1952,
+        1965,
+        1966,
+        1967,
+        1972,
+        1973,
+        1974,
+        1975,
+        1977,
+        1978,
+        1979,
+        1980,
+        1981,
+        1982,
+        1983,
+        1984,
+        1985
+      ],
+      "body_sha256": "836d2d0ba2df6e2a4f508ee6fc684c7a9a691f2956e5f2c918fa1568c311156c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-7": {
+      "number": 2028,
+      "id": 6434961440,
+      "node_id": "I_kwDOSicKg88AAAABf424IA",
+      "title": "Qualify Wizard printed-level-7",
+      "parent": 2033,
+      "blocked_by": [
+        2027
+      ],
+      "body_sha256": "3db129eb1904d74d6b396004533f70dda4097c74b684d54592b5b1a0f89a2c40",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-8-outputs-1": {
+      "number": 2029,
+      "id": 6434966246,
+      "node_id": "I_kwDOSicKg88AAAABf43K5g",
+      "title": "Qualify Wizard printed-level-8-outputs-1",
+      "parent": 2030,
+      "blocked_by": [
+        1286,
+        1287,
+        1296,
+        1297,
+        1298,
+        1358,
+        1359,
+        1382,
+        1383,
+        1411,
+        1412,
+        1413,
+        1582,
+        1583,
+        1824,
+        1825,
+        1826,
+        1827,
+        1828,
+        1829,
+        1830,
+        1831,
+        1848,
+        1849,
+        1865,
+        1866,
+        1867,
+        1911,
+        1912,
+        1913,
+        1914
+      ],
+      "body_sha256": "06466a4cdef813ebf374652e342197c223085523fd064aad969bd62a0f5e9873",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-8": {
+      "number": 2030,
+      "id": 6434971247,
+      "node_id": "I_kwDOSicKg88AAAABf43ebw",
+      "title": "Qualify Wizard printed-level-8",
+      "parent": 2033,
+      "blocked_by": [
+        2029
+      ],
+      "body_sha256": "025a6eb7b68f66f78fae9f7eb02c1f65f7a0a4697c8a945e3253de84e9a4e69b",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-9-outputs-1": {
+      "number": 2031,
+      "id": 6434976452,
+      "node_id": "I_kwDOSicKg88AAAABf43yxA",
+      "title": "Qualify Wizard printed-level-9-outputs-1",
+      "parent": 2032,
+      "blocked_by": [
+        506,
+        583,
+        584,
+        585,
+        586,
+        587,
+        588,
+        589,
+        590,
+        591,
+        1343,
+        1344,
+        1374,
+        1425,
+        1426,
+        1578,
+        1579,
+        1580,
+        1602,
+        1617,
+        1618,
+        1619,
+        1620,
+        1621,
+        1622,
+        1623,
+        1638,
+        1639,
+        1640,
+        1641,
+        1642,
+        1646,
+        1647,
+        1932,
+        1933,
+        1934,
+        1935,
+        1936,
+        1937,
+        1938,
+        1939,
+        1940,
+        1941,
+        1942,
+        1968,
+        1969,
+        1970,
+        1971
+      ],
+      "body_sha256": "7275f8ad2fbe4abf5481c26307f7dc1216e071046663d6dd3a8ad663326725f3",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:printed-level-9": {
+      "number": 2032,
+      "id": 6434981062,
+      "node_id": "I_kwDOSicKg88AAAABf44Exg",
+      "title": "Qualify Wizard printed-level-9",
+      "parent": 2033,
+      "blocked_by": [
+        2031
+      ],
+      "body_sha256": "08355f8982bff581fcb2c6fb139bf876fb26381c18bcc1da7f3f35e4e7ecd23c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:shared-output": {
+      "number": 2033,
+      "id": 6434984148,
+      "node_id": "I_kwDOSicKg88AAAABf44Q1A",
+      "title": "Qualify Wizard shared-output",
+      "parent": 332,
+      "blocked_by": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2014,
+        2016,
+        2018,
+        2020,
+        2022,
+        2024,
+        2026,
+        2028,
+        2030,
+        2032
+      ],
+      "body_sha256": "d179ec53e3880a3811886be541e6c37e70363734d21c8714b9771e95376db743",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:feature-cohort": {
+      "number": 2034,
+      "id": 6434989185,
+      "node_id": "I_kwDOSicKg88AAAABf44kgQ",
+      "title": "Qualify Wizard feature-cohort",
+      "parent": 332,
+      "blocked_by": [
+        1759,
+        1760,
+        1761,
+        1762,
+        1763,
+        1764,
+        1765,
+        1766,
+        1767,
+        1768,
+        1769,
+        1770,
+        1771,
+        1772,
+        1773,
+        1774,
+        1775,
+        1776,
+        1777,
+        1778,
+        1779,
+        1780,
+        1781,
+        1782,
+        1783,
+        1784,
+        1785,
+        1786,
+        1787,
+        1788,
+        1789,
+        1790,
+        1791,
+        1792,
+        1793,
+        1794,
+        1795,
+        1796,
+        1797,
+        1798
+      ],
+      "body_sha256": "dcc9f548f46655dc034143dad351937e6732f5a91ea5268b96628e937ace840f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:level-cohort": {
+      "number": 2035,
+      "id": 6434994288,
+      "node_id": "I_kwDOSicKg88AAAABf444cA",
+      "title": "Qualify Wizard level-cohort",
+      "parent": 332,
+      "blocked_by": [
+        1799,
+        1800,
+        1801,
+        1802,
+        1803,
+        1804,
+        1805,
+        1806,
+        1807,
+        1808,
+        1809,
+        1810,
+        1811,
+        1812,
+        1813,
+        1814,
+        1815,
+        1816,
+        1817,
+        1818
+      ],
+      "body_sha256": "65f363aafaea282f363e020c450c254f516039e43b96222fa44c53d9905a47d2",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:class-gate": {
+      "number": 2036,
+      "id": 6434999345,
+      "node_id": "I_kwDOSicKg88AAAABf45MMQ",
+      "title": "Qualify Wizard class-gate",
+      "parent": 332,
+      "blocked_by": [
+        332,
+        2033,
+        2034,
+        2035
+      ],
+      "body_sha256": "a00f38e6dbef91a658db628fa1400d36a6b23e4edfefd7da1ca5e06c06bad660",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:condition-output": {
+      "number": 2037,
+      "id": 6435004330,
+      "node_id": "I_kwDOSicKg88AAAABf45fqg",
+      "title": "Qualify Wizard condition-output",
+      "parent": 332,
+      "blocked_by": [
+        487,
+        488,
+        504,
+        727,
+        777,
+        960,
+        962,
+        963,
+        1444
+      ],
+      "body_sha256": "06be5c0e08fefd28933edfdcd9db031a1d9eaf627fea66691512f16699e3510a",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:casting-consumers-1": {
+      "number": 2038,
+      "id": 6435009412,
+      "node_id": "I_kwDOSicKg88AAAABf45zhA",
+      "title": "Qualify Wizard casting-consumers-1",
+      "parent": 332,
+      "blocked_by": [
+        2008
+      ],
+      "body_sha256": "6ab6e0210b7ba7b00a02a2b68a7d4ee7c0a18e19927a04ae38e000db02373c5c",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:casting-consumers-2": {
+      "number": 2039,
+      "id": 6435014461,
+      "node_id": "I_kwDOSicKg88AAAABf46HPQ",
+      "title": "Qualify Wizard casting-consumers-2",
+      "parent": 332,
+      "blocked_by": [
+        2008
+      ],
+      "body_sha256": "bd060e8d45e4ef300a2f5f596df58b7f9e689360d59b3bbabd3f0a63b89d7175",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:casting-consumers-3": {
+      "number": 2040,
+      "id": 6435019646,
+      "node_id": "I_kwDOSicKg88AAAABf46bfg",
+      "title": "Qualify Wizard casting-consumers-3",
+      "parent": 332,
+      "blocked_by": [
+        2008
+      ],
+      "body_sha256": "e2c0ad6db8c20c21da62679dc7d28f6b53189ddeedb20f0360569d0a1b9b77d9",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:execution-output": {
+      "number": 2041,
+      "id": 6435024955,
+      "node_id": "I_kwDOSicKg88AAAABf46wOw",
+      "title": "Qualify Wizard execution-output",
+      "parent": 332,
+      "blocked_by": [
+        61,
+        64,
+        65,
+        66,
+        67,
+        353
+      ],
+      "body_sha256": "2152c5bcd6500c1efc09e5bc02f199779768bdf01d130de88dc3536950c5fde1",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:execution-consumers-1": {
+      "number": 2042,
+      "id": 6435030183,
+      "node_id": "I_kwDOSicKg88AAAABf47Epw",
+      "title": "Qualify Wizard execution-consumers-1",
+      "parent": 332,
+      "blocked_by": [
+        2041
+      ],
+      "body_sha256": "c62a6d27965d3415139a391cb484f92804b597c96581615a6ada3f2c22e3906f",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:execution-consumers-2": {
+      "number": 2043,
+      "id": 6435035456,
+      "node_id": "I_kwDOSicKg88AAAABf47ZQA",
+      "title": "Qualify Wizard execution-consumers-2",
+      "parent": 332,
+      "blocked_by": [
+        2041
+      ],
+      "body_sha256": "52aa269e221cca9f505d2b93be2dcdb0aaab7c07e5d8408f3a5077fb79535db1",
+      "type": "Task",
+      "size": "M"
+    },
+    "332:execution-consumers-3": {
+      "number": 2044,
+      "id": 6435040812,
+      "node_id": "I_kwDOSicKg88AAAABf47uLA",
+      "title": "Qualify Wizard execution-consumers-3",
+      "parent": 332,
+      "blocked_by": [
+        2041
+      ],
+      "body_sha256": "8d2b1539e2614d04414ab251fd2638b5e4ddb8eb753a777ba756f3cf7429d913",
+      "type": "Task",
+      "size": "M"
+    }
+  },
+  "approved_execution_paths": {
+    "animate-dead": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-animate-dead-creation": 1820,
+        "332:spell-animate-dead-command": 1821,
+        "332:spell-animate-dead-control-renewal": 1822,
+        "332:spell-animate-dead-upcast": 1823,
+        "331:creature-skeleton-statistics": 1684,
+        "331:creature-skeleton-attacks": 1685,
+        "330:zombie-stat-actions": 1445,
+        "330:zombie-undead-fortitude": 1446
+      }
+    },
+    "phantom-steed": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-phantom-steed-create": 1930,
+        "332:spell-phantom-steed-ride-ending": 1931,
+        "332:form-riding-horse-statistics": 1999,
+        "332:form-riding-horse-hooves": 2000
+      }
+    },
+    "shapechange": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-shapechange-form-admission": 1968,
+        "332:spell-shapechange-statistics": 1970,
+        "332:spell-shapechange-temporary-hp": 1969,
+        "332:spell-shapechange-equipment": 1971,
+        "332:qualified-form-output": 2006
+      }
+    },
+    "simulacrum": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-simulacrum-create-statistics": 1972,
+        "332:spell-simulacrum-command-limitations": 1973,
+        "332:spell-simulacrum-repair": 1974,
+        "332:spell-simulacrum-ending": 1975,
+        "332:form-qualified-snapshot": 2004,
+        "332:form-commoner-statistics": 2001,
+        "332:form-commoner-training": 2002,
+        "332:form-commoner-club": 2003
+      }
+    },
+    "named-interoperability": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "332:spell-glyph-of-warding-stored-spell": 1880,
+        "332:spell-contingency-store": 1856,
+        "332:spell-guards-and-wards-doors": 1885,
+        "332:spell-guards-and-wards-stairs": 1886,
+        "332:spell-prismatic-wall-green": 1939,
+        "332:spell-resilient-sphere-disintegrate": 1956,
+        "332:spell-magic-jar-possession": 1899,
+        "332:spell-modify-memory-restore": 1923
+      }
+    },
+    "complete-cross-class-output-graph": {
+      "status": "MANDATORY APPROVED OUTPUT PATHS; runtime execution UNQUALIFIED",
+      "outputs": {
+        "330:shared-output": 1474,
+        "331:shared-output": 1757,
+        "332:shared-output": 2033,
+        "330:shared-aggregate": 1477,
+        "332:class-gate": 2036,
+        "332:source-advancement-output": 2005,
+        "332:casting-output": 2008,
+        "332:execution-output": 2041
+      }
+    }
+  },
+  "accepted_parent_prefix": null,
+  "parent_supplements_status": "PENDING ROOT-only serial application",
+  "runtime_status": "UNQUALIFIED",
+  "native_receipt_sha256": "05253922cd8b93e72e1feaa5d2b24c98cf316cd5eca8f147dadf779324a3a6df",
+  "native_observed_at": "2026-11-17T06:27:03.985841+00:00"
+}
