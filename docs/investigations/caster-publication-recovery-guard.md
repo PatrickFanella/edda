@@ -20,9 +20,13 @@ The serial transport requires at least 7.5 seconds between mutation starts and n
 
 The earliest recovery time is November17 at 00:04:50Z, one hour after the last ambiguous publication create. This does not claim an account-wide hour without writes. Unresolved journal operations impose their own full-hour cooldown. Retry-After (seconds or HTTP date) and exhausted primary-reset headers can extend the deadline. Restrictions over 60 seconds fail closed for a later invocation instead of blocking an agent. Timing is hypothesis mitigation; neither null response proves a rate-limit error, and the successful state PATCHes do not prove createIssue recovery.
 
+A refusal before the HTTP transport runs is recorded as `NOT_DISPATCHED`. It does not install a new halt, count as a mutation start, extend the cooldown or fence an otherwise unissued create. A persisted unresolved intent still retains the conservative restart fence. This distinction does not bypass an existing halt.
+
 GitHub recommends serial requests with at least one second between mutations and generally limits content generation to 500 requests/hour across REST, GraphQL and the web UI: [GraphQL limits](https://docs.github.com/en/graphql/overview/rate-limits-and-query-limits-for-the-graphql-api), [request best practices](https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api).
 
 Future mutation records retain the exact request payload and exact GraphQL response body with only whitelisted response headers. Credentials and unfiltered headers/stderr are never retained by the transport.
+
+Every mutation field must return its expected nested Issue or Project item with a nonempty string identity before acknowledgement. This applies to every field in a bundled wiring request; a null sibling or missing field halts the writer. Created issues must also return positive integer issue/database identities. The exact single-operation `UNPROCESSABLE` response `Content already exists in this project` retains the allocator's bounded readback path. It is recorded as a known rejection and requires the existing Project item to be read; other errors or null results remain ambiguous and halt publication.
 
 ## ROOT authorization protocol
 
@@ -37,6 +41,8 @@ Required authorization fields:
 
 Under the existing exclusive coordinator lock, the helper checks the original authorization and retained 714 map, source pins, old null entry, new authorization, reviewed code and active halt. It checks cooldown, obtains a new complete graph and metadata snapshot, then reads the latest 100 issues immediately before the action. Any changed issue count or marker disagreement stops it. The snapshot must match every old contract and every retained allocation, including Task/M and unwired states. Only decisions 330/331/332 may be OPEN or CLOSED; closure never removes required nodes, source paths or terminal edges.
 
+The later metadata response must independently agree with the full graph for every identity, title, body, state, parent and prerequisite set. A contradiction in either capture stops recovery before authorization consumption, even if the earlier graph matched the approved contracts.
+
 The helper uses O_EXCL plus file and directory fsync to consume the new authorization before adoption or create. An exact existing marker is adopted without create. Otherwise it journals the original exact create intent and sends at most one identical GraphQL request. Typed identity and exact title/body/OPEN/Task/project/unwired readback are mandatory before registry adoption. An adopted existing issue must already be Size M; a freshly created issue may still need the normal allocator's paced Size M step. No milestone is emitted. Any ambiguity retains the halt and records a new result separately; the original halt bytes and old evidence remain intact. Restart cannot reuse consumed authorization.
 
 Even a confirmed recovery leaves normal allocation blocked by the existing halt. ROOT must separately review the result and control the subsequent continuation boundary. No REST fallback, probe issue or skipped alias is available.
@@ -45,4 +51,4 @@ Even a confirmed recovery leaves normal allocation blocked by the existing halt.
 
 Focused fake-clock/API/temp-journal tests cover pacing, rolling budgets including ROOT's PATCHes, restart INTENT fences, full-hour cooldowns, Retry-After and primary-reset restrictions, sanitized response capture, halt preservation, typed identities, unique exact markers, one-use null recovery and adoption without create. Independent source proofs exercise CLOSED decisions while rejecting removed source and terminal edges. Relevant Rogue shared-root and Wizard milestone guards are included. No live mutation probe or Go/race/vet rerun was performed.
 
-Validation result: 67 focused Python tests passed (21 coordinator/recovery/pacing, 14 Wizard publication, 14 Warlock approved-native, 7 Sorcerer binding, 5 Rogue shared-root compatibility, 6 Wizard milestone). `git diff --check` passed. These are offline controls, not native publication acceptance.
+Initial checkpoint validation: 67 focused Python tests passed. ROOT's repair adds six test methods covering nested/bundled results, later metadata contradictions, unsent cooldown refusals and the captured Project auto-add rejection. Against the direct parent, the new defect controls reproduced 14 expected failures with zero errors. The repaired focused suite passed all 73 methods in 22.835 seconds (27 coordinator/recovery/pacing, 14 Wizard publication, 14 Warlock approved-native, 7 Sorcerer binding, 5 Rogue shared-root compatibility, 6 Wizard milestone). These are offline controls, not native publication acceptance.

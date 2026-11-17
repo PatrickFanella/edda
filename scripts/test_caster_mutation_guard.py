@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 from caster_mutation_guard import MutationGuard, NOT_BEFORE, timestamp, EXTERNAL_STARTS
-from caster_native_publication import Coordinator, old_contract_matches, sha, atomic, APPROVAL_SHA, RENDERER_SHA
+from caster_native_publication import Coordinator, old_contract_matches, uncertain_creation, sha, atomic, APPROVAL_SHA, RENDERER_SHA
 import recover_caster_null_create as recovery
 
 
@@ -118,6 +118,124 @@ class GuardTests(unittest.TestCase):
                 self.assertEqual(responses.call_count,1 if existing else 2)
             self.assertEqual((root/'native-write-halt.json').read_bytes(),halt)
             self.assertTrue((root/('recovery-'+digest+'.consumed.json')).exists())
+
+    def test_nested_mutation_results_must_all_have_typed_identities(self):
+        invalid = [
+            {'body': {'issue': None}},
+            {'size': {'projectV2Item': None}},
+            {'project': {'item': {}}},
+            {'edge': {'issue': {'id': None}}},
+            {'parent': {'issue': {'id': True}}},
+            {'body': {'issue': {'id': 'I_OK'}}, 'edge': {'issue': None}},
+        ]
+        for data in invalid:
+            with self.subTest(data=data), TemporaryDirectory() as directory:
+                c=Coordinator.__new__(Coordinator);c.directory=Path(directory);c.calls=0
+                c.journal=dict(operations=[]);c.journal_path=c.directory/'journal.json'
+                response=dict(status=200,exit_code=0,headers={},body=json.dumps(dict(data=data)))
+                operations=dict(body='updateIssue',size='updateProjectV2ItemFieldValue',
+                                project='addProjectV2ItemById',edge='addBlockedBy',parent='addSubIssue')
+                query='mutation{'+' '.join(field+':'+operations[field]+'{'+dict(size='projectV2Item',project='item').get(field,'issue')+'{id}}' for field in data)+'}'
+                with patch('caster_mutation_guard.MutationGuard.wait'), patch('caster_mutation_guard.http_graphql',return_value=response):
+                    with self.assertRaises(AssertionError):c.api(query,{},'wire test')
+                saved=json.loads(c.journal_path.read_text())['operations'][-1]
+                self.assertEqual(saved['status'],'RECONCILE_REQUIRED')
+                self.assertEqual(saved['sanitized_http_response'],response)
+                self.assertTrue((c.directory/'native-write-halt.json').exists())
+
+    def test_complete_bundled_mutation_results_are_acknowledged(self):
+        data={'body':{'issue':{'id':'I_BODY'}},'edge':{'issue':{'id':'I_EDGE'}},
+              'project':{'item':{'id':'PVTI_PROJECT'}},'size':{'projectV2Item':{'id':'PVTI_SIZE'}}}
+        with TemporaryDirectory() as directory:
+            c=Coordinator.__new__(Coordinator);c.directory=Path(directory);c.calls=0
+            c.journal=dict(operations=[]);c.journal_path=c.directory/'journal.json'
+            response=dict(status=200,exit_code=0,headers={},body=json.dumps(dict(data=data)))
+            with patch('caster_mutation_guard.MutationGuard.wait'), patch('caster_mutation_guard.http_graphql',return_value=response):
+                query='mutation{body:updateIssue{issue{id}} edge:addBlockedBy{issue{id}} project:addProjectV2ItemById{item{id}} size:updateProjectV2ItemFieldValue{projectV2Item{id}}}'
+                self.assertEqual(c.api(query,{},'wire test'),data)
+            self.assertEqual(c.journal['operations'][-1]['status'],'ACKNOWLEDGED')
+            self.assertFalse((c.directory/'native-write-halt.json').exists())
+
+    def test_unsent_cooldown_refusal_is_not_a_new_ambiguous_mutation(self):
+        with TemporaryDirectory() as directory:
+            c=Coordinator.__new__(Coordinator);c.directory=Path(directory);c.calls=0
+            c.journal=dict(operations=[]);c.journal_path=c.directory/'journal.json'
+            with patch('caster_mutation_guard.MutationGuard.wait',side_effect=AssertionError('cooldown')), patch('caster_mutation_guard.http_graphql') as api:
+                with self.assertRaisesRegex(AssertionError,'cooldown'):c.api('mutation{createIssue{issue{id}}}',{},'create test')
+                api.assert_not_called()
+            saved=json.loads(c.journal_path.read_text())
+            self.assertEqual(saved['operations'][-1]['status'],'NOT_DISPATCHED')
+            self.assertFalse((c.directory/'native-write-halt.json').exists())
+            self.assertFalse(uncertain_creation(saved,'test'))
+            self.assertEqual(MutationGuard(saved).deadline(),NOT_BEFORE)
+
+    def test_recovery_rejects_later_metadata_contract_contradictions(self):
+        old=dict(number=330,id=5330,node_id='I_330',title='Source',body='Source body',
+                 state='open',parent=None,blocked_by=[])
+        owned=dict(alias='330:hp',title='HP',approved_body='HP source')
+        pending=dict(alias=recovery.ALIAS,title='Pending',approved_body='Pending source')
+        contract=dict(allocation_prefix_template='<!-- edda-caster-native:{alias} -->\n')
+        allocated=dict(number=1173,id=6173,node_id='I_1173',title='HP',
+                       body='<!-- edda-caster-native:330:hp -->\nHP source',state='open',parent=None,blocked_by=[])
+        graph=[old,allocated]
+        def metadata(row):
+            return dict(number=row['number'],databaseId=row['id'],id=row['node_id'],title=row['title'],
+                        body=row['body'],state=row['state'].upper(),parent=None,blockedBy=dict(nodes=[]),
+                        issueType=dict(name='Task'),project_item=dict(fieldValueByName=dict(name='M')))
+        original={row['number']:metadata(row) for row in graph}
+        c=Mock(nodes=[owned,pending],contract=contract,
+               baseline=dict(graph=[old],project={'330':dict(type='Task',size='M')}),
+               registry=dict(nodes={'330:hp':dict(number=1173,id=6173,node_id='I_1173')}))
+        c.full_graph.return_value=copy.deepcopy(graph);c.metadata.return_value=copy.deepcopy(original)
+        self.assertEqual(recovery.reconcile(c)[2],[])
+        changes=[(330,'body','Changed'),(1173,'parent',dict(number=283)),
+                 (1173,'id','I_OTHER'),(1173,'state','CLOSED'),(330,'title','Changed'),
+                 (330,'blockedBy',dict(nodes=[dict(number=999)])),(1173,'number',1174)]
+        for number,field,value in changes:
+            with self.subTest(number=number,field=field):
+                changed=copy.deepcopy(original);changed[number][field]=value
+                c.metadata.return_value=changed
+                with self.assertRaises(AssertionError):recovery.reconcile(c)
+
+    def test_only_the_explicit_project_auto_add_rejection_uses_readback(self):
+        error=dict(type='UNPROCESSABLE',path=['addProjectV2ItemById'],message='Content already exists in this project')
+        query='mutation($input:AddProjectV2ItemByIdInput!){addProjectV2ItemById(input:$input){item{id}}}'
+        for operation,errors,rejected in [('project-add test',[error],True),('wire test',[error],False),
+                                          ('project-add test',[error,dict(message='Other failure')],False)]:
+            with self.subTest(operation=operation,errors=errors), TemporaryDirectory() as directory:
+                c=Coordinator.__new__(Coordinator);c.directory=Path(directory);c.calls=0
+                c.journal=dict(operations=[]);c.journal_path=c.directory/'journal.json'
+                response=dict(status=200,exit_code=1,headers={},body=json.dumps(dict(data=dict(addProjectV2ItemById=None),errors=errors)))
+                with patch('caster_mutation_guard.MutationGuard.wait'), patch('caster_mutation_guard.http_graphql',return_value=response):
+                    if rejected:
+                        with self.assertRaisesRegex(RuntimeError,'Content already exists'):c.api(query,{},operation)
+                    else:
+                        with self.assertRaises(AssertionError):c.api(query,{},operation)
+                expected='REJECTED_EXISTING_PROJECT' if rejected else 'RECONCILE_REQUIRED'
+                self.assertEqual(c.journal['operations'][-1]['status'],expected)
+                self.assertEqual((c.directory/'native-write-halt.json').exists(),not rejected)
+
+    def test_allocator_reads_existing_project_after_auto_add_race(self):
+        with TemporaryDirectory() as directory:
+            c=Coordinator.__new__(Coordinator);c.directory=Path(directory);c.calls=0
+            c.journal=dict(operations=[]);c.journal_path=c.directory/'journal.json'
+            node=dict(alias='330:hp',title='HP',approved_body='Source')
+            c.registry_path=c.directory/'registry.json'
+            c.nodes=[node];c.contract=dict(allocation_prefix_template='<!-- edda-caster-native:{alias} -->\n')
+            body='<!-- edda-caster-native:330:hp -->\nSource'
+            c.registry=dict(nodes={'330:hp':dict(number=1173,id=6173,node_id='I_1173')})
+            c.baseline=dict(graph=[]);c.verify_inputs=Mock();c.save_registry=Mock()
+            c.full_graph=Mock(return_value=[dict(number=1173,id=6173,node_id='I_1173',body=body,title='HP',state='open')])
+            current=dict(id='I_1173',databaseId=6173,state='OPEN',body=body,title='HP',issueType=dict(name='Task'),project_item=None)
+            existing=current|dict(project_item=dict(id='PVTI_EXISTING',fieldValueByName=dict(name='M')))
+            c.metadata=Mock(side_effect=[{1173:current},{1173:existing},{1173:existing}])
+            response=dict(status=200,exit_code=1,headers={},body=json.dumps(dict(data=dict(addProjectV2ItemById=None),errors=[dict(type='UNPROCESSABLE',path=['addProjectV2ItemById'],message='Content already exists in this project')])))
+            with patch('builtins.print'), patch('caster_mutation_guard.MutationGuard.wait'), patch('caster_mutation_guard.http_graphql',return_value=response) as transport:
+                c.allocate()
+            self.assertEqual(transport.call_count,1)
+            self.assertEqual(c.metadata.call_count,3)
+            self.assertEqual(c.journal['operations'][-1]['status'],'REJECTED_EXISTING_PROJECT')
+            self.assertFalse((c.directory/'native-write-halt.json').exists())
 
 
 if __name__=='__main__':unittest.main()

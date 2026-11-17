@@ -53,7 +53,7 @@ class MutationGuard:
         responses = list(extra_responses)
         starts = list(EXTERNAL_STARTS)
         for entry in self.journal['operations']:
-            if 'started_at' not in entry:
+            if 'started_at' not in entry or entry.get('status') == 'NOT_DISPATCHED':
                 continue
             start = timestamp(entry['started_at'])
             starts.append(start)

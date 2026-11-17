@@ -77,6 +77,14 @@ def reconcile(c):
         assert old_contract_matches(by[old['number']],old), ('old native contract drift',old['number'])
     approved={n['alias']:n for n in c.nodes}
     metadata=c.metadata(sorted(by))
+    assert set(metadata)==set(by), 'incomplete recovery metadata'
+    for number,row in by.items():
+        meta=metadata[number]
+        observed=dict(number=meta['number'],id=meta['databaseId'],node_id=meta['id'],
+                      title=meta['title'],body=meta['body'] or '',state=meta['state'].lower(),
+                      parent=(meta['parent'] or {}).get('number'),
+                      blocked_by=sorted(n['number'] for n in meta['blockedBy']['nodes']))
+        assert observed==row, ('graph/metadata contract disagreement',number)
     for number,expected in c.baseline['project'].items():
         actual=metadata[int(number)]
         assert actual['issueType']['name']==expected['type']

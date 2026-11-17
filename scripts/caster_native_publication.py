@@ -106,7 +106,29 @@ def uncertain_creation(journal, alias):
     # Called only when neither the registry nor the complete marker readback has
     # this alias. Even an ACK can precede a crash or contain issue:null. A prior
     # creation intent is never permission for a second blind create.
-    return any(entry['operation']=='create '+alias for entry in journal['operations'])
+    return any(entry['operation']=='create '+alias and entry.get('status')!='NOT_DISPATCHED'
+               for entry in journal['operations'])
+
+
+def require_mutation_identities(query, data):
+    targets = dict(createIssue='issue', updateIssue='issue', addSubIssue='issue',
+                   addBlockedBy='issue', addProjectV2ItemById='item',
+                   updateProjectV2ItemFieldValue='projectV2Item')
+    pattern = r'\b(?:(\w+)\s*:\s*)?(' + '|'.join(targets) + r')\s*(?=[({])'
+    fields = [(alias or operation, operation) for alias, operation in re.findall(pattern, query)]
+    assert fields and len({field for field, _ in fields}) == len(fields), 'distinct supported mutation fields required'
+    assert isinstance(data, dict) and set(data) == {field for field, _ in fields}, 'missing mutation field'
+    for field, operation in fields:
+        payload = data[field]; target = targets[operation]
+        assert isinstance(payload, dict) and set(payload) == {target}, ('missing nested mutation result', field)
+        record = payload[target]
+        assert isinstance(record, dict) and type(record.get('id')) is str and record['id'], ('missing typed mutation identity', field)
+        if operation == 'createIssue':
+            assert all(type(record.get(key)) is int and record[key] > 0 for key in ('number', 'databaseId')), 'incomplete created identity'
+
+
+class ExistingProjectItem(RuntimeError):
+    """Explicit single-operation rejection; allocator must read the existing item."""
 
 
 def caps(graph, parents):
@@ -202,13 +224,33 @@ class Coordinator:
             prior = dict(operations=self.journal['operations'][:-1])
             try:
                 MutationGuard(prior).wait()
-                entry['started_at'] = now()
+            except Exception:
+                # No transport was called. Preserve the refusal without turning
+                # it into another ambiguous write or extending its cooldown.
+                entry.update(finished_at=now(), status='NOT_DISPATCHED')
                 atomic(self.journal_path, self.journal)
+                raise
+            entry['started_at'] = now()
+            atomic(self.journal_path, self.journal)
+            try:
                 response = http_graphql(query, variables or {})
                 entry['sanitized_http_response'] = response
                 value = json.loads(response['body'])
+                errors = value.get('errors')
+                if (operation.startswith('project-add ') and response['status'] == 200
+                        and value.get('data') == {'addProjectV2ItemById': None}
+                        and isinstance(errors, list) and errors
+                        and all(isinstance(error, dict) and error.get('type') == 'UNPROCESSABLE'
+                                and error.get('path') == ['addProjectV2ItemById']
+                                and error.get('message') == 'Content already exists in this project'
+                                for error in errors)):
+                    entry.update(finished_at=now(), status='REJECTED_EXISTING_PROJECT', response=value)
+                    atomic(self.journal_path, self.journal)
+                    raise ExistingProjectItem('Content already exists in this project')
                 assert response['exit_code'] == 0 and 200 <= response['status'] < 300 and not value.get('errors')
-                assert isinstance(value.get('data'), dict) and value['data'] and all(value['data'].values()), 'null mutation result'
+                require_mutation_identities(query, value.get('data'))
+            except ExistingProjectItem:
+                raise
             except Exception:
                 entry.update(finished_at=now(), status='RECONCILE_REQUIRED')
                 atomic(self.journal_path, self.journal)
