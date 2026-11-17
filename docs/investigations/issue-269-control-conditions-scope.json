@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "decision": 269,
+  "status": "ALL_SIX_NAMED_SCOPES_HAVE_EXISTING_PUBLISHED_OWNERS",
+  "source": {
+    "PDF_SHA256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "pages": [
+      178,
+      182,
+      184,
+      186,
+      189,
+      191
+    ],
+    "license": "CC-BY-4.0; docs/srd-5.2.1-conformance.md"
+  },
+  "scopes": [
+    {
+      "condition": "Charmed",
+      "PDF": 178,
+      "execution_owner": 488,
+      "checked_clauses": [
+        "can’t attack the",
+        "Social Advantage"
+      ],
+      "owner_body_sha256": "009a793cf71efa8420190edabdc41aa7790b575e095698ec8710f9a978ca16c5",
+      "mandatory_paths": {
+        "279": [
+          279,
+          505,
+          488
+        ],
+        "280": [
+          280,
+          505,
+          488
+        ],
+        "337": [
+          337,
+          498,
+          488
+        ]
+      }
+    },
+    {
+      "condition": "Frightened",
+      "PDF": 182,
+      "execution_owner": 488,
+      "checked_clauses": [
+        "Disadvantage on ability checks and attack rolls",
+        "Can’t Approach"
+      ],
+      "owner_body_sha256": "009a793cf71efa8420190edabdc41aa7790b575e095698ec8710f9a978ca16c5",
+      "mandatory_paths": {
+        "279": [
+          279,
+          505,
+          488
+        ],
+        "280": [
+          280,
+          505,
+          488
+        ],
+        "337": [
+          337,
+          498,
+          488
+        ]
+      }
+    },
+    {
+      "condition": "Incapacitated",
+      "PDF": 184,
+      "execution_owner": 487,
+      "checked_clauses": [
+        "No Concentration",
+        "Speechless",
+        "Surprised"
+      ],
+      "owner_body_sha256": "74aeead11f2085b6e89b4888f0caee89bb8d73b67733cafb0da66bd701b9912c",
+      "mandatory_paths": {
+        "279": [
+          279,
+          504,
+          487
+        ],
+        "280": [
+          280,
+          504,
+          487
+        ],
+        "337": [
+          337,
+          498,
+          487
+        ]
+      }
+    },
+    {
+      "condition": "Stunned",
+      "PDF": 189,
+      "execution_owner": 777,
+      "checked_clauses": [
+        "Stunned [Condition]",
+        "automatically fail",
+        "Attack rolls against you have"
+      ],
+      "owner_body_sha256": "68e8f5e1c634f7d5e51ffb247bdcabcccc8e97bc31cf9a9d1fa62bf1df0adbd0",
+      "mandatory_paths": {
+        "279": [
+          279,
+          777
+        ],
+        "280": [
+          280,
+          777
+        ],
+        "337": [
+          337,
+          776,
+          777
+        ]
+      }
+    },
+    {
+      "condition": "Paralyzed",
+      "PDF": 186,
+      "execution_owner": 727,
+      "checked_clauses": [
+        "Paralyzed [Condition]",
+        "Speed 0",
+        "Automatic Critical Hits"
+      ],
+      "owner_body_sha256": "8d739e36d9bb9b00d1808bc022d1dce8d849297d802d7ec2f5c0a19bd805bd92",
+      "mandatory_paths": {
+        "279": [
+          279,
+          727
+        ],
+        "280": [
+          280,
+          727
+        ],
+        "337": [
+          337,
+          776,
+          727
+        ]
+      }
+    },
+    {
+      "condition": "Unconscious",
+      "PDF": 191,
+      "execution_owner": 487,
+      "checked_clauses": [
+        "Unconscious [Condition]",
+        "you drop whatever you’re holding",
+        "When this condition ends, you remain Prone",
+        "Unaware"
+      ],
+      "owner_body_sha256": "74aeead11f2085b6e89b4888f0caee89bb8d73b67733cafb0da66bd701b9912c",
+      "mandatory_paths": {
+        "279": [
+          279,
+          504,
+          487
+        ],
+        "280": [
+          280,
+          504,
+          487
+        ],
+        "337": [
+          337,
+          498,
+          487
+        ]
+      }
+    }
+  ],
+  "new_implementation_issues_required": 0,
+  "owners": {
+    "487": {
+      "number": 487,
+      "title": "Resolve shared Incapacitated and Unconscious condition admission",
+      "parent": 269,
+      "blocked_by": [
+        269,
+        351,
+        353
+      ],
+      "body_sha256": "74aeead11f2085b6e89b4888f0caee89bb8d73b67733cafb0da66bd701b9912c",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      },
+      "required_paths": {
+        "279": [
+          279,
+          504,
+          487
+        ],
+        "280": [
+          280,
+          504,
+          487
+        ],
+        "337": [
+          337,
+          498,
+          487
+        ]
+      }
+    },
+    "488": {
+      "number": 488,
+      "title": "Resolve shared Charmed Frightened and Prone condition consumers",
+      "parent": 270,
+      "blocked_by": [
+        61,
+        65,
+        67,
+        269,
+        270
+      ],
+      "body_sha256": "009a793cf71efa8420190edabdc41aa7790b575e095698ec8710f9a978ca16c5",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      },
+      "required_paths": {
+        "279": [
+          279,
+          505,
+          488
+        ],
+        "280": [
+          280,
+          505,
+          488
+        ],
+        "337": [
+          337,
+          498,
+          488
+        ]
+      }
+    },
+    "727": {
+      "number": 727,
+      "title": "Admit exact Paralyzed Poisoned and Restrained condition projections",
+      "parent": 270,
+      "blocked_by": [
+        351,
+        353,
+        487,
+        504
+      ],
+      "body_sha256": "8d739e36d9bb9b00d1808bc022d1dce8d849297d802d7ec2f5c0a19bd805bd92",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      },
+      "required_paths": {
+        "279": [
+          279,
+          727
+        ],
+        "280": [
+          280,
+          727
+        ],
+        "337": [
+          337,
+          776,
+          727
+        ]
+      }
+    },
+    "777": {
+      "number": 777,
+      "title": "Admit shared Stunned with source-bound consequences",
+      "parent": 270,
+      "blocked_by": [
+        61,
+        64,
+        66,
+        67,
+        487,
+        504
+      ],
+      "body_sha256": "68e8f5e1c634f7d5e51ffb247bdcabcccc8e97bc31cf9a9d1fa62bf1df0adbd0",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      },
+      "required_paths": {
+        "279": [
+          279,
+          777
+        ],
+        "280": [
+          280,
+          777
+        ],
+        "337": [
+          337,
+          776,
+          777
+        ]
+      }
+    }
+  },
+  "native_parent_policy": "487 retains269;488/727/777retain270; no duplicated or moved owner",
+  "trusted_ending_scope": "488source-bound Charmed/Frightened/Prone ending/immunity;504 exactParalyzed/Poisoned/Stunned ending; creating/ending source conditions remain with actual qualified source",
+  "runtime_qualified": false
+}
