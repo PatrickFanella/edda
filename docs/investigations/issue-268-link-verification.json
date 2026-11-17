@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "decision": 268,
+  "status": "SOURCE_AND_NATIVE_SPLIT_DECISION_PASS; ACCEPTANCE_PR_PENDING",
+  "observed_at": "2026-11-17T06:57:29.904380+00:00",
+  "source_clauses_checked": {
+    "177": [
+      "Blinded [Condition]",
+      "automatically fail any",
+      "ability check that requires sight",
+      "your attack rolls have Disadvantage"
+    ],
+    "181": [
+      "Deafened [Condition]",
+      "automatically fail",
+      "ability check that requires hearing"
+    ],
+    "184": [
+      "Invisible [Condition]",
+      "Advantage on the roll",
+      "wearing or carrying is also concealed",
+      "don’t gain this benefit against that creature"
+    ]
+  },
+  "native_nodes": 1888,
+  "published_owner_origin": {
+    "PR": 844,
+    "decision": 327,
+    "independent_owned_native_seal": "acb39e3741d86ffec6bc2ecede112df0eb5cbce9448e1d854d4a68be2e9975d3"
+  },
+  "decision_native": {
+    "number": 268,
+    "parent": 193,
+    "blocked_by": [
+      80
+    ],
+    "prerequisite80_state": "closed",
+    "state_at_readback": "open"
+  },
+  "published_children": [
+    {
+      "number": 960,
+      "parent": 268,
+      "blocked_by": [
+        61,
+        65,
+        67,
+        268
+      ],
+      "title": "Admit shared Blinded with source-bound sight and attack consequences",
+      "body": "<!-- edda-327:blind -->\nDecision #327; roadmap #47. One implementation PR; Task Size M.\n\nSource: pinned SRD5.2.1 PDF, exact pages in scope; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation notice: docs/srd-5.2.1-conformance.md. Fixture boundaries are Edda additions.\n\nExact scope, positive and independently violated negative fixtures:\nPDF177. Existing authoritative Blinded instance prevents sight and auto-fails sight-required checks; own attacks Disadvantage,incoming Advantage. No invented duration or source. Positive:sight check auto-fails. Negative:hearing-only check,source-free condition flag,extra stacked Advantage. Preserve independent source instances and separately qualified senses; no new Blindsight grant.\n\nEvery source predicate requires deterministic positive and independently violated negative fixtures. Authoritative preview is inert: no writes/dice; explicit confirm revalidates actor/campaign/source/class level/expected revision, targets, range, action, resource and costs. For class applications only,class and total levels must be integers1–20,not booleans or fractional values; class level cannot exceed total. Independently reject total21,unqualified current-class configurations and unknown source paths. Class-application XP/live PB select canonical TOTAL-level advancement independently of Paladin-level feature/slot/HP rows. Shared effect execution adds no Paladin or other-class admission requirement to its targets. Commit choices, injectable dice, derived state and history atomically. Durable receipt binds payload: retry/replay/reload/reconnect returns exact result; conflicting payload and stale state reject. Concurrent confirmations commit once. Inject cost/effect/history failures and prove complete isolated PostgreSQL rollback. Web AND trusted TUI expose availability/reasons, accessible confirmation/cancel/reconnect; changed web requires desktop/phone journeys, build and focused lint. For passive/source-automatic effects confirmation belongs to triggering action/turn, never invent optional activation. Unknown facts remain unavailable; no hidden target/HP/DC disclosure. Feature tests use isolated entitlements; creation and later-level applications consume separately qualified execution. Planning closure never qualifies implementation.\n\nRun GOMAXPROCS=2 go test -p 2 -short -race ./... and GOMAXPROCS=2 go vet -p 2 ./...; additionally isolated PostgreSQL integration tests with injectable dice,atomic rollback,durable replay/reload and concurrent confirmation. Short tests do not run integration-tag tests. No production access,inference,deployment or coverage promotion.\n\nOwnership: feature execution is separate from creation,later-class eligibility and every adjacent level application. Generic planning parents do not implement effects. Source catalogues do not unlock actions. Consume qualified named terminals; never copy spell/item/condition effects or another class eligibility. Unknown authoritative world/possession/plane/item facts stay unavailable. For automatic benefits,use triggering confirmed event; no invented optional activation.\n\nNative parent #268. Exact native prerequisites: #61, #65, #67, #268.\n\nMandatory native qualification: this leaf -> its declared cohort/class/shared gate -> Paladin qualification -> #337. Shared spell cohorts also block #279 and #280. The five condition and two Dispel leaves directly block #279/#280. Closing327 never removes these edges.\n\nExact source keys:\n- srd-5.2.1:mechanic/conditions/blinded\n- srd-5.2.1:mechanic/paladin-consumed/blind\n\nComplete numeric/source context (opaque references do not duplicate execution):\n```json\n[]\n```\n",
+      "state": "open",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      }
+    },
+    {
+      "number": 961,
+      "parent": 268,
+      "blocked_by": [
+        61,
+        67,
+        268
+      ],
+      "title": "Admit shared Deafened with source-bound hearing consequences",
+      "body": "<!-- edda-327:deaf -->\nDecision #327; roadmap #47. One implementation PR; Task Size M.\n\nSource: pinned SRD5.2.1 PDF, exact pages in scope; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation notice: docs/srd-5.2.1-conformance.md. Fixture boundaries are Edda additions.\n\nExact scope, positive and independently violated negative fixtures:\nPDF181. Existing authoritative Deafened instance prevents hearing and auto-fails hearing-required ability checks ONLY. Positive:hearing-required Perception auto-fails. Negative:all Perception checks fail,sight-only test,source-free flag,hearing magically restored by ending unrelated source. No invented duration or saving-throw penalty.\n\nEvery source predicate requires deterministic positive and independently violated negative fixtures. Authoritative preview is inert: no writes/dice; explicit confirm revalidates actor/campaign/source/class level/expected revision, targets, range, action, resource and costs. For class applications only,class and total levels must be integers1–20,not booleans or fractional values; class level cannot exceed total. Independently reject total21,unqualified current-class configurations and unknown source paths. Class-application XP/live PB select canonical TOTAL-level advancement independently of Paladin-level feature/slot/HP rows. Shared effect execution adds no Paladin or other-class admission requirement to its targets. Commit choices, injectable dice, derived state and history atomically. Durable receipt binds payload: retry/replay/reload/reconnect returns exact result; conflicting payload and stale state reject. Concurrent confirmations commit once. Inject cost/effect/history failures and prove complete isolated PostgreSQL rollback. Web AND trusted TUI expose availability/reasons, accessible confirmation/cancel/reconnect; changed web requires desktop/phone journeys, build and focused lint. For passive/source-automatic effects confirmation belongs to triggering action/turn, never invent optional activation. Unknown facts remain unavailable; no hidden target/HP/DC disclosure. Feature tests use isolated entitlements; creation and later-level applications consume separately qualified execution. Planning closure never qualifies implementation.\n\nRun GOMAXPROCS=2 go test -p 2 -short -race ./... and GOMAXPROCS=2 go vet -p 2 ./...; additionally isolated PostgreSQL integration tests with injectable dice,atomic rollback,durable replay/reload and concurrent confirmation. Short tests do not run integration-tag tests. No production access,inference,deployment or coverage promotion.\n\nOwnership: feature execution is separate from creation,later-class eligibility and every adjacent level application. Generic planning parents do not implement effects. Source catalogues do not unlock actions. Consume qualified named terminals; never copy spell/item/condition effects or another class eligibility. Unknown authoritative world/possession/plane/item facts stay unavailable. For automatic benefits,use triggering confirmed event; no invented optional activation.\n\nNative parent #268. Exact native prerequisites: #61, #67, #268.\n\nMandatory native qualification: this leaf -> its declared cohort/class/shared gate -> Paladin qualification -> #337. Shared spell cohorts also block #279 and #280. The five condition and two Dispel leaves directly block #279/#280. Closing327 never removes these edges.\n\nExact source keys:\n- srd-5.2.1:mechanic/conditions/deafened\n- srd-5.2.1:mechanic/paladin-consumed/deaf\n\nComplete numeric/source context (opaque references do not duplicate execution):\n```json\n[]\n```\n",
+      "state": "open",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      }
+    },
+    {
+      "number": 962,
+      "parent": 268,
+      "blocked_by": [
+        61,
+        65,
+        66,
+        67,
+        268
+      ],
+      "title": "Admit shared Invisible with observer-specific sight and attack consequences",
+      "body": "<!-- edda-327:invisible -->\nDecision #327; roadmap #47. One implementation PR; Task Size M.\n\nSource: pinned SRD5.2.1 PDF, exact pages in scope; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation notice: docs/srd-5.2.1-conformance.md. Fixture boundaries are Edda additions.\n\nExact scope, positive and independently violated negative fixtures:\nPDF184. Invisible when Initiative rolled grants Advantage. Seen-target effects cannot target unless creator can see recipient;carried/worn equipment concealed. Incoming attacks Disadvantage,own attacks Advantage UNLESS observer can see Invisible creature. Positive:observer-specific seeing negates attack benefit. Negative:automatic Hide,undetectable position,all observers treated identically,no sight requirement,private location leaked. Suppression preserves underlying source and resumes only while its duration remains.\n\nEvery source predicate requires deterministic positive and independently violated negative fixtures. Authoritative preview is inert: no writes/dice; explicit confirm revalidates actor/campaign/source/class level/expected revision, targets, range, action, resource and costs. For class applications only,class and total levels must be integers1–20,not booleans or fractional values; class level cannot exceed total. Independently reject total21,unqualified current-class configurations and unknown source paths. Class-application XP/live PB select canonical TOTAL-level advancement independently of Paladin-level feature/slot/HP rows. Shared effect execution adds no Paladin or other-class admission requirement to its targets. Commit choices, injectable dice, derived state and history atomically. Durable receipt binds payload: retry/replay/reload/reconnect returns exact result; conflicting payload and stale state reject. Concurrent confirmations commit once. Inject cost/effect/history failures and prove complete isolated PostgreSQL rollback. Web AND trusted TUI expose availability/reasons, accessible confirmation/cancel/reconnect; changed web requires desktop/phone journeys, build and focused lint. For passive/source-automatic effects confirmation belongs to triggering action/turn, never invent optional activation. Unknown facts remain unavailable; no hidden target/HP/DC disclosure. Feature tests use isolated entitlements; creation and later-level applications consume separately qualified execution. Planning closure never qualifies implementation.\n\nRun GOMAXPROCS=2 go test -p 2 -short -race ./... and GOMAXPROCS=2 go vet -p 2 ./...; additionally isolated PostgreSQL integration tests with injectable dice,atomic rollback,durable replay/reload and concurrent confirmation. Short tests do not run integration-tag tests. No production access,inference,deployment or coverage promotion.\n\nOwnership: feature execution is separate from creation,later-class eligibility and every adjacent level application. Generic planning parents do not implement effects. Source catalogues do not unlock actions. Consume qualified named terminals; never copy spell/item/condition effects or another class eligibility. Unknown authoritative world/possession/plane/item facts stay unavailable. For automatic benefits,use triggering confirmed event; no invented optional activation.\n\nNative parent #268. Exact native prerequisites: #61, #65, #66, #67, #268.\n\nMandatory native qualification: this leaf -> its declared cohort/class/shared gate -> Paladin qualification -> #337. Shared spell cohorts also block #279 and #280. The five condition and two Dispel leaves directly block #279/#280. Closing327 never removes these edges.\n\nExact source keys:\n- srd-5.2.1:mechanic/conditions/invisible\n- srd-5.2.1:mechanic/paladin-consumed/invisible\n\nComplete numeric/source context (opaque references do not duplicate execution):\n```json\n[]\n```\n",
+      "state": "open",
+      "project": {
+        "type": "Task",
+        "size": "M"
+      }
+    }
+  ],
+  "mandatory_qualification": {
+    "279": [
+      960,
+      961,
+      962
+    ],
+    "280": [
+      960,
+      961,
+      962
+    ]
+  },
+  "closure_control": "PASS: closing268inmemory retains all3 openTasks and all6 directqualificationrelations",
+  "missing_qualification_edge_controls": [
+    {
+      "gate": 279,
+      "missing_owner": 960,
+      "rejected": true
+    },
+    {
+      "gate": 280,
+      "missing_owner": 960,
+      "rejected": true
+    },
+    {
+      "gate": 279,
+      "missing_owner": 961,
+      "rejected": true
+    },
+    {
+      "gate": 280,
+      "missing_owner": 961,
+      "rejected": true
+    },
+    {
+      "gate": 279,
+      "missing_owner": 962,
+      "rejected": true
+    },
+    {
+      "gate": 280,
+      "missing_owner": 962,
+      "rejected": true
+    }
+  ],
+  "full_native_proof": "Accepted Paladin exact121contract validator PASS on fresh fullgraph/currentProjectmetadata, separateDAGs/allcaps/parentprefixes",
+  "full_live_receipt_archive": {
+    "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/268-fresh-paladin-publication.json.gz",
+    "raw_gzip_sha256": "cfdea236d117110563043a9a63f5f62852cf9f97ec8a1d68789c1bdf11e3d9fd"
+  },
+  "all_implementation_tasks_open": true,
+  "tracker_writes": 0,
+  "new_issues": 0,
+  "runtime_qualified": false,
+  "replay": "PYTHONPATH=scripts: paladin_native_proof.live(manifest327), then paladin_native_proof.validate(manifest327, receipt, sealed=True). SourcePDF clauses independently checked from pinned pages177/181/184."
+}
