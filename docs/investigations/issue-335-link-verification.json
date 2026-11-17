@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "decision": 335,
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
+  "observed_at": "2026-11-17T08:24:00.635961+00:00",
+  "new_task_metadata": {
+    "id": "I_kwDOSicKg88AAAABf-E1yA",
+    "databaseId": 6440433096,
+    "number": 2056,
+    "title": "Qualify exact twelve-class multiclass entry and feature compositions",
+    "body": "<!-- edda-335:multiclass-policy-qualification -->\nDecision #335; roadmap #47. One qualification PR; Task / Size M.\n\nSource: English SRD 5.2.1 PDF24\u201326 and the twelve exact class entry clauses on28/31/36/41/47/49/53/57/61/64/70/77; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. Retain CC-BY-4.0 attribution and adaptation notice in `docs/srd-5.2.1-conformance.md`.\n\nQualify the finite composition of the twelve existing class entry, HP, feature and casting outputs. Own no duplicate class admission, feature effect, HP transaction, slot pool or production grant. The complete source matrix is `internal/rules/srd521/testdata/character-multiclass.json`: twelve class rows, twelve named policy requirements, all20 slot rows/nine columns and seven exact slot contributions. A record's presence is not execution evidence. Bind every selected class/feature/spell to its actual qualified resolver; unsupported combinations remain unavailable. The native prerequisite set is a build/qualification roster, never a runtime requirement for a character to possess all twelve classes.\n\nRequired deterministic policy controls:\n\n- At an actual later-class entry, the new class AND every current class meet their exact primary-ability minimum13. Preserve Fighter's STR-or-DEX alternative and Monk/Paladin/Ranger's paired requirements. A first-character creation does not acquire a multiclass minimum. Ability changes do not erase existing class levels; they can prevent a later entry. Compare every reduced proficiency grant with its exact class source and own entry adapter; do not grant first-class saves, skills, armor or equipment twice.\n- Class features use class level; XP/live PB use the authoritative admitted total. HP at total1 uses the starting class's first-level rule; every later class entry uses later-level HP. Fighter4/Rogue2 has total6, XP14000/PB3 and HP50 at CON+2/fixed gains. Fighter5/Paladin5 may pool ten d10; Cleric5/Paladin5 retains five d8 and five d10. Keep mixed Hit Dice, spent dice and individual injected rolls distinct. Reuse #968\u2192#429 and each own HP adapter, with no transaction copy, free heal, regrant or new direct #429 consumer.\n- Extra Attack features do not add together: Fighter5/Paladin5 has two attacks per qualifying Attack action, not four. A source feature such as Fighter11's Two Extra Attacks can supply three. Thirsting Blade does not add to another Extra Attack; its pact-weapon restriction remains. Separate extra actions and source bonus-action attacks from the count within one Attack action.\n- Alternative AC calculations are choices, not sums. An unarmored/unshielded Barbarian/Monk with DEX+2/CON+4/WIS+3 can use the qualified Barbarian AC16 or Monk AC15, never AC19. Preserve each formula's armor/shield restrictions and selected source. The rule does not forbid owning two alternative AC features; do not import an old-edition no-second-feature rule or invent a Draconic formula. Other bonuses apply only when their own sources qualify.\n- If only one class supplies Spellcasting, use its own table. With more than one Spellcasting class, use all Bard/Cleric/Druid/Sorcerer/Wizard levels plus each Paladin/Ranger half-level contribution rounded up under the canonical source terms. Compare all20 rows/nine columns against the independently checked source table. Warlock levels do not enter that combined table. Ranger4/Sorcerer3 has combined caster5 and slots4/3/2, yet prepares only five level1 Ranger spells and six level1/2 Sorcerer spells; a higher combined slot never permits preparing a higher-level spell. Paladin1/Sorcerer1 uses caster2 and three level1 slots. Fighter4/Sorcerer1 uses Sorcerer's own level1 slots. Bind preparation and casting ability to each individual class. A scaling cantrip uses total character level unless its own spell says otherwise.\n- Pact slots remain a distinct pool with their own level, counts and recovery, while qualified prepared Spellcasting spells may use Pact slots and qualified prepared Warlock spells may use ordinary slots. Confirm the actual pool, slot level and source once. A Short Rest restores only the source-qualified pools; it does not recharge ordinary Spellcasting slots. Item/free-use/created-slot channels remain separately owned; no fabricated recharge or eligibility. Unknown spell execution is unavailable even when generic preparation/slot permission exists.\n\nUse the actual entry outputs #431/#509/#555/#636/#732/#822/#854/#983/#1102/#1178/#1485/#1763 and the twelve complete class qualification outputs #498/#501/#551/#630/#728/#776/#845/#970/#1093/#1475/#1758/#2036. Consume actual combined-slot/preparation boundaries #1002/#1219/#1776 and the Pact pool #1489. #320 supplies source data only; #335 closure supplies no execution. Existing class-specific contracts retain their ownership and exclusions.\n\nRun these composition witnesses through actual qualified rules/game/engine/handler callers with isolated explicit entitlements. Preview is inert. Confirmation revalidates actor/campaign/source, every admitted class level/ability, selected feature/prepared spell, target/resource provenance, policy and expected revisions. Save choices, injected dice, pool/die/HP deltas, derived state and public history atomically. Inject each failure for full isolated PostgreSQL rollback; same-ID retry/reload/reconnect returns the saved receipt without reroll/regrant/recharge, conflicts reject and racing confirmations commit once. Both web and trusted TUI must agree on supported choices, unavailable reasons and cancel/confirm/reconnect. Changed web requires focused build/lint and desktop/phone fixtures. Do not expose hidden/private state or infer unsupported entitlements.\n\nNative parent #335; directly block #337. Exact prerequisites are the twelve entry outputs and twelve class qualifications listed above, #1002/#1219/#1776/#1489, #320 and #968. Preserve every old body, parent and prerequisite. No new #283 child or #67/#429 edge. Runtime remains unqualified until the existing owners and this integration proof pass. Qualification implementation must run focused source/contrary tests, isolated PostgreSQL replay/rollback/concurrency, shared web/TUI fixtures, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`; short tests alone do not qualify database or devices. No deployment, production class grant or Full Rules promotion.\n",
+    "state": "OPEN",
+    "issueType": {
+      "name": "Task"
+    },
+    "parent": {
+      "number": 335
+    },
+    "blockedBy": {
+      "pageInfo": {
+        "hasNextPage": false
+      },
+      "nodes": [
+        {
+          "number": 2036
+        },
+        {
+          "number": 1776
+        },
+        {
+          "number": 1763
+        },
+        {
+          "number": 1758
+        },
+        {
+          "number": 1489
+        },
+        {
+          "number": 1485
+        },
+        {
+          "number": 1475
+        },
+        {
+          "number": 1219
+        },
+        {
+          "number": 1178
+        },
+        {
+          "number": 1102
+        },
+        {
+          "number": 1093
+        },
+        {
+          "number": 1002
+        },
+        {
+          "number": 983
+        },
+        {
+          "number": 970
+        },
+        {
+          "number": 968
+        },
+        {
+          "number": 854
+        },
+        {
+          "number": 845
+        },
+        {
+          "number": 822
+        },
+        {
+          "number": 776
+        },
+        {
+          "number": 732
+        },
+        {
+          "number": 728
+        },
+        {
+          "number": 636
+        },
+        {
+          "number": 630
+        },
+        {
+          "number": 555
+        },
+        {
+          "number": 551
+        },
+        {
+          "number": 509
+        },
+        {
+          "number": 501
+        },
+        {
+          "number": 498
+        },
+        {
+          "number": 431
+        },
+        {
+          "number": 320
+        }
+      ]
+    },
+    "projectItems": {
+      "pageInfo": {
+        "hasNextPage": false
+      },
+      "nodes": [
+        {
+          "id": "PVTI_lADODjtmGM4BrFJ2zhJbETk",
+          "project": {
+            "id": "PVT_kwDODjtmGM4BrFJ2"
+          },
+          "fieldValueByName": {
+            "name": "M"
+          }
+        }
+      ]
+    }
+  },
+  "caps": {
+    "nodes": 1892,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "incoming279": 100,
+    "incoming280": 96,
+    "incoming337": 62,
+    "outgoing429": 100,
+    "outgoing285": 84,
+    "children283": 95
+  },
+  "all_1891_prior_contracts_preserved_except_one_337_addition": true,
+  "source_validation": "PASS: all12classes,180actualPDFcells,all12policyfieldsandcanonicalbindings",
+  "actual_execution_owner_path_controls": "PASS: every declared owner reachable from2056;qualifier doesnotowncopiedeffects",
+  "numeric_witnesses": {
+    "total6_XP": 14000,
+    "total6_PB": 3,
+    "Fighter4_Rogue2_CON2_fixedHP": 50,
+    "Barbarian_AC": 16,
+    "Monk_AC": 15,
+    "Ranger4_Sorcerer3_slot_row": [
+      4,
+      3,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "Paladin1_Sorcerer1_slot_row": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "closure_control": "PASS;closed335retains2056andall12classentry/HPpaths",
+  "missing_qualification_control": "REJECTED:removed337->2056losesmandatorypath",
+  "mutation_records": {
+    "plan.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/335-publication/plan.json",
+      "sha256": "1e356487b52395bfad3dfbb5f2bb706564285b191c0b6290a7c04fa91ee47449"
+    },
+    "journal.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/335-publication/journal.json",
+      "sha256": "cfb590f0a7392be83e45c8f2e86b9429b3492c59aebeac976f4ef88a836a054e"
+    },
+    "preflight-graph.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/335-publication/preflight-graph.json",
+      "sha256": "249e942742b18e601a09b5c4424f97c31262671f9764de663b494d1e3e8c34c4"
+    },
+    "final-graph.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/335-publication/final-graph.json",
+      "sha256": "c41ce01497b7cbfec9af965bbbb88d9d722531c179a52153d7e6ae410cdbd525"
+    },
+    "result.json": {
+      "path": "/home/onnwee/.local/state/edda-overnight-219965e8/split-only-wave/335-publication/result.json",
+      "sha256": "fe78c8e0480fd369933c96101047701b31ca94424fe6b36e4f76d84791944a7e"
+    }
+  },
+  "runtime_qualified": false
+}

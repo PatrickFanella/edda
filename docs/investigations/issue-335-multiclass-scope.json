@@ -1,0 +1,1690 @@
+{
+  "schema_version": 1,
+  "decision": 335,
+  "status": "SOURCE_AND_NATIVE_PUBLICATION_PASS",
+  "source": {
+    "PDF_SHA256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "PDF": [
+      24,
+      25,
+      26
+    ],
+    "catalogue": "internal/rules/srd521/testdata/character-multiclass.json",
+    "catalogue_sha256": "fb162b7cb6ffc67ead7b08412bc051dfdb3e9c0d4cde0e30a5e954b68c1e037a",
+    "comparison": "verify_srd_multiclass.py pinned PDF comparator PASS"
+  },
+  "class_rows": [
+    {
+      "class_ref": "srd-5.2.1:character/class/barbarian",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/barbarian",
+        "page": 28
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "strength"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/barbarian"
+      ],
+      "proficiencies": [
+        "martial-weapons",
+        "shields"
+      ],
+      "entry_execution_owner": 431,
+      "own_HP_adapter": 429,
+      "class_qualification": 498,
+      "qualification_to_entry": [
+        498,
+        497,
+        438,
+        431
+      ],
+      "qualification_to_HP": [
+        498,
+        497,
+        438,
+        431,
+        429
+      ],
+      "entry_body_sha256": "2563c94588ced2bc6ef6148910791645fc438c5e14a1d14b82bb2951fb145590"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/bard",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/bard",
+        "page": 31
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "charisma"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/bard",
+        "srd-5.2.1:character/choice/bard/multiclass-skill",
+        "srd-5.2.1:character/choice/bard/multiclass-instrument"
+      ],
+      "proficiencies": [
+        "any-skill",
+        "musical-instrument",
+        "light-armor"
+      ],
+      "entry_execution_owner": 509,
+      "own_HP_adapter": 507,
+      "class_qualification": 501,
+      "qualification_to_entry": [
+        501,
+        549,
+        509
+      ],
+      "qualification_to_HP": [
+        501,
+        549,
+        509,
+        507
+      ],
+      "entry_body_sha256": "1d2ee5d91a4355e403c0d7b7c36239113ad0c201e01f2d7c7971acffd86d1f5e"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/cleric",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/cleric",
+        "page": 36
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "wisdom"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/cleric"
+      ],
+      "proficiencies": [
+        "light-armor",
+        "medium-armor",
+        "shields"
+      ],
+      "entry_execution_owner": 555,
+      "own_HP_adapter": 552,
+      "class_qualification": 551,
+      "qualification_to_entry": [
+        551,
+        613,
+        555
+      ],
+      "qualification_to_HP": [
+        551,
+        613,
+        555,
+        552
+      ],
+      "entry_body_sha256": "dd685852289f95f66f66e13c06f34495147f3e83d06ccdd6671580e9a15c4dcc"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/druid",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/druid",
+        "page": 41
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "wisdom"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/druid"
+      ],
+      "proficiencies": [
+        "light-armor",
+        "shields"
+      ],
+      "entry_execution_owner": 636,
+      "own_HP_adapter": 633,
+      "class_qualification": 630,
+      "qualification_to_entry": [
+        630,
+        631,
+        721,
+        636
+      ],
+      "qualification_to_HP": [
+        630,
+        631,
+        721,
+        636,
+        633
+      ],
+      "entry_body_sha256": "a2a2d25c7a8207835654958e3e9d608bc67f4e88e1a870a1ec3dbd8037fb3fe2"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/fighter",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/fighter",
+        "page": 47
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "strength"
+        ],
+        [
+          "dexterity"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/fighter"
+      ],
+      "proficiencies": [
+        "martial-weapons",
+        "light-armor",
+        "medium-armor",
+        "shields"
+      ],
+      "entry_execution_owner": 732,
+      "own_HP_adapter": 731,
+      "class_qualification": 728,
+      "qualification_to_entry": [
+        728,
+        732
+      ],
+      "qualification_to_HP": [
+        728,
+        773,
+        772,
+        771,
+        770,
+        769,
+        768,
+        767,
+        766,
+        765,
+        764,
+        763,
+        762,
+        761,
+        760,
+        759,
+        758,
+        757,
+        756,
+        755,
+        754,
+        731
+      ],
+      "entry_body_sha256": "4a549410a6f40b715ca29d0eb00f43a1e8f62d2c6b314ad825e248c0983fcfaa"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/monk",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/monk",
+        "page": 49
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "dexterity",
+          "wisdom"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/monk"
+      ],
+      "proficiencies": [],
+      "entry_execution_owner": 822,
+      "own_HP_adapter": 783,
+      "class_qualification": 776,
+      "qualification_to_entry": [
+        776,
+        842,
+        841,
+        840,
+        839,
+        838,
+        837,
+        836,
+        835,
+        834,
+        833,
+        832,
+        831,
+        830,
+        829,
+        828,
+        827,
+        826,
+        825,
+        824,
+        822
+      ],
+      "qualification_to_HP": [
+        776,
+        842,
+        841,
+        840,
+        839,
+        838,
+        837,
+        836,
+        835,
+        834,
+        833,
+        832,
+        831,
+        830,
+        829,
+        828,
+        827,
+        826,
+        825,
+        824,
+        823,
+        783
+      ],
+      "entry_body_sha256": "5ced477b8b9a131272e496899702a7773b2a87c5014c06f280998075c474b612"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/paladin",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/paladin",
+        "page": 53
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "strength",
+          "charisma"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/paladin"
+      ],
+      "proficiencies": [
+        "martial-weapons",
+        "light-armor",
+        "medium-armor",
+        "shields"
+      ],
+      "entry_execution_owner": 854,
+      "own_HP_adapter": 851,
+      "class_qualification": 845,
+      "qualification_to_entry": [
+        845,
+        846,
+        904,
+        858,
+        854
+      ],
+      "qualification_to_HP": [
+        845,
+        846,
+        904,
+        858,
+        854,
+        851
+      ],
+      "entry_body_sha256": "e1bb26366ab480ad7ba95febb0a18bf5b72f4441c8c0130fc4ff6502fe3cd8ef"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/ranger",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/ranger",
+        "page": 57
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "dexterity",
+          "wisdom"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/ranger",
+        "srd-5.2.1:character/choice/ranger/multiclass-skill"
+      ],
+      "proficiencies": [
+        "martial-weapons",
+        "class-skill",
+        "light-armor",
+        "medium-armor",
+        "shields"
+      ],
+      "entry_execution_owner": 983,
+      "own_HP_adapter": 979,
+      "class_qualification": 970,
+      "qualification_to_entry": [
+        970,
+        972,
+        1034,
+        1033,
+        1032,
+        1031,
+        1030,
+        1029,
+        1028,
+        1027,
+        1026,
+        1025,
+        1024,
+        1023,
+        1022,
+        1021,
+        1020,
+        1019,
+        1018,
+        1017,
+        1016,
+        1015,
+        983
+      ],
+      "qualification_to_HP": [
+        970,
+        972,
+        1034,
+        1033,
+        1032,
+        1031,
+        1030,
+        1029,
+        1028,
+        1027,
+        1026,
+        1025,
+        1024,
+        1023,
+        1022,
+        1021,
+        1020,
+        1019,
+        1018,
+        1017,
+        1016,
+        1015,
+        983,
+        979
+      ],
+      "entry_body_sha256": "4196429e02d36222a2f4213342a0a336074c28d3f602ed1aa60e5d2a43085669"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/rogue",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/rogue",
+        "page": 61
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "dexterity"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/rogue",
+        "srd-5.2.1:character/choice/rogue/multiclass-skill"
+      ],
+      "proficiencies": [
+        "class-skill",
+        "thieves-tools",
+        "light-armor"
+      ],
+      "entry_execution_owner": 1102,
+      "own_HP_adapter": 1098,
+      "class_qualification": 1093,
+      "qualification_to_entry": [
+        1093,
+        1095,
+        1169,
+        1102
+      ],
+      "qualification_to_HP": [
+        1093,
+        1095,
+        1169,
+        1102,
+        1098
+      ],
+      "entry_body_sha256": "0e4ecf5ea66be85726ccfedf78bc6133ba63626473ce62da741ad7036a45acba"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/sorcerer",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/sorcerer",
+        "page": 64
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "charisma"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/sorcerer"
+      ],
+      "proficiencies": [],
+      "entry_execution_owner": 1178,
+      "own_HP_adapter": 1173,
+      "class_qualification": 1475,
+      "qualification_to_entry": [
+        1475,
+        1473,
+        1239,
+        1178
+      ],
+      "qualification_to_HP": [
+        1475,
+        1473,
+        1239,
+        1200,
+        1173
+      ],
+      "entry_body_sha256": "c5c9398cadb16f25151c37b7d080f541bb9f5da299449a8661bbc5b7aeb81166"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/warlock",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/warlock",
+        "page": 70
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "charisma"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/warlock"
+      ],
+      "proficiencies": [
+        "light-armor"
+      ],
+      "entry_execution_owner": 1485,
+      "own_HP_adapter": 1483,
+      "class_qualification": 1758,
+      "qualification_to_entry": [
+        1758,
+        1749,
+        1577,
+        1485
+      ],
+      "qualification_to_HP": [
+        1758,
+        1749,
+        1577,
+        1483
+      ],
+      "entry_body_sha256": "528c92573dbac35121ec09416b3c12aa9d1aba738c61ccd9f802eccc7bd47432"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/wizard",
+      "source": {
+        "inventory_id": "srd-5.2.1:planning/classes/wizard",
+        "page": 77
+      },
+      "minimum_score": 13,
+      "primary_any": [
+        [
+          "intelligence"
+        ]
+      ],
+      "proficiency_owner_refs": [
+        "srd-5.2.1:character/class/wizard"
+      ],
+      "proficiencies": [],
+      "entry_execution_owner": 1763,
+      "own_HP_adapter": 1759,
+      "class_qualification": 2036,
+      "qualification_to_entry": [
+        2036,
+        2035,
+        1818,
+        1817,
+        1816,
+        1815,
+        1814,
+        1813,
+        1812,
+        1811,
+        1810,
+        1809,
+        1808,
+        1807,
+        1806,
+        1805,
+        1804,
+        1803,
+        1802,
+        1801,
+        1800,
+        1799,
+        1763
+      ],
+      "qualification_to_HP": [
+        2036,
+        2035,
+        1818,
+        1817,
+        1816,
+        1815,
+        1814,
+        1813,
+        1812,
+        1811,
+        1810,
+        1809,
+        1808,
+        1807,
+        1806,
+        1805,
+        1804,
+        1803,
+        1802,
+        1801,
+        1800,
+        1799,
+        1763,
+        1759
+      ],
+      "entry_body_sha256": "282fa9ec07e96485ad09089fa72deb6da9a4edcefa9c9874bd7db7e37e8f3b7f"
+    }
+  ],
+  "policy_requirements": [
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/prerequisites",
+        "first_page": 24,
+        "last_page": 25,
+        "clauses": [
+          "new-and-every-current-class",
+          "each-primary-ability-at-least-minimum",
+          "alternatives-preserved"
+        ],
+        "record_refs": [],
+        "parameters": {}
+      },
+      "actual_output_owners": [
+        431,
+        509,
+        555,
+        636,
+        732,
+        822,
+        854,
+        983,
+        1102,
+        1178,
+        1485,
+        1763
+      ],
+      "integration_qualification": 2056
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/experience-and-proficiency",
+        "first_page": 25,
+        "last_page": 25,
+        "clauses": [
+          "use-total-character-level",
+          "reuse-global-advancement"
+        ],
+        "record_refs": [
+          "srd-5.2.1:character/advancement/1",
+          "srd-5.2.1:character/advancement/2",
+          "srd-5.2.1:character/advancement/3",
+          "srd-5.2.1:character/advancement/4",
+          "srd-5.2.1:character/advancement/5",
+          "srd-5.2.1:character/advancement/6",
+          "srd-5.2.1:character/advancement/7",
+          "srd-5.2.1:character/advancement/8",
+          "srd-5.2.1:character/advancement/9",
+          "srd-5.2.1:character/advancement/10",
+          "srd-5.2.1:character/advancement/11",
+          "srd-5.2.1:character/advancement/12",
+          "srd-5.2.1:character/advancement/13",
+          "srd-5.2.1:character/advancement/14",
+          "srd-5.2.1:character/advancement/15",
+          "srd-5.2.1:character/advancement/16",
+          "srd-5.2.1:character/advancement/17",
+          "srd-5.2.1:character/advancement/18",
+          "srd-5.2.1:character/advancement/19",
+          "srd-5.2.1:character/advancement/20"
+        ],
+        "parameters": {}
+      },
+      "actual_output_owners": [
+        429,
+        507,
+        552,
+        633,
+        731,
+        783,
+        851,
+        968,
+        979,
+        1098,
+        1173,
+        1483,
+        1759
+      ],
+      "integration_qualification": 2056
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/hit-points-and-dice",
+        "first_page": 25,
+        "last_page": 25,
+        "clauses": [
+          "new-class-hp-as-levels-after-first",
+          "first-level-hp-only-at-total-level-one",
+          "sum-class-hit-dice",
+          "same-die-type-may-pool",
+          "different-die-types-tracked-separately"
+        ],
+        "record_refs": [
+          "srd-5.2.1:character/class/barbarian",
+          "srd-5.2.1:character/class/bard",
+          "srd-5.2.1:character/class/cleric",
+          "srd-5.2.1:character/class/druid",
+          "srd-5.2.1:character/class/fighter",
+          "srd-5.2.1:character/class/monk",
+          "srd-5.2.1:character/class/paladin",
+          "srd-5.2.1:character/class/ranger",
+          "srd-5.2.1:character/class/rogue",
+          "srd-5.2.1:character/class/sorcerer",
+          "srd-5.2.1:character/class/warlock",
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {
+          "first-level-hp-total-level": 1
+        }
+      },
+      "actual_output_owners": [
+        429,
+        507,
+        552,
+        633,
+        731,
+        783,
+        851,
+        979,
+        1098,
+        1173,
+        1483,
+        1759
+      ],
+      "integration_qualification": 2056
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/proficiencies",
+        "first_page": 25,
+        "last_page": 25,
+        "clauses": [
+          "first-level-in-noninitial-class",
+          "only-listed-starting-proficiencies",
+          "no-other-core-traits"
+        ],
+        "record_refs": [],
+        "parameters": {}
+      },
+      "actual_output_owners": [
+        431,
+        509,
+        555,
+        636,
+        732,
+        822,
+        854,
+        983,
+        1102,
+        1178,
+        1485,
+        1763
+      ],
+      "integration_qualification": 2056
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/class-features",
+        "first_page": 25,
+        "last_page": 25,
+        "clauses": [
+          "new-class-level-features",
+          "check-class-specific-multiclass-rules"
+        ],
+        "record_refs": [
+          "srd-5.2.1:character/class/barbarian",
+          "srd-5.2.1:character/class/bard",
+          "srd-5.2.1:character/class/cleric",
+          "srd-5.2.1:character/class/druid",
+          "srd-5.2.1:character/class/fighter",
+          "srd-5.2.1:character/class/monk",
+          "srd-5.2.1:character/class/paladin",
+          "srd-5.2.1:character/class/ranger",
+          "srd-5.2.1:character/class/rogue",
+          "srd-5.2.1:character/class/sorcerer",
+          "srd-5.2.1:character/class/warlock",
+          "srd-5.2.1:character/class/wizard"
+        ],
+        "parameters": {}
+      },
+      "actual_output_owners": [
+        498,
+        501,
+        551,
+        630,
+        728,
+        776,
+        845,
+        970,
+        1093,
+        1475,
+        1758,
+        2036
+      ],
+      "integration_qualification": 2056
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/armor-class",
+        "first_page": 25,
+        "last_page": 25,
+        "clauses": [
+          "multiple-calculations",
+          "benefit-from-only-one-at-a-time",
+          "monk-unarmored-defense-or-sorcerer-draconic-resilience-example"
+        ],
+        "record_refs": [
+          "srd-5.2.1:character/feature/monk/unarmored-defense"
+        ],
+        "parameters": {
+          "simultaneous-calculations": 1
+        }
+      },
+      "actual_output_owners": [
+        438,
+        789,
+        1201
+      ],
+      "integration_qualification": 2056
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/extra-attack",
+        "first_page": 25,
+        "last_page": 25,
+        "clauses": [
+          "extra-attack-from-multiple-classes-does-not-stack",
+          "maximum-two-unless-feature-explicitly-says-more",
+          "fighter-two-extra-attacks-exception",
+          "thirsting-blade-pact-weapon-no-additional-attacks-with-extra-attack"
+        ],
+        "record_refs": [
+          "srd-5.2.1:character/feature/fighter/extra-attack",
+          "srd-5.2.1:character/feature/fighter/two-extra-attacks",
+          "srd-5.2.1:character/feature/warlock/eldritch-invocations"
+        ],
+        "parameters": {
+          "ordinary-maximum-attacks": 2
+        }
+      },
+      "actual_output_owners": [
+        446,
+        741,
+        801,
+        868,
+        991,
+        1506,
+        1526
+      ],
+      "integration_qualification": 2056
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/spellcasting-scope",
+        "first_page": 25,
+        "last_page": 25,
+        "clauses": [
+          "combined-and-individual-class-levels",
+          "shared-rules-only-with-spellcasting-from-more-than-one-class",
+          "one-spellcasting-class-use-own-class-rules"
+        ],
+        "record_refs": [
+          "srd-5.2.1:character/feature/bard/spellcasting",
+          "srd-5.2.1:character/feature/cleric/spellcasting",
+          "srd-5.2.1:character/feature/druid/spellcasting",
+          "srd-5.2.1:character/feature/paladin/spellcasting",
+          "srd-5.2.1:character/feature/ranger/spellcasting",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {
+          "minimum-spellcasting-classes": 2
+        }
+      },
+      "actual_output_owners": [
+        502,
+        513,
+        514,
+        556,
+        557,
+        558,
+        637,
+        638,
+        639,
+        855,
+        857,
+        858,
+        984,
+        1002,
+        1181,
+        1182,
+        1219,
+        1482,
+        1487,
+        1488,
+        1489,
+        1765,
+        1773,
+        1774,
+        1775,
+        1776
+      ],
+      "integration_qualification": 2056
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/prepared-spells",
+        "first_page": 25,
+        "last_page": 26,
+        "clauses": [
+          "prepare-per-class-as-single-class",
+          "each-prepared-spell-associated-with-one-class",
+          "use-that-class-spellcasting-ability",
+          "higher-slots-do-not-unlock-higher-preparations"
+        ],
+        "record_refs": [
+          "srd-5.2.1:character/feature/bard/spellcasting",
+          "srd-5.2.1:character/feature/cleric/spellcasting",
+          "srd-5.2.1:character/feature/druid/spellcasting",
+          "srd-5.2.1:character/feature/paladin/spellcasting",
+          "srd-5.2.1:character/feature/ranger/spellcasting",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {}
+      },
+      "actual_output_owners": [
+        513,
+        557,
+        638,
+        857,
+        984,
+        1181,
+        1219,
+        1488,
+        1773,
+        1774,
+        1776
+      ],
+      "integration_qualification": 2056
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/cantrips",
+        "first_page": 25,
+        "last_page": 25,
+        "clauses": [
+          "power-scaling-total-character-level",
+          "unless-spell-says-otherwise"
+        ],
+        "record_refs": [],
+        "parameters": {}
+      },
+      "actual_output_owners": [
+        678,
+        684,
+        689,
+        694,
+        957,
+        1075,
+        1077,
+        1079,
+        1085,
+        1264,
+        1404,
+        1405,
+        1429,
+        1430,
+        1593
+      ],
+      "integration_qualification": 2056,
+      "input_context_owners": [
+        968,
+        1219,
+        1776
+      ],
+      "boundary": "Spell-specific scaling executes in these qualified cantrip resolvers using authoritative TOTAL character level, unless its own spell says otherwise. Preparation-count owners do not own damage scaling."
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/spell-slots",
+        "first_page": 25,
+        "last_page": 26,
+        "clauses": [
+          "sum-full-caster-levels",
+          "add-half-paladin-and-ranger-levels-rounded-up",
+          "look-up-total-in-shared-table",
+          "cast-appropriate-level-spells-from-any-owned-spellcasting-class",
+          "higher-slots-only-cast-prepared-lower-level-spells",
+          "enhanced-effect-only-if-spell-provides-it"
+        ],
+        "record_refs": [
+          "srd-5.2.1:character/feature/bard/spellcasting",
+          "srd-5.2.1:character/feature/cleric/spellcasting",
+          "srd-5.2.1:character/feature/druid/spellcasting",
+          "srd-5.2.1:character/feature/paladin/spellcasting",
+          "srd-5.2.1:character/feature/ranger/spellcasting",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {
+          "full-caster-divisor": 1,
+          "paladin-divisor": 2,
+          "ranger-divisor": 2,
+          "round-up": 1
+        }
+      },
+      "actual_output_owners": [
+        514,
+        558,
+        639,
+        858,
+        1002,
+        1182,
+        1219,
+        1775,
+        1776
+      ],
+      "integration_qualification": 2056
+    },
+    {
+      "source_requirement": {
+        "key": "srd-5.2.1:mechanic/multiclass/pact-magic",
+        "first_page": 26,
+        "last_page": 26,
+        "clauses": [
+          "requires-warlock-pact-magic-and-spellcasting",
+          "pact-slots-cast-prepared-spellcasting-class-spells",
+          "spellcasting-slots-cast-prepared-warlock-spells",
+          "pact-levels-excluded-from-shared-slot-sum"
+        ],
+        "record_refs": [
+          "srd-5.2.1:character/feature/warlock/pact-magic",
+          "srd-5.2.1:character/feature/bard/spellcasting",
+          "srd-5.2.1:character/feature/cleric/spellcasting",
+          "srd-5.2.1:character/feature/druid/spellcasting",
+          "srd-5.2.1:character/feature/paladin/spellcasting",
+          "srd-5.2.1:character/feature/ranger/spellcasting",
+          "srd-5.2.1:character/feature/sorcerer/spellcasting",
+          "srd-5.2.1:character/feature/wizard/spellcasting"
+        ],
+        "parameters": {}
+      },
+      "actual_output_owners": [
+        1219,
+        1482,
+        1487,
+        1489,
+        1776
+      ],
+      "integration_qualification": 2056
+    }
+  ],
+  "slot_rows": [
+    {
+      "level": 1,
+      "slots": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 2,
+      "slots": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 3,
+      "slots": [
+        4,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 4,
+      "slots": [
+        4,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 5,
+      "slots": [
+        4,
+        3,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 6,
+      "slots": [
+        4,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 7,
+      "slots": [
+        4,
+        3,
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 8,
+      "slots": [
+        4,
+        3,
+        3,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 9,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 10,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 11,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 12,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 13,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 14,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 15,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "level": 16,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "level": 17,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "level": 18,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        3,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "level": 19,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "level": 20,
+      "slots": [
+        4,
+        3,
+        3,
+        3,
+        3,
+        2,
+        2,
+        1,
+        1
+      ]
+    }
+  ],
+  "slot_terms": [
+    {
+      "class_ref": "srd-5.2.1:character/class/bard",
+      "level_divisor": 1,
+      "rounding": "none"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/cleric",
+      "level_divisor": 1,
+      "rounding": "none"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/druid",
+      "level_divisor": 1,
+      "rounding": "none"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/paladin",
+      "level_divisor": 2,
+      "rounding": "up"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/ranger",
+      "level_divisor": 2,
+      "rounding": "up"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/sorcerer",
+      "level_divisor": 1,
+      "rounding": "none"
+    },
+    {
+      "class_ref": "srd-5.2.1:character/class/wizard",
+      "level_divisor": 1,
+      "rounding": "none"
+    }
+  ],
+  "new_qualification": {
+    "number": 2056,
+    "parent": 335,
+    "blocked_by": [
+      320,
+      431,
+      498,
+      501,
+      509,
+      551,
+      555,
+      630,
+      636,
+      728,
+      732,
+      776,
+      822,
+      845,
+      854,
+      968,
+      970,
+      983,
+      1002,
+      1093,
+      1102,
+      1178,
+      1219,
+      1475,
+      1485,
+      1489,
+      1758,
+      1763,
+      1776,
+      2036
+    ],
+    "qualifies": [
+      337
+    ],
+    "type": "Task",
+    "size": "M",
+    "node_id": "I_kwDOSicKg88AAAABf-E1yA",
+    "database_id": 6440433096,
+    "body_file": "docs/investigations/issue-335-multiclass-qualification-task.md",
+    "body_sha256": "d81337dc93faa778f4f78afd627972d2e5a8507fdc53b4c9ea6927bdceb0ce9e",
+    "runtime_implementation_owned": false
+  },
+  "runtime_qualified": false,
+  "cantrip_scaling_paths": {
+    "678": [
+      2056,
+      2036,
+      2035,
+      1818,
+      1817,
+      1816,
+      1815,
+      1814,
+      1813,
+      1812,
+      1811,
+      1810,
+      1809,
+      1808,
+      1807,
+      1806,
+      1805,
+      1804,
+      1803,
+      1802,
+      1801,
+      1794,
+      2033,
+      2014,
+      2013,
+      678
+    ],
+    "684": [
+      2056,
+      2036,
+      2035,
+      1818,
+      1817,
+      1816,
+      1815,
+      1814,
+      1813,
+      1812,
+      1811,
+      1810,
+      1809,
+      1808,
+      1807,
+      1806,
+      1805,
+      1804,
+      1803,
+      1802,
+      1801,
+      1794,
+      2033,
+      2014,
+      2013,
+      684
+    ],
+    "689": [
+      2056,
+      2036,
+      2035,
+      1818,
+      1817,
+      1816,
+      1815,
+      1814,
+      1813,
+      1812,
+      1811,
+      1810,
+      1809,
+      1808,
+      1807,
+      1806,
+      1805,
+      1804,
+      1803,
+      1802,
+      1801,
+      1794,
+      2033,
+      2014,
+      2013,
+      689
+    ],
+    "694": [
+      2056,
+      2036,
+      2035,
+      1818,
+      1817,
+      1816,
+      1815,
+      1814,
+      1813,
+      1812,
+      1811,
+      1810,
+      1809,
+      1808,
+      1807,
+      1806,
+      1805,
+      1804,
+      1803,
+      1802,
+      1801,
+      1794,
+      2033,
+      2014,
+      2013,
+      694
+    ],
+    "957": [
+      2056,
+      1758,
+      1757,
+      1755,
+      957
+    ],
+    "1075": [
+      2056,
+      2036,
+      2035,
+      1818,
+      1817,
+      1816,
+      1815,
+      1814,
+      1813,
+      1812,
+      1811,
+      1810,
+      1809,
+      1808,
+      1807,
+      1806,
+      1805,
+      1804,
+      1803,
+      1802,
+      1801,
+      1794,
+      2033,
+      2014,
+      2013,
+      1075
+    ],
+    "1077": [
+      2056,
+      1758,
+      1757,
+      1755,
+      1077
+    ],
+    "1079": [
+      2056,
+      1758,
+      1757,
+      1755,
+      1079
+    ],
+    "1085": [
+      2056,
+      1758,
+      1757,
+      1756,
+      1085
+    ],
+    "1264": [
+      2056,
+      2036,
+      2035,
+      1818,
+      1817,
+      1816,
+      1815,
+      1814,
+      1813,
+      1812,
+      1811,
+      1810,
+      1809,
+      1808,
+      1807,
+      1806,
+      1805,
+      1804,
+      1803,
+      1802,
+      1801,
+      1794,
+      2033,
+      2014,
+      2013,
+      1264
+    ],
+    "1404": [
+      2056,
+      1758,
+      1757,
+      1755,
+      1405,
+      1404
+    ],
+    "1405": [
+      2056,
+      1758,
+      1757,
+      1755,
+      1405
+    ],
+    "1429": [
+      2056,
+      2036,
+      2035,
+      1818,
+      1817,
+      1816,
+      1815,
+      1814,
+      1813,
+      1812,
+      1811,
+      1810,
+      1809,
+      1808,
+      1807,
+      1806,
+      1805,
+      1804,
+      1803,
+      1802,
+      1801,
+      1794,
+      2033,
+      2014,
+      2013,
+      1430,
+      1429
+    ],
+    "1430": [
+      2056,
+      2036,
+      2035,
+      1818,
+      1817,
+      1816,
+      1815,
+      1814,
+      1813,
+      1812,
+      1811,
+      1810,
+      1809,
+      1808,
+      1807,
+      1806,
+      1805,
+      1804,
+      1803,
+      1802,
+      1801,
+      1794,
+      2033,
+      2014,
+      2013,
+      1430
+    ],
+    "1593": [
+      2056,
+      1758,
+      1757,
+      1752,
+      1593
+    ]
+  }
+}
