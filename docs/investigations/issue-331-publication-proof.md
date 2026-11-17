@@ -1,4 +1,4 @@
-# Warlock publication proof before final prefix acceptance
+# Warlock source publication and final parent-seal proof
 
 ROOT approved exactly 871 future Tasks: Sorcerer 305, Warlock 281 and Wizard 285. The 1017-node baseline and those Tasks form the approved 1888-node projection. Sorcerer is the sole native writer. This checkout contains read-only proof code and frozen input copies; it has no native mutation implementation.
 
@@ -15,7 +15,33 @@ The Warlock proposal remains byte-for-byte SHA256 `8d4a8ea724ee8e997093d0e387705
 
 Every registry identity must have exactly `number`, `id` and `node_id`. Numeric identities must be positive JSON integers; booleans and floats fail. All three fields must be unique across the 871 aliases, and issue numbers cannot overlap the baseline. Duplicate JSON fields and nonfinite values fail. The final body preserves all approved body text and trailing newlines, then appends only the exact renderer suffix with actual issue, parent and numerically sorted prerequisite numbers.
 
-## Accepted predecessor and pending ROOT append package
+## Final sealed source-publication proof
+
+**FINAL_NATIVE_AND_PREFIX_PASS; source publication PASS.** ROOT applied the exact four frozen Warlock sections. One fresh independent read-only collection ran from `2026-11-17T06:57:03.132530+00:00` through `2026-11-17T06:57:57.790020+00:00`, using 63 bounded GraphQL calls to collect 1888 graph nodes and 1096 Project metadata rows. Actual collected fields were saved exclusively before the graph assertions. All four complete resulting parent bodies match the independently pinned predecessor+section bytes, expected full-body hashes and character/byte counts.
+
+All 871 new nodes retain exact approved complete rendered bodies, titles, positive unique native issue/database/node identities, OPEN states, exact parents/prerequisites and Task/M metadata. All 1017 baseline nodes retain required titles, parents, states and edges; the three decision states may close. Whole old bodies remain exact except the four independently pinned parent extensions. The old-root edge allowance remains exactly the five approved owned additions, while unrelated additive blockers at 279/280/337 remain permitted by the existing protection contract. All 225 protected baseline Project rows match. Both DAGs, all three caps and own/shared mandatory paths pass. Counts remain 279 incoming100, 280 incoming95, 337 incoming59, 283 children95 and 429 consumers100. The actual snapshot has 330 CLOSED with its old parent/prerequisites intact; 331 and 332 remain OPEN.
+
+| Final evidence | SHA256 |
+| --- | --- |
+| `issue-331-sealed-native-readback.json` | `5103886c8bcb1175ef7a9d1e9bc696684a14e1d01ace59d222518ffa7fe8738b` |
+| `issue-331-final-publication-validation.json` | `3010c79a472210c2a0f6a795d93a3f61ddae55ce7b0765a91983183a15b30f7c` |
+| `issue-331-root-parent-publication-receipt.json` | `53e8b461f52d2010ef488612886b80c9ee31347991a2a09ba7eae6af9498811e` |
+| `issue-331-root-parent-publication-journal.json` | `4b403e2bfaa0bfe2e222f21054401dbf6afb468990492ea4385702d996f0c9e1` |
+
+`issue-331-package-publication-status.json` records the published package state separately from the immutable preparation package. Earlier allocation, unsealed and pending artifacts remain historical evidence with their original bytes and hashes. Their pending statuses are superseded by this actual final proof. The own281 frozen semantic proposal remains byte-exact SHA256 `8d4a8ea724ee8e997093d0e3877054a1c4a499f1f00a059bcbb9d2d51bc4268a`; no source generation or semantic manifest edit occurred.
+
+Replay the real final proof offline without native queries:
+
+```sh
+rtk proxy python3 scripts/warlock_final_proof.py
+rtk proxy python3 -m unittest discover -s scripts -p 'test_warlock_final_proof.py' -v
+```
+
+All 30 bounded offline tests pass: 14 approved-native, four allocation-binding, three unsealed actual-native replay, six parent-seal controls and three sealed actual-native replay controls. Positive actual receipt replay passes; coherent provenance rewrites, changed prefixes/sections, native source/body/parent/prerequisite/TaskSize changes and old-owner drift fail. Independent predecessor/section/marker pins still reject coherent candidate+receipt forgery. Synthetic positive controls remain separate from actual publication evidence. Compilation and whitespace checks pass. The default strict CLI now selects the sealed receipt; its `--live` behavior still requests a fresh read, so use the offline replay command above for this retained evidence.
+
+`final_prefix_sealed=true` and `runtime_qualified=false`. This completes the author’s #331 decision/source-publication proof. ROOT still owns fresh final independent review, exact-head hosted CI, merge, decision closure and the subsequent post331 predecessor release to Wizard. The PR remains draft for those gates. Runtime implementation remains PAUSED. No author native writes, new Tasks, closures, deployment, full Go/vet or broad source audit ran.
+
+## Historical accepted predecessor and pending ROOT append package
 
 ROOT delivered the accepted POST-SORCERER release after Sorcerer PR #2048 merged as `6936b36af81ca9eec036395c4851c916ae25a8e1`. The exact-byte copy is `issue-331-accepted-post-sorcerer.json`, independently pinned at SHA256 `85f9f6cdcfedb453d3ec7abbaa52042c3cea2f1fb62d57e802b70efa3fbae92d`. Its four complete predecessor bodies and their character/UTF-8 byte counts are checked against literal verifier pins in `warlock_parent_seal.py`. The semantic proposal, allocated identities, source contracts and earlier native evidence are unchanged.
 

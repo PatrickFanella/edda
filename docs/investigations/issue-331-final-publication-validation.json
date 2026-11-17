@@ -1,0 +1,67 @@
+{
+  "result": {
+    "status": "FINAL_NATIVE_AND_PREFIX_PASS",
+    "own_nodes": 281,
+    "published_nodes": 871,
+    "final_prefix_sealed": true,
+    "runtime_qualified": false,
+    "source_publication": "PASS",
+    "native_readback": "PASS",
+    "caps": {
+      "279": 100,
+      "280": 95,
+      "337": 59,
+      "children283": 95,
+      "outgoing429": 100
+    },
+    "decision_acceptance": "PENDING_ROOT_REVIEW_CI_MERGE",
+    "runtime_implementation": "PAUSED"
+  },
+  "observation": {
+    "observed_from": "2026-11-17T06:57:03.132530+00:00",
+    "observed_at": "2026-11-17T06:57:57.790020+00:00",
+    "api_calls": 63
+  },
+  "graph_nodes": 1888,
+  "project_rows": 1096,
+  "preservation": {
+    "baseline_nodes": 1017,
+    "published_contracts": 871,
+    "own_contracts": 281,
+    "protected_project_rows": 225,
+    "source_proposal_sha256": "8d4a8ea724ee8e997093d0e3877054a1c4a499f1f00a059bcbb9d2d51bc4268a",
+    "allowed_old_root_additions": 5,
+    "accepted_parent_extensions": [
+      47,
+      54,
+      283,
+      337
+    ],
+    "bounds": "All old titles, parents, prerequisites and protected Project fields; old states except decision closure; whole old bodies except the four independently pinned parent extensions. All new complete rendered contracts and identities remain exact."
+  },
+  "artifacts": {
+    "issue-331-sealed-native-readback.json": {
+      "sha256": "5103886c8bcb1175ef7a9d1e9bc696684a14e1d01ace59d222518ffa7fe8738b"
+    },
+    "issue-331-root-parent-publication-receipt.json": {
+      "sha256": "53e8b461f52d2010ef488612886b80c9ee31347991a2a09ba7eae6af9498811e"
+    },
+    "issue-331-root-parent-publication-journal.json": {
+      "sha256": "4b403e2bfaa0bfe2e222f21054401dbf6afb468990492ea4385702d996f0c9e1"
+    },
+    "issue-331-accepted-post-sorcerer.json": {
+      "sha256": "85f9f6cdcfedb453d3ec7abbaa52042c3cea2f1fb62d57e802b70efa3fbae92d"
+    },
+    "issue-331-pending-root-appends.json": {
+      "sha256": "a27066d3ea03181b3cdcff196b0a5c2c9ab6432db71f5230565d9fb0d93a82fe"
+    }
+  },
+  "tests": {
+    "approved_native": 14,
+    "allocation_binding": 4,
+    "unsealed_actual_replay": 3,
+    "parent_seal": 6,
+    "sealed_actual_replay": 3
+  },
+  "root_only_acceptance": "Fresh review, exact-head CI, merge and subsequent Wizard release remain ROOT-owned; no author native writes or closure."
+}

@@ -421,7 +421,7 @@ def main():
             evidence.write(json.dumps(result, indent=2) + '\n')
         print(json.dumps(result['result'], sort_keys=True))
     elif not args.source_class_checkpoint:
-        path = ROOT / 'docs/investigations/issue-331-native-readback.json'
+        path = ROOT / 'docs/investigations/issue-331-sealed-native-readback.json'
         receipt = json.loads(path.read_text()) if path.exists() else None
         print(json.dumps(validate_publication(m, receipt, live=args.live), sort_keys=True))
     print('PASS source/class contracts only:191 records/588contexts/28Invocations/20rows/117spell identities; actual native proof is separate')
